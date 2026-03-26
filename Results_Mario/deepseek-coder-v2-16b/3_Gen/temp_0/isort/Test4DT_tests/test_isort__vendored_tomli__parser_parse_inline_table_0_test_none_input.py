@@ -1,7 +1,9 @@
 
 import pytest
-from isort._vendored.tomli._parser import parse_inline_table, suffixed_err
-from isort._vendored.tomli._parser import Pos, ParseFloat, Flags, NestedDict
+
+from isort._vendored.tomli._parser import (Flags, NestedDict, ParseFloat, Pos,
+                                           parse_inline_table, suffixed_err)
+
 
 def test_none_input():
     with pytest.raises(TypeError):

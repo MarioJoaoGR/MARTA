@@ -2,8 +2,11 @@
 import sys
 from io import StringIO
 from unittest.mock import patch
+
 import pytest
+
 from isort.main import main as isort_main
+
 
 @pytest.mark.parametrize("input_data", [
     "import os\nimport sys\n",  # Standard input data for testing

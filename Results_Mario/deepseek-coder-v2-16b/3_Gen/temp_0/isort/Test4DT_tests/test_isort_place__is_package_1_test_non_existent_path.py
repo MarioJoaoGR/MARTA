@@ -1,8 +1,11 @@
 
-import pytest
 from pathlib import Path
-from unittest.mock import patch, MagicMock
+from unittest.mock import MagicMock, patch
+
+import pytest
+
 from isort.place import _is_package
+
 
 @pytest.mark.skip(reason="This will fail on Windows due to case sensitivity of file systems")
 def test_non_existent_path():

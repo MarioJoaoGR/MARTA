@@ -1,6 +1,8 @@
 
 import pytest
+
 from isort.exceptions import IntroducedSyntaxErrors
+
 
 def test_invalid_input():
     """Test invalid input by providing a non-string value."""

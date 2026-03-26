@@ -1,7 +1,10 @@
 
-import pytest
-from isort.literal import _unique_list
 from typing import Any, List
+
+import pytest
+
+from isort.literal import _unique_list
+
 
 class MockPrinter:
     def pformat(self, value: List[Any]) -> str:

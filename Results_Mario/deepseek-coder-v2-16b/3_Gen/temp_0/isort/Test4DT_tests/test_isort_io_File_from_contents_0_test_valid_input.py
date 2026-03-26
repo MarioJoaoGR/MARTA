@@ -1,9 +1,13 @@
 
-from io import StringIO, BytesIO
+from io import BytesIO, StringIO
 from pathlib import Path
-import pytest
 from unittest.mock import patch
-from isort.io import File  # Assuming this is the correct module for creating a File object from contents
+
+import pytest
+
+from isort.io import \
+    File  # Assuming this is the correct module for creating a File object from contents
+
 
 def test_valid_input():
     with patch('isort.io.File.detect_encoding') as mock_detect_encoding:

@@ -1,9 +1,12 @@
 
-import pytest
-from unittest.mock import patch, MagicMock
 from io import TextIOWrapper
 from pathlib import Path
+from unittest.mock import MagicMock, patch
+
+import pytest
+
 import isort.io
+
 
 class File:
     @staticmethod

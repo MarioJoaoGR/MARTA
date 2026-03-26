@@ -1,6 +1,8 @@
 
 import unittest
+
 from isort._vendored.tomli._parser import parse_literal_str
+
 
 class TestParseLiteralStr(unittest.TestCase):
     def test_none_input(self):

@@ -1,6 +1,8 @@
 
 import pytest
+
 from isort.identify import Import
+
 
 def test_edge_cases():
     # Test case for a basic import statement without an attribute or alias

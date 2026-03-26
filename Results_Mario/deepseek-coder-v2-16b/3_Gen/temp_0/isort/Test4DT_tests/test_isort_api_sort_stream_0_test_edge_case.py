@@ -1,7 +1,10 @@
 
 import io
-from isort.api import sort_stream, DEFAULT_CONFIG
+
 import pytest
+
+from isort.api import DEFAULT_CONFIG, sort_stream
+
 
 @pytest.mark.parametrize("input_stream", [io.StringIO(), None])  # Include both valid and invalid cases
 def test_edge_cases(input_stream):

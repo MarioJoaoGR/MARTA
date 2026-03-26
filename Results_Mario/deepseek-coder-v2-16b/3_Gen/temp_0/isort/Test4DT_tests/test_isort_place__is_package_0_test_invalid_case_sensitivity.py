@@ -1,8 +1,11 @@
 
-import pytest
 from pathlib import Path
-from unittest.mock import patch, mock_open
+from unittest.mock import mock_open, patch
+
+import pytest
+
 from isort.place import _is_package
+
 
 @pytest.mark.skip(reason="This test will fail because the function does not handle case sensitivity correctly.")
 def test_invalid_case_sensitivity():

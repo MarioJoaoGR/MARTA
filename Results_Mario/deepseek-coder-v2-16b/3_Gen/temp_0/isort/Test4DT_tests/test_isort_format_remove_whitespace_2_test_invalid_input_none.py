@@ -1,6 +1,7 @@
 
 import pytest
 
+
 def remove_whitespace(content: str, line_separator: str = "\n") -> str:
     """
     Removes all whitespace characters from the input string.

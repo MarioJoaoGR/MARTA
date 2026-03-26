@@ -1,6 +1,8 @@
 
-from isort.parse import Config, DEFAULT_CONFIG
 import pytest
+
+from isort.parse import DEFAULT_CONFIG, Config
+
 
 # Assuming the function definition is correct as per the provided docstring
 def import_type(line: str, config: Config = DEFAULT_CONFIG) -> str | None:

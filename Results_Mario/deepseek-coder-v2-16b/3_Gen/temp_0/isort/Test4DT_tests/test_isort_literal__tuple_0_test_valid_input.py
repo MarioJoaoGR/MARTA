@@ -1,7 +1,9 @@
 
 # Importing _tuple from isort.literal as per the scenario
-from isort.literal import _tuple
 from typing import Any
+
+from isort.literal import _tuple
+
 
 class MockPrettyPrinter:
     def pformat(self, value):

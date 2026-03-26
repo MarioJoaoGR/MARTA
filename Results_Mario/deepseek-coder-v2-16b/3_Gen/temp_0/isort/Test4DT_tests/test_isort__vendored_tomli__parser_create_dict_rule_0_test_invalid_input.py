@@ -1,6 +1,8 @@
 
-from isort._vendored.tomli._parser import Output, Pos, Key, create_dict_rule
 import pytest
+
+from isort._vendored.tomli._parser import Key, Output, Pos, create_dict_rule
+
 
 def test_invalid_input():
     src = "table [key1.key2] value"

@@ -1,6 +1,8 @@
 
 import pytest
-from isort._vendored.tomli._parser import parse_hex_char, Pos
+
+from isort._vendored.tomli._parser import Pos, parse_hex_char
+
 
 def test_parse_hex_char():
     # Test case for valid hex character parsing

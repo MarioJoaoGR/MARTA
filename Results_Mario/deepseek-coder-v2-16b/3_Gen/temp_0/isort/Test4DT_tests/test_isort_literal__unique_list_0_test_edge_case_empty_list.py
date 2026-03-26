@@ -1,7 +1,9 @@
 
 from typing import Any
-import pytest
 from unittest.mock import Mock
+
+import pytest
+
 
 # Assuming ISortPrettyPrinter is defined somewhere, otherwise we would need to define it or adjust imports accordingly.
 class ISortPrettyPrinter:

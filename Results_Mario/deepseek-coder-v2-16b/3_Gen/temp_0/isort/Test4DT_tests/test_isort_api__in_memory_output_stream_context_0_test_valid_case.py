@@ -1,7 +1,9 @@
 
-from io import StringIO
 from contextlib import contextmanager
+from io import StringIO
+
 import pytest
+
 
 @pytest.fixture(scope="module")
 def in_memory_output_stream():

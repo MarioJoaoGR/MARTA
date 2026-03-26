@@ -1,8 +1,12 @@
 
 import subprocess
 from pathlib import Path
+
 import pytest
-from isort.settings import Config  # Assuming this is the correct module to import from
+
+from isort.settings import \
+    Config  # Assuming this is the correct module to import from
+
 
 def test_error_case():
     with pytest.raises(Exception):

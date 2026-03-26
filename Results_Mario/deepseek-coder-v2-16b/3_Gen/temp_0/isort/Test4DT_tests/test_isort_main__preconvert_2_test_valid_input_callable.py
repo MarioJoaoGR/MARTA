@@ -1,8 +1,11 @@
 
-import pytest
-from isort.main import _preconvert
-from pathlib import Path
 from enum import Enum
+from pathlib import Path
+
+import pytest
+
+from isort.main import _preconvert
+
 
 def test_valid_input_callable():
     def example_function(): pass

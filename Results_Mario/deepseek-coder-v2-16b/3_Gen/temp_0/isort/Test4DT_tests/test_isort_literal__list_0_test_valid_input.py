@@ -1,6 +1,8 @@
 
-import pytest
 from typing import Any
+
+import pytest
+
 
 # Assuming ISortPrettyPrinter is defined somewhere in the module 'isort.literal'
 class MyPrettyPrinter:

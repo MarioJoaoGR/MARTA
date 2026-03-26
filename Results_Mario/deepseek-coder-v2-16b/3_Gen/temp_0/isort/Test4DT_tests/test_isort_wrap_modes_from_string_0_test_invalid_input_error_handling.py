@@ -1,6 +1,8 @@
 
 import pytest
+
 from isort.wrap_modes import WrapModes
+
 
 def from_string(value: str) -> "WrapModes":
     """

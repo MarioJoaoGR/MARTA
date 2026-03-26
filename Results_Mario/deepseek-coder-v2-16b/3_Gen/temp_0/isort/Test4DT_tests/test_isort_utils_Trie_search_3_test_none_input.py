@@ -1,7 +1,10 @@
 
-import pytest
-from isort.utils import Trie, TrieNode
 from pathlib import Path
+
+import pytest
+
+from isort.utils import Trie, TrieNode
+
 
 def test_none_input():
     trie = Trie()

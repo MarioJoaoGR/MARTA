@@ -1,7 +1,10 @@
 
-from isort._vendored.tomli._re import cached_tz
 from datetime import timedelta, timezone
+
 import pytest
+
+from isort._vendored.tomli._re import cached_tz
+
 
 def test_edge_case():
     # Test edge case where hour and minute are at their extreme values

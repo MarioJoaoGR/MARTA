@@ -3,6 +3,7 @@ import os
 import sys
 from unittest.mock import patch
 
+
 def exists_case_sensitive(path: str) -> bool:
     """Returns if the given path exists and also matches the case on Windows.
 

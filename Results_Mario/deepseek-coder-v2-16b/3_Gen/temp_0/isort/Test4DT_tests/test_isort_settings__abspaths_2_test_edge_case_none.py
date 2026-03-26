@@ -2,6 +2,7 @@
 import os
 from typing import Iterable
 
+
 def _abspaths(cwd: str, values: Iterable[str]) -> set[str]:
     """
     Generate a set of absolute file paths based on the provided current working directory (cwd) and list of relative or absolute path strings.
@@ -35,6 +36,7 @@ def _abspaths(cwd: str, values: Iterable[str]) -> set[str]:
     return paths
 
 import pytest
+
 
 @pytest.mark.parametrize("cwd, values", [
     (None, None),

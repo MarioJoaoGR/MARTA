@@ -1,6 +1,9 @@
 
 import pytest
-from isort._vendored.tomli._parser import parse_basic_str_escape, Pos, TOMLDecodeError
+
+from isort._vendored.tomli._parser import (Pos, TOMLDecodeError,
+                                           parse_basic_str_escape)
+
 
 def test_valid_input():
     src = 'This is a test string without any escape sequences'

@@ -1,8 +1,11 @@
 
 import argparse
 from unittest.mock import patch
+
 import pytest
+
 from isort.main import _build_arg_parser
+
 
 @pytest.fixture(autouse=True)
 def mock_argparse():

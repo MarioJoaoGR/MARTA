@@ -1,7 +1,10 @@
 
 import sys
-from isort.main import parse_args
+
 import pytest
+
+from isort.main import parse_args
+
 
 def test_parse_args():
     # Test with no arguments

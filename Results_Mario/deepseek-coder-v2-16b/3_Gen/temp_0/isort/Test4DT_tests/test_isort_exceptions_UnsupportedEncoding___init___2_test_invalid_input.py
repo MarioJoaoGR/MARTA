@@ -1,6 +1,8 @@
 
-from isort.exceptions import UnsupportedEncoding
 import pytest
+
+from isort.exceptions import UnsupportedEncoding
+
 
 def test_invalid_input():
     with pytest.raises(UnsupportedEncoding) as excinfo:

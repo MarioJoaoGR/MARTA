@@ -1,8 +1,10 @@
 
-import pytest
-from pathlib import Path
 from io import TextIOBase
+from pathlib import Path
 from typing import Iterator, TextIO
+
+import pytest
+
 
 class File:
     stream: TextIO

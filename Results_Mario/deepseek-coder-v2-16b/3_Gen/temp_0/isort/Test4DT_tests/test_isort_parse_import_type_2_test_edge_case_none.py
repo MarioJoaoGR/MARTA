@@ -1,5 +1,6 @@
 
 import pytest
+
 from isort.parse import Config  # Correctly importing Config from isort.parse
 
 # Assuming DEFAULT_CONFIG is defined somewhere in your code or imported

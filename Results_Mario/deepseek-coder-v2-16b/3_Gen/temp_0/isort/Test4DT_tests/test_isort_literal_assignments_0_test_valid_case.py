@@ -1,6 +1,8 @@
 
 import pytest
+
 from isort.literal import AssignmentsFormatMismatch
+
 
 def assignments(code: str) -> str:
     values = {}

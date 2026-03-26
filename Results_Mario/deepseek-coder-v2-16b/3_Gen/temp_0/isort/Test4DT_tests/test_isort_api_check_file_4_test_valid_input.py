@@ -1,8 +1,13 @@
 
 # Assuming 'your_module_name' should be imported from 'isort.api'
 from unittest.mock import MagicMock
+
 import pytest
-from isort.api import check_file as real_check_file  # Import the actual function for comparison or mocking
+
+from isort.api import \
+    check_file as \
+    real_check_file  # Import the actual function for comparison or mocking
+
 
 # Mocking the function to use in our test case
 def mock_check_file(*args, **kwargs):

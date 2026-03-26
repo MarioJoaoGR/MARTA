@@ -1,6 +1,9 @@
 
+from typing import Dict
+from typing import Sequence as Key
+
 import pytest
-from typing import Dict, Sequence as Key
+
 
 class Flags:
     """Flags that map to parsed keys/namespaces."""

@@ -1,8 +1,11 @@
 
 import sys
 from unittest.mock import patch
+
 import pytest
+
 from isort.main import parse_args
+
 
 @pytest.fixture(autouse=True)
 def mock_argv():

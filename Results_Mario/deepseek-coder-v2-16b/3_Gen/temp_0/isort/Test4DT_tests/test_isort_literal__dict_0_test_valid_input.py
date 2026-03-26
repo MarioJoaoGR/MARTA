@@ -1,7 +1,10 @@
 
-import pytest
-from isort.literal import Any
 from unittest.mock import Mock
+
+import pytest
+
+from isort.literal import Any
+
 
 # Assuming ISortPrettyPrinter is an interface or abstract class that has a pformat method
 class ISortPrettyPrinter:

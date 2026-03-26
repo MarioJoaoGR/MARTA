@@ -2,6 +2,7 @@
 # Importing the assignment function from isort.literal for testing purposes
 from isort.literal import assignment
 
+
 def test_edge_case():
     # Define your edge case scenario here
     code = "b = 2\na = 1\nc = 3"

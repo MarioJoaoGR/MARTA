@@ -1,6 +1,8 @@
 
 import pytest
+
 from isort.utils import TrieNode
+
 
 @pytest.fixture(scope="module")
 def trie_node():

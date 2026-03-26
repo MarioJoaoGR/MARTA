@@ -1,6 +1,8 @@
 
 import pytest
+
 from isort.settings import Config, ProfileDoesNotExist
+
 
 def test_edge_case():
     # Test with no arguments provided

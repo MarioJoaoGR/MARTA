@@ -1,6 +1,8 @@
 
-import pytest
 from typing import Any
+
+import pytest
+
 
 # Assuming ISortPrettyPrinter and MockPrettyPrinter are defined as follows:
 class ISortPrettyPrinter:

@@ -1,7 +1,9 @@
 
-import pytest
 import os
 from typing import Iterable
+
+import pytest
+
 
 def _abspaths(cwd: str, values: Iterable[str]) -> set[str]:
     if values is None:

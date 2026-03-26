@@ -1,9 +1,11 @@
 
-import pytest
 from io import StringIO
 from pathlib import Path
-from typing import TextIO, Iterator
-from isort.api import find_imports_in_stream, Config, DEFAULT_CONFIG
+from typing import Iterator, TextIO
+
+import pytest
+
+from isort.api import DEFAULT_CONFIG, Config, find_imports_in_stream
 from isort.identify import Import
 
 # Mock data for the input stream

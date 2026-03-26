@@ -1,6 +1,8 @@
 
 import pytest
+
 from isort.wrap_modes import formatter_from_string
+
 
 # Mocking the grid function since it's not defined in this scope
 def test_valid_input():

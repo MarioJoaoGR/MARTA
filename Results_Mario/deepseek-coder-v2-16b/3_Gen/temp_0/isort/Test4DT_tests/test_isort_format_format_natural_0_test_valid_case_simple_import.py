@@ -2,6 +2,7 @@
 # Importing format_natural from the correct module path
 from isort.format import format_natural
 
+
 def test_valid_case_simple_import():
     # Test cases for simple imports
     assert format_natural("math") == "import math"

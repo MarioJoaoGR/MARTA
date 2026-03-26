@@ -1,6 +1,8 @@
 
 import pytest
+
 from isort.exceptions import IntroducedSyntaxErrors
+
 
 def test_valid_input():
     # Define a valid file path for testing

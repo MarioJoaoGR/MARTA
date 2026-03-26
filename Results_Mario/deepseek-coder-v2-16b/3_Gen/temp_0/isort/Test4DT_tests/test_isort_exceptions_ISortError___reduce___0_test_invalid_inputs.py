@@ -1,6 +1,8 @@
 
 import pytest
+
 from isort.exceptions import ISortError
+
 
 def test_invalid_inputs():
     with pytest.raises(TypeError):

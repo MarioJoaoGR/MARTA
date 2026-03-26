@@ -1,8 +1,10 @@
 
-import pytest
 from pathlib import Path
 from typing import TextIO
-from unittest.mock import patch, mock_open
+from unittest.mock import mock_open, patch
+
+import pytest
+
 
 class File:
     stream: TextIO

@@ -1,9 +1,12 @@
 
-import pytest
-from unittest.mock import patch, MagicMock
-from isort.api import sort_file
-from pathlib import Path
 import io
+from pathlib import Path
+from unittest.mock import MagicMock, patch
+
+import pytest
+
+from isort.api import sort_file
+
 
 @pytest.mark.skip(reason="This test will fail because the file does not exist")
 def test_invalid_input():

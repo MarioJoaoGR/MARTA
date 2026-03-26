@@ -2,8 +2,11 @@
 from io import StringIO
 from pathlib import Path
 from typing import Any, TextIO
+
 import pytest
-from isort.api import check_code_string, Config, DEFAULT_CONFIG
+
+from isort.api import DEFAULT_CONFIG, Config, check_code_string
+
 
 @pytest.mark.parametrize("code, show_diff, extension, config, file_path, disregard_skip, expected", [
     # Add your test cases here with the expected result for each case

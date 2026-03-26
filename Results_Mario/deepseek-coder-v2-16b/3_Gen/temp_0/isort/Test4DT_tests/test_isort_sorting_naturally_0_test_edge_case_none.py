@@ -1,7 +1,10 @@
 
+from typing import Any, Callable, Iterable
+
 import pytest
+
 from isort.sorting import _natural_keys
-from typing import Iterable, Callable, Any
+
 
 def naturally(
     to_sort: Iterable[str], 

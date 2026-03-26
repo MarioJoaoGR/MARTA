@@ -1,7 +1,9 @@
 
-import pytest
 from pathlib import Path
 from typing import Any, Dict
+
+import pytest
+
 
 class TrieNode:
     def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:

@@ -1,7 +1,10 @@
 
-import pytest
 from typing import Tuple
-from isort._vendored.tomli._parser import parse_multiline_str, Pos
+
+import pytest
+
+from isort._vendored.tomli._parser import Pos, parse_multiline_str
+
 
 def test_valid_basic_multiline_str():
     src = '"""Hello\nWorld"""'

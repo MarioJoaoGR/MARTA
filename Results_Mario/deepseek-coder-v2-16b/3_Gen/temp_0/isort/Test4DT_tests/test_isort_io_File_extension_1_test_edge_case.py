@@ -1,8 +1,10 @@
 
 from pathlib import Path
 from typing import TextIO
+from unittest.mock import MagicMock, patch
+
 import pytest
-from unittest.mock import patch, MagicMock
+
 
 class File:
     stream: TextIO

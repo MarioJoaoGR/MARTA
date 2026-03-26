@@ -1,7 +1,10 @@
 
 import io
-from isort.api import check_stream, Config, DEFAULT_CONFIG
+
 import pytest
+
+from isort.api import DEFAULT_CONFIG, Config, check_stream
+
 
 @pytest.mark.parametrize("show_diff", [True, False])
 def test_invalid_input(show_diff):

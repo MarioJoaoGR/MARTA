@@ -2,7 +2,9 @@
 import subprocess
 import sys
 from unittest.mock import patch
+
 import pytest
+
 
 def get_output(command):
     """Mock function to simulate subprocess.run output."""

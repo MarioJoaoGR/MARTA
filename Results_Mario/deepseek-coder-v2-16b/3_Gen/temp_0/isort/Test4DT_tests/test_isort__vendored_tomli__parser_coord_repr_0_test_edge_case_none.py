@@ -1,6 +1,7 @@
 
 import pytest
 
+
 def coord_repr(src: str, pos: int) -> str:
     """
     Generate a string representation of the line and column number for a given position in a source code string.

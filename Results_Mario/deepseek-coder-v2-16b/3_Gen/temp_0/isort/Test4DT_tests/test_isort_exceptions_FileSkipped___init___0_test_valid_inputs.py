@@ -1,6 +1,8 @@
 
 import pytest
+
 from isort.exceptions import FileSkipped
+
 
 def test_valid_inputs():
     message = "This file is not supported"

@@ -1,7 +1,9 @@
 
 # Importing necessary modules and functions for testing
-from isort.wrap import import_statement  # Correct module name
 import pytest
+
+from isort.wrap import import_statement  # Correct module name
+
 
 @pytest.mark.parametrize("import_start, from_imports, comments, line_separator, config, multi_line_output, explode, expected", [
     # Add your test cases here with the expected output for each scenario

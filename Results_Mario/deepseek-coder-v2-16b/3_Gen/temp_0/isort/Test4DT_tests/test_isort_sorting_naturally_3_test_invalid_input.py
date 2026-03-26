@@ -1,6 +1,8 @@
 
 import pytest
+
 from isort.sorting import naturally
+
 
 def test_invalid_input():
     with pytest.raises(TypeError):

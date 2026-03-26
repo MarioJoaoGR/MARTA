@@ -1,6 +1,7 @@
 
 from isort.exceptions import ISortError
 
+
 class CustomISortError(ISortError):
     """Custom isort exception for specific errors."""
     pass

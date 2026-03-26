@@ -1,8 +1,10 @@
 
-import pytest
 from pathlib import Path
 from typing import TextIO
-from isort.api import find_imports_in_stream, Config, DEFAULT_CONFIG
+
+import pytest
+
+from isort.api import DEFAULT_CONFIG, Config, find_imports_in_stream
 
 # Sample Python code with imports for testing
 sample_code = """

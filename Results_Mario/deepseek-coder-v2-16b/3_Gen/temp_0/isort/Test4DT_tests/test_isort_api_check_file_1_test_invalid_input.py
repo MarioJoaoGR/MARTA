@@ -1,8 +1,11 @@
 
-import pytest
-from unittest.mock import patch
-from isort.api import check_file as isort_check_file
 from io import StringIO
+from unittest.mock import patch
+
+import pytest
+
+from isort.api import check_file as isort_check_file
+
 
 @pytest.mark.parametrize("filename", ["nonexistentfile.py"])
 def test_invalid_input(filename):

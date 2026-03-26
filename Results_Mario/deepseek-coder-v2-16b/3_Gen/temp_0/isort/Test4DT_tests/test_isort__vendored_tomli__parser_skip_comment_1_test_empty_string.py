@@ -1,6 +1,8 @@
 
 import pytest
+
 from isort._vendored.tomli._parser import skip_comment
+
 
 def test_empty_string():
     src = ""

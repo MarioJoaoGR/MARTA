@@ -1,7 +1,10 @@
 
 import io
 from unittest.mock import patch
-from isort.api import Config, check_file as isort_check_file
+
+from isort.api import Config
+from isort.api import check_file as isort_check_file
+
 
 def test_valid_input():
     # Mock the necessary objects for the function call

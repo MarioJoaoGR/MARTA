@@ -1,7 +1,11 @@
 
 from pathlib import Path
+
 import pytest
-from isort.place import _src_path_is_module  # Assuming the function is in this module
+
+from isort.place import \
+    _src_path_is_module  # Assuming the function is in this module
+
 
 def exists_case_sensitive(path):
     """Mock implementation for testing purposes."""

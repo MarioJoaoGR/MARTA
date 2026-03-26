@@ -1,6 +1,8 @@
 
 import pytest
+
 from isort.exceptions import AssignmentsFormatMismatch
+
 
 def test_empty_input():
     code = ''

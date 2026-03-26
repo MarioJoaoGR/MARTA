@@ -1,6 +1,8 @@
 
-import pytest
 from pathlib import Path
+
+import pytest
+
 
 def exists_case_sensitive(p):
     return True if str(p).endswith('package') else False

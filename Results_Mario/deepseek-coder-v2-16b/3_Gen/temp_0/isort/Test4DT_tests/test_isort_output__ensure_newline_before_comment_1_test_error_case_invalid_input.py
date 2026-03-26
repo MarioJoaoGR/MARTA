@@ -2,6 +2,7 @@
 # Import the necessary function from the module 'isort.output'
 from isort.output import _ensure_newline_before_comment
 
+
 def test_error_case_invalid_input():
     # Define a list of strings that should be processed by the function
     output = [

@@ -1,9 +1,12 @@
 
-import pytest
-from pathlib import Path
 from io import StringIO
+from pathlib import Path
 from typing import Any, Iterator
-from isort.api import find_imports_in_code, Config, DEFAULT_CONFIG, ImportKey
+
+import pytest
+
+from isort.api import DEFAULT_CONFIG, Config, ImportKey, find_imports_in_code
+
 
 # Assuming 'identify' is actually imported from 'isort' in the function implementation
 def test_valid_inputs():

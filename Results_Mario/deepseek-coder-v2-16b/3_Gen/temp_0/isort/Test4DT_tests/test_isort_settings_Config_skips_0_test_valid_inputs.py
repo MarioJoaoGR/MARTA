@@ -1,6 +1,8 @@
 
 import pytest
+
 from isort.settings import Config
+
 
 def test_valid_inputs():
     with pytest.raises(ValueError) as excinfo:

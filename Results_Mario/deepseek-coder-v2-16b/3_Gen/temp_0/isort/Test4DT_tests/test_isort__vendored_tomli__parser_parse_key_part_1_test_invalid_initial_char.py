@@ -1,7 +1,9 @@
 
 import pytest
-from isort._vendored.tomli._parser import parse_key_part, suffixed_err
-from isort._vendored.tomli._parser import BARE_KEY_CHARS, Pos, skip_chars
+
+from isort._vendored.tomli._parser import (BARE_KEY_CHARS, Pos, parse_key_part,
+                                           skip_chars, suffixed_err)
+
 
 def test_invalid_initial_char():
     # Test case for invalid initial character for a key part

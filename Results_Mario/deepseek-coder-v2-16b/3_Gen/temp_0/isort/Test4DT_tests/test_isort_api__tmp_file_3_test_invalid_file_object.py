@@ -1,7 +1,9 @@
 
-import pytest
-from unittest.mock import MagicMock
 from pathlib import Path
+from unittest.mock import MagicMock
+
+import pytest
+
 
 # Assuming _tmp_file is defined in your module
 def _tmp_file(source_file: 'File') -> Path:

@@ -1,7 +1,10 @@
 
-from isort.literal import _set
 from typing import Any
+
 import pytest
+
+from isort.literal import _set
+
 
 # Mocking ISortPrettyPrinter for testing purposes
 class MockISortPrettyPrinter:

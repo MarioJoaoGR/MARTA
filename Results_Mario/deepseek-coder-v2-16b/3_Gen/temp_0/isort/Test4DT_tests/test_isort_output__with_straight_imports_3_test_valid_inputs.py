@@ -1,7 +1,10 @@
 
-import pytest
-from isort.output import _with_straight_imports  # Correctly importing the function
 from unittest.mock import MagicMock
+
+import pytest
+
+from isort.output import \
+    _with_straight_imports  # Correctly importing the function
 
 # Assuming parse and Config are modules that need to be mocked if they are used in your function
 

@@ -1,6 +1,8 @@
 
 import pytest
+
 from isort.main import main as isort_main
+
 
 def test_valid_inputs():
     # Assuming some valid inputs for argv and stdin could be provided here

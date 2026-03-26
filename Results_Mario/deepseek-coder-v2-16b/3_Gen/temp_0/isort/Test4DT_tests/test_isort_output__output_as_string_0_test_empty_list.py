@@ -1,6 +1,8 @@
 
 import pytest
+
 from isort.output import _output_as_string as output_as_string
+
 
 def test_empty_list():
     lines = []

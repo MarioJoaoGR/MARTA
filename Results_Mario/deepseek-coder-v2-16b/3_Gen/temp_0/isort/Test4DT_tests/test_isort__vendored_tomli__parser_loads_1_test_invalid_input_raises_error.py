@@ -1,7 +1,10 @@
 
+from typing import Any, Dict
+
 import pytest
-from isort._vendored.tomli._parser import loads, ParseFloat
-from typing import Dict, Any
+
+from isort._vendored.tomli._parser import ParseFloat, loads
+
 
 def test_invalid_input_raises_error():
     malformed_toml = 'invalid toml'

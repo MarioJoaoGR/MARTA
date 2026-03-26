@@ -1,6 +1,8 @@
 
 import pytest
+
 from isort.exceptions import IntroducedSyntaxErrors
+
 
 def test_edge_case_none():
     with pytest.raises(IntroducedSyntaxErrors) as exc_info:

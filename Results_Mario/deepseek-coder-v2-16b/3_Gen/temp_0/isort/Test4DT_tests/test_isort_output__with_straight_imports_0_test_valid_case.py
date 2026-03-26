@@ -1,7 +1,11 @@
 
-import pytest
 from unittest.mock import MagicMock
-from isort.output import _with_straight_imports  # Assuming this is the module you need to mock or import
+
+import pytest
+
+from isort.output import \
+    _with_straight_imports  # Assuming this is the module you need to mock or import
+
 
 # Mocking the necessary parts of the `isort` module if needed
 class Config:

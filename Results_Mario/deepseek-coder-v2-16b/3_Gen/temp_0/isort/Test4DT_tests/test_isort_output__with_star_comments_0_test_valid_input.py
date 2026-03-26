@@ -1,7 +1,10 @@
 
-import pytest
 from unittest.mock import MagicMock
+
+import pytest
+
 from isort.output import _with_star_comments
+
 
 def test_valid_input():
     parsed = MagicMock()

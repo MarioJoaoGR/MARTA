@@ -1,6 +1,8 @@
 
-import pytest
 from datetime import timedelta, timezone
+
+import pytest
+
 
 def cached_tz(hour_str: str, minute_str: str, sign_str: str) -> timezone:
     """

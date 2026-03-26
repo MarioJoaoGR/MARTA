@@ -1,7 +1,9 @@
 
 import pytest
+
 from isort import settings
 from isort.settings import _Config
+
 
 def test_valid_case():
     # Arrange

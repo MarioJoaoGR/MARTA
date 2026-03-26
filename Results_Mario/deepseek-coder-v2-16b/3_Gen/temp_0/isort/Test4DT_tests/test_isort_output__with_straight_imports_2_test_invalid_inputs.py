@@ -1,7 +1,10 @@
 
-import pytest
 from unittest.mock import MagicMock
+
+import pytest
+
 import isort.output as isort_output  # Replace with actual module name if known, or adjust the import statement accordingly
+
 
 # Mocking the necessary parts of the 'isort' module
 class TestIsortOutput:

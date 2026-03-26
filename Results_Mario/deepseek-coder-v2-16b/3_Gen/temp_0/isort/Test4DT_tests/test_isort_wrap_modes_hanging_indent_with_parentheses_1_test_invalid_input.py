@@ -1,7 +1,10 @@
 
 from typing import Any
+
 import pytest
+
 from isort.wrap_modes import hanging_indent_with_parentheses
+
 
 @pytest.fixture
 def interface():

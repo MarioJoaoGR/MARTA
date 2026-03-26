@@ -1,7 +1,10 @@
 
-import pytest
 from unittest.mock import MagicMock
-from isort.literal import ISortPrettyPrinter, Config
+
+import pytest
+
+from isort.literal import Config, ISortPrettyPrinter
+
 
 @pytest.fixture
 def mock_config():

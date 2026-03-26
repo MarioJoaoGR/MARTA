@@ -1,7 +1,8 @@
 
 import pytest
-from isort._vendored.tomli._parser import parse_key_part, suffixed_err
-from isort._vendored.tomli._parser import Pos
+
+from isort._vendored.tomli._parser import Pos, parse_key_part, suffixed_err
+
 
 def test_empty_string():
     src = ''

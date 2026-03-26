@@ -1,27 +1,32 @@
 
 import pytest
 from pathlib import Path
-import os
+from isort.place import _is_namespace_package
 
-@pytest.fixture(scope="module")
-def setup():
-    src_extensions = frozenset(['txt', 'md'])
-    path = Path('test_dir')
-    if not path.exists():  # Check if the directory already exists
-        path.mkdir()
+@pytest.fixture
+def namespace_pkg_path():
+    return Path("test_dir")
 
-"""
-[TEST4PY QUARANTINE REPORT]
-Reason: Test failed assertions or crashed.
-Error Log:
-============================= test session starts ==============================
-platform linux -- Python 3.11.15, pytest-8.3.2, pluggy-1.6.0
-rootdir: /projects/F202407648IACDCF2/mario/isort
-configfile: ../../../../dev/null
-plugins: anyio-4.12.1, json-report-1.5.0, metadata-3.1.1
-collected 0 items
+@pytest.fixture
+def non_namespace_pkg_path():
+    return Path("test_dir")
 
---------------------------------- JSON report ----------------------------------
-report saved to: pytest_report.json
-============================ no tests ran in 0.06s =============================
-"""
+def test_is_namespace_package(namespace_pkg_path, non_namespace_pkg_path):
+    # Create a mock directory for the namespace package
+    (namespace_pkg_path / "__init__.py").touch()
+    
+    # Add content to __init__.py that indicates it's a namespace package
+    (namespace_pkg_path / "__init__.py").write_text(
+        "__import__('pkg_resources').declare_namespace(__name__)"
+    )
+    
+    assert _is_namespace_package(namespace_pkg_path, frozenset(['py', 'cpp'])) == True
+
+def test_non_namespace_package(non_namespace_pkg_path):
+    # Create a mock directory for the non-namespace package
+    (non_namespace_pkg_path / "__init__.py").touch()
+    
+    # Add content to __init__.py that does not indicate it's a namespace package
+    (non_namespace_pkg_path / "__init__.py").write_text("This is just an init file.")
+    
+    assert _is_namespace_package(non_namespace_pkg_path, frozenset(['txt', 'md'])) == False

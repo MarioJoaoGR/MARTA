@@ -1,6 +1,8 @@
 
 import pytest
+
 from isort.parse import _infer_line_separator
+
 
 def test_valid_case_three():
     assert _infer_line_separator("Line 1\r\nLine 2\r\nLine 3") == "\r\n"

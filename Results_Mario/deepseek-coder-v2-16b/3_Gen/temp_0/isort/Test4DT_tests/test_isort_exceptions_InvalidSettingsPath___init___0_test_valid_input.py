@@ -1,8 +1,11 @@
 
 import os
-from isort.exceptions import InvalidSettingsPath
 from unittest.mock import patch
+
 import pytest
+
+from isort.exceptions import InvalidSettingsPath
+
 
 @pytest.mark.parametrize("valid_path", [('valid_file.cfg'), ('/path/to/valid_file.cfg')])
 def test_valid_input(valid_path):

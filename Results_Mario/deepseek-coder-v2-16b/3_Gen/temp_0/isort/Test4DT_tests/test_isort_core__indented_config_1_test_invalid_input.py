@@ -1,8 +1,11 @@
 
 # Import necessary modules and functions
-from isort.core import _indented_config  # Correcting the import path based on the error message
-from isort.settings import Config
 import pytest
+
+from isort.core import \
+    _indented_config  # Correcting the import path based on the error message
+from isort.settings import Config
+
 
 # Define a fixture for creating a sample Config object if needed
 @pytest.fixture

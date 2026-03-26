@@ -1,6 +1,8 @@
 
 import pytest
+
 from isort._vendored.tomli._parser import is_unicode_scalar_value
+
 
 def test_valid_case_2():
     # Test cases where codepoint should return True (valid Unicode scalar value)

@@ -1,6 +1,8 @@
 
 import pytest
+
 from isort.exceptions import FileSkipSetting
+
 
 def test_invalid_input():
     file_path = 12345

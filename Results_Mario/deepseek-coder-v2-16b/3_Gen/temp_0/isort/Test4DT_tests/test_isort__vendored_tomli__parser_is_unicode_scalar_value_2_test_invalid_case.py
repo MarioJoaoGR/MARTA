@@ -1,6 +1,8 @@
 
 import pytest
+
 from isort._vendored.tomli._parser import is_unicode_scalar_value
+
 
 def test_is_unicode_scalar_value():
     # Valid code points

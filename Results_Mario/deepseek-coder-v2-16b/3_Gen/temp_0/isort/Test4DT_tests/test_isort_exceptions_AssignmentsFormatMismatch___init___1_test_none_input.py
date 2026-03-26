@@ -1,6 +1,8 @@
 
 import pytest
+
 from isort.exceptions import AssignmentsFormatMismatch
+
 
 def test_none_input():
     with pytest.raises(AssignmentsFormatMismatch) as excinfo:

@@ -1,7 +1,9 @@
 
-import pytest
 from pathlib import Path
 from unittest.mock import MagicMock
+
+import pytest
+
 
 class TrieNode:
     def __init__(self, config_file: str = "", config_data: dict | None = None) -> None:

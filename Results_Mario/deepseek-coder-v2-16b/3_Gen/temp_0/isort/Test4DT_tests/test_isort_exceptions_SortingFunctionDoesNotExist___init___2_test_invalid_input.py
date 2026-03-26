@@ -1,6 +1,8 @@
 
 import pytest
+
 from isort.exceptions import SortingFunctionDoesNotExist
+
 
 def test_invalid_input():
     with pytest.raises(SortingFunctionDoesNotExist) as excinfo:

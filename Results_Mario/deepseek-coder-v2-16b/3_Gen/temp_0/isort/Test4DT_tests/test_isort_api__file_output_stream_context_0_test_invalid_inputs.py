@@ -1,8 +1,10 @@
 
-import pytest
 from pathlib import Path
-from isort.api import _file_output_stream_context
 from typing import Iterator, TextIO
+
+import pytest
+
+from isort.api import _file_output_stream_context
 
 # Assuming `File` and `_tmp_file` are correctly defined in the `isort.api` module
 # from isort.api import File, _tmp_file  # Uncomment if these are not mocked

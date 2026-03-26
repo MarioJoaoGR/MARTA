@@ -1,6 +1,8 @@
 
 import pytest
+
 from isort.wrap_modes import _wrap_mode_interface
+
 
 def test_edge_case_none():
     result = _wrap_mode_interface(

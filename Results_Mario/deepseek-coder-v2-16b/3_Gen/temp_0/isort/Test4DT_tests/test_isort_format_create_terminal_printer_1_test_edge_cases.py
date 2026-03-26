@@ -1,6 +1,8 @@
 
 import pytest
-from isort.format import create_terminal_printer, BasicPrinter, ColoramaPrinter
+
+from isort.format import BasicPrinter, ColoramaPrinter, create_terminal_printer
+
 try:
     import colorama
     has_colorama = True

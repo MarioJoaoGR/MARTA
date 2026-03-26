@@ -1,7 +1,9 @@
 
-import pytest
 from pathlib import Path
-from isort.api import find_imports_in_file, Config, DEFAULT_CONFIG
+
+import pytest
+
+from isort.api import DEFAULT_CONFIG, Config, find_imports_in_file
 
 # Define a sample file content with 4 import statements for demonstration purposes
 SAMPLE_FILE_CONTENT = """import os

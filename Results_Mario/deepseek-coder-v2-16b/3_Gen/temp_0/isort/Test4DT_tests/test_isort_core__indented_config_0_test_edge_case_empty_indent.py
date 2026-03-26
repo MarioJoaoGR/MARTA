@@ -1,6 +1,8 @@
 
-from isort.core import _indented_config, Config
 import pytest
+
+from isort.core import Config, _indented_config
+
 
 @pytest.fixture
 def sample_config():

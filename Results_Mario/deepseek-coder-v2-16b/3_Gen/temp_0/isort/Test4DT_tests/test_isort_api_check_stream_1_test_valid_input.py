@@ -1,8 +1,11 @@
 
-import pytest
 from io import StringIO
-from isort.api import check_stream
+
+import pytest
+
 from isort import Config
+from isort.api import check_stream
+
 
 def test_valid_input():
     # Mock data for input stream

@@ -1,9 +1,12 @@
 
-import pytest
 from io import StringIO
-from isort.api import sort_code_string, DEFAULT_CONFIG
 from pathlib import Path
 from typing import Any, TextIO
+
+import pytest
+
+from isort.api import DEFAULT_CONFIG, sort_code_string
+
 
 @pytest.mark.parametrize("code", [
     "import os\nimport sys",  # Simple case with two imports

@@ -1,7 +1,11 @@
 
 import os
 from typing import Any
-from isort.settings import _find_config, MAX_CONFIG_SEARCH_DEPTH, CONFIG_SOURCES, CONFIG_SECTIONS, STOP_CONFIG_SEARCH_ON_DIRS
+
+from isort.settings import (CONFIG_SECTIONS, CONFIG_SOURCES,
+                            MAX_CONFIG_SEARCH_DEPTH,
+                            STOP_CONFIG_SEARCH_ON_DIRS, _find_config)
+
 
 def test_invalid_path():
     invalid_path = "/nonexistent/directory"

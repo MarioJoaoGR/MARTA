@@ -1,7 +1,9 @@
 
 # content of test_isort_wrap_import_statement_0_test_valid_case.py
-from isort.wrap import import_statement, Config, Modes
 import pytest
+
+from isort.wrap import Config, Modes, import_statement
+
 
 @pytest.fixture(scope="module")
 def config():

@@ -2,6 +2,7 @@
 import os
 from typing import Iterable
 
+
 def _abspaths(cwd: str, values: Iterable[str]) -> set[str]:
     paths = {
         (
@@ -14,6 +15,7 @@ def _abspaths(cwd: str, values: Iterable[str]) -> set[str]:
     return paths
 
 import pytest
+
 
 @pytest.mark.parametrize("cwd, values", [
     (None, None),

@@ -1,6 +1,8 @@
 
 import pytest
-from isort.parse import file_contents, Config, ParsedContent, DEFAULT_CONFIG
+
+from isort.parse import DEFAULT_CONFIG, Config, ParsedContent, file_contents
+
 
 @pytest.mark.parametrize("input_code, expected", [
     ("import os\nfrom math import sqrt", ""),  # This should be empty as the function does not return anything directly

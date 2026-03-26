@@ -1,8 +1,11 @@
 
 from io import StringIO
 from unittest.mock import patch
+
 import pytest
-from isort.api import check_code_string, Config, DEFAULT_CONFIG
+
+from isort.api import DEFAULT_CONFIG, Config, check_code_string
+
 
 def test_check_code_string():
     code = "import os\nimport sys"

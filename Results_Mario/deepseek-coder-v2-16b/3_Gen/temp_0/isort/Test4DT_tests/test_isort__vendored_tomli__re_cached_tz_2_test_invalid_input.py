@@ -1,7 +1,10 @@
 
-from isort._vendored.tomli._re import cached_tz
-import pytest
 from datetime import timedelta, timezone
+
+import pytest
+
+from isort._vendored.tomli._re import cached_tz
+
 
 def test_invalid_input():
     with pytest.raises(ValueError):

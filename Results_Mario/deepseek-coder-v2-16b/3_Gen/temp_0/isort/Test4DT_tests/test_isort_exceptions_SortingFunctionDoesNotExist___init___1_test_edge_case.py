@@ -1,6 +1,8 @@
 
 import pytest
+
 from isort.exceptions import SortingFunctionDoesNotExist
+
 
 def test_edge_case():
     sort_order = "invalid_order"

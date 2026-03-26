@@ -1,9 +1,11 @@
 
 import os
-import stat
 import re
+import stat
 from unittest.mock import patch
+
 from isort.settings import Config
+
 
 def test_is_supported_filetype():
     config = Config()

@@ -1,6 +1,8 @@
 
-import pytest
 from typing import Iterable
+
+import pytest
+
 
 def skip_chars(src: str, pos: int, chars: Iterable[str]) -> int:
     """

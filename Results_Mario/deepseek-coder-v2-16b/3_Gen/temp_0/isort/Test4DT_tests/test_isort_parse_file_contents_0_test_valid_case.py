@@ -1,6 +1,8 @@
 
 import pytest
-from isort.parse import file_contents, Config, ParsedContent, DEFAULT_CONFIG
+
+from isort.parse import DEFAULT_CONFIG, Config, ParsedContent, file_contents
+
 
 def test_valid_case():
     """Test standard input with valid Python code containing import statements."""

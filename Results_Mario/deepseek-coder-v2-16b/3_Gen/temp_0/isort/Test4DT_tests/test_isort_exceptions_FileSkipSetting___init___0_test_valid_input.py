@@ -1,6 +1,8 @@
 
 import pytest
+
 from isort.exceptions import FileSkipSetting
+
 
 def test_valid_input():
     file_path = 'example/file/path.py'

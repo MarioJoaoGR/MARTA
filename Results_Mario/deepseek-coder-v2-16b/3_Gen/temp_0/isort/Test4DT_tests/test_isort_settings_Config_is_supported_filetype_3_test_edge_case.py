@@ -1,6 +1,8 @@
 
 import os
+
 from isort.settings import Config
+
 
 def test_is_supported_filetype():
     config = Config()

@@ -1,8 +1,10 @@
 
-import pytest
-from pathlib import Path
 from io import TextIOWrapper
-from unittest.mock import patch, MagicMock
+from pathlib import Path
+from unittest.mock import MagicMock, patch
+
+import pytest
+
 
 class File:
     @staticmethod

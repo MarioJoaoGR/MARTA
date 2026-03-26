@@ -1,6 +1,8 @@
 
 import pytest
+
 from isort.exceptions import FileSkipSetting
+
 
 def test_edge_case():
     file_path = None

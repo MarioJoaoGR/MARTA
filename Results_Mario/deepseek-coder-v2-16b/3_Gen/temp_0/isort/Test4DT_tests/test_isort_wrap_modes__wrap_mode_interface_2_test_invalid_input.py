@@ -1,6 +1,8 @@
 
-from isort.wrap_modes import _wrap_mode_interface
 import pytest
+
+from isort.wrap_modes import _wrap_mode_interface
+
 
 @pytest.mark.parametrize(
     "statement, imports, white_space, indent, line_length, comments, line_separator, comment_prefix, include_trailing_comma, remove_comments",

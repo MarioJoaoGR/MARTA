@@ -1,6 +1,7 @@
 
-import pytest
 from unittest.mock import MagicMock
+
+import pytest
 
 # Mocking the module
 mock_isort = MagicMock()

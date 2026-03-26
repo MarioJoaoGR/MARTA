@@ -1,8 +1,11 @@
 
-from isort.io import File
-import pytest
 from pathlib import Path
 from typing import Iterator, TextIO
+
+import pytest
+
+from isort.io import File
+
 
 def test_none_input():
     with pytest.raises(TypeError):

@@ -1,6 +1,8 @@
 
-from isort._vendored.tomli._parser import skip_chars, Pos
 from typing import Iterable
+
+from isort._vendored.tomli._parser import Pos, skip_chars
+
 
 def test_invalid_pos():
     # Test when pos is out of range

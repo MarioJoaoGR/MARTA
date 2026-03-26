@@ -1,10 +1,13 @@
 
-import pytest
-from isort.io import File
 from io import TextIOBase
 from pathlib import Path
-from tokenize import detect_encoding, TokenError
+from tokenize import TokenError, detect_encoding
 from unittest.mock import Mock
+
+import pytest
+
+from isort.io import File
+
 
 def test_valid_input():
     # Create a mock for the readline function

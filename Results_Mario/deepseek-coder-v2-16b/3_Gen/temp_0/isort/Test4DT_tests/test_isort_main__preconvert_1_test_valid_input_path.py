@@ -1,7 +1,10 @@
 
-import pytest
-from isort.main import _preconvert
 from pathlib import Path
+
+import pytest
+
+from isort.main import _preconvert
+
 
 def test_valid_input_path():
     test_path = Path('somefile.txt')

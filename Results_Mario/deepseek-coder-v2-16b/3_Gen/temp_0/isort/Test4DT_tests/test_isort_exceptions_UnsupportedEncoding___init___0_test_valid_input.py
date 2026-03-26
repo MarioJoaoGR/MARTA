@@ -1,6 +1,8 @@
 
 import pytest
+
 from isort.exceptions import UnsupportedEncoding
+
 
 def test_valid_input():
     filename = 'example_file.txt'

@@ -1,6 +1,8 @@
 
-from isort._vendored.tomli._parser import parse_key, Pos, Key, TOMLDecodeError
 import pytest
+
+from isort._vendored.tomli._parser import Key, Pos, TOMLDecodeError, parse_key
+
 
 def test_empty_key_input():
     src = ""

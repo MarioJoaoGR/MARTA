@@ -1,8 +1,11 @@
 
 # Import necessary modules for mocking and testing
 from unittest.mock import MagicMock
+
 import pytest
-from isort.place import module_with_reason, DEFAULT_CONFIG
+
+from isort.place import DEFAULT_CONFIG, module_with_reason
+
 
 @pytest.fixture
 def mock_config():

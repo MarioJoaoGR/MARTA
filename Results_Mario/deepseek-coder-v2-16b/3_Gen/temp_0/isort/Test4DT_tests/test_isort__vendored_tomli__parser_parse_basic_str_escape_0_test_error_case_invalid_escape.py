@@ -1,6 +1,9 @@
 
 import pytest
-from isort._vendored.tomli._parser import parse_basic_str_escape, Pos, BASIC_STR_ESCAPE_REPLACEMENTS
+
+from isort._vendored.tomli._parser import (BASIC_STR_ESCAPE_REPLACEMENTS, Pos,
+                                           parse_basic_str_escape)
+
 
 def skip_chars(src, pos, chars):
     while pos < len(src) and src[pos] in chars:

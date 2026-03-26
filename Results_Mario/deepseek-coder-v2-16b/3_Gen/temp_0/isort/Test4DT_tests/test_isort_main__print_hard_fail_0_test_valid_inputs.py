@@ -1,7 +1,11 @@
 
-import pytest
-from isort.main import _print_hard_fail  # Import the function from the correct module
 from unittest.mock import MagicMock  # Mocking the Config class
+
+import pytest
+
+from isort.main import \
+    _print_hard_fail  # Import the function from the correct module
+
 
 @pytest.fixture
 def mock_config():

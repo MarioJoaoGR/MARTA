@@ -1,6 +1,8 @@
 
-import pytest
 from unittest.mock import patch
+
+import pytest
+
 
 def format_natural(import_line: str) -> str:
     """

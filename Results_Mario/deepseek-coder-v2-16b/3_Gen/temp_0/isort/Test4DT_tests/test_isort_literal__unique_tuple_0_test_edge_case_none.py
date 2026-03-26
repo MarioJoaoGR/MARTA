@@ -1,6 +1,8 @@
 
 import pytest
+
 from isort.literal import _unique_tuple
+
 
 class MockPrettyPrinter:
     def pformat(self, value): 

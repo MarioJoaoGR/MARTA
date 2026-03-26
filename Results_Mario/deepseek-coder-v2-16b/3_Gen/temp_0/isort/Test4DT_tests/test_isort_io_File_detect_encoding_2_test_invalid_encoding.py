@@ -1,13 +1,15 @@
 
-import pytest
+from io import BytesIO, TextIOBase
 from pathlib import Path
-from io import TextIOBase, BytesIO
 from tokenize import detect_encoding
-from isort.exceptions import UnsupportedEncoding
 from unittest.mock import Mock
 
+import pytest
+
+from isort.exceptions import UnsupportedEncoding
 # Assuming the File class and its methods are defined in a module named 'isort.io'
 from isort.io import File
+
 
 def test_invalid_encoding():
     # Create a mock for readline that raises an exception when called

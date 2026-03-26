@@ -1,6 +1,8 @@
 
 import pytest
+
 from isort.identify import Import
+
 
 @pytest.fixture
 def setup_valid_import():

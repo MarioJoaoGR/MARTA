@@ -1,6 +1,7 @@
 
 import pytest
 
+
 def _infer_line_separator(contents: str) -> str:
     if "\r\n" in contents:
         return "\r\n"

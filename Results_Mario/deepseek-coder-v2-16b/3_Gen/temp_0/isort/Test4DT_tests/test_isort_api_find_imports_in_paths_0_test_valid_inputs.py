@@ -1,9 +1,12 @@
 
 from pathlib import Path
-from typing import Iterator, Any
+from typing import Any, Iterator
+
 import pytest
-from isort.api import find_imports_in_paths, Config, DEFAULT_CONFIG, ImportKey
+
 import isort.identify as identify  # Assuming this is the correct module to import from
+from isort.api import DEFAULT_CONFIG, Config, ImportKey, find_imports_in_paths
+
 
 # Mocking necessary for testing
 @pytest.fixture

@@ -1,6 +1,8 @@
 
 import pytest
+
 from isort.main import SortAttempt  # Correctly import from isort.main
+
 
 def test_edge_cases():
     # Test edge cases for SortAttempt initialization

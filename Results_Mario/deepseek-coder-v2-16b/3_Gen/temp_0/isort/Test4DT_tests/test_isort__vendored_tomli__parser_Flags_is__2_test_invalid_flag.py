@@ -1,6 +1,7 @@
 
-import pytest
 from typing import Dict, List, Union
+
+import pytest
 
 Key = List[str]
 

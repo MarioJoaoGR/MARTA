@@ -1,8 +1,11 @@
 
-import pytest
 from io import StringIO
+
+import pytest
+
 from isort.core import process
 from isort.settings import DEFAULT_CONFIG
+
 
 def test_edge_case():
     # Test with an empty file

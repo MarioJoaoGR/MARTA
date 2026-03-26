@@ -1,6 +1,7 @@
 
 import pytest
 
+
 def _as_list(value: str) -> list[str]:
     if isinstance(value, list):
         return [item.strip() for item in value]

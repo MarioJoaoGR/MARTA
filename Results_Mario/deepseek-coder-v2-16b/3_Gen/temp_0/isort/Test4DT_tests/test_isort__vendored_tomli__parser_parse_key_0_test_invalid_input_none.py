@@ -1,7 +1,11 @@
 
-from typing import Tuple, Optional
+from typing import Optional, Tuple
+
 import pytest
-from isort._vendored.tomli._parser import parse_key, Pos, Key, TOML_WS, skip_chars
+
+from isort._vendored.tomli._parser import (TOML_WS, Key, Pos, parse_key,
+                                           skip_chars)
+
 
 def test_invalid_input_none():
     src = None  # Invalid input as it should be a string

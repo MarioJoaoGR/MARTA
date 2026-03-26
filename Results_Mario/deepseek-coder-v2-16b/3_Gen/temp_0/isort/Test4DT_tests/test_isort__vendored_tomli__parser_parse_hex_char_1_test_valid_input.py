@@ -1,6 +1,7 @@
 
 import pytest
 
+
 def parse_hex_char(src: str, pos: int, hex_len: int) -> tuple[int, str]:
     """Parses a hexadecimal character from the given source string at the specified position with the defined length.
 

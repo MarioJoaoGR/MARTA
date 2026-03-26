@@ -1,6 +1,8 @@
 
-import pytest
 from typing import Any
+
+import pytest
+
 
 # Assuming ISortPrettyPrinter is a placeholder for the actual interface or class used in the project
 class MyPrettyPrinter:

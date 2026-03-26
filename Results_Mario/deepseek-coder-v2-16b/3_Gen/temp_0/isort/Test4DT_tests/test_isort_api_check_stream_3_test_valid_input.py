@@ -1,7 +1,10 @@
 
-import pytest
 from io import StringIO
-from isort.api import check_stream, Config
+
+import pytest
+
+from isort.api import Config, check_stream
+
 
 @pytest.mark.parametrize("input_str", [
     "import os\nimport sys"

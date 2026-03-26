@@ -1,8 +1,11 @@
 
-import pytest
-from isort.wrap_modes import _wrap_mode, _wrap_modes, _wrap_mode_interface
 from inspect import signature
 from typing import Callable
+
+import pytest
+
+from isort.wrap_modes import _wrap_mode, _wrap_mode_interface, _wrap_modes
+
 
 @pytest.mark.parametrize("input_value", [None])
 def test_edge_case_none(input_value):

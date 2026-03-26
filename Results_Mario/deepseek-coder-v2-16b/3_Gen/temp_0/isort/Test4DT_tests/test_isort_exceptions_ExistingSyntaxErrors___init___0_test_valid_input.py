@@ -1,6 +1,8 @@
 
 import pytest
+
 from isort.exceptions import ExistingSyntaxErrors
+
 
 def test_valid_input():
     """

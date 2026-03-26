@@ -1,6 +1,10 @@
 
 import pytest
-from isort.literal import assignment, type_mapping, DEFAULT_CONFIG, ISortPrettyPrinter, LiteralParsingFailure, LiteralSortTypeMismatch
+
+from isort.literal import (DEFAULT_CONFIG, ISortPrettyPrinter,
+                           LiteralParsingFailure, LiteralSortTypeMismatch,
+                           assignment, type_mapping)
+
 
 # Mocking necessary classes and functions for testing
 class Config:

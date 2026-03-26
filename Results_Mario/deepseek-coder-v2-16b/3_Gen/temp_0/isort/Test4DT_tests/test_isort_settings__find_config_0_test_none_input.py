@@ -2,7 +2,9 @@
 import os
 from typing import Any
 from unittest.mock import patch
+
 import pytest
+
 
 # Assuming _get_config_data is a placeholder for the actual function to be mocked
 def _get_config_data(file_path: str, sections: dict) -> dict[str, Any]:

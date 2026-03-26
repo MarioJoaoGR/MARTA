@@ -1,7 +1,10 @@
 
 from unittest.mock import patch
+
 import pytest
+
 from isort._vendored.tomli._parser import skip_comment
+
 
 def test_none_input():
     with patch('isort._vendored.tomli._parser.skip_comment') as mock_skip_comment:

@@ -2,6 +2,7 @@
 import re
 from unittest.mock import patch
 
+
 def normalize_line(raw_line: str) -> tuple[str, str]:
     """Normalizes import related statements in the provided line.
 

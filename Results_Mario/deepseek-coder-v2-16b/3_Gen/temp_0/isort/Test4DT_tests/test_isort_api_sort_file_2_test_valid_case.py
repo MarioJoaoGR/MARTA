@@ -1,11 +1,14 @@
 
-import pytest
-from pathlib import Path
-from isort.api import sort_file
-from unittest.mock import patch, MagicMock
-from configparser import ConfigParser
 import io
 import sys
+from configparser import ConfigParser
+from pathlib import Path
+from unittest.mock import MagicMock, patch
+
+import pytest
+
+from isort.api import sort_file
+
 
 @pytest.mark.parametrize("filename", ["test_file.py"])  # Assuming a valid file for testing
 def test_valid_case(filename):

@@ -1,6 +1,7 @@
 
 import pytest
 
+
 def is_comment(line: str | None) -> bool:
     return line.startswith("#") if line else False
 

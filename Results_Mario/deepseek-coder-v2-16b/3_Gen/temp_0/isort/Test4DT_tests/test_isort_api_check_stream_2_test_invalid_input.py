@@ -1,9 +1,11 @@
 
-import pytest
 from io import StringIO
 from pathlib import Path
-from typing import TextIO, Any
-from isort.api import check_stream, Config, DEFAULT_CONFIG
+from typing import Any, TextIO
+
+import pytest
+
+from isort.api import DEFAULT_CONFIG, Config, check_stream
 
 # Assuming 'isort' module has a function called 'check_stream' that we need to test.
 # We will mock any dependencies if necessary and use pytest for testing.

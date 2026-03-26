@@ -1,7 +1,10 @@
 
 from unittest.mock import MagicMock
+
 import pytest
+
 from isort.api import _tmp_file  # Assuming the function is in the api module
+
 
 def test_none_input():
     # Create a mock File object with a path attribute

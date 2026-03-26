@@ -1,6 +1,9 @@
 
 import pytest
-from isort.wrap_modes import _wrap_modes  # Assuming this is the correct module path
+
+from isort.wrap_modes import \
+    _wrap_modes  # Assuming this is the correct module path
+
 
 @pytest.fixture(autouse=True)
 def reset_wrap_modes():

@@ -1,6 +1,8 @@
 
 import pytest
+
 from isort.exceptions import FileSkipped
+
 
 def test_edge_cases():
     with pytest.raises(FileSkipped) as exc_info:

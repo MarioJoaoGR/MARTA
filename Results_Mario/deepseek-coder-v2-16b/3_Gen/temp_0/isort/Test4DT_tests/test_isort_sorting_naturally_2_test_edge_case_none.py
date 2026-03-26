@@ -1,7 +1,10 @@
 
+from typing import Any, Callable, Iterable
+
 import pytest
+
 from isort.sorting import naturally
-from typing import Iterable, Callable, Any
+
 
 def _natural_keys(text: str) -> list[Any]:
     """Helper function to create a tuple of numeric and alphabetic keys for natural sorting."""

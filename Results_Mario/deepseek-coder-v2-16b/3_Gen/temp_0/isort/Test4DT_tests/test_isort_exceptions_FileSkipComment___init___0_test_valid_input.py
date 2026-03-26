@@ -1,6 +1,8 @@
 
 import pytest
+
 from isort.exceptions import FileSkipComment
+
 
 def test_valid_input():
     file_path = "path/to/your/file.py"

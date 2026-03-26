@@ -1,7 +1,8 @@
 
-from isort._vendored.tomli._parser import parse_basic_str_escape
-from isort._vendored.tomli._parser import Pos
 import pytest
+
+from isort._vendored.tomli._parser import Pos, parse_basic_str_escape
+
 
 def test_invalid_input():
     with pytest.raises(ValueError):

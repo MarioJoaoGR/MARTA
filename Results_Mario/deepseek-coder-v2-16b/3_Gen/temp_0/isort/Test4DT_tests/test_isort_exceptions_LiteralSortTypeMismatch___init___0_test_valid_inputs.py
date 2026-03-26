@@ -1,6 +1,8 @@
 
 import pytest
+
 from isort.exceptions import LiteralSortTypeMismatch
+
 
 def test_valid_inputs():
     # Test case where kind and expected_kind are of different types

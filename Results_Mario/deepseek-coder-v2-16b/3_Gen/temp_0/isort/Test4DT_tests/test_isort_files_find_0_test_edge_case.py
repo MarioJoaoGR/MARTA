@@ -2,7 +2,9 @@
 import os
 from pathlib import Path
 from typing import Iterable, Iterator
+
 import pytest
+
 
 # Assuming the existence of a Config class and its methods is_skipped and is_supported_filetype
 class Config:

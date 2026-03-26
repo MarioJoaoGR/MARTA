@@ -1,8 +1,10 @@
 
-import pytest
+import os
 from pathlib import Path
 from typing import TextIO
-import os
+
+import pytest
+
 
 class File:
     stream: TextIO

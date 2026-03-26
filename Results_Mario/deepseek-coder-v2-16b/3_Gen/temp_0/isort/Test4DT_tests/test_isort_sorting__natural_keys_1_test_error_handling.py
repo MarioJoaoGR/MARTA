@@ -1,7 +1,10 @@
 
 import re
-from isort.sorting import _natural_keys
+
 import pytest
+
+from isort.sorting import _natural_keys
+
 
 def test_error_handling():
     with pytest.raises(TypeError):

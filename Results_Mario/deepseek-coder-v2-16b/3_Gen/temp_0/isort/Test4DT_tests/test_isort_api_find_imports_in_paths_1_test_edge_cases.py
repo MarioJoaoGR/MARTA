@@ -1,8 +1,11 @@
 
 from pathlib import Path
 from unittest.mock import patch
+
 import pytest
-from isort.api import find_imports_in_paths, Config, DEFAULT_CONFIG
+
+from isort.api import DEFAULT_CONFIG, Config, find_imports_in_paths
+
 
 @pytest.mark.parametrize("unique", [False, True])
 def test_find_imports_in_paths(unique):

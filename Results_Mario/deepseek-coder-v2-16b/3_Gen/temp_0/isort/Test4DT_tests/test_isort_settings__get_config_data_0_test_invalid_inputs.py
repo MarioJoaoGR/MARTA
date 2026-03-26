@@ -1,7 +1,10 @@
 
-import pytest
 from unittest.mock import patch
+
+import pytest
+
 from isort.settings import _get_config_data
+
 
 @pytest.mark.parametrize("file_path, sections, expected_output", [
     # Add your test cases here with file path and expected output

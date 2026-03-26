@@ -1,7 +1,10 @@
 
-import pytest
-from isort.settings import _Config
 from unittest.mock import patch
+
+import pytest
+
+from isort.settings import _Config
+
 
 @pytest.mark.parametrize("invalid_input", [None, 123, [], {}])
 def test_invalid_input(invalid_input):

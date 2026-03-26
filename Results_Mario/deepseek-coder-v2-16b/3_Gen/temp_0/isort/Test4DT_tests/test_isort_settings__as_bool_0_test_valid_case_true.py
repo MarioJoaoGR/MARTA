@@ -1,7 +1,9 @@
 
 # Import necessary modules
 import pytest
+
 from isort import settings as isort_settings
+
 
 def test_valid_case_true():
     # Test cases for valid true values

@@ -1,7 +1,10 @@
 
-import pytest
-from isort.exceptions import LiteralParsingFailure
 import ast
+
+import pytest
+
+from isort.exceptions import LiteralParsingFailure
+
 
 def test_valid_input():
     # Test with a simple literal string that should be parsable by ast.literal_eval

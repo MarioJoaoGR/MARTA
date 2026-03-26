@@ -1,6 +1,8 @@
 
 import pytest
+
 from isort._vendored.tomli._parser import NestedDict
+
 
 def test_get_or_create_nest():
     nd = NestedDict()

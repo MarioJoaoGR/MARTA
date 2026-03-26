@@ -1,6 +1,8 @@
 
 import pytest
-from isort._vendored.tomli._parser import parse_multiline_str, Pos
+
+from isort._vendored.tomli._parser import Pos, parse_multiline_str
+
 
 def test_valid_literal_multiline_str():
     src = "'''Hello\nWorld'''"

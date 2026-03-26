@@ -1,6 +1,8 @@
 
 import pytest
+
 from isort.exceptions import LiteralSortTypeMismatch
+
 
 def test_invalid_inputs():
     with pytest.raises(LiteralSortTypeMismatch) as exc_info:

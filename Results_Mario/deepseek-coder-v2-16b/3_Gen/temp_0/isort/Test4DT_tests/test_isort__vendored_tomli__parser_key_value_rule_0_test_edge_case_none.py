@@ -1,6 +1,9 @@
 
-from isort._vendored.tomli._parser import key_value_rule, Output, Pos, Key, ParseFloat
 import pytest
+
+from isort._vendored.tomli._parser import (Key, Output, ParseFloat, Pos,
+                                           key_value_rule)
+
 
 def test_edge_case_none():
     src = "key=value"

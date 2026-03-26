@@ -1,6 +1,8 @@
 
 from typing import Any
+
 import pytest
+
 
 def vertical_grid(**interface: Any) -> str:
     """

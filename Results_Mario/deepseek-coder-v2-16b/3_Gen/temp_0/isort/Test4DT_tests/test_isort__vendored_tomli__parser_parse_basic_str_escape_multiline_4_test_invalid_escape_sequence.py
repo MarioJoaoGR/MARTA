@@ -1,7 +1,8 @@
 
 import pytest
-from isort._vendored.tomli._parser import parse_basic_str_escape_multiline
-from isort._vendored.tomli._parser import Pos
+
+from isort._vendored.tomli._parser import Pos, parse_basic_str_escape_multiline
+
 
 def test_invalid_escape_sequence():
     src = 'Hello\\zWorld'  # Invalid escape sequence \z

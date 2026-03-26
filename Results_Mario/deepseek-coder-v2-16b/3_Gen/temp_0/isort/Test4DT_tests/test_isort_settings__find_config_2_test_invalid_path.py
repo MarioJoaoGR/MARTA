@@ -1,8 +1,11 @@
 
 import os
 from unittest.mock import patch
+
 import pytest
+
 from isort.settings import _find_config
+
 
 # Define a fixture for mocking the filesystem
 @pytest.fixture(autouse=True)

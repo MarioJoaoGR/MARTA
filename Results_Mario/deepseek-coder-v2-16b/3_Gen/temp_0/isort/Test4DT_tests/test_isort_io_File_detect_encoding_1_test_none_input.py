@@ -1,10 +1,13 @@
 
-import pytest
-from isort.io import File, UnsupportedEncoding
 from io import TextIOBase
 from pathlib import Path
 from tokenize import detect_encoding
 from unittest.mock import Mock
+
+import pytest
+
+from isort.io import File, UnsupportedEncoding
+
 
 def test_none_input():
     # Create a mock for readline that will raise an exception to simulate the error scenario

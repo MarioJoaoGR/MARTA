@@ -2,7 +2,9 @@
 import sys
 from io import StringIO
 from unittest.mock import patch
+
 from isort.format import BasicPrinter  # Correctly importing from isort.format
+
 
 def test_diff_line():
     # Prepare a sample line to be written

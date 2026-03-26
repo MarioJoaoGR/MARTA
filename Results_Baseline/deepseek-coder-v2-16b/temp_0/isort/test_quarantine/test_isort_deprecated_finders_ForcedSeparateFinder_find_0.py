@@ -1,60 +1,50 @@
 
-# Module: isort.deprecated.finders
 import pytest
+
 from isort.deprecated.finders import ForcedSeparateFinder
 
-# Create an instance of ForcedSeparateFinder
+
+# Create an instance of ForcedSeparateFinder with a mock config
 @pytest.fixture
 def finder():
-    return ForcedSeparateFinder()
+    class MockConfig:
+        forced_separate = []
+    
+    return ForcedSeparateFinder(config=MockConfig())
 
 # Test cases for find method
 def test_find_with_matching_pattern(finder):
     # Given a module name that matches one of the forced separate patterns
-    module_name = "some_module"
-    
-    # When calling the find method with this module name
-    result = finder.find(module_name)
-    
+    finder.config.forced_separate = ["some"]
+    result = finder.find("some_module")
     # Then it should return the matching pattern
-    assert result == "some_module"
+    assert result == "some"
 
 def test_find_without_matching_pattern(finder):
     # Given a module name that does not match any of the forced separate patterns
-    module_name = "unrelated_module"
-    
-    # When calling the find method with this module name
-    result = finder.find(module_name)
-    
+    finder.config.forced_separate = ["first", "second"]
+    result = finder.find("unrelated_module")
     # Then it should return None
     assert result is None
 
-def test_find_with_glob_pattern(finder):
-    # Given a module name that matches a glob pattern in the forced separate patterns
-    module_name = "some_mod"
-    
-    # When calling the find method with this module name
-    result = finder.find(module_name)
-    
-    # Then it should return the matching pattern considering the glob
-    assert result == "some_mod*"
+def test_find_with_wildcard_in_pattern(finder):
+    # Given a module name that matches one of the forced separate patterns with wildcard
+    finder.config.forced_separate = ["another*"]
+    result = finder.find("another_module")
+    # Then it should return the matching pattern
+    assert result == "another*"
 
-def test_find_with_dot_glob_pattern(finder):
-    # Given a module name that matches a glob pattern starting with a dot in the forced separate patterns
-    module_name = ".some_mod"
-    
-    # When calling the find method with this module name
-    result = finder.find(module_name)
-    
-    # Then it should return the matching pattern considering the dot glob
-    assert result == ".some_mod*"
+def test_find_with_dot_prefix(finder):
+    # Given a module name that starts with a dot and matches one of the forced separate patterns
+    finder.config.forced_separate = ["some*"]
+    result = finder.find(".some_module")
+    # Then it should return the matching pattern
+    assert result == "some*"
 
-"""
-[TEST4PY QUARANTINE REPORT]
-Reason: Test failed assertions or crashed.
-Error Log:
-************* Module Test4DT_tests.test_isort_deprecated_finders_ForcedSeparateFinder_find_0
-isort/Test4DT_tests/test_isort_deprecated_finders_ForcedSeparateFinder_find_0.py:9:11: E1120: No value for argument 'config' in constructor call (no-value-for-parameter)
-
-
-"""
+def test_find_with_multiple_patterns(finder):
+    # Given a module name that matches multiple forced separate patterns
+    finder.config.forced_separate = ["first", "second"]
+    result1 = finder.find("first_module")
+    result2 = finder.find("second_module")
+    # Then it should return the first matching pattern or None if no match is found
+    assert result1 == "first"

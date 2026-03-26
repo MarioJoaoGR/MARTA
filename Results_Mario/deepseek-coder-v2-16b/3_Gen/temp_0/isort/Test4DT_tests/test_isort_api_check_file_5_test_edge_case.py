@@ -1,8 +1,11 @@
 
 # Import necessary modules
-from pathlib import Path
 import io
-from isort.api import check_file, Config, DEFAULT_CONFIG  # Correctly importing DEFAULT_CONFIG
+from pathlib import Path
+
+from isort.api import DEFAULT_CONFIG  # Correctly importing DEFAULT_CONFIG
+from isort.api import Config, check_file
+
 
 def test_edge_case():
     # Define a mock filename and content for the file to be checked

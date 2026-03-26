@@ -1,6 +1,8 @@
 
 import pytest
-from isort._vendored.tomli._parser import load, TOMLDecodeError
+
+from isort._vendored.tomli._parser import TOMLDecodeError, load
+
 
 def test_invalid_file():
     with open("invalid_file.toml", "w") as fp:

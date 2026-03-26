@@ -1,6 +1,8 @@
 
 import pytest
+
 from isort.exceptions import SortingFunctionDoesNotExist
+
 
 def test_valid_input():
     sort_order = 'ascending'

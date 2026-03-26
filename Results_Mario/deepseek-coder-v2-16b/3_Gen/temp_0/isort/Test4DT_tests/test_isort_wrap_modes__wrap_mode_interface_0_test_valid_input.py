@@ -1,6 +1,8 @@
 
 import pytest
+
 from isort.wrap_modes import _wrap_mode_interface
+
 
 def test_valid_input():
     """Test that _wrap_mode_interface returns an empty string when called with valid parameters."""

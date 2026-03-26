@@ -1,6 +1,8 @@
 
 import pytest
+
 from isort.exceptions import UnsupportedSettings
+
 
 def test_invalid_input():
     # Test data with invalid unsupported settings format

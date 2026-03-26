@@ -1,6 +1,8 @@
 
 import pytest
+
 from isort.parse import _infer_line_separator
+
 
 def test_edge_case_none():
     assert _infer_line_separator("Line 1\nLine 2\nLine 3") == "\n"

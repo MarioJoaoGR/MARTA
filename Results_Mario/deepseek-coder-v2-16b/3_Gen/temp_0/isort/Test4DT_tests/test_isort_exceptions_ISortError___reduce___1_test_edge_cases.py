@@ -1,7 +1,10 @@
 
-from isort.exceptions import ISortError
-import pytest
 from functools import partial
+
+import pytest
+
+from isort.exceptions import ISortError
+
 
 def test_edge_cases():
     with pytest.raises(ISortError):

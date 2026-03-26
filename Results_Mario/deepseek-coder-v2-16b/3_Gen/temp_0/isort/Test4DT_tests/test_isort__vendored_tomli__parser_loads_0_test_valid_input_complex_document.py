@@ -1,6 +1,8 @@
 
 import pytest
-from isort._vendored.tomli._parser import loads, TOMLDecodeError
+
+from isort._vendored.tomli._parser import TOMLDecodeError, loads
+
 
 def test_valid_input_complex_document():
     toml_string = """

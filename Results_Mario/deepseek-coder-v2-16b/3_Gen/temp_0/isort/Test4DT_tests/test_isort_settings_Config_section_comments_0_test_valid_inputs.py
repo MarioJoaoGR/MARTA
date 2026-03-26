@@ -1,6 +1,8 @@
 
 import pytest
+
 from isort.settings import Config
+
 
 @pytest.fixture
 def valid_config():

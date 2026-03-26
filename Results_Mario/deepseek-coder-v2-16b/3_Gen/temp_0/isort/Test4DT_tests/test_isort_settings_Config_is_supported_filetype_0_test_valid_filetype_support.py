@@ -1,8 +1,11 @@
 
 import os
 from unittest.mock import patch
+
 import pytest
+
 from isort.settings import Config
+
 
 @pytest.fixture
 def config():

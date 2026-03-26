@@ -1,7 +1,8 @@
 
 import pytest
-from isort.wrap_modes import WrapModes
-from isort.wrap_modes import from_string
+
+from isort.wrap_modes import WrapModes, from_string
+
 
 def test_edge_case_none():
     # Test when input is None

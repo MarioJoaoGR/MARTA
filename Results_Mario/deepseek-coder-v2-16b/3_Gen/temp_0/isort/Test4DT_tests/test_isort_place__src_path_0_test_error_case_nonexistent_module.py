@@ -1,8 +1,11 @@
 
-import pytest
-from isort.place import _src_path, Config
 from pathlib import Path
 from typing import Iterable
+
+import pytest
+
+from isort.place import Config, _src_path
+
 
 # Mock the necessary parts of the `isort` module for testing
 class MockConfig:

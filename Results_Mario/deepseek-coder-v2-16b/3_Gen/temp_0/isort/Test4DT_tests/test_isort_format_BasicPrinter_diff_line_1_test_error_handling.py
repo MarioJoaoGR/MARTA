@@ -2,7 +2,9 @@
 import sys
 from io import TextIOBase
 from unittest.mock import patch
+
 from isort.format import BasicPrinter
+
 
 def test_diff_line():
     # Create a mock for the output

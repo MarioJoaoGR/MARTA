@@ -1,8 +1,10 @@
 
-import pytest
+from io import TextIOBase, TextIOWrapper
 from pathlib import Path
-from io import TextIOWrapper, TextIOBase
 from typing import TextIO
+
+import pytest
+
 
 class File:
     @staticmethod

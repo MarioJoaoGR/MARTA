@@ -1,6 +1,8 @@
 
 import pytest
-from isort._vendored.tomli._parser import parse_value, Pos, ParseFloat
+
+from isort._vendored.tomli._parser import ParseFloat, Pos, parse_value
+
 
 def test_invalid_input():
     src = 'InvalidInput'

@@ -1,7 +1,10 @@
 
-import pytest
 from pathlib import Path
+
+import pytest
+
 from isort.api import check_file
+
 
 @pytest.fixture(scope="module")
 def sample_file():

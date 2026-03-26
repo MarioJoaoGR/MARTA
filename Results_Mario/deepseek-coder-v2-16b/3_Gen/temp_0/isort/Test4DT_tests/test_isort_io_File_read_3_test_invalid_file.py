@@ -1,8 +1,12 @@
 
-import pytest
 from pathlib import Path
 from unittest.mock import MagicMock, patch
-from isort.io import File  # Assuming this module exists and contains the File class definition
+
+import pytest
+
+from isort.io import \
+    File  # Assuming this module exists and contains the File class definition
+
 
 @pytest.fixture
 def valid_file():

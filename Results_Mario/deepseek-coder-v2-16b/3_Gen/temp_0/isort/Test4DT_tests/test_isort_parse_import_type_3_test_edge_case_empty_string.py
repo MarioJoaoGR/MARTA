@@ -1,6 +1,9 @@
 
 import pytest
-from isort.parse import Config, DEFAULT_CONFIG  # Importing Config and DEFAULT_CONFIG from isort.parse
+
+from isort.parse import (  # Importing Config and DEFAULT_CONFIG from isort.parse
+    DEFAULT_CONFIG, Config)
+
 
 def import_type(line: str, config: Config = DEFAULT_CONFIG) -> str | None:
     """If the current line is an import line it will return its type (from or straight)"""

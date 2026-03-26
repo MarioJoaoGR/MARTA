@@ -1,6 +1,8 @@
 
 import pytest
-from isort._vendored.tomli._parser import parse_basic_str_escape, Pos
+
+from isort._vendored.tomli._parser import Pos, parse_basic_str_escape
+
 
 def test_valid_input_happy_path():
     src = '\\u1234\\U0010FFFF'
