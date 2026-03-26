@@ -1,0 +1,93 @@
+
+import pytest
+from sty import FgRegister
+
+def test_fg_register_init():
+    fg = FgRegister()
+    
+    # Check if all attributes are initialized correctly
+    assert hasattr(fg, 'black')
+    assert hasattr(fg, 'red')
+    assert hasattr(fg, 'green')
+    assert hasattr(fg, 'yellow')
+    assert hasattr(fg, 'blue')
+    assert hasattr(fg, 'magenta')
+    assert hasattr(fg, 'cyan')
+    assert hasattr(fg, 'li_grey')
+    assert hasattr(fg, 'rs')
+    assert hasattr(fg, 'da_grey')
+    assert hasattr(fg, 'li_red')
+    assert hasattr(fg, 'li_green')
+    assert hasattr(fg, 'li_yellow')
+    assert hasattr(fg, 'li_blue')
+    assert hasattr(fg, 'li_magenta')
+    assert hasattr(fg, 'li_cyan')
+    assert hasattr(fg, 'white')
+    assert hasattr(fg, 'da_black')
+    assert hasattr(fg, 'da_red')
+    assert hasattr(fg, 'da_green')
+    assert hasattr(fg, 'da_yellow')
+    assert hasattr(fg, 'da_blue')
+    assert hasattr(fg, 'da_magenta')
+    assert hasattr(fg, 'da_cyan')
+    assert hasattr(fg, 'grey')
+    
+    # Check if the attributes are instances of Style
+    assert isinstance(fg.black, Style)
+    assert isinstance(fg.red, Style)
+    assert isinstance(fg.green, Style)
+    assert isinstance(fg.yellow, Style)
+    assert isinstance(fg.blue, Style)
+    assert isinstance(fg.magenta, Style)
+    assert isinstance(fg.cyan, Style)
+    assert isinstance(fg.li_grey, Style)
+    assert isinstance(fg.rs, Style)
+    assert isinstance(fg.da_grey, Style)
+    assert isinstance(fg.li_red, Style)
+    assert isinstance(fg.li_green, Style)
+    assert isinstance(fg.li_yellow, Style)
+    assert isinstance(fg.li_blue, Style)
+    assert isinstance(fg.li_magenta, Style)
+    assert isinstance(fg.li_cyan, Style)
+    assert isinstance(fg.white, Style)
+    assert isinstance(fg.da_black, Style)
+    assert isinstance(fg.da_red, Style)
+    assert isinstance(fg.da_green, Style)
+    assert isinstance(fg.da_yellow, Style)
+    assert isinstance(fg.da_blue, Style)
+    assert isinstance(fg.da_magenta, Style)
+    assert isinstance(fg.da_cyan, Style)
+    assert isinstance(fg.grey, Style)
+
+"""
+[TEST4PY QUARANTINE REPORT]
+Reason: Test failed assertions or crashed.
+Error Log:
+************* Module Test4DT_tests.test_sty_register_FgRegister___init___1_test_edge_cases
+sty/Test4DT_tests/test_sty_register_FgRegister___init___1_test_edge_cases.py:36:32: E0602: Undefined variable 'Style' (undefined-variable)
+sty/Test4DT_tests/test_sty_register_FgRegister___init___1_test_edge_cases.py:37:30: E0602: Undefined variable 'Style' (undefined-variable)
+sty/Test4DT_tests/test_sty_register_FgRegister___init___1_test_edge_cases.py:38:32: E0602: Undefined variable 'Style' (undefined-variable)
+sty/Test4DT_tests/test_sty_register_FgRegister___init___1_test_edge_cases.py:39:33: E0602: Undefined variable 'Style' (undefined-variable)
+sty/Test4DT_tests/test_sty_register_FgRegister___init___1_test_edge_cases.py:40:31: E0602: Undefined variable 'Style' (undefined-variable)
+sty/Test4DT_tests/test_sty_register_FgRegister___init___1_test_edge_cases.py:41:34: E0602: Undefined variable 'Style' (undefined-variable)
+sty/Test4DT_tests/test_sty_register_FgRegister___init___1_test_edge_cases.py:42:31: E0602: Undefined variable 'Style' (undefined-variable)
+sty/Test4DT_tests/test_sty_register_FgRegister___init___1_test_edge_cases.py:43:34: E0602: Undefined variable 'Style' (undefined-variable)
+sty/Test4DT_tests/test_sty_register_FgRegister___init___1_test_edge_cases.py:44:29: E0602: Undefined variable 'Style' (undefined-variable)
+sty/Test4DT_tests/test_sty_register_FgRegister___init___1_test_edge_cases.py:45:34: E0602: Undefined variable 'Style' (undefined-variable)
+sty/Test4DT_tests/test_sty_register_FgRegister___init___1_test_edge_cases.py:46:33: E0602: Undefined variable 'Style' (undefined-variable)
+sty/Test4DT_tests/test_sty_register_FgRegister___init___1_test_edge_cases.py:47:35: E0602: Undefined variable 'Style' (undefined-variable)
+sty/Test4DT_tests/test_sty_register_FgRegister___init___1_test_edge_cases.py:48:36: E0602: Undefined variable 'Style' (undefined-variable)
+sty/Test4DT_tests/test_sty_register_FgRegister___init___1_test_edge_cases.py:49:34: E0602: Undefined variable 'Style' (undefined-variable)
+sty/Test4DT_tests/test_sty_register_FgRegister___init___1_test_edge_cases.py:50:37: E0602: Undefined variable 'Style' (undefined-variable)
+sty/Test4DT_tests/test_sty_register_FgRegister___init___1_test_edge_cases.py:51:34: E0602: Undefined variable 'Style' (undefined-variable)
+sty/Test4DT_tests/test_sty_register_FgRegister___init___1_test_edge_cases.py:52:32: E0602: Undefined variable 'Style' (undefined-variable)
+sty/Test4DT_tests/test_sty_register_FgRegister___init___1_test_edge_cases.py:53:35: E0602: Undefined variable 'Style' (undefined-variable)
+sty/Test4DT_tests/test_sty_register_FgRegister___init___1_test_edge_cases.py:54:33: E0602: Undefined variable 'Style' (undefined-variable)
+sty/Test4DT_tests/test_sty_register_FgRegister___init___1_test_edge_cases.py:55:35: E0602: Undefined variable 'Style' (undefined-variable)
+sty/Test4DT_tests/test_sty_register_FgRegister___init___1_test_edge_cases.py:56:36: E0602: Undefined variable 'Style' (undefined-variable)
+sty/Test4DT_tests/test_sty_register_FgRegister___init___1_test_edge_cases.py:57:34: E0602: Undefined variable 'Style' (undefined-variable)
+sty/Test4DT_tests/test_sty_register_FgRegister___init___1_test_edge_cases.py:58:37: E0602: Undefined variable 'Style' (undefined-variable)
+sty/Test4DT_tests/test_sty_register_FgRegister___init___1_test_edge_cases.py:59:34: E0602: Undefined variable 'Style' (undefined-variable)
+sty/Test4DT_tests/test_sty_register_FgRegister___init___1_test_edge_cases.py:60:31: E0602: Undefined variable 'Style' (undefined-variable)
+
+"""

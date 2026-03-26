@@ -1,0 +1,1164 @@
+<?xml version="1.0" ?>
+<testsuites disabled="0" errors="0" failures="73" tests="96" time="0.0">
+	<testsuite disabled="0" errors="0" failures="73" name="mutmut" skipped="0" tests="96" time="0">
+		<testcase name="Mutant #1" file="superstring/superstring.py" line="1">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -1,4 +1,4 @@
+-SUPERSTRING_MINIMAL_LENGTH = 48
++SUPERSTRING_MINIMAL_LENGTH = 49
+ 
+ 
+ class SuperStringBase(object):
+</failure>
+			<system-out>SUPERSTRING_MINIMAL_LENGTH = 48</system-out>
+		</testcase>
+		<testcase name="Mutant #2" file="superstring/superstring.py" line="1">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -1,4 +1,4 @@
+-SUPERSTRING_MINIMAL_LENGTH = 48
++SUPERSTRING_MINIMAL_LENGTH = None
+ 
+ 
+ class SuperStringBase(object):
+</failure>
+			<system-out>SUPERSTRING_MINIMAL_LENGTH = 48</system-out>
+		</testcase>
+		<testcase name="Mutant #3" file="superstring/superstring.py" line="9">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -6,7 +6,7 @@
+         pass
+ 
+     def lower(self):
+-        if self.length() &lt; SUPERSTRING_MINIMAL_LENGTH:
++        if self.length() &lt;= SUPERSTRING_MINIMAL_LENGTH:
+             return SuperString(self.to_printable().lower())
+         return SuperStringLower(self)
+ 
+</failure>
+			<system-out>        if self.length() &lt; SUPERSTRING_MINIMAL_LENGTH:</system-out>
+		</testcase>
+		<testcase name="Mutant #4" file="superstring/superstring.py" line="14">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -11,7 +11,7 @@
+         return SuperStringLower(self)
+ 
+     def upper(self):
+-        if self.length() &lt; SUPERSTRING_MINIMAL_LENGTH:
++        if self.length() &lt;= SUPERSTRING_MINIMAL_LENGTH:
+             return SuperString(self.to_printable().upper())
+         return SuperStringUpper(self)
+ 
+</failure>
+			<system-out>        if self.length() &lt; SUPERSTRING_MINIMAL_LENGTH:</system-out>
+		</testcase>
+		<testcase name="Mutant #5" file="superstring/superstring.py" line="21">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -18,7 +18,7 @@
+     def character_at(self, index):
+         pass
+ 
+-    def split(self, separator=&quot; &quot;):
++    def split(self, separator=&quot;XX XX&quot;):
+         result = []
+         previous = 0
+         for i in range(self.length()):
+</failure>
+			<system-out>    def split(self, separator=&quot; &quot;):</system-out>
+		</testcase>
+		<testcase name="Mutant #6" file="superstring/superstring.py" line="22">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -19,7 +19,7 @@
+         pass
+ 
+     def split(self, separator=&quot; &quot;):
+-        result = []
++        result = None
+         previous = 0
+         for i in range(self.length()):
+             for j in range(len(separator)):
+</failure>
+			<system-out>        result = []</system-out>
+		</testcase>
+		<testcase name="Mutant #7" file="superstring/superstring.py" line="23">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -20,7 +20,7 @@
+ 
+     def split(self, separator=&quot; &quot;):
+         result = []
+-        previous = 0
++        previous = 1
+         for i in range(self.length()):
+             for j in range(len(separator)):
+                 if self.character_at(i + j) != separator[j]:
+</failure>
+			<system-out>        previous = 0</system-out>
+		</testcase>
+		<testcase name="Mutant #8" file="superstring/superstring.py" line="23">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -20,7 +20,7 @@
+ 
+     def split(self, separator=&quot; &quot;):
+         result = []
+-        previous = 0
++        previous = None
+         for i in range(self.length()):
+             for j in range(len(separator)):
+                 if self.character_at(i + j) != separator[j]:
+</failure>
+			<system-out>        previous = 0</system-out>
+		</testcase>
+		<testcase name="Mutant #9" file="superstring/superstring.py" line="26">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -23,7 +23,7 @@
+         previous = 0
+         for i in range(self.length()):
+             for j in range(len(separator)):
+-                if self.character_at(i + j) != separator[j]:
++                if self.character_at(i - j) != separator[j]:
+                     break
+             else:
+                 result.append(self.substring(previous, i))
+</failure>
+			<system-out>                if self.character_at(i + j) != separator[j]:</system-out>
+		</testcase>
+		<testcase name="Mutant #10" file="superstring/superstring.py" line="26">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -23,7 +23,7 @@
+         previous = 0
+         for i in range(self.length()):
+             for j in range(len(separator)):
+-                if self.character_at(i + j) != separator[j]:
++                if self.character_at(i + j) == separator[j]:
+                     break
+             else:
+                 result.append(self.substring(previous, i))
+</failure>
+			<system-out>                if self.character_at(i + j) != separator[j]:</system-out>
+		</testcase>
+		<testcase name="Mutant #11" file="superstring/superstring.py" line="27">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -24,7 +24,7 @@
+         for i in range(self.length()):
+             for j in range(len(separator)):
+                 if self.character_at(i + j) != separator[j]:
+-                    break
++                    continue
+             else:
+                 result.append(self.substring(previous, i))
+                 previous = i + len(separator)
+</failure>
+			<system-out>                    break</system-out>
+		</testcase>
+		<testcase name="Mutant #12" file="superstring/superstring.py" line="30">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -27,7 +27,7 @@
+                     break
+             else:
+                 result.append(self.substring(previous, i))
+-                previous = i + len(separator)
++                previous = i - len(separator)
+         result.append(self.substring(previous))
+         return result
+ 
+</failure>
+			<system-out>                previous = i + len(separator)</system-out>
+		</testcase>
+		<testcase name="Mutant #13" file="superstring/superstring.py" line="30">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -27,7 +27,7 @@
+                     break
+             else:
+                 result.append(self.substring(previous, i))
+-                previous = i + len(separator)
++                previous = None
+         result.append(self.substring(previous))
+         return result
+ 
+</failure>
+			<system-out>                previous = i + len(separator)</system-out>
+		</testcase>
+		<testcase name="Mutant #14" file="superstring/superstring.py" line="35">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -32,7 +32,7 @@
+         return result
+ 
+     def substring(self, start_index, end_index=None):
+-        start_index = start_index if start_index is not None else 0
++        start_index = start_index if start_index is  None else 0
+         end_index = end_index if end_index is not None else self.length()
+         # TODO: assert that start_index &lt; end_index
+         # TODO: what if start_index == end_index
+</failure>
+			<system-out>        start_index = start_index if start_index is not None else 0</system-out>
+		</testcase>
+		<testcase name="Mutant #15" file="superstring/superstring.py" line="35">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -32,7 +32,7 @@
+         return result
+ 
+     def substring(self, start_index, end_index=None):
+-        start_index = start_index if start_index is not None else 0
++        start_index = start_index if start_index is not None else 1
+         end_index = end_index if end_index is not None else self.length()
+         # TODO: assert that start_index &lt; end_index
+         # TODO: what if start_index == end_index
+</failure>
+			<system-out>        start_index = start_index if start_index is not None else 0</system-out>
+		</testcase>
+		<testcase name="Mutant #16" file="superstring/superstring.py" line="35">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -32,7 +32,7 @@
+         return result
+ 
+     def substring(self, start_index, end_index=None):
+-        start_index = start_index if start_index is not None else 0
++        start_index = None
+         end_index = end_index if end_index is not None else self.length()
+         # TODO: assert that start_index &lt; end_index
+         # TODO: what if start_index == end_index
+</failure>
+			<system-out>        start_index = start_index if start_index is not None else 0</system-out>
+		</testcase>
+		<testcase name="Mutant #17" file="superstring/superstring.py" line="36">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -33,7 +33,7 @@
+ 
+     def substring(self, start_index, end_index=None):
+         start_index = start_index if start_index is not None else 0
+-        end_index = end_index if end_index is not None else self.length()
++        end_index = end_index if end_index is  None else self.length()
+         # TODO: assert that start_index &lt; end_index
+         # TODO: what if start_index == end_index
+         if start_index == 0 and end_index == self.length():
+</failure>
+			<system-out>        end_index = end_index if end_index is not None else self.length()</system-out>
+		</testcase>
+		<testcase name="Mutant #18" file="superstring/superstring.py" line="36">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -33,7 +33,7 @@
+ 
+     def substring(self, start_index, end_index=None):
+         start_index = start_index if start_index is not None else 0
+-        end_index = end_index if end_index is not None else self.length()
++        end_index = None
+         # TODO: assert that start_index &lt; end_index
+         # TODO: what if start_index == end_index
+         if start_index == 0 and end_index == self.length():
+</failure>
+			<system-out>        end_index = end_index if end_index is not None else self.length()</system-out>
+		</testcase>
+		<testcase name="Mutant #19" file="superstring/superstring.py" line="39">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -36,7 +36,7 @@
+         end_index = end_index if end_index is not None else self.length()
+         # TODO: assert that start_index &lt; end_index
+         # TODO: what if start_index == end_index
+-        if start_index == 0 and end_index == self.length():
++        if start_index != 0 and end_index == self.length():
+             return self
+         if end_index - start_index &lt; SUPERSTRING_MINIMAL_LENGTH:
+             return SuperString(self.to_printable(start_index, end_index=end_index))
+</failure>
+			<system-out>        if start_index == 0 and end_index == self.length():</system-out>
+		</testcase>
+		<testcase name="Mutant #20" file="superstring/superstring.py" line="39">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -36,7 +36,7 @@
+         end_index = end_index if end_index is not None else self.length()
+         # TODO: assert that start_index &lt; end_index
+         # TODO: what if start_index == end_index
+-        if start_index == 0 and end_index == self.length():
++        if start_index == 1 and end_index == self.length():
+             return self
+         if end_index - start_index &lt; SUPERSTRING_MINIMAL_LENGTH:
+             return SuperString(self.to_printable(start_index, end_index=end_index))
+</failure>
+			<system-out>        if start_index == 0 and end_index == self.length():</system-out>
+		</testcase>
+		<testcase name="Mutant #21" file="superstring/superstring.py" line="39">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -36,7 +36,7 @@
+         end_index = end_index if end_index is not None else self.length()
+         # TODO: assert that start_index &lt; end_index
+         # TODO: what if start_index == end_index
+-        if start_index == 0 and end_index == self.length():
++        if start_index == 0 and end_index != self.length():
+             return self
+         if end_index - start_index &lt; SUPERSTRING_MINIMAL_LENGTH:
+             return SuperString(self.to_printable(start_index, end_index=end_index))
+</failure>
+			<system-out>        if start_index == 0 and end_index == self.length():</system-out>
+		</testcase>
+		<testcase name="Mutant #22" file="superstring/superstring.py" line="39">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -36,7 +36,7 @@
+         end_index = end_index if end_index is not None else self.length()
+         # TODO: assert that start_index &lt; end_index
+         # TODO: what if start_index == end_index
+-        if start_index == 0 and end_index == self.length():
++        if start_index == 0 or end_index == self.length():
+             return self
+         if end_index - start_index &lt; SUPERSTRING_MINIMAL_LENGTH:
+             return SuperString(self.to_printable(start_index, end_index=end_index))
+</failure>
+			<system-out>        if start_index == 0 and end_index == self.length():</system-out>
+		</testcase>
+		<testcase name="Mutant #23" file="superstring/superstring.py" line="41">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -38,7 +38,7 @@
+         # TODO: what if start_index == end_index
+         if start_index == 0 and end_index == self.length():
+             return self
+-        if end_index - start_index &lt; SUPERSTRING_MINIMAL_LENGTH:
++        if end_index + start_index &lt; SUPERSTRING_MINIMAL_LENGTH:
+             return SuperString(self.to_printable(start_index, end_index=end_index))
+         return SuperStringSubstring(self, start_index, end_index)
+ 
+</failure>
+			<system-out>        if end_index - start_index &lt; SUPERSTRING_MINIMAL_LENGTH:</system-out>
+		</testcase>
+		<testcase name="Mutant #24" file="superstring/superstring.py" line="41">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -38,7 +38,7 @@
+         # TODO: what if start_index == end_index
+         if start_index == 0 and end_index == self.length():
+             return self
+-        if end_index - start_index &lt; SUPERSTRING_MINIMAL_LENGTH:
++        if end_index - start_index &lt;= SUPERSTRING_MINIMAL_LENGTH:
+             return SuperString(self.to_printable(start_index, end_index=end_index))
+         return SuperStringSubstring(self, start_index, end_index)
+ 
+</failure>
+			<system-out>        if end_index - start_index &lt; SUPERSTRING_MINIMAL_LENGTH:</system-out>
+		</testcase>
+		<testcase name="Mutant #25" file="superstring/superstring.py" line="47">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -44,7 +44,7 @@
+ 
+     def strip(self):
+         for start_index in range(self.length()):
+-            if self.character_at(start_index) != ' ':
++            if self.character_at(start_index) == ' ':
+                 break
+         for end_index in range(self.length() - 1, start_index, -1):
+             if self.character_at(end_index) != ' ':
+</failure>
+			<system-out>            if self.character_at(start_index) != ' ':</system-out>
+		</testcase>
+		<testcase name="Mutant #26" file="superstring/superstring.py" line="47">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -44,7 +44,7 @@
+ 
+     def strip(self):
+         for start_index in range(self.length()):
+-            if self.character_at(start_index) != ' ':
++            if self.character_at(start_index) != 'XX XX':
+                 break
+         for end_index in range(self.length() - 1, start_index, -1):
+             if self.character_at(end_index) != ' ':
+</failure>
+			<system-out>            if self.character_at(start_index) != ' ':</system-out>
+		</testcase>
+		<testcase name="Mutant #27" file="superstring/superstring.py" line="48">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -45,7 +45,7 @@
+     def strip(self):
+         for start_index in range(self.length()):
+             if self.character_at(start_index) != ' ':
+-                break
++                continue
+         for end_index in range(self.length() - 1, start_index, -1):
+             if self.character_at(end_index) != ' ':
+                 break
+</failure>
+			<system-out>                break</system-out>
+		</testcase>
+		<testcase name="Mutant #28" file="superstring/superstring.py" line="49">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -46,7 +46,7 @@
+         for start_index in range(self.length()):
+             if self.character_at(start_index) != ' ':
+                 break
+-        for end_index in range(self.length() - 1, start_index, -1):
++        for end_index in range(self.length() + 1, start_index, -1):
+             if self.character_at(end_index) != ' ':
+                 break
+         return self.substring(start_index, end_index + 1)
+</failure>
+			<system-out>        for end_index in range(self.length() - 1, start_index, -1):</system-out>
+		</testcase>
+		<testcase name="Mutant #29" file="superstring/superstring.py" line="49">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -46,7 +46,7 @@
+         for start_index in range(self.length()):
+             if self.character_at(start_index) != ' ':
+                 break
+-        for end_index in range(self.length() - 1, start_index, -1):
++        for end_index in range(self.length() - 2, start_index, -1):
+             if self.character_at(end_index) != ' ':
+                 break
+         return self.substring(start_index, end_index + 1)
+</failure>
+			<system-out>        for end_index in range(self.length() - 1, start_index, -1):</system-out>
+		</testcase>
+		<testcase name="Mutant #30" file="superstring/superstring.py" line="49">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -46,7 +46,7 @@
+         for start_index in range(self.length()):
+             if self.character_at(start_index) != ' ':
+                 break
+-        for end_index in range(self.length() - 1, start_index, -1):
++        for end_index in range(self.length() - 1, start_index, +1):
+             if self.character_at(end_index) != ' ':
+                 break
+         return self.substring(start_index, end_index + 1)
+</failure>
+			<system-out>        for end_index in range(self.length() - 1, start_index, -1):</system-out>
+		</testcase>
+		<testcase name="Mutant #31" file="superstring/superstring.py" line="49">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -46,7 +46,7 @@
+         for start_index in range(self.length()):
+             if self.character_at(start_index) != ' ':
+                 break
+-        for end_index in range(self.length() - 1, start_index, -1):
++        for end_index in range(self.length() - 1, start_index, -2):
+             if self.character_at(end_index) != ' ':
+                 break
+         return self.substring(start_index, end_index + 1)
+</failure>
+			<system-out>        for end_index in range(self.length() - 1, start_index, -1):</system-out>
+		</testcase>
+		<testcase name="Mutant #32" file="superstring/superstring.py" line="50">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -47,7 +47,7 @@
+             if self.character_at(start_index) != ' ':
+                 break
+         for end_index in range(self.length() - 1, start_index, -1):
+-            if self.character_at(end_index) != ' ':
++            if self.character_at(end_index) == ' ':
+                 break
+         return self.substring(start_index, end_index + 1)
+ 
+</failure>
+			<system-out>            if self.character_at(end_index) != ' ':</system-out>
+		</testcase>
+		<testcase name="Mutant #33" file="superstring/superstring.py" line="50">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -47,7 +47,7 @@
+             if self.character_at(start_index) != ' ':
+                 break
+         for end_index in range(self.length() - 1, start_index, -1):
+-            if self.character_at(end_index) != ' ':
++            if self.character_at(end_index) != 'XX XX':
+                 break
+         return self.substring(start_index, end_index + 1)
+ 
+</failure>
+			<system-out>            if self.character_at(end_index) != ' ':</system-out>
+		</testcase>
+		<testcase name="Mutant #34" file="superstring/superstring.py" line="51">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -48,7 +48,7 @@
+                 break
+         for end_index in range(self.length() - 1, start_index, -1):
+             if self.character_at(end_index) != ' ':
+-                break
++                continue
+         return self.substring(start_index, end_index + 1)
+ 
+     def to_printable(self, start_index=None, end_index=None):
+</failure>
+			<system-out>                break</system-out>
+		</testcase>
+		<testcase name="Mutant #35" file="superstring/superstring.py" line="52">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -49,7 +49,7 @@
+         for end_index in range(self.length() - 1, start_index, -1):
+             if self.character_at(end_index) != ' ':
+                 break
+-        return self.substring(start_index, end_index + 1)
++        return self.substring(start_index, end_index - 1)
+ 
+     def to_printable(self, start_index=None, end_index=None):
+         pass
+</failure>
+			<system-out>        return self.substring(start_index, end_index + 1)</system-out>
+		</testcase>
+		<testcase name="Mutant #36" file="superstring/superstring.py" line="52">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -49,7 +49,7 @@
+         for end_index in range(self.length() - 1, start_index, -1):
+             if self.character_at(end_index) != ' ':
+                 break
+-        return self.substring(start_index, end_index + 1)
++        return self.substring(start_index, end_index + 2)
+ 
+     def to_printable(self, start_index=None, end_index=None):
+         pass
+</failure>
+			<system-out>        return self.substring(start_index, end_index + 1)</system-out>
+		</testcase>
+		<testcase name="Mutant #37" file="superstring/superstring.py" line="61">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -58,7 +58,7 @@
+         return self.length()
+ 
+     def __add__(self, right):
+-        if not issubclass(type(right), SuperStringBase):
++        if  issubclass(type(right), SuperStringBase):
+             right = SuperString(str(right))
+         return SuperStringConcatenation(self, right)
+ 
+</failure>
+			<system-out>        if not issubclass(type(right), SuperStringBase):</system-out>
+		</testcase>
+		<testcase name="Mutant #38" file="superstring/superstring.py" line="62">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -59,7 +59,7 @@
+ 
+     def __add__(self, right):
+         if not issubclass(type(right), SuperStringBase):
+-            right = SuperString(str(right))
++            right = None
+         return SuperStringConcatenation(self, right)
+ 
+     def __str__(self):
+</failure>
+			<system-out>            right = SuperString(str(right))</system-out>
+		</testcase>
+		<testcase name="Mutant #39" file="superstring/superstring.py" line="70">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -67,7 +67,7 @@
+ 
+     def __getitem__(self, key):
+         if isinstance(key, slice):
+-            start = key.start if key.start &gt;= 0 else self.length() + key.start
++            start = key.start if key.start &gt; 0 else self.length() + key.start
+             stop = key.stop if key.stop &gt;= 0 else self.length() + key.stop
+             return self.substring(start, end_index=stop)
+         return self.character_at(key)
+</failure>
+			<system-out>            start = key.start if key.start &gt;= 0 else self.length() + key.start</system-out>
+		</testcase>
+		<testcase name="Mutant #40" file="superstring/superstring.py" line="70">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -67,7 +67,7 @@
+ 
+     def __getitem__(self, key):
+         if isinstance(key, slice):
+-            start = key.start if key.start &gt;= 0 else self.length() + key.start
++            start = key.start if key.start &gt;= 1 else self.length() + key.start
+             stop = key.stop if key.stop &gt;= 0 else self.length() + key.stop
+             return self.substring(start, end_index=stop)
+         return self.character_at(key)
+</failure>
+			<system-out>            start = key.start if key.start &gt;= 0 else self.length() + key.start</system-out>
+		</testcase>
+		<testcase name="Mutant #41" file="superstring/superstring.py" line="70">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -67,7 +67,7 @@
+ 
+     def __getitem__(self, key):
+         if isinstance(key, slice):
+-            start = key.start if key.start &gt;= 0 else self.length() + key.start
++            start = key.start if key.start &gt;= 0 else self.length() - key.start
+             stop = key.stop if key.stop &gt;= 0 else self.length() + key.stop
+             return self.substring(start, end_index=stop)
+         return self.character_at(key)
+</failure>
+			<system-out>            start = key.start if key.start &gt;= 0 else self.length() + key.start</system-out>
+		</testcase>
+		<testcase name="Mutant #42" file="superstring/superstring.py" line="70">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -67,7 +67,7 @@
+ 
+     def __getitem__(self, key):
+         if isinstance(key, slice):
+-            start = key.start if key.start &gt;= 0 else self.length() + key.start
++            start = None
+             stop = key.stop if key.stop &gt;= 0 else self.length() + key.stop
+             return self.substring(start, end_index=stop)
+         return self.character_at(key)
+</failure>
+			<system-out>            start = key.start if key.start &gt;= 0 else self.length() + key.start</system-out>
+		</testcase>
+		<testcase name="Mutant #43" file="superstring/superstring.py" line="71">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -68,7 +68,7 @@
+     def __getitem__(self, key):
+         if isinstance(key, slice):
+             start = key.start if key.start &gt;= 0 else self.length() + key.start
+-            stop = key.stop if key.stop &gt;= 0 else self.length() + key.stop
++            stop = key.stop if key.stop &gt; 0 else self.length() + key.stop
+             return self.substring(start, end_index=stop)
+         return self.character_at(key)
+ 
+</failure>
+			<system-out>            stop = key.stop if key.stop &gt;= 0 else self.length() + key.stop</system-out>
+		</testcase>
+		<testcase name="Mutant #44" file="superstring/superstring.py" line="71">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -68,7 +68,7 @@
+     def __getitem__(self, key):
+         if isinstance(key, slice):
+             start = key.start if key.start &gt;= 0 else self.length() + key.start
+-            stop = key.stop if key.stop &gt;= 0 else self.length() + key.stop
++            stop = key.stop if key.stop &gt;= 1 else self.length() + key.stop
+             return self.substring(start, end_index=stop)
+         return self.character_at(key)
+ 
+</failure>
+			<system-out>            stop = key.stop if key.stop &gt;= 0 else self.length() + key.stop</system-out>
+		</testcase>
+		<testcase name="Mutant #45" file="superstring/superstring.py" line="71">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -68,7 +68,7 @@
+     def __getitem__(self, key):
+         if isinstance(key, slice):
+             start = key.start if key.start &gt;= 0 else self.length() + key.start
+-            stop = key.stop if key.stop &gt;= 0 else self.length() + key.stop
++            stop = key.stop if key.stop &gt;= 0 else self.length() - key.stop
+             return self.substring(start, end_index=stop)
+         return self.character_at(key)
+ 
+</failure>
+			<system-out>            stop = key.stop if key.stop &gt;= 0 else self.length() + key.stop</system-out>
+		</testcase>
+		<testcase name="Mutant #46" file="superstring/superstring.py" line="71">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -68,7 +68,7 @@
+     def __getitem__(self, key):
+         if isinstance(key, slice):
+             start = key.start if key.start &gt;= 0 else self.length() + key.start
+-            stop = key.stop if key.stop &gt;= 0 else self.length() + key.stop
++            stop = None
+             return self.substring(start, end_index=stop)
+         return self.character_at(key)
+ 
+</failure>
+			<system-out>            stop = key.stop if key.stop &gt;= 0 else self.length() + key.stop</system-out>
+		</testcase>
+		<testcase name="Mutant #47" file="superstring/superstring.py" line="78">
+			<system-out>        self._content = content</system-out>
+		</testcase>
+		<testcase name="Mutant #48" file="superstring/superstring.py" line="81">
+			<system-out>        if not hasattr(self, '_length'):</system-out>
+		</testcase>
+		<testcase name="Mutant #49" file="superstring/superstring.py" line="81">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -78,7 +78,7 @@
+         self._content = content
+ 
+     def length(self):
+-        if not hasattr(self, '_length'):
++        if not hasattr(self, 'XX_lengthXX'):
+             self._length = len(self._content)
+         return self._length
+ 
+</failure>
+			<system-out>        if not hasattr(self, '_length'):</system-out>
+		</testcase>
+		<testcase name="Mutant #50" file="superstring/superstring.py" line="82">
+			<system-out>            self._length = len(self._content)</system-out>
+		</testcase>
+		<testcase name="Mutant #51" file="superstring/superstring.py" line="89">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -86,7 +86,7 @@
+         return self._content[index]
+ 
+     def to_printable(self, start_index=None, end_index=None):
+-        start_index = start_index if start_index is not None else 0
++        start_index = start_index if start_index is  None else 0
+         end_index = end_index if end_index is not None else self.length()
+         return self._content[start_index:end_index]
+ 
+</failure>
+			<system-out>        start_index = start_index if start_index is not None else 0</system-out>
+		</testcase>
+		<testcase name="Mutant #52" file="superstring/superstring.py" line="89">
+			<system-out>        start_index = start_index if start_index is not None else 0</system-out>
+		</testcase>
+		<testcase name="Mutant #53" file="superstring/superstring.py" line="89">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -86,7 +86,7 @@
+         return self._content[index]
+ 
+     def to_printable(self, start_index=None, end_index=None):
+-        start_index = start_index if start_index is not None else 0
++        start_index = None
+         end_index = end_index if end_index is not None else self.length()
+         return self._content[start_index:end_index]
+ 
+</failure>
+			<system-out>        start_index = start_index if start_index is not None else 0</system-out>
+		</testcase>
+		<testcase name="Mutant #54" file="superstring/superstring.py" line="90">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -87,7 +87,7 @@
+ 
+     def to_printable(self, start_index=None, end_index=None):
+         start_index = start_index if start_index is not None else 0
+-        end_index = end_index if end_index is not None else self.length()
++        end_index = end_index if end_index is  None else self.length()
+         return self._content[start_index:end_index]
+ 
+ 
+</failure>
+			<system-out>        end_index = end_index if end_index is not None else self.length()</system-out>
+		</testcase>
+		<testcase name="Mutant #55" file="superstring/superstring.py" line="90">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -87,7 +87,7 @@
+ 
+     def to_printable(self, start_index=None, end_index=None):
+         start_index = start_index if start_index is not None else 0
+-        end_index = end_index if end_index is not None else self.length()
++        end_index = None
+         return self._content[start_index:end_index]
+ 
+ 
+</failure>
+			<system-out>        end_index = end_index if end_index is not None else self.length()</system-out>
+		</testcase>
+		<testcase name="Mutant #56" file="superstring/superstring.py" line="96">
+			<system-out>        self._left = left</system-out>
+		</testcase>
+		<testcase name="Mutant #57" file="superstring/superstring.py" line="97">
+			<system-out>        self._right = right</system-out>
+		</testcase>
+		<testcase name="Mutant #58" file="superstring/superstring.py" line="100">
+			<system-out>        return self._left.length() + self._right.length()</system-out>
+		</testcase>
+		<testcase name="Mutant #59" file="superstring/superstring.py" line="103">
+			<system-out>        left_len = self._left.length()</system-out>
+		</testcase>
+		<testcase name="Mutant #60" file="superstring/superstring.py" line="104">
+			<system-out>        if index &lt; left_len:</system-out>
+		</testcase>
+		<testcase name="Mutant #61" file="superstring/superstring.py" line="106">
+			<system-out>        return self._right[index - left_len]</system-out>
+		</testcase>
+		<testcase name="Mutant #62" file="superstring/superstring.py" line="109">
+			<system-out>        start_index = start_index if start_index is not None else 0</system-out>
+		</testcase>
+		<testcase name="Mutant #63" file="superstring/superstring.py" line="109">
+			<system-out>        start_index = start_index if start_index is not None else 0</system-out>
+		</testcase>
+		<testcase name="Mutant #64" file="superstring/superstring.py" line="109">
+			<system-out>        start_index = start_index if start_index is not None else 0</system-out>
+		</testcase>
+		<testcase name="Mutant #65" file="superstring/superstring.py" line="110">
+			<system-out>        end_index = end_index if end_index is not None else self.length()</system-out>
+		</testcase>
+		<testcase name="Mutant #66" file="superstring/superstring.py" line="110">
+			<system-out>        end_index = end_index if end_index is not None else self.length()</system-out>
+		</testcase>
+		<testcase name="Mutant #67" file="superstring/superstring.py" line="111">
+			<system-out>        left_len = self._left.length()</system-out>
+		</testcase>
+		<testcase name="Mutant #68" file="superstring/superstring.py" line="112">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -109,7 +109,7 @@
+         start_index = start_index if start_index is not None else 0
+         end_index = end_index if end_index is not None else self.length()
+         left_len = self._left.length()
+-        if end_index &lt; left_len:
++        if end_index &lt;= left_len:
+             return self._left.to_printable(start_index=start_index, end_index=end_index)
+         elif start_index &gt; left_len:
+             return self._right.to_printable(start_index=start_index - left_len, end_index=end_index - left_len)
+</failure>
+			<system-out>        if end_index &lt; left_len:</system-out>
+		</testcase>
+		<testcase name="Mutant #69" file="superstring/superstring.py" line="114">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -111,7 +111,7 @@
+         left_len = self._left.length()
+         if end_index &lt; left_len:
+             return self._left.to_printable(start_index=start_index, end_index=end_index)
+-        elif start_index &gt; left_len:
++        elif start_index &gt;= left_len:
+             return self._right.to_printable(start_index=start_index - left_len, end_index=end_index - left_len)
+         return self._left.to_printable(start_index=start_index) + self._right.to_printable(
+             end_index=end_index - left_len)
+</failure>
+			<system-out>        elif start_index &gt; left_len:</system-out>
+		</testcase>
+		<testcase name="Mutant #70" file="superstring/superstring.py" line="115">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -112,7 +112,7 @@
+         if end_index &lt; left_len:
+             return self._left.to_printable(start_index=start_index, end_index=end_index)
+         elif start_index &gt; left_len:
+-            return self._right.to_printable(start_index=start_index - left_len, end_index=end_index - left_len)
++            return self._right.to_printable(start_index=start_index + left_len, end_index=end_index - left_len)
+         return self._left.to_printable(start_index=start_index) + self._right.to_printable(
+             end_index=end_index - left_len)
+ 
+</failure>
+			<system-out>            return self._right.to_printable(start_index=start_index - left_len, end_index=end_index - left_len)</system-out>
+		</testcase>
+		<testcase name="Mutant #71" file="superstring/superstring.py" line="115">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -112,7 +112,7 @@
+         if end_index &lt; left_len:
+             return self._left.to_printable(start_index=start_index, end_index=end_index)
+         elif start_index &gt; left_len:
+-            return self._right.to_printable(start_index=start_index - left_len, end_index=end_index - left_len)
++            return self._right.to_printable(start_index=start_index - left_len, end_index=end_index + left_len)
+         return self._left.to_printable(start_index=start_index) + self._right.to_printable(
+             end_index=end_index - left_len)
+ 
+</failure>
+			<system-out>            return self._right.to_printable(start_index=start_index - left_len, end_index=end_index - left_len)</system-out>
+		</testcase>
+		<testcase name="Mutant #72" file="superstring/superstring.py" line="116">
+			<system-out>        return self._left.to_printable(start_index=start_index) + self._right.to_printable(</system-out>
+		</testcase>
+		<testcase name="Mutant #73" file="superstring/superstring.py" line="117">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -114,7 +114,7 @@
+         elif start_index &gt; left_len:
+             return self._right.to_printable(start_index=start_index - left_len, end_index=end_index - left_len)
+         return self._left.to_printable(start_index=start_index) + self._right.to_printable(
+-            end_index=end_index - left_len)
++            end_index=end_index + left_len)
+ 
+ 
+ class SuperStringSubstring(SuperStringBase):
+</failure>
+			<system-out>            end_index=end_index - left_len)</system-out>
+		</testcase>
+		<testcase name="Mutant #74" file="superstring/superstring.py" line="122">
+			<system-out>        self._base = base</system-out>
+		</testcase>
+		<testcase name="Mutant #75" file="superstring/superstring.py" line="123">
+			<system-out>        self._start_index = start_index</system-out>
+		</testcase>
+		<testcase name="Mutant #76" file="superstring/superstring.py" line="124">
+			<system-out>        self._end_index = end_index</system-out>
+		</testcase>
+		<testcase name="Mutant #77" file="superstring/superstring.py" line="127">
+			<system-out>        return self._end_index - self._start_index</system-out>
+		</testcase>
+		<testcase name="Mutant #78" file="superstring/superstring.py" line="130">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -127,7 +127,7 @@
+         return self._end_index - self._start_index
+ 
+     def character_at(self, index):
+-        return self._base.character_at(self._start_index + index)
++        return self._base.character_at(self._start_index - index)
+ 
+     def substring(self, start_index, end_index=None):
+         start_index = start_index if start_index is not None else 0
+</failure>
+			<system-out>        return self._base.character_at(self._start_index + index)</system-out>
+		</testcase>
+		<testcase name="Mutant #79" file="superstring/superstring.py" line="133">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -130,7 +130,7 @@
+         return self._base.character_at(self._start_index + index)
+ 
+     def substring(self, start_index, end_index=None):
+-        start_index = start_index if start_index is not None else 0
++        start_index = start_index if start_index is  None else 0
+         end_index = end_index if end_index is not None else self.length()
+         return self._base[self._start_index + start_index:self._start_index + end_index]
+ 
+</failure>
+			<system-out>        start_index = start_index if start_index is not None else 0</system-out>
+		</testcase>
+		<testcase name="Mutant #80" file="superstring/superstring.py" line="133">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -130,7 +130,7 @@
+         return self._base.character_at(self._start_index + index)
+ 
+     def substring(self, start_index, end_index=None):
+-        start_index = start_index if start_index is not None else 0
++        start_index = start_index if start_index is not None else 1
+         end_index = end_index if end_index is not None else self.length()
+         return self._base[self._start_index + start_index:self._start_index + end_index]
+ 
+</failure>
+			<system-out>        start_index = start_index if start_index is not None else 0</system-out>
+		</testcase>
+		<testcase name="Mutant #81" file="superstring/superstring.py" line="133">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -130,7 +130,7 @@
+         return self._base.character_at(self._start_index + index)
+ 
+     def substring(self, start_index, end_index=None):
+-        start_index = start_index if start_index is not None else 0
++        start_index = None
+         end_index = end_index if end_index is not None else self.length()
+         return self._base[self._start_index + start_index:self._start_index + end_index]
+ 
+</failure>
+			<system-out>        start_index = start_index if start_index is not None else 0</system-out>
+		</testcase>
+		<testcase name="Mutant #82" file="superstring/superstring.py" line="134">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -131,7 +131,7 @@
+ 
+     def substring(self, start_index, end_index=None):
+         start_index = start_index if start_index is not None else 0
+-        end_index = end_index if end_index is not None else self.length()
++        end_index = end_index if end_index is  None else self.length()
+         return self._base[self._start_index + start_index:self._start_index + end_index]
+ 
+     def to_printable(self, start_index=None, end_index=None):
+</failure>
+			<system-out>        end_index = end_index if end_index is not None else self.length()</system-out>
+		</testcase>
+		<testcase name="Mutant #83" file="superstring/superstring.py" line="134">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -131,7 +131,7 @@
+ 
+     def substring(self, start_index, end_index=None):
+         start_index = start_index if start_index is not None else 0
+-        end_index = end_index if end_index is not None else self.length()
++        end_index = None
+         return self._base[self._start_index + start_index:self._start_index + end_index]
+ 
+     def to_printable(self, start_index=None, end_index=None):
+</failure>
+			<system-out>        end_index = end_index if end_index is not None else self.length()</system-out>
+		</testcase>
+		<testcase name="Mutant #84" file="superstring/superstring.py" line="135">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -132,7 +132,7 @@
+     def substring(self, start_index, end_index=None):
+         start_index = start_index if start_index is not None else 0
+         end_index = end_index if end_index is not None else self.length()
+-        return self._base[self._start_index + start_index:self._start_index + end_index]
++        return self._base[self._start_index - start_index:self._start_index + end_index]
+ 
+     def to_printable(self, start_index=None, end_index=None):
+         start_index = start_index if start_index is not None else 0
+</failure>
+			<system-out>        return self._base[self._start_index + start_index:self._start_index + end_index]</system-out>
+		</testcase>
+		<testcase name="Mutant #85" file="superstring/superstring.py" line="135">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -132,7 +132,7 @@
+     def substring(self, start_index, end_index=None):
+         start_index = start_index if start_index is not None else 0
+         end_index = end_index if end_index is not None else self.length()
+-        return self._base[self._start_index + start_index:self._start_index + end_index]
++        return self._base[self._start_index + start_index:self._start_index - end_index]
+ 
+     def to_printable(self, start_index=None, end_index=None):
+         start_index = start_index if start_index is not None else 0
+</failure>
+			<system-out>        return self._base[self._start_index + start_index:self._start_index + end_index]</system-out>
+		</testcase>
+		<testcase name="Mutant #86" file="superstring/superstring.py" line="138">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -135,7 +135,7 @@
+         return self._base[self._start_index + start_index:self._start_index + end_index]
+ 
+     def to_printable(self, start_index=None, end_index=None):
+-        start_index = start_index if start_index is not None else 0
++        start_index = start_index if start_index is  None else 0
+         end_index = end_index if end_index is not None else self.length()
+         start_index += self._start_index
+         end_index += self._start_index
+</failure>
+			<system-out>        start_index = start_index if start_index is not None else 0</system-out>
+		</testcase>
+		<testcase name="Mutant #87" file="superstring/superstring.py" line="138">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -135,7 +135,7 @@
+         return self._base[self._start_index + start_index:self._start_index + end_index]
+ 
+     def to_printable(self, start_index=None, end_index=None):
+-        start_index = start_index if start_index is not None else 0
++        start_index = start_index if start_index is not None else 1
+         end_index = end_index if end_index is not None else self.length()
+         start_index += self._start_index
+         end_index += self._start_index
+</failure>
+			<system-out>        start_index = start_index if start_index is not None else 0</system-out>
+		</testcase>
+		<testcase name="Mutant #88" file="superstring/superstring.py" line="138">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -135,7 +135,7 @@
+         return self._base[self._start_index + start_index:self._start_index + end_index]
+ 
+     def to_printable(self, start_index=None, end_index=None):
+-        start_index = start_index if start_index is not None else 0
++        start_index = None
+         end_index = end_index if end_index is not None else self.length()
+         start_index += self._start_index
+         end_index += self._start_index
+</failure>
+			<system-out>        start_index = start_index if start_index is not None else 0</system-out>
+		</testcase>
+		<testcase name="Mutant #89" file="superstring/superstring.py" line="139">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -136,7 +136,7 @@
+ 
+     def to_printable(self, start_index=None, end_index=None):
+         start_index = start_index if start_index is not None else 0
+-        end_index = end_index if end_index is not None else self.length()
++        end_index = end_index if end_index is  None else self.length()
+         start_index += self._start_index
+         end_index += self._start_index
+         return self._base.to_printable(start_index, end_index=end_index)
+</failure>
+			<system-out>        end_index = end_index if end_index is not None else self.length()</system-out>
+		</testcase>
+		<testcase name="Mutant #90" file="superstring/superstring.py" line="139">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -136,7 +136,7 @@
+ 
+     def to_printable(self, start_index=None, end_index=None):
+         start_index = start_index if start_index is not None else 0
+-        end_index = end_index if end_index is not None else self.length()
++        end_index = None
+         start_index += self._start_index
+         end_index += self._start_index
+         return self._base.to_printable(start_index, end_index=end_index)
+</failure>
+			<system-out>        end_index = end_index if end_index is not None else self.length()</system-out>
+		</testcase>
+		<testcase name="Mutant #91" file="superstring/superstring.py" line="140">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -137,7 +137,7 @@
+     def to_printable(self, start_index=None, end_index=None):
+         start_index = start_index if start_index is not None else 0
+         end_index = end_index if end_index is not None else self.length()
+-        start_index += self._start_index
++        start_index = self._start_index
+         end_index += self._start_index
+         return self._base.to_printable(start_index, end_index=end_index)
+ 
+</failure>
+			<system-out>        start_index += self._start_index</system-out>
+		</testcase>
+		<testcase name="Mutant #92" file="superstring/superstring.py" line="140">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -137,7 +137,7 @@
+     def to_printable(self, start_index=None, end_index=None):
+         start_index = start_index if start_index is not None else 0
+         end_index = end_index if end_index is not None else self.length()
+-        start_index += self._start_index
++        start_index -= self._start_index
+         end_index += self._start_index
+         return self._base.to_printable(start_index, end_index=end_index)
+ 
+</failure>
+			<system-out>        start_index += self._start_index</system-out>
+		</testcase>
+		<testcase name="Mutant #93" file="superstring/superstring.py" line="141">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -138,7 +138,7 @@
+         start_index = start_index if start_index is not None else 0
+         end_index = end_index if end_index is not None else self.length()
+         start_index += self._start_index
+-        end_index += self._start_index
++        end_index = self._start_index
+         return self._base.to_printable(start_index, end_index=end_index)
+ 
+ 
+</failure>
+			<system-out>        end_index += self._start_index</system-out>
+		</testcase>
+		<testcase name="Mutant #94" file="superstring/superstring.py" line="141">
+			<failure type="failure" message="bad_survived">--- superstring/superstring.py
++++ superstring/superstring.py
+@@ -138,7 +138,7 @@
+         start_index = start_index if start_index is not None else 0
+         end_index = end_index if end_index is not None else self.length()
+         start_index += self._start_index
+-        end_index += self._start_index
++        end_index -= self._start_index
+         return self._base.to_printable(start_index, end_index=end_index)
+ 
+ 
+</failure>
+			<system-out>        end_index += self._start_index</system-out>
+		</testcase>
+		<testcase name="Mutant #95" file="superstring/superstring.py" line="147">
+			<system-out>        self._base = base</system-out>
+		</testcase>
+		<testcase name="Mutant #96" file="superstring/superstring.py" line="167">
+			<system-out>        self._base = base</system-out>
+		</testcase>
+	</testsuite>
+</testsuites>
+

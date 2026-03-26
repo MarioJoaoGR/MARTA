@@ -19,14 +19,34 @@ class TestManager:
         self.count = 0
         self.coverage = None
 
-    def get_test_path(self):
-        root_dir = self.func.file.root_dir
-        file_path = self.func.file.file_path
-        directory = file_path[0:-3] + '_t'
-        dirs = directory.split(os.path.sep)
-        dirs = dirs[len(root_dir.split(os.path.sep)):]
-        return self.directory + os.path.sep + 'test_' + "_".join(dirs) + self.func.func_name.replace('.', '_') + str(len(self.testcases)) + '.py'
 
+    # def get_test_path(self):
+    #     root_dir = self.func.file.root_dir
+    #     file_path = self.func.file.file_path
+    #     directory = file_path[0:-3] + '_t'
+    #     dirs = directory.split(os.path.sep)
+    #     dirs = dirs[len(root_dir.split(os.path.sep)):]
+    #     return self.directory + os.path.sep + 'test_' + "_".join(dirs) + self.func.func_name.replace('.', '_') + str(len(self.testcases)) + '.py'
+
+    def get_test_path(self):
+        from pathlib import Path    
+        # Resolve absolute paths
+        root_dir = Path(self.func.file.root_dir).resolve()
+        file_path = Path(self.func.file.file_path).resolve()
+        
+        # Calculate relative path safely
+        try:
+            rel_p = file_path.relative_to(root_dir)
+        except ValueError:
+            rel_p = Path(file_path.name)
+            
+        # Create a valid Python module filename (no dots except the extension)
+        clean_name = str(rel_p).replace('.py', '').replace(os.path.sep, '_').replace('.', '_')
+        func_name = self.func.func_name.replace('.', '_')
+        
+        filename = f"test_{clean_name}_{func_name}_{len(self.testcases)}.py"
+        return os.path.join(self.directory, filename)
+    
     def get_directory(self, dir_type):
         root_dir = self.func.file.root_dir
         return root_dir + os.path.sep + dir_type
@@ -54,8 +74,10 @@ class TestManager:
         if await testcase.assert_check():
             self.testcases.append(testcase)
         else:
-            testcase.delete()
+           testcase.delete()
+        
         self.count += 1
+        
 
     def get_first_testcase(self):
         if len(self.testcases) == 0:
@@ -253,11 +275,44 @@ class Testcase:
         self.error_message = ""
         self.set_code(code)
 
+    # def delete(self):
+    #     try:
+    #         os.remove(self.test_path)
+    #     except FileNotFoundError:
+    #         return
+        
     def delete(self):
+        # Define a quarantine directory
+        quarantine_dir = os.path.join(self.func.file.root_dir, "test_quarantine")
+        os.makedirs(quarantine_dir, exist_ok=True)
+
+        # Create a new filename for the quarantined test
+        filename = os.path.basename(self.test_path)
+        quarantine_path = os.path.join(quarantine_dir, filename)
+
         try:
-            os.remove(self.test_path)
-        except FileNotFoundError:
-            return
+            # 1. Read the current code
+            code_content = self.get_code()
+            
+            # 2. Append the error message that caused the failure
+            debug_info = f'\n"""\n[TEST4PY QUARANTINE REPORT]\nReason: Test failed assertions or crashed.\nError Log:\n{self.error_message}\n"""'
+            
+            # 3. Write to the quarantine folder (com utf-8 para evitar crashes de caracteres estranhos)
+            with open(quarantine_path, 'w', encoding='utf-8') as f:
+                f.write(code_content + debug_info)
+            
+        except Exception:
+            # Ignoramos silenciosamente para não sujar os teus logs (.out)
+            pass
+            
+        finally:
+            # 4. A GARANTIA ABSOLUTA: Apaga sempre o ficheiro original no final, 
+            # quer a cópia para a quarentena tenha tido sucesso ou falhado.
+            if os.path.exists(self.test_path):
+                try:
+                    os.remove(self.test_path)
+                except Exception:
+                    pass
 
     def get_code(self):
         try:
@@ -270,46 +325,173 @@ class Testcase:
         with open(self.test_path, 'w') as f:
             f.write(code)
 
-    def find_syntax_error(self):
-        root_dir = self.func.file.root_dir
-        user_python_path = os.getenv('USER_PYTHON_PATH')
-        command = f'PYTHONPATH={root_dir} {user_python_path} -m pylint --errors-only --init-hook="import sys; sys.path.append(\'{root_dir}\')" {self.test_path}'
+#     def set_code(self, code):
+#         # --- FIX PARA BASELINE: Adicionar path pai ---
+#         path_fix = """
+# import sys
+# import os
+# # Adiciona a pasta 'ecommerce' ao path para o import funcionar
+# sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+# """
+#         # Só adiciona se ainda não tiver (para evitar duplicações nos repairs)
+#         if "sys.path.append" not in code:
+#             code = path_fix + "\n" + code
+#         # ---------------------------------------------
 
-        result = subprocess.run(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-        if result.returncode == 0:
-            return False
-        else:
-            with open(self.test_path, 'r') as f:
-                logging.error(f.read())
-            logging.error(result.stdout)
-            self.error_message = result.stdout
+#         with open(self.test_path, 'w') as f:
+#             f.write(code)
+
+    # def find_syntax_error(self):
+    #     root_dir = self.func.file.root_dir
+    #     user_python_path = os.getenv('USER_PYTHON_PATH')
+    #     command = f'PYTHONPATH={root_dir} {user_python_path} -m pylint --errors-only --init-hook="import sys; sys.path.append(\'{root_dir}\')" {self.test_path}'
+
+    #     result = subprocess.run(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    #     if result.returncode == 0:
+    #         return False
+    #     else:
+    #         with open(self.test_path, 'r') as f:
+    #             logging.error(f.read())
+    #         logging.error(result.stdout)
+    #         self.error_message = result.stdout
+    #         return True
+
+    
+    def find_syntax_error(self):
+        # 1. Obter caminhos absolutos
+        root_dir = os.path.abspath(self.func.file.root_dir)
+        user_python_path = os.getenv('USER_PYTHON_PATH', 'python')
+
+        # 2. Configurar o ambiente (A MANEIRA CORRETA)
+        # Copiamos o ambiente do sistema e adicionamos a raiz do projeto ao PYTHONPATH
+        env = os.environ.copy()
+        current_pythonpath = env.get('PYTHONPATH', '')
+        # O separador ':' funciona em Mac/Linux.
+        env['PYTHONPATH'] = f"{root_dir}:{current_pythonpath}"
+
+        # 3. O Comando Pylint Puro
+        # Retiramos todos os --init-hook e --disable. 
+        # Agora é o Pylint a funcionar como deve ser.
+        command = f'{user_python_path} -m pylint --errors-only {self.test_path}'
+
+        try:
+            # 4. Executar passando o 'env'
+            result = subprocess.run(
+                command, 
+                shell=True, 
+                env=env,      # <--- ISTO É QUE FAZ OS IMPORTS FUNCIONAREM
+                stdout=subprocess.PIPE, 
+                stderr=subprocess.PIPE, 
+                text=True,
+                timeout=30
+            )
+            
+            if result.returncode == 0:
+                return False  # Sucesso: Imports encontrados e Sintaxe válida
+            else:
+                # Falha: Import não existe ou erro de sintaxe
+                # print(f"DEBUG Pylint falhou: {result.stdout}") # Descomenta se quiseres ver no terminal
+                self.error_message = result.stdout
+                return True
+                
+        except Exception as e:
+            self.error_message = str(e)
+            return True
+                
+        except Exception as e:
+            self.error_message = str(e)
             return True
 
+    # def find_assert_error(self):
+    #     try:
+    #         result = subprocess.run([os.getenv('USER_PYTHON_PATH'), '-m', 'pytest', self.test_path, '--json-report', '--json-report-file=pytest_report.json'],
+    #                                 capture_output=True, text=True, timeout=10)
+    #     except subprocess.TimeoutExpired:
+    #         self.error_message = "time exceeded"
+    #         recoder.score.add_assertion_error_type('TimeoutExpired')
+    #         return True
+    #     if result.returncode == 0:
+    #         return False
+    #     else:
+    #         with open('pytest_report.json', 'r') as f:
+    #             pytest_report = json.load(f)
+    #         tests = pytest_report['tests']
+    #         for test in tests:
+    #             try:
+    #                 traceback = test['call']['traceback']
+    #                 for item in traceback:
+    #                     error_type = item['message']
+    #                     recoder.score.add_assertion_error_type(error_type)
+    #             except KeyError:
+    #                 pass
+
+    #         self.error_message = result.stdout
+    #         return True
+
+    # def find_assert_error(self):
+    #     # Get the project root directory
+    #     root_dir = os.path.abspath(self.func.file.root_dir)
+        
+    #     # Create an environment copy and inject PYTHONPATH
+    #     env = os.environ.copy()
+    #     current_pp = env.get('PYTHONPATH', '')
+    #     env['PYTHONPATH'] = f"{root_dir}:{current_pp}" if current_pp else root_dir
+
+    #     try:
+    #         # Run pytest using the specific environment
+    #         result = subprocess.run(
+    #             [os.getenv('USER_PYTHON_PATH'), '-m', 'pytest', self.test_path, 
+    #             '--json-report', '--json-report-file=pytest_report.json'],
+    #             capture_output=True, text=True, timeout=30, env=env # Pass env here
+    #         )
+    #     except subprocess.TimeoutExpired:
+    #         self.error_message = "time exceeded"
+    #         recoder.score.add_assertion_error_type('TimeoutExpired')
+    #         return True
+        
     def find_assert_error(self):
+        # Get the project root directory
+        root_dir = os.path.abspath(self.func.file.root_dir)
+
+        # Create an environment copy and inject PYTHONPATH
+        env = os.environ.copy()
+        current_pp = env.get('PYTHONPATH', '')
+        env['PYTHONPATH'] = f"{root_dir}:{current_pp}" if current_pp else root_dir
+
         try:
-            result = subprocess.run([os.getenv('USER_PYTHON_PATH'), '-m', 'pytest', self.test_path, '--json-report', '--json-report-file=pytest_report.json'],
-                                    capture_output=True, text=True, timeout=10)
+            # Run pytest using the specific environment
+            result = subprocess.run(
+                [os.getenv('USER_PYTHON_PATH', 'python'), '-m', 'pytest', self.test_path,
+                 '--json-report', '--json-report-file=pytest_report.json'],
+                capture_output=True, text=True, timeout=30, env=env
+            )
         except subprocess.TimeoutExpired:
             self.error_message = "time exceeded"
             recoder.score.add_assertion_error_type('TimeoutExpired')
             return True
+
+        # --- AVALIAÇÃO DO RESULTADO ---
         if result.returncode == 0:
-            return False
-        else:
+            return False  # Passou sem erros (Verde)
+
+        # Chumbou (Vermelho)! Vamos ler o JSON para registar o tipo de erro
+        try:
             with open('pytest_report.json', 'r') as f:
                 pytest_report = json.load(f)
-            tests = pytest_report['tests']
+            tests = pytest_report.get('tests', [])
             for test in tests:
                 try:
                     traceback = test['call']['traceback']
                     for item in traceback:
-                        error_type = item['message']
+                        error_type = item.get('message', 'Unknown Error')
                         recoder.score.add_assertion_error_type(error_type)
                 except KeyError:
                     pass
+        except (FileNotFoundError, json.JSONDecodeError):
+            pass  # Ignora se o ficheiro falhou a gerar
 
-            self.error_message = result.stdout
-            return True
+        self.error_message = result.stdout
+        return True  # Informa o sistema que o teste falhou!
 
     async def syntax_check(self, check_rate=False):
         if self.find_syntax_error():

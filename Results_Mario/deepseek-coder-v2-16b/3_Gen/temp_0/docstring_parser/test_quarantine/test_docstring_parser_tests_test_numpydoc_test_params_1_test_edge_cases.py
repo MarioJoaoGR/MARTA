@@ -1,0 +1,80 @@
+
+import pytest
+from docstring_parser import parse
+
+def test_params() -> None:
+    """Test parsing params."""
+    # Test case for no parameters in the docstring
+    docstring = parse("Short description")
+    assert len(docstring.params) == 0
+
+    # Test case with multiple parameters and different descriptions
+    docstring = parse(
+        """
+        Short description
+
+        Parameters
+        ----------
+        name
+            description 1
+        priority : int
+            description 2
+        sender : str, optional
+            description 3
+        ratio : Optional[float], optional
+            description 4
+        """
+    )
+    assert len(docstring.params) == 4
+    assert docstring.params[0].arg_name == "name"
+    assert docstring.params[0].type_name is None
+    assert docstring.params[0].description == "description 1"
+    assert not docstring.params[0].is_optional
+    assert docstring.params[1].arg_name == "priority"
+    assert docstring.params[1].type_name == "int"
+    assert docstring.params[1].description == "description 2"
+    assert not docstring.params[1].is_optional
+    assert docstring.params[2].arg_name == "sender"
+    assert docstring.params[2].type_name == "str"
+    assert docstring.params[2].description == "description 3"
+    assert docstring.params[2].is_optional
+    assert docstring.params[3].arg_name == "ratio"
+    assert docstring.params[3].type_name == "Optional[float]"
+    assert docstring.params[3].description == "description 4"
+    assert docstring.params[3].is_optional
+
+    # Test case checking handling of multi-line parameter descriptions
+    docstring = parse(
+        """
+        Short description
+
+        Parameters
+        ----------
+        name
+            description 1
+            with multi-line text
+        priority : int
+            description 2
+        """
+    )
+    assert len(docstring.params) == 2
+    assert docstring.params[0].arg_name == "name"
+    assert docstring.params[0].type_name is None
+    assert docstring.params[0].description == (
+        "description 1\nwith multi-line text"
+    )
+    assert not docstring.params[0].is_optional
+    assert docstring.params[1].arg_name == "priority"
+    assert docstring.params[1].type_name == "int"
+    assert docstring.params[1].description == "description 2"
+    assert not docstring.params[1].is_optional
+
+"""
+[TEST4PY QUARANTINE REPORT]
+Reason: Test failed assertions or crashed.
+Error Log:
+************* Module Test4DT_tests.test_docstring_parser_tests_test_numpydoc_test_params_1_test_edge_cases
+docstring_parser/Test4DT_tests/test_docstring_parser_tests_test_numpydoc_test_params_1_test_edge_cases.py:3:0: E0611: No name 'parse' in module 'docstring_parser' (no-name-in-module)
+
+
+"""

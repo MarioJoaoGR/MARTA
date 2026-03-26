@@ -1,0 +1,51 @@
+
+import pytest
+from superstring.superstring import SuperStringUpper
+
+# Test initialization with a base string
+def test_init():
+    s_upper = SuperStringUpper("Hello, World!")
+    assert str(s_upper._base) == "Hello, World!"
+
+# Test converting the entire string to uppercase
+def test_to_printable_entire_string():
+    s_upper = SuperStringUpper("Hello, World!")
+    result = s_upper.to_printable()
+"""
+[TEST4PY QUARANTINE REPORT]
+Reason: Test failed assertions or crashed.
+Error Log:
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-8.3.2, pluggy-1.6.0
+rootdir: /projects/F202407648IACDCF2/mario/superstring.py
+configfile: ../../../../dev/null
+plugins: anyio-4.12.1, json-report-1.5.0, metadata-3.1.1
+collected 2 items
+
+superstring.py/Test4DT_tests/test_superstring_superstring_SuperStringUpper_to_printable_0.py . [ 50%]
+F                                                                        [100%]
+
+=================================== FAILURES ===================================
+_______________________ test_to_printable_entire_string ________________________
+
+    def test_to_printable_entire_string():
+        s_upper = SuperStringUpper("Hello, World!")
+>       result = s_upper.to_printable()
+
+superstring.py/Test4DT_tests/test_superstring_superstring_SuperStringUpper_to_printable_0.py:13: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <superstring.superstring.SuperStringUpper object at 0x7faa76470350>
+start_index = None, end_index = None
+
+    def to_printable(self, start_index=None, end_index=None):
+>       return self._base.to_printable(start_index, end_index).upper()
+E       AttributeError: 'str' object has no attribute 'to_printable'
+
+superstring.py/superstring/superstring.py:182: AttributeError
+--------------------------------- JSON report ----------------------------------
+report saved to: pytest_report.json
+=========================== short test summary info ============================
+FAILED superstring.py/Test4DT_tests/test_superstring_superstring_SuperStringUpper_to_printable_0.py::test_to_printable_entire_string
+========================= 1 failed, 1 passed in 0.06s ==========================
+"""

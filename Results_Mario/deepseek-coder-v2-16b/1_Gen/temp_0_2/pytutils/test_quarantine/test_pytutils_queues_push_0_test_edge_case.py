@@ -1,0 +1,56 @@
+
+import pytest
+import queue
+from pytutils.queues import push
+
+def test_push_edge_cases():
+    # Create mock queues
+    in_q = None  # Set input queue to None
+    out_q = queue.Queue()
+    
+    # Test with None input queue
+    with pytest.raises(TypeError):
+        push(in_q, out_q)
+
+"""
+[TEST4PY QUARANTINE REPORT]
+Reason: Test failed assertions or crashed.
+Error Log:
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-8.3.2, pluggy-1.6.0
+rootdir: /projects/F202407648IACDCF2/mario/pytutils
+configfile: ../../../../dev/null
+plugins: anyio-4.12.1, json-report-1.5.0, metadata-3.1.1
+collected 1 item
+
+pytutils/Test4DT_tests/test_pytutils_queues_push_0_test_edge_case.py F   [100%]
+
+=================================== FAILURES ===================================
+_____________________________ test_push_edge_cases _____________________________
+
+    def test_push_edge_cases():
+        # Create mock queues
+        in_q = None  # Set input queue to None
+        out_q = queue.Queue()
+    
+        # Test with None input queue
+        with pytest.raises(TypeError):
+>           push(in_q, out_q)
+
+pytutils/Test4DT_tests/test_pytutils_queues_push_0_test_edge_case.py:13: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+in_q = None, out_q = <queue.Queue object at 0x7ff166b76fd0>
+
+    def push(in_q, out_q):
+        while True:
+>           x = in_q.get()
+E           AttributeError: 'NoneType' object has no attribute 'get'
+
+pytutils/pytutils/queues.py:27: AttributeError
+--------------------------------- JSON report ----------------------------------
+report saved to: pytest_report.json
+=========================== short test summary info ============================
+FAILED pytutils/Test4DT_tests/test_pytutils_queues_push_0_test_edge_case.py::test_push_edge_cases
+============================== 1 failed in 0.05s ===============================
+"""

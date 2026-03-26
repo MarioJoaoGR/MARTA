@@ -1,0 +1,53 @@
+
+import pytest
+from superstring.superstring import SuperStringUpper  # Assuming this import works correctly
+
+@pytest.fixture
+def setup():
+    base_instance = "Hello, World!"  # Mock or actual instance of SuperStringBase
+    return SuperStringUpper(base_instance)
+
+def test_edge_case_none_indices(setup):
+    upper_converter = setup
+    assert upper_converter.to_printable() == "HELLO, WORLD!".upper()
+    assert upper_converter.to_printable(start_index=None, end_index=None) == "HELLO, WORLD!".upper()
+
+"""
+[TEST4PY QUARANTINE REPORT]
+Reason: Test failed assertions or crashed.
+Error Log:
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-8.3.2, pluggy-1.6.0
+rootdir: /projects/F202407648IACDCF2/mario/superstring.py
+configfile: ../../../../dev/null
+plugins: anyio-4.12.1, json-report-1.5.0, metadata-3.1.1
+collected 1 item
+
+superstring.py/Test4DT_tests/test_superstring_superstring_SuperStringUpper_to_printable_0_test_edge_case_none_indices.py F [100%]
+
+=================================== FAILURES ===================================
+_________________________ test_edge_case_none_indices __________________________
+
+setup = <superstring.superstring.SuperStringUpper object at 0x7fd117f886d0>
+
+    def test_edge_case_none_indices(setup):
+        upper_converter = setup
+>       assert upper_converter.to_printable() == "HELLO, WORLD!".upper()
+
+superstring.py/Test4DT_tests/test_superstring_superstring_SuperStringUpper_to_printable_0_test_edge_case_none_indices.py:12: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <superstring.superstring.SuperStringUpper object at 0x7fd117f886d0>
+start_index = None, end_index = None
+
+    def to_printable(self, start_index=None, end_index=None):
+>       return self._base.to_printable(start_index, end_index).upper()
+E       AttributeError: 'str' object has no attribute 'to_printable'
+
+superstring.py/superstring/superstring.py:182: AttributeError
+--------------------------------- JSON report ----------------------------------
+report saved to: pytest_report.json
+=========================== short test summary info ============================
+FAILED superstring.py/Test4DT_tests/test_superstring_superstring_SuperStringUpper_to_printable_0_test_edge_case_none_indices.py::test_edge_case_none_indices
+============================== 1 failed in 0.05s ===============================
+"""

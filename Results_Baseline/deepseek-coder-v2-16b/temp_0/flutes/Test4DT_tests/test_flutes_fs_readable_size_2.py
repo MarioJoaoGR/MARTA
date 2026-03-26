@@ -1,0 +1,6 @@
+
+# Module: flutes.fs
+from flutes.fs import readable_size
+
+def test_readable_size_bytes():
+    assert readable_size(1024 * 1024) == "1.00M"

@@ -1,0 +1,64 @@
+
+import pytest
+from itertools import islice, count
+import collections
+from pytutils.iters import consume
+
+def test_valid_input_specific_steps():
+    lst = [1, 2, 3, 4]
+    it = iter(lst)
+    
+    # Consume the entire iterator
+    consume(it)
+    assert next(it) == 1
+    
+    # Consume 2 steps ahead
+    consume(it, 2)
+    assert next(it) == 3
+
+"""
+[TEST4PY QUARANTINE REPORT]
+Reason: Test failed assertions or crashed.
+Error Log:
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-8.3.2, pluggy-1.6.0
+rootdir: /dev
+configfile: null
+plugins: anyio-4.12.1, json-report-1.5.0, metadata-3.1.1
+collected 1 item
+
+../../../dev F                                                           [100%]
+
+=================================== FAILURES ===================================
+_______________________ test_valid_input_specific_steps ________________________
+
+    def test_valid_input_specific_steps():
+        lst = [1, 2, 3, 4]
+        it = iter(lst)
+    
+        # Consume the entire iterator
+        consume(it)
+>       assert next(it) == 1
+E       StopIteration
+
+pytutils/Test4DT_tests/test_pytutils_iters_consume_0_test_valid_input_specific_steps.py:13: StopIteration
+=============================== warnings summary ===============================
+../../../usr/local/lib/python3.11/site-packages/_pytest/cacheprovider.py:477
+  /usr/local/lib/python3.11/site-packages/_pytest/cacheprovider.py:477: PytestCacheWarning: could not create cache path /dev/.pytest_cache/v/cache/nodeids: [Errno 13] Permission denied: '/dev/pytest-cache-files-f0zl8xzf'
+    config.cache.set("cache/nodeids", sorted(self.cached_nodeids))
+
+../../../usr/local/lib/python3.11/site-packages/_pytest/cacheprovider.py:429
+  /usr/local/lib/python3.11/site-packages/_pytest/cacheprovider.py:429: PytestCacheWarning: could not create cache path /dev/.pytest_cache/v/cache/lastfailed: [Errno 13] Permission denied: '/dev/pytest-cache-files-_zeel6li'
+    config.cache.set("cache/lastfailed", self.lastfailed)
+
+../../../usr/local/lib/python3.11/site-packages/_pytest/stepwise.py:51
+  /usr/local/lib/python3.11/site-packages/_pytest/stepwise.py:51: PytestCacheWarning: could not create cache path /dev/.pytest_cache/v/cache/stepwise: [Errno 13] Permission denied: '/dev/pytest-cache-files-9y0cj925'
+    session.config.cache.set(STEPWISE_CACHE_DIR, [])
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+--------------------------------- JSON report ----------------------------------
+report saved to: pytest_report.json
+=========================== short test summary info ============================
+FAILED ../../../dev/::test_valid_input_specific_steps - StopIteration
+======================== 1 failed, 3 warnings in 0.05s =========================
+"""

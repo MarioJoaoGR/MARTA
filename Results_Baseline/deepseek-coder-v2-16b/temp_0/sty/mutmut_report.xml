@@ -1,0 +1,3467 @@
+<?xml version="1.0" ?>
+<testsuites disabled="0" errors="0" failures="221" tests="276" time="0.0">
+	<testsuite disabled="0" errors="0" failures="221" name="mutmut" skipped="0" tests="276" time="0">
+		<testcase name="Mutant #1" file="sty/register.py" line="25">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -22,7 +22,7 @@
+     def __init__(self):
+         super().__init__()
+ 
+-        self.renderfuncs[Sgr] = renderfunc.sgr
++        self.renderfuncs[Sgr] = None
+ 
+         self.b = Style(Sgr(1))
+         self.bold = Style(Sgr(1))
+</failure>
+			<system-out>        self.renderfuncs[Sgr] = renderfunc.sgr</system-out>
+		</testcase>
+		<testcase name="Mutant #2" file="sty/register.py" line="27">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -24,7 +24,7 @@
+ 
+         self.renderfuncs[Sgr] = renderfunc.sgr
+ 
+-        self.b = Style(Sgr(1))
++        self.b = Style(Sgr(2))
+         self.bold = Style(Sgr(1))
+         self.dim = Style(Sgr(2))
+         self.i = Style(Sgr(3))
+</failure>
+			<system-out>        self.b = Style(Sgr(1))</system-out>
+		</testcase>
+		<testcase name="Mutant #3" file="sty/register.py" line="27">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -24,7 +24,7 @@
+ 
+         self.renderfuncs[Sgr] = renderfunc.sgr
+ 
+-        self.b = Style(Sgr(1))
++        self.b = None
+         self.bold = Style(Sgr(1))
+         self.dim = Style(Sgr(2))
+         self.i = Style(Sgr(3))
+</failure>
+			<system-out>        self.b = Style(Sgr(1))</system-out>
+		</testcase>
+		<testcase name="Mutant #4" file="sty/register.py" line="28">
+			<system-out>        self.bold = Style(Sgr(1))</system-out>
+		</testcase>
+		<testcase name="Mutant #5" file="sty/register.py" line="28">
+			<system-out>        self.bold = Style(Sgr(1))</system-out>
+		</testcase>
+		<testcase name="Mutant #6" file="sty/register.py" line="29">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -26,7 +26,7 @@
+ 
+         self.b = Style(Sgr(1))
+         self.bold = Style(Sgr(1))
+-        self.dim = Style(Sgr(2))
++        self.dim = Style(Sgr(3))
+         self.i = Style(Sgr(3))
+         self.italic = Style(Sgr(3))
+         self.u = Style(Sgr(4))
+</failure>
+			<system-out>        self.dim = Style(Sgr(2))</system-out>
+		</testcase>
+		<testcase name="Mutant #7" file="sty/register.py" line="29">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -26,7 +26,7 @@
+ 
+         self.b = Style(Sgr(1))
+         self.bold = Style(Sgr(1))
+-        self.dim = Style(Sgr(2))
++        self.dim = None
+         self.i = Style(Sgr(3))
+         self.italic = Style(Sgr(3))
+         self.u = Style(Sgr(4))
+</failure>
+			<system-out>        self.dim = Style(Sgr(2))</system-out>
+		</testcase>
+		<testcase name="Mutant #8" file="sty/register.py" line="30">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -27,7 +27,7 @@
+         self.b = Style(Sgr(1))
+         self.bold = Style(Sgr(1))
+         self.dim = Style(Sgr(2))
+-        self.i = Style(Sgr(3))
++        self.i = Style(Sgr(4))
+         self.italic = Style(Sgr(3))
+         self.u = Style(Sgr(4))
+         self.underl = Style(Sgr(4))
+</failure>
+			<system-out>        self.i = Style(Sgr(3))</system-out>
+		</testcase>
+		<testcase name="Mutant #9" file="sty/register.py" line="30">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -27,7 +27,7 @@
+         self.b = Style(Sgr(1))
+         self.bold = Style(Sgr(1))
+         self.dim = Style(Sgr(2))
+-        self.i = Style(Sgr(3))
++        self.i = None
+         self.italic = Style(Sgr(3))
+         self.u = Style(Sgr(4))
+         self.underl = Style(Sgr(4))
+</failure>
+			<system-out>        self.i = Style(Sgr(3))</system-out>
+		</testcase>
+		<testcase name="Mutant #10" file="sty/register.py" line="31">
+			<system-out>        self.italic = Style(Sgr(3))</system-out>
+		</testcase>
+		<testcase name="Mutant #11" file="sty/register.py" line="31">
+			<system-out>        self.italic = Style(Sgr(3))</system-out>
+		</testcase>
+		<testcase name="Mutant #12" file="sty/register.py" line="32">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -29,7 +29,7 @@
+         self.dim = Style(Sgr(2))
+         self.i = Style(Sgr(3))
+         self.italic = Style(Sgr(3))
+-        self.u = Style(Sgr(4))
++        self.u = Style(Sgr(5))
+         self.underl = Style(Sgr(4))
+         self.blink = Style(Sgr(5))
+         self.inverse = Style(Sgr(7))
+</failure>
+			<system-out>        self.u = Style(Sgr(4))</system-out>
+		</testcase>
+		<testcase name="Mutant #13" file="sty/register.py" line="32">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -29,7 +29,7 @@
+         self.dim = Style(Sgr(2))
+         self.i = Style(Sgr(3))
+         self.italic = Style(Sgr(3))
+-        self.u = Style(Sgr(4))
++        self.u = None
+         self.underl = Style(Sgr(4))
+         self.blink = Style(Sgr(5))
+         self.inverse = Style(Sgr(7))
+</failure>
+			<system-out>        self.u = Style(Sgr(4))</system-out>
+		</testcase>
+		<testcase name="Mutant #14" file="sty/register.py" line="33">
+			<system-out>        self.underl = Style(Sgr(4))</system-out>
+		</testcase>
+		<testcase name="Mutant #15" file="sty/register.py" line="33">
+			<system-out>        self.underl = Style(Sgr(4))</system-out>
+		</testcase>
+		<testcase name="Mutant #16" file="sty/register.py" line="34">
+			<system-out>        self.blink = Style(Sgr(5))</system-out>
+		</testcase>
+		<testcase name="Mutant #17" file="sty/register.py" line="34">
+			<system-out>        self.blink = Style(Sgr(5))</system-out>
+		</testcase>
+		<testcase name="Mutant #18" file="sty/register.py" line="35">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -32,7 +32,7 @@
+         self.u = Style(Sgr(4))
+         self.underl = Style(Sgr(4))
+         self.blink = Style(Sgr(5))
+-        self.inverse = Style(Sgr(7))
++        self.inverse = Style(Sgr(8))
+         self.hidden = Style(Sgr(8))
+         self.strike = Style(Sgr(9))
+ 
+</failure>
+			<system-out>        self.inverse = Style(Sgr(7))</system-out>
+		</testcase>
+		<testcase name="Mutant #19" file="sty/register.py" line="35">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -32,7 +32,7 @@
+         self.u = Style(Sgr(4))
+         self.underl = Style(Sgr(4))
+         self.blink = Style(Sgr(5))
+-        self.inverse = Style(Sgr(7))
++        self.inverse = None
+         self.hidden = Style(Sgr(8))
+         self.strike = Style(Sgr(9))
+ 
+</failure>
+			<system-out>        self.inverse = Style(Sgr(7))</system-out>
+		</testcase>
+		<testcase name="Mutant #20" file="sty/register.py" line="36">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -33,7 +33,7 @@
+         self.underl = Style(Sgr(4))
+         self.blink = Style(Sgr(5))
+         self.inverse = Style(Sgr(7))
+-        self.hidden = Style(Sgr(8))
++        self.hidden = Style(Sgr(9))
+         self.strike = Style(Sgr(9))
+ 
+         # Reset all effects (Unfortunately there is no single Escape Sequence for this)
+</failure>
+			<system-out>        self.hidden = Style(Sgr(8))</system-out>
+		</testcase>
+		<testcase name="Mutant #21" file="sty/register.py" line="36">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -33,7 +33,7 @@
+         self.underl = Style(Sgr(4))
+         self.blink = Style(Sgr(5))
+         self.inverse = Style(Sgr(7))
+-        self.hidden = Style(Sgr(8))
++        self.hidden = None
+         self.strike = Style(Sgr(9))
+ 
+         # Reset all effects (Unfortunately there is no single Escape Sequence for this)
+</failure>
+			<system-out>        self.hidden = Style(Sgr(8))</system-out>
+		</testcase>
+		<testcase name="Mutant #22" file="sty/register.py" line="37">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -34,7 +34,7 @@
+         self.blink = Style(Sgr(5))
+         self.inverse = Style(Sgr(7))
+         self.hidden = Style(Sgr(8))
+-        self.strike = Style(Sgr(9))
++        self.strike = Style(Sgr(10))
+ 
+         # Reset all effects (Unfortunately there is no single Escape Sequence for this)
+         self.rs = Style(Sgr(22), Sgr(23), Sgr(24), Sgr(25), Sgr(27), Sgr(28), Sgr(29))
+</failure>
+			<system-out>        self.strike = Style(Sgr(9))</system-out>
+		</testcase>
+		<testcase name="Mutant #23" file="sty/register.py" line="37">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -34,7 +34,7 @@
+         self.blink = Style(Sgr(5))
+         self.inverse = Style(Sgr(7))
+         self.hidden = Style(Sgr(8))
+-        self.strike = Style(Sgr(9))
++        self.strike = None
+ 
+         # Reset all effects (Unfortunately there is no single Escape Sequence for this)
+         self.rs = Style(Sgr(22), Sgr(23), Sgr(24), Sgr(25), Sgr(27), Sgr(28), Sgr(29))
+</failure>
+			<system-out>        self.strike = Style(Sgr(9))</system-out>
+		</testcase>
+		<testcase name="Mutant #24" file="sty/register.py" line="40">
+			<system-out>        self.rs = Style(Sgr(22), Sgr(23), Sgr(24), Sgr(25), Sgr(27), Sgr(28), Sgr(29))</system-out>
+		</testcase>
+		<testcase name="Mutant #25" file="sty/register.py" line="40">
+			<system-out>        self.rs = Style(Sgr(22), Sgr(23), Sgr(24), Sgr(25), Sgr(27), Sgr(28), Sgr(29))</system-out>
+		</testcase>
+		<testcase name="Mutant #26" file="sty/register.py" line="40">
+			<system-out>        self.rs = Style(Sgr(22), Sgr(23), Sgr(24), Sgr(25), Sgr(27), Sgr(28), Sgr(29))</system-out>
+		</testcase>
+		<testcase name="Mutant #27" file="sty/register.py" line="40">
+			<system-out>        self.rs = Style(Sgr(22), Sgr(23), Sgr(24), Sgr(25), Sgr(27), Sgr(28), Sgr(29))</system-out>
+		</testcase>
+		<testcase name="Mutant #28" file="sty/register.py" line="40">
+			<system-out>        self.rs = Style(Sgr(22), Sgr(23), Sgr(24), Sgr(25), Sgr(27), Sgr(28), Sgr(29))</system-out>
+		</testcase>
+		<testcase name="Mutant #29" file="sty/register.py" line="40">
+			<system-out>        self.rs = Style(Sgr(22), Sgr(23), Sgr(24), Sgr(25), Sgr(27), Sgr(28), Sgr(29))</system-out>
+		</testcase>
+		<testcase name="Mutant #30" file="sty/register.py" line="40">
+			<system-out>        self.rs = Style(Sgr(22), Sgr(23), Sgr(24), Sgr(25), Sgr(27), Sgr(28), Sgr(29))</system-out>
+		</testcase>
+		<testcase name="Mutant #31" file="sty/register.py" line="40">
+			<system-out>        self.rs = Style(Sgr(22), Sgr(23), Sgr(24), Sgr(25), Sgr(27), Sgr(28), Sgr(29))</system-out>
+		</testcase>
+		<testcase name="Mutant #32" file="sty/register.py" line="58">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -55,7 +55,7 @@
+     def __init__(self):
+         super().__init__()
+ 
+-        self.renderfuncs[Sgr] = renderfunc.sgr
++        self.renderfuncs[Sgr] = None
+         self.renderfuncs[EightbitFg] = renderfunc.eightbit_fg
+         self.renderfuncs[RgbFg] = renderfunc.rgb_fg
+ 
+</failure>
+			<system-out>        self.renderfuncs[Sgr] = renderfunc.sgr</system-out>
+		</testcase>
+		<testcase name="Mutant #33" file="sty/register.py" line="59">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -56,7 +56,7 @@
+         super().__init__()
+ 
+         self.renderfuncs[Sgr] = renderfunc.sgr
+-        self.renderfuncs[EightbitFg] = renderfunc.eightbit_fg
++        self.renderfuncs[EightbitFg] = None
+         self.renderfuncs[RgbFg] = renderfunc.rgb_fg
+ 
+         self.set_eightbit_call(EightbitFg)
+</failure>
+			<system-out>        self.renderfuncs[EightbitFg] = renderfunc.eightbit_fg</system-out>
+		</testcase>
+		<testcase name="Mutant #34" file="sty/register.py" line="60">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -57,7 +57,7 @@
+ 
+         self.renderfuncs[Sgr] = renderfunc.sgr
+         self.renderfuncs[EightbitFg] = renderfunc.eightbit_fg
+-        self.renderfuncs[RgbFg] = renderfunc.rgb_fg
++        self.renderfuncs[RgbFg] = None
+ 
+         self.set_eightbit_call(EightbitFg)
+         self.set_rgb_call(RgbFg)
+</failure>
+			<system-out>        self.renderfuncs[RgbFg] = renderfunc.rgb_fg</system-out>
+		</testcase>
+		<testcase name="Mutant #35" file="sty/register.py" line="67">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -64,7 +64,7 @@
+ 
+         # Classic terminal foreground color preset.
+         # These are well supported.
+-        self.black = Style(Sgr(30))
++        self.black = Style(Sgr(31))
+         self.red = Style(Sgr(31))
+         self.green = Style(Sgr(32))
+         self.yellow = Style(Sgr(33))
+</failure>
+			<system-out>        self.black = Style(Sgr(30))</system-out>
+		</testcase>
+		<testcase name="Mutant #36" file="sty/register.py" line="67">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -64,7 +64,7 @@
+ 
+         # Classic terminal foreground color preset.
+         # These are well supported.
+-        self.black = Style(Sgr(30))
++        self.black = None
+         self.red = Style(Sgr(31))
+         self.green = Style(Sgr(32))
+         self.yellow = Style(Sgr(33))
+</failure>
+			<system-out>        self.black = Style(Sgr(30))</system-out>
+		</testcase>
+		<testcase name="Mutant #37" file="sty/register.py" line="68">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -65,7 +65,7 @@
+         # Classic terminal foreground color preset.
+         # These are well supported.
+         self.black = Style(Sgr(30))
+-        self.red = Style(Sgr(31))
++        self.red = Style(Sgr(32))
+         self.green = Style(Sgr(32))
+         self.yellow = Style(Sgr(33))
+         self.blue = Style(Sgr(34))
+</failure>
+			<system-out>        self.red = Style(Sgr(31))</system-out>
+		</testcase>
+		<testcase name="Mutant #38" file="sty/register.py" line="68">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -65,7 +65,7 @@
+         # Classic terminal foreground color preset.
+         # These are well supported.
+         self.black = Style(Sgr(30))
+-        self.red = Style(Sgr(31))
++        self.red = None
+         self.green = Style(Sgr(32))
+         self.yellow = Style(Sgr(33))
+         self.blue = Style(Sgr(34))
+</failure>
+			<system-out>        self.red = Style(Sgr(31))</system-out>
+		</testcase>
+		<testcase name="Mutant #39" file="sty/register.py" line="69">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -66,7 +66,7 @@
+         # These are well supported.
+         self.black = Style(Sgr(30))
+         self.red = Style(Sgr(31))
+-        self.green = Style(Sgr(32))
++        self.green = Style(Sgr(33))
+         self.yellow = Style(Sgr(33))
+         self.blue = Style(Sgr(34))
+         self.magenta = Style(Sgr(35))
+</failure>
+			<system-out>        self.green = Style(Sgr(32))</system-out>
+		</testcase>
+		<testcase name="Mutant #40" file="sty/register.py" line="69">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -66,7 +66,7 @@
+         # These are well supported.
+         self.black = Style(Sgr(30))
+         self.red = Style(Sgr(31))
+-        self.green = Style(Sgr(32))
++        self.green = None
+         self.yellow = Style(Sgr(33))
+         self.blue = Style(Sgr(34))
+         self.magenta = Style(Sgr(35))
+</failure>
+			<system-out>        self.green = Style(Sgr(32))</system-out>
+		</testcase>
+		<testcase name="Mutant #41" file="sty/register.py" line="70">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -67,7 +67,7 @@
+         self.black = Style(Sgr(30))
+         self.red = Style(Sgr(31))
+         self.green = Style(Sgr(32))
+-        self.yellow = Style(Sgr(33))
++        self.yellow = Style(Sgr(34))
+         self.blue = Style(Sgr(34))
+         self.magenta = Style(Sgr(35))
+         self.cyan = Style(Sgr(36))
+</failure>
+			<system-out>        self.yellow = Style(Sgr(33))</system-out>
+		</testcase>
+		<testcase name="Mutant #42" file="sty/register.py" line="70">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -67,7 +67,7 @@
+         self.black = Style(Sgr(30))
+         self.red = Style(Sgr(31))
+         self.green = Style(Sgr(32))
+-        self.yellow = Style(Sgr(33))
++        self.yellow = None
+         self.blue = Style(Sgr(34))
+         self.magenta = Style(Sgr(35))
+         self.cyan = Style(Sgr(36))
+</failure>
+			<system-out>        self.yellow = Style(Sgr(33))</system-out>
+		</testcase>
+		<testcase name="Mutant #43" file="sty/register.py" line="71">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -68,7 +68,7 @@
+         self.red = Style(Sgr(31))
+         self.green = Style(Sgr(32))
+         self.yellow = Style(Sgr(33))
+-        self.blue = Style(Sgr(34))
++        self.blue = Style(Sgr(35))
+         self.magenta = Style(Sgr(35))
+         self.cyan = Style(Sgr(36))
+         self.li_grey = Style(Sgr(37))
+</failure>
+			<system-out>        self.blue = Style(Sgr(34))</system-out>
+		</testcase>
+		<testcase name="Mutant #44" file="sty/register.py" line="71">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -68,7 +68,7 @@
+         self.red = Style(Sgr(31))
+         self.green = Style(Sgr(32))
+         self.yellow = Style(Sgr(33))
+-        self.blue = Style(Sgr(34))
++        self.blue = None
+         self.magenta = Style(Sgr(35))
+         self.cyan = Style(Sgr(36))
+         self.li_grey = Style(Sgr(37))
+</failure>
+			<system-out>        self.blue = Style(Sgr(34))</system-out>
+		</testcase>
+		<testcase name="Mutant #45" file="sty/register.py" line="72">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -69,7 +69,7 @@
+         self.green = Style(Sgr(32))
+         self.yellow = Style(Sgr(33))
+         self.blue = Style(Sgr(34))
+-        self.magenta = Style(Sgr(35))
++        self.magenta = Style(Sgr(36))
+         self.cyan = Style(Sgr(36))
+         self.li_grey = Style(Sgr(37))
+ 
+</failure>
+			<system-out>        self.magenta = Style(Sgr(35))</system-out>
+		</testcase>
+		<testcase name="Mutant #46" file="sty/register.py" line="72">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -69,7 +69,7 @@
+         self.green = Style(Sgr(32))
+         self.yellow = Style(Sgr(33))
+         self.blue = Style(Sgr(34))
+-        self.magenta = Style(Sgr(35))
++        self.magenta = None
+         self.cyan = Style(Sgr(36))
+         self.li_grey = Style(Sgr(37))
+ 
+</failure>
+			<system-out>        self.magenta = Style(Sgr(35))</system-out>
+		</testcase>
+		<testcase name="Mutant #47" file="sty/register.py" line="73">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -70,7 +70,7 @@
+         self.yellow = Style(Sgr(33))
+         self.blue = Style(Sgr(34))
+         self.magenta = Style(Sgr(35))
+-        self.cyan = Style(Sgr(36))
++        self.cyan = Style(Sgr(37))
+         self.li_grey = Style(Sgr(37))
+ 
+         self.rs = Style(Sgr(39))
+</failure>
+			<system-out>        self.cyan = Style(Sgr(36))</system-out>
+		</testcase>
+		<testcase name="Mutant #48" file="sty/register.py" line="73">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -70,7 +70,7 @@
+         self.yellow = Style(Sgr(33))
+         self.blue = Style(Sgr(34))
+         self.magenta = Style(Sgr(35))
+-        self.cyan = Style(Sgr(36))
++        self.cyan = None
+         self.li_grey = Style(Sgr(37))
+ 
+         self.rs = Style(Sgr(39))
+</failure>
+			<system-out>        self.cyan = Style(Sgr(36))</system-out>
+		</testcase>
+		<testcase name="Mutant #49" file="sty/register.py" line="74">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -71,7 +71,7 @@
+         self.blue = Style(Sgr(34))
+         self.magenta = Style(Sgr(35))
+         self.cyan = Style(Sgr(36))
+-        self.li_grey = Style(Sgr(37))
++        self.li_grey = Style(Sgr(38))
+ 
+         self.rs = Style(Sgr(39))
+ 
+</failure>
+			<system-out>        self.li_grey = Style(Sgr(37))</system-out>
+		</testcase>
+		<testcase name="Mutant #50" file="sty/register.py" line="74">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -71,7 +71,7 @@
+         self.blue = Style(Sgr(34))
+         self.magenta = Style(Sgr(35))
+         self.cyan = Style(Sgr(36))
+-        self.li_grey = Style(Sgr(37))
++        self.li_grey = None
+ 
+         self.rs = Style(Sgr(39))
+ 
+</failure>
+			<system-out>        self.li_grey = Style(Sgr(37))</system-out>
+		</testcase>
+		<testcase name="Mutant #51" file="sty/register.py" line="76">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -73,7 +73,7 @@
+         self.cyan = Style(Sgr(36))
+         self.li_grey = Style(Sgr(37))
+ 
+-        self.rs = Style(Sgr(39))
++        self.rs = Style(Sgr(40))
+ 
+         # These are less supported.
+         self.da_grey = Style(Sgr(90))
+</failure>
+			<system-out>        self.rs = Style(Sgr(39))</system-out>
+		</testcase>
+		<testcase name="Mutant #52" file="sty/register.py" line="76">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -73,7 +73,7 @@
+         self.cyan = Style(Sgr(36))
+         self.li_grey = Style(Sgr(37))
+ 
+-        self.rs = Style(Sgr(39))
++        self.rs = None
+ 
+         # These are less supported.
+         self.da_grey = Style(Sgr(90))
+</failure>
+			<system-out>        self.rs = Style(Sgr(39))</system-out>
+		</testcase>
+		<testcase name="Mutant #53" file="sty/register.py" line="79">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -76,7 +76,7 @@
+         self.rs = Style(Sgr(39))
+ 
+         # These are less supported.
+-        self.da_grey = Style(Sgr(90))
++        self.da_grey = Style(Sgr(91))
+         self.li_red = Style(Sgr(91))
+         self.li_green = Style(Sgr(92))
+         self.li_yellow = Style(Sgr(93))
+</failure>
+			<system-out>        self.da_grey = Style(Sgr(90))</system-out>
+		</testcase>
+		<testcase name="Mutant #54" file="sty/register.py" line="79">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -76,7 +76,7 @@
+         self.rs = Style(Sgr(39))
+ 
+         # These are less supported.
+-        self.da_grey = Style(Sgr(90))
++        self.da_grey = None
+         self.li_red = Style(Sgr(91))
+         self.li_green = Style(Sgr(92))
+         self.li_yellow = Style(Sgr(93))
+</failure>
+			<system-out>        self.da_grey = Style(Sgr(90))</system-out>
+		</testcase>
+		<testcase name="Mutant #55" file="sty/register.py" line="80">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -77,7 +77,7 @@
+ 
+         # These are less supported.
+         self.da_grey = Style(Sgr(90))
+-        self.li_red = Style(Sgr(91))
++        self.li_red = Style(Sgr(92))
+         self.li_green = Style(Sgr(92))
+         self.li_yellow = Style(Sgr(93))
+         self.li_blue = Style(Sgr(94))
+</failure>
+			<system-out>        self.li_red = Style(Sgr(91))</system-out>
+		</testcase>
+		<testcase name="Mutant #56" file="sty/register.py" line="80">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -77,7 +77,7 @@
+ 
+         # These are less supported.
+         self.da_grey = Style(Sgr(90))
+-        self.li_red = Style(Sgr(91))
++        self.li_red = None
+         self.li_green = Style(Sgr(92))
+         self.li_yellow = Style(Sgr(93))
+         self.li_blue = Style(Sgr(94))
+</failure>
+			<system-out>        self.li_red = Style(Sgr(91))</system-out>
+		</testcase>
+		<testcase name="Mutant #57" file="sty/register.py" line="81">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -78,7 +78,7 @@
+         # These are less supported.
+         self.da_grey = Style(Sgr(90))
+         self.li_red = Style(Sgr(91))
+-        self.li_green = Style(Sgr(92))
++        self.li_green = Style(Sgr(93))
+         self.li_yellow = Style(Sgr(93))
+         self.li_blue = Style(Sgr(94))
+         self.li_magenta = Style(Sgr(95))
+</failure>
+			<system-out>        self.li_green = Style(Sgr(92))</system-out>
+		</testcase>
+		<testcase name="Mutant #58" file="sty/register.py" line="81">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -78,7 +78,7 @@
+         # These are less supported.
+         self.da_grey = Style(Sgr(90))
+         self.li_red = Style(Sgr(91))
+-        self.li_green = Style(Sgr(92))
++        self.li_green = None
+         self.li_yellow = Style(Sgr(93))
+         self.li_blue = Style(Sgr(94))
+         self.li_magenta = Style(Sgr(95))
+</failure>
+			<system-out>        self.li_green = Style(Sgr(92))</system-out>
+		</testcase>
+		<testcase name="Mutant #59" file="sty/register.py" line="82">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -79,7 +79,7 @@
+         self.da_grey = Style(Sgr(90))
+         self.li_red = Style(Sgr(91))
+         self.li_green = Style(Sgr(92))
+-        self.li_yellow = Style(Sgr(93))
++        self.li_yellow = Style(Sgr(94))
+         self.li_blue = Style(Sgr(94))
+         self.li_magenta = Style(Sgr(95))
+         self.li_cyan = Style(Sgr(96))
+</failure>
+			<system-out>        self.li_yellow = Style(Sgr(93))</system-out>
+		</testcase>
+		<testcase name="Mutant #60" file="sty/register.py" line="82">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -79,7 +79,7 @@
+         self.da_grey = Style(Sgr(90))
+         self.li_red = Style(Sgr(91))
+         self.li_green = Style(Sgr(92))
+-        self.li_yellow = Style(Sgr(93))
++        self.li_yellow = None
+         self.li_blue = Style(Sgr(94))
+         self.li_magenta = Style(Sgr(95))
+         self.li_cyan = Style(Sgr(96))
+</failure>
+			<system-out>        self.li_yellow = Style(Sgr(93))</system-out>
+		</testcase>
+		<testcase name="Mutant #61" file="sty/register.py" line="83">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -80,7 +80,7 @@
+         self.li_red = Style(Sgr(91))
+         self.li_green = Style(Sgr(92))
+         self.li_yellow = Style(Sgr(93))
+-        self.li_blue = Style(Sgr(94))
++        self.li_blue = Style(Sgr(95))
+         self.li_magenta = Style(Sgr(95))
+         self.li_cyan = Style(Sgr(96))
+         self.white = Style(Sgr(97))
+</failure>
+			<system-out>        self.li_blue = Style(Sgr(94))</system-out>
+		</testcase>
+		<testcase name="Mutant #62" file="sty/register.py" line="83">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -80,7 +80,7 @@
+         self.li_red = Style(Sgr(91))
+         self.li_green = Style(Sgr(92))
+         self.li_yellow = Style(Sgr(93))
+-        self.li_blue = Style(Sgr(94))
++        self.li_blue = None
+         self.li_magenta = Style(Sgr(95))
+         self.li_cyan = Style(Sgr(96))
+         self.white = Style(Sgr(97))
+</failure>
+			<system-out>        self.li_blue = Style(Sgr(94))</system-out>
+		</testcase>
+		<testcase name="Mutant #63" file="sty/register.py" line="84">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -81,7 +81,7 @@
+         self.li_green = Style(Sgr(92))
+         self.li_yellow = Style(Sgr(93))
+         self.li_blue = Style(Sgr(94))
+-        self.li_magenta = Style(Sgr(95))
++        self.li_magenta = Style(Sgr(96))
+         self.li_cyan = Style(Sgr(96))
+         self.white = Style(Sgr(97))
+ 
+</failure>
+			<system-out>        self.li_magenta = Style(Sgr(95))</system-out>
+		</testcase>
+		<testcase name="Mutant #64" file="sty/register.py" line="84">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -81,7 +81,7 @@
+         self.li_green = Style(Sgr(92))
+         self.li_yellow = Style(Sgr(93))
+         self.li_blue = Style(Sgr(94))
+-        self.li_magenta = Style(Sgr(95))
++        self.li_magenta = None
+         self.li_cyan = Style(Sgr(96))
+         self.white = Style(Sgr(97))
+ 
+</failure>
+			<system-out>        self.li_magenta = Style(Sgr(95))</system-out>
+		</testcase>
+		<testcase name="Mutant #65" file="sty/register.py" line="85">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -82,7 +82,7 @@
+         self.li_yellow = Style(Sgr(93))
+         self.li_blue = Style(Sgr(94))
+         self.li_magenta = Style(Sgr(95))
+-        self.li_cyan = Style(Sgr(96))
++        self.li_cyan = Style(Sgr(97))
+         self.white = Style(Sgr(97))
+ 
+         # These are least supported.
+</failure>
+			<system-out>        self.li_cyan = Style(Sgr(96))</system-out>
+		</testcase>
+		<testcase name="Mutant #66" file="sty/register.py" line="85">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -82,7 +82,7 @@
+         self.li_yellow = Style(Sgr(93))
+         self.li_blue = Style(Sgr(94))
+         self.li_magenta = Style(Sgr(95))
+-        self.li_cyan = Style(Sgr(96))
++        self.li_cyan = None
+         self.white = Style(Sgr(97))
+ 
+         # These are least supported.
+</failure>
+			<system-out>        self.li_cyan = Style(Sgr(96))</system-out>
+		</testcase>
+		<testcase name="Mutant #67" file="sty/register.py" line="86">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -83,7 +83,7 @@
+         self.li_blue = Style(Sgr(94))
+         self.li_magenta = Style(Sgr(95))
+         self.li_cyan = Style(Sgr(96))
+-        self.white = Style(Sgr(97))
++        self.white = Style(Sgr(98))
+ 
+         # These are least supported.
+         self.da_black = Style(EightbitFg(0))
+</failure>
+			<system-out>        self.white = Style(Sgr(97))</system-out>
+		</testcase>
+		<testcase name="Mutant #68" file="sty/register.py" line="86">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -83,7 +83,7 @@
+         self.li_blue = Style(Sgr(94))
+         self.li_magenta = Style(Sgr(95))
+         self.li_cyan = Style(Sgr(96))
+-        self.white = Style(Sgr(97))
++        self.white = None
+ 
+         # These are least supported.
+         self.da_black = Style(EightbitFg(0))
+</failure>
+			<system-out>        self.white = Style(Sgr(97))</system-out>
+		</testcase>
+		<testcase name="Mutant #69" file="sty/register.py" line="89">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -86,7 +86,7 @@
+         self.white = Style(Sgr(97))
+ 
+         # These are least supported.
+-        self.da_black = Style(EightbitFg(0))
++        self.da_black = Style(EightbitFg(1))
+         self.da_red = Style(EightbitFg(88))
+         self.da_green = Style(EightbitFg(22))
+         self.da_yellow = Style(EightbitFg(58))
+</failure>
+			<system-out>        self.da_black = Style(EightbitFg(0))</system-out>
+		</testcase>
+		<testcase name="Mutant #70" file="sty/register.py" line="89">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -86,7 +86,7 @@
+         self.white = Style(Sgr(97))
+ 
+         # These are least supported.
+-        self.da_black = Style(EightbitFg(0))
++        self.da_black = None
+         self.da_red = Style(EightbitFg(88))
+         self.da_green = Style(EightbitFg(22))
+         self.da_yellow = Style(EightbitFg(58))
+</failure>
+			<system-out>        self.da_black = Style(EightbitFg(0))</system-out>
+		</testcase>
+		<testcase name="Mutant #71" file="sty/register.py" line="90">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -87,7 +87,7 @@
+ 
+         # These are least supported.
+         self.da_black = Style(EightbitFg(0))
+-        self.da_red = Style(EightbitFg(88))
++        self.da_red = Style(EightbitFg(89))
+         self.da_green = Style(EightbitFg(22))
+         self.da_yellow = Style(EightbitFg(58))
+         self.da_blue = Style(EightbitFg(18))
+</failure>
+			<system-out>        self.da_red = Style(EightbitFg(88))</system-out>
+		</testcase>
+		<testcase name="Mutant #72" file="sty/register.py" line="90">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -87,7 +87,7 @@
+ 
+         # These are least supported.
+         self.da_black = Style(EightbitFg(0))
+-        self.da_red = Style(EightbitFg(88))
++        self.da_red = None
+         self.da_green = Style(EightbitFg(22))
+         self.da_yellow = Style(EightbitFg(58))
+         self.da_blue = Style(EightbitFg(18))
+</failure>
+			<system-out>        self.da_red = Style(EightbitFg(88))</system-out>
+		</testcase>
+		<testcase name="Mutant #73" file="sty/register.py" line="91">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -88,7 +88,7 @@
+         # These are least supported.
+         self.da_black = Style(EightbitFg(0))
+         self.da_red = Style(EightbitFg(88))
+-        self.da_green = Style(EightbitFg(22))
++        self.da_green = Style(EightbitFg(23))
+         self.da_yellow = Style(EightbitFg(58))
+         self.da_blue = Style(EightbitFg(18))
+         self.da_magenta = Style(EightbitFg(89))
+</failure>
+			<system-out>        self.da_green = Style(EightbitFg(22))</system-out>
+		</testcase>
+		<testcase name="Mutant #74" file="sty/register.py" line="91">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -88,7 +88,7 @@
+         # These are least supported.
+         self.da_black = Style(EightbitFg(0))
+         self.da_red = Style(EightbitFg(88))
+-        self.da_green = Style(EightbitFg(22))
++        self.da_green = None
+         self.da_yellow = Style(EightbitFg(58))
+         self.da_blue = Style(EightbitFg(18))
+         self.da_magenta = Style(EightbitFg(89))
+</failure>
+			<system-out>        self.da_green = Style(EightbitFg(22))</system-out>
+		</testcase>
+		<testcase name="Mutant #75" file="sty/register.py" line="92">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -89,7 +89,7 @@
+         self.da_black = Style(EightbitFg(0))
+         self.da_red = Style(EightbitFg(88))
+         self.da_green = Style(EightbitFg(22))
+-        self.da_yellow = Style(EightbitFg(58))
++        self.da_yellow = Style(EightbitFg(59))
+         self.da_blue = Style(EightbitFg(18))
+         self.da_magenta = Style(EightbitFg(89))
+         self.da_cyan = Style(EightbitFg(23))
+</failure>
+			<system-out>        self.da_yellow = Style(EightbitFg(58))</system-out>
+		</testcase>
+		<testcase name="Mutant #76" file="sty/register.py" line="92">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -89,7 +89,7 @@
+         self.da_black = Style(EightbitFg(0))
+         self.da_red = Style(EightbitFg(88))
+         self.da_green = Style(EightbitFg(22))
+-        self.da_yellow = Style(EightbitFg(58))
++        self.da_yellow = None
+         self.da_blue = Style(EightbitFg(18))
+         self.da_magenta = Style(EightbitFg(89))
+         self.da_cyan = Style(EightbitFg(23))
+</failure>
+			<system-out>        self.da_yellow = Style(EightbitFg(58))</system-out>
+		</testcase>
+		<testcase name="Mutant #77" file="sty/register.py" line="93">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -90,7 +90,7 @@
+         self.da_red = Style(EightbitFg(88))
+         self.da_green = Style(EightbitFg(22))
+         self.da_yellow = Style(EightbitFg(58))
+-        self.da_blue = Style(EightbitFg(18))
++        self.da_blue = Style(EightbitFg(19))
+         self.da_magenta = Style(EightbitFg(89))
+         self.da_cyan = Style(EightbitFg(23))
+         self.grey = Style(EightbitFg(249))
+</failure>
+			<system-out>        self.da_blue = Style(EightbitFg(18))</system-out>
+		</testcase>
+		<testcase name="Mutant #78" file="sty/register.py" line="93">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -90,7 +90,7 @@
+         self.da_red = Style(EightbitFg(88))
+         self.da_green = Style(EightbitFg(22))
+         self.da_yellow = Style(EightbitFg(58))
+-        self.da_blue = Style(EightbitFg(18))
++        self.da_blue = None
+         self.da_magenta = Style(EightbitFg(89))
+         self.da_cyan = Style(EightbitFg(23))
+         self.grey = Style(EightbitFg(249))
+</failure>
+			<system-out>        self.da_blue = Style(EightbitFg(18))</system-out>
+		</testcase>
+		<testcase name="Mutant #79" file="sty/register.py" line="94">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -91,7 +91,7 @@
+         self.da_green = Style(EightbitFg(22))
+         self.da_yellow = Style(EightbitFg(58))
+         self.da_blue = Style(EightbitFg(18))
+-        self.da_magenta = Style(EightbitFg(89))
++        self.da_magenta = Style(EightbitFg(90))
+         self.da_cyan = Style(EightbitFg(23))
+         self.grey = Style(EightbitFg(249))
+ 
+</failure>
+			<system-out>        self.da_magenta = Style(EightbitFg(89))</system-out>
+		</testcase>
+		<testcase name="Mutant #80" file="sty/register.py" line="94">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -91,7 +91,7 @@
+         self.da_green = Style(EightbitFg(22))
+         self.da_yellow = Style(EightbitFg(58))
+         self.da_blue = Style(EightbitFg(18))
+-        self.da_magenta = Style(EightbitFg(89))
++        self.da_magenta = None
+         self.da_cyan = Style(EightbitFg(23))
+         self.grey = Style(EightbitFg(249))
+ 
+</failure>
+			<system-out>        self.da_magenta = Style(EightbitFg(89))</system-out>
+		</testcase>
+		<testcase name="Mutant #81" file="sty/register.py" line="95">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -92,7 +92,7 @@
+         self.da_yellow = Style(EightbitFg(58))
+         self.da_blue = Style(EightbitFg(18))
+         self.da_magenta = Style(EightbitFg(89))
+-        self.da_cyan = Style(EightbitFg(23))
++        self.da_cyan = Style(EightbitFg(24))
+         self.grey = Style(EightbitFg(249))
+ 
+ 
+</failure>
+			<system-out>        self.da_cyan = Style(EightbitFg(23))</system-out>
+		</testcase>
+		<testcase name="Mutant #82" file="sty/register.py" line="95">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -92,7 +92,7 @@
+         self.da_yellow = Style(EightbitFg(58))
+         self.da_blue = Style(EightbitFg(18))
+         self.da_magenta = Style(EightbitFg(89))
+-        self.da_cyan = Style(EightbitFg(23))
++        self.da_cyan = None
+         self.grey = Style(EightbitFg(249))
+ 
+ 
+</failure>
+			<system-out>        self.da_cyan = Style(EightbitFg(23))</system-out>
+		</testcase>
+		<testcase name="Mutant #83" file="sty/register.py" line="96">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -93,7 +93,7 @@
+         self.da_blue = Style(EightbitFg(18))
+         self.da_magenta = Style(EightbitFg(89))
+         self.da_cyan = Style(EightbitFg(23))
+-        self.grey = Style(EightbitFg(249))
++        self.grey = Style(EightbitFg(250))
+ 
+ 
+ class BgRegister(Register):
+</failure>
+			<system-out>        self.grey = Style(EightbitFg(249))</system-out>
+		</testcase>
+		<testcase name="Mutant #84" file="sty/register.py" line="96">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -93,7 +93,7 @@
+         self.da_blue = Style(EightbitFg(18))
+         self.da_magenta = Style(EightbitFg(89))
+         self.da_cyan = Style(EightbitFg(23))
+-        self.grey = Style(EightbitFg(249))
++        self.grey = None
+ 
+ 
+ class BgRegister(Register):
+</failure>
+			<system-out>        self.grey = Style(EightbitFg(249))</system-out>
+		</testcase>
+		<testcase name="Mutant #85" file="sty/register.py" line="114">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -111,7 +111,7 @@
+     def __init__(self):
+         super().__init__()
+ 
+-        self.renderfuncs[Sgr] = renderfunc.sgr
++        self.renderfuncs[Sgr] = None
+         self.renderfuncs[EightbitBg] = renderfunc.eightbit_bg
+         self.renderfuncs[RgbBg] = renderfunc.rgb_bg
+ 
+</failure>
+			<system-out>        self.renderfuncs[Sgr] = renderfunc.sgr</system-out>
+		</testcase>
+		<testcase name="Mutant #86" file="sty/register.py" line="115">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -112,7 +112,7 @@
+         super().__init__()
+ 
+         self.renderfuncs[Sgr] = renderfunc.sgr
+-        self.renderfuncs[EightbitBg] = renderfunc.eightbit_bg
++        self.renderfuncs[EightbitBg] = None
+         self.renderfuncs[RgbBg] = renderfunc.rgb_bg
+ 
+         self.set_eightbit_call(EightbitBg)
+</failure>
+			<system-out>        self.renderfuncs[EightbitBg] = renderfunc.eightbit_bg</system-out>
+		</testcase>
+		<testcase name="Mutant #87" file="sty/register.py" line="116">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -113,7 +113,7 @@
+ 
+         self.renderfuncs[Sgr] = renderfunc.sgr
+         self.renderfuncs[EightbitBg] = renderfunc.eightbit_bg
+-        self.renderfuncs[RgbBg] = renderfunc.rgb_bg
++        self.renderfuncs[RgbBg] = None
+ 
+         self.set_eightbit_call(EightbitBg)
+         self.set_rgb_call(RgbBg)
+</failure>
+			<system-out>        self.renderfuncs[RgbBg] = renderfunc.rgb_bg</system-out>
+		</testcase>
+		<testcase name="Mutant #88" file="sty/register.py" line="123">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -120,7 +120,7 @@
+ 
+         # Classic terminal background color preset.
+         # These are well supported.
+-        self.black = Style(Sgr(40))
++        self.black = Style(Sgr(41))
+         self.red = Style(Sgr(41))
+         self.green = Style(Sgr(42))
+         self.yellow = Style(Sgr(43))
+</failure>
+			<system-out>        self.black = Style(Sgr(40))</system-out>
+		</testcase>
+		<testcase name="Mutant #89" file="sty/register.py" line="123">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -120,7 +120,7 @@
+ 
+         # Classic terminal background color preset.
+         # These are well supported.
+-        self.black = Style(Sgr(40))
++        self.black = None
+         self.red = Style(Sgr(41))
+         self.green = Style(Sgr(42))
+         self.yellow = Style(Sgr(43))
+</failure>
+			<system-out>        self.black = Style(Sgr(40))</system-out>
+		</testcase>
+		<testcase name="Mutant #90" file="sty/register.py" line="124">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -121,7 +121,7 @@
+         # Classic terminal background color preset.
+         # These are well supported.
+         self.black = Style(Sgr(40))
+-        self.red = Style(Sgr(41))
++        self.red = Style(Sgr(42))
+         self.green = Style(Sgr(42))
+         self.yellow = Style(Sgr(43))
+         self.blue = Style(Sgr(44))
+</failure>
+			<system-out>        self.red = Style(Sgr(41))</system-out>
+		</testcase>
+		<testcase name="Mutant #91" file="sty/register.py" line="124">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -121,7 +121,7 @@
+         # Classic terminal background color preset.
+         # These are well supported.
+         self.black = Style(Sgr(40))
+-        self.red = Style(Sgr(41))
++        self.red = None
+         self.green = Style(Sgr(42))
+         self.yellow = Style(Sgr(43))
+         self.blue = Style(Sgr(44))
+</failure>
+			<system-out>        self.red = Style(Sgr(41))</system-out>
+		</testcase>
+		<testcase name="Mutant #92" file="sty/register.py" line="125">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -122,7 +122,7 @@
+         # These are well supported.
+         self.black = Style(Sgr(40))
+         self.red = Style(Sgr(41))
+-        self.green = Style(Sgr(42))
++        self.green = Style(Sgr(43))
+         self.yellow = Style(Sgr(43))
+         self.blue = Style(Sgr(44))
+         self.magenta = Style(Sgr(45))
+</failure>
+			<system-out>        self.green = Style(Sgr(42))</system-out>
+		</testcase>
+		<testcase name="Mutant #93" file="sty/register.py" line="125">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -122,7 +122,7 @@
+         # These are well supported.
+         self.black = Style(Sgr(40))
+         self.red = Style(Sgr(41))
+-        self.green = Style(Sgr(42))
++        self.green = None
+         self.yellow = Style(Sgr(43))
+         self.blue = Style(Sgr(44))
+         self.magenta = Style(Sgr(45))
+</failure>
+			<system-out>        self.green = Style(Sgr(42))</system-out>
+		</testcase>
+		<testcase name="Mutant #94" file="sty/register.py" line="126">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -123,7 +123,7 @@
+         self.black = Style(Sgr(40))
+         self.red = Style(Sgr(41))
+         self.green = Style(Sgr(42))
+-        self.yellow = Style(Sgr(43))
++        self.yellow = Style(Sgr(44))
+         self.blue = Style(Sgr(44))
+         self.magenta = Style(Sgr(45))
+         self.cyan = Style(Sgr(46))
+</failure>
+			<system-out>        self.yellow = Style(Sgr(43))</system-out>
+		</testcase>
+		<testcase name="Mutant #95" file="sty/register.py" line="126">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -123,7 +123,7 @@
+         self.black = Style(Sgr(40))
+         self.red = Style(Sgr(41))
+         self.green = Style(Sgr(42))
+-        self.yellow = Style(Sgr(43))
++        self.yellow = None
+         self.blue = Style(Sgr(44))
+         self.magenta = Style(Sgr(45))
+         self.cyan = Style(Sgr(46))
+</failure>
+			<system-out>        self.yellow = Style(Sgr(43))</system-out>
+		</testcase>
+		<testcase name="Mutant #96" file="sty/register.py" line="127">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -124,7 +124,7 @@
+         self.red = Style(Sgr(41))
+         self.green = Style(Sgr(42))
+         self.yellow = Style(Sgr(43))
+-        self.blue = Style(Sgr(44))
++        self.blue = Style(Sgr(45))
+         self.magenta = Style(Sgr(45))
+         self.cyan = Style(Sgr(46))
+         self.li_grey = Style(Sgr(47))
+</failure>
+			<system-out>        self.blue = Style(Sgr(44))</system-out>
+		</testcase>
+		<testcase name="Mutant #97" file="sty/register.py" line="127">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -124,7 +124,7 @@
+         self.red = Style(Sgr(41))
+         self.green = Style(Sgr(42))
+         self.yellow = Style(Sgr(43))
+-        self.blue = Style(Sgr(44))
++        self.blue = None
+         self.magenta = Style(Sgr(45))
+         self.cyan = Style(Sgr(46))
+         self.li_grey = Style(Sgr(47))
+</failure>
+			<system-out>        self.blue = Style(Sgr(44))</system-out>
+		</testcase>
+		<testcase name="Mutant #98" file="sty/register.py" line="128">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -125,7 +125,7 @@
+         self.green = Style(Sgr(42))
+         self.yellow = Style(Sgr(43))
+         self.blue = Style(Sgr(44))
+-        self.magenta = Style(Sgr(45))
++        self.magenta = Style(Sgr(46))
+         self.cyan = Style(Sgr(46))
+         self.li_grey = Style(Sgr(47))
+ 
+</failure>
+			<system-out>        self.magenta = Style(Sgr(45))</system-out>
+		</testcase>
+		<testcase name="Mutant #99" file="sty/register.py" line="128">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -125,7 +125,7 @@
+         self.green = Style(Sgr(42))
+         self.yellow = Style(Sgr(43))
+         self.blue = Style(Sgr(44))
+-        self.magenta = Style(Sgr(45))
++        self.magenta = None
+         self.cyan = Style(Sgr(46))
+         self.li_grey = Style(Sgr(47))
+ 
+</failure>
+			<system-out>        self.magenta = Style(Sgr(45))</system-out>
+		</testcase>
+		<testcase name="Mutant #100" file="sty/register.py" line="129">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -126,7 +126,7 @@
+         self.yellow = Style(Sgr(43))
+         self.blue = Style(Sgr(44))
+         self.magenta = Style(Sgr(45))
+-        self.cyan = Style(Sgr(46))
++        self.cyan = Style(Sgr(47))
+         self.li_grey = Style(Sgr(47))
+ 
+         self.rs = Style(Sgr(49))
+</failure>
+			<system-out>        self.cyan = Style(Sgr(46))</system-out>
+		</testcase>
+		<testcase name="Mutant #101" file="sty/register.py" line="129">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -126,7 +126,7 @@
+         self.yellow = Style(Sgr(43))
+         self.blue = Style(Sgr(44))
+         self.magenta = Style(Sgr(45))
+-        self.cyan = Style(Sgr(46))
++        self.cyan = None
+         self.li_grey = Style(Sgr(47))
+ 
+         self.rs = Style(Sgr(49))
+</failure>
+			<system-out>        self.cyan = Style(Sgr(46))</system-out>
+		</testcase>
+		<testcase name="Mutant #102" file="sty/register.py" line="130">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -127,7 +127,7 @@
+         self.blue = Style(Sgr(44))
+         self.magenta = Style(Sgr(45))
+         self.cyan = Style(Sgr(46))
+-        self.li_grey = Style(Sgr(47))
++        self.li_grey = Style(Sgr(48))
+ 
+         self.rs = Style(Sgr(49))
+ 
+</failure>
+			<system-out>        self.li_grey = Style(Sgr(47))</system-out>
+		</testcase>
+		<testcase name="Mutant #103" file="sty/register.py" line="130">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -127,7 +127,7 @@
+         self.blue = Style(Sgr(44))
+         self.magenta = Style(Sgr(45))
+         self.cyan = Style(Sgr(46))
+-        self.li_grey = Style(Sgr(47))
++        self.li_grey = None
+ 
+         self.rs = Style(Sgr(49))
+ 
+</failure>
+			<system-out>        self.li_grey = Style(Sgr(47))</system-out>
+		</testcase>
+		<testcase name="Mutant #104" file="sty/register.py" line="132">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -129,7 +129,7 @@
+         self.cyan = Style(Sgr(46))
+         self.li_grey = Style(Sgr(47))
+ 
+-        self.rs = Style(Sgr(49))
++        self.rs = Style(Sgr(50))
+ 
+         # These are less supported.
+         self.da_grey = Style(Sgr(100))
+</failure>
+			<system-out>        self.rs = Style(Sgr(49))</system-out>
+		</testcase>
+		<testcase name="Mutant #105" file="sty/register.py" line="132">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -129,7 +129,7 @@
+         self.cyan = Style(Sgr(46))
+         self.li_grey = Style(Sgr(47))
+ 
+-        self.rs = Style(Sgr(49))
++        self.rs = None
+ 
+         # These are less supported.
+         self.da_grey = Style(Sgr(100))
+</failure>
+			<system-out>        self.rs = Style(Sgr(49))</system-out>
+		</testcase>
+		<testcase name="Mutant #106" file="sty/register.py" line="135">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -132,7 +132,7 @@
+         self.rs = Style(Sgr(49))
+ 
+         # These are less supported.
+-        self.da_grey = Style(Sgr(100))
++        self.da_grey = Style(Sgr(101))
+         self.li_red = Style(Sgr(101))
+         self.li_green = Style(Sgr(102))
+         self.li_yellow = Style(Sgr(103))
+</failure>
+			<system-out>        self.da_grey = Style(Sgr(100))</system-out>
+		</testcase>
+		<testcase name="Mutant #107" file="sty/register.py" line="135">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -132,7 +132,7 @@
+         self.rs = Style(Sgr(49))
+ 
+         # These are less supported.
+-        self.da_grey = Style(Sgr(100))
++        self.da_grey = None
+         self.li_red = Style(Sgr(101))
+         self.li_green = Style(Sgr(102))
+         self.li_yellow = Style(Sgr(103))
+</failure>
+			<system-out>        self.da_grey = Style(Sgr(100))</system-out>
+		</testcase>
+		<testcase name="Mutant #108" file="sty/register.py" line="136">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -133,7 +133,7 @@
+ 
+         # These are less supported.
+         self.da_grey = Style(Sgr(100))
+-        self.li_red = Style(Sgr(101))
++        self.li_red = Style(Sgr(102))
+         self.li_green = Style(Sgr(102))
+         self.li_yellow = Style(Sgr(103))
+         self.li_blue = Style(Sgr(104))
+</failure>
+			<system-out>        self.li_red = Style(Sgr(101))</system-out>
+		</testcase>
+		<testcase name="Mutant #109" file="sty/register.py" line="136">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -133,7 +133,7 @@
+ 
+         # These are less supported.
+         self.da_grey = Style(Sgr(100))
+-        self.li_red = Style(Sgr(101))
++        self.li_red = None
+         self.li_green = Style(Sgr(102))
+         self.li_yellow = Style(Sgr(103))
+         self.li_blue = Style(Sgr(104))
+</failure>
+			<system-out>        self.li_red = Style(Sgr(101))</system-out>
+		</testcase>
+		<testcase name="Mutant #110" file="sty/register.py" line="137">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -134,7 +134,7 @@
+         # These are less supported.
+         self.da_grey = Style(Sgr(100))
+         self.li_red = Style(Sgr(101))
+-        self.li_green = Style(Sgr(102))
++        self.li_green = Style(Sgr(103))
+         self.li_yellow = Style(Sgr(103))
+         self.li_blue = Style(Sgr(104))
+         self.li_magenta = Style(Sgr(105))
+</failure>
+			<system-out>        self.li_green = Style(Sgr(102))</system-out>
+		</testcase>
+		<testcase name="Mutant #111" file="sty/register.py" line="137">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -134,7 +134,7 @@
+         # These are less supported.
+         self.da_grey = Style(Sgr(100))
+         self.li_red = Style(Sgr(101))
+-        self.li_green = Style(Sgr(102))
++        self.li_green = None
+         self.li_yellow = Style(Sgr(103))
+         self.li_blue = Style(Sgr(104))
+         self.li_magenta = Style(Sgr(105))
+</failure>
+			<system-out>        self.li_green = Style(Sgr(102))</system-out>
+		</testcase>
+		<testcase name="Mutant #112" file="sty/register.py" line="138">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -135,7 +135,7 @@
+         self.da_grey = Style(Sgr(100))
+         self.li_red = Style(Sgr(101))
+         self.li_green = Style(Sgr(102))
+-        self.li_yellow = Style(Sgr(103))
++        self.li_yellow = Style(Sgr(104))
+         self.li_blue = Style(Sgr(104))
+         self.li_magenta = Style(Sgr(105))
+         self.li_cyan = Style(Sgr(106))
+</failure>
+			<system-out>        self.li_yellow = Style(Sgr(103))</system-out>
+		</testcase>
+		<testcase name="Mutant #113" file="sty/register.py" line="138">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -135,7 +135,7 @@
+         self.da_grey = Style(Sgr(100))
+         self.li_red = Style(Sgr(101))
+         self.li_green = Style(Sgr(102))
+-        self.li_yellow = Style(Sgr(103))
++        self.li_yellow = None
+         self.li_blue = Style(Sgr(104))
+         self.li_magenta = Style(Sgr(105))
+         self.li_cyan = Style(Sgr(106))
+</failure>
+			<system-out>        self.li_yellow = Style(Sgr(103))</system-out>
+		</testcase>
+		<testcase name="Mutant #114" file="sty/register.py" line="139">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -136,7 +136,7 @@
+         self.li_red = Style(Sgr(101))
+         self.li_green = Style(Sgr(102))
+         self.li_yellow = Style(Sgr(103))
+-        self.li_blue = Style(Sgr(104))
++        self.li_blue = Style(Sgr(105))
+         self.li_magenta = Style(Sgr(105))
+         self.li_cyan = Style(Sgr(106))
+         self.white = Style(Sgr(107))
+</failure>
+			<system-out>        self.li_blue = Style(Sgr(104))</system-out>
+		</testcase>
+		<testcase name="Mutant #115" file="sty/register.py" line="139">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -136,7 +136,7 @@
+         self.li_red = Style(Sgr(101))
+         self.li_green = Style(Sgr(102))
+         self.li_yellow = Style(Sgr(103))
+-        self.li_blue = Style(Sgr(104))
++        self.li_blue = None
+         self.li_magenta = Style(Sgr(105))
+         self.li_cyan = Style(Sgr(106))
+         self.white = Style(Sgr(107))
+</failure>
+			<system-out>        self.li_blue = Style(Sgr(104))</system-out>
+		</testcase>
+		<testcase name="Mutant #116" file="sty/register.py" line="140">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -137,7 +137,7 @@
+         self.li_green = Style(Sgr(102))
+         self.li_yellow = Style(Sgr(103))
+         self.li_blue = Style(Sgr(104))
+-        self.li_magenta = Style(Sgr(105))
++        self.li_magenta = Style(Sgr(106))
+         self.li_cyan = Style(Sgr(106))
+         self.white = Style(Sgr(107))
+ 
+</failure>
+			<system-out>        self.li_magenta = Style(Sgr(105))</system-out>
+		</testcase>
+		<testcase name="Mutant #117" file="sty/register.py" line="140">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -137,7 +137,7 @@
+         self.li_green = Style(Sgr(102))
+         self.li_yellow = Style(Sgr(103))
+         self.li_blue = Style(Sgr(104))
+-        self.li_magenta = Style(Sgr(105))
++        self.li_magenta = None
+         self.li_cyan = Style(Sgr(106))
+         self.white = Style(Sgr(107))
+ 
+</failure>
+			<system-out>        self.li_magenta = Style(Sgr(105))</system-out>
+		</testcase>
+		<testcase name="Mutant #118" file="sty/register.py" line="141">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -138,7 +138,7 @@
+         self.li_yellow = Style(Sgr(103))
+         self.li_blue = Style(Sgr(104))
+         self.li_magenta = Style(Sgr(105))
+-        self.li_cyan = Style(Sgr(106))
++        self.li_cyan = Style(Sgr(107))
+         self.white = Style(Sgr(107))
+ 
+         # These are least supported.
+</failure>
+			<system-out>        self.li_cyan = Style(Sgr(106))</system-out>
+		</testcase>
+		<testcase name="Mutant #119" file="sty/register.py" line="141">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -138,7 +138,7 @@
+         self.li_yellow = Style(Sgr(103))
+         self.li_blue = Style(Sgr(104))
+         self.li_magenta = Style(Sgr(105))
+-        self.li_cyan = Style(Sgr(106))
++        self.li_cyan = None
+         self.white = Style(Sgr(107))
+ 
+         # These are least supported.
+</failure>
+			<system-out>        self.li_cyan = Style(Sgr(106))</system-out>
+		</testcase>
+		<testcase name="Mutant #120" file="sty/register.py" line="142">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -139,7 +139,7 @@
+         self.li_blue = Style(Sgr(104))
+         self.li_magenta = Style(Sgr(105))
+         self.li_cyan = Style(Sgr(106))
+-        self.white = Style(Sgr(107))
++        self.white = Style(Sgr(108))
+ 
+         # These are least supported.
+         self.da_black = Style(EightbitBg(0))
+</failure>
+			<system-out>        self.white = Style(Sgr(107))</system-out>
+		</testcase>
+		<testcase name="Mutant #121" file="sty/register.py" line="142">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -139,7 +139,7 @@
+         self.li_blue = Style(Sgr(104))
+         self.li_magenta = Style(Sgr(105))
+         self.li_cyan = Style(Sgr(106))
+-        self.white = Style(Sgr(107))
++        self.white = None
+ 
+         # These are least supported.
+         self.da_black = Style(EightbitBg(0))
+</failure>
+			<system-out>        self.white = Style(Sgr(107))</system-out>
+		</testcase>
+		<testcase name="Mutant #122" file="sty/register.py" line="145">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -142,7 +142,7 @@
+         self.white = Style(Sgr(107))
+ 
+         # These are least supported.
+-        self.da_black = Style(EightbitBg(0))
++        self.da_black = Style(EightbitBg(1))
+         self.da_red = Style(EightbitBg(88))
+         self.da_green = Style(EightbitBg(22))
+         self.da_yellow = Style(EightbitBg(58))
+</failure>
+			<system-out>        self.da_black = Style(EightbitBg(0))</system-out>
+		</testcase>
+		<testcase name="Mutant #123" file="sty/register.py" line="145">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -142,7 +142,7 @@
+         self.white = Style(Sgr(107))
+ 
+         # These are least supported.
+-        self.da_black = Style(EightbitBg(0))
++        self.da_black = None
+         self.da_red = Style(EightbitBg(88))
+         self.da_green = Style(EightbitBg(22))
+         self.da_yellow = Style(EightbitBg(58))
+</failure>
+			<system-out>        self.da_black = Style(EightbitBg(0))</system-out>
+		</testcase>
+		<testcase name="Mutant #124" file="sty/register.py" line="146">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -143,7 +143,7 @@
+ 
+         # These are least supported.
+         self.da_black = Style(EightbitBg(0))
+-        self.da_red = Style(EightbitBg(88))
++        self.da_red = Style(EightbitBg(89))
+         self.da_green = Style(EightbitBg(22))
+         self.da_yellow = Style(EightbitBg(58))
+         self.da_blue = Style(EightbitBg(18))
+</failure>
+			<system-out>        self.da_red = Style(EightbitBg(88))</system-out>
+		</testcase>
+		<testcase name="Mutant #125" file="sty/register.py" line="146">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -143,7 +143,7 @@
+ 
+         # These are least supported.
+         self.da_black = Style(EightbitBg(0))
+-        self.da_red = Style(EightbitBg(88))
++        self.da_red = None
+         self.da_green = Style(EightbitBg(22))
+         self.da_yellow = Style(EightbitBg(58))
+         self.da_blue = Style(EightbitBg(18))
+</failure>
+			<system-out>        self.da_red = Style(EightbitBg(88))</system-out>
+		</testcase>
+		<testcase name="Mutant #126" file="sty/register.py" line="147">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -144,7 +144,7 @@
+         # These are least supported.
+         self.da_black = Style(EightbitBg(0))
+         self.da_red = Style(EightbitBg(88))
+-        self.da_green = Style(EightbitBg(22))
++        self.da_green = Style(EightbitBg(23))
+         self.da_yellow = Style(EightbitBg(58))
+         self.da_blue = Style(EightbitBg(18))
+         self.da_magenta = Style(EightbitBg(89))
+</failure>
+			<system-out>        self.da_green = Style(EightbitBg(22))</system-out>
+		</testcase>
+		<testcase name="Mutant #127" file="sty/register.py" line="147">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -144,7 +144,7 @@
+         # These are least supported.
+         self.da_black = Style(EightbitBg(0))
+         self.da_red = Style(EightbitBg(88))
+-        self.da_green = Style(EightbitBg(22))
++        self.da_green = None
+         self.da_yellow = Style(EightbitBg(58))
+         self.da_blue = Style(EightbitBg(18))
+         self.da_magenta = Style(EightbitBg(89))
+</failure>
+			<system-out>        self.da_green = Style(EightbitBg(22))</system-out>
+		</testcase>
+		<testcase name="Mutant #128" file="sty/register.py" line="148">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -145,7 +145,7 @@
+         self.da_black = Style(EightbitBg(0))
+         self.da_red = Style(EightbitBg(88))
+         self.da_green = Style(EightbitBg(22))
+-        self.da_yellow = Style(EightbitBg(58))
++        self.da_yellow = Style(EightbitBg(59))
+         self.da_blue = Style(EightbitBg(18))
+         self.da_magenta = Style(EightbitBg(89))
+         self.da_cyan = Style(EightbitBg(23))
+</failure>
+			<system-out>        self.da_yellow = Style(EightbitBg(58))</system-out>
+		</testcase>
+		<testcase name="Mutant #129" file="sty/register.py" line="148">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -145,7 +145,7 @@
+         self.da_black = Style(EightbitBg(0))
+         self.da_red = Style(EightbitBg(88))
+         self.da_green = Style(EightbitBg(22))
+-        self.da_yellow = Style(EightbitBg(58))
++        self.da_yellow = None
+         self.da_blue = Style(EightbitBg(18))
+         self.da_magenta = Style(EightbitBg(89))
+         self.da_cyan = Style(EightbitBg(23))
+</failure>
+			<system-out>        self.da_yellow = Style(EightbitBg(58))</system-out>
+		</testcase>
+		<testcase name="Mutant #130" file="sty/register.py" line="149">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -146,7 +146,7 @@
+         self.da_red = Style(EightbitBg(88))
+         self.da_green = Style(EightbitBg(22))
+         self.da_yellow = Style(EightbitBg(58))
+-        self.da_blue = Style(EightbitBg(18))
++        self.da_blue = Style(EightbitBg(19))
+         self.da_magenta = Style(EightbitBg(89))
+         self.da_cyan = Style(EightbitBg(23))
+         self.grey = Style(EightbitBg(249))
+</failure>
+			<system-out>        self.da_blue = Style(EightbitBg(18))</system-out>
+		</testcase>
+		<testcase name="Mutant #131" file="sty/register.py" line="149">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -146,7 +146,7 @@
+         self.da_red = Style(EightbitBg(88))
+         self.da_green = Style(EightbitBg(22))
+         self.da_yellow = Style(EightbitBg(58))
+-        self.da_blue = Style(EightbitBg(18))
++        self.da_blue = None
+         self.da_magenta = Style(EightbitBg(89))
+         self.da_cyan = Style(EightbitBg(23))
+         self.grey = Style(EightbitBg(249))
+</failure>
+			<system-out>        self.da_blue = Style(EightbitBg(18))</system-out>
+		</testcase>
+		<testcase name="Mutant #132" file="sty/register.py" line="150">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -147,7 +147,7 @@
+         self.da_green = Style(EightbitBg(22))
+         self.da_yellow = Style(EightbitBg(58))
+         self.da_blue = Style(EightbitBg(18))
+-        self.da_magenta = Style(EightbitBg(89))
++        self.da_magenta = Style(EightbitBg(90))
+         self.da_cyan = Style(EightbitBg(23))
+         self.grey = Style(EightbitBg(249))
+ 
+</failure>
+			<system-out>        self.da_magenta = Style(EightbitBg(89))</system-out>
+		</testcase>
+		<testcase name="Mutant #133" file="sty/register.py" line="150">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -147,7 +147,7 @@
+         self.da_green = Style(EightbitBg(22))
+         self.da_yellow = Style(EightbitBg(58))
+         self.da_blue = Style(EightbitBg(18))
+-        self.da_magenta = Style(EightbitBg(89))
++        self.da_magenta = None
+         self.da_cyan = Style(EightbitBg(23))
+         self.grey = Style(EightbitBg(249))
+ 
+</failure>
+			<system-out>        self.da_magenta = Style(EightbitBg(89))</system-out>
+		</testcase>
+		<testcase name="Mutant #134" file="sty/register.py" line="151">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -148,7 +148,7 @@
+         self.da_yellow = Style(EightbitBg(58))
+         self.da_blue = Style(EightbitBg(18))
+         self.da_magenta = Style(EightbitBg(89))
+-        self.da_cyan = Style(EightbitBg(23))
++        self.da_cyan = Style(EightbitBg(24))
+         self.grey = Style(EightbitBg(249))
+ 
+ 
+</failure>
+			<system-out>        self.da_cyan = Style(EightbitBg(23))</system-out>
+		</testcase>
+		<testcase name="Mutant #135" file="sty/register.py" line="151">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -148,7 +148,7 @@
+         self.da_yellow = Style(EightbitBg(58))
+         self.da_blue = Style(EightbitBg(18))
+         self.da_magenta = Style(EightbitBg(89))
+-        self.da_cyan = Style(EightbitBg(23))
++        self.da_cyan = None
+         self.grey = Style(EightbitBg(249))
+ 
+ 
+</failure>
+			<system-out>        self.da_cyan = Style(EightbitBg(23))</system-out>
+		</testcase>
+		<testcase name="Mutant #136" file="sty/register.py" line="152">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -149,7 +149,7 @@
+         self.da_blue = Style(EightbitBg(18))
+         self.da_magenta = Style(EightbitBg(89))
+         self.da_cyan = Style(EightbitBg(23))
+-        self.grey = Style(EightbitBg(249))
++        self.grey = Style(EightbitBg(250))
+ 
+ 
+ class RsRegister(Register):
+</failure>
+			<system-out>        self.grey = Style(EightbitBg(249))</system-out>
+		</testcase>
+		<testcase name="Mutant #137" file="sty/register.py" line="152">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -149,7 +149,7 @@
+         self.da_blue = Style(EightbitBg(18))
+         self.da_magenta = Style(EightbitBg(89))
+         self.da_cyan = Style(EightbitBg(23))
+-        self.grey = Style(EightbitBg(249))
++        self.grey = None
+ 
+ 
+ class RsRegister(Register):
+</failure>
+			<system-out>        self.grey = Style(EightbitBg(249))</system-out>
+		</testcase>
+		<testcase name="Mutant #138" file="sty/register.py" line="172">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -169,7 +169,7 @@
+     def __init__(self):
+         super().__init__()
+ 
+-        self.renderfuncs[Sgr] = renderfunc.sgr
++        self.renderfuncs[Sgr] = None
+ 
+         self.all = Style(Sgr(0))
+         self.fg = Style(Sgr(39))
+</failure>
+			<system-out>        self.renderfuncs[Sgr] = renderfunc.sgr</system-out>
+		</testcase>
+		<testcase name="Mutant #139" file="sty/register.py" line="174">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -171,7 +171,7 @@
+ 
+         self.renderfuncs[Sgr] = renderfunc.sgr
+ 
+-        self.all = Style(Sgr(0))
++        self.all = Style(Sgr(1))
+         self.fg = Style(Sgr(39))
+         self.bg = Style(Sgr(49))
+         # Reset all effects (Unfortunately there is no single Escape Sequence for this)
+</failure>
+			<system-out>        self.all = Style(Sgr(0))</system-out>
+		</testcase>
+		<testcase name="Mutant #140" file="sty/register.py" line="174">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -171,7 +171,7 @@
+ 
+         self.renderfuncs[Sgr] = renderfunc.sgr
+ 
+-        self.all = Style(Sgr(0))
++        self.all = None
+         self.fg = Style(Sgr(39))
+         self.bg = Style(Sgr(49))
+         # Reset all effects (Unfortunately there is no single Escape Sequence for this)
+</failure>
+			<system-out>        self.all = Style(Sgr(0))</system-out>
+		</testcase>
+		<testcase name="Mutant #141" file="sty/register.py" line="175">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -172,7 +172,7 @@
+         self.renderfuncs[Sgr] = renderfunc.sgr
+ 
+         self.all = Style(Sgr(0))
+-        self.fg = Style(Sgr(39))
++        self.fg = Style(Sgr(40))
+         self.bg = Style(Sgr(49))
+         # Reset all effects (Unfortunately there is no single Escape Sequence for this)
+         self.ef = Style(Sgr(22), Sgr(23), Sgr(24), Sgr(25), Sgr(27), Sgr(28), Sgr(29))
+</failure>
+			<system-out>        self.fg = Style(Sgr(39))</system-out>
+		</testcase>
+		<testcase name="Mutant #142" file="sty/register.py" line="175">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -172,7 +172,7 @@
+         self.renderfuncs[Sgr] = renderfunc.sgr
+ 
+         self.all = Style(Sgr(0))
+-        self.fg = Style(Sgr(39))
++        self.fg = None
+         self.bg = Style(Sgr(49))
+         # Reset all effects (Unfortunately there is no single Escape Sequence for this)
+         self.ef = Style(Sgr(22), Sgr(23), Sgr(24), Sgr(25), Sgr(27), Sgr(28), Sgr(29))
+</failure>
+			<system-out>        self.fg = Style(Sgr(39))</system-out>
+		</testcase>
+		<testcase name="Mutant #143" file="sty/register.py" line="176">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -173,7 +173,7 @@
+ 
+         self.all = Style(Sgr(0))
+         self.fg = Style(Sgr(39))
+-        self.bg = Style(Sgr(49))
++        self.bg = Style(Sgr(50))
+         # Reset all effects (Unfortunately there is no single Escape Sequence for this)
+         self.ef = Style(Sgr(22), Sgr(23), Sgr(24), Sgr(25), Sgr(27), Sgr(28), Sgr(29))
+ 
+</failure>
+			<system-out>        self.bg = Style(Sgr(49))</system-out>
+		</testcase>
+		<testcase name="Mutant #144" file="sty/register.py" line="176">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -173,7 +173,7 @@
+ 
+         self.all = Style(Sgr(0))
+         self.fg = Style(Sgr(39))
+-        self.bg = Style(Sgr(49))
++        self.bg = None
+         # Reset all effects (Unfortunately there is no single Escape Sequence for this)
+         self.ef = Style(Sgr(22), Sgr(23), Sgr(24), Sgr(25), Sgr(27), Sgr(28), Sgr(29))
+ 
+</failure>
+			<system-out>        self.bg = Style(Sgr(49))</system-out>
+		</testcase>
+		<testcase name="Mutant #145" file="sty/register.py" line="178">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -175,7 +175,7 @@
+         self.fg = Style(Sgr(39))
+         self.bg = Style(Sgr(49))
+         # Reset all effects (Unfortunately there is no single Escape Sequence for this)
+-        self.ef = Style(Sgr(22), Sgr(23), Sgr(24), Sgr(25), Sgr(27), Sgr(28), Sgr(29))
++        self.ef = Style(Sgr(23), Sgr(23), Sgr(24), Sgr(25), Sgr(27), Sgr(28), Sgr(29))
+ 
+         self.bold_dim = Style(Sgr(22))
+         self.dim_bold = Style(Sgr(22))
+</failure>
+			<system-out>        self.ef = Style(Sgr(22), Sgr(23), Sgr(24), Sgr(25), Sgr(27), Sgr(28), Sgr(29))</system-out>
+		</testcase>
+		<testcase name="Mutant #146" file="sty/register.py" line="178">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -175,7 +175,7 @@
+         self.fg = Style(Sgr(39))
+         self.bg = Style(Sgr(49))
+         # Reset all effects (Unfortunately there is no single Escape Sequence for this)
+-        self.ef = Style(Sgr(22), Sgr(23), Sgr(24), Sgr(25), Sgr(27), Sgr(28), Sgr(29))
++        self.ef = Style(Sgr(22), Sgr(24), Sgr(24), Sgr(25), Sgr(27), Sgr(28), Sgr(29))
+ 
+         self.bold_dim = Style(Sgr(22))
+         self.dim_bold = Style(Sgr(22))
+</failure>
+			<system-out>        self.ef = Style(Sgr(22), Sgr(23), Sgr(24), Sgr(25), Sgr(27), Sgr(28), Sgr(29))</system-out>
+		</testcase>
+		<testcase name="Mutant #147" file="sty/register.py" line="178">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -175,7 +175,7 @@
+         self.fg = Style(Sgr(39))
+         self.bg = Style(Sgr(49))
+         # Reset all effects (Unfortunately there is no single Escape Sequence for this)
+-        self.ef = Style(Sgr(22), Sgr(23), Sgr(24), Sgr(25), Sgr(27), Sgr(28), Sgr(29))
++        self.ef = Style(Sgr(22), Sgr(23), Sgr(25), Sgr(25), Sgr(27), Sgr(28), Sgr(29))
+ 
+         self.bold_dim = Style(Sgr(22))
+         self.dim_bold = Style(Sgr(22))
+</failure>
+			<system-out>        self.ef = Style(Sgr(22), Sgr(23), Sgr(24), Sgr(25), Sgr(27), Sgr(28), Sgr(29))</system-out>
+		</testcase>
+		<testcase name="Mutant #148" file="sty/register.py" line="178">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -175,7 +175,7 @@
+         self.fg = Style(Sgr(39))
+         self.bg = Style(Sgr(49))
+         # Reset all effects (Unfortunately there is no single Escape Sequence for this)
+-        self.ef = Style(Sgr(22), Sgr(23), Sgr(24), Sgr(25), Sgr(27), Sgr(28), Sgr(29))
++        self.ef = Style(Sgr(22), Sgr(23), Sgr(24), Sgr(26), Sgr(27), Sgr(28), Sgr(29))
+ 
+         self.bold_dim = Style(Sgr(22))
+         self.dim_bold = Style(Sgr(22))
+</failure>
+			<system-out>        self.ef = Style(Sgr(22), Sgr(23), Sgr(24), Sgr(25), Sgr(27), Sgr(28), Sgr(29))</system-out>
+		</testcase>
+		<testcase name="Mutant #149" file="sty/register.py" line="178">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -175,7 +175,7 @@
+         self.fg = Style(Sgr(39))
+         self.bg = Style(Sgr(49))
+         # Reset all effects (Unfortunately there is no single Escape Sequence for this)
+-        self.ef = Style(Sgr(22), Sgr(23), Sgr(24), Sgr(25), Sgr(27), Sgr(28), Sgr(29))
++        self.ef = Style(Sgr(22), Sgr(23), Sgr(24), Sgr(25), Sgr(28), Sgr(28), Sgr(29))
+ 
+         self.bold_dim = Style(Sgr(22))
+         self.dim_bold = Style(Sgr(22))
+</failure>
+			<system-out>        self.ef = Style(Sgr(22), Sgr(23), Sgr(24), Sgr(25), Sgr(27), Sgr(28), Sgr(29))</system-out>
+		</testcase>
+		<testcase name="Mutant #150" file="sty/register.py" line="178">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -175,7 +175,7 @@
+         self.fg = Style(Sgr(39))
+         self.bg = Style(Sgr(49))
+         # Reset all effects (Unfortunately there is no single Escape Sequence for this)
+-        self.ef = Style(Sgr(22), Sgr(23), Sgr(24), Sgr(25), Sgr(27), Sgr(28), Sgr(29))
++        self.ef = Style(Sgr(22), Sgr(23), Sgr(24), Sgr(25), Sgr(27), Sgr(29), Sgr(29))
+ 
+         self.bold_dim = Style(Sgr(22))
+         self.dim_bold = Style(Sgr(22))
+</failure>
+			<system-out>        self.ef = Style(Sgr(22), Sgr(23), Sgr(24), Sgr(25), Sgr(27), Sgr(28), Sgr(29))</system-out>
+		</testcase>
+		<testcase name="Mutant #151" file="sty/register.py" line="178">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -175,7 +175,7 @@
+         self.fg = Style(Sgr(39))
+         self.bg = Style(Sgr(49))
+         # Reset all effects (Unfortunately there is no single Escape Sequence for this)
+-        self.ef = Style(Sgr(22), Sgr(23), Sgr(24), Sgr(25), Sgr(27), Sgr(28), Sgr(29))
++        self.ef = Style(Sgr(22), Sgr(23), Sgr(24), Sgr(25), Sgr(27), Sgr(28), Sgr(30))
+ 
+         self.bold_dim = Style(Sgr(22))
+         self.dim_bold = Style(Sgr(22))
+</failure>
+			<system-out>        self.ef = Style(Sgr(22), Sgr(23), Sgr(24), Sgr(25), Sgr(27), Sgr(28), Sgr(29))</system-out>
+		</testcase>
+		<testcase name="Mutant #152" file="sty/register.py" line="178">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -175,7 +175,7 @@
+         self.fg = Style(Sgr(39))
+         self.bg = Style(Sgr(49))
+         # Reset all effects (Unfortunately there is no single Escape Sequence for this)
+-        self.ef = Style(Sgr(22), Sgr(23), Sgr(24), Sgr(25), Sgr(27), Sgr(28), Sgr(29))
++        self.ef = None
+ 
+         self.bold_dim = Style(Sgr(22))
+         self.dim_bold = Style(Sgr(22))
+</failure>
+			<system-out>        self.ef = Style(Sgr(22), Sgr(23), Sgr(24), Sgr(25), Sgr(27), Sgr(28), Sgr(29))</system-out>
+		</testcase>
+		<testcase name="Mutant #153" file="sty/register.py" line="180">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -177,7 +177,7 @@
+         # Reset all effects (Unfortunately there is no single Escape Sequence for this)
+         self.ef = Style(Sgr(22), Sgr(23), Sgr(24), Sgr(25), Sgr(27), Sgr(28), Sgr(29))
+ 
+-        self.bold_dim = Style(Sgr(22))
++        self.bold_dim = Style(Sgr(23))
+         self.dim_bold = Style(Sgr(22))
+         self.i = Style(Sgr(23))
+         self.italic = Style(Sgr(23))
+</failure>
+			<system-out>        self.bold_dim = Style(Sgr(22))</system-out>
+		</testcase>
+		<testcase name="Mutant #154" file="sty/register.py" line="180">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -177,7 +177,7 @@
+         # Reset all effects (Unfortunately there is no single Escape Sequence for this)
+         self.ef = Style(Sgr(22), Sgr(23), Sgr(24), Sgr(25), Sgr(27), Sgr(28), Sgr(29))
+ 
+-        self.bold_dim = Style(Sgr(22))
++        self.bold_dim = None
+         self.dim_bold = Style(Sgr(22))
+         self.i = Style(Sgr(23))
+         self.italic = Style(Sgr(23))
+</failure>
+			<system-out>        self.bold_dim = Style(Sgr(22))</system-out>
+		</testcase>
+		<testcase name="Mutant #155" file="sty/register.py" line="181">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -178,7 +178,7 @@
+         self.ef = Style(Sgr(22), Sgr(23), Sgr(24), Sgr(25), Sgr(27), Sgr(28), Sgr(29))
+ 
+         self.bold_dim = Style(Sgr(22))
+-        self.dim_bold = Style(Sgr(22))
++        self.dim_bold = Style(Sgr(23))
+         self.i = Style(Sgr(23))
+         self.italic = Style(Sgr(23))
+         self.u = Style(Sgr(24))
+</failure>
+			<system-out>        self.dim_bold = Style(Sgr(22))</system-out>
+		</testcase>
+		<testcase name="Mutant #156" file="sty/register.py" line="181">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -178,7 +178,7 @@
+         self.ef = Style(Sgr(22), Sgr(23), Sgr(24), Sgr(25), Sgr(27), Sgr(28), Sgr(29))
+ 
+         self.bold_dim = Style(Sgr(22))
+-        self.dim_bold = Style(Sgr(22))
++        self.dim_bold = None
+         self.i = Style(Sgr(23))
+         self.italic = Style(Sgr(23))
+         self.u = Style(Sgr(24))
+</failure>
+			<system-out>        self.dim_bold = Style(Sgr(22))</system-out>
+		</testcase>
+		<testcase name="Mutant #157" file="sty/register.py" line="182">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -179,7 +179,7 @@
+ 
+         self.bold_dim = Style(Sgr(22))
+         self.dim_bold = Style(Sgr(22))
+-        self.i = Style(Sgr(23))
++        self.i = Style(Sgr(24))
+         self.italic = Style(Sgr(23))
+         self.u = Style(Sgr(24))
+         self.underl = Style(Sgr(24))
+</failure>
+			<system-out>        self.i = Style(Sgr(23))</system-out>
+		</testcase>
+		<testcase name="Mutant #158" file="sty/register.py" line="182">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -179,7 +179,7 @@
+ 
+         self.bold_dim = Style(Sgr(22))
+         self.dim_bold = Style(Sgr(22))
+-        self.i = Style(Sgr(23))
++        self.i = None
+         self.italic = Style(Sgr(23))
+         self.u = Style(Sgr(24))
+         self.underl = Style(Sgr(24))
+</failure>
+			<system-out>        self.i = Style(Sgr(23))</system-out>
+		</testcase>
+		<testcase name="Mutant #159" file="sty/register.py" line="183">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -180,7 +180,7 @@
+         self.bold_dim = Style(Sgr(22))
+         self.dim_bold = Style(Sgr(22))
+         self.i = Style(Sgr(23))
+-        self.italic = Style(Sgr(23))
++        self.italic = Style(Sgr(24))
+         self.u = Style(Sgr(24))
+         self.underl = Style(Sgr(24))
+         self.blink = Style(Sgr(25))
+</failure>
+			<system-out>        self.italic = Style(Sgr(23))</system-out>
+		</testcase>
+		<testcase name="Mutant #160" file="sty/register.py" line="183">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -180,7 +180,7 @@
+         self.bold_dim = Style(Sgr(22))
+         self.dim_bold = Style(Sgr(22))
+         self.i = Style(Sgr(23))
+-        self.italic = Style(Sgr(23))
++        self.italic = None
+         self.u = Style(Sgr(24))
+         self.underl = Style(Sgr(24))
+         self.blink = Style(Sgr(25))
+</failure>
+			<system-out>        self.italic = Style(Sgr(23))</system-out>
+		</testcase>
+		<testcase name="Mutant #161" file="sty/register.py" line="184">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -181,7 +181,7 @@
+         self.dim_bold = Style(Sgr(22))
+         self.i = Style(Sgr(23))
+         self.italic = Style(Sgr(23))
+-        self.u = Style(Sgr(24))
++        self.u = Style(Sgr(25))
+         self.underl = Style(Sgr(24))
+         self.blink = Style(Sgr(25))
+         self.inverse = Style(Sgr(27))
+</failure>
+			<system-out>        self.u = Style(Sgr(24))</system-out>
+		</testcase>
+		<testcase name="Mutant #162" file="sty/register.py" line="184">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -181,7 +181,7 @@
+         self.dim_bold = Style(Sgr(22))
+         self.i = Style(Sgr(23))
+         self.italic = Style(Sgr(23))
+-        self.u = Style(Sgr(24))
++        self.u = None
+         self.underl = Style(Sgr(24))
+         self.blink = Style(Sgr(25))
+         self.inverse = Style(Sgr(27))
+</failure>
+			<system-out>        self.u = Style(Sgr(24))</system-out>
+		</testcase>
+		<testcase name="Mutant #163" file="sty/register.py" line="185">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -182,7 +182,7 @@
+         self.i = Style(Sgr(23))
+         self.italic = Style(Sgr(23))
+         self.u = Style(Sgr(24))
+-        self.underl = Style(Sgr(24))
++        self.underl = Style(Sgr(25))
+         self.blink = Style(Sgr(25))
+         self.inverse = Style(Sgr(27))
+         self.hidden = Style(Sgr(28))
+</failure>
+			<system-out>        self.underl = Style(Sgr(24))</system-out>
+		</testcase>
+		<testcase name="Mutant #164" file="sty/register.py" line="185">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -182,7 +182,7 @@
+         self.i = Style(Sgr(23))
+         self.italic = Style(Sgr(23))
+         self.u = Style(Sgr(24))
+-        self.underl = Style(Sgr(24))
++        self.underl = None
+         self.blink = Style(Sgr(25))
+         self.inverse = Style(Sgr(27))
+         self.hidden = Style(Sgr(28))
+</failure>
+			<system-out>        self.underl = Style(Sgr(24))</system-out>
+		</testcase>
+		<testcase name="Mutant #165" file="sty/register.py" line="186">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -183,7 +183,7 @@
+         self.italic = Style(Sgr(23))
+         self.u = Style(Sgr(24))
+         self.underl = Style(Sgr(24))
+-        self.blink = Style(Sgr(25))
++        self.blink = Style(Sgr(26))
+         self.inverse = Style(Sgr(27))
+         self.hidden = Style(Sgr(28))
+         self.strike = Style(Sgr(29))
+</failure>
+			<system-out>        self.blink = Style(Sgr(25))</system-out>
+		</testcase>
+		<testcase name="Mutant #166" file="sty/register.py" line="186">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -183,7 +183,7 @@
+         self.italic = Style(Sgr(23))
+         self.u = Style(Sgr(24))
+         self.underl = Style(Sgr(24))
+-        self.blink = Style(Sgr(25))
++        self.blink = None
+         self.inverse = Style(Sgr(27))
+         self.hidden = Style(Sgr(28))
+         self.strike = Style(Sgr(29))
+</failure>
+			<system-out>        self.blink = Style(Sgr(25))</system-out>
+		</testcase>
+		<testcase name="Mutant #167" file="sty/register.py" line="187">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -184,7 +184,7 @@
+         self.u = Style(Sgr(24))
+         self.underl = Style(Sgr(24))
+         self.blink = Style(Sgr(25))
+-        self.inverse = Style(Sgr(27))
++        self.inverse = Style(Sgr(28))
+         self.hidden = Style(Sgr(28))
+         self.strike = Style(Sgr(29))
+ 
+</failure>
+			<system-out>        self.inverse = Style(Sgr(27))</system-out>
+		</testcase>
+		<testcase name="Mutant #168" file="sty/register.py" line="187">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -184,7 +184,7 @@
+         self.u = Style(Sgr(24))
+         self.underl = Style(Sgr(24))
+         self.blink = Style(Sgr(25))
+-        self.inverse = Style(Sgr(27))
++        self.inverse = None
+         self.hidden = Style(Sgr(28))
+         self.strike = Style(Sgr(29))
+ 
+</failure>
+			<system-out>        self.inverse = Style(Sgr(27))</system-out>
+		</testcase>
+		<testcase name="Mutant #169" file="sty/register.py" line="188">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -185,7 +185,7 @@
+         self.underl = Style(Sgr(24))
+         self.blink = Style(Sgr(25))
+         self.inverse = Style(Sgr(27))
+-        self.hidden = Style(Sgr(28))
++        self.hidden = Style(Sgr(29))
+         self.strike = Style(Sgr(29))
+ 
+ 
+</failure>
+			<system-out>        self.hidden = Style(Sgr(28))</system-out>
+		</testcase>
+		<testcase name="Mutant #170" file="sty/register.py" line="188">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -185,7 +185,7 @@
+         self.underl = Style(Sgr(24))
+         self.blink = Style(Sgr(25))
+         self.inverse = Style(Sgr(27))
+-        self.hidden = Style(Sgr(28))
++        self.hidden = None
+         self.strike = Style(Sgr(29))
+ 
+ 
+</failure>
+			<system-out>        self.hidden = Style(Sgr(28))</system-out>
+		</testcase>
+		<testcase name="Mutant #171" file="sty/register.py" line="189">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -186,7 +186,7 @@
+         self.blink = Style(Sgr(25))
+         self.inverse = Style(Sgr(27))
+         self.hidden = Style(Sgr(28))
+-        self.strike = Style(Sgr(29))
++        self.strike = Style(Sgr(30))
+ 
+ 
+ ef = EfRegister()
+</failure>
+			<system-out>        self.strike = Style(Sgr(29))</system-out>
+		</testcase>
+		<testcase name="Mutant #172" file="sty/register.py" line="189">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -186,7 +186,7 @@
+         self.blink = Style(Sgr(25))
+         self.inverse = Style(Sgr(27))
+         self.hidden = Style(Sgr(28))
+-        self.strike = Style(Sgr(29))
++        self.strike = None
+ 
+ 
+ ef = EfRegister()
+</failure>
+			<system-out>        self.strike = Style(Sgr(29))</system-out>
+		</testcase>
+		<testcase name="Mutant #173" file="sty/register.py" line="192">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -189,7 +189,7 @@
+         self.strike = Style(Sgr(29))
+ 
+ 
+-ef = EfRegister()
++ef = None
+ fg = FgRegister()
+ bg = BgRegister()
+ rs = RsRegister()
+</failure>
+			<system-out>ef = EfRegister()</system-out>
+		</testcase>
+		<testcase name="Mutant #174" file="sty/register.py" line="193">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -190,7 +190,7 @@
+ 
+ 
+ ef = EfRegister()
+-fg = FgRegister()
++fg = None
+ bg = BgRegister()
+ rs = RsRegister()
+ 
+</failure>
+			<system-out>fg = FgRegister()</system-out>
+		</testcase>
+		<testcase name="Mutant #175" file="sty/register.py" line="194">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -191,6 +191,6 @@
+ 
+ ef = EfRegister()
+ fg = FgRegister()
+-bg = BgRegister()
++bg = None
+ rs = RsRegister()
+ 
+</failure>
+			<system-out>bg = BgRegister()</system-out>
+		</testcase>
+		<testcase name="Mutant #176" file="sty/register.py" line="195">
+			<failure type="failure" message="bad_survived">--- sty/register.py
++++ sty/register.py
+@@ -192,5 +192,5 @@
+ ef = EfRegister()
+ fg = FgRegister()
+ bg = BgRegister()
+-rs = RsRegister()
++rs = None
+ 
+</failure>
+			<system-out>rs = RsRegister()</system-out>
+		</testcase>
+		<testcase name="Mutant #177" file="sty/lib.py" line="15">
+			<failure type="failure" message="bad_survived">--- sty/lib.py
++++ sty/lib.py
+@@ -12,7 +12,7 @@
+     :param objects: Pass multiple register-objects to the function.
+     &quot;&quot;&quot;
+     err = ValueError(
+-        &quot;The mute() method can only be used with objects that inherit &quot;
++        &quot;XXThe mute() method can only be used with objects that inherit XX&quot;
+         &quot;from the 'Register class'.&quot;
+     )
+     for obj in objects:
+</failure>
+			<system-out>        &quot;The mute() method can only be used with objects that inherit &quot;</system-out>
+		</testcase>
+		<testcase name="Mutant #178" file="sty/lib.py" line="16">
+			<failure type="failure" message="bad_survived">--- sty/lib.py
++++ sty/lib.py
+@@ -13,7 +13,7 @@
+     &quot;&quot;&quot;
+     err = ValueError(
+         &quot;The mute() method can only be used with objects that inherit &quot;
+-        &quot;from the 'Register class'.&quot;
++        &quot;XXfrom the 'Register class'.XX&quot;
+     )
+     for obj in objects:
+         if not isinstance(obj, Register):
+</failure>
+			<system-out>        &quot;from the 'Register class'.&quot;</system-out>
+		</testcase>
+		<testcase name="Mutant #179" file="sty/lib.py" line="17">
+			<failure type="failure" message="bad_survived">--- sty/lib.py
++++ sty/lib.py
+@@ -11,10 +11,7 @@
+ 
+     :param objects: Pass multiple register-objects to the function.
+     &quot;&quot;&quot;
+-    err = ValueError(
+-        &quot;The mute() method can only be used with objects that inherit &quot;
+-        &quot;from the 'Register class'.&quot;
+-    )
++    err = None
+     for obj in objects:
+         if not isinstance(obj, Register):
+             raise err
+</failure>
+			<system-out>    )</system-out>
+		</testcase>
+		<testcase name="Mutant #180" file="sty/lib.py" line="19">
+			<failure type="failure" message="bad_survived">--- sty/lib.py
++++ sty/lib.py
+@@ -16,7 +16,7 @@
+         &quot;from the 'Register class'.&quot;
+     )
+     for obj in objects:
+-        if not isinstance(obj, Register):
++        if  isinstance(obj, Register):
+             raise err
+         obj.mute()
+ 
+</failure>
+			<system-out>        if not isinstance(obj, Register):</system-out>
+		</testcase>
+		<testcase name="Mutant #181" file="sty/lib.py" line="31">
+			<failure type="failure" message="bad_survived">--- sty/lib.py
++++ sty/lib.py
+@@ -28,7 +28,7 @@
+     :param objects: Pass multiple register-objects to the function.
+     &quot;&quot;&quot;
+     err = ValueError(
+-        &quot;The unmute() method can only be used with objects that inherit &quot;
++        &quot;XXThe unmute() method can only be used with objects that inherit XX&quot;
+         &quot;from the 'Register class'.&quot;
+     )
+     for obj in objects:
+</failure>
+			<system-out>        &quot;The unmute() method can only be used with objects that inherit &quot;</system-out>
+		</testcase>
+		<testcase name="Mutant #182" file="sty/lib.py" line="32">
+			<failure type="failure" message="bad_survived">--- sty/lib.py
++++ sty/lib.py
+@@ -29,7 +29,7 @@
+     &quot;&quot;&quot;
+     err = ValueError(
+         &quot;The unmute() method can only be used with objects that inherit &quot;
+-        &quot;from the 'Register class'.&quot;
++        &quot;XXfrom the 'Register class'.XX&quot;
+     )
+     for obj in objects:
+         if not isinstance(obj, Register):
+</failure>
+			<system-out>        &quot;from the 'Register class'.&quot;</system-out>
+		</testcase>
+		<testcase name="Mutant #183" file="sty/lib.py" line="33">
+			<failure type="failure" message="bad_survived">--- sty/lib.py
++++ sty/lib.py
+@@ -27,10 +27,7 @@
+ 
+     :param objects: Pass multiple register-objects to the function.
+     &quot;&quot;&quot;
+-    err = ValueError(
+-        &quot;The unmute() method can only be used with objects that inherit &quot;
+-        &quot;from the 'Register class'.&quot;
+-    )
++    err = None
+     for obj in objects:
+         if not isinstance(obj, Register):
+             raise err
+</failure>
+			<system-out>    )</system-out>
+		</testcase>
+		<testcase name="Mutant #184" file="sty/lib.py" line="35">
+			<failure type="failure" message="bad_survived">--- sty/lib.py
++++ sty/lib.py
+@@ -32,7 +32,7 @@
+         &quot;from the 'Register class'.&quot;
+     )
+     for obj in objects:
+-        if not isinstance(obj, Register):
++        if  isinstance(obj, Register):
+             raise err
+         obj.unmute()
+ 
+</failure>
+			<system-out>        if not isinstance(obj, Register):</system-out>
+		</testcase>
+		<testcase name="Mutant #185" file="sty/renderfunc.py" line="13">
+			<system-out>    return &quot;\033[&quot; + str(num) + &quot;m&quot;</system-out>
+		</testcase>
+		<testcase name="Mutant #186" file="sty/renderfunc.py" line="13">
+			<failure type="failure" message="bad_survived">--- sty/renderfunc.py
++++ sty/renderfunc.py
+@@ -10,7 +10,7 @@
+     &quot;&quot;&quot;
+     Create a SGR escape sequence.
+     &quot;&quot;&quot;
+-    return &quot;\033[&quot; + str(num) + &quot;m&quot;
++    return &quot;\033[&quot; - str(num) + &quot;m&quot;
+ 
+ 
+ def eightbit_fg(num: int) -&gt; str:
+</failure>
+			<system-out>    return &quot;\033[&quot; + str(num) + &quot;m&quot;</system-out>
+		</testcase>
+		<testcase name="Mutant #187" file="sty/renderfunc.py" line="13">
+			<failure type="failure" message="bad_survived">--- sty/renderfunc.py
++++ sty/renderfunc.py
+@@ -10,7 +10,7 @@
+     &quot;&quot;&quot;
+     Create a SGR escape sequence.
+     &quot;&quot;&quot;
+-    return &quot;\033[&quot; + str(num) + &quot;m&quot;
++    return &quot;\033[&quot; + str(num) - &quot;m&quot;
+ 
+ 
+ def eightbit_fg(num: int) -&gt; str:
+</failure>
+			<system-out>    return &quot;\033[&quot; + str(num) + &quot;m&quot;</system-out>
+		</testcase>
+		<testcase name="Mutant #188" file="sty/renderfunc.py" line="13">
+			<system-out>    return &quot;\033[&quot; + str(num) + &quot;m&quot;</system-out>
+		</testcase>
+		<testcase name="Mutant #189" file="sty/renderfunc.py" line="20">
+			<system-out>    return &quot;\033[38;5;&quot; + str(num) + &quot;m&quot;</system-out>
+		</testcase>
+		<testcase name="Mutant #190" file="sty/renderfunc.py" line="20">
+			<failure type="failure" message="bad_survived">--- sty/renderfunc.py
++++ sty/renderfunc.py
+@@ -17,7 +17,7 @@
+     &quot;&quot;&quot;
+     Create a 8bit (256-color) foreground escape sequence.
+     &quot;&quot;&quot;
+-    return &quot;\033[38;5;&quot; + str(num) + &quot;m&quot;
++    return &quot;\033[38;5;&quot; - str(num) + &quot;m&quot;
+ 
+ 
+ def eightbit_bg(num: int) -&gt; str:
+</failure>
+			<system-out>    return &quot;\033[38;5;&quot; + str(num) + &quot;m&quot;</system-out>
+		</testcase>
+		<testcase name="Mutant #191" file="sty/renderfunc.py" line="20">
+			<failure type="failure" message="bad_survived">--- sty/renderfunc.py
++++ sty/renderfunc.py
+@@ -17,7 +17,7 @@
+     &quot;&quot;&quot;
+     Create a 8bit (256-color) foreground escape sequence.
+     &quot;&quot;&quot;
+-    return &quot;\033[38;5;&quot; + str(num) + &quot;m&quot;
++    return &quot;\033[38;5;&quot; + str(num) - &quot;m&quot;
+ 
+ 
+ def eightbit_bg(num: int) -&gt; str:
+</failure>
+			<system-out>    return &quot;\033[38;5;&quot; + str(num) + &quot;m&quot;</system-out>
+		</testcase>
+		<testcase name="Mutant #192" file="sty/renderfunc.py" line="20">
+			<system-out>    return &quot;\033[38;5;&quot; + str(num) + &quot;m&quot;</system-out>
+		</testcase>
+		<testcase name="Mutant #193" file="sty/renderfunc.py" line="27">
+			<system-out>    return &quot;\033[48;5;&quot; + str(num) + &quot;m&quot;</system-out>
+		</testcase>
+		<testcase name="Mutant #194" file="sty/renderfunc.py" line="27">
+			<failure type="failure" message="bad_survived">--- sty/renderfunc.py
++++ sty/renderfunc.py
+@@ -24,7 +24,7 @@
+     &quot;&quot;&quot;
+     Create a 8bit (256-color) background escape sequence.
+     &quot;&quot;&quot;
+-    return &quot;\033[48;5;&quot; + str(num) + &quot;m&quot;
++    return &quot;\033[48;5;&quot; - str(num) + &quot;m&quot;
+ 
+ 
+ def rgb_fg(r: int, g: int, b: int) -&gt; str:
+</failure>
+			<system-out>    return &quot;\033[48;5;&quot; + str(num) + &quot;m&quot;</system-out>
+		</testcase>
+		<testcase name="Mutant #195" file="sty/renderfunc.py" line="27">
+			<failure type="failure" message="bad_survived">--- sty/renderfunc.py
++++ sty/renderfunc.py
+@@ -24,7 +24,7 @@
+     &quot;&quot;&quot;
+     Create a 8bit (256-color) background escape sequence.
+     &quot;&quot;&quot;
+-    return &quot;\033[48;5;&quot; + str(num) + &quot;m&quot;
++    return &quot;\033[48;5;&quot; + str(num) - &quot;m&quot;
+ 
+ 
+ def rgb_fg(r: int, g: int, b: int) -&gt; str:
+</failure>
+			<system-out>    return &quot;\033[48;5;&quot; + str(num) + &quot;m&quot;</system-out>
+		</testcase>
+		<testcase name="Mutant #196" file="sty/renderfunc.py" line="27">
+			<system-out>    return &quot;\033[48;5;&quot; + str(num) + &quot;m&quot;</system-out>
+		</testcase>
+		<testcase name="Mutant #197" file="sty/renderfunc.py" line="34">
+			<system-out>    return &quot;\x1b[38;2;&quot; + str(r) + &quot;;&quot; + str(g) + &quot;;&quot; + str(b) + &quot;m&quot;</system-out>
+		</testcase>
+		<testcase name="Mutant #198" file="sty/renderfunc.py" line="34">
+			<system-out>    return &quot;\x1b[38;2;&quot; + str(r) + &quot;;&quot; + str(g) + &quot;;&quot; + str(b) + &quot;m&quot;</system-out>
+		</testcase>
+		<testcase name="Mutant #199" file="sty/renderfunc.py" line="34">
+			<system-out>    return &quot;\x1b[38;2;&quot; + str(r) + &quot;;&quot; + str(g) + &quot;;&quot; + str(b) + &quot;m&quot;</system-out>
+		</testcase>
+		<testcase name="Mutant #200" file="sty/renderfunc.py" line="34">
+			<system-out>    return &quot;\x1b[38;2;&quot; + str(r) + &quot;;&quot; + str(g) + &quot;;&quot; + str(b) + &quot;m&quot;</system-out>
+		</testcase>
+		<testcase name="Mutant #201" file="sty/renderfunc.py" line="34">
+			<system-out>    return &quot;\x1b[38;2;&quot; + str(r) + &quot;;&quot; + str(g) + &quot;;&quot; + str(b) + &quot;m&quot;</system-out>
+		</testcase>
+		<testcase name="Mutant #202" file="sty/renderfunc.py" line="34">
+			<system-out>    return &quot;\x1b[38;2;&quot; + str(r) + &quot;;&quot; + str(g) + &quot;;&quot; + str(b) + &quot;m&quot;</system-out>
+		</testcase>
+		<testcase name="Mutant #203" file="sty/renderfunc.py" line="34">
+			<system-out>    return &quot;\x1b[38;2;&quot; + str(r) + &quot;;&quot; + str(g) + &quot;;&quot; + str(b) + &quot;m&quot;</system-out>
+		</testcase>
+		<testcase name="Mutant #204" file="sty/renderfunc.py" line="34">
+			<system-out>    return &quot;\x1b[38;2;&quot; + str(r) + &quot;;&quot; + str(g) + &quot;;&quot; + str(b) + &quot;m&quot;</system-out>
+		</testcase>
+		<testcase name="Mutant #205" file="sty/renderfunc.py" line="34">
+			<system-out>    return &quot;\x1b[38;2;&quot; + str(r) + &quot;;&quot; + str(g) + &quot;;&quot; + str(b) + &quot;m&quot;</system-out>
+		</testcase>
+		<testcase name="Mutant #206" file="sty/renderfunc.py" line="34">
+			<system-out>    return &quot;\x1b[38;2;&quot; + str(r) + &quot;;&quot; + str(g) + &quot;;&quot; + str(b) + &quot;m&quot;</system-out>
+		</testcase>
+		<testcase name="Mutant #207" file="sty/renderfunc.py" line="41">
+			<failure type="failure" message="bad_survived">--- sty/renderfunc.py
++++ sty/renderfunc.py
+@@ -38,5 +38,5 @@
+     &quot;&quot;&quot;
+     Create a 24bit (true color) background escape sequence.
+     &quot;&quot;&quot;
+-    return &quot;\x1b[48;2;&quot; + str(r) + &quot;;&quot; + str(g) + &quot;;&quot; + str(b) + &quot;m&quot;
++    return &quot;XX\x1b[48;2;XX&quot; + str(r) + &quot;;&quot; + str(g) + &quot;;&quot; + str(b) + &quot;m&quot;
+ 
+</failure>
+			<system-out>    return &quot;\x1b[48;2;&quot; + str(r) + &quot;;&quot; + str(g) + &quot;;&quot; + str(b) + &quot;m&quot;</system-out>
+		</testcase>
+		<testcase name="Mutant #208" file="sty/renderfunc.py" line="41">
+			<failure type="failure" message="bad_survived">--- sty/renderfunc.py
++++ sty/renderfunc.py
+@@ -38,5 +38,5 @@
+     &quot;&quot;&quot;
+     Create a 24bit (true color) background escape sequence.
+     &quot;&quot;&quot;
+-    return &quot;\x1b[48;2;&quot; + str(r) + &quot;;&quot; + str(g) + &quot;;&quot; + str(b) + &quot;m&quot;
++    return &quot;\x1b[48;2;&quot; - str(r) + &quot;;&quot; + str(g) + &quot;;&quot; + str(b) + &quot;m&quot;
+ 
+</failure>
+			<system-out>    return &quot;\x1b[48;2;&quot; + str(r) + &quot;;&quot; + str(g) + &quot;;&quot; + str(b) + &quot;m&quot;</system-out>
+		</testcase>
+		<testcase name="Mutant #209" file="sty/renderfunc.py" line="41">
+			<failure type="failure" message="bad_survived">--- sty/renderfunc.py
++++ sty/renderfunc.py
+@@ -38,5 +38,5 @@
+     &quot;&quot;&quot;
+     Create a 24bit (true color) background escape sequence.
+     &quot;&quot;&quot;
+-    return &quot;\x1b[48;2;&quot; + str(r) + &quot;;&quot; + str(g) + &quot;;&quot; + str(b) + &quot;m&quot;
++    return &quot;\x1b[48;2;&quot; + str(r) - &quot;;&quot; + str(g) + &quot;;&quot; + str(b) + &quot;m&quot;
+ 
+</failure>
+			<system-out>    return &quot;\x1b[48;2;&quot; + str(r) + &quot;;&quot; + str(g) + &quot;;&quot; + str(b) + &quot;m&quot;</system-out>
+		</testcase>
+		<testcase name="Mutant #210" file="sty/renderfunc.py" line="41">
+			<failure type="failure" message="bad_survived">--- sty/renderfunc.py
++++ sty/renderfunc.py
+@@ -38,5 +38,5 @@
+     &quot;&quot;&quot;
+     Create a 24bit (true color) background escape sequence.
+     &quot;&quot;&quot;
+-    return &quot;\x1b[48;2;&quot; + str(r) + &quot;;&quot; + str(g) + &quot;;&quot; + str(b) + &quot;m&quot;
++    return &quot;\x1b[48;2;&quot; + str(r) + &quot;XX;XX&quot; + str(g) + &quot;;&quot; + str(b) + &quot;m&quot;
+ 
+</failure>
+			<system-out>    return &quot;\x1b[48;2;&quot; + str(r) + &quot;;&quot; + str(g) + &quot;;&quot; + str(b) + &quot;m&quot;</system-out>
+		</testcase>
+		<testcase name="Mutant #211" file="sty/renderfunc.py" line="41">
+			<failure type="failure" message="bad_survived">--- sty/renderfunc.py
++++ sty/renderfunc.py
+@@ -38,5 +38,5 @@
+     &quot;&quot;&quot;
+     Create a 24bit (true color) background escape sequence.
+     &quot;&quot;&quot;
+-    return &quot;\x1b[48;2;&quot; + str(r) + &quot;;&quot; + str(g) + &quot;;&quot; + str(b) + &quot;m&quot;
++    return &quot;\x1b[48;2;&quot; + str(r) + &quot;;&quot; - str(g) + &quot;;&quot; + str(b) + &quot;m&quot;
+ 
+</failure>
+			<system-out>    return &quot;\x1b[48;2;&quot; + str(r) + &quot;;&quot; + str(g) + &quot;;&quot; + str(b) + &quot;m&quot;</system-out>
+		</testcase>
+		<testcase name="Mutant #212" file="sty/renderfunc.py" line="41">
+			<failure type="failure" message="bad_survived">--- sty/renderfunc.py
++++ sty/renderfunc.py
+@@ -38,5 +38,5 @@
+     &quot;&quot;&quot;
+     Create a 24bit (true color) background escape sequence.
+     &quot;&quot;&quot;
+-    return &quot;\x1b[48;2;&quot; + str(r) + &quot;;&quot; + str(g) + &quot;;&quot; + str(b) + &quot;m&quot;
++    return &quot;\x1b[48;2;&quot; + str(r) + &quot;;&quot; + str(g) - &quot;;&quot; + str(b) + &quot;m&quot;
+ 
+</failure>
+			<system-out>    return &quot;\x1b[48;2;&quot; + str(r) + &quot;;&quot; + str(g) + &quot;;&quot; + str(b) + &quot;m&quot;</system-out>
+		</testcase>
+		<testcase name="Mutant #213" file="sty/renderfunc.py" line="41">
+			<failure type="failure" message="bad_survived">--- sty/renderfunc.py
++++ sty/renderfunc.py
+@@ -38,5 +38,5 @@
+     &quot;&quot;&quot;
+     Create a 24bit (true color) background escape sequence.
+     &quot;&quot;&quot;
+-    return &quot;\x1b[48;2;&quot; + str(r) + &quot;;&quot; + str(g) + &quot;;&quot; + str(b) + &quot;m&quot;
++    return &quot;\x1b[48;2;&quot; + str(r) + &quot;;&quot; + str(g) + &quot;XX;XX&quot; + str(b) + &quot;m&quot;
+ 
+</failure>
+			<system-out>    return &quot;\x1b[48;2;&quot; + str(r) + &quot;;&quot; + str(g) + &quot;;&quot; + str(b) + &quot;m&quot;</system-out>
+		</testcase>
+		<testcase name="Mutant #214" file="sty/renderfunc.py" line="41">
+			<failure type="failure" message="bad_survived">--- sty/renderfunc.py
++++ sty/renderfunc.py
+@@ -38,5 +38,5 @@
+     &quot;&quot;&quot;
+     Create a 24bit (true color) background escape sequence.
+     &quot;&quot;&quot;
+-    return &quot;\x1b[48;2;&quot; + str(r) + &quot;;&quot; + str(g) + &quot;;&quot; + str(b) + &quot;m&quot;
++    return &quot;\x1b[48;2;&quot; + str(r) + &quot;;&quot; + str(g) + &quot;;&quot; - str(b) + &quot;m&quot;
+ 
+</failure>
+			<system-out>    return &quot;\x1b[48;2;&quot; + str(r) + &quot;;&quot; + str(g) + &quot;;&quot; + str(b) + &quot;m&quot;</system-out>
+		</testcase>
+		<testcase name="Mutant #215" file="sty/renderfunc.py" line="41">
+			<failure type="failure" message="bad_survived">--- sty/renderfunc.py
++++ sty/renderfunc.py
+@@ -38,5 +38,5 @@
+     &quot;&quot;&quot;
+     Create a 24bit (true color) background escape sequence.
+     &quot;&quot;&quot;
+-    return &quot;\x1b[48;2;&quot; + str(r) + &quot;;&quot; + str(g) + &quot;;&quot; + str(b) + &quot;m&quot;
++    return &quot;\x1b[48;2;&quot; + str(r) + &quot;;&quot; + str(g) + &quot;;&quot; + str(b) - &quot;m&quot;
+ 
+</failure>
+			<system-out>    return &quot;\x1b[48;2;&quot; + str(r) + &quot;;&quot; + str(g) + &quot;;&quot; + str(b) + &quot;m&quot;</system-out>
+		</testcase>
+		<testcase name="Mutant #216" file="sty/renderfunc.py" line="41">
+			<failure type="failure" message="bad_survived">--- sty/renderfunc.py
++++ sty/renderfunc.py
+@@ -38,5 +38,5 @@
+     &quot;&quot;&quot;
+     Create a 24bit (true color) background escape sequence.
+     &quot;&quot;&quot;
+-    return &quot;\x1b[48;2;&quot; + str(r) + &quot;;&quot; + str(g) + &quot;;&quot; + str(b) + &quot;m&quot;
++    return &quot;\x1b[48;2;&quot; + str(r) + &quot;;&quot; + str(g) + &quot;;&quot; + str(b) + &quot;XXmXX&quot;
+ 
+</failure>
+			<system-out>    return &quot;\x1b[48;2;&quot; + str(r) + &quot;;&quot; + str(g) + &quot;;&quot; + str(b) + &quot;m&quot;</system-out>
+		</testcase>
+		<testcase name="Mutant #217" file="sty/primitive.py" line="10">
+			<failure type="failure" message="bad_survived">--- sty/primitive.py
++++ sty/primitive.py
+@@ -7,7 +7,7 @@
+ 
+ from sty.rendertype import RenderType
+ 
+-Renderfuncs = Dict[Type[RenderType], Callable]
++Renderfuncs = None
+ 
+ StylingRule = Union[&quot;Style&quot;, RenderType]
+ 
+</failure>
+			<system-out>Renderfuncs = Dict[Type[RenderType], Callable]</system-out>
+		</testcase>
+		<testcase name="Mutant #218" file="sty/primitive.py" line="12">
+			<failure type="failure" message="bad_survived">--- sty/primitive.py
++++ sty/primitive.py
+@@ -9,7 +9,7 @@
+ 
+ Renderfuncs = Dict[Type[RenderType], Callable]
+ 
+-StylingRule = Union[&quot;Style&quot;, RenderType]
++StylingRule = Union[&quot;XXStyleXX&quot;, RenderType]
+ 
+ 
+ class Style(str):
+</failure>
+			<system-out>StylingRule = Union[&quot;Style&quot;, RenderType]</system-out>
+		</testcase>
+		<testcase name="Mutant #219" file="sty/primitive.py" line="12">
+			<failure type="failure" message="bad_survived">--- sty/primitive.py
++++ sty/primitive.py
+@@ -9,7 +9,7 @@
+ 
+ Renderfuncs = Dict[Type[RenderType], Callable]
+ 
+-StylingRule = Union[&quot;Style&quot;, RenderType]
++StylingRule = None
+ 
+ 
+ class Style(str):
+</failure>
+			<system-out>StylingRule = Union[&quot;Style&quot;, RenderType]</system-out>
+		</testcase>
+		<testcase name="Mutant #220" file="sty/primitive.py" line="33">
+			<failure type="failure" message="bad_survived">--- sty/primitive.py
++++ sty/primitive.py
+@@ -30,7 +30,7 @@
+ 
+     rules: Iterable[StylingRule]
+ 
+-    def __new__(cls, *rules: StylingRule, value: str = &quot;&quot;) -&gt; &quot;Style&quot;:
++    def __new__(cls, *rules: StylingRule, value: str = &quot;XXXX&quot;) -&gt; &quot;Style&quot;:
+         new_cls = str.__new__(cls, value)  # type: ignore
+         setattr(new_cls, &quot;rules&quot;, rules)
+         return new_cls
+</failure>
+			<system-out>    def __new__(cls, *rules: StylingRule, value: str = &quot;&quot;) -&gt; &quot;Style&quot;:</system-out>
+		</testcase>
+		<testcase name="Mutant #221" file="sty/primitive.py" line="34">
+			<failure type="failure" message="bad_survived">--- sty/primitive.py
++++ sty/primitive.py
+@@ -31,7 +31,7 @@
+     rules: Iterable[StylingRule]
+ 
+     def __new__(cls, *rules: StylingRule, value: str = &quot;&quot;) -&gt; &quot;Style&quot;:
+-        new_cls = str.__new__(cls, value)  # type: ignore
++        new_cls = None  # type: ignore
+         setattr(new_cls, &quot;rules&quot;, rules)
+         return new_cls
+ 
+</failure>
+			<system-out>        new_cls = str.__new__(cls, value)  # type: ignore</system-out>
+		</testcase>
+		<testcase name="Mutant #222" file="sty/primitive.py" line="35">
+			<failure type="failure" message="bad_survived">--- sty/primitive.py
++++ sty/primitive.py
+@@ -32,7 +32,7 @@
+ 
+     def __new__(cls, *rules: StylingRule, value: str = &quot;&quot;) -&gt; &quot;Style&quot;:
+         new_cls = str.__new__(cls, value)  # type: ignore
+-        setattr(new_cls, &quot;rules&quot;, rules)
++        setattr(new_cls, &quot;XXrulesXX&quot;, rules)
+         return new_cls
+ 
+ 
+</failure>
+			<system-out>        setattr(new_cls, &quot;rules&quot;, rules)</system-out>
+		</testcase>
+		<testcase name="Mutant #223" file="sty/primitive.py" line="43">
+			<system-out>    rendered: str = &quot;&quot;</system-out>
+		</testcase>
+		<testcase name="Mutant #224" file="sty/primitive.py" line="43">
+			<failure type="failure" message="bad_survived">--- sty/primitive.py
++++ sty/primitive.py
+@@ -40,7 +40,7 @@
+     renderfuncs: Renderfuncs,
+     rules: Iterable[StylingRule],
+ ) -&gt; Tuple[str, Iterable[StylingRule]]:
+-    rendered: str = &quot;&quot;
++    rendered: str = None
+     flattened_rules: List[StylingRule] = []
+ 
+     for rule in rules:
+</failure>
+			<system-out>    rendered: str = &quot;&quot;</system-out>
+		</testcase>
+		<testcase name="Mutant #225" file="sty/primitive.py" line="44">
+			<failure type="failure" message="bad_survived">--- sty/primitive.py
++++ sty/primitive.py
+@@ -41,7 +41,7 @@
+     rules: Iterable[StylingRule],
+ ) -&gt; Tuple[str, Iterable[StylingRule]]:
+     rendered: str = &quot;&quot;
+-    flattened_rules: List[StylingRule] = []
++    flattened_rules: List[StylingRule] = None
+ 
+     for rule in rules:
+         if isinstance(rule, RenderType):
+</failure>
+			<system-out>    flattened_rules: List[StylingRule] = []</system-out>
+		</testcase>
+		<testcase name="Mutant #226" file="sty/primitive.py" line="48">
+			<failure type="failure" message="bad_survived">--- sty/primitive.py
++++ sty/primitive.py
+@@ -45,7 +45,7 @@
+ 
+     for rule in rules:
+         if isinstance(rule, RenderType):
+-            f1: Callable = renderfuncs[type(rule)]
++            f1: Callable = None
+             rendered += f1(*rule.args)
+             flattened_rules.append(rule)
+ 
+</failure>
+			<system-out>            f1: Callable = renderfuncs[type(rule)]</system-out>
+		</testcase>
+		<testcase name="Mutant #227" file="sty/primitive.py" line="49">
+			<system-out>            rendered += f1(*rule.args)</system-out>
+		</testcase>
+		<testcase name="Mutant #228" file="sty/primitive.py" line="49">
+			<failure type="failure" message="bad_survived">--- sty/primitive.py
++++ sty/primitive.py
+@@ -46,7 +46,7 @@
+     for rule in rules:
+         if isinstance(rule, RenderType):
+             f1: Callable = renderfuncs[type(rule)]
+-            rendered += f1(*rule.args)
++            rendered -= f1(*rule.args)
+             flattened_rules.append(rule)
+ 
+         elif isinstance(rule, Style):
+</failure>
+			<system-out>            rendered += f1(*rule.args)</system-out>
+		</testcase>
+		<testcase name="Mutant #229" file="sty/primitive.py" line="53">
+			<failure type="failure" message="bad_survived">--- sty/primitive.py
++++ sty/primitive.py
+@@ -50,7 +50,7 @@
+             flattened_rules.append(rule)
+ 
+         elif isinstance(rule, Style):
+-            r1, r2 = _render_rules(renderfuncs, rule.rules)
++            r1, r2 = None
+             rendered += r1
+             flattened_rules.extend(r2)
+ 
+</failure>
+			<system-out>            r1, r2 = _render_rules(renderfuncs, rule.rules)</system-out>
+		</testcase>
+		<testcase name="Mutant #230" file="sty/primitive.py" line="54">
+			<failure type="failure" message="bad_survived">--- sty/primitive.py
++++ sty/primitive.py
+@@ -51,7 +51,7 @@
+ 
+         elif isinstance(rule, Style):
+             r1, r2 = _render_rules(renderfuncs, rule.rules)
+-            rendered += r1
++            rendered = r1
+             flattened_rules.extend(r2)
+ 
+         else:
+</failure>
+			<system-out>            rendered += r1</system-out>
+		</testcase>
+		<testcase name="Mutant #231" file="sty/primitive.py" line="54">
+			<failure type="failure" message="bad_survived">--- sty/primitive.py
++++ sty/primitive.py
+@@ -51,7 +51,7 @@
+ 
+         elif isinstance(rule, Style):
+             r1, r2 = _render_rules(renderfuncs, rule.rules)
+-            rendered += r1
++            rendered -= r1
+             flattened_rules.extend(r2)
+ 
+         else:
+</failure>
+			<system-out>            rendered += r1</system-out>
+		</testcase>
+		<testcase name="Mutant #232" file="sty/primitive.py" line="58">
+			<failure type="failure" message="bad_survived">--- sty/primitive.py
++++ sty/primitive.py
+@@ -55,7 +55,7 @@
+             flattened_rules.extend(r2)
+ 
+         else:
+-            raise ValueError(&quot;Parameter 'rules' must be of type Iterable[Rule].&quot;)
++            raise ValueError(&quot;XXParameter 'rules' must be of type Iterable[Rule].XX&quot;)
+ 
+     return rendered, flattened_rules
+ 
+</failure>
+			<system-out>            raise ValueError(&quot;Parameter 'rules' must be of type Iterable[Rule].&quot;)</system-out>
+		</testcase>
+		<testcase name="Mutant #233" file="sty/primitive.py" line="70">
+			<failure type="failure" message="bad_survived">--- sty/primitive.py
++++ sty/primitive.py
+@@ -67,7 +67,7 @@
+     &quot;&quot;&quot;
+ 
+     def __init__(self):
+-        self.renderfuncs: Renderfuncs = {}
++        self.renderfuncs: Renderfuncs = None
+         self.is_muted = False
+         self.eightbit_call = lambda x: x
+         self.rgb_call = lambda r, g, b: (r, g, b)
+</failure>
+			<system-out>        self.renderfuncs: Renderfuncs = {}</system-out>
+		</testcase>
+		<testcase name="Mutant #234" file="sty/primitive.py" line="71">
+			<system-out>        self.is_muted = False</system-out>
+		</testcase>
+		<testcase name="Mutant #235" file="sty/primitive.py" line="71">
+			<system-out>        self.is_muted = False</system-out>
+		</testcase>
+		<testcase name="Mutant #236" file="sty/primitive.py" line="72">
+			<system-out>        self.eightbit_call = lambda x: x</system-out>
+		</testcase>
+		<testcase name="Mutant #237" file="sty/primitive.py" line="72">
+			<system-out>        self.eightbit_call = lambda x: x</system-out>
+		</testcase>
+		<testcase name="Mutant #238" file="sty/primitive.py" line="73">
+			<system-out>        self.rgb_call = lambda r, g, b: (r, g, b)</system-out>
+		</testcase>
+		<testcase name="Mutant #239" file="sty/primitive.py" line="73">
+			<system-out>        self.rgb_call = lambda r, g, b: (r, g, b)</system-out>
+		</testcase>
+		<testcase name="Mutant #240" file="sty/primitive.py" line="78">
+			<failure type="failure" message="bad_survived">--- sty/primitive.py
++++ sty/primitive.py
+@@ -75,7 +75,7 @@
+     def __setattr__(self, name: str, value: Style):
+         if isinstance(value, Style):
+             if self.is_muted:
+-                rendered_style = Style(*value.rules, value=&quot;&quot;)
++                rendered_style = Style(*value.rules, value=&quot;XXXX&quot;)
+             else:
+                 rendered, rules = _render_rules(self.renderfuncs, value.rules)
+                 rendered_style = Style(*rules, value=rendered)
+</failure>
+			<system-out>                rendered_style = Style(*value.rules, value=&quot;&quot;)</system-out>
+		</testcase>
+		<testcase name="Mutant #241" file="sty/primitive.py" line="78">
+			<failure type="failure" message="bad_survived">--- sty/primitive.py
++++ sty/primitive.py
+@@ -75,7 +75,7 @@
+     def __setattr__(self, name: str, value: Style):
+         if isinstance(value, Style):
+             if self.is_muted:
+-                rendered_style = Style(*value.rules, value=&quot;&quot;)
++                rendered_style = None
+             else:
+                 rendered, rules = _render_rules(self.renderfuncs, value.rules)
+                 rendered_style = Style(*rules, value=rendered)
+</failure>
+			<system-out>                rendered_style = Style(*value.rules, value=&quot;&quot;)</system-out>
+		</testcase>
+		<testcase name="Mutant #242" file="sty/primitive.py" line="80">
+			<failure type="failure" message="bad_survived">--- sty/primitive.py
++++ sty/primitive.py
+@@ -77,7 +77,7 @@
+             if self.is_muted:
+                 rendered_style = Style(*value.rules, value=&quot;&quot;)
+             else:
+-                rendered, rules = _render_rules(self.renderfuncs, value.rules)
++                rendered, rules = None
+                 rendered_style = Style(*rules, value=rendered)
+ 
+             return super().__setattr__(name, rendered_style)
+</failure>
+			<system-out>                rendered, rules = _render_rules(self.renderfuncs, value.rules)</system-out>
+		</testcase>
+		<testcase name="Mutant #243" file="sty/primitive.py" line="81">
+			<system-out>                rendered_style = Style(*rules, value=rendered)</system-out>
+		</testcase>
+		<testcase name="Mutant #244" file="sty/primitive.py" line="95">
+			<failure type="failure" message="bad_survived">--- sty/primitive.py
++++ sty/primitive.py
+@@ -92,7 +92,7 @@
+ 
+         # Return empty str if object is muted.
+         if self.is_muted:
+-            return &quot;&quot;
++            return &quot;XXXX&quot;
+ 
+         len_args = len(args)
+ 
+</failure>
+			<system-out>            return &quot;&quot;</system-out>
+		</testcase>
+		<testcase name="Mutant #245" file="sty/primitive.py" line="97">
+			<failure type="failure" message="bad_survived">--- sty/primitive.py
++++ sty/primitive.py
+@@ -94,7 +94,7 @@
+         if self.is_muted:
+             return &quot;&quot;
+ 
+-        len_args = len(args)
++        len_args = None
+ 
+         if len_args == 1:
+             # If input is an 8bit color code, run 8bit render function.
+</failure>
+			<system-out>        len_args = len(args)</system-out>
+		</testcase>
+		<testcase name="Mutant #246" file="sty/primitive.py" line="99">
+			<system-out>        if len_args == 1:</system-out>
+		</testcase>
+		<testcase name="Mutant #247" file="sty/primitive.py" line="99">
+			<failure type="failure" message="bad_survived">--- sty/primitive.py
++++ sty/primitive.py
+@@ -96,7 +96,7 @@
+ 
+         len_args = len(args)
+ 
+-        if len_args == 1:
++        if len_args == 2:
+             # If input is an 8bit color code, run 8bit render function.
+             if isinstance(args[0], int):
+                 return self.eightbit_call(*args, **kwargs)
+</failure>
+			<system-out>        if len_args == 1:</system-out>
+		</testcase>
+		<testcase name="Mutant #248" file="sty/primitive.py" line="101">
+			<failure type="failure" message="bad_survived">--- sty/primitive.py
++++ sty/primitive.py
+@@ -98,7 +98,7 @@
+ 
+         if len_args == 1:
+             # If input is an 8bit color code, run 8bit render function.
+-            if isinstance(args[0], int):
++            if isinstance(args[1], int):
+                 return self.eightbit_call(*args, **kwargs)
+ 
+             # If input is a string, return attribute with the name that matches
+</failure>
+			<system-out>            if isinstance(args[0], int):</system-out>
+		</testcase>
+		<testcase name="Mutant #249" file="sty/primitive.py" line="107">
+			<failure type="failure" message="bad_survived">--- sty/primitive.py
++++ sty/primitive.py
+@@ -104,7 +104,7 @@
+             # If input is a string, return attribute with the name that matches
+             # input.
+             else:
+-                return getattr(self, args[0])
++                return getattr(self, args[1])
+ 
+         # If input is an 24bit color code, run 24bit render function.
+         elif len_args == 3:
+</failure>
+			<system-out>                return getattr(self, args[0])</system-out>
+		</testcase>
+		<testcase name="Mutant #250" file="sty/primitive.py" line="110">
+			<system-out>        elif len_args == 3:</system-out>
+		</testcase>
+		<testcase name="Mutant #251" file="sty/primitive.py" line="110">
+			<failure type="failure" message="bad_survived">--- sty/primitive.py
++++ sty/primitive.py
+@@ -107,7 +107,7 @@
+                 return getattr(self, args[0])
+ 
+         # If input is an 24bit color code, run 24bit render function.
+-        elif len_args == 3:
++        elif len_args == 4:
+             return self.rgb_call(*args, **kwargs)
+ 
+         else:
+</failure>
+			<system-out>        elif len_args == 3:</system-out>
+		</testcase>
+		<testcase name="Mutant #252" file="sty/primitive.py" line="114">
+			<system-out>            return &quot;&quot;</system-out>
+		</testcase>
+		<testcase name="Mutant #253" file="sty/primitive.py" line="123">
+			<failure type="failure" message="bad_survived">--- sty/primitive.py
++++ sty/primitive.py
+@@ -120,7 +120,7 @@
+ 
+         :param rendertype: The new rendertype that is used for Eightbit-calls.
+         &quot;&quot;&quot;
+-        func: Callable = self.renderfuncs[rendertype]
++        func: Callable = None
+         self.eightbit_call = func
+ 
+     def set_rgb_call(self, rendertype: Type[RenderType]) -&gt; None:
+</failure>
+			<system-out>        func: Callable = self.renderfuncs[rendertype]</system-out>
+		</testcase>
+		<testcase name="Mutant #254" file="sty/primitive.py" line="124">
+			<failure type="failure" message="bad_survived">--- sty/primitive.py
++++ sty/primitive.py
+@@ -121,7 +121,7 @@
+         :param rendertype: The new rendertype that is used for Eightbit-calls.
+         &quot;&quot;&quot;
+         func: Callable = self.renderfuncs[rendertype]
+-        self.eightbit_call = func
++        self.eightbit_call = None
+ 
+     def set_rgb_call(self, rendertype: Type[RenderType]) -&gt; None:
+         &quot;&quot;&quot;
+</failure>
+			<system-out>        self.eightbit_call = func</system-out>
+		</testcase>
+		<testcase name="Mutant #255" file="sty/primitive.py" line="133">
+			<failure type="failure" message="bad_survived">--- sty/primitive.py
++++ sty/primitive.py
+@@ -130,7 +130,7 @@
+ 
+         :param rendertype: The new rendertype that is used for RGB-calls.
+         &quot;&quot;&quot;
+-        func: Callable = self.renderfuncs[rendertype]
++        func: Callable = None
+         self.rgb_call = func
+ 
+     def set_renderfunc(self, rendertype: Type[RenderType], func: Callable) -&gt; None:
+</failure>
+			<system-out>        func: Callable = self.renderfuncs[rendertype]</system-out>
+		</testcase>
+		<testcase name="Mutant #256" file="sty/primitive.py" line="134">
+			<failure type="failure" message="bad_survived">--- sty/primitive.py
++++ sty/primitive.py
+@@ -131,7 +131,7 @@
+         :param rendertype: The new rendertype that is used for RGB-calls.
+         &quot;&quot;&quot;
+         func: Callable = self.renderfuncs[rendertype]
+-        self.rgb_call = func
++        self.rgb_call = None
+ 
+     def set_renderfunc(self, rendertype: Type[RenderType], func: Callable) -&gt; None:
+         &quot;&quot;&quot;
+</failure>
+			<system-out>        self.rgb_call = func</system-out>
+		</testcase>
+		<testcase name="Mutant #257" file="sty/primitive.py" line="148">
+			<failure type="failure" message="bad_survived">--- sty/primitive.py
++++ sty/primitive.py
+@@ -145,7 +145,7 @@
+ 
+         # Update style atributes and styles with the new renderfunc.
+         for attr_name in dir(self):
+-            val = getattr(self, attr_name)
++            val = None
+             if isinstance(val, Style):
+                 setattr(self, attr_name, val)
+ 
+</failure>
+			<system-out>            val = getattr(self, attr_name)</system-out>
+		</testcase>
+		<testcase name="Mutant #258" file="sty/primitive.py" line="157">
+			<system-out>        self.is_muted = True</system-out>
+		</testcase>
+		<testcase name="Mutant #259" file="sty/primitive.py" line="157">
+			<system-out>        self.is_muted = True</system-out>
+		</testcase>
+		<testcase name="Mutant #260" file="sty/primitive.py" line="160">
+			<failure type="failure" message="bad_survived">--- sty/primitive.py
++++ sty/primitive.py
+@@ -157,7 +157,7 @@
+         self.is_muted = True
+ 
+         for attr_name in dir(self):
+-            val = getattr(self, attr_name)
++            val = None
+             if isinstance(val, Style):
+                 setattr(self, attr_name, val)
+ 
+</failure>
+			<system-out>            val = getattr(self, attr_name)</system-out>
+		</testcase>
+		<testcase name="Mutant #261" file="sty/primitive.py" line="168">
+			<system-out>        self.is_muted = False</system-out>
+		</testcase>
+		<testcase name="Mutant #262" file="sty/primitive.py" line="168">
+			<system-out>        self.is_muted = False</system-out>
+		</testcase>
+		<testcase name="Mutant #263" file="sty/primitive.py" line="171">
+			<failure type="failure" message="bad_survived">--- sty/primitive.py
++++ sty/primitive.py
+@@ -168,7 +168,7 @@
+         self.is_muted = False
+ 
+         for attr_name in dir(self):
+-            val = getattr(self, attr_name)
++            val = None
+             if isinstance(val, Style):
+                 setattr(self, attr_name, val)
+ 
+</failure>
+			<system-out>            val = getattr(self, attr_name)</system-out>
+		</testcase>
+		<testcase name="Mutant #264" file="sty/primitive.py" line="179">
+			<system-out>        items: Dict[str, str] = {}</system-out>
+		</testcase>
+		<testcase name="Mutant #265" file="sty/primitive.py" line="182">
+			<system-out>            if not name.startswith(&quot;_&quot;) and isinstance(getattr(self, name), str):</system-out>
+		</testcase>
+		<testcase name="Mutant #266" file="sty/primitive.py" line="182">
+			<system-out>            if not name.startswith(&quot;_&quot;) and isinstance(getattr(self, name), str):</system-out>
+		</testcase>
+		<testcase name="Mutant #267" file="sty/primitive.py" line="182">
+			<system-out>            if not name.startswith(&quot;_&quot;) and isinstance(getattr(self, name), str):</system-out>
+		</testcase>
+		<testcase name="Mutant #268" file="sty/primitive.py" line="191">
+			<system-out>        d = self.as_dict()</system-out>
+		</testcase>
+		<testcase name="Mutant #269" file="sty/primitive.py" line="192">
+			<failure type="failure" message="bad_survived">--- sty/primitive.py
++++ sty/primitive.py
+@@ -189,7 +189,7 @@
+         Export color register as namedtuple.
+         &quot;&quot;&quot;
+         d = self.as_dict()
+-        return namedtuple(&quot;StyleRegister&quot;, d.keys())(*d.values())
++        return namedtuple(&quot;XXStyleRegisterXX&quot;, d.keys())(*d.values())
+ 
+     def copy(self) -&gt; &quot;Register&quot;:
+         &quot;&quot;&quot;
+</failure>
+			<system-out>        return namedtuple(&quot;StyleRegister&quot;, d.keys())(*d.values())</system-out>
+		</testcase>
+		<testcase name="Mutant #270" file="sty/primitive.py" line="198">
+			<system-out>        return deepcopy(self)</system-out>
+		</testcase>
+		<testcase name="Mutant #271" file="sty/rendertype.py" line="9">
+			<failure type="failure" message="bad_survived">--- sty/rendertype.py
++++ sty/rendertype.py
+@@ -6,7 +6,7 @@
+ 
+ 
+ class RenderType:
+-    args: list = []
++    args: list = None
+ 
+ 
+ class Sgr(RenderType):
+</failure>
+			<system-out>    args: list = []</system-out>
+		</testcase>
+		<testcase name="Mutant #272" file="sty/rendertype.py" line="22">
+			<failure type="failure" message="bad_survived">--- sty/rendertype.py
++++ sty/rendertype.py
+@@ -19,7 +19,7 @@
+     &quot;&quot;&quot;
+ 
+     def __init__(self, num: int):
+-        self.args = [num]
++        self.args = None
+ 
+ 
+ class EightbitFg(RenderType):
+</failure>
+			<system-out>        self.args = [num]</system-out>
+		</testcase>
+		<testcase name="Mutant #273" file="sty/rendertype.py" line="35">
+			<failure type="failure" message="bad_survived">--- sty/rendertype.py
++++ sty/rendertype.py
+@@ -32,7 +32,7 @@
+     &quot;&quot;&quot;
+ 
+     def __init__(self, num: int):
+-        self.args = [num]
++        self.args = None
+ 
+ 
+ class EightbitBg(RenderType):
+</failure>
+			<system-out>        self.args = [num]</system-out>
+		</testcase>
+		<testcase name="Mutant #274" file="sty/rendertype.py" line="48">
+			<failure type="failure" message="bad_survived">--- sty/rendertype.py
++++ sty/rendertype.py
+@@ -45,7 +45,7 @@
+     &quot;&quot;&quot;
+ 
+     def __init__(self, num: int):
+-        self.args = [num]
++        self.args = None
+ 
+ 
+ class RgbFg(RenderType):
+</failure>
+			<system-out>        self.args = [num]</system-out>
+		</testcase>
+		<testcase name="Mutant #275" file="sty/rendertype.py" line="63">
+			<system-out>        self.args = [r, g, b]</system-out>
+		</testcase>
+		<testcase name="Mutant #276" file="sty/rendertype.py" line="78">
+			<failure type="failure" message="bad_survived">--- sty/rendertype.py
++++ sty/rendertype.py
+@@ -75,5 +75,5 @@
+     &quot;&quot;&quot;
+ 
+     def __init__(self, r: int, g: int, b: int):
+-        self.args = [r, g, b]
++        self.args = None
+ 
+</failure>
+			<system-out>        self.args = [r, g, b]</system-out>
+		</testcase>
+	</testsuite>
+</testsuites>
+

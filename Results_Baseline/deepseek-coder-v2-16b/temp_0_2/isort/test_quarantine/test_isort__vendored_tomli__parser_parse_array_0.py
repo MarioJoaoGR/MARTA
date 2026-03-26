@@ -1,0 +1,161 @@
+
+import pytest
+from isort._vendored.tomli._parser import parse_array, Pos, ParseFloat
+
+# Define a sample callable for `parse_float` to use in tests
+def float_converter(s):
+    return float(s)
+
+# Test cases for parsing different types of arrays
+@pytest.mark.parametrize("src, expected", [
+    ('[1, 2.0, "three", [4, 5], {"key": "value"}]', [1, 2.0, "three", [4, 5], {"key": "value"}]),
+    ('[[1, 2], ["a", "b"], {3: 4}]', [[1, 2], ["a", "b"], {3: 4}]),
+    ('[]', []),
+    ("[1, 2.0, 'three', [4, 5], {'key': 'value'}]", [1, 2.0, "three", [4, 5], {"key": "value"}]), # Test with single quotes
+])
+def test_parse_array(src, expected):
+    pos = 0
+    parse_float = float_converter if isinstance(expected, list) else None
+    result = parse_array(src, pos, parse_float)
+"""
+[TEST4PY QUARANTINE REPORT]
+Reason: Test failed assertions or crashed.
+Error Log:
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-8.3.2, pluggy-1.6.0
+rootdir: /projects/F202407648IACDCF2/mario/isort
+configfile: ../../../../dev/null
+plugins: anyio-4.12.1, json-report-1.5.0, metadata-3.1.1
+collected 4 items
+
+isort/Test4DT_tests/test_isort__vendored_tomli__parser_parse_array_0.py F [ 25%]
+F.F                                                                      [100%]
+
+=================================== FAILURES ===================================
+___ test_parse_array[[1, 2.0, "three", [4, 5], {"key": "value"}]-expected0] ____
+
+src = '[1, 2.0, "three", [4, 5], {"key": "value"}]'
+expected = [1, 2.0, 'three', [4, 5], {'key': 'value'}]
+
+    @pytest.mark.parametrize("src, expected", [
+        ('[1, 2.0, "three", [4, 5], {"key": "value"}]', [1, 2.0, "three", [4, 5], {"key": "value"}]),
+        ('[[1, 2], ["a", "b"], {3: 4}]', [[1, 2], ["a", "b"], {3: 4}]),
+        ('[]', []),
+        ("[1, 2.0, 'three', [4, 5], {'key': 'value'}]", [1, 2.0, "three", [4, 5], {"key": "value"}]), # Test with single quotes
+    ])
+    def test_parse_array(src, expected):
+        pos = 0
+        parse_float = float_converter if isinstance(expected, list) else None
+>       result = parse_array(src, pos, parse_float)
+
+isort/Test4DT_tests/test_isort__vendored_tomli__parser_parse_array_0.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+isort/isort/_vendored/tomli/_parser.py:404: in parse_array
+    pos, val = parse_value(src, pos, parse_float)
+isort/isort/_vendored/tomli/_parser.py:619: in parse_value
+    return parse_inline_table(src, pos, parse_float)
+isort/isort/_vendored/tomli/_parser.py:429: in parse_inline_table
+    pos, key, value = parse_key_value_pair(src, pos, parse_float)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+src = '[1, 2.0, "three", [4, 5], {"key": "value"}]', pos = 32
+parse_float = <function float_converter at 0x7f0ec23d6340>
+
+    def parse_key_value_pair(src: str, pos: Pos, parse_float: ParseFloat) -> Tuple[Pos, Key, Any]:
+        pos, key = parse_key(src, pos)
+        try:
+            char: Optional[str] = src[pos]
+        except IndexError:
+            char = None
+        if char != "=":
+>           raise suffixed_err(src, pos, 'Expected "=" after a key in a key/value pair')
+E           isort._vendored.tomli._parser.TOMLDecodeError: Expected "=" after a key in a key/value pair (at line 1, column 33)
+
+isort/isort/_vendored/tomli/_parser.py:350: TOMLDecodeError
+___________ test_parse_array[[[1, 2], ["a", "b"], {3: 4}]-expected1] ___________
+
+src = '[[1, 2], ["a", "b"], {3: 4}]', expected = [[1, 2], ['a', 'b'], {3: 4}]
+
+    @pytest.mark.parametrize("src, expected", [
+        ('[1, 2.0, "three", [4, 5], {"key": "value"}]', [1, 2.0, "three", [4, 5], {"key": "value"}]),
+        ('[[1, 2], ["a", "b"], {3: 4}]', [[1, 2], ["a", "b"], {3: 4}]),
+        ('[]', []),
+        ("[1, 2.0, 'three', [4, 5], {'key': 'value'}]", [1, 2.0, "three", [4, 5], {"key": "value"}]), # Test with single quotes
+    ])
+    def test_parse_array(src, expected):
+        pos = 0
+        parse_float = float_converter if isinstance(expected, list) else None
+>       result = parse_array(src, pos, parse_float)
+
+isort/Test4DT_tests/test_isort__vendored_tomli__parser_parse_array_0.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+isort/isort/_vendored/tomli/_parser.py:404: in parse_array
+    pos, val = parse_value(src, pos, parse_float)
+isort/isort/_vendored/tomli/_parser.py:619: in parse_value
+    return parse_inline_table(src, pos, parse_float)
+isort/isort/_vendored/tomli/_parser.py:429: in parse_inline_table
+    pos, key, value = parse_key_value_pair(src, pos, parse_float)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+src = '[[1, 2], ["a", "b"], {3: 4}]', pos = 23
+parse_float = <function float_converter at 0x7f0ec23d6340>
+
+    def parse_key_value_pair(src: str, pos: Pos, parse_float: ParseFloat) -> Tuple[Pos, Key, Any]:
+        pos, key = parse_key(src, pos)
+        try:
+            char: Optional[str] = src[pos]
+        except IndexError:
+            char = None
+        if char != "=":
+>           raise suffixed_err(src, pos, 'Expected "=" after a key in a key/value pair')
+E           isort._vendored.tomli._parser.TOMLDecodeError: Expected "=" after a key in a key/value pair (at line 1, column 24)
+
+isort/isort/_vendored/tomli/_parser.py:350: TOMLDecodeError
+___ test_parse_array[[1, 2.0, 'three', [4, 5], {'key': 'value'}]-expected3] ____
+
+src = "[1, 2.0, 'three', [4, 5], {'key': 'value'}]"
+expected = [1, 2.0, 'three', [4, 5], {'key': 'value'}]
+
+    @pytest.mark.parametrize("src, expected", [
+        ('[1, 2.0, "three", [4, 5], {"key": "value"}]', [1, 2.0, "three", [4, 5], {"key": "value"}]),
+        ('[[1, 2], ["a", "b"], {3: 4}]', [[1, 2], ["a", "b"], {3: 4}]),
+        ('[]', []),
+        ("[1, 2.0, 'three', [4, 5], {'key': 'value'}]", [1, 2.0, "three", [4, 5], {"key": "value"}]), # Test with single quotes
+    ])
+    def test_parse_array(src, expected):
+        pos = 0
+        parse_float = float_converter if isinstance(expected, list) else None
+>       result = parse_array(src, pos, parse_float)
+
+isort/Test4DT_tests/test_isort__vendored_tomli__parser_parse_array_0.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+isort/isort/_vendored/tomli/_parser.py:404: in parse_array
+    pos, val = parse_value(src, pos, parse_float)
+isort/isort/_vendored/tomli/_parser.py:619: in parse_value
+    return parse_inline_table(src, pos, parse_float)
+isort/isort/_vendored/tomli/_parser.py:429: in parse_inline_table
+    pos, key, value = parse_key_value_pair(src, pos, parse_float)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+src = "[1, 2.0, 'three', [4, 5], {'key': 'value'}]", pos = 32
+parse_float = <function float_converter at 0x7f0ec23d6340>
+
+    def parse_key_value_pair(src: str, pos: Pos, parse_float: ParseFloat) -> Tuple[Pos, Key, Any]:
+        pos, key = parse_key(src, pos)
+        try:
+            char: Optional[str] = src[pos]
+        except IndexError:
+            char = None
+        if char != "=":
+>           raise suffixed_err(src, pos, 'Expected "=" after a key in a key/value pair')
+E           isort._vendored.tomli._parser.TOMLDecodeError: Expected "=" after a key in a key/value pair (at line 1, column 33)
+
+isort/isort/_vendored/tomli/_parser.py:350: TOMLDecodeError
+--------------------------------- JSON report ----------------------------------
+report saved to: pytest_report.json
+=========================== short test summary info ============================
+FAILED isort/Test4DT_tests/test_isort__vendored_tomli__parser_parse_array_0.py::test_parse_array[[1, 2.0, "three", [4, 5], {"key": "value"}]-expected0]
+FAILED isort/Test4DT_tests/test_isort__vendored_tomli__parser_parse_array_0.py::test_parse_array[[[1, 2], ["a", "b"], {3: 4}]-expected1]
+FAILED isort/Test4DT_tests/test_isort__vendored_tomli__parser_parse_array_0.py::test_parse_array[[1, 2.0, 'three', [4, 5], {'key': 'value'}]-expected3]
+========================= 3 failed, 1 passed in 0.17s ==========================
+"""

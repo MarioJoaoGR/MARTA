@@ -1,0 +1,19 @@
+
+from pytutils.lazy.lazy_import import ImportProcessor, errors
+import pytest
+
+def test_invalid_input():
+    processor = ImportProcessor()
+    scope = {}
+    with pytest.raises(ValueError):
+        processor.lazy_import(scope, "invalid input")
+
+"""
+[TEST4PY QUARANTINE REPORT]
+Reason: Test failed assertions or crashed.
+Error Log:
+************* Module Test4DT_tests.test_pytutils_lazy_lazy_import_ImportProcessor_lazy_import_0_test_invalid_input
+pytutils/Test4DT_tests/test_pytutils_lazy_lazy_import_ImportProcessor_lazy_import_0_test_invalid_input.py:2:0: E0611: No name 'errors' in module 'pytutils.lazy.lazy_import' (no-name-in-module)
+
+
+"""

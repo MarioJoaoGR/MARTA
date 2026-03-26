@@ -1,0 +1,19 @@
+Approach,LLM Model,Generations,Temperature,Program,Statement Cov (%),Branch Cov (%),Missing Stmts,Total Time (s),LLM Time (s),Timeouts,Tests Passed,Syntax Errors,Hallucinated Asserts,Mutation Score (%)
+Results_Baseline,deepseek-coder-v2-16b,N/A,0,python-string-utils,67.00,54.37,126,35040.13,9145.67,0,20,22,301,51.26
+Results_Baseline,deepseek-coder-v2-16b,N/A,0,sty,81.10,47.83,31,29987.53,5426.91,0,4,11,170,19.93
+Results_Baseline,deepseek-coder-v2-16b,N/A,0,docstring_parser,42.76,47.45,1117,44489.22,18766.12,0,38,110,686,19.3
+Results_Baseline,deepseek-coder-v2-16b,N/A,0.2,python-string-utils,80.10,74.38,79,27478.99,9174.13,0,28,24,222,55.28
+Results_Baseline,deepseek-coder-v2-16b,N/A,0.2,sty,87.63,67.39,21,8416.94,4366.83,0,7,10,151,28.26
+Results_Baseline,deepseek-coder-v2-16b,N/A,0.2,docstring_parser,46.42,57.03,1076,45856.78,18570.74,0,35,122,440,23.12
+Results_Mario,deepseek-coder-v2-16b,3,0,python-string-utils,81.26,72.50,69,24788.44,10043.42,0,195,0,270,61.31
+Results_Mario,deepseek-coder-v2-16b,3,0,sty,90.38,73.91,16,9405.49,4435.68,0,73,0,119,51.81
+Results_Mario,deepseek-coder-v2-16b,3,0,docstring_parser,53.00,70.88,986,177175.07,32986.60,0,413,0,872,24.69
+Results_Mario,deepseek-coder-v2-16b,3,0.2,python-string-utils,92.21,88.12,28,22727.26,10059.21,0,236,0,189,65.66
+Results_Mario,deepseek-coder-v2-16b,3,0.2,sty,85.22,56.52,23,9247.55,4477.84,0,64,0,123,48.91
+Results_Mario,deepseek-coder-v2-16b,3,0.2,docstring_parser,54.87,70.67,940,69139.14,24203.52,0,464,0,805,30.9
+Results_Mario,deepseek-coder-v2-16b,1,0,python-string-utils,77.61,66.88,82,14224.14,10042.87,0,107,0,124,58.79
+Results_Mario,deepseek-coder-v2-16b,1,0,sty,89.00,69.57,18,9759.83,7527.87,0,50,0,72,50.72
+Results_Mario,deepseek-coder-v2-16b,1,0,docstring_parser,45.63,58.45,1102,36326.75,26008.89,0,150,0,257,21.92
+Results_Mario,deepseek-coder-v2-16b,1,0.2,python-string-utils,76.62,67.50,89,16449.68,12271.16,0,125,0,92,53.6
+Results_Mario,deepseek-coder-v2-16b,1,0.2,sty,86.25,63.04,23,6827.14,4596.76,0,41,0,90,25.36
+Results_Mario,deepseek-coder-v2-16b,1,0.2,docstring_parser,41.42,49.69,1160,36097.29,25784.37,0,153,0,261,17.84

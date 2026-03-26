@@ -1,0 +1,95 @@
+
+import pytest
+from docstring_parser import parse
+
+def test_attributes() -> None:
+    """Test parsing attributes from a numpy-style docstring.
+
+    This function tests the ability to parse and analyze attributes from a numpy-style docstring. It checks for the presence of parameters in the docstring, their names, types, descriptions, and whether they are optional or not. The function includes multiple examples demonstrating how different configurations of docstrings affect the parsed results.
+
+    Parameters:
+        None
+
+    Returns:
+        None: This function does not return any value but asserts expected outcomes based on the parsed attributes from the provided docstring.
+
+    Examples:
+        # Example with no parameters
+        test_attributes()  # Asserts that len(docstring.params) == 0
+        
+        # Example with multiple parameters
+        test_attributes()  # Asserts that len(docstring.params) == 4 and checks each parameter's details
+        
+        # Example with a single parameter having multi-line description
+        test_attributes()  # Asserts that the first parameter has a multi-line description
+    """
+    docstring = parse("Short description")
+    assert len(docstring.params) == 0
+
+    docstring = parse(
+        """
+        Short description
+
+        Attributes
+        ----------
+        name
+            description 1
+        priority : int
+            description 2
+        sender : str, optional
+            description 3
+        ratio : Optional[float], optional
+            description 4
+        """
+    )
+    assert len(docstring.params) == 4
+    assert docstring.params[0].arg_name == "name"
+    assert docstring.params[0].type_name is None
+    assert docstring.params[0].description == "description 1"
+    assert not docstring.params[0].is_optional
+    assert docstring.params[1].arg_name == "priority"
+    assert docstring.params[1].type_name == "int"
+    assert docstring.params[1].description == "description 2"
+    assert not docstring.params[1].is_optional
+    assert docstring.params[2].arg_name == "sender"
+    assert docstring.params[2].type_name == "str"
+    assert docstring.params[2].description == "description 3"
+    assert docstring.params[2].is_optional
+    assert docstring.params[3].arg_name == "ratio"
+    assert docstring.params[3].type_name == "Optional[float]"
+    assert docstring.params[3].description == "description 4"
+    assert docstring.params[3].is_optional
+
+    docstring = parse(
+        """
+        Short description
+
+        Attributes
+        ----------
+        name
+            description 1
+            with multi-line text
+        priority : int
+            description 2
+        """
+    )
+    assert len(docstring.params) == 2
+    assert docstring.params[0].arg_name == "name"
+    assert docstring.params[0].type_name is None
+    assert docstring.params[0].description == (
+        "description 1\nwith multi-line text"
+    )
+    assert not docstring.params[0].is_optional
+    assert docstring.params[1].arg_name == "priority"
+    assert docstring.params[1].type_name == "int"
+    assert docstring.params[1].description == "description 2"
+    assert not docstring.params[1].is_optional
+
+"""
+[TEST4PY QUARANTINE REPORT]
+Reason: Test failed assertions or crashed.
+Error Log:
+************* Module Test4DT_tests.test_docstring_parser_tests_test_numpydoc_test_attributes_2_test_invalid_inputs
+docstring_parser/Test4DT_tests/test_docstring_parser_tests_test_numpydoc_test_attributes_2_test_invalid_inputs.py:3:0: E0611: No name 'parse' in module 'docstring_parser' (no-name-in-module)
+
+"""

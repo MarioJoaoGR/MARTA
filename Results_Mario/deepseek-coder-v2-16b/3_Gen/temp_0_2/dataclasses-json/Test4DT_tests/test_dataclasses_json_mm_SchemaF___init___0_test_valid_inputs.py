@@ -1,0 +1,8 @@
+
+from dataclasses import dataclass
+import pytest
+from dataclasses_json.mm import SchemaF
+
+def test_valid_inputs():
+    with pytest.raises(NotImplementedError):
+        schema_f = SchemaF()

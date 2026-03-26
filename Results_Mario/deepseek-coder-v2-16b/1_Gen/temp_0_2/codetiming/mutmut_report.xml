@@ -1,0 +1,891 @@
+<?xml version="1.0" ?>
+<testsuites disabled="0" errors="0" failures="57" tests="66" time="0.0">
+	<testsuite disabled="0" errors="0" failures="57" name="mutmut" skipped="0" tests="66" time="0">
+		<testcase name="Mutant #1" file="codetiming/_timer.py" line="22">
+			<failure type="failure" message="bad_survived">--- codetiming/_timer.py
++++ codetiming/_timer.py
+@@ -19,7 +19,7 @@
+     # Standard library imports
+     from typing import Protocol, TypeVar
+ 
+-    T = TypeVar(&quot;T&quot;)
++    T = TypeVar(&quot;XXTXX&quot;)
+ 
+     class FloatArg(Protocol):
+         &quot;&quot;&quot;Protocol type that allows classes that take one float argument&quot;&quot;&quot;
+</failure>
+			<system-out>    T = TypeVar(&quot;T&quot;)</system-out>
+		</testcase>
+		<testcase name="Mutant #2" file="codetiming/_timer.py" line="22">
+			<failure type="failure" message="bad_survived">--- codetiming/_timer.py
++++ codetiming/_timer.py
+@@ -19,7 +19,7 @@
+     # Standard library imports
+     from typing import Protocol, TypeVar
+ 
+-    T = TypeVar(&quot;T&quot;)
++    T = None
+ 
+     class FloatArg(Protocol):
+         &quot;&quot;&quot;Protocol type that allows classes that take one float argument&quot;&quot;&quot;
+</failure>
+			<system-out>    T = TypeVar(&quot;T&quot;)</system-out>
+		</testcase>
+		<testcase name="Mutant #3" file="codetiming/_timer.py" line="42">
+			<system-out>@dataclass</system-out>
+		</testcase>
+		<testcase name="Mutant #4" file="codetiming/_timer.py" line="46">
+			<system-out>    timers: ClassVar[Timers] = Timers()</system-out>
+		</testcase>
+		<testcase name="Mutant #5" file="codetiming/_timer.py" line="47">
+			<failure type="failure" message="bad_survived">--- codetiming/_timer.py
++++ codetiming/_timer.py
+@@ -44,7 +44,7 @@
+     &quot;&quot;&quot;Time your code using a class, context manager, or decorator.&quot;&quot;&quot;
+ 
+     timers: ClassVar[Timers] = Timers()
+-    name: Optional[str] = None
++    name: Optional[str] = &quot;&quot;
+     text: Union[str, FloatArg, Callable[[float], str]] = &quot;Elapsed time: {:0.4f} seconds&quot;
+     initial_text: Union[bool, str, FloatArg] = False
+     logger: Optional[Callable[[str], None]] = print
+</failure>
+			<system-out>    name: Optional[str] = None</system-out>
+		</testcase>
+		<testcase name="Mutant #6" file="codetiming/_timer.py" line="48">
+			<failure type="failure" message="bad_survived">--- codetiming/_timer.py
++++ codetiming/_timer.py
+@@ -45,7 +45,7 @@
+ 
+     timers: ClassVar[Timers] = Timers()
+     name: Optional[str] = None
+-    text: Union[str, FloatArg, Callable[[float], str]] = &quot;Elapsed time: {:0.4f} seconds&quot;
++    text: Union[str, FloatArg, Callable[[float], str]] = &quot;XXElapsed time: {:0.4f} secondsXX&quot;
+     initial_text: Union[bool, str, FloatArg] = False
+     logger: Optional[Callable[[str], None]] = print
+     last: float = field(default=math.nan, init=False, repr=False)
+</failure>
+			<system-out>    text: Union[str, FloatArg, Callable[[float], str]] = &quot;Elapsed time: {:0.4f} seconds&quot;</system-out>
+		</testcase>
+		<testcase name="Mutant #7" file="codetiming/_timer.py" line="48">
+			<failure type="failure" message="bad_survived">--- codetiming/_timer.py
++++ codetiming/_timer.py
+@@ -45,7 +45,7 @@
+ 
+     timers: ClassVar[Timers] = Timers()
+     name: Optional[str] = None
+-    text: Union[str, FloatArg, Callable[[float], str]] = &quot;Elapsed time: {:0.4f} seconds&quot;
++    text: Union[str, FloatArg, Callable[[float], str]] = None
+     initial_text: Union[bool, str, FloatArg] = False
+     logger: Optional[Callable[[str], None]] = print
+     last: float = field(default=math.nan, init=False, repr=False)
+</failure>
+			<system-out>    text: Union[str, FloatArg, Callable[[float], str]] = &quot;Elapsed time: {:0.4f} seconds&quot;</system-out>
+		</testcase>
+		<testcase name="Mutant #8" file="codetiming/_timer.py" line="49">
+			<failure type="failure" message="bad_survived">--- codetiming/_timer.py
++++ codetiming/_timer.py
+@@ -46,7 +46,7 @@
+     timers: ClassVar[Timers] = Timers()
+     name: Optional[str] = None
+     text: Union[str, FloatArg, Callable[[float], str]] = &quot;Elapsed time: {:0.4f} seconds&quot;
+-    initial_text: Union[bool, str, FloatArg] = False
++    initial_text: Union[bool, str, FloatArg] = True
+     logger: Optional[Callable[[str], None]] = print
+     last: float = field(default=math.nan, init=False, repr=False)
+     _start_time: Optional[float] = field(default=None, init=False, repr=False)
+</failure>
+			<system-out>    initial_text: Union[bool, str, FloatArg] = False</system-out>
+		</testcase>
+		<testcase name="Mutant #9" file="codetiming/_timer.py" line="49">
+			<failure type="failure" message="bad_survived">--- codetiming/_timer.py
++++ codetiming/_timer.py
+@@ -46,7 +46,7 @@
+     timers: ClassVar[Timers] = Timers()
+     name: Optional[str] = None
+     text: Union[str, FloatArg, Callable[[float], str]] = &quot;Elapsed time: {:0.4f} seconds&quot;
+-    initial_text: Union[bool, str, FloatArg] = False
++    initial_text: Union[bool, str, FloatArg] = None
+     logger: Optional[Callable[[str], None]] = print
+     last: float = field(default=math.nan, init=False, repr=False)
+     _start_time: Optional[float] = field(default=None, init=False, repr=False)
+</failure>
+			<system-out>    initial_text: Union[bool, str, FloatArg] = False</system-out>
+		</testcase>
+		<testcase name="Mutant #10" file="codetiming/_timer.py" line="50">
+			<failure type="failure" message="bad_survived">--- codetiming/_timer.py
++++ codetiming/_timer.py
+@@ -47,7 +47,7 @@
+     name: Optional[str] = None
+     text: Union[str, FloatArg, Callable[[float], str]] = &quot;Elapsed time: {:0.4f} seconds&quot;
+     initial_text: Union[bool, str, FloatArg] = False
+-    logger: Optional[Callable[[str], None]] = print
++    logger: Optional[Callable[[str], None]] = None
+     last: float = field(default=math.nan, init=False, repr=False)
+     _start_time: Optional[float] = field(default=None, init=False, repr=False)
+ 
+</failure>
+			<system-out>    logger: Optional[Callable[[str], None]] = print</system-out>
+		</testcase>
+		<testcase name="Mutant #11" file="codetiming/_timer.py" line="51">
+			<failure type="failure" message="bad_survived">--- codetiming/_timer.py
++++ codetiming/_timer.py
+@@ -48,7 +48,7 @@
+     text: Union[str, FloatArg, Callable[[float], str]] = &quot;Elapsed time: {:0.4f} seconds&quot;
+     initial_text: Union[bool, str, FloatArg] = False
+     logger: Optional[Callable[[str], None]] = print
+-    last: float = field(default=math.nan, init=False, repr=False)
++    last: float = field(default=math.nan, init=True, repr=False)
+     _start_time: Optional[float] = field(default=None, init=False, repr=False)
+ 
+     def start(self) -&gt; None:
+</failure>
+			<system-out>    last: float = field(default=math.nan, init=False, repr=False)</system-out>
+		</testcase>
+		<testcase name="Mutant #12" file="codetiming/_timer.py" line="51">
+			<failure type="failure" message="bad_survived">--- codetiming/_timer.py
++++ codetiming/_timer.py
+@@ -48,7 +48,7 @@
+     text: Union[str, FloatArg, Callable[[float], str]] = &quot;Elapsed time: {:0.4f} seconds&quot;
+     initial_text: Union[bool, str, FloatArg] = False
+     logger: Optional[Callable[[str], None]] = print
+-    last: float = field(default=math.nan, init=False, repr=False)
++    last: float = field(default=math.nan, init=False, repr=True)
+     _start_time: Optional[float] = field(default=None, init=False, repr=False)
+ 
+     def start(self) -&gt; None:
+</failure>
+			<system-out>    last: float = field(default=math.nan, init=False, repr=False)</system-out>
+		</testcase>
+		<testcase name="Mutant #13" file="codetiming/_timer.py" line="51">
+			<failure type="failure" message="bad_survived">--- codetiming/_timer.py
++++ codetiming/_timer.py
+@@ -48,7 +48,7 @@
+     text: Union[str, FloatArg, Callable[[float], str]] = &quot;Elapsed time: {:0.4f} seconds&quot;
+     initial_text: Union[bool, str, FloatArg] = False
+     logger: Optional[Callable[[str], None]] = print
+-    last: float = field(default=math.nan, init=False, repr=False)
++    last: float = None
+     _start_time: Optional[float] = field(default=None, init=False, repr=False)
+ 
+     def start(self) -&gt; None:
+</failure>
+			<system-out>    last: float = field(default=math.nan, init=False, repr=False)</system-out>
+		</testcase>
+		<testcase name="Mutant #14" file="codetiming/_timer.py" line="52">
+			<failure type="failure" message="bad_survived">--- codetiming/_timer.py
++++ codetiming/_timer.py
+@@ -49,7 +49,7 @@
+     initial_text: Union[bool, str, FloatArg] = False
+     logger: Optional[Callable[[str], None]] = print
+     last: float = field(default=math.nan, init=False, repr=False)
+-    _start_time: Optional[float] = field(default=None, init=False, repr=False)
++    _start_time: Optional[float] = field(default=None, init=True, repr=False)
+ 
+     def start(self) -&gt; None:
+         &quot;&quot;&quot;Start a new timer.&quot;&quot;&quot;
+</failure>
+			<system-out>    _start_time: Optional[float] = field(default=None, init=False, repr=False)</system-out>
+		</testcase>
+		<testcase name="Mutant #15" file="codetiming/_timer.py" line="52">
+			<failure type="failure" message="bad_survived">--- codetiming/_timer.py
++++ codetiming/_timer.py
+@@ -49,7 +49,7 @@
+     initial_text: Union[bool, str, FloatArg] = False
+     logger: Optional[Callable[[str], None]] = print
+     last: float = field(default=math.nan, init=False, repr=False)
+-    _start_time: Optional[float] = field(default=None, init=False, repr=False)
++    _start_time: Optional[float] = field(default=None, init=False, repr=True)
+ 
+     def start(self) -&gt; None:
+         &quot;&quot;&quot;Start a new timer.&quot;&quot;&quot;
+</failure>
+			<system-out>    _start_time: Optional[float] = field(default=None, init=False, repr=False)</system-out>
+		</testcase>
+		<testcase name="Mutant #16" file="codetiming/_timer.py" line="52">
+			<failure type="failure" message="bad_survived">--- codetiming/_timer.py
++++ codetiming/_timer.py
+@@ -49,7 +49,7 @@
+     initial_text: Union[bool, str, FloatArg] = False
+     logger: Optional[Callable[[str], None]] = print
+     last: float = field(default=math.nan, init=False, repr=False)
+-    _start_time: Optional[float] = field(default=None, init=False, repr=False)
++    _start_time: Optional[float] = None
+ 
+     def start(self) -&gt; None:
+         &quot;&quot;&quot;Start a new timer.&quot;&quot;&quot;
+</failure>
+			<system-out>    _start_time: Optional[float] = field(default=None, init=False, repr=False)</system-out>
+		</testcase>
+		<testcase name="Mutant #17" file="codetiming/_timer.py" line="56">
+			<failure type="failure" message="bad_survived">--- codetiming/_timer.py
++++ codetiming/_timer.py
+@@ -53,7 +53,7 @@
+ 
+     def start(self) -&gt; None:
+         &quot;&quot;&quot;Start a new timer.&quot;&quot;&quot;
+-        if self._start_time is not None:
++        if self._start_time is  None:
+             raise TimerError(&quot;Timer is running. Use .stop() to stop it&quot;)
+ 
+         # Log initial text when timer starts
+</failure>
+			<system-out>        if self._start_time is not None:</system-out>
+		</testcase>
+		<testcase name="Mutant #18" file="codetiming/_timer.py" line="57">
+			<failure type="failure" message="bad_survived">--- codetiming/_timer.py
++++ codetiming/_timer.py
+@@ -54,7 +54,7 @@
+     def start(self) -&gt; None:
+         &quot;&quot;&quot;Start a new timer.&quot;&quot;&quot;
+         if self._start_time is not None:
+-            raise TimerError(&quot;Timer is running. Use .stop() to stop it&quot;)
++            raise TimerError(&quot;XXTimer is running. Use .stop() to stop itXX&quot;)
+ 
+         # Log initial text when timer starts
+         if self.logger and self.initial_text:
+</failure>
+			<system-out>            raise TimerError(&quot;Timer is running. Use .stop() to stop it&quot;)</system-out>
+		</testcase>
+		<testcase name="Mutant #19" file="codetiming/_timer.py" line="60">
+			<failure type="failure" message="bad_survived">--- codetiming/_timer.py
++++ codetiming/_timer.py
+@@ -57,7 +57,7 @@
+             raise TimerError(&quot;Timer is running. Use .stop() to stop it&quot;)
+ 
+         # Log initial text when timer starts
+-        if self.logger and self.initial_text:
++        if self.logger or self.initial_text:
+             if isinstance(self.initial_text, str):
+                 initial_text = self.initial_text.format(name=self.name)
+             elif self.name:
+</failure>
+			<system-out>        if self.logger and self.initial_text:</system-out>
+		</testcase>
+		<testcase name="Mutant #20" file="codetiming/_timer.py" line="62">
+			<failure type="failure" message="bad_survived">--- codetiming/_timer.py
++++ codetiming/_timer.py
+@@ -59,7 +59,7 @@
+         # Log initial text when timer starts
+         if self.logger and self.initial_text:
+             if isinstance(self.initial_text, str):
+-                initial_text = self.initial_text.format(name=self.name)
++                initial_text = None
+             elif self.name:
+                 initial_text = &quot;Timer {name} started&quot;.format(name=self.name)
+             else:
+</failure>
+			<system-out>                initial_text = self.initial_text.format(name=self.name)</system-out>
+		</testcase>
+		<testcase name="Mutant #21" file="codetiming/_timer.py" line="64">
+			<failure type="failure" message="bad_survived">--- codetiming/_timer.py
++++ codetiming/_timer.py
+@@ -61,7 +61,7 @@
+             if isinstance(self.initial_text, str):
+                 initial_text = self.initial_text.format(name=self.name)
+             elif self.name:
+-                initial_text = &quot;Timer {name} started&quot;.format(name=self.name)
++                initial_text = &quot;XXTimer {name} startedXX&quot;.format(name=self.name)
+             else:
+                 initial_text = &quot;Timer started&quot;
+             self.logger(initial_text)
+</failure>
+			<system-out>                initial_text = &quot;Timer {name} started&quot;.format(name=self.name)</system-out>
+		</testcase>
+		<testcase name="Mutant #22" file="codetiming/_timer.py" line="64">
+			<failure type="failure" message="bad_survived">--- codetiming/_timer.py
++++ codetiming/_timer.py
+@@ -61,7 +61,7 @@
+             if isinstance(self.initial_text, str):
+                 initial_text = self.initial_text.format(name=self.name)
+             elif self.name:
+-                initial_text = &quot;Timer {name} started&quot;.format(name=self.name)
++                initial_text = None
+             else:
+                 initial_text = &quot;Timer started&quot;
+             self.logger(initial_text)
+</failure>
+			<system-out>                initial_text = &quot;Timer {name} started&quot;.format(name=self.name)</system-out>
+		</testcase>
+		<testcase name="Mutant #23" file="codetiming/_timer.py" line="66">
+			<failure type="failure" message="bad_survived">--- codetiming/_timer.py
++++ codetiming/_timer.py
+@@ -63,7 +63,7 @@
+             elif self.name:
+                 initial_text = &quot;Timer {name} started&quot;.format(name=self.name)
+             else:
+-                initial_text = &quot;Timer started&quot;
++                initial_text = &quot;XXTimer startedXX&quot;
+             self.logger(initial_text)
+ 
+         self._start_time = time.perf_counter()
+</failure>
+			<system-out>                initial_text = &quot;Timer started&quot;</system-out>
+		</testcase>
+		<testcase name="Mutant #24" file="codetiming/_timer.py" line="66">
+			<failure type="failure" message="bad_survived">--- codetiming/_timer.py
++++ codetiming/_timer.py
+@@ -63,7 +63,7 @@
+             elif self.name:
+                 initial_text = &quot;Timer {name} started&quot;.format(name=self.name)
+             else:
+-                initial_text = &quot;Timer started&quot;
++                initial_text = None
+             self.logger(initial_text)
+ 
+         self._start_time = time.perf_counter()
+</failure>
+			<system-out>                initial_text = &quot;Timer started&quot;</system-out>
+		</testcase>
+		<testcase name="Mutant #25" file="codetiming/_timer.py" line="69">
+			<failure type="failure" message="bad_survived">--- codetiming/_timer.py
++++ codetiming/_timer.py
+@@ -66,7 +66,7 @@
+                 initial_text = &quot;Timer started&quot;
+             self.logger(initial_text)
+ 
+-        self._start_time = time.perf_counter()
++        self._start_time = None
+ 
+     def stop(self) -&gt; float:
+         &quot;&quot;&quot;Stop the timer, and report the elapsed time.&quot;&quot;&quot;
+</failure>
+			<system-out>        self._start_time = time.perf_counter()</system-out>
+		</testcase>
+		<testcase name="Mutant #26" file="codetiming/_timer.py" line="73">
+			<system-out>        if self._start_time is None:</system-out>
+		</testcase>
+		<testcase name="Mutant #27" file="codetiming/_timer.py" line="74">
+			<system-out>            raise TimerError(&quot;Timer is not running. Use .start() to start it&quot;)</system-out>
+		</testcase>
+		<testcase name="Mutant #28" file="codetiming/_timer.py" line="77">
+			<failure type="failure" message="bad_survived">--- codetiming/_timer.py
++++ codetiming/_timer.py
+@@ -74,7 +74,7 @@
+             raise TimerError(&quot;Timer is not running. Use .start() to start it&quot;)
+ 
+         # Calculate elapsed time
+-        self.last = time.perf_counter() - self._start_time
++        self.last = time.perf_counter() + self._start_time
+         self._start_time = None
+ 
+         # Report elapsed time
+</failure>
+			<system-out>        self.last = time.perf_counter() - self._start_time</system-out>
+		</testcase>
+		<testcase name="Mutant #29" file="codetiming/_timer.py" line="77">
+			<failure type="failure" message="bad_survived">--- codetiming/_timer.py
++++ codetiming/_timer.py
+@@ -74,7 +74,7 @@
+             raise TimerError(&quot;Timer is not running. Use .start() to start it&quot;)
+ 
+         # Calculate elapsed time
+-        self.last = time.perf_counter() - self._start_time
++        self.last = None
+         self._start_time = None
+ 
+         # Report elapsed time
+</failure>
+			<system-out>        self.last = time.perf_counter() - self._start_time</system-out>
+		</testcase>
+		<testcase name="Mutant #30" file="codetiming/_timer.py" line="78">
+			<failure type="failure" message="bad_survived">--- codetiming/_timer.py
++++ codetiming/_timer.py
+@@ -75,7 +75,7 @@
+ 
+         # Calculate elapsed time
+         self.last = time.perf_counter() - self._start_time
+-        self._start_time = None
++        self._start_time = &quot;&quot;
+ 
+         # Report elapsed time
+         if self.logger:
+</failure>
+			<system-out>        self._start_time = None</system-out>
+		</testcase>
+		<testcase name="Mutant #31" file="codetiming/_timer.py" line="83">
+			<failure type="failure" message="bad_survived">--- codetiming/_timer.py
++++ codetiming/_timer.py
+@@ -80,7 +80,7 @@
+         # Report elapsed time
+         if self.logger:
+             if callable(self.text):
+-                text = self.text(self.last)
++                text = None
+             else:
+                 attributes = {
+                     &quot;name&quot;: self.name,
+</failure>
+			<system-out>                text = self.text(self.last)</system-out>
+		</testcase>
+		<testcase name="Mutant #32" file="codetiming/_timer.py" line="86">
+			<failure type="failure" message="bad_survived">--- codetiming/_timer.py
++++ codetiming/_timer.py
+@@ -83,7 +83,7 @@
+                 text = self.text(self.last)
+             else:
+                 attributes = {
+-                    &quot;name&quot;: self.name,
++                    &quot;XXnameXX&quot;: self.name,
+                     &quot;milliseconds&quot;: self.last * 1000,
+                     &quot;seconds&quot;: self.last,
+                     &quot;minutes&quot;: self.last / 60,
+</failure>
+			<system-out>                    &quot;name&quot;: self.name,</system-out>
+		</testcase>
+		<testcase name="Mutant #33" file="codetiming/_timer.py" line="87">
+			<failure type="failure" message="bad_survived">--- codetiming/_timer.py
++++ codetiming/_timer.py
+@@ -84,7 +84,7 @@
+             else:
+                 attributes = {
+                     &quot;name&quot;: self.name,
+-                    &quot;milliseconds&quot;: self.last * 1000,
++                    &quot;XXmillisecondsXX&quot;: self.last * 1000,
+                     &quot;seconds&quot;: self.last,
+                     &quot;minutes&quot;: self.last / 60,
+                 }
+</failure>
+			<system-out>                    &quot;milliseconds&quot;: self.last * 1000,</system-out>
+		</testcase>
+		<testcase name="Mutant #34" file="codetiming/_timer.py" line="87">
+			<failure type="failure" message="bad_survived">--- codetiming/_timer.py
++++ codetiming/_timer.py
+@@ -84,7 +84,7 @@
+             else:
+                 attributes = {
+                     &quot;name&quot;: self.name,
+-                    &quot;milliseconds&quot;: self.last * 1000,
++                    &quot;milliseconds&quot;: self.last / 1000,
+                     &quot;seconds&quot;: self.last,
+                     &quot;minutes&quot;: self.last / 60,
+                 }
+</failure>
+			<system-out>                    &quot;milliseconds&quot;: self.last * 1000,</system-out>
+		</testcase>
+		<testcase name="Mutant #35" file="codetiming/_timer.py" line="87">
+			<failure type="failure" message="bad_survived">--- codetiming/_timer.py
++++ codetiming/_timer.py
+@@ -84,7 +84,7 @@
+             else:
+                 attributes = {
+                     &quot;name&quot;: self.name,
+-                    &quot;milliseconds&quot;: self.last * 1000,
++                    &quot;milliseconds&quot;: self.last * 1001,
+                     &quot;seconds&quot;: self.last,
+                     &quot;minutes&quot;: self.last / 60,
+                 }
+</failure>
+			<system-out>                    &quot;milliseconds&quot;: self.last * 1000,</system-out>
+		</testcase>
+		<testcase name="Mutant #36" file="codetiming/_timer.py" line="88">
+			<failure type="failure" message="bad_survived">--- codetiming/_timer.py
++++ codetiming/_timer.py
+@@ -85,7 +85,7 @@
+                 attributes = {
+                     &quot;name&quot;: self.name,
+                     &quot;milliseconds&quot;: self.last * 1000,
+-                    &quot;seconds&quot;: self.last,
++                    &quot;XXsecondsXX&quot;: self.last,
+                     &quot;minutes&quot;: self.last / 60,
+                 }
+                 text = self.text.format(self.last, **attributes)
+</failure>
+			<system-out>                    &quot;seconds&quot;: self.last,</system-out>
+		</testcase>
+		<testcase name="Mutant #37" file="codetiming/_timer.py" line="89">
+			<failure type="failure" message="bad_survived">--- codetiming/_timer.py
++++ codetiming/_timer.py
+@@ -86,7 +86,7 @@
+                     &quot;name&quot;: self.name,
+                     &quot;milliseconds&quot;: self.last * 1000,
+                     &quot;seconds&quot;: self.last,
+-                    &quot;minutes&quot;: self.last / 60,
++                    &quot;XXminutesXX&quot;: self.last / 60,
+                 }
+                 text = self.text.format(self.last, **attributes)
+             self.logger(str(text))
+</failure>
+			<system-out>                    &quot;minutes&quot;: self.last / 60,</system-out>
+		</testcase>
+		<testcase name="Mutant #38" file="codetiming/_timer.py" line="89">
+			<failure type="failure" message="bad_survived">--- codetiming/_timer.py
++++ codetiming/_timer.py
+@@ -86,7 +86,7 @@
+                     &quot;name&quot;: self.name,
+                     &quot;milliseconds&quot;: self.last * 1000,
+                     &quot;seconds&quot;: self.last,
+-                    &quot;minutes&quot;: self.last / 60,
++                    &quot;minutes&quot;: self.last * 60,
+                 }
+                 text = self.text.format(self.last, **attributes)
+             self.logger(str(text))
+</failure>
+			<system-out>                    &quot;minutes&quot;: self.last / 60,</system-out>
+		</testcase>
+		<testcase name="Mutant #39" file="codetiming/_timer.py" line="89">
+			<failure type="failure" message="bad_survived">--- codetiming/_timer.py
++++ codetiming/_timer.py
+@@ -86,7 +86,7 @@
+                     &quot;name&quot;: self.name,
+                     &quot;milliseconds&quot;: self.last * 1000,
+                     &quot;seconds&quot;: self.last,
+-                    &quot;minutes&quot;: self.last / 60,
++                    &quot;minutes&quot;: self.last / 61,
+                 }
+                 text = self.text.format(self.last, **attributes)
+             self.logger(str(text))
+</failure>
+			<system-out>                    &quot;minutes&quot;: self.last / 60,</system-out>
+		</testcase>
+		<testcase name="Mutant #40" file="codetiming/_timer.py" line="90">
+			<failure type="failure" message="bad_survived">--- codetiming/_timer.py
++++ codetiming/_timer.py
+@@ -82,12 +82,7 @@
+             if callable(self.text):
+                 text = self.text(self.last)
+             else:
+-                attributes = {
+-                    &quot;name&quot;: self.name,
+-                    &quot;milliseconds&quot;: self.last * 1000,
+-                    &quot;seconds&quot;: self.last,
+-                    &quot;minutes&quot;: self.last / 60,
+-                }
++                attributes = None
+                 text = self.text.format(self.last, **attributes)
+             self.logger(str(text))
+         if self.name:
+</failure>
+			<system-out>                }</system-out>
+		</testcase>
+		<testcase name="Mutant #41" file="codetiming/_timer.py" line="91">
+			<failure type="failure" message="bad_survived">--- codetiming/_timer.py
++++ codetiming/_timer.py
+@@ -88,7 +88,7 @@
+                     &quot;seconds&quot;: self.last,
+                     &quot;minutes&quot;: self.last / 60,
+                 }
+-                text = self.text.format(self.last, **attributes)
++                text = None
+             self.logger(str(text))
+         if self.name:
+             self.timers.add(self.name, self.last)
+</failure>
+			<system-out>                text = self.text.format(self.last, **attributes)</system-out>
+		</testcase>
+		<testcase name="Mutant #42" file="codetiming/_timers.py" line="11">
+			<failure type="failure" message="bad_survived">--- codetiming/_timers.py
++++ codetiming/_timers.py
+@@ -8,7 +8,7 @@
+ 
+ # Annotate generic UserDict
+ if TYPE_CHECKING:
+-    UserDict = collections.UserDict[str, float]  # pragma: no cover
++    UserDict = None  # pragma: no cover
+ else:
+     UserDict = collections.UserDict
+ 
+</failure>
+			<system-out>    UserDict = collections.UserDict[str, float]  # pragma: no cover</system-out>
+		</testcase>
+		<testcase name="Mutant #43" file="codetiming/_timers.py" line="13">
+			<failure type="failure" message="bad_survived">--- codetiming/_timers.py
++++ codetiming/_timers.py
+@@ -10,7 +10,7 @@
+ if TYPE_CHECKING:
+     UserDict = collections.UserDict[str, float]  # pragma: no cover
+ else:
+-    UserDict = collections.UserDict
++    UserDict = None
+ 
+ 
+ class Timers(UserDict):
+</failure>
+			<system-out>    UserDict = collections.UserDict</system-out>
+		</testcase>
+		<testcase name="Mutant #44" file="codetiming/_timers.py" line="22">
+			<system-out>        self._timings: Dict[str, List[float]] = collections.defaultdict(list)</system-out>
+		</testcase>
+		<testcase name="Mutant #45" file="codetiming/_timers.py" line="27">
+			<failure type="failure" message="bad_survived">--- codetiming/_timers.py
++++ codetiming/_timers.py
+@@ -24,7 +24,7 @@
+     def add(self, name: str, value: float) -&gt; None:
+         &quot;&quot;&quot;Add a timing value to the given timer.&quot;&quot;&quot;
+         self._timings[name].append(value)
+-        self.data.setdefault(name, 0)
++        self.data.setdefault(name, 1)
+         self.data[name] += value
+ 
+     def clear(self) -&gt; None:
+</failure>
+			<system-out>        self.data.setdefault(name, 0)</system-out>
+		</testcase>
+		<testcase name="Mutant #46" file="codetiming/_timers.py" line="28">
+			<failure type="failure" message="bad_survived">--- codetiming/_timers.py
++++ codetiming/_timers.py
+@@ -25,7 +25,7 @@
+         &quot;&quot;&quot;Add a timing value to the given timer.&quot;&quot;&quot;
+         self._timings[name].append(value)
+         self.data.setdefault(name, 0)
+-        self.data[name] += value
++        self.data[name] = value
+ 
+     def clear(self) -&gt; None:
+         &quot;&quot;&quot;Clear timers.&quot;&quot;&quot;
+</failure>
+			<system-out>        self.data[name] += value</system-out>
+		</testcase>
+		<testcase name="Mutant #47" file="codetiming/_timers.py" line="28">
+			<failure type="failure" message="bad_survived">--- codetiming/_timers.py
++++ codetiming/_timers.py
+@@ -25,7 +25,7 @@
+         &quot;&quot;&quot;Add a timing value to the given timer.&quot;&quot;&quot;
+         self._timings[name].append(value)
+         self.data.setdefault(name, 0)
+-        self.data[name] += value
++        self.data[name] -= value
+ 
+     def clear(self) -&gt; None:
+         &quot;&quot;&quot;Clear timers.&quot;&quot;&quot;
+</failure>
+			<system-out>        self.data[name] += value</system-out>
+		</testcase>
+		<testcase name="Mutant #48" file="codetiming/_timers.py" line="38">
+			<failure type="failure" message="bad_survived">--- codetiming/_timers.py
++++ codetiming/_timers.py
+@@ -35,7 +35,7 @@
+     def __setitem__(self, name: str, value: float) -&gt; None:
+         &quot;&quot;&quot;Disallow setting of timer values.&quot;&quot;&quot;
+         raise TypeError(
+-            f&quot;{self.__class__.__name__!r} does not support item assignment. &quot;
++            f&quot;XX{self.__class__.__name__!r} does not support item assignment. XX&quot;
+             &quot;Use '.add()' to update values.&quot;
+         )
+ 
+</failure>
+			<system-out>            f&quot;{self.__class__.__name__!r} does not support item assignment. &quot;</system-out>
+		</testcase>
+		<testcase name="Mutant #49" file="codetiming/_timers.py" line="39">
+			<failure type="failure" message="bad_survived">--- codetiming/_timers.py
++++ codetiming/_timers.py
+@@ -36,7 +36,7 @@
+         &quot;&quot;&quot;Disallow setting of timer values.&quot;&quot;&quot;
+         raise TypeError(
+             f&quot;{self.__class__.__name__!r} does not support item assignment. &quot;
+-            &quot;Use '.add()' to update values.&quot;
++            &quot;XXUse '.add()' to update values.XX&quot;
+         )
+ 
+     def apply(self, func: Callable[[List[float]], float], name: str) -&gt; float:
+</failure>
+			<system-out>            &quot;Use '.add()' to update values.&quot;</system-out>
+		</testcase>
+		<testcase name="Mutant #50" file="codetiming/_timers.py" line="44">
+			<system-out>        if name in self._timings:</system-out>
+		</testcase>
+		<testcase name="Mutant #51" file="codetiming/_timers.py" line="58">
+			<failure type="failure" message="bad_survived">--- codetiming/_timers.py
++++ codetiming/_timers.py
+@@ -55,7 +55,7 @@
+ 
+     def min(self, name: str) -&gt; float:
+         &quot;&quot;&quot;Minimal value of timings.&quot;&quot;&quot;
+-        return self.apply(lambda values: min(values or [0]), name=name)
++        return self.apply(lambda values: min(values or [1]), name=name)
+ 
+     def max(self, name: str) -&gt; float:
+         &quot;&quot;&quot;Maximal value of timings.&quot;&quot;&quot;
+</failure>
+			<system-out>        return self.apply(lambda values: min(values or [0]), name=name)</system-out>
+		</testcase>
+		<testcase name="Mutant #52" file="codetiming/_timers.py" line="58">
+			<failure type="failure" message="bad_survived">--- codetiming/_timers.py
++++ codetiming/_timers.py
+@@ -55,7 +55,7 @@
+ 
+     def min(self, name: str) -&gt; float:
+         &quot;&quot;&quot;Minimal value of timings.&quot;&quot;&quot;
+-        return self.apply(lambda values: min(values or [0]), name=name)
++        return self.apply(lambda values: min(values and [0]), name=name)
+ 
+     def max(self, name: str) -&gt; float:
+         &quot;&quot;&quot;Maximal value of timings.&quot;&quot;&quot;
+</failure>
+			<system-out>        return self.apply(lambda values: min(values or [0]), name=name)</system-out>
+		</testcase>
+		<testcase name="Mutant #53" file="codetiming/_timers.py" line="58">
+			<failure type="failure" message="bad_survived">--- codetiming/_timers.py
++++ codetiming/_timers.py
+@@ -55,7 +55,7 @@
+ 
+     def min(self, name: str) -&gt; float:
+         &quot;&quot;&quot;Minimal value of timings.&quot;&quot;&quot;
+-        return self.apply(lambda values: min(values or [0]), name=name)
++        return self.apply(lambda values: None, name=name)
+ 
+     def max(self, name: str) -&gt; float:
+         &quot;&quot;&quot;Maximal value of timings.&quot;&quot;&quot;
+</failure>
+			<system-out>        return self.apply(lambda values: min(values or [0]), name=name)</system-out>
+		</testcase>
+		<testcase name="Mutant #54" file="codetiming/_timers.py" line="62">
+			<failure type="failure" message="bad_survived">--- codetiming/_timers.py
++++ codetiming/_timers.py
+@@ -59,7 +59,7 @@
+ 
+     def max(self, name: str) -&gt; float:
+         &quot;&quot;&quot;Maximal value of timings.&quot;&quot;&quot;
+-        return self.apply(lambda values: max(values or [0]), name=name)
++        return self.apply(lambda values: max(values or [1]), name=name)
+ 
+     def mean(self, name: str) -&gt; float:
+         &quot;&quot;&quot;Mean value of timings.&quot;&quot;&quot;
+</failure>
+			<system-out>        return self.apply(lambda values: max(values or [0]), name=name)</system-out>
+		</testcase>
+		<testcase name="Mutant #55" file="codetiming/_timers.py" line="62">
+			<failure type="failure" message="bad_survived">--- codetiming/_timers.py
++++ codetiming/_timers.py
+@@ -59,7 +59,7 @@
+ 
+     def max(self, name: str) -&gt; float:
+         &quot;&quot;&quot;Maximal value of timings.&quot;&quot;&quot;
+-        return self.apply(lambda values: max(values or [0]), name=name)
++        return self.apply(lambda values: max(values and [0]), name=name)
+ 
+     def mean(self, name: str) -&gt; float:
+         &quot;&quot;&quot;Mean value of timings.&quot;&quot;&quot;
+</failure>
+			<system-out>        return self.apply(lambda values: max(values or [0]), name=name)</system-out>
+		</testcase>
+		<testcase name="Mutant #56" file="codetiming/_timers.py" line="62">
+			<failure type="failure" message="bad_survived">--- codetiming/_timers.py
++++ codetiming/_timers.py
+@@ -59,7 +59,7 @@
+ 
+     def max(self, name: str) -&gt; float:
+         &quot;&quot;&quot;Maximal value of timings.&quot;&quot;&quot;
+-        return self.apply(lambda values: max(values or [0]), name=name)
++        return self.apply(lambda values: None, name=name)
+ 
+     def mean(self, name: str) -&gt; float:
+         &quot;&quot;&quot;Mean value of timings.&quot;&quot;&quot;
+</failure>
+			<system-out>        return self.apply(lambda values: max(values or [0]), name=name)</system-out>
+		</testcase>
+		<testcase name="Mutant #57" file="codetiming/_timers.py" line="66">
+			<failure type="failure" message="bad_survived">--- codetiming/_timers.py
++++ codetiming/_timers.py
+@@ -63,7 +63,7 @@
+ 
+     def mean(self, name: str) -&gt; float:
+         &quot;&quot;&quot;Mean value of timings.&quot;&quot;&quot;
+-        return self.apply(lambda values: statistics.mean(values or [0]), name=name)
++        return self.apply(lambda values: statistics.mean(values or [1]), name=name)
+ 
+     def median(self, name: str) -&gt; float:
+         &quot;&quot;&quot;Median value of timings.&quot;&quot;&quot;
+</failure>
+			<system-out>        return self.apply(lambda values: statistics.mean(values or [0]), name=name)</system-out>
+		</testcase>
+		<testcase name="Mutant #58" file="codetiming/_timers.py" line="66">
+			<failure type="failure" message="bad_survived">--- codetiming/_timers.py
++++ codetiming/_timers.py
+@@ -63,7 +63,7 @@
+ 
+     def mean(self, name: str) -&gt; float:
+         &quot;&quot;&quot;Mean value of timings.&quot;&quot;&quot;
+-        return self.apply(lambda values: statistics.mean(values or [0]), name=name)
++        return self.apply(lambda values: statistics.mean(values and [0]), name=name)
+ 
+     def median(self, name: str) -&gt; float:
+         &quot;&quot;&quot;Median value of timings.&quot;&quot;&quot;
+</failure>
+			<system-out>        return self.apply(lambda values: statistics.mean(values or [0]), name=name)</system-out>
+		</testcase>
+		<testcase name="Mutant #59" file="codetiming/_timers.py" line="66">
+			<failure type="failure" message="bad_survived">--- codetiming/_timers.py
++++ codetiming/_timers.py
+@@ -63,7 +63,7 @@
+ 
+     def mean(self, name: str) -&gt; float:
+         &quot;&quot;&quot;Mean value of timings.&quot;&quot;&quot;
+-        return self.apply(lambda values: statistics.mean(values or [0]), name=name)
++        return self.apply(lambda values: None, name=name)
+ 
+     def median(self, name: str) -&gt; float:
+         &quot;&quot;&quot;Median value of timings.&quot;&quot;&quot;
+</failure>
+			<system-out>        return self.apply(lambda values: statistics.mean(values or [0]), name=name)</system-out>
+		</testcase>
+		<testcase name="Mutant #60" file="codetiming/_timers.py" line="70">
+			<system-out>        return self.apply(lambda values: statistics.median(values or [0]), name=name)</system-out>
+		</testcase>
+		<testcase name="Mutant #61" file="codetiming/_timers.py" line="70">
+			<system-out>        return self.apply(lambda values: statistics.median(values or [0]), name=name)</system-out>
+		</testcase>
+		<testcase name="Mutant #62" file="codetiming/_timers.py" line="70">
+			<system-out>        return self.apply(lambda values: statistics.median(values or [0]), name=name)</system-out>
+		</testcase>
+		<testcase name="Mutant #63" file="codetiming/_timers.py" line="74">
+			<failure type="failure" message="bad_survived">--- codetiming/_timers.py
++++ codetiming/_timers.py
+@@ -71,7 +71,7 @@
+ 
+     def stdev(self, name: str) -&gt; float:
+         &quot;&quot;&quot;Standard deviation of timings.&quot;&quot;&quot;
+-        if name in self._timings:
++        if name not in self._timings:
+             value = self._timings[name]
+             return statistics.stdev(value) if len(value) &gt;= 2 else math.nan
+         raise KeyError(name)
+</failure>
+			<system-out>        if name in self._timings:</system-out>
+		</testcase>
+		<testcase name="Mutant #64" file="codetiming/_timers.py" line="75">
+			<failure type="failure" message="bad_survived">--- codetiming/_timers.py
++++ codetiming/_timers.py
+@@ -72,7 +72,7 @@
+     def stdev(self, name: str) -&gt; float:
+         &quot;&quot;&quot;Standard deviation of timings.&quot;&quot;&quot;
+         if name in self._timings:
+-            value = self._timings[name]
++            value = None
+             return statistics.stdev(value) if len(value) &gt;= 2 else math.nan
+         raise KeyError(name)
+ 
+</failure>
+			<system-out>            value = self._timings[name]</system-out>
+		</testcase>
+		<testcase name="Mutant #65" file="codetiming/_timers.py" line="76">
+			<failure type="failure" message="bad_survived">--- codetiming/_timers.py
++++ codetiming/_timers.py
+@@ -73,6 +73,6 @@
+         &quot;&quot;&quot;Standard deviation of timings.&quot;&quot;&quot;
+         if name in self._timings:
+             value = self._timings[name]
+-            return statistics.stdev(value) if len(value) &gt;= 2 else math.nan
++            return statistics.stdev(value) if len(value) &gt; 2 else math.nan
+         raise KeyError(name)
+ 
+</failure>
+			<system-out>            return statistics.stdev(value) if len(value) &gt;= 2 else math.nan</system-out>
+		</testcase>
+		<testcase name="Mutant #66" file="codetiming/_timers.py" line="76">
+			<failure type="failure" message="bad_survived">--- codetiming/_timers.py
++++ codetiming/_timers.py
+@@ -73,6 +73,6 @@
+         &quot;&quot;&quot;Standard deviation of timings.&quot;&quot;&quot;
+         if name in self._timings:
+             value = self._timings[name]
+-            return statistics.stdev(value) if len(value) &gt;= 2 else math.nan
++            return statistics.stdev(value) if len(value) &gt;= 3 else math.nan
+         raise KeyError(name)
+ 
+</failure>
+			<system-out>            return statistics.stdev(value) if len(value) &gt;= 2 else math.nan</system-out>
+		</testcase>
+	</testsuite>
+</testsuites>
+

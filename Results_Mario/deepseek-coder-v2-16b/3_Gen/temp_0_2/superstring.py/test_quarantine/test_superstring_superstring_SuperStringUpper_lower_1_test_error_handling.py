@@ -1,0 +1,52 @@
+
+import pytest
+from superstring.superstring import SuperStringUpper
+
+def test_error_handling():
+    # Test setup
+    s = SuperStringUpper(12345)
+    
+    # Test the lower method with a non-string type
+    with pytest.raises(TypeError):
+        result = s.lower()
+
+"""
+[TEST4PY QUARANTINE REPORT]
+Reason: Test failed assertions or crashed.
+Error Log:
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-8.3.2, pluggy-1.6.0
+rootdir: /projects/F202407648IACDCF2/mario/superstring.py
+configfile: ../../../../dev/null
+plugins: anyio-4.12.1, json-report-1.5.0, metadata-3.1.1
+collected 1 item
+
+superstring.py/Test4DT_tests/test_superstring_superstring_SuperStringUpper_lower_1_test_error_handling.py F [100%]
+
+=================================== FAILURES ===================================
+_____________________________ test_error_handling ______________________________
+
+    def test_error_handling():
+        # Test setup
+        s = SuperStringUpper(12345)
+    
+        # Test the lower method with a non-string type
+        with pytest.raises(TypeError):
+>           result = s.lower()
+
+superstring.py/Test4DT_tests/test_superstring_superstring_SuperStringUpper_lower_1_test_error_handling.py:11: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <superstring.superstring.SuperStringUpper object at 0x7f14b4bb2f10>
+
+    def lower(self):
+>       return self._base.lower()
+E       AttributeError: 'int' object has no attribute 'lower'
+
+superstring.py/superstring/superstring.py:170: AttributeError
+--------------------------------- JSON report ----------------------------------
+report saved to: pytest_report.json
+=========================== short test summary info ============================
+FAILED superstring.py/Test4DT_tests/test_superstring_superstring_SuperStringUpper_lower_1_test_error_handling.py::test_error_handling
+============================== 1 failed in 0.05s ===============================
+"""

@@ -1,0 +1,1323 @@
+=== INÍCIO DA EXECUÇÃO REACT: 2026-02-09 11:21:17.778687 ===
+
+[11:21:17] [SYSTEM] Projeto: sty
+[12:15:29] [PLANNER] A analisar função: EfRegister.__init__
+[12:15:29] [PLANNER] A analisar função: FgRegister.__init__
+[12:15:29] [PLANNER] A analisar função: BgRegister.__init__
+[12:15:29] [PLANNER] A analisar função: RsRegister.__init__
+[12:15:29] [PLANNER] A analisar função: mute
+[12:15:29] [PLANNER] A analisar função: unmute
+[12:15:29] [PLANNER] A analisar função: sgr
+[12:15:29] [PLANNER] A analisar função: eightbit_fg
+[12:15:29] [PLANNER] A analisar função: eightbit_bg
+[12:15:29] [PLANNER] A analisar função: rgb_fg
+[12:15:29] [PLANNER] A analisar função: rgb_bg
+[12:15:29] [PLANNER] A analisar função: _render_rules
+[12:15:29] [PLANNER] A analisar função: Style.__new__
+[12:15:29] [PLANNER] A analisar função: Register.__init__
+[12:15:29] [PLANNER] A analisar função: Register.__setattr__
+[12:15:29] [PLANNER] A analisar função: Register.__call__
+[12:15:29] [PLANNER] A analisar função: Register.set_eightbit_call
+[12:15:29] [PLANNER] A analisar função: Register.set_rgb_call
+[12:15:29] [PLANNER] A analisar função: Register.set_renderfunc
+[12:15:29] [PLANNER] A analisar função: Register.mute
+[12:15:29] [PLANNER] A analisar função: Register.unmute
+[12:15:29] [PLANNER] A analisar função: Register.as_dict
+[12:15:29] [PLANNER] A analisar função: Register.as_namedtuple
+[12:15:29] [PLANNER] A analisar função: Register.copy
+[12:15:29] [PLANNER] A analisar função: Sgr.__init__
+[12:15:29] [PLANNER] A analisar função: EightbitFg.__init__
+[12:15:29] [PLANNER] A analisar função: EightbitBg.__init__
+[12:15:29] [PLANNER] A analisar função: RgbFg.__init__
+[12:15:29] [PLANNER] A analisar função: RgbBg.__init__
+[12:15:37] [PLANNER] Plano gerado com sucesso: 3 cenários.
+
+--- INÍCIO BLOCO (PLANO JSON) ---
+[
+  {
+    "name": "test_valid_inputs",
+    "desc": "Test standard inputs to ensure all effects are correctly initialized and can be applied.",
+    "setup": "ef = EfRegister()"
+  },
+  {
+    "name": "test_edge_cases",
+    "desc": "Test edge cases such as None or empty values to check how the class handles unexpected input.",
+    "setup": "ef = EfRegister()"
+  },
+  {
+    "name": "test_invalid_inputs",
+    "desc": "Test invalid inputs to ensure errors are raised appropriately, e.g., wrong type of arguments.",
+    "setup": "ef = EfRegister()"
+  }
+]
+--- FIM BLOCO ---
+
+[12:15:37] [ASSERTION] A trabalhar no cenário: test_valid_inputs
+[12:15:47] [PLANNER] Plano gerado com sucesso: 3 cenários.
+
+--- INÍCIO BLOCO (PLANO JSON) ---
+[
+  {
+    "name": "test_valid_case",
+    "desc": "Test standard input",
+    "setup": "Mock class X"
+  },
+  {
+    "name": "test_edge_case",
+    "desc": "Test edge case with None value",
+    "setup": "None"
+  },
+  {
+    "name": "test_error_case",
+    "desc": "Test raising TypeError",
+    "setup": "Mock class Y"
+  }
+]
+--- FIM BLOCO ---
+
+[12:15:47] [ASSERTION] A trabalhar no cenário: test_valid_case
+[12:16:05] [PLANNER] Plano gerado com sucesso: 3 cenários.
+
+--- INÍCIO BLOCO (PLANO JSON) ---
+[
+  {
+    "name": "test_valid_case",
+    "desc": "Test standard input",
+    "setup": "Mock class X"
+  },
+  {
+    "name": "test_edge_case",
+    "desc": "Test edge cases with boundary values",
+    "setup": "None"
+  },
+  {
+    "name": "test_invalid_input",
+    "desc": "Test raising TypeError for invalid input type",
+    "setup": "None"
+  }
+]
+--- FIM BLOCO ---
+
+[12:16:05] [ASSERTION] A trabalhar no cenário: test_valid_case
+[12:16:22] [PLANNER] Plano gerado com sucesso: 3 cenários.
+
+--- INÍCIO BLOCO (PLANO JSON) ---
+[
+  {
+    "name": "test_valid_inputs",
+    "desc": "Test standard inputs to ensure the RsRegister class initializes correctly with default values.",
+    "setup": "rs = RsRegister()"
+  },
+  {
+    "name": "test_edge_cases",
+    "desc": "Test edge cases such as None or empty lists to check how the RsRegister handles unexpected inputs.",
+    "setup": "rs = RsRegister(None)"
+  },
+  {
+    "name": "test_invalid_inputs",
+    "desc": "Test invalid inputs to ensure errors are handled gracefully, e.g., wrong data types or unsupported arguments.",
+    "setup": "rs = RsRegister('invalid_input')"
+  }
+]
+--- FIM BLOCO ---
+
+[12:16:22] [ASSERTION] A trabalhar no cenário: test_valid_inputs
+[12:16:41] [PLANNER] Plano gerado com sucesso: 3 cenários.
+
+--- INÍCIO BLOCO (PLANO JSON) ---
+[
+  {
+    "name": "test_valid_inputs",
+    "desc": "Test standard input with valid Register objects",
+    "setup": "class MockRegister(Register): pass; register1 = MockRegister(); register2 = MockRegister()",
+    "steps": [
+      {
+        "action": "mute(register1, register2)"
+      },
+      {
+        "expected_result": "No errors or side effects"
+      }
+    ]
+  },
+  {
+    "name": "test_none_input",
+    "desc": "Test function with None input",
+    "setup": "None",
+    "steps": [
+      {
+        "action": "mute(None, None)"
+      },
+      {
+        "expected_result": "Raises ValueError"
+      }
+    ]
+  },
+  {
+    "name": "test_invalid_input",
+    "desc": "Test function with non-Register object input",
+    "setup": "class MockNonRegister: pass; mock_obj = MockNonRegister(); register1 = Register(); register2 = Register()",
+    "steps": [
+      {
+        "action": "mute(register1, mock_obj, register2)"
+      },
+      {
+        "expected_result": "Raises ValueError"
+      }
+    ]
+  }
+]
+--- FIM BLOCO ---
+
+[12:16:41] [ASSERTION] A trabalhar no cenário: test_valid_inputs
+[12:16:59] [PLANNER] Plano gerado com sucesso: 3 cenários.
+
+--- INÍCIO BLOCO (PLANO JSON) ---
+[
+  {
+    "name": "test_valid_inputs",
+    "desc": "Test with valid Register objects",
+    "setup": "class MockRegister(Register): pass; obj1 = MockRegister(); obj2 = MockRegister()"
+  },
+  {
+    "name": "test_edge_cases",
+    "desc": "Test with None, empty list, and non-Register objects",
+    "setup": ""
+  },
+  {
+    "name": "test_invalid_inputs",
+    "desc": "Test raising ValueError for invalid Register subclasses",
+    "setup": "class MockInvalid(object): pass; obj1 = MockInvalid(); obj2 = MockInvalid()"
+  }
+]
+--- FIM BLOCO ---
+
+[12:16:59] [ASSERTION] A trabalhar no cenário: test_valid_inputs
+[12:17:18] [PLANNER] Plano gerado com sucesso: 3 cenários.
+
+--- INÍCIO BLOCO (PLANO JSON) ---
+[
+  {
+    "name": "test_valid_input",
+    "desc": "Test standard input with valid integer value",
+    "setup": "None"
+  },
+  {
+    "name": "test_edge_case_none",
+    "desc": "Test edge case with None input",
+    "setup": "None"
+  },
+  {
+    "name": "test_invalid_input",
+    "desc": "Test invalid input type (e.g., string)",
+    "setup": "None"
+  }
+]
+--- FIM BLOCO ---
+
+[12:17:18] [ASSERTION] A trabalhar no cenário: test_valid_input
+[12:17:38] [PLANNER] Plano gerado com sucesso: 3 cenários.
+
+--- INÍCIO BLOCO (PLANO JSON) ---
+[
+  {
+    "name": "test_valid_input",
+    "desc": "Test valid input within the range of 0 to 255",
+    "setup": "No setup required"
+  },
+  {
+    "name": "test_edge_case_zero",
+    "desc": "Test with the lowest possible value (0)",
+    "setup": "No setup required"
+  },
+  {
+    "name": "test_invalid_input",
+    "desc": "Test with an invalid input type and value outside the range",
+    "setup": "No setup required"
+  }
+]
+--- FIM BLOCO ---
+
+[12:17:38] [ASSERTION] A trabalhar no cenário: test_valid_input
+[12:17:59] [PLANNER] Plano gerado com sucesso: 3 cenários.
+
+--- INÍCIO BLOCO (PLANO JSON) ---
+[
+  {
+    "name": "test_valid_input",
+    "desc": "Test standard input with valid integer within the range 0 to 255",
+    "setup": "No setup required"
+  },
+  {
+    "name": "test_edge_case_zero",
+    "desc": "Test edge case with minimum value (0)",
+    "setup": "No setup required"
+  },
+  {
+    "name": "test_invalid_input",
+    "desc": "Test invalid input type, such as a string or float",
+    "setup": "No setup required"
+  }
+]
+--- FIM BLOCO ---
+
+[12:17:59] [ASSERTION] A trabalhar no cenário: test_valid_input
+[12:18:21] [PLANNER] ⚠️ Falha no JSON: Invalid \escape: line 6 column 29 (char 164)
+[12:18:21] [PLANNER] -> A usar fallback (Teste Básico).
+[12:18:21] [ASSERTION] A trabalhar no cenário: test_rgb_fg_basic
+[12:18:46] [PLANNER] ⚠️ Falha no JSON: Invalid \escape: line 12 column 14 (char 333)
+[12:18:46] [PLANNER] -> A usar fallback (Teste Básico).
+[12:18:46] [ASSERTION] A trabalhar no cenário: test_rgb_bg_basic
+[12:19:05] [PLANNER] Plano gerado com sucesso: 3 cenários.
+
+--- INÍCIO BLOCO (PLANO JSON) ---
+[
+  {
+    "name": "test_valid_case",
+    "desc": "Test standard input with valid RenderType and Style instances",
+    "setup": "from typing import Dict, Callable, List, Tuple, Iterable\nclass StylingRule:\n    pass\nclass RenderType(StylingRule):\n    def __init__(self, args: tuple):\n        self.args = args\nclass Style(StylingRule):\n    def __init__(self, rules: List[StylingRule]):\n        self.rules = rules\nrenderfuncs = {RenderType: lambda *args: f\"Rendered {args}\"}\nrules = [RenderType((1, 2)), Style([RenderType((3, 4))])]\n"
+  },
+  {
+    "name": "test_edge_case",
+    "desc": "Test edge cases with None and empty lists",
+    "setup": ""
+  },
+  {
+    "name": "test_error_case",
+    "desc": "Test raising ValueError for invalid input types",
+    "setup": "from typing import Dict, Callable, List, Tuple, Iterable\nclass StylingRule:\n    pass\nclass RenderType(StylingRule):\n    def __init__(self, args: tuple):\n        self.args = args\nclass Style(StylingRule):\n    def __init__(self, rules: List[StylingRule]):\n        self.rules = rules\nrenderfuncs = {RenderType: lambda *args: f\"Rendered {args}\"}\nrules = [None, [], {}, \"string\", 123]"
+  }
+]
+--- FIM BLOCO ---
+
+[12:19:05] [ASSERTION] A trabalhar no cenário: test_valid_case
+[12:19:21] [PLANNER] Plano gerado com sucesso: 3 cenários.
+
+--- INÍCIO BLOCO (PLANO JSON) ---
+[
+  {
+    "name": "test_valid_case",
+    "desc": "Test standard input with valid StylingRule objects and a non-empty string value.",
+    "setup": "from primitive import Style, RgbFg, Sgr, StylingRule; fg = Style(RgbFg(1, 5, 10), Sgr(1), 'Hello')"
+  },
+  {
+    "name": "test_edge_case",
+    "desc": "Test with no rules and an empty string value.",
+    "setup": "from primitive import Style, RgbFg, Sgr, StylingRule; fg = Style(value='')"
+  },
+  {
+    "name": "test_error_case",
+    "desc": "Test raising TypeError with non-StylingRule objects.",
+    "setup": "from primitive import Style, RgbFg, Sgr, StylingRule; try: fg = Style(RgbFg(1, 5, 10), 'Hello', rules=None) except TypeError as e: print(e)"
+  }
+]
+--- FIM BLOCO ---
+
+[12:19:21] [ASSERTION] A trabalhar no cenário: test_valid_case
+[12:19:39] [PLANNER] Plano gerado com sucesso: 3 cenários.
+
+--- INÍCIO BLOCO (PLANO JSON) ---
+[
+  {
+    "name": "test_valid_case",
+    "desc": "Test standard input",
+    "setup": "custom_register = Register()"
+  },
+  {
+    "name": "test_edge_case",
+    "desc": "Test edge cases with no inputs",
+    "setup": "custom_register = Register()"
+  },
+  {
+    "name": "test_invalid_input",
+    "desc": "Test invalid input handling",
+    "setup": "try: custom_register = Register() except Exception as e: print(e)"
+  }
+]
+--- FIM BLOCO ---
+
+[12:19:39] [ASSERTION] A trabalhar no cenário: test_valid_case
+[12:20:02] [PLANNER] Plano gerado com sucesso: 3 cenários.
+
+--- INÍCIO BLOCO (PLANO JSON) ---
+[
+  {
+    "name": "test_valid_input",
+    "desc": "Test setting a valid Style instance to an attribute of Register class",
+    "setup": "from typing import List; class StylingRule; class RenderType(StylingRule); class Style(StylingRule); register = Register(); style = Style([]);"
+  },
+  {
+    "name": "test_edge_case_muted",
+    "desc": "Test setting a Style instance when the register is muted",
+    "setup": "from typing import List; class StylingRule; class RenderType(StylingRule); class Style(StylingRule); register = Register(); style = Style([]); register.is_muted = True;"
+  },
+  {
+    "name": "test_invalid_input",
+    "desc": "Test setting an invalid type to an attribute of Register class",
+    "setup": "from typing import List; class StylingRule; class RenderType(StylingRule); class Style(StylingRule); register = Register(); style = 'not a valid style';"
+  }
+]
+--- FIM BLOCO ---
+
+[12:20:02] [ASSERTION] A trabalhar no cenário: test_valid_input
+[12:20:21] [PLANNER] Plano gerado com sucesso: 3 cenários.
+
+--- INÍCIO BLOCO (PLANO JSON) ---
+[
+  {
+    "name": "test_valid_inputs",
+    "desc": "Test standard inputs for fg, bg, and named colors",
+    "setup": "reg = Register()"
+  },
+  {
+    "name": "test_edge_cases",
+    "desc": "Test edge cases including None, empty lists, and boundary values",
+    "setup": "reg = Register()"
+  },
+  {
+    "name": "test_invalid_inputs",
+    "desc": "Test invalid inputs to check error handling",
+    "setup": "reg = Register()"
+  }
+]
+--- FIM BLOCO ---
+
+[12:20:21] [ASSERTION] A trabalhar no cenário: test_valid_inputs
+[12:20:44] [PLANNER] Plano gerado com sucesso: 3 cenários.
+
+--- INÍCIO BLOCO (PLANO JSON) ---
+[
+  {
+    "name": "test_valid_input",
+    "desc": "Test setting a valid render type for Eightbit-calls",
+    "setup": "reg = Register()",
+    "steps": [
+      {
+        "action": "Define a mock render function and add it to reg.renderfuncs.",
+        "expected": "The eightbit_call should be the defined mock function."
+      },
+      {
+        "action": "Call set_eightbit_call with the mock render type.",
+        "expected": "The eightbit_call should be updated to the mock function."
+      }
+    ]
+  },
+  {
+    "name": "test_edge_case",
+    "desc": "Test setting None as a render type for Eightbit-calls",
+    "setup": "reg = Register()",
+    "steps": [
+      {
+        "action": "Call set_eightbit_call with None.",
+        "expected": "A TypeError should be raised, indicating that the input must be a valid type."
+      },
+      {
+        "action": "Ensure no change occurs in reg.renderfuncs or eightbit_call.",
+        "expected": "The original state of reg should remain unchanged."
+      }
+    ]
+  },
+  {
+    "name": "test_invalid_input",
+    "desc": "Test setting an invalid render type for Eightbit-calls",
+    "setup": "reg = Register()",
+    "steps": [
+      {
+        "action": "Call set_eightbit_call with a string that is not in reg.renderfuncs.",
+        "expected": "A KeyError should be raised, indicating the input does not exist in reg.renderfuncs."
+      },
+      {
+        "action": "Ensure no change occurs in reg.renderfuncs or eightbit_call.",
+        "expected": "The original state of reg should remain unchanged."
+      }
+    ]
+  }
+]
+--- FIM BLOCO ---
+
+[12:20:44] [ASSERTION] A trabalhar no cenário: test_valid_input
+[12:21:02] [PLANNER] Plano gerado com sucesso: 3 cenários.
+
+--- INÍCIO BLOCO (PLANO JSON) ---
+[
+  {
+    "name": "test_valid_input",
+    "desc": "Test setting RGB call with a valid render type",
+    "setup": "reg = Register()",
+    "steps": [
+      {
+        "action": "reg.set_rgb_call(SomeRenderType)",
+        "expected_result": "self.rgb_call should be set to the function from self.renderfuncs[SomeRenderType]"
+      }
+    ]
+  },
+  {
+    "name": "test_edge_case",
+    "desc": "Test setting RGB call with None as render type",
+    "setup": "reg = Register()",
+    "steps": [
+      {
+        "action": "reg.set_rgb_call(None)",
+        "expected_result": "Should raise TypeError"
+      }
+    ]
+  },
+  {
+    "name": "test_invalid_input",
+    "desc": "Test setting RGB call with invalid render type",
+    "setup": "reg = Register()",
+    "steps": [
+      {
+        "action": "reg.set_rgb_call('InvalidRenderType')",
+        "expected_result": "Should raise KeyError"
+      }
+    ]
+  }
+]
+--- FIM BLOCO ---
+
+[12:21:02] [ASSERTION] A trabalhar no cenário: test_valid_input
+[12:21:23] [PLANNER] Plano gerado com sucesso: 3 cenários.
+
+--- INÍCIO BLOCO (PLANO JSON) ---
+[
+  {
+    "name": "test_valid_input",
+    "desc": "Test adding a valid render function to the register.",
+    "setup": "custom_register = Register()",
+    "steps": [
+      {
+        "action": "custom_register.set_renderfunc(RenderType1, lambda x: f'Custom {x}')"
+      },
+      {
+        "expected_result": "The custom render function should be added to the register."
+      }
+    ]
+  },
+  {
+    "name": "test_edge_case",
+    "desc": "Test adding a None as a render function.",
+    "setup": "custom_register = Register()",
+    "steps": [
+      {
+        "action": "custom_register.set_renderfunc(RenderType1, None)"
+      },
+      {
+        "expected_result": "A ValueError should be raised indicating the invalid input."
+      }
+    ]
+  },
+  {
+    "name": "test_invalid_input",
+    "desc": "Test adding a non-callable object as a render function.",
+    "setup": "custom_register = Register()",
+    "steps": [
+      {
+        "action": "custom_register.set_renderfunc(RenderType1, 'not_a_function')"
+      },
+      {
+        "expected_result": "A TypeError should be raised indicating the invalid input type."
+      }
+    ]
+  }
+]
+--- FIM BLOCO ---
+
+[12:21:23] [ASSERTION] A trabalhar no cenário: test_valid_input
+[12:21:42] [PLANNER] Plano gerado com sucesso: 3 cenários.
+
+--- INÍCIO BLOCO (PLANO JSON) ---
+[
+  {
+    "name": "test_mute_happy_path",
+    "desc": "Test that the mute method sets is_muted to True and resets all Style attributes to their default values.",
+    "setup": "reg = Register()",
+    "expected_output": "assert reg.is_muted == True"
+  },
+  {
+    "name": "test_mute_edge_case",
+    "desc": "Test that the mute method handles edge cases where there are no Style attributes.",
+    "setup": "class MockStyle: pass; setattr(reg, 'style', MockStyle()); reg.style = None; reg.style = []",
+    "expected_output": "assert all([getattr(reg, attr) == None for attr in dir(reg) if isinstance(getattr(reg, attr), Style)])"
+  },
+  {
+    "name": "test_mute_invalid_input",
+    "desc": "Test that the mute method raises an error when called with invalid input.",
+    "setup": "def test_invalid_input(): raise ValueError('Invalid Input')",
+    "expected_output": "assertRaises(ValueError, reg.mute())"
+  }
+]
+--- FIM BLOCO ---
+
+[12:21:42] [ASSERTION] A trabalhar no cenário: test_mute_happy_path
+[12:22:02] [PLANNER] Plano gerado com sucesso: 3 cenários.
+
+--- INÍCIO BLOCO (PLANO JSON) ---
+[
+  {
+    "name": "test_valid_input",
+    "desc": "Test unmute method with valid input",
+    "setup": "custom_register = Register()",
+    "steps": [
+      {
+        "action": "Set custom_register.is_muted to True"
+      },
+      {
+        "action": "Call custom_register.unmute()"
+      },
+      {
+        "expected_result": "custom_register.is_muted should be False"
+      }
+    ]
+  },
+  {
+    "name": "test_edge_case",
+    "desc": "Test unmute method with no input",
+    "setup": "custom_register = Register()",
+    "steps": [
+      {
+        "action": "Call custom_register.unmute()"
+      },
+      {
+        "expected_result": "custom_register.is_muted should be False"
+      }
+    ]
+  },
+  {
+    "name": "test_invalid_input",
+    "desc": "Test unmute method with invalid input type",
+    "setup": "custom_register = Register()",
+    "steps": [
+      {
+        "action": "Call custom_register.unmute() with an invalid argument"
+      },
+      {
+        "expected_result": "Should raise TypeError"
+      }
+    ]
+  }
+]
+--- FIM BLOCO ---
+
+[12:22:02] [ASSERTION] A trabalhar no cenário: test_valid_input
+[12:22:24] [PLANNER] Plano gerado com sucesso: 3 cenários.
+
+--- INÍCIO BLOCO (PLANO JSON) ---
+[
+  {
+    "name": "test_valid_case",
+    "desc": "Test standard input with valid attributes",
+    "setup": "custom_register = Register()",
+    "steps": [
+      {
+        "step": "Set up a new instance of the Register class.",
+        "expected": "Instance created successfully."
+      },
+      {
+        "step": "Check if `as_dict` method returns a dictionary with valid attribute names and string representations.",
+        "expected": "Dictionary contains expected keys and values."
+      }
+    ]
+  },
+  {
+    "name": "test_edge_case",
+    "desc": "Test edge cases such as None or empty lists",
+    "setup": "custom_register = Register()",
+    "steps": [
+      {
+        "step": "Set up a new instance of the Register class.",
+        "expected": "Instance created successfully."
+      },
+      {
+        "step": "Check if `as_dict` method handles cases where attributes are not set or are None, returning an empty dictionary.",
+        "expected": "Empty dictionary returned for missing or unset attributes."
+      }
+    ]
+  },
+  {
+    "name": "test_error_case",
+    "desc": "Test invalid inputs and error handling",
+    "setup": "custom_register = Register()",
+    "steps": [
+      {
+        "step": "Set up a new instance of the Register class.",
+        "expected": "Instance created successfully."
+      },
+      {
+        "step": "Attempt to call `as_dict` method with invalid arguments, expecting an error or unexpected output.",
+        "expected": "Method raises TypeError or ValueError as expected."
+      }
+    ]
+  }
+]
+--- FIM BLOCO ---
+
+[12:22:24] [ASSERTION] A trabalhar no cenário: test_valid_case
+[12:22:40] [PLANNER] Plano gerado com sucesso: 3 cenários.
+
+--- INÍCIO BLOCO (PLANO JSON) ---
+[
+  {
+    "name": "test_valid_case",
+    "desc": "Test standard input",
+    "setup": "Create an instance of Register and call as_namedtuple method"
+  },
+  {
+    "name": "test_edge_case",
+    "desc": "Test edge cases with no inputs",
+    "setup": "Create an instance of Register without any attributes set and call as_namedtuple method"
+  },
+  {
+    "name": "test_error_case",
+    "desc": "Test raising ValueError for invalid input",
+    "setup": "Attempt to create an instance of Register with incorrect data types and call as_namedtuple method"
+  }
+]
+--- FIM BLOCO ---
+
+[12:22:40] [ASSERTION] A trabalhar no cenário: test_valid_case
+[12:23:00] [PLANNER] Plano gerado com sucesso: 3 cenários.
+
+--- INÍCIO BLOCO (PLANO JSON) ---
+[
+  {
+    "name": "test_valid_case",
+    "desc": "Test standard input",
+    "setup": "Create an instance of Register and call the copy method."
+  },
+  {
+    "name": "test_edge_case",
+    "desc": "Test edge cases, including None and empty lists",
+    "setup": "Create instances with various inputs (None, [], {}) and test the copy method."
+  },
+  {
+    "name": "test_error_case",
+    "desc": "Test raising ValueError for invalid inputs",
+    "setup": "Attempt to call the copy method on an instance of Register that has been modified in a way that would raise a TypeError or similar error."
+  }
+]
+--- FIM BLOCO ---
+
+[12:23:00] [ASSERTION] A trabalhar no cenário: test_valid_case
+[12:23:19] [PLANNER] Plano gerado com sucesso: 3 cenários.
+
+--- INÍCIO BLOCO (PLANO JSON) ---
+[
+  {
+    "name": "test_valid_input",
+    "desc": "Test valid input with a typical SGR number",
+    "setup": "sgr = Sgr(1)"
+  },
+  {
+    "name": "test_edge_case_none",
+    "desc": "Test edge case with None as input",
+    "setup": "sgr = Sgr(None)"
+  },
+  {
+    "name": "test_invalid_input",
+    "desc": "Test invalid input with a string instead of an integer",
+    "setup": "sgr = Sgr('invalid')"
+  }
+]
+--- FIM BLOCO ---
+
+[12:23:19] [ASSERTION] A trabalhar no cenário: test_valid_input
+[12:23:48] [PLANNER] Plano gerado com sucesso: 6 cenários.
+
+--- INÍCIO BLOCO (PLANO JSON) ---
+[
+  {
+    "name": "test_valid_input",
+    "desc": "Test valid input for EightbitFg initialization with a number between 0 and 255.",
+    "setup": "color = EightbitFg(1)",
+    "assertions": [
+      {
+        "check": "isinstance(color, EightbitFg)",
+        "expected": "True"
+      },
+      {
+        "check": "color.args",
+        "expected": "[1]"
+      }
+    ]
+  },
+  {
+    "name": "test_edge_case_zero",
+    "desc": "Test initialization with the lowest possible valid input (0).",
+    "setup": "color = EightbitFg(0)",
+    "assertions": [
+      {
+        "check": "isinstance(color, EightbitFg)",
+        "expected": "True"
+      },
+      {
+        "check": "color.args",
+        "expected": "[0]"
+      }
+    ]
+  },
+  {
+    "name": "test_edge_case_max",
+    "desc": "Test initialization with the highest possible valid input (255).",
+    "setup": "color = EightbitFg(255)",
+    "assertions": [
+      {
+        "check": "isinstance(color, EightbitFg)",
+        "expected": "True"
+      },
+      {
+        "check": "color.args",
+        "expected": "[255]"
+      }
+    ]
+  },
+  {
+    "name": "test_invalid_input_string",
+    "desc": "Test initialization with a string input, expecting ValueError.",
+    "setup": "try: color = EightbitFg('a') except ValueError as e:",
+    "assertions": [
+      {
+        "check": "str(e)",
+        "expected": "'int' object is not subscriptable"
+      }
+    ]
+  },
+  {
+    "name": "test_invalid_input_negative",
+    "desc": "Test initialization with a negative number, expecting ValueError.",
+    "setup": "try: color = EightbitFg(-1) except ValueError as e:",
+    "assertions": [
+      {
+        "check": "str(e)",
+        "expected": "'int' object is not subscriptable"
+      }
+    ]
+  },
+  {
+    "name": "test_invalid_input_large",
+    "desc": "Test initialization with a number larger than 255, expecting ValueError.",
+    "setup": "try: color = EightbitFg(256) except ValueError as e:",
+    "assertions": [
+      {
+        "check": "str(e)",
+        "expected": "'int' object is not subscriptable"
+      }
+    ]
+  }
+]
+--- FIM BLOCO ---
+
+[12:23:48] [ASSERTION] A trabalhar no cenário: test_valid_input
+[12:24:00] [PLANNER] Plano gerado com sucesso: 3 cenários.
+
+--- INÍCIO BLOCO (PLANO JSON) ---
+[
+  {
+    "name": "test_valid_input",
+    "desc": "Test valid input within the range of 0 to 255",
+    "setup": "Create an instance of EightbitBg with a number between 0 and 255"
+  },
+  {
+    "name": "test_edge_case_zero",
+    "desc": "Test edge case with the minimum valid value (0)",
+    "setup": "Create an instance of EightbitBg with num set to 0"
+  },
+  {
+    "name": "test_invalid_input",
+    "desc": "Test invalid input, expecting ValueError",
+    "setup": "Attempt to create an instance of EightbitBg with a number outside the valid range (e.g., -1 or 256)"
+  }
+]
+--- FIM BLOCO ---
+
+[12:24:00] [ASSERTION] A trabalhar no cenário: test_valid_input
+[12:24:23] [PLANNER] Plano gerado com sucesso: 3 cenários.
+
+--- INÍCIO BLOCO (PLANO JSON) ---
+[
+  {
+    "name": "test_valid_inputs",
+    "desc": "Test standard input with valid RGB values",
+    "setup": "green = RgbFg(0, 255, 0); blue = RgbFg(0, 0, 255);"
+  },
+  {
+    "name": "test_edge_cases",
+    "desc": "Test edge cases with boundary values and invalid inputs",
+    "setup": "invalid_colors = [(-1, 0, 0), (256, 0, 0), (0, -1, 0), (0, 256, 0), (0, 0, -1), (0, 0, 256)]; for r, g, b in invalid_colors: RgbFg(r, g, b);"
+  },
+  {
+    "name": "test_invalid_inputs",
+    "desc": "Test raising TypeError or ValueError with non-integer inputs",
+    "setup": "non_integer_values = [(None, 0, 0), ('string', 0, 0), ([], 0, 0)]; for value in non_integer_values: RgbFg(value[0], value[1], value[2]);"
+  }
+]
+--- FIM BLOCO ---
+
+[12:24:23] [ASSERTION] A trabalhar no cenário: test_valid_inputs
+[12:24:42] [PLANNER] Plano gerado com sucesso: 3 cenários.
+
+--- INÍCIO BLOCO (PLANO JSON) ---
+[
+  {
+    "name": "test_valid_inputs",
+    "desc": "Test standard input with valid RGB values (0 <= r, g, b <= 255)",
+    "setup": "rgb_bg = RgbBg(128, 64, 32)"
+  },
+  {
+    "name": "test_edge_cases",
+    "desc": "Test edge cases with boundary values (r=0, g=0, b=0) and (r=255, g=255, b=255)",
+    "setup": "rgb_bg = RgbBg(0, 0, 0); rgb_bg_max = RgbBg(255, 255, 255)"
+  },
+  {
+    "name": "test_invalid_inputs",
+    "desc": "Test invalid inputs with non-integer values and out of range values (e.g., -1, 'a', [1, 2])",
+    "setup": "try: rgb_bg = RgbBg(-1, 'a', [1, 2]); except ValueError as e: pass"
+  }
+]
+--- FIM BLOCO ---
+
+[12:24:42] [ASSERTION] A trabalhar no cenário: test_valid_inputs
+[12:25:04] [EXECUTOR] A validar ficheiro: test_register_EfRegister___init___0_test_valid_inputs.py
+[12:25:05] [SELF-HEALING] Tentativa 2. A corrigir erro anterior...
+[12:25:28] [EXECUTOR] A validar ficheiro: test_register_FgRegister___init___0_test_valid_case.py
+[12:25:28] [RESULTADO] ✅ Sucesso à tentativa 1!
+[12:25:28] [ASSERTION] A trabalhar no cenário: test_edge_case
+[12:25:50] [EXECUTOR] A validar ficheiro: test_register_BgRegister___init___0_test_valid_case.py
+[12:25:51] [RESULTADO] ✅ Sucesso à tentativa 1!
+[12:25:51] [ASSERTION] A trabalhar no cenário: test_edge_case
+[12:26:02] [EXECUTOR] A validar ficheiro: test_register_RsRegister___init___0_test_valid_inputs.py
+[12:26:02] [RESULTADO] ✅ Sucesso à tentativa 1!
+[12:26:02] [ASSERTION] A trabalhar no cenário: test_edge_cases
+[12:26:18] [EXECUTOR] A validar ficheiro: test_lib_mute_0_test_valid_inputs.py
+[12:26:18] [SELF-HEALING] Tentativa 2. A corrigir erro anterior...
+[12:26:42] [EXECUTOR] A validar ficheiro: test_lib_unmute_0_test_valid_inputs.py
+[12:26:42] [SELF-HEALING] Tentativa 2. A corrigir erro anterior...
+[12:26:57] [EXECUTOR] A validar ficheiro: test_renderfunc_sgr_0_test_valid_input.py
+[12:26:57] [RESULTADO] ✅ Sucesso à tentativa 1!
+[12:26:57] [ASSERTION] A trabalhar no cenário: test_edge_case_none
+[12:27:18] [EXECUTOR] A validar ficheiro: test_renderfunc_eightbit_fg_0_test_valid_input.py
+[12:27:18] [RESULTADO] ✅ Sucesso à tentativa 1!
+[12:27:18] [ASSERTION] A trabalhar no cenário: test_edge_case_zero
+[12:27:39] [EXECUTOR] A validar ficheiro: test_renderfunc_eightbit_bg_0_test_valid_input.py
+[12:27:39] [RESULTADO] ✅ Sucesso à tentativa 1!
+[12:27:39] [ASSERTION] A trabalhar no cenário: test_edge_case_zero
+[12:28:02] [EXECUTOR] A validar ficheiro: test_renderfunc_rgb_fg_0_test_rgb_fg_basic.py
+[12:28:02] [RESULTADO] ✅ Sucesso à tentativa 1!
+[12:28:19] [EXECUTOR] A validar ficheiro: test_renderfunc_rgb_bg_0_test_rgb_bg_basic.py
+[12:28:20] [RESULTADO] ✅ Sucesso à tentativa 1!
+[12:28:45] [EXECUTOR] A validar ficheiro: test_primitive__render_rules_0_test_valid_case.py
+[12:28:46] [SELF-HEALING] Tentativa 2. A corrigir erro anterior...
+[12:28:59] [EXECUTOR] A validar ficheiro: test_primitive_Style___new___0_test_valid_case.py
+[12:29:00] [SELF-HEALING] Tentativa 2. A corrigir erro anterior...
+[12:29:25] [EXECUTOR] A validar ficheiro: test_primitive_Register___init___0_test_valid_case.py
+[12:29:25] [SELF-HEALING] Tentativa 2. A corrigir erro anterior...
+[12:29:45] [EXECUTOR] A validar ficheiro: test_primitive_Register___setattr___0_test_valid_input.py
+[12:29:46] [SELF-HEALING] Tentativa 2. A corrigir erro anterior...
+[12:30:01] [EXECUTOR] A validar ficheiro: test_primitive_Register___call___0_test_valid_inputs.py
+[12:30:02] [SELF-HEALING] Tentativa 2. A corrigir erro anterior...
+[12:30:29] [EXECUTOR] A validar ficheiro: test_primitive_Register_set_eightbit_call_0_test_valid_input.py
+[12:30:29] [SELF-HEALING] Tentativa 2. A corrigir erro anterior...
+[12:30:49] [EXECUTOR] A validar ficheiro: test_primitive_Register_set_rgb_call_0_test_valid_input.py
+[12:30:49] [SELF-HEALING] Tentativa 2. A corrigir erro anterior...
+[12:31:01] [EXECUTOR] A validar ficheiro: test_primitive_Register_set_renderfunc_0_test_valid_input.py
+[12:31:01] [SELF-HEALING] Tentativa 2. A corrigir erro anterior...
+[12:31:20] [EXECUTOR] A validar ficheiro: test_primitive_Register_mute_0_test_mute_happy_path.py
+[12:31:21] [RESULTADO] ✅ Sucesso à tentativa 1!
+[12:31:21] [ASSERTION] A trabalhar no cenário: test_mute_edge_case
+[12:31:47] [EXECUTOR] A validar ficheiro: test_primitive_Register_unmute_0_test_valid_input.py
+[12:31:48] [SELF-HEALING] Tentativa 2. A corrigir erro anterior...
+[12:31:59] [EXECUTOR] A validar ficheiro: test_primitive_Register_as_dict_0_test_valid_case.py
+[12:31:59] [SELF-HEALING] Tentativa 2. A corrigir erro anterior...
+[12:32:19] [EXECUTOR] A validar ficheiro: test_primitive_Register_as_namedtuple_0_test_valid_case.py
+[12:32:21] [SELF-HEALING] Tentativa 2. A corrigir erro anterior...
+[12:32:47] [EXECUTOR] A validar ficheiro: test_primitive_Register_copy_0_test_valid_case.py
+[12:32:47] [SELF-HEALING] Tentativa 2. A corrigir erro anterior...
+[12:32:57] [EXECUTOR] A validar ficheiro: test_rendertype_Sgr___init___0_test_valid_input.py
+[12:32:58] [SELF-HEALING] Tentativa 2. A corrigir erro anterior...
+[12:33:17] [EXECUTOR] A validar ficheiro: test_rendertype_EightbitFg___init___0_test_valid_input.py
+[12:33:17] [RESULTADO] ✅ Sucesso à tentativa 1!
+[12:33:17] [ASSERTION] A trabalhar no cenário: test_edge_case_zero
+[12:33:42] [EXECUTOR] A validar ficheiro: test_rendertype_EightbitBg___init___0_test_valid_input.py
+[12:33:43] [RESULTADO] ✅ Sucesso à tentativa 1!
+[12:33:43] [ASSERTION] A trabalhar no cenário: test_edge_case_zero
+[12:33:59] [EXECUTOR] A validar ficheiro: test_rendertype_RgbFg___init___0_test_valid_inputs.py
+[12:33:59] [RESULTADO] ✅ Sucesso à tentativa 1!
+[12:33:59] [ASSERTION] A trabalhar no cenário: test_edge_cases
+[12:34:17] [EXECUTOR] A validar ficheiro: test_rendertype_RgbBg___init___0_test_valid_inputs.py
+[12:34:18] [RESULTADO] ✅ Sucesso à tentativa 1!
+[12:34:18] [ASSERTION] A trabalhar no cenário: test_edge_cases
+[12:34:46] [EXECUTOR] A validar ficheiro: test_register_EfRegister___init___0_test_valid_inputs.py
+[12:34:47] [SELF-HEALING] Tentativa 3. A corrigir erro anterior...
+[12:35:08] [EXECUTOR] A validar ficheiro: test_register_FgRegister___init___1_test_edge_case.py
+[12:35:08] [RESULTADO] ✅ Sucesso à tentativa 1!
+[12:35:08] [ASSERTION] A trabalhar no cenário: test_error_case
+[12:35:35] [EXECUTOR] A validar ficheiro: test_register_BgRegister___init___1_test_edge_case.py
+[12:35:36] [SELF-HEALING] Tentativa 2. A corrigir erro anterior...
+[12:35:44] [EXECUTOR] A validar ficheiro: test_register_RsRegister___init___1_test_edge_cases.py
+[12:35:44] [SELF-HEALING] Tentativa 2. A corrigir erro anterior...
+[12:36:00] [EXECUTOR] A validar ficheiro: test_lib_mute_0_test_valid_inputs.py
+[12:36:01] [RESULTADO] ✅ Sucesso à tentativa 2!
+[12:36:01] [ASSERTION] A trabalhar no cenário: test_none_input
+[12:36:24] [EXECUTOR] A validar ficheiro: test_lib_unmute_0_test_valid_inputs.py
+[12:36:24] [SELF-HEALING] Tentativa 3. A corrigir erro anterior...
+[12:36:37] [EXECUTOR] A validar ficheiro: test_renderfunc_sgr_1_test_edge_case_none.py
+[12:36:37] [SELF-HEALING] Tentativa 2. A corrigir erro anterior...
+[12:36:57] [EXECUTOR] A validar ficheiro: test_renderfunc_eightbit_fg_1_test_edge_case_zero.py
+[12:36:57] [RESULTADO] ✅ Sucesso à tentativa 1!
+[12:36:57] [ASSERTION] A trabalhar no cenário: test_invalid_input
+[12:37:17] [EXECUTOR] A validar ficheiro: test_renderfunc_eightbit_bg_1_test_edge_case_zero.py
+[12:37:17] [RESULTADO] ✅ Sucesso à tentativa 1!
+[12:37:17] [ASSERTION] A trabalhar no cenário: test_invalid_input
+[12:37:42] [EXECUTOR] A validar ficheiro: test_primitive__render_rules_0_test_valid_case.py
+[12:37:42] [SELF-HEALING] Tentativa 3. A corrigir erro anterior...
+[12:38:03] [EXECUTOR] A validar ficheiro: test_primitive_Style___new___0_test_valid_case.py
+[12:38:04] [SELF-HEALING] Tentativa 3. A corrigir erro anterior...
+[12:38:25] [EXECUTOR] A validar ficheiro: test_primitive_Register___init___0_test_valid_case.py
+[12:38:25] [SELF-HEALING] Tentativa 3. A corrigir erro anterior...
+[12:38:46] [EXECUTOR] A validar ficheiro: test_primitive_Register___setattr___0_test_valid_input.py
+[12:38:47] [SELF-HEALING] Tentativa 3. A corrigir erro anterior...
+[12:39:00] [EXECUTOR] A validar ficheiro: test_primitive_Register___call___0_test_valid_inputs.py
+[12:39:01] [SELF-HEALING] Tentativa 3. A corrigir erro anterior...
+[12:39:22] [EXECUTOR] A validar ficheiro: test_primitive_Register_set_eightbit_call_0_test_valid_input.py
+[12:39:22] [SELF-HEALING] Tentativa 3. A corrigir erro anterior...
+[12:39:40] [EXECUTOR] A validar ficheiro: test_primitive_Register_set_rgb_call_0_test_valid_input.py
+[12:39:41] [SELF-HEALING] Tentativa 3. A corrigir erro anterior...
+[12:40:08] [EXECUTOR] A validar ficheiro: test_primitive_Register_set_renderfunc_0_test_valid_input.py
+[12:40:08] [SELF-HEALING] Tentativa 3. A corrigir erro anterior...
+[12:40:23] [EXECUTOR] A validar ficheiro: test_primitive_Register_mute_1_test_mute_edge_case.py
+[12:40:23] [SELF-HEALING] Tentativa 2. A corrigir erro anterior...
+[12:40:38] [EXECUTOR] A validar ficheiro: test_primitive_Register_unmute_0_test_valid_input.py
+[12:40:38] [RESULTADO] ✅ Sucesso à tentativa 2!
+[12:40:38] [ASSERTION] A trabalhar no cenário: test_edge_case
+[12:41:00] [EXECUTOR] A validar ficheiro: test_primitive_Register_as_dict_0_test_valid_case.py
+[12:41:01] [SELF-HEALING] Tentativa 3. A corrigir erro anterior...
+[12:41:21] [EXECUTOR] A validar ficheiro: test_primitive_Register_as_namedtuple_0_test_valid_case.py
+[12:41:21] [SELF-HEALING] Tentativa 3. A corrigir erro anterior...
+[12:41:39] [EXECUTOR] A validar ficheiro: test_primitive_Register_copy_0_test_valid_case.py
+[12:41:39] [SELF-HEALING] Tentativa 3. A corrigir erro anterior...
+[12:41:59] [EXECUTOR] A validar ficheiro: test_rendertype_Sgr___init___0_test_valid_input.py
+[12:41:59] [RESULTADO] ✅ Sucesso à tentativa 2!
+[12:41:59] [ASSERTION] A trabalhar no cenário: test_edge_case_none
+[12:42:18] [EXECUTOR] A validar ficheiro: test_rendertype_EightbitFg___init___1_test_edge_case_zero.py
+[12:42:18] [RESULTADO] ✅ Sucesso à tentativa 1!
+[12:42:18] [ASSERTION] A trabalhar no cenário: test_edge_case_max
+[12:42:37] [EXECUTOR] A validar ficheiro: test_rendertype_EightbitBg___init___1_test_edge_case_zero.py
+[12:42:38] [RESULTADO] ✅ Sucesso à tentativa 1!
+[12:42:38] [ASSERTION] A trabalhar no cenário: test_invalid_input
+[12:42:59] [EXECUTOR] A validar ficheiro: test_rendertype_RgbFg___init___1_test_edge_cases.py
+[12:43:00] [SELF-HEALING] Tentativa 2. A corrigir erro anterior...
+[12:43:21] [EXECUTOR] A validar ficheiro: test_rendertype_RgbBg___init___1_test_edge_cases.py
+[12:43:21] [RESULTADO] ✅ Sucesso à tentativa 1!
+[12:43:21] [ASSERTION] A trabalhar no cenário: test_invalid_inputs
+[12:43:46] [EXECUTOR] A validar ficheiro: test_register_EfRegister___init___0_test_valid_inputs.py
+[12:43:46] [RESULTADO] ❌ Falhou após 3 tentativas.
+[12:43:46] [ASSERTION] A trabalhar no cenário: test_edge_cases
+[12:44:03] [EXECUTOR] A validar ficheiro: test_register_FgRegister___init___2_test_error_case.py
+[12:44:04] [RESULTADO] ✅ Sucesso à tentativa 1!
+[12:44:49] [EXECUTOR] A validar ficheiro: test_register_BgRegister___init___1_test_edge_case.py
+[12:44:49] [SELF-HEALING] Tentativa 3. A corrigir erro anterior...
+[12:44:56] [EXECUTOR] A validar ficheiro: test_register_RsRegister___init___1_test_edge_cases.py
+[12:44:57] [SELF-HEALING] Tentativa 3. A corrigir erro anterior...
+[12:44:58] [EXECUTOR] A validar ficheiro: test_lib_mute_1_test_none_input.py
+[12:44:59] [SELF-HEALING] Tentativa 2. A corrigir erro anterior...
+[12:45:18] [EXECUTOR] A validar ficheiro: test_lib_unmute_0_test_valid_inputs.py
+[12:45:19] [RESULTADO] ❌ Falhou após 3 tentativas.
+[12:45:19] [ASSERTION] A trabalhar no cenário: test_edge_cases
+[12:45:38] [EXECUTOR] A validar ficheiro: test_renderfunc_sgr_1_test_edge_case_none.py
+[12:45:39] [SELF-HEALING] Tentativa 3. A corrigir erro anterior...
+[12:45:58] [EXECUTOR] A validar ficheiro: test_renderfunc_eightbit_fg_2_test_invalid_input.py
+[12:45:59] [SELF-HEALING] Tentativa 2. A corrigir erro anterior...
+[12:46:18] [EXECUTOR] A validar ficheiro: test_renderfunc_eightbit_bg_2_test_invalid_input.py
+[12:46:19] [SELF-HEALING] Tentativa 2. A corrigir erro anterior...
+[12:46:50] [EXECUTOR] A validar ficheiro: test_primitive__render_rules_0_test_valid_case.py
+[12:46:51] [RESULTADO] ❌ Falhou após 3 tentativas.
+[12:46:51] [ASSERTION] A trabalhar no cenário: test_edge_case
+[12:47:03] [EXECUTOR] A validar ficheiro: test_primitive_Style___new___0_test_valid_case.py
+[12:47:03] [RESULTADO] ❌ Falhou após 3 tentativas.
+[12:47:03] [ASSERTION] A trabalhar no cenário: test_edge_case
+[12:47:21] [EXECUTOR] A validar ficheiro: test_primitive_Register___init___0_test_valid_case.py
+[12:47:21] [RESULTADO] ❌ Falhou após 3 tentativas.
+[12:47:21] [ASSERTION] A trabalhar no cenário: test_edge_case
+[12:47:44] [EXECUTOR] A validar ficheiro: test_primitive_Register___setattr___0_test_valid_input.py
+[12:47:45] [RESULTADO] ❌ Falhou após 3 tentativas.
+[12:47:45] [ASSERTION] A trabalhar no cenário: test_edge_case_muted
+[12:48:01] [EXECUTOR] A validar ficheiro: test_primitive_Register___call___0_test_valid_inputs.py
+[12:48:01] [RESULTADO] ❌ Falhou após 3 tentativas.
+[12:48:01] [ASSERTION] A trabalhar no cenário: test_edge_cases
+[12:48:22] [EXECUTOR] A validar ficheiro: test_primitive_Register_set_eightbit_call_0_test_valid_input.py
+[12:48:23] [RESULTADO] ❌ Falhou após 3 tentativas.
+[12:48:23] [ASSERTION] A trabalhar no cenário: test_edge_case
+[12:48:43] [EXECUTOR] A validar ficheiro: test_primitive_Register_set_rgb_call_0_test_valid_input.py
+[12:48:43] [RESULTADO] ✅ Sucesso à tentativa 3!
+[12:48:43] [ASSERTION] A trabalhar no cenário: test_edge_case
+[12:49:03] [EXECUTOR] A validar ficheiro: test_primitive_Register_set_renderfunc_0_test_valid_input.py
+[12:49:05] [RESULTADO] ✅ Sucesso à tentativa 3!
+[12:49:05] [ASSERTION] A trabalhar no cenário: test_edge_case
+[12:49:29] [EXECUTOR] A validar ficheiro: test_primitive_Register_mute_1_test_mute_edge_case.py
+[12:49:30] [RESULTADO] ✅ Sucesso à tentativa 2!
+[12:49:30] [ASSERTION] A trabalhar no cenário: test_mute_invalid_input
+[12:49:39] [EXECUTOR] A validar ficheiro: test_primitive_Register_unmute_1_test_edge_case.py
+[12:49:39] [RESULTADO] ✅ Sucesso à tentativa 1!
+[12:49:39] [ASSERTION] A trabalhar no cenário: test_invalid_input
+[12:50:00] [EXECUTOR] A validar ficheiro: test_primitive_Register_as_dict_0_test_valid_case.py
+[12:50:01] [RESULTADO] ❌ Falhou após 3 tentativas.
+[12:50:01] [ASSERTION] A trabalhar no cenário: test_edge_case
+[12:50:21] [EXECUTOR] A validar ficheiro: test_primitive_Register_as_namedtuple_0_test_valid_case.py
+[12:50:21] [RESULTADO] ❌ Falhou após 3 tentativas.
+[12:50:21] [ASSERTION] A trabalhar no cenário: test_edge_case
+[12:50:42] [EXECUTOR] A validar ficheiro: test_primitive_Register_copy_0_test_valid_case.py
+[12:50:43] [RESULTADO] ✅ Sucesso à tentativa 3!
+[12:50:43] [ASSERTION] A trabalhar no cenário: test_edge_case
+[12:50:57] [EXECUTOR] A validar ficheiro: test_rendertype_Sgr___init___1_test_edge_case_none.py
+[12:50:57] [SELF-HEALING] Tentativa 2. A corrigir erro anterior...
+[12:51:17] [EXECUTOR] A validar ficheiro: test_rendertype_EightbitFg___init___2_test_edge_case_max.py
+[12:51:18] [RESULTADO] ✅ Sucesso à tentativa 1!
+[12:51:18] [ASSERTION] A trabalhar no cenário: test_invalid_input_string
+[12:51:38] [EXECUTOR] A validar ficheiro: test_rendertype_EightbitBg___init___2_test_invalid_input.py
+[12:51:39] [SELF-HEALING] Tentativa 2. A corrigir erro anterior...
+[12:51:59] [EXECUTOR] A validar ficheiro: test_rendertype_RgbFg___init___1_test_edge_cases.py
+[12:52:00] [SELF-HEALING] Tentativa 3. A corrigir erro anterior...
+[12:52:17] [EXECUTOR] A validar ficheiro: test_rendertype_RgbBg___init___2_test_invalid_inputs.py
+[12:52:18] [SELF-HEALING] Tentativa 2. A corrigir erro anterior...
+[12:52:50] [EXECUTOR] A validar ficheiro: test_register_EfRegister___init___0_test_edge_cases.py
+[12:52:50] [RESULTADO] ✅ Sucesso à tentativa 1!
+[12:52:50] [ASSERTION] A trabalhar no cenário: test_invalid_inputs
+[12:53:30] [EXECUTOR] A validar ficheiro: test_register_BgRegister___init___1_test_edge_case.py
+[12:53:30] [RESULTADO] ❌ Falhou após 3 tentativas.
+[12:53:30] [ASSERTION] A trabalhar no cenário: test_invalid_input
+[12:53:37] [EXECUTOR] A validar ficheiro: test_register_RsRegister___init___1_test_edge_cases.py
+[12:53:38] [RESULTADO] ❌ Falhou após 3 tentativas.
+[12:53:38] [ASSERTION] A trabalhar no cenário: test_invalid_inputs
+[12:53:40] [EXECUTOR] A validar ficheiro: test_lib_mute_1_test_none_input.py
+[12:53:41] [SELF-HEALING] Tentativa 3. A corrigir erro anterior...
+[12:53:59] [EXECUTOR] A validar ficheiro: test_lib_unmute_0_test_edge_cases.py
+[12:53:59] [SELF-HEALING] Tentativa 2. A corrigir erro anterior...
+[12:54:18] [EXECUTOR] A validar ficheiro: test_renderfunc_sgr_1_test_edge_case_none.py
+[12:54:19] [RESULTADO] ❌ Falhou após 3 tentativas.
+[12:54:19] [ASSERTION] A trabalhar no cenário: test_invalid_input
+[12:54:38] [EXECUTOR] A validar ficheiro: test_renderfunc_eightbit_fg_2_test_invalid_input.py
+[12:54:39] [SELF-HEALING] Tentativa 3. A corrigir erro anterior...
+[12:54:58] [EXECUTOR] A validar ficheiro: test_renderfunc_eightbit_bg_2_test_invalid_input.py
+[12:54:59] [SELF-HEALING] Tentativa 3. A corrigir erro anterior...
+[12:55:28] [EXECUTOR] A validar ficheiro: test_primitive__render_rules_0_test_edge_case.py
+[12:55:29] [SELF-HEALING] Tentativa 2. A corrigir erro anterior...
+[12:55:38] [EXECUTOR] A validar ficheiro: test_primitive_Style___new___0_test_edge_case.py
+[12:55:38] [SELF-HEALING] Tentativa 2. A corrigir erro anterior...
+[12:55:59] [EXECUTOR] A validar ficheiro: test_primitive_Register___init___0_test_edge_case.py
+[12:55:59] [RESULTADO] ✅ Sucesso à tentativa 1!
+[12:55:59] [ASSERTION] A trabalhar no cenário: test_invalid_input
+[12:56:30] [EXECUTOR] A validar ficheiro: test_primitive_Register___setattr___0_test_edge_case_muted.py
+[12:56:31] [SELF-HEALING] Tentativa 2. A corrigir erro anterior...
+[12:56:52] [EXECUTOR] A validar ficheiro: test_primitive_Register___call___0_test_edge_cases.py
+[12:56:53] [SELF-HEALING] Tentativa 2. A corrigir erro anterior...
+[12:57:08] [EXECUTOR] A validar ficheiro: test_primitive_Register_set_eightbit_call_0_test_edge_case.py
+[12:57:08] [SELF-HEALING] Tentativa 2. A corrigir erro anterior...
+[12:57:19] [EXECUTOR] A validar ficheiro: test_primitive_Register_set_rgb_call_1_test_edge_case.py
+[12:57:20] [SELF-HEALING] Tentativa 2. A corrigir erro anterior...
+[12:57:47] [EXECUTOR] A validar ficheiro: test_primitive_Register_set_renderfunc_1_test_edge_case.py
+[12:57:48] [SELF-HEALING] Tentativa 2. A corrigir erro anterior...
+[12:57:58] [EXECUTOR] A validar ficheiro: test_primitive_Register_mute_2_test_mute_invalid_input.py
+[12:57:59] [SELF-HEALING] Tentativa 2. A corrigir erro anterior...
+[12:58:27] [EXECUTOR] A validar ficheiro: test_primitive_Register_unmute_2_test_invalid_input.py
+[12:58:27] [SELF-HEALING] Tentativa 2. A corrigir erro anterior...
+[12:58:40] [EXECUTOR] A validar ficheiro: test_primitive_Register_as_dict_0_test_edge_case.py
+[12:58:41] [SELF-HEALING] Tentativa 2. A corrigir erro anterior...
+[12:58:59] [EXECUTOR] A validar ficheiro: test_primitive_Register_as_namedtuple_0_test_edge_case.py
+[12:59:00] [SELF-HEALING] Tentativa 2. A corrigir erro anterior...
+[12:59:28] [EXECUTOR] A validar ficheiro: test_primitive_Register_copy_1_test_edge_case.py
+[12:59:28] [RESULTADO] ✅ Sucesso à tentativa 1!
+[12:59:28] [ASSERTION] A trabalhar no cenário: test_error_case
+[12:59:42] [EXECUTOR] A validar ficheiro: test_rendertype_Sgr___init___1_test_edge_case_none.py
+[12:59:42] [RESULTADO] ✅ Sucesso à tentativa 2!
+[12:59:42] [ASSERTION] A trabalhar no cenário: test_invalid_input
+[12:59:57] [EXECUTOR] A validar ficheiro: test_rendertype_EightbitFg___init___3_test_invalid_input_string.py
+[12:59:58] [SELF-HEALING] Tentativa 2. A corrigir erro anterior...
+[13:00:19] [EXECUTOR] A validar ficheiro: test_rendertype_EightbitBg___init___2_test_invalid_input.py
+[13:00:20] [SELF-HEALING] Tentativa 3. A corrigir erro anterior...
+[13:00:39] [EXECUTOR] A validar ficheiro: test_rendertype_RgbFg___init___1_test_edge_cases.py
+[13:00:40] [RESULTADO] ❌ Falhou após 3 tentativas.
+[13:00:40] [ASSERTION] A trabalhar no cenário: test_invalid_inputs
+[13:01:07] [EXECUTOR] A validar ficheiro: test_rendertype_RgbBg___init___2_test_invalid_inputs.py
+[13:01:07] [SELF-HEALING] Tentativa 3. A corrigir erro anterior...
+[13:01:20] [EXECUTOR] A validar ficheiro: test_register_EfRegister___init___1_test_invalid_inputs.py
+[13:01:21] [SELF-HEALING] Tentativa 2. A corrigir erro anterior...
+[13:01:43] [EXECUTOR] A validar ficheiro: test_register_BgRegister___init___1_test_invalid_input.py
+[13:01:45] [SELF-HEALING] Tentativa 2. A corrigir erro anterior...
+[13:01:59] [EXECUTOR] A validar ficheiro: test_register_RsRegister___init___1_test_invalid_inputs.py
+[13:02:00] [SELF-HEALING] Tentativa 2. A corrigir erro anterior...
+[13:02:17] [EXECUTOR] A validar ficheiro: test_lib_mute_1_test_none_input.py
+[13:02:18] [RESULTADO] ❌ Falhou após 3 tentativas.
+[13:02:18] [ASSERTION] A trabalhar no cenário: test_invalid_input
+[13:02:38] [EXECUTOR] A validar ficheiro: test_lib_unmute_0_test_edge_cases.py
+[13:02:38] [SELF-HEALING] Tentativa 3. A corrigir erro anterior...
+[13:02:56] [EXECUTOR] A validar ficheiro: test_renderfunc_sgr_1_test_invalid_input.py
+[13:02:57] [SELF-HEALING] Tentativa 2. A corrigir erro anterior...
+[13:03:18] [EXECUTOR] A validar ficheiro: test_renderfunc_eightbit_fg_2_test_invalid_input.py
+[13:03:19] [RESULTADO] ❌ Falhou após 3 tentativas.
+[13:03:38] [EXECUTOR] A validar ficheiro: test_renderfunc_eightbit_bg_2_test_invalid_input.py
+[13:03:39] [RESULTADO] ❌ Falhou após 3 tentativas.
+[13:04:03] [EXECUTOR] A validar ficheiro: test_primitive__render_rules_0_test_edge_case.py
+[13:04:04] [SELF-HEALING] Tentativa 3. A corrigir erro anterior...
+[13:04:22] [EXECUTOR] A validar ficheiro: test_primitive_Style___new___0_test_edge_case.py
+[13:04:22] [SELF-HEALING] Tentativa 3. A corrigir erro anterior...
+[13:04:37] [EXECUTOR] A validar ficheiro: test_primitive_Register___init___1_test_invalid_input.py
+[13:04:38] [SELF-HEALING] Tentativa 2. A corrigir erro anterior...
+[13:05:09] [EXECUTOR] A validar ficheiro: test_primitive_Register___setattr___0_test_edge_case_muted.py
+[13:05:10] [SELF-HEALING] Tentativa 3. A corrigir erro anterior...
+[13:05:24] [EXECUTOR] A validar ficheiro: test_primitive_Register___call___0_test_edge_cases.py
+[13:05:25] [SELF-HEALING] Tentativa 3. A corrigir erro anterior...
+[13:05:41] [EXECUTOR] A validar ficheiro: test_primitive_Register_set_eightbit_call_0_test_edge_case.py
+[13:05:42] [SELF-HEALING] Tentativa 3. A corrigir erro anterior...
+[13:06:02] [EXECUTOR] A validar ficheiro: test_primitive_Register_set_rgb_call_1_test_edge_case.py
+[13:06:03] [RESULTADO] ✅ Sucesso à tentativa 2!
+[13:06:03] [ASSERTION] A trabalhar no cenário: test_invalid_input
+[13:06:24] [EXECUTOR] A validar ficheiro: test_primitive_Register_set_renderfunc_1_test_edge_case.py
+[13:06:25] [RESULTADO] ✅ Sucesso à tentativa 2!
+[13:06:25] [ASSERTION] A trabalhar no cenário: test_invalid_input
+[13:06:39] [EXECUTOR] A validar ficheiro: test_primitive_Register_mute_2_test_mute_invalid_input.py
+[13:06:39] [RESULTADO] ✅ Sucesso à tentativa 2!
+[13:06:59] [EXECUTOR] A validar ficheiro: test_primitive_Register_unmute_2_test_invalid_input.py
+[13:07:00] [RESULTADO] ✅ Sucesso à tentativa 2!
+[13:07:23] [EXECUTOR] A validar ficheiro: test_primitive_Register_as_dict_0_test_edge_case.py
+[13:07:23] [SELF-HEALING] Tentativa 3. A corrigir erro anterior...
+[13:07:41] [EXECUTOR] A validar ficheiro: test_primitive_Register_as_namedtuple_0_test_edge_case.py
+[13:07:41] [SELF-HEALING] Tentativa 3. A corrigir erro anterior...
+[13:08:08] [EXECUTOR] A validar ficheiro: test_primitive_Register_copy_2_test_error_case.py
+[13:08:09] [SELF-HEALING] Tentativa 2. A corrigir erro anterior...
+[13:08:17] [EXECUTOR] A validar ficheiro: test_rendertype_Sgr___init___2_test_invalid_input.py
+[13:08:18] [SELF-HEALING] Tentativa 2. A corrigir erro anterior...
+[13:08:39] [EXECUTOR] A validar ficheiro: test_rendertype_EightbitFg___init___3_test_invalid_input_string.py
+[13:08:40] [SELF-HEALING] Tentativa 3. A corrigir erro anterior...
+[13:08:59] [EXECUTOR] A validar ficheiro: test_rendertype_EightbitBg___init___2_test_invalid_input.py
+[13:09:00] [RESULTADO] ❌ Falhou após 3 tentativas.
+[13:09:18] [EXECUTOR] A validar ficheiro: test_rendertype_RgbFg___init___1_test_invalid_inputs.py
+[13:09:19] [SELF-HEALING] Tentativa 2. A corrigir erro anterior...
+[13:09:42] [EXECUTOR] A validar ficheiro: test_rendertype_RgbBg___init___2_test_invalid_inputs.py
+[13:09:43] [RESULTADO] ❌ Falhou após 3 tentativas.
+[13:10:01] [EXECUTOR] A validar ficheiro: test_register_EfRegister___init___1_test_invalid_inputs.py
+[13:10:02] [SELF-HEALING] Tentativa 3. A corrigir erro anterior...
+[13:10:50] [EXECUTOR] A validar ficheiro: test_register_BgRegister___init___1_test_invalid_input.py
+[13:10:50] [SELF-HEALING] Tentativa 3. A corrigir erro anterior...
+[13:10:54] [EXECUTOR] A validar ficheiro: test_register_RsRegister___init___1_test_invalid_inputs.py
+[13:10:55] [SELF-HEALING] Tentativa 3. A corrigir erro anterior...
+[13:11:00] [EXECUTOR] A validar ficheiro: test_register_RsRegister___init___1_test_invalid_inputs.py
+[13:11:01] [RESULTADO] ❌ Falhou após 3 tentativas.
+[13:11:17] [EXECUTOR] A validar ficheiro: test_lib_mute_1_test_invalid_input.py
+[13:11:18] [SELF-HEALING] Tentativa 2. A corrigir erro anterior...
+[13:11:42] [EXECUTOR] A validar ficheiro: test_lib_unmute_0_test_edge_cases.py
+[13:11:43] [RESULTADO] ❌ Falhou após 3 tentativas.
+[13:11:43] [ASSERTION] A trabalhar no cenário: test_invalid_inputs
+[13:11:58] [EXECUTOR] A validar ficheiro: test_renderfunc_sgr_1_test_invalid_input.py
+[13:11:59] [SELF-HEALING] Tentativa 3. A corrigir erro anterior...
+[13:12:23] [EXECUTOR] A validar ficheiro: test_primitive__render_rules_0_test_edge_case.py
+[13:12:24] [RESULTADO] ❌ Falhou após 3 tentativas.
+[13:12:24] [ASSERTION] A trabalhar no cenário: test_error_case
+[13:12:42] [EXECUTOR] A validar ficheiro: test_primitive_Style___new___0_test_edge_case.py
+[13:12:42] [RESULTADO] ❌ Falhou após 3 tentativas.
+[13:12:42] [ASSERTION] A trabalhar no cenário: test_error_case
+[13:13:00] [EXECUTOR] A validar ficheiro: test_primitive_Register___init___1_test_invalid_input.py
+[13:13:00] [SELF-HEALING] Tentativa 3. A corrigir erro anterior...
+[13:13:26] [EXECUTOR] A validar ficheiro: test_primitive_Register___setattr___0_test_edge_case_muted.py
+[13:13:27] [RESULTADO] ❌ Falhou após 3 tentativas.
+[13:13:27] [ASSERTION] A trabalhar no cenário: test_invalid_input
+[13:13:43] [EXECUTOR] A validar ficheiro: test_primitive_Register___call___0_test_edge_cases.py
+[13:13:44] [RESULTADO] ❌ Falhou após 3 tentativas.
+[13:13:44] [ASSERTION] A trabalhar no cenário: test_invalid_inputs
+[13:14:04] [EXECUTOR] A validar ficheiro: test_primitive_Register_set_eightbit_call_0_test_edge_case.py
+[13:14:05] [RESULTADO] ✅ Sucesso à tentativa 3!
+[13:14:05] [ASSERTION] A trabalhar no cenário: test_invalid_input
+[13:14:20] [EXECUTOR] A validar ficheiro: test_primitive_Register_set_rgb_call_2_test_invalid_input.py
+[13:14:21] [RESULTADO] ✅ Sucesso à tentativa 1!
+[13:14:47] [EXECUTOR] A validar ficheiro: test_primitive_Register_set_renderfunc_2_test_invalid_input.py
+[13:14:48] [SELF-HEALING] Tentativa 2. A corrigir erro anterior...
+[13:15:02] [EXECUTOR] A validar ficheiro: test_primitive_Register_as_dict_0_test_edge_case.py
+[13:15:03] [RESULTADO] ❌ Falhou após 3 tentativas.
+[13:15:03] [ASSERTION] A trabalhar no cenário: test_error_case
+[13:15:20] [EXECUTOR] A validar ficheiro: test_primitive_Register_as_namedtuple_0_test_edge_case.py
+[13:15:21] [RESULTADO] ❌ Falhou após 3 tentativas.
+[13:15:21] [ASSERTION] A trabalhar no cenário: test_error_case
+[13:15:45] [EXECUTOR] A validar ficheiro: test_primitive_Register_copy_2_test_error_case.py
+[13:15:46] [SELF-HEALING] Tentativa 3. A corrigir erro anterior...
+[13:16:00] [EXECUTOR] A validar ficheiro: test_rendertype_Sgr___init___2_test_invalid_input.py
+[13:16:00] [SELF-HEALING] Tentativa 3. A corrigir erro anterior...
+[13:16:19] [EXECUTOR] A validar ficheiro: test_rendertype_EightbitFg___init___3_test_invalid_input_string.py
+[13:16:20] [RESULTADO] ❌ Falhou após 3 tentativas.
+[13:16:20] [ASSERTION] A trabalhar no cenário: test_invalid_input_negative
+[13:16:41] [EXECUTOR] A validar ficheiro: test_rendertype_RgbFg___init___1_test_invalid_inputs.py
+[13:16:42] [SELF-HEALING] Tentativa 3. A corrigir erro anterior...
+[13:17:01] [EXECUTOR] A validar ficheiro: test_register_EfRegister___init___1_test_invalid_inputs.py
+[13:17:02] [RESULTADO] ❌ Falhou após 3 tentativas.
+[13:17:50] [EXECUTOR] A validar ficheiro: test_register_BgRegister___init___1_test_invalid_input.py
+[13:17:50] [RESULTADO] ❌ Falhou após 3 tentativas.
+[13:17:54] [EXECUTOR] A validar ficheiro: test_lib_mute_1_test_invalid_input.py
+[13:17:55] [RESULTADO] ✅ Sucesso à tentativa 2!
+[13:17:58] [EXECUTOR] A validar ficheiro: test_lib_unmute_0_test_invalid_inputs.py
+[13:17:59] [SELF-HEALING] Tentativa 2. A corrigir erro anterior...
+[13:18:17] [EXECUTOR] A validar ficheiro: test_renderfunc_sgr_1_test_invalid_input.py
+[13:18:18] [RESULTADO] ❌ Falhou após 3 tentativas.
+[13:18:40] [EXECUTOR] A validar ficheiro: test_primitive__render_rules_0_test_error_case.py
+[13:18:41] [SELF-HEALING] Tentativa 2. A corrigir erro anterior...
+[13:18:59] [EXECUTOR] A validar ficheiro: test_primitive_Style___new___0_test_error_case.py
+[13:18:59] [SELF-HEALING] Tentativa 2. A corrigir erro anterior...
+[13:19:17] [EXECUTOR] A validar ficheiro: test_primitive_Register___init___1_test_invalid_input.py
+[13:19:18] [RESULTADO] ❌ Falhou após 3 tentativas.
+[13:19:49] [EXECUTOR] A validar ficheiro: test_primitive_Register___setattr___0_test_invalid_input.py
+[13:19:49] [SELF-HEALING] Tentativa 2. A corrigir erro anterior...
+[13:20:05] [EXECUTOR] A validar ficheiro: test_primitive_Register___call___0_test_invalid_inputs.py
+[13:20:06] [SELF-HEALING] Tentativa 2. A corrigir erro anterior...
+[13:20:20] [EXECUTOR] A validar ficheiro: test_primitive_Register_set_eightbit_call_1_test_invalid_input.py
+[13:20:21] [SELF-HEALING] Tentativa 2. A corrigir erro anterior...
+[13:20:40] [EXECUTOR] A validar ficheiro: test_primitive_Register_set_renderfunc_2_test_invalid_input.py
+[13:20:41] [SELF-HEALING] Tentativa 3. A corrigir erro anterior...
+[13:20:59] [EXECUTOR] A validar ficheiro: test_primitive_Register_as_dict_0_test_error_case.py
+[13:21:00] [SELF-HEALING] Tentativa 2. A corrigir erro anterior...
+[13:21:18] [EXECUTOR] A validar ficheiro: test_primitive_Register_as_namedtuple_0_test_error_case.py
+[13:21:19] [SELF-HEALING] Tentativa 2. A corrigir erro anterior...
+[13:21:40] [EXECUTOR] A validar ficheiro: test_primitive_Register_copy_2_test_error_case.py
+[13:21:40] [RESULTADO] ❌ Falhou após 3 tentativas.
+[13:21:59] [EXECUTOR] A validar ficheiro: test_rendertype_Sgr___init___2_test_invalid_input.py
+[13:22:00] [RESULTADO] ❌ Falhou após 3 tentativas.
+[13:22:18] [EXECUTOR] A validar ficheiro: test_rendertype_EightbitFg___init___3_test_invalid_input_negative.py
+[13:22:19] [SELF-HEALING] Tentativa 2. A corrigir erro anterior...
+[13:22:42] [EXECUTOR] A validar ficheiro: test_rendertype_RgbFg___init___1_test_invalid_inputs.py
+[13:22:43] [RESULTADO] ❌ Falhou após 3 tentativas.
+[13:22:58] [EXECUTOR] A validar ficheiro: test_lib_unmute_0_test_invalid_inputs.py
+[13:22:59] [RESULTADO] ✅ Sucesso à tentativa 2!
+[13:23:23] [EXECUTOR] A validar ficheiro: test_primitive__render_rules_0_test_error_case.py
+[13:23:24] [SELF-HEALING] Tentativa 3. A corrigir erro anterior...
+[13:23:41] [EXECUTOR] A validar ficheiro: test_primitive_Style___new___0_test_error_case.py
+[13:23:42] [SELF-HEALING] Tentativa 3. A corrigir erro anterior...
+[13:23:58] [EXECUTOR] A validar ficheiro: test_primitive_Register___setattr___0_test_invalid_input.py
+[13:23:59] [SELF-HEALING] Tentativa 3. A corrigir erro anterior...
+[13:24:19] [EXECUTOR] A validar ficheiro: test_primitive_Register___call___0_test_invalid_inputs.py
+[13:24:20] [SELF-HEALING] Tentativa 3. A corrigir erro anterior...
+[13:24:40] [EXECUTOR] A validar ficheiro: test_primitive_Register_set_eightbit_call_1_test_invalid_input.py
+[13:24:41] [RESULTADO] ✅ Sucesso à tentativa 2!
+[13:25:01] [EXECUTOR] A validar ficheiro: test_primitive_Register_set_renderfunc_2_test_invalid_input.py
+[13:25:02] [RESULTADO] ❌ Falhou após 3 tentativas.
+[13:25:19] [EXECUTOR] A validar ficheiro: test_primitive_Register_as_dict_0_test_error_case.py
+[13:25:20] [SELF-HEALING] Tentativa 3. A corrigir erro anterior...
+[13:25:40] [EXECUTOR] A validar ficheiro: test_primitive_Register_as_namedtuple_0_test_error_case.py
+[13:25:41] [SELF-HEALING] Tentativa 3. A corrigir erro anterior...
+[13:26:00] [EXECUTOR] A validar ficheiro: test_rendertype_EightbitFg___init___3_test_invalid_input_negative.py
+[13:26:01] [SELF-HEALING] Tentativa 3. A corrigir erro anterior...
+[13:26:27] [EXECUTOR] A validar ficheiro: test_primitive__render_rules_0_test_error_case.py
+[13:26:29] [RESULTADO] ❌ Falhou após 3 tentativas.
+[13:26:42] [EXECUTOR] A validar ficheiro: test_primitive_Style___new___0_test_error_case.py
+[13:26:42] [RESULTADO] ❌ Falhou após 3 tentativas.
+[13:27:10] [EXECUTOR] A validar ficheiro: test_primitive_Register___setattr___0_test_invalid_input.py
+[13:27:11] [RESULTADO] ❌ Falhou após 3 tentativas.
+[13:27:19] [EXECUTOR] A validar ficheiro: test_primitive_Register___call___0_test_invalid_inputs.py
+[13:27:20] [RESULTADO] ❌ Falhou após 3 tentativas.
+[13:27:44] [EXECUTOR] A validar ficheiro: test_primitive_Register_as_dict_0_test_error_case.py
+[13:27:45] [RESULTADO] ❌ Falhou após 3 tentativas.
+[13:28:15] [EXECUTOR] A validar ficheiro: test_primitive_Register_as_namedtuple_0_test_error_case.py
+[13:28:15] [RESULTADO] ❌ Falhou após 3 tentativas.
+[13:28:20] [EXECUTOR] A validar ficheiro: test_rendertype_EightbitFg___init___3_test_invalid_input_negative.py
+[13:28:21] [RESULTADO] ❌ Falhou após 3 tentativas.
+[13:28:21] [ASSERTION] A trabalhar no cenário: test_invalid_input_large
+[13:28:37] [EXECUTOR] A validar ficheiro: test_rendertype_EightbitFg___init___3_test_invalid_input_large.py
+[13:28:38] [SELF-HEALING] Tentativa 2. A corrigir erro anterior...
+[13:29:00] [EXECUTOR] A validar ficheiro: test_rendertype_EightbitFg___init___3_test_invalid_input_large.py
+[13:29:01] [SELF-HEALING] Tentativa 3. A corrigir erro anterior...
+[13:29:18] [EXECUTOR] A validar ficheiro: test_rendertype_EightbitFg___init___3_test_invalid_input_large.py
+[13:29:19] [RESULTADO] ❌ Falhou após 3 tentativas.

@@ -12,15 +12,30 @@ class MyCoverage:
         load_dotenv()
 
     def get_coverage(self):
-        cwd_path = self.path
-        args = [os.getenv('USER_PYTHON_PATH'), '-m', 'coverage', 'run', '-m', '--branch', f'--source={self.source_dir}', 'pytest', '--continue-on-collection-errors', self.test_path]
-        process = subprocess.Popen(args, cwd=cwd_path, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        process.communicate()
+        cwd_path = os.path.abspath(self.path)
+        
+        # 1. Configurar o PYTHONPATH (exatamente como no testcase_react)
+        env = os.environ.copy()
+        current_pp = env.get('PYTHONPATH', '')
+        env['PYTHONPATH'] = f"{cwd_path}:{current_pp}" if current_pp else cwd_path
 
-        args = [os.getenv('USER_PYTHON_PATH'), '-m', 'coverage', 'json', '-i', '-o', f'{self.test_path}/coverage.json']
-        process = subprocess.Popen(args, cwd=cwd_path, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        process.communicate()
+        # 2. Executar o Coverage + Pytest COM A VACINA (-c /dev/null --rootdir)
+        args = [
+            os.getenv('USER_PYTHON_PATH', 'python'), '-m', 'coverage', 'run', '-m', '--branch', 
+            f'--source={self.source_dir}', 'pytest', '--continue-on-collection-errors', 
+            '-c', '/dev/null', '--rootdir', cwd_path, # <--- A VACINA ENTRA AQUI
+            self.test_path
+        ]
+        
+        process = subprocess.Popen(args, cwd=cwd_path, env=env, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        out, err = process.communicate()
 
+        # 3. Gerar o JSON do Coverage
+        args_json = [os.getenv('USER_PYTHON_PATH', 'python'), '-m', 'coverage', 'json', '-i', '-o', f'{self.test_path}/coverage.json']
+        process_json = subprocess.Popen(args_json, cwd=cwd_path, env=env, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        process_json.communicate()
+
+        # 4. Ler o resultado (Mantendo a estrutura da baseline)
         with open(os.path.join(self.path, f'{self.test_path}/coverage.json'), 'r') as f:
             return json.load(f)
 

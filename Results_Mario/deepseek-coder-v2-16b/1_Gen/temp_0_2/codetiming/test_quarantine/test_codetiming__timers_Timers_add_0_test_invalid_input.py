@@ -1,0 +1,24 @@
+
+from codetiming import Timers
+import pytest
+
+def test_invalid_input():
+    timers = Timers()
+    
+    # Test adding a negative value
+    with pytest.raises(ValueError):
+        timers.add("test", -1)
+        
+    # Test adding a non-numeric value
+    with pytest.raises(TypeError):
+        timers.add("test", "not_a_number")
+
+"""
+[TEST4PY QUARANTINE REPORT]
+Reason: Test failed assertions or crashed.
+Error Log:
+************* Module Test4DT_tests.test_codetiming__timers_Timers_add_0_test_invalid_input
+codetiming/Test4DT_tests/test_codetiming__timers_Timers_add_0_test_invalid_input.py:2:0: E0611: No name 'Timers' in module 'codetiming' (no-name-in-module)
+
+
+"""

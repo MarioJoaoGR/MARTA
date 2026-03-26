@@ -1,0 +1,39 @@
+
+import pytest
+from docstring_parser import parse_from_object
+
+def test_from_class_attribute_docstrings() -> None:
+    """Test the parsing of attribute docstrings from a class."""
+
+    class StandardCase:
+        """Short description
+        Long description
+        """
+
+        attr_one: str
+        """Description for attr_one"""
+        attr_two: bool = False
+        """Description for attr_two"""
+
+    docstring = parse_from_object(StandardCase)
+
+    assert docstring.short_description == "Short description"
+    assert docstring.long_description == "Long description"
+    assert docstring.description == "Short description\nLong description"
+    assert len(docstring.params) == 2
+    assert docstring.params[0].arg_name == "attr_one"
+    assert docstring.params[0].type_name == "str"
+    assert docstring.params[0].description == "Description for attr_one"
+    assert docstring.params[1].arg_name == "attr_two"
+    assert docstring.params[1].type_name == "bool"
+    assert docstring.params[1].description == "Description for attr_two"
+
+"""
+[TEST4PY QUARANTINE REPORT]
+Reason: Test failed assertions or crashed.
+Error Log:
+************* Module Test4DT_tests.test_docstring_parser_tests_test_parse_from_object_test_from_class_attribute_docstrings_0_test_edge_case
+docstring_parser/Test4DT_tests/test_docstring_parser_tests_test_parse_from_object_test_from_class_attribute_docstrings_0_test_edge_case.py:3:0: E0611: No name 'parse_from_object' in module 'docstring_parser' (no-name-in-module)
+
+
+"""

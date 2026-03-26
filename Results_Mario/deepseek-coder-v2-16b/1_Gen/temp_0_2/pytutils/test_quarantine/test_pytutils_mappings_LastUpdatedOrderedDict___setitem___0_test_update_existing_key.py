@@ -1,0 +1,40 @@
+
+import pytest
+from pytutils.mappings import LastUpdatedOrderedDict
+
+def test_update_existing_key():
+    ld = LastUpdatedOrderedDict()
+    ld['a'] = 1
+    ld['b'] = 2
+    ld['c'] = 3
+    
+    assert list(ld.keys()) == ['c', 'b', 'a']
+    
+    ld['b'] = 22  # Updating the value of key 'b'
+    assert list(ld.keys()) == ['b', 'c', 'a']
+
+"""
+[TEST4PY QUARANTINE REPORT]
+Reason: Test failed assertions or crashed.
+Error Log:
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-8.3.2, pluggy-1.6.0
+rootdir: /projects/F202407648IACDCF2/mario/pytutils
+configfile: ../../../../dev/null
+plugins: anyio-4.12.1, json-report-1.5.0, metadata-3.1.1
+collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+_ ERROR collecting Test4DT_tests/test_pytutils_mappings_LastUpdatedOrderedDict___setitem___0_test_update_existing_key.py _
+pytutils/Test4DT_tests/test_pytutils_mappings_LastUpdatedOrderedDict___setitem___0_test_update_existing_key.py:3: in <module>
+    from pytutils.mappings import LastUpdatedOrderedDict
+pytutils/pytutils/mappings.py:23: in <module>
+    class ProxyMutableMapping(collections.MutableMapping):
+E   AttributeError: module 'collections' has no attribute 'MutableMapping'
+--------------------------------- JSON report ----------------------------------
+report saved to: pytest_report.json
+=========================== short test summary info ============================
+ERROR pytutils/Test4DT_tests/test_pytutils_mappings_LastUpdatedOrderedDict___setitem___0_test_update_existing_key.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 0.13s ===============================
+"""

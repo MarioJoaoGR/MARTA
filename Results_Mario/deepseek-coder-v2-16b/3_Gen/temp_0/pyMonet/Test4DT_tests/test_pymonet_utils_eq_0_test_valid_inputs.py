@@ -1,0 +1,9 @@
+
+# Import the necessary function from the module
+from pymonet.utils import eq
+
+def test_valid_inputs():
+    # Test cases for valid inputs
+    assert eq(5, 5) == True
+    assert eq("hello", "world") == False
+    assert eq(None, None) == True

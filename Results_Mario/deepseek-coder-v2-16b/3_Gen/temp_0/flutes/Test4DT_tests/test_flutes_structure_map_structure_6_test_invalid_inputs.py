@@ -1,0 +1,12 @@
+
+import pytest
+from flutes.structure import map_structure, Collection
+from typing import Callable, TypeVar
+
+T = TypeVar('T')
+R = TypeVar('R')
+
+def test_invalid_inputs():
+    with pytest.raises(TypeError):
+        # Test case to raise TypeError by passing invalid input types
+        map_structure(lambda x: x ** 2, "not a collection")

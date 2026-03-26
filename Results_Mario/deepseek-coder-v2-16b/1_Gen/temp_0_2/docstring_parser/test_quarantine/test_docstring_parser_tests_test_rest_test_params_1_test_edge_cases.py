@@ -1,0 +1,81 @@
+
+import pytest
+from docstring_parser import parse
+
+def test_params() -> None:
+    """Test parsing params."""
+    # Test case with no parameters
+    docstring = parse("Short description")
+    assert len(docstring.params) == 0
+
+    # Test case with multiple parameters
+    docstring = parse(
+        """
+        Short description
+
+        :param name: description 1
+        :param int priority: description 2
+        :param str? sender: description 3
+        :param str? message: description 4, defaults to 'hello'
+        :param str? multiline: long description 5,
+        defaults to 'bye'
+        """
+    )
+    assert len(docstring.params) == 5
+    assert docstring.params[0].arg_name == "name"
+    assert docstring.params[0].type_name is None
+    assert docstring.params[0].description == "description 1"
+    assert docstring.params[0].default is None
+    assert not docstring.params[0].is_optional
+    assert docstring.params[1].arg_name == "priority"
+    assert docstring.params[1].type_name == "int"
+    assert docstring.params[1].description == "description 2"
+    assert not docstring.params[1].is_optional
+    assert docstring.params[1].default is None
+    assert docstring.params[2].arg_name == "sender"
+    assert docstring.params[2].type_name == "str"
+    assert docstring.params[2].description == "description 3"
+    assert docstring.params[2].is_optional
+    assert docstring.params[2].default is None
+    assert docstring.params[3].arg_name == "message"
+    assert docstring.params[3].type_name == "str"
+    assert (
+        docstring.params[3].description == "description 4, defaults to 'hello'"
+    )
+    assert docstring.params[3].is_optional
+    assert docstring.params[3].default == "'hello'"
+    assert docstring.params[4].arg_name == "multiline"
+    assert docstring.params[4].type_name == "str"
+    assert (
+        docstring.params[4].description
+        == "long description 5,\ndefaults to 'bye'"
+    )
+    assert docstring.params[4].is_optional
+    assert docstring.params[4].default == "'bye'"
+
+    # Test case with mixed types and defaults
+    docstring = parse(
+        """
+        Short description
+
+        :param a: description a
+        :type a: int
+        :param int b: description b
+        """
+    )
+    assert len(docstring.params) == 2
+    assert docstring.params[0].arg_name == "a"
+    assert docstring.params[0].type_name == "int"
+    assert docstring.params[0].description == "description a"
+    assert docstring.params[0].default is None
+    assert not docstring.params[0].is_optional
+
+"""
+[TEST4PY QUARANTINE REPORT]
+Reason: Test failed assertions or crashed.
+Error Log:
+************* Module Test4DT_tests.test_docstring_parser_tests_test_rest_test_params_1_test_edge_cases
+docstring_parser/Test4DT_tests/test_docstring_parser_tests_test_rest_test_params_1_test_edge_cases.py:3:0: E0611: No name 'parse' in module 'docstring_parser' (no-name-in-module)
+
+
+"""

@@ -1,0 +1,39 @@
+
+import pytest
+from datetime import timezone, timedelta
+from isort._vendored.tomli._re import cached_tz
+
+# Test cases for the cached_tz function
+def test_cached_tz_zero_hour_and_minute_with_positive_sign():
+    result = cached_tz("0", "0", "+")
+"""
+[TEST4PY QUARANTINE REPORT]
+Reason: Test failed assertions or crashed.
+Error Log:
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-8.3.2, pluggy-1.6.0
+rootdir: /projects/F202407648IACDCF2/mario/isort
+configfile: ../../../../dev/null
+plugins: anyio-4.12.1, json-report-1.5.0, metadata-3.1.1
+collected 2 items
+
+isort/Test4DT_tests/test_isort__vendored_tomli__re_cached_tz_0.py F.     [100%]
+
+=================================== FAILURES ===================================
+____________ test_cached_tz_zero_hour_and_minute_with_positive_sign ____________
+
+    def test_cached_tz_zero_hour_and_minute_with_positive_sign():
+        result = cached_tz("0", "0", "+")
+>       assert str(result) == "<UTC+0:0>"
+E       AssertionError: assert 'UTC' == '<UTC+0:0>'
+E         
+E         - <UTC+0:0>
+E         + UTC
+
+isort/Test4DT_tests/test_isort__vendored_tomli__re_cached_tz_0.py:9: AssertionError
+--------------------------------- JSON report ----------------------------------
+report saved to: pytest_report.json
+=========================== short test summary info ============================
+FAILED isort/Test4DT_tests/test_isort__vendored_tomli__re_cached_tz_0.py::test_cached_tz_zero_hour_and_minute_with_positive_sign
+========================= 1 failed, 1 passed in 0.10s ==========================
+"""

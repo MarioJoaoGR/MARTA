@@ -1,0 +1,62 @@
+
+import pytest
+from typing import Tuple, Optional
+from isort._vendored.tomli._parser import parse_key_part, BARE_KEY_CHARS, skip_chars, parse_literal_str, parse_one_line_basic_str, suffixed_err
+
+# Test cases for parse_key_part function
+
+def test_parse_bare_key():
+    src = "let x = 42"
+    pos = 0
+    new_pos, key_part = parse_key_part(src, pos)
+"""
+[TEST4PY QUARANTINE REPORT]
+Reason: Test failed assertions or crashed.
+Error Log:
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-8.3.2, pluggy-1.6.0
+rootdir: /projects/F202407648IACDCF2/mario/isort
+configfile: ../../../../dev/null
+plugins: anyio-4.12.1, json-report-1.5.0, metadata-3.1.1
+collected 3 items
+
+isort/Test4DT_tests/test_isort__vendored_tomli__parser_parse_key_part_1.py . [ 33%]
+F.                                                                       [100%]
+
+=================================== FAILURES ===================================
+_______________________ test_parse_key_part_index_error ________________________
+
+    def test_parse_key_part_index_error():
+        src = "let x = 42"
+        pos = len(src)
+        with pytest.raises(IndexError):
+>           parse_key_part(src, pos)
+
+isort/Test4DT_tests/test_isort__vendored_tomli__parser_parse_key_part_1.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+src = 'let x = 42', pos = 10
+
+    def parse_key_part(src: str, pos: Pos) -> Tuple[Pos, str]:
+        try:
+            char: Optional[str] = src[pos]
+        except IndexError:
+            char = None
+        if char in BARE_KEY_CHARS:
+            start_pos = pos
+            pos = skip_chars(src, pos, BARE_KEY_CHARS)
+            return pos, src[start_pos:pos]
+        if char == "'":
+            return parse_literal_str(src, pos)
+        if char == '"':
+            return parse_one_line_basic_str(src, pos)
+>       raise suffixed_err(src, pos, "Invalid initial character for a key part")
+E       isort._vendored.tomli._parser.TOMLDecodeError: Invalid initial character for a key part (at end of document)
+
+isort/isort/_vendored/tomli/_parser.py:388: TOMLDecodeError
+--------------------------------- JSON report ----------------------------------
+report saved to: pytest_report.json
+=========================== short test summary info ============================
+FAILED isort/Test4DT_tests/test_isort__vendored_tomli__parser_parse_key_part_1.py::test_parse_key_part_index_error
+========================= 1 failed, 2 passed in 0.11s ==========================
+"""

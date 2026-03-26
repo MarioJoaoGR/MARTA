@@ -1,0 +1,46 @@
+
+class InvalidPattern(Exception):
+    """
+    Represents an error indicating that one or more invalid patterns were found.
+
+    This class is used to create an exception when a pattern does not meet the expected criteria, providing a customizable error message.
+
+    Parameters:
+        msg (str): A string containing information about why the pattern was considered invalid. The message should be formatted using Python's string formatting syntax with %(msg)s as a placeholder for the actual error message content.
+
+    Attributes:
+        msg (str): The error message detailing why the pattern is invalid.
+
+    Example:
+        >>> try:
+        ...     raise InvalidPattern("Missing required character 'x'.")
+        ... except InvalidPattern as e:
+        ...     print(e)
+        Invalid pattern found. Missing required character 'x'.
+
+    Note:
+        The class definition contains a duplicate `__init__` method, which is unusual and should be corrected in practice to avoid confusion or errors. Ensure that only one valid `__init__` method is defined for the class.
+    """
+    _fmt = 'Invalid pattern(s) found. %(msg)s'
+    
+    def __init__(self, msg):
+        self.msg = msg
+
+    def __repr__(self):
+        return '%s(%s)' % (self.__class__.__name__, str(self))
+
+def test_invalid_input():
+    with pytest.raises(InvalidPattern) as exc_info:
+        raise InvalidPattern("This is an invalid pattern.")
+    
+    assert str(exc_info.value) == 'Invalid pattern(s) found. This is an invalid pattern.'
+
+"""
+[TEST4PY QUARANTINE REPORT]
+Reason: Test failed assertions or crashed.
+Error Log:
+************* Module Test4DT_tests.test_pytutils_lazy_lazy_regex_InvalidPattern___repr___0_test_invalid_input
+pytutils/Test4DT_tests/test_pytutils_lazy_lazy_regex_InvalidPattern___repr___0_test_invalid_input.py:33:9: E0602: Undefined variable 'pytest' (undefined-variable)
+
+
+"""

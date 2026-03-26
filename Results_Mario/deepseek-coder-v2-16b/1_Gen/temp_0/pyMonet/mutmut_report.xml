@@ -1,0 +1,1774 @@
+<?xml version="1.0" ?>
+<testsuites disabled="0" errors="0" failures="98" tests="199" time="0.0">
+	<testsuite disabled="0" errors="0" failures="98" name="mutmut" skipped="0" tests="199" time="0">
+		<testcase name="Mutant #1" file="pymonet/immutable_list.py" line="4">
+			<failure type="failure" message="bad_survived">--- pymonet/immutable_list.py
++++ pymonet/immutable_list.py
+@@ -1,7 +1,7 @@
+ from typing import TypeVar, Generic, Callable, Optional
+ 
+ 
+-T = TypeVar('T')
++T = TypeVar('XXTXX')
+ U = TypeVar('U')
+ 
+ 
+</failure>
+			<system-out>T = TypeVar('T')</system-out>
+		</testcase>
+		<testcase name="Mutant #2" file="pymonet/immutable_list.py" line="4">
+			<failure type="failure" message="bad_survived">--- pymonet/immutable_list.py
++++ pymonet/immutable_list.py
+@@ -1,7 +1,7 @@
+ from typing import TypeVar, Generic, Callable, Optional
+ 
+ 
+-T = TypeVar('T')
++T = None
+ U = TypeVar('U')
+ 
+ 
+</failure>
+			<system-out>T = TypeVar('T')</system-out>
+		</testcase>
+		<testcase name="Mutant #3" file="pymonet/immutable_list.py" line="5">
+			<failure type="failure" message="bad_survived">--- pymonet/immutable_list.py
++++ pymonet/immutable_list.py
+@@ -2,7 +2,7 @@
+ 
+ 
+ T = TypeVar('T')
+-U = TypeVar('U')
++U = TypeVar('XXUXX')
+ 
+ 
+ class ImmutableList(Generic[T]):
+</failure>
+			<system-out>U = TypeVar('U')</system-out>
+		</testcase>
+		<testcase name="Mutant #4" file="pymonet/immutable_list.py" line="5">
+			<failure type="failure" message="bad_survived">--- pymonet/immutable_list.py
++++ pymonet/immutable_list.py
+@@ -2,7 +2,7 @@
+ 
+ 
+ T = TypeVar('T')
+-U = TypeVar('U')
++U = None
+ 
+ 
+ class ImmutableList(Generic[T]):
+</failure>
+			<system-out>U = TypeVar('U')</system-out>
+		</testcase>
+		<testcase name="Mutant #5" file="pymonet/immutable_list.py" line="13">
+			<system-out>    def __init__(self, head: T = None, tail: 'ImmutableList[T]' = None, is_empty: bool = False) -&gt; None:</system-out>
+		</testcase>
+		<testcase name="Mutant #6" file="pymonet/immutable_list.py" line="14">
+			<system-out>        self.head = head</system-out>
+		</testcase>
+		<testcase name="Mutant #7" file="pymonet/immutable_list.py" line="15">
+			<system-out>        self.tail = tail</system-out>
+		</testcase>
+		<testcase name="Mutant #8" file="pymonet/immutable_list.py" line="16">
+			<system-out>        self.is_empty = is_empty</system-out>
+		</testcase>
+		<testcase name="Mutant #9" file="pymonet/immutable_list.py" line="20">
+			<system-out>            and self.head == other.head\</system-out>
+		</testcase>
+		<testcase name="Mutant #10" file="pymonet/immutable_list.py" line="21">
+			<system-out>            and self.tail == other.tail\</system-out>
+		</testcase>
+		<testcase name="Mutant #11" file="pymonet/immutable_list.py" line="22">
+			<system-out>            and self.is_empty == other.is_empty</system-out>
+		</testcase>
+		<testcase name="Mutant #12" file="pymonet/immutable_list.py" line="22">
+			<system-out>            and self.is_empty == other.is_empty</system-out>
+		</testcase>
+		<testcase name="Mutant #13" file="pymonet/immutable_list.py" line="25">
+			<failure type="failure" message="bad_survived">--- pymonet/immutable_list.py
++++ pymonet/immutable_list.py
+@@ -22,7 +22,7 @@
+             and self.is_empty == other.is_empty
+ 
+     def __str__(self) -&gt; str:  # pragma: no cover
+-        return 'ImmutableList{}'.format(self.to_list())
++        return 'XXImmutableList{}XX'.format(self.to_list())
+ 
+     def __add__(self, other: 'ImmutableList[T]') -&gt; 'ImmutableList[T]':
+         &quot;&quot;&quot;
+</failure>
+			<system-out>        return 'ImmutableList{}'.format(self.to_list())</system-out>
+		</testcase>
+		<testcase name="Mutant #14" file="pymonet/immutable_list.py" line="36">
+			<system-out>        if not isinstance(other, ImmutableList):</system-out>
+		</testcase>
+		<testcase name="Mutant #15" file="pymonet/immutable_list.py" line="37">
+			<failure type="failure" message="bad_survived">--- pymonet/immutable_list.py
++++ pymonet/immutable_list.py
+@@ -34,7 +34,7 @@
+         :returns: Maybe[B | None]
+         &quot;&quot;&quot;
+         if not isinstance(other, ImmutableList):
+-            raise ValueError('ImmutableList: you can not add any other instace than ImmutableList')
++            raise ValueError('XXImmutableList: you can not add any other instace than ImmutableListXX')
+ 
+         if self.tail is None:
+             return ImmutableList(self.head, other)
+</failure>
+			<system-out>            raise ValueError('ImmutableList: you can not add any other instace than ImmutableList')</system-out>
+		</testcase>
+		<testcase name="Mutant #16" file="pymonet/immutable_list.py" line="39">
+			<failure type="failure" message="bad_survived">--- pymonet/immutable_list.py
++++ pymonet/immutable_list.py
+@@ -36,7 +36,7 @@
+         if not isinstance(other, ImmutableList):
+             raise ValueError('ImmutableList: you can not add any other instace than ImmutableList')
+ 
+-        if self.tail is None:
++        if self.tail is not None:
+             return ImmutableList(self.head, other)
+ 
+         return ImmutableList(
+</failure>
+			<system-out>        if self.tail is None:</system-out>
+		</testcase>
+		<testcase name="Mutant #17" file="pymonet/immutable_list.py" line="48">
+			<system-out>        if self.head is None:</system-out>
+		</testcase>
+		<testcase name="Mutant #18" file="pymonet/immutable_list.py" line="49">
+			<system-out>            return 0</system-out>
+		</testcase>
+		<testcase name="Mutant #19" file="pymonet/immutable_list.py" line="51">
+			<system-out>        if self.tail is None:</system-out>
+		</testcase>
+		<testcase name="Mutant #20" file="pymonet/immutable_list.py" line="52">
+			<system-out>            return 1</system-out>
+		</testcase>
+		<testcase name="Mutant #21" file="pymonet/immutable_list.py" line="54">
+			<system-out>        return len(self.tail) + 1</system-out>
+		</testcase>
+		<testcase name="Mutant #22" file="pymonet/immutable_list.py" line="54">
+			<system-out>        return len(self.tail) + 1</system-out>
+		</testcase>
+		<testcase name="Mutant #23" file="pymonet/immutable_list.py" line="56">
+			<failure type="failure" message="bad_survived">--- pymonet/immutable_list.py
++++ pymonet/immutable_list.py
+@@ -53,7 +53,6 @@
+ 
+         return len(self.tail) + 1
+ 
+-    @classmethod
+     def of(cls, head: T, *elements) -&gt; 'ImmutableList[T]':
+         if len(elements) == 0:
+             return ImmutableList(head)
+</failure>
+			<system-out>    @classmethod</system-out>
+		</testcase>
+		<testcase name="Mutant #24" file="pymonet/immutable_list.py" line="58">
+			<failure type="failure" message="bad_survived">--- pymonet/immutable_list.py
++++ pymonet/immutable_list.py
+@@ -55,7 +55,7 @@
+ 
+     @classmethod
+     def of(cls, head: T, *elements) -&gt; 'ImmutableList[T]':
+-        if len(elements) == 0:
++        if len(elements) != 0:
+             return ImmutableList(head)
+ 
+         return ImmutableList(
+</failure>
+			<system-out>        if len(elements) == 0:</system-out>
+		</testcase>
+		<testcase name="Mutant #25" file="pymonet/immutable_list.py" line="58">
+			<failure type="failure" message="bad_survived">--- pymonet/immutable_list.py
++++ pymonet/immutable_list.py
+@@ -55,7 +55,7 @@
+ 
+     @classmethod
+     def of(cls, head: T, *elements) -&gt; 'ImmutableList[T]':
+-        if len(elements) == 0:
++        if len(elements) == 1:
+             return ImmutableList(head)
+ 
+         return ImmutableList(
+</failure>
+			<system-out>        if len(elements) == 0:</system-out>
+		</testcase>
+		<testcase name="Mutant #26" file="pymonet/immutable_list.py" line="63">
+			<failure type="failure" message="bad_survived">--- pymonet/immutable_list.py
++++ pymonet/immutable_list.py
+@@ -60,7 +60,7 @@
+ 
+         return ImmutableList(
+             head,
+-            ImmutableList.of(elements[0], *elements[1:])
++            ImmutableList.of(elements[1], *elements[1:])
+         )
+ 
+     @classmethod
+</failure>
+			<system-out>            ImmutableList.of(elements[0], *elements[1:])</system-out>
+		</testcase>
+		<testcase name="Mutant #27" file="pymonet/immutable_list.py" line="63">
+			<failure type="failure" message="bad_survived">--- pymonet/immutable_list.py
++++ pymonet/immutable_list.py
+@@ -60,7 +60,7 @@
+ 
+         return ImmutableList(
+             head,
+-            ImmutableList.of(elements[0], *elements[1:])
++            ImmutableList.of(elements[0], *elements[2:])
+         )
+ 
+     @classmethod
+</failure>
+			<system-out>            ImmutableList.of(elements[0], *elements[1:])</system-out>
+		</testcase>
+		<testcase name="Mutant #28" file="pymonet/immutable_list.py" line="66">
+			<system-out>    @classmethod</system-out>
+		</testcase>
+		<testcase name="Mutant #29" file="pymonet/immutable_list.py" line="68">
+			<system-out>        return ImmutableList(is_empty=True)</system-out>
+		</testcase>
+		<testcase name="Mutant #30" file="pymonet/immutable_list.py" line="71">
+			<system-out>        if self.tail is None:</system-out>
+		</testcase>
+		<testcase name="Mutant #31" file="pymonet/immutable_list.py" line="74">
+			<failure type="failure" message="bad_survived">--- pymonet/immutable_list.py
++++ pymonet/immutable_list.py
+@@ -71,7 +71,7 @@
+         if self.tail is None:
+             return [self.head]
+ 
+-        return [self.head, *self.tail.to_list()]
++        return [self.head, /self.tail.to_list()]
+ 
+     def append(self, new_element: T) -&gt; 'ImmutableList[T]':
+         &quot;&quot;&quot;
+</failure>
+			<system-out>        return [self.head, *self.tail.to_list()]</system-out>
+		</testcase>
+		<testcase name="Mutant #32" file="pymonet/immutable_list.py" line="85">
+			<failure type="failure" message="bad_survived">--- pymonet/immutable_list.py
++++ pymonet/immutable_list.py
+@@ -82,7 +82,7 @@
+         :type fn: A
+         :returns: ImmutableList[A]
+         &quot;&quot;&quot;
+-        return self + ImmutableList(new_element)
++        return self - ImmutableList(new_element)
+ 
+     def unshift(self, new_element: T) -&gt; 'ImmutableList[T]':
+         &quot;&quot;&quot;
+</failure>
+			<system-out>        return self + ImmutableList(new_element)</system-out>
+		</testcase>
+		<testcase name="Mutant #33" file="pymonet/immutable_list.py" line="96">
+			<failure type="failure" message="bad_survived">--- pymonet/immutable_list.py
++++ pymonet/immutable_list.py
+@@ -93,7 +93,7 @@
+         :type fn: A
+         :returns: ImmutableList[A]
+         &quot;&quot;&quot;
+-        return ImmutableList(new_element) + self
++        return ImmutableList(new_element) - self
+ 
+     def map(self, fn: Callable[[Optional[T]], U]) -&gt; 'ImmutableList[U]':
+         &quot;&quot;&quot;
+</failure>
+			<system-out>        return ImmutableList(new_element) + self</system-out>
+		</testcase>
+		<testcase name="Mutant #34" file="pymonet/immutable_list.py" line="107">
+			<system-out>        if self.tail is None:</system-out>
+		</testcase>
+		<testcase name="Mutant #35" file="pymonet/immutable_list.py" line="121">
+			<system-out>        if self.tail is None:</system-out>
+		</testcase>
+		<testcase name="Mutant #36" file="pymonet/immutable_list.py" line="124">
+			<system-out>            return ImmutableList(is_empty=True)</system-out>
+		</testcase>
+		<testcase name="Mutant #37" file="pymonet/immutable_list.py" line="140">
+			<system-out>        if self.head is None:</system-out>
+		</testcase>
+		<testcase name="Mutant #38" file="pymonet/immutable_list.py" line="143">
+			<failure type="failure" message="bad_survived">--- pymonet/immutable_list.py
++++ pymonet/immutable_list.py
+@@ -140,7 +140,7 @@
+         if self.head is None:
+             return None
+ 
+-        if self.tail is None:
++        if self.tail is not None:
+             return self.head if fn(self.head) else None
+ 
+         if fn(self.head):
+</failure>
+			<system-out>        if self.tail is None:</system-out>
+		</testcase>
+		<testcase name="Mutant #39" file="pymonet/immutable_list.py" line="160">
+			<system-out>        if self.head is None:</system-out>
+		</testcase>
+		<testcase name="Mutant #40" file="pymonet/immutable_list.py" line="163">
+			<system-out>        if self.tail is None:</system-out>
+		</testcase>
+		<testcase name="Mutant #41" file="pymonet/task.py" line="12">
+			<system-out>        self.fork = fork</system-out>
+		</testcase>
+		<testcase name="Mutant #42" file="pymonet/task.py" line="14">
+			<system-out>    @classmethod</system-out>
+		</testcase>
+		<testcase name="Mutant #43" file="pymonet/task.py" line="24">
+			<system-out>        return Task(lambda _, resolve: resolve(value))</system-out>
+		</testcase>
+		<testcase name="Mutant #44" file="pymonet/task.py" line="26">
+			<failure type="failure" message="bad_survived">--- pymonet/task.py
++++ pymonet/task.py
+@@ -23,7 +23,6 @@
+         &quot;&quot;&quot;
+         return Task(lambda _, resolve: resolve(value))
+ 
+-    @classmethod
+     def reject(cls, value):
+         &quot;&quot;&quot;
+         Return rejected Task with stored value argument.
+</failure>
+			<system-out>    @classmethod</system-out>
+		</testcase>
+		<testcase name="Mutant #45" file="pymonet/task.py" line="36">
+			<failure type="failure" message="bad_survived">--- pymonet/task.py
++++ pymonet/task.py
+@@ -33,7 +33,7 @@
+         :returns: rejected Task
+         :rtype: Task[Function(reject, _) -&gt; A]
+         &quot;&quot;&quot;
+-        return Task(lambda reject, _: reject(value))
++        return Task(lambda reject, _: None)
+ 
+     def map(self, fn):
+         &quot;&quot;&quot;
+</failure>
+			<system-out>        return Task(lambda reject, _: reject(value))</system-out>
+		</testcase>
+		<testcase name="Mutant #46" file="pymonet/task.py" line="50">
+			<failure type="failure" message="bad_survived">--- pymonet/task.py
++++ pymonet/task.py
+@@ -47,7 +47,7 @@
+         &quot;&quot;&quot;
+         def result(reject, resolve):
+             return self.fork(
+-                lambda arg: reject(arg),
++                lambda arg: None,
+                 lambda arg: resolve(fn(arg))
+             )
+ 
+</failure>
+			<system-out>                lambda arg: reject(arg),</system-out>
+		</testcase>
+		<testcase name="Mutant #47" file="pymonet/task.py" line="51">
+			<failure type="failure" message="bad_survived">--- pymonet/task.py
++++ pymonet/task.py
+@@ -48,7 +48,7 @@
+         def result(reject, resolve):
+             return self.fork(
+                 lambda arg: reject(arg),
+-                lambda arg: resolve(fn(arg))
++                lambda arg: None
+             )
+ 
+         return Task(result)
+</failure>
+			<system-out>                lambda arg: resolve(fn(arg))</system-out>
+		</testcase>
+		<testcase name="Mutant #48" file="pymonet/task.py" line="68">
+			<failure type="failure" message="bad_survived">--- pymonet/task.py
++++ pymonet/task.py
+@@ -65,7 +65,7 @@
+         &quot;&quot;&quot;
+         def result(reject, resolve):
+             return self.fork(
+-                lambda arg: reject(arg),
++                lambda arg: None,
+                 lambda arg: fn(arg).fork(reject, resolve)
+             )
+ 
+</failure>
+			<system-out>                lambda arg: reject(arg),</system-out>
+		</testcase>
+		<testcase name="Mutant #49" file="pymonet/task.py" line="69">
+			<failure type="failure" message="bad_survived">--- pymonet/task.py
++++ pymonet/task.py
+@@ -66,7 +66,7 @@
+         def result(reject, resolve):
+             return self.fork(
+                 lambda arg: reject(arg),
+-                lambda arg: fn(arg).fork(reject, resolve)
++                lambda arg: None
+             )
+ 
+         return Task(result)
+</failure>
+			<system-out>                lambda arg: fn(arg).fork(reject, resolve)</system-out>
+		</testcase>
+		<testcase name="Mutant #50" file="pymonet/either.py" line="4">
+			<failure type="failure" message="bad_survived">--- pymonet/either.py
++++ pymonet/either.py
+@@ -1,7 +1,7 @@
+ from typing import TypeVar, Generic, Callable, Any
+ 
+ 
+-T = TypeVar('T')
++T = TypeVar('XXTXX')
+ U = TypeVar('U')
+ 
+ 
+</failure>
+			<system-out>T = TypeVar('T')</system-out>
+		</testcase>
+		<testcase name="Mutant #51" file="pymonet/either.py" line="4">
+			<failure type="failure" message="bad_survived">--- pymonet/either.py
++++ pymonet/either.py
+@@ -1,7 +1,7 @@
+ from typing import TypeVar, Generic, Callable, Any
+ 
+ 
+-T = TypeVar('T')
++T = None
+ U = TypeVar('U')
+ 
+ 
+</failure>
+			<system-out>T = TypeVar('T')</system-out>
+		</testcase>
+		<testcase name="Mutant #52" file="pymonet/either.py" line="5">
+			<failure type="failure" message="bad_survived">--- pymonet/either.py
++++ pymonet/either.py
+@@ -2,7 +2,7 @@
+ 
+ 
+ T = TypeVar('T')
+-U = TypeVar('U')
++U = TypeVar('XXUXX')
+ 
+ 
+ class Either(Generic[T]):
+</failure>
+			<system-out>U = TypeVar('U')</system-out>
+		</testcase>
+		<testcase name="Mutant #53" file="pymonet/either.py" line="5">
+			<failure type="failure" message="bad_survived">--- pymonet/either.py
++++ pymonet/either.py
+@@ -2,7 +2,7 @@
+ 
+ 
+ T = TypeVar('T')
+-U = TypeVar('U')
++U = None
+ 
+ 
+ class Either(Generic[T]):
+</failure>
+			<system-out>U = TypeVar('U')</system-out>
+		</testcase>
+		<testcase name="Mutant #54" file="pymonet/either.py" line="15">
+			<system-out>        self.value = value</system-out>
+		</testcase>
+		<testcase name="Mutant #55" file="pymonet/either.py" line="19">
+			<system-out>            self.value == other.value and\</system-out>
+		</testcase>
+		<testcase name="Mutant #56" file="pymonet/either.py" line="20">
+			<system-out>            self.is_right() == other.is_right()</system-out>
+		</testcase>
+		<testcase name="Mutant #57" file="pymonet/either.py" line="20">
+			<failure type="failure" message="bad_survived">--- pymonet/either.py
++++ pymonet/either.py
+@@ -15,7 +15,7 @@
+         self.value = value
+ 
+     def __eq__(self, other: object) -&gt; bool:
+-        return isinstance(other, Either) and\
++        return isinstance(other, Either) or\
+             self.value == other.value and\
+             self.is_right() == other.is_right()
+ 
+</failure>
+			<system-out>            self.is_right() == other.is_right()</system-out>
+		</testcase>
+		<testcase name="Mutant #58" file="pymonet/either.py" line="79">
+			<failure type="failure" message="bad_survived">--- pymonet/either.py
++++ pymonet/either.py
+@@ -76,7 +76,7 @@
+         &quot;&quot;&quot;
+         from pymonet.lazy import Lazy
+ 
+-        return Lazy(lambda: self.value)
++        return Lazy(lambda: None)
+ 
+     def is_right(self):
+         pass
+</failure>
+			<system-out>        return Lazy(lambda: self.value)</system-out>
+		</testcase>
+		<testcase name="Mutant #59" file="pymonet/either.py" line="118">
+			<failure type="failure" message="bad_survived">--- pymonet/either.py
++++ pymonet/either.py
+@@ -115,7 +115,7 @@
+         :returns: True
+         :rtype: Boolean
+         &quot;&quot;&quot;
+-        return True
++        return False
+ 
+     def is_right(self) -&gt; bool:
+         &quot;&quot;&quot;
+</failure>
+			<system-out>        return True</system-out>
+		</testcase>
+		<testcase name="Mutant #60" file="pymonet/either.py" line="125">
+			<failure type="failure" message="bad_survived">--- pymonet/either.py
++++ pymonet/either.py
+@@ -122,7 +122,7 @@
+         :returns: False
+         :rtype: Boolean
+         &quot;&quot;&quot;
+-        return False
++        return True
+ 
+     def to_maybe(self):
+         &quot;&quot;&quot;
+</failure>
+			<system-out>        return False</system-out>
+		</testcase>
+		<testcase name="Mutant #61" file="pymonet/either.py" line="180">
+			<failure type="failure" message="bad_survived">--- pymonet/either.py
++++ pymonet/either.py
+@@ -177,7 +177,7 @@
+         :returns: True
+         :rtype: Boolean
+         &quot;&quot;&quot;
+-        return True
++        return False
+ 
+     def is_left(self) -&gt; bool:
+         &quot;&quot;&quot;
+</failure>
+			<system-out>        return True</system-out>
+		</testcase>
+		<testcase name="Mutant #62" file="pymonet/either.py" line="187">
+			<failure type="failure" message="bad_survived">--- pymonet/either.py
++++ pymonet/either.py
+@@ -184,7 +184,7 @@
+         :returns: False
+         :rtype: Boolean
+         &quot;&quot;&quot;
+-        return False
++        return True
+ 
+     def to_maybe(self):
+         &quot;&quot;&quot;
+</failure>
+			<system-out>        return False</system-out>
+		</testcase>
+		<testcase name="Mutant #63" file="pymonet/box.py" line="4">
+			<failure type="failure" message="bad_survived">--- pymonet/box.py
++++ pymonet/box.py
+@@ -1,7 +1,7 @@
+ from typing import TypeVar, Generic, Callable
+ 
+ 
+-T = TypeVar('T')
++T = TypeVar('XXTXX')
+ U = TypeVar('U')
+ 
+ 
+</failure>
+			<system-out>T = TypeVar('T')</system-out>
+		</testcase>
+		<testcase name="Mutant #64" file="pymonet/box.py" line="4">
+			<failure type="failure" message="bad_survived">--- pymonet/box.py
++++ pymonet/box.py
+@@ -1,7 +1,7 @@
+ from typing import TypeVar, Generic, Callable
+ 
+ 
+-T = TypeVar('T')
++T = None
+ U = TypeVar('U')
+ 
+ 
+</failure>
+			<system-out>T = TypeVar('T')</system-out>
+		</testcase>
+		<testcase name="Mutant #65" file="pymonet/box.py" line="5">
+			<failure type="failure" message="bad_survived">--- pymonet/box.py
++++ pymonet/box.py
+@@ -2,7 +2,7 @@
+ 
+ 
+ T = TypeVar('T')
+-U = TypeVar('U')
++U = TypeVar('XXUXX')
+ 
+ 
+ class Box(Generic[T]):
+</failure>
+			<system-out>U = TypeVar('U')</system-out>
+		</testcase>
+		<testcase name="Mutant #66" file="pymonet/box.py" line="5">
+			<failure type="failure" message="bad_survived">--- pymonet/box.py
++++ pymonet/box.py
+@@ -2,7 +2,7 @@
+ 
+ 
+ T = TypeVar('T')
+-U = TypeVar('U')
++U = None
+ 
+ 
+ class Box(Generic[T]):
+</failure>
+			<system-out>U = TypeVar('U')</system-out>
+		</testcase>
+		<testcase name="Mutant #67" file="pymonet/box.py" line="18">
+			<system-out>        self.value = value</system-out>
+		</testcase>
+		<testcase name="Mutant #68" file="pymonet/box.py" line="21">
+			<system-out>        return isinstance(other, Box) and self.value == other.value</system-out>
+		</testcase>
+		<testcase name="Mutant #69" file="pymonet/box.py" line="21">
+			<system-out>        return isinstance(other, Box) and self.value == other.value</system-out>
+		</testcase>
+		<testcase name="Mutant #70" file="pymonet/box.py" line="24">
+			<system-out>        return 'Box[value={}]'.format(self.value)</system-out>
+		</testcase>
+		<testcase name="Mutant #71" file="pymonet/box.py" line="90">
+			<failure type="failure" message="bad_survived">--- pymonet/box.py
++++ pymonet/box.py
+@@ -87,7 +87,7 @@
+         &quot;&quot;&quot;
+         from pymonet.lazy import Lazy
+ 
+-        return Lazy(lambda: self.value)
++        return Lazy(lambda: None)
+ 
+     def to_try(self):
+         &quot;&quot;&quot;
+</failure>
+			<system-out>        return Lazy(lambda: self.value)</system-out>
+		</testcase>
+		<testcase name="Mutant #72" file="pymonet/box.py" line="101">
+			<system-out>        return Try(self.value, is_success=True)</system-out>
+		</testcase>
+		<testcase name="Mutant #73" file="pymonet/maybe.py" line="4">
+			<failure type="failure" message="bad_survived">--- pymonet/maybe.py
++++ pymonet/maybe.py
+@@ -1,7 +1,7 @@
+ from typing import TypeVar, Generic, Callable, Union
+ 
+ 
+-T = TypeVar('T')
++T = TypeVar('XXTXX')
+ U = TypeVar('U')
+ 
+ 
+</failure>
+			<system-out>T = TypeVar('T')</system-out>
+		</testcase>
+		<testcase name="Mutant #74" file="pymonet/maybe.py" line="4">
+			<failure type="failure" message="bad_survived">--- pymonet/maybe.py
++++ pymonet/maybe.py
+@@ -1,7 +1,7 @@
+ from typing import TypeVar, Generic, Callable, Union
+ 
+ 
+-T = TypeVar('T')
++T = None
+ U = TypeVar('U')
+ 
+ 
+</failure>
+			<system-out>T = TypeVar('T')</system-out>
+		</testcase>
+		<testcase name="Mutant #75" file="pymonet/maybe.py" line="5">
+			<failure type="failure" message="bad_survived">--- pymonet/maybe.py
++++ pymonet/maybe.py
+@@ -2,7 +2,7 @@
+ 
+ 
+ T = TypeVar('T')
+-U = TypeVar('U')
++U = TypeVar('XXUXX')
+ 
+ 
+ class Maybe(Generic[T]):
+</failure>
+			<system-out>U = TypeVar('U')</system-out>
+		</testcase>
+		<testcase name="Mutant #76" file="pymonet/maybe.py" line="5">
+			<failure type="failure" message="bad_survived">--- pymonet/maybe.py
++++ pymonet/maybe.py
+@@ -2,7 +2,7 @@
+ 
+ 
+ T = TypeVar('T')
+-U = TypeVar('U')
++U = None
+ 
+ 
+ class Maybe(Generic[T]):
+</failure>
+			<system-out>U = TypeVar('U')</system-out>
+		</testcase>
+		<testcase name="Mutant #77" file="pymonet/maybe.py" line="15">
+			<system-out>        self.is_nothing = is_nothing</system-out>
+		</testcase>
+		<testcase name="Mutant #78" file="pymonet/maybe.py" line="16">
+			<system-out>        if not is_nothing:</system-out>
+		</testcase>
+		<testcase name="Mutant #79" file="pymonet/maybe.py" line="17">
+			<system-out>            self.value = value</system-out>
+		</testcase>
+		<testcase name="Mutant #80" file="pymonet/maybe.py" line="21">
+			<system-out>            self.is_nothing == other.is_nothing and \</system-out>
+		</testcase>
+		<testcase name="Mutant #81" file="pymonet/maybe.py" line="22">
+			<system-out>            (self.is_nothing or self.value == other.value)</system-out>
+		</testcase>
+		<testcase name="Mutant #82" file="pymonet/maybe.py" line="22">
+			<system-out>            (self.is_nothing or self.value == other.value)</system-out>
+		</testcase>
+		<testcase name="Mutant #83" file="pymonet/maybe.py" line="22">
+			<system-out>            (self.is_nothing or self.value == other.value)</system-out>
+		</testcase>
+		<testcase name="Mutant #84" file="pymonet/maybe.py" line="24">
+			<system-out>    @classmethod</system-out>
+		</testcase>
+		<testcase name="Mutant #85" file="pymonet/maybe.py" line="33">
+			<system-out>        return Maybe(value, False)</system-out>
+		</testcase>
+		<testcase name="Mutant #86" file="pymonet/maybe.py" line="35">
+			<system-out>    @classmethod</system-out>
+		</testcase>
+		<testcase name="Mutant #87" file="pymonet/maybe.py" line="42">
+			<system-out>        return Maybe(None, True)</system-out>
+		</testcase>
+		<testcase name="Mutant #88" file="pymonet/maybe.py" line="97">
+			<system-out>        if self.is_nothing or not filterer(self.value):</system-out>
+		</testcase>
+		<testcase name="Mutant #89" file="pymonet/maybe.py" line="97">
+			<system-out>        if self.is_nothing or not filterer(self.value):</system-out>
+		</testcase>
+		<testcase name="Mutant #90" file="pymonet/maybe.py" line="150">
+			<failure type="failure" message="bad_survived">--- pymonet/maybe.py
++++ pymonet/maybe.py
+@@ -147,7 +147,7 @@
+         from pymonet.lazy import Lazy
+ 
+         if self.is_nothing:
+-            return Lazy(lambda: None)
++            return Lazy(lambda: 0)
+         return Lazy(lambda: self.value)
+ 
+     def to_try(self):
+</failure>
+			<system-out>            return Lazy(lambda: None)</system-out>
+		</testcase>
+		<testcase name="Mutant #91" file="pymonet/maybe.py" line="151">
+			<failure type="failure" message="bad_survived">--- pymonet/maybe.py
++++ pymonet/maybe.py
+@@ -148,7 +148,7 @@
+ 
+         if self.is_nothing:
+             return Lazy(lambda: None)
+-        return Lazy(lambda: self.value)
++        return Lazy(lambda: None)
+ 
+     def to_try(self):
+         &quot;&quot;&quot;
+</failure>
+			<system-out>        return Lazy(lambda: self.value)</system-out>
+		</testcase>
+		<testcase name="Mutant #92" file="pymonet/maybe.py" line="163">
+			<failure type="failure" message="bad_survived">--- pymonet/maybe.py
++++ pymonet/maybe.py
+@@ -160,7 +160,7 @@
+         from pymonet.monad_try import Try
+ 
+         if self.is_nothing:
+-            return Try(None, is_success=False)
++            return Try(None, is_success=True)
+         return Try(self.value, is_success=True)
+ 
+     def to_validation(self):
+</failure>
+			<system-out>            return Try(None, is_success=False)</system-out>
+		</testcase>
+		<testcase name="Mutant #93" file="pymonet/maybe.py" line="164">
+			<system-out>        return Try(self.value, is_success=True)</system-out>
+		</testcase>
+		<testcase name="Mutant #94" file="pymonet/utils.py" line="6">
+			<failure type="failure" message="bad_survived">--- pymonet/utils.py
++++ pymonet/utils.py
+@@ -3,7 +3,7 @@
+ from typing import TypeVar, Callable, List, Tuple, Any
+ 
+ 
+-T = TypeVar('T')
++T = TypeVar('XXTXX')
+ 
+ 
+ def curry(x, args_count=None):
+</failure>
+			<system-out>T = TypeVar('T')</system-out>
+		</testcase>
+		<testcase name="Mutant #95" file="pymonet/utils.py" line="6">
+			<failure type="failure" message="bad_survived">--- pymonet/utils.py
++++ pymonet/utils.py
+@@ -3,7 +3,7 @@
+ from typing import TypeVar, Callable, List, Tuple, Any
+ 
+ 
+-T = TypeVar('T')
++T = None
+ 
+ 
+ def curry(x, args_count=None):
+</failure>
+			<system-out>T = TypeVar('T')</system-out>
+		</testcase>
+		<testcase name="Mutant #96" file="pymonet/utils.py" line="15">
+			<system-out>    if args_count is None:</system-out>
+		</testcase>
+		<testcase name="Mutant #97" file="pymonet/utils.py" line="16">
+			<system-out>        args_count = x.__code__.co_argcount</system-out>
+		</testcase>
+		<testcase name="Mutant #98" file="pymonet/utils.py" line="19">
+			<system-out>        if len(args) == args_count:</system-out>
+		</testcase>
+		<testcase name="Mutant #99" file="pymonet/utils.py" line="21">
+			<system-out>        return curry(lambda *args1: x(*(args + args1)), args_count - len(args))</system-out>
+		</testcase>
+		<testcase name="Mutant #100" file="pymonet/utils.py" line="21">
+			<system-out>        return curry(lambda *args1: x(*(args + args1)), args_count - len(args))</system-out>
+		</testcase>
+		<testcase name="Mutant #101" file="pymonet/utils.py" line="21">
+			<system-out>        return curry(lambda *args1: x(*(args + args1)), args_count - len(args))</system-out>
+		</testcase>
+		<testcase name="Mutant #102" file="pymonet/utils.py" line="46">
+			<system-out>    return value + 1</system-out>
+		</testcase>
+		<testcase name="Mutant #103" file="pymonet/utils.py" line="46">
+			<system-out>    return value + 1</system-out>
+		</testcase>
+		<testcase name="Mutant #104" file="pymonet/utils.py" line="49">
+			<failure type="failure" message="bad_survived">--- pymonet/utils.py
++++ pymonet/utils.py
+@@ -45,8 +45,6 @@
+     &quot;&quot;&quot;
+     return value + 1
+ 
+-
+-@curry
+ def eq(value, value1) -&gt; bool:
+     return value == value1
+ 
+</failure>
+			<system-out>@curry</system-out>
+		</testcase>
+		<testcase name="Mutant #105" file="pymonet/utils.py" line="51">
+			<system-out>    return value == value1</system-out>
+		</testcase>
+		<testcase name="Mutant #106" file="pymonet/utils.py" line="54">
+			<failure type="failure" message="bad_survived">--- pymonet/utils.py
++++ pymonet/utils.py
+@@ -50,8 +50,6 @@
+ def eq(value, value1) -&gt; bool:
+     return value == value1
+ 
+-
+-@curry
+ def curried_map(mapper, collection):
+     return [mapper(item) for item in collection]
+ 
+</failure>
+			<system-out>@curry</system-out>
+		</testcase>
+		<testcase name="Mutant #107" file="pymonet/utils.py" line="59">
+			<failure type="failure" message="bad_survived">--- pymonet/utils.py
++++ pymonet/utils.py
+@@ -55,8 +55,6 @@
+ def curried_map(mapper, collection):
+     return [mapper(item) for item in collection]
+ 
+-
+-@curry
+ def curried_filter(filterer, collection):
+     return [item for item in collection if filterer(item)]
+ 
+</failure>
+			<system-out>@curry</system-out>
+		</testcase>
+		<testcase name="Mutant #108" file="pymonet/utils.py" line="64">
+			<failure type="failure" message="bad_survived">--- pymonet/utils.py
++++ pymonet/utils.py
+@@ -60,8 +60,6 @@
+ def curried_filter(filterer, collection):
+     return [item for item in collection if filterer(item)]
+ 
+-
+-@curry
+ def find(collection: List[T], key: Callable[[T], bool]):
+     &quot;&quot;&quot;
+     Return the first element of the list which matches the keys, or None if no element matches.
+</failure>
+			<system-out>@curry</system-out>
+		</testcase>
+		<testcase name="Mutant #109" file="pymonet/utils.py" line="93">
+			<failure type="failure" message="bad_survived">--- pymonet/utils.py
++++ pymonet/utils.py
+@@ -90,7 +90,7 @@
+     :rtype: Any
+     &quot;&quot;&quot;
+     return reduce(
+-        lambda current_value, function: function(current_value),
++        lambda current_value, function: None,
+         functions[::-1],
+         value
+     )
+</failure>
+			<system-out>        lambda current_value, function: function(current_value),</system-out>
+		</testcase>
+		<testcase name="Mutant #110" file="pymonet/utils.py" line="94">
+			<failure type="failure" message="bad_survived">--- pymonet/utils.py
++++ pymonet/utils.py
+@@ -91,7 +91,7 @@
+     &quot;&quot;&quot;
+     return reduce(
+         lambda current_value, function: function(current_value),
+-        functions[::-1],
++        functions[::+1],
+         value
+     )
+ 
+</failure>
+			<system-out>        functions[::-1],</system-out>
+		</testcase>
+		<testcase name="Mutant #111" file="pymonet/utils.py" line="94">
+			<failure type="failure" message="bad_survived">--- pymonet/utils.py
++++ pymonet/utils.py
+@@ -91,7 +91,7 @@
+     &quot;&quot;&quot;
+     return reduce(
+         lambda current_value, function: function(current_value),
+-        functions[::-1],
++        functions[::-2],
+         value
+     )
+ 
+</failure>
+			<system-out>        functions[::-1],</system-out>
+		</testcase>
+		<testcase name="Mutant #112" file="pymonet/utils.py" line="111">
+			<system-out>        lambda current_value, function: function(current_value),</system-out>
+		</testcase>
+		<testcase name="Mutant #113" file="pymonet/utils.py" line="154">
+			<system-out>    cache: List[Any] = []</system-out>
+		</testcase>
+		<testcase name="Mutant #114" file="pymonet/utils.py" line="157">
+			<failure type="failure" message="bad_survived">--- pymonet/utils.py
++++ pymonet/utils.py
+@@ -154,7 +154,7 @@
+     cache: List[Any] = []
+ 
+     def memoized_fn(argument):
+-        cached_result = find(cache, lambda cacheItem: key(cacheItem[0], argument))
++        cached_result = find(cache, lambda cacheItem: key(cacheItem[1], argument))
+         if cached_result is not None:
+             return cached_result[1]
+         fn_result = fn(argument)
+</failure>
+			<system-out>        cached_result = find(cache, lambda cacheItem: key(cacheItem[0], argument))</system-out>
+		</testcase>
+		<testcase name="Mutant #115" file="pymonet/utils.py" line="157">
+			<failure type="failure" message="bad_survived">--- pymonet/utils.py
++++ pymonet/utils.py
+@@ -154,7 +154,7 @@
+     cache: List[Any] = []
+ 
+     def memoized_fn(argument):
+-        cached_result = find(cache, lambda cacheItem: key(cacheItem[0], argument))
++        cached_result = find(cache, lambda cacheItem: None)
+         if cached_result is not None:
+             return cached_result[1]
+         fn_result = fn(argument)
+</failure>
+			<system-out>        cached_result = find(cache, lambda cacheItem: key(cacheItem[0], argument))</system-out>
+		</testcase>
+		<testcase name="Mutant #116" file="pymonet/utils.py" line="157">
+			<failure type="failure" message="bad_survived">--- pymonet/utils.py
++++ pymonet/utils.py
+@@ -154,7 +154,7 @@
+     cache: List[Any] = []
+ 
+     def memoized_fn(argument):
+-        cached_result = find(cache, lambda cacheItem: key(cacheItem[0], argument))
++        cached_result = None
+         if cached_result is not None:
+             return cached_result[1]
+         fn_result = fn(argument)
+</failure>
+			<system-out>        cached_result = find(cache, lambda cacheItem: key(cacheItem[0], argument))</system-out>
+		</testcase>
+		<testcase name="Mutant #117" file="pymonet/utils.py" line="158">
+			<system-out>        if cached_result is not None:</system-out>
+		</testcase>
+		<testcase name="Mutant #118" file="pymonet/utils.py" line="159">
+			<system-out>            return cached_result[1]</system-out>
+		</testcase>
+		<testcase name="Mutant #119" file="pymonet/utils.py" line="160">
+			<system-out>        fn_result = fn(argument)</system-out>
+		</testcase>
+		<testcase name="Mutant #120" file="pymonet/monad_try.py" line="11">
+			<system-out>        self.value = value</system-out>
+		</testcase>
+		<testcase name="Mutant #121" file="pymonet/monad_try.py" line="12">
+			<system-out>        self.is_success = is_success</system-out>
+		</testcase>
+		<testcase name="Mutant #122" file="pymonet/monad_try.py" line="16">
+			<system-out>            and self.value == other.value\</system-out>
+		</testcase>
+		<testcase name="Mutant #123" file="pymonet/monad_try.py" line="17">
+			<system-out>            and self.is_success == other.is_success</system-out>
+		</testcase>
+		<testcase name="Mutant #124" file="pymonet/monad_try.py" line="17">
+			<system-out>            and self.is_success == other.is_success</system-out>
+		</testcase>
+		<testcase name="Mutant #125" file="pymonet/monad_try.py" line="20">
+			<system-out>        return 'Try[value={}, is_success={}]'.format(self.value, self.is_success)</system-out>
+		</testcase>
+		<testcase name="Mutant #126" file="pymonet/monad_try.py" line="22">
+			<system-out>    @classmethod</system-out>
+		</testcase>
+		<testcase name="Mutant #127" file="pymonet/monad_try.py" line="36">
+			<system-out>            return cls(fn(*args), True)</system-out>
+		</testcase>
+		<testcase name="Mutant #128" file="pymonet/monad_try.py" line="38">
+			<system-out>            return cls(e, False)</system-out>
+		</testcase>
+		<testcase name="Mutant #129" file="pymonet/monad_try.py" line="50">
+			<system-out>            return Try(mapper(self.value), True)</system-out>
+		</testcase>
+		<testcase name="Mutant #130" file="pymonet/monad_try.py" line="51">
+			<system-out>        return Try(self.value, False)</system-out>
+		</testcase>
+		<testcase name="Mutant #131" file="pymonet/monad_try.py" line="88">
+			<failure type="failure" message="bad_survived">--- pymonet/monad_try.py
++++ pymonet/monad_try.py
+@@ -85,7 +85,7 @@
+         :returns: self
+         :rtype: Try[A]
+         &quot;&quot;&quot;
+-        if not self.is_success:
++        if  self.is_success:
+             fail_callback(self.value)
+         return self
+ 
+</failure>
+			<system-out>        if not self.is_success:</system-out>
+		</testcase>
+		<testcase name="Mutant #132" file="pymonet/monad_try.py" line="103">
+			<system-out>        if self.is_success and filterer(self.value):</system-out>
+		</testcase>
+		<testcase name="Mutant #133" file="pymonet/monad_try.py" line="104">
+			<system-out>            return Try(self.value, True)</system-out>
+		</testcase>
+		<testcase name="Mutant #134" file="pymonet/monad_try.py" line="105">
+			<system-out>        return Try(self.value, False)</system-out>
+		</testcase>
+		<testcase name="Mutant #135" file="pymonet/lazy.py" line="4">
+			<failure type="failure" message="bad_survived">--- pymonet/lazy.py
++++ pymonet/lazy.py
+@@ -1,7 +1,7 @@
+ from typing import TypeVar, Generic, Callable
+ 
+ 
+-T = TypeVar('T')
++T = TypeVar('XXTXX')
+ U = TypeVar('U')
+ W = TypeVar('W')
+ 
+</failure>
+			<system-out>T = TypeVar('T')</system-out>
+		</testcase>
+		<testcase name="Mutant #136" file="pymonet/lazy.py" line="4">
+			<failure type="failure" message="bad_survived">--- pymonet/lazy.py
++++ pymonet/lazy.py
+@@ -1,7 +1,7 @@
+ from typing import TypeVar, Generic, Callable
+ 
+ 
+-T = TypeVar('T')
++T = None
+ U = TypeVar('U')
+ W = TypeVar('W')
+ 
+</failure>
+			<system-out>T = TypeVar('T')</system-out>
+		</testcase>
+		<testcase name="Mutant #137" file="pymonet/lazy.py" line="5">
+			<failure type="failure" message="bad_survived">--- pymonet/lazy.py
++++ pymonet/lazy.py
+@@ -2,7 +2,7 @@
+ 
+ 
+ T = TypeVar('T')
+-U = TypeVar('U')
++U = TypeVar('XXUXX')
+ W = TypeVar('W')
+ 
+ 
+</failure>
+			<system-out>U = TypeVar('U')</system-out>
+		</testcase>
+		<testcase name="Mutant #138" file="pymonet/lazy.py" line="5">
+			<failure type="failure" message="bad_survived">--- pymonet/lazy.py
++++ pymonet/lazy.py
+@@ -2,7 +2,7 @@
+ 
+ 
+ T = TypeVar('T')
+-U = TypeVar('U')
++U = None
+ W = TypeVar('W')
+ 
+ 
+</failure>
+			<system-out>U = TypeVar('U')</system-out>
+		</testcase>
+		<testcase name="Mutant #139" file="pymonet/lazy.py" line="6">
+			<failure type="failure" message="bad_survived">--- pymonet/lazy.py
++++ pymonet/lazy.py
+@@ -3,7 +3,7 @@
+ 
+ T = TypeVar('T')
+ U = TypeVar('U')
+-W = TypeVar('W')
++W = TypeVar('XXWXX')
+ 
+ 
+ class Lazy(Generic[T, U]):
+</failure>
+			<system-out>W = TypeVar('W')</system-out>
+		</testcase>
+		<testcase name="Mutant #140" file="pymonet/lazy.py" line="6">
+			<failure type="failure" message="bad_survived">--- pymonet/lazy.py
++++ pymonet/lazy.py
+@@ -3,7 +3,7 @@
+ 
+ T = TypeVar('T')
+ U = TypeVar('U')
+-W = TypeVar('W')
++W = None
+ 
+ 
+ class Lazy(Generic[T, U]):
+</failure>
+			<system-out>W = TypeVar('W')</system-out>
+		</testcase>
+		<testcase name="Mutant #141" file="pymonet/lazy.py" line="20">
+			<system-out>        self.constructor_fn = constructor_fn</system-out>
+		</testcase>
+		<testcase name="Mutant #142" file="pymonet/lazy.py" line="21">
+			<system-out>        self.is_evaluated = False</system-out>
+		</testcase>
+		<testcase name="Mutant #143" file="pymonet/lazy.py" line="21">
+			<failure type="failure" message="bad_survived">--- pymonet/lazy.py
++++ pymonet/lazy.py
+@@ -18,7 +18,7 @@
+         :type constructor_fn: Function() -&gt; A
+         &quot;&quot;&quot;
+         self.constructor_fn = constructor_fn
+-        self.is_evaluated = False
++        self.is_evaluated = None
+         self.value = None
+ 
+     def __str__(self) -&gt; str:  # pragma: no cover
+</failure>
+			<system-out>        self.is_evaluated = False</system-out>
+		</testcase>
+		<testcase name="Mutant #144" file="pymonet/lazy.py" line="22">
+			<failure type="failure" message="bad_survived">--- pymonet/lazy.py
++++ pymonet/lazy.py
+@@ -19,7 +19,7 @@
+         &quot;&quot;&quot;
+         self.constructor_fn = constructor_fn
+         self.is_evaluated = False
+-        self.value = None
++        self.value = &quot;&quot;
+ 
+     def __str__(self) -&gt; str:  # pragma: no cover
+         return 'Lazy[fn={}, value={}, is_evaluated={}]'.format(self.constructor_fn, self.value, self.is_evaluated)
+</failure>
+			<system-out>        self.value = None</system-out>
+		</testcase>
+		<testcase name="Mutant #145" file="pymonet/lazy.py" line="25">
+			<failure type="failure" message="bad_survived">--- pymonet/lazy.py
++++ pymonet/lazy.py
+@@ -22,7 +22,7 @@
+         self.value = None
+ 
+     def __str__(self) -&gt; str:  # pragma: no cover
+-        return 'Lazy[fn={}, value={}, is_evaluated={}]'.format(self.constructor_fn, self.value, self.is_evaluated)
++        return 'XXLazy[fn={}, value={}, is_evaluated={}]XX'.format(self.constructor_fn, self.value, self.is_evaluated)
+ 
+     def __eq__(self, other: object) -&gt; bool:
+         &quot;&quot;&quot;
+</failure>
+			<system-out>        return 'Lazy[fn={}, value={}, is_evaluated={}]'.format(self.constructor_fn, self.value, self.is_evaluated)</system-out>
+		</testcase>
+		<testcase name="Mutant #146" file="pymonet/lazy.py" line="33">
+			<failure type="failure" message="bad_survived">--- pymonet/lazy.py
++++ pymonet/lazy.py
+@@ -30,7 +30,7 @@
+         &quot;&quot;&quot;
+         return (
+             isinstance(other, Lazy)
+-            and self.is_evaluated == other.is_evaluated
++            and self.is_evaluated != other.is_evaluated
+             and self.value == other.value
+             and self.constructor_fn == other.constructor_fn
+         )
+</failure>
+			<system-out>            and self.is_evaluated == other.is_evaluated</system-out>
+		</testcase>
+		<testcase name="Mutant #147" file="pymonet/lazy.py" line="34">
+			<failure type="failure" message="bad_survived">--- pymonet/lazy.py
++++ pymonet/lazy.py
+@@ -31,7 +31,7 @@
+         return (
+             isinstance(other, Lazy)
+             and self.is_evaluated == other.is_evaluated
+-            and self.value == other.value
++            and self.value != other.value
+             and self.constructor_fn == other.constructor_fn
+         )
+ 
+</failure>
+			<system-out>            and self.value == other.value</system-out>
+		</testcase>
+		<testcase name="Mutant #148" file="pymonet/lazy.py" line="35">
+			<failure type="failure" message="bad_survived">--- pymonet/lazy.py
++++ pymonet/lazy.py
+@@ -32,7 +32,7 @@
+             isinstance(other, Lazy)
+             and self.is_evaluated == other.is_evaluated
+             and self.value == other.value
+-            and self.constructor_fn == other.constructor_fn
++            and self.constructor_fn != other.constructor_fn
+         )
+ 
+     @classmethod
+</failure>
+			<system-out>            and self.constructor_fn == other.constructor_fn</system-out>
+		</testcase>
+		<testcase name="Mutant #149" file="pymonet/lazy.py" line="35">
+			<failure type="failure" message="bad_survived">--- pymonet/lazy.py
++++ pymonet/lazy.py
+@@ -29,8 +29,7 @@
+         Two Lazy are equals where both are evaluated both have the same value and constructor functions.
+         &quot;&quot;&quot;
+         return (
+-            isinstance(other, Lazy)
+-            and self.is_evaluated == other.is_evaluated
++            isinstance(other, Lazy) or self.is_evaluated == other.is_evaluated
+             and self.value == other.value
+             and self.constructor_fn == other.constructor_fn
+         )
+</failure>
+			<system-out>            and self.constructor_fn == other.constructor_fn</system-out>
+		</testcase>
+		<testcase name="Mutant #150" file="pymonet/lazy.py" line="38">
+			<failure type="failure" message="bad_survived">--- pymonet/lazy.py
++++ pymonet/lazy.py
+@@ -35,7 +35,6 @@
+             and self.constructor_fn == other.constructor_fn
+         )
+ 
+-    @classmethod
+     def of(cls, value: U) -&gt; 'Lazy[T, U]':
+         &quot;&quot;&quot;
+         Returns Lazy with function returning argument.
+</failure>
+			<system-out>    @classmethod</system-out>
+		</testcase>
+		<testcase name="Mutant #151" file="pymonet/lazy.py" line="48">
+			<failure type="failure" message="bad_survived">--- pymonet/lazy.py
++++ pymonet/lazy.py
+@@ -45,7 +45,7 @@
+         :returns: Lazy with function returning argument
+         :rtype: Lazy[Function() -&gt; A]
+         &quot;&quot;&quot;
+-        return Lazy(lambda *args: value)
++        return Lazy(lambda *args: None)
+ 
+     def _compute_value(self, *args):
+         self.is_evaluated = True
+</failure>
+			<system-out>        return Lazy(lambda *args: value)</system-out>
+		</testcase>
+		<testcase name="Mutant #152" file="pymonet/lazy.py" line="51">
+			<system-out>        self.is_evaluated = True</system-out>
+		</testcase>
+		<testcase name="Mutant #153" file="pymonet/lazy.py" line="51">
+			<system-out>        self.is_evaluated = True</system-out>
+		</testcase>
+		<testcase name="Mutant #154" file="pymonet/lazy.py" line="52">
+			<system-out>        self.value = self.constructor_fn(*args)</system-out>
+		</testcase>
+		<testcase name="Mutant #155" file="pymonet/lazy.py" line="66">
+			<failure type="failure" message="bad_survived">--- pymonet/lazy.py
++++ pymonet/lazy.py
+@@ -63,7 +63,7 @@
+         :returns: Lazy with mapped value
+         :rtype: Lazy[Function() -&gt; B)]
+         &quot;&quot;&quot;
+-        return Lazy(lambda *args: mapper(self.constructor_fn(*args)))
++        return Lazy(lambda *args: None)
+ 
+     def ap(self, applicative):
+         &quot;&quot;&quot;
+</failure>
+			<system-out>        return Lazy(lambda *args: mapper(self.constructor_fn(*args)))</system-out>
+		</testcase>
+		<testcase name="Mutant #156" file="pymonet/lazy.py" line="78">
+			<failure type="failure" message="bad_survived">--- pymonet/lazy.py
++++ pymonet/lazy.py
+@@ -75,7 +75,7 @@
+         :returns: new Lazy with result of contains function
+         :rtype: Lazy[B]
+         &quot;&quot;&quot;
+-        return Lazy(lambda *args: self.constructor_fn(applicative.get(*args)))
++        return Lazy(lambda *args: None)
+ 
+     def bind(self, fn: 'Callable[[U], Lazy[U, W]]') -&gt; 'Lazy[T, W]':
+         &quot;&quot;&quot;
+</failure>
+			<system-out>        return Lazy(lambda *args: self.constructor_fn(applicative.get(*args)))</system-out>
+		</testcase>
+		<testcase name="Mutant #157" file="pymonet/lazy.py" line="90">
+			<failure type="failure" message="bad_survived">--- pymonet/lazy.py
++++ pymonet/lazy.py
+@@ -87,7 +87,7 @@
+         :rtype: B
+         &quot;&quot;&quot;
+         def lambda_fn(*args):
+-            computed_value = self._compute_value(*args)
++            computed_value = None
+             return fn(computed_value).constructor_fn
+ 
+         return Lazy(lambda_fn)
+</failure>
+			<system-out>            computed_value = self._compute_value(*args)</system-out>
+		</testcase>
+		<testcase name="Mutant #158" file="pymonet/semigroups.py" line="11">
+			<system-out>        self.value = value</system-out>
+		</testcase>
+		<testcase name="Mutant #159" file="pymonet/semigroups.py" line="14">
+			<system-out>        return self.value == other.value</system-out>
+		</testcase>
+		<testcase name="Mutant #160" file="pymonet/semigroups.py" line="19">
+			<failure type="failure" message="bad_survived">--- pymonet/semigroups.py
++++ pymonet/semigroups.py
+@@ -16,7 +16,6 @@
+     def fold(self, fn):
+         return fn(self.value)
+ 
+-    @classmethod
+     def neutral(cls):
+         return cls(cls.neutral_element)
+ 
+</failure>
+			<system-out>    @classmethod</system-out>
+		</testcase>
+		<testcase name="Mutant #161" file="pymonet/semigroups.py" line="29">
+			<failure type="failure" message="bad_survived">--- pymonet/semigroups.py
++++ pymonet/semigroups.py
+@@ -26,7 +26,7 @@
+     Sum is a Monoid that will combine 2 numbers under addition.
+     &quot;&quot;&quot;
+ 
+-    neutral_element = 0
++    neutral_element = 1
+ 
+     def __str__(self) -&gt; str:  # pragma: no cover
+         return 'Sum[value={}]'.format(self.value)
+</failure>
+			<system-out>    neutral_element = 0</system-out>
+		</testcase>
+		<testcase name="Mutant #162" file="pymonet/semigroups.py" line="29">
+			<failure type="failure" message="bad_survived">--- pymonet/semigroups.py
++++ pymonet/semigroups.py
+@@ -26,7 +26,7 @@
+     Sum is a Monoid that will combine 2 numbers under addition.
+     &quot;&quot;&quot;
+ 
+-    neutral_element = 0
++    neutral_element = None
+ 
+     def __str__(self) -&gt; str:  # pragma: no cover
+         return 'Sum[value={}]'.format(self.value)
+</failure>
+			<system-out>    neutral_element = 0</system-out>
+		</testcase>
+		<testcase name="Mutant #163" file="pymonet/semigroups.py" line="32">
+			<failure type="failure" message="bad_survived">--- pymonet/semigroups.py
++++ pymonet/semigroups.py
+@@ -29,7 +29,7 @@
+     neutral_element = 0
+ 
+     def __str__(self) -&gt; str:  # pragma: no cover
+-        return 'Sum[value={}]'.format(self.value)
++        return 'XXSum[value={}]XX'.format(self.value)
+ 
+     def concat(self, semigroup: 'Sum') -&gt; 'Sum':
+         &quot;&quot;&quot;
+</failure>
+			<system-out>        return 'Sum[value={}]'.format(self.value)</system-out>
+		</testcase>
+		<testcase name="Mutant #164" file="pymonet/semigroups.py" line="41">
+			<system-out>        return Sum(self.value + semigroup.value)</system-out>
+		</testcase>
+		<testcase name="Mutant #165" file="pymonet/semigroups.py" line="49">
+			<failure type="failure" message="bad_survived">--- pymonet/semigroups.py
++++ pymonet/semigroups.py
+@@ -46,7 +46,7 @@
+     All is a Monoid that will combine 2 values of any type using logical conjunction on their coerced Boolean values.
+     &quot;&quot;&quot;
+ 
+-    neutral_element = True
++    neutral_element = False
+ 
+     def __str__(self) -&gt; str:  # pragma: no cover
+         return 'All[value={}]'.format(self.value)
+</failure>
+			<system-out>    neutral_element = True</system-out>
+		</testcase>
+		<testcase name="Mutant #166" file="pymonet/semigroups.py" line="49">
+			<failure type="failure" message="bad_survived">--- pymonet/semigroups.py
++++ pymonet/semigroups.py
+@@ -46,7 +46,7 @@
+     All is a Monoid that will combine 2 values of any type using logical conjunction on their coerced Boolean values.
+     &quot;&quot;&quot;
+ 
+-    neutral_element = True
++    neutral_element = None
+ 
+     def __str__(self) -&gt; str:  # pragma: no cover
+         return 'All[value={}]'.format(self.value)
+</failure>
+			<system-out>    neutral_element = True</system-out>
+		</testcase>
+		<testcase name="Mutant #167" file="pymonet/semigroups.py" line="52">
+			<failure type="failure" message="bad_survived">--- pymonet/semigroups.py
++++ pymonet/semigroups.py
+@@ -49,7 +49,7 @@
+     neutral_element = True
+ 
+     def __str__(self) -&gt; str:  # pragma: no cover
+-        return 'All[value={}]'.format(self.value)
++        return 'XXAll[value={}]XX'.format(self.value)
+ 
+     def concat(self, semigroup: 'All') -&gt; 'All':
+         &quot;&quot;&quot;
+</failure>
+			<system-out>        return 'All[value={}]'.format(self.value)</system-out>
+		</testcase>
+		<testcase name="Mutant #168" file="pymonet/semigroups.py" line="61">
+			<system-out>        return All(self.value and semigroup.value)</system-out>
+		</testcase>
+		<testcase name="Mutant #169" file="pymonet/semigroups.py" line="69">
+			<failure type="failure" message="bad_survived">--- pymonet/semigroups.py
++++ pymonet/semigroups.py
+@@ -66,7 +66,7 @@
+     One is a Monoid that will combine 2 values of any type using logical disjunction OR on their coerced Boolean values.
+     &quot;&quot;&quot;
+ 
+-    neutral_element = False
++    neutral_element = True
+ 
+     def __str__(self) -&gt; str:  # pragma: no cover
+         return 'One[value={}]'.format(self.value)
+</failure>
+			<system-out>    neutral_element = False</system-out>
+		</testcase>
+		<testcase name="Mutant #170" file="pymonet/semigroups.py" line="69">
+			<failure type="failure" message="bad_survived">--- pymonet/semigroups.py
++++ pymonet/semigroups.py
+@@ -66,7 +66,7 @@
+     One is a Monoid that will combine 2 values of any type using logical disjunction OR on their coerced Boolean values.
+     &quot;&quot;&quot;
+ 
+-    neutral_element = False
++    neutral_element = None
+ 
+     def __str__(self) -&gt; str:  # pragma: no cover
+         return 'One[value={}]'.format(self.value)
+</failure>
+			<system-out>    neutral_element = False</system-out>
+		</testcase>
+		<testcase name="Mutant #171" file="pymonet/semigroups.py" line="72">
+			<failure type="failure" message="bad_survived">--- pymonet/semigroups.py
++++ pymonet/semigroups.py
+@@ -69,7 +69,7 @@
+     neutral_element = False
+ 
+     def __str__(self) -&gt; str:  # pragma: no cover
+-        return 'One[value={}]'.format(self.value)
++        return 'XXOne[value={}]XX'.format(self.value)
+ 
+     def concat(self, semigroup):
+         &quot;&quot;&quot;
+</failure>
+			<system-out>        return 'One[value={}]'.format(self.value)</system-out>
+		</testcase>
+		<testcase name="Mutant #172" file="pymonet/semigroups.py" line="81">
+			<system-out>        return One(self.value or semigroup.value)</system-out>
+		</testcase>
+		<testcase name="Mutant #173" file="pymonet/semigroups.py" line="90">
+			<system-out>        return 'Fist[value={}]'.format(self.value)</system-out>
+		</testcase>
+		<testcase name="Mutant #174" file="pymonet/semigroups.py" line="108">
+			<failure type="failure" message="bad_survived">--- pymonet/semigroups.py
++++ pymonet/semigroups.py
+@@ -105,7 +105,7 @@
+     &quot;&quot;&quot;
+ 
+     def __str__(self) -&gt; str:  # pragma: no cover
+-        return 'Last[value={}]'.format(self.value)
++        return 'XXLast[value={}]XX'.format(self.value)
+ 
+     def concat(self, semigroup):
+         &quot;&quot;&quot;
+</failure>
+			<system-out>        return 'Last[value={}]'.format(self.value)</system-out>
+		</testcase>
+		<testcase name="Mutant #175" file="pymonet/semigroups.py" line="126">
+			<failure type="failure" message="bad_survived">--- pymonet/semigroups.py
++++ pymonet/semigroups.py
+@@ -123,7 +123,7 @@
+     &quot;&quot;&quot;
+ 
+     def __str__(self) -&gt; str:  # pragma: no cover
+-        return 'Map[value={}]'.format(self.value)
++        return 'XXMap[value={}]XX'.format(self.value)
+ 
+     def concat(self, semigroup):
+         &quot;&quot;&quot;
+</failure>
+			<system-out>        return 'Map[value={}]'.format(self.value)</system-out>
+		</testcase>
+		<testcase name="Mutant #176" file="pymonet/semigroups.py" line="145">
+			<failure type="failure" message="bad_survived">--- pymonet/semigroups.py
++++ pymonet/semigroups.py
+@@ -142,7 +142,7 @@
+     Max is a Monoid that will combines 2 numbers, resulting in the largest of the two.
+     &quot;&quot;&quot;
+ 
+-    neutral_element = -float(&quot;inf&quot;)
++    neutral_element = +float(&quot;inf&quot;)
+ 
+     def __str__(self) -&gt; str:  # pragma: no cover
+         return 'Max[value={}]'.format(self.value)
+</failure>
+			<system-out>    neutral_element = -float(&quot;inf&quot;)</system-out>
+		</testcase>
+		<testcase name="Mutant #177" file="pymonet/semigroups.py" line="145">
+			<failure type="failure" message="bad_survived">--- pymonet/semigroups.py
++++ pymonet/semigroups.py
+@@ -142,7 +142,7 @@
+     Max is a Monoid that will combines 2 numbers, resulting in the largest of the two.
+     &quot;&quot;&quot;
+ 
+-    neutral_element = -float(&quot;inf&quot;)
++    neutral_element = -float(&quot;XXinfXX&quot;)
+ 
+     def __str__(self) -&gt; str:  # pragma: no cover
+         return 'Max[value={}]'.format(self.value)
+</failure>
+			<system-out>    neutral_element = -float(&quot;inf&quot;)</system-out>
+		</testcase>
+		<testcase name="Mutant #178" file="pymonet/semigroups.py" line="145">
+			<failure type="failure" message="bad_survived">--- pymonet/semigroups.py
++++ pymonet/semigroups.py
+@@ -142,7 +142,7 @@
+     Max is a Monoid that will combines 2 numbers, resulting in the largest of the two.
+     &quot;&quot;&quot;
+ 
+-    neutral_element = -float(&quot;inf&quot;)
++    neutral_element = None
+ 
+     def __str__(self) -&gt; str:  # pragma: no cover
+         return 'Max[value={}]'.format(self.value)
+</failure>
+			<system-out>    neutral_element = -float(&quot;inf&quot;)</system-out>
+		</testcase>
+		<testcase name="Mutant #179" file="pymonet/semigroups.py" line="148">
+			<system-out>        return 'Max[value={}]'.format(self.value)</system-out>
+		</testcase>
+		<testcase name="Mutant #180" file="pymonet/semigroups.py" line="157">
+			<failure type="failure" message="bad_survived">--- pymonet/semigroups.py
++++ pymonet/semigroups.py
+@@ -154,7 +154,7 @@
+         :returns: new Max with largest value
+         :rtype: Max[A | B]
+         &quot;&quot;&quot;
+-        return Max(self.value if self.value &gt; semigroup.value else semigroup.value)
++        return Max(self.value if self.value &gt;= semigroup.value else semigroup.value)
+ 
+ 
+ class Min(Semigroup):
+</failure>
+			<system-out>        return Max(self.value if self.value &gt; semigroup.value else semigroup.value)</system-out>
+		</testcase>
+		<testcase name="Mutant #181" file="pymonet/semigroups.py" line="165">
+			<failure type="failure" message="bad_survived">--- pymonet/semigroups.py
++++ pymonet/semigroups.py
+@@ -162,7 +162,7 @@
+     Min is a Monoid that will combines 2 numbers, resulting in the smallest of the two.
+     &quot;&quot;&quot;
+ 
+-    neutral_element = float(&quot;inf&quot;)
++    neutral_element = float(&quot;XXinfXX&quot;)
+ 
+     def __str__(self) -&gt; str:  # pragma: no cover
+         return 'Min[value={}]'.format(self.value)
+</failure>
+			<system-out>    neutral_element = float(&quot;inf&quot;)</system-out>
+		</testcase>
+		<testcase name="Mutant #182" file="pymonet/semigroups.py" line="165">
+			<failure type="failure" message="bad_survived">--- pymonet/semigroups.py
++++ pymonet/semigroups.py
+@@ -162,7 +162,7 @@
+     Min is a Monoid that will combines 2 numbers, resulting in the smallest of the two.
+     &quot;&quot;&quot;
+ 
+-    neutral_element = float(&quot;inf&quot;)
++    neutral_element = None
+ 
+     def __str__(self) -&gt; str:  # pragma: no cover
+         return 'Min[value={}]'.format(self.value)
+</failure>
+			<system-out>    neutral_element = float(&quot;inf&quot;)</system-out>
+		</testcase>
+		<testcase name="Mutant #183" file="pymonet/semigroups.py" line="168">
+			<failure type="failure" message="bad_survived">--- pymonet/semigroups.py
++++ pymonet/semigroups.py
+@@ -165,7 +165,7 @@
+     neutral_element = float(&quot;inf&quot;)
+ 
+     def __str__(self) -&gt; str:  # pragma: no cover
+-        return 'Min[value={}]'.format(self.value)
++        return 'XXMin[value={}]XX'.format(self.value)
+ 
+     def concat(self, semigroup):
+         &quot;&quot;&quot;
+</failure>
+			<system-out>        return 'Min[value={}]'.format(self.value)</system-out>
+		</testcase>
+		<testcase name="Mutant #184" file="pymonet/semigroups.py" line="177">
+			<failure type="failure" message="bad_survived">--- pymonet/semigroups.py
++++ pymonet/semigroups.py
+@@ -174,5 +174,5 @@
+         :returns: new Min with smallest value
+         :rtype: Min[A | B]
+         &quot;&quot;&quot;
+-        return Min(self.value if self.value &lt;= semigroup.value else semigroup.value)
++        return Min(self.value if self.value &lt; semigroup.value else semigroup.value)
+ 
+</failure>
+			<system-out>        return Min(self.value if self.value &lt;= semigroup.value else semigroup.value)</system-out>
+		</testcase>
+		<testcase name="Mutant #185" file="pymonet/validation.py" line="5">
+			<system-out>        self.value = value</system-out>
+		</testcase>
+		<testcase name="Mutant #186" file="pymonet/validation.py" line="6">
+			<system-out>        self.errors = errors</system-out>
+		</testcase>
+		<testcase name="Mutant #187" file="pymonet/validation.py" line="13">
+			<system-out>                self.errors == other.errors and</system-out>
+		</testcase>
+		<testcase name="Mutant #188" file="pymonet/validation.py" line="14">
+			<system-out>                self.value == other.value)</system-out>
+		</testcase>
+		<testcase name="Mutant #189" file="pymonet/validation.py" line="14">
+			<system-out>                self.value == other.value)</system-out>
+		</testcase>
+		<testcase name="Mutant #190" file="pymonet/validation.py" line="18">
+			<failure type="failure" message="bad_survived">--- pymonet/validation.py
++++ pymonet/validation.py
+@@ -15,7 +15,7 @@
+ 
+     def __str__(self):  # pragma: no cover
+         if self.is_success():
+-            return 'Validation.success[{}]'.format(self.value)
++            return 'XXValidation.success[{}]XX'.format(self.value)
+         return 'Validation.fail[{}, {}]'.format(self.value, self.errors)
+ 
+     @classmethod
+</failure>
+			<system-out>            return 'Validation.success[{}]'.format(self.value)</system-out>
+		</testcase>
+		<testcase name="Mutant #191" file="pymonet/validation.py" line="19">
+			<failure type="failure" message="bad_survived">--- pymonet/validation.py
++++ pymonet/validation.py
+@@ -16,7 +16,7 @@
+     def __str__(self):  # pragma: no cover
+         if self.is_success():
+             return 'Validation.success[{}]'.format(self.value)
+-        return 'Validation.fail[{}, {}]'.format(self.value, self.errors)
++        return 'XXValidation.fail[{}, {}]XX'.format(self.value, self.errors)
+ 
+     @classmethod
+     def success(cls, value=None):
+</failure>
+			<system-out>        return 'Validation.fail[{}, {}]'.format(self.value, self.errors)</system-out>
+		</testcase>
+		<testcase name="Mutant #192" file="pymonet/validation.py" line="21">
+			<system-out>    @classmethod</system-out>
+		</testcase>
+		<testcase name="Mutant #193" file="pymonet/validation.py" line="33">
+			<system-out>    @classmethod</system-out>
+		</testcase>
+		<testcase name="Mutant #194" file="pymonet/validation.py" line="52">
+			<system-out>        return len(self.errors) == 0</system-out>
+		</testcase>
+		<testcase name="Mutant #195" file="pymonet/validation.py" line="52">
+			<system-out>        return len(self.errors) == 0</system-out>
+		</testcase>
+		<testcase name="Mutant #196" file="pymonet/validation.py" line="61">
+			<system-out>        return len(self.errors) != 0</system-out>
+		</testcase>
+		<testcase name="Mutant #197" file="pymonet/validation.py" line="61">
+			<system-out>        return len(self.errors) != 0</system-out>
+		</testcase>
+		<testcase name="Mutant #198" file="pymonet/validation.py" line="96">
+			<system-out>        return Validation(self.value, self.errors + fn(self.value).errors)</system-out>
+		</testcase>
+		<testcase name="Mutant #199" file="pymonet/validation.py" line="144">
+			<failure type="failure" message="bad_survived">--- pymonet/validation.py
++++ pymonet/validation.py
+@@ -141,7 +141,7 @@
+         &quot;&quot;&quot;
+         from pymonet.lazy import Lazy
+ 
+-        return Lazy(lambda: self.value)
++        return Lazy(lambda: None)
+ 
+     def to_try(self):
+         &quot;&quot;&quot;
+</failure>
+			<system-out>        return Lazy(lambda: self.value)</system-out>
+		</testcase>
+	</testsuite>
+</testsuites>
+

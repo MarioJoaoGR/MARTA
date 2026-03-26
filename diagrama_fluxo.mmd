@@ -1,0 +1,96 @@
+%%{init: {'theme': 'base', 'themeVariables': { 'mainBkg': '#ffffff', 'primaryColor': '#fff', 'primaryBorderColor': '#000', 'edgeLabelBackground':'#fff', 'tertiaryColor': '#fff', 'lineColor': '#000', 'textColor': '#000'}}}%%
+flowchart TD
+    Start(("Start"))
+
+    %% --- PHASE 1: KNOWLEDGE & INFERENCE ---
+    subgraph Phase1 ["Phase 1: Context Building & Type Inference"]
+        direction TB
+        Spacer1[ ]:::void
+        Spacer1 ~~~ Source[/"Target Python Project"/]
+
+        subgraph KB ["1. Knowledge Base Construction"]
+            direction TB
+            PyCG["PyCG Static Analysis"]
+            CG[/"Call Graph<br/>(Traversal Guide)"/]
+            FuncSumm["LLM: Function Summaries<br/>(Reads: Source + Caller/Callee Context)"]
+            
+            ASTClass["AST Analysis<br/>(Class Parser)"]
+            ClassMembers[/"Class Members<br/>(Defined & Inherited)"/]
+            
+            ClassSumm["LLM: Class Summaries<br/>(Reads: Func Summaries + Class Members)"]
+            DB[("Vector DB (Chroma)<br/>Stores Class Embeddings")]
+
+            PyCG --> CG --> FuncSumm
+            ASTClass --> ClassMembers
+            
+            FuncSumm --> ClassSumm
+            ClassMembers --> ClassSumm
+            ClassSumm --> DB
+        end
+
+        subgraph Inference ["2. Parameter Type Inference"]
+            direction TB
+            ASTFunc["AST Analysis<br/>(Reads target function body)"]
+            Extracted[/"Accessed Members List<br/>(e.g., param.login())"/]
+
+            SynFilter["Syntactic Filtering<br/>(Queries DB for classes with matching members)"]
+            Candidates[/"Filtered Candidate Types"/]
+
+            Ambig{"Ambiguity?<br/>(> 1 Candidate)"}
+
+            SemRetrieval["Semantic Retrieval (LLM + MMR)<br/>(Scores behavioral intent)"]
+
+            ASTFunc --> Extracted --> SynFilter --> Candidates --> Ambig
+            Ambig -- "Yes" --> SemRetrieval
+        end
+
+        Source --> PyCG
+        Source --> ASTClass
+        Source --> ASTFunc
+        
+        DB -. "RAG Query" .-> SynFilter
+        SemRetrieval --> Context
+        Ambig -- "No" --> Context
+
+        Context[/"Rich Type Context<br/>(Source, Inferred Types & Docstring Summary)"/]
+    end
+
+    Start --> Source
+
+    %% --- PHASE 2: REACT ---
+    subgraph ReAct ["Phase 2: Multi-Agent ReAct Generation"]
+        direction TB
+        SpacerReact[ ]:::void
+        Planner["🕵️ PLANNER Agent<br/>(Analyzes Rich Context -> Identifies Test Cases)"]
+        SpacerReact ~~~ Planner
+
+        JSON[/"Test Plan JSON Array<br/>(Happy Path, Edge Cases, Errors)"/]
+
+        Assertion["👷 ASSERTION Agent<br/>(Translates JSON Scenario to Pytest Code)"]
+        ExecReact["Pylint & Pytest Execution<br/>(subprocess.run)"]
+        CheckReact{"Passed?"}
+
+        Planner --> JSON --> Assertion --> ExecReact --> CheckReact
+
+        CheckReact -- "Yes" --> SaveReact["✅ Success"]
+
+        CheckReact -- "No" --> Reason["🧠 Self-Healing<br/>(Reads Error Trace -> Rewrites Pytest Code)"]
+        Reason --> CheckRetryReact{"Attempts < N?"}
+
+        CheckRetryReact -- "Yes" --> Assertion
+        CheckRetryReact -- "No" --> FailReact["❌ Give Up<br/>(Moves file to /test_quarantine)"]
+    end
+
+    %% Connection between phases
+    Context --> Planner
+
+    %% --- STYLES ---
+    classDef void width:0px,height:0px,fill:none,stroke:none;
+    style Phase1 fill:#f9f9f9,stroke:#666,stroke-dasharray: 5 5
+    style ReAct fill:#e6f2ff,stroke:#0055cc,stroke-width:2px
+    style KB fill:#ececec,stroke:#aaa,stroke-width:1px
+    style Inference fill:#ececec,stroke:#aaa,stroke-width:1px
+    style Context fill:#fff,stroke:#333,stroke-width:2px
+    style Planner fill:#fff,stroke:#333,stroke-width:2px
+    style Reason fill:#fff,stroke:#333,stroke-width:2px
+    style DB fill:#fff,stroke:#333,stroke-width:1px
