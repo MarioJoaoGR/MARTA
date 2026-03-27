@@ -1,96 +1,85 @@
-# Type-aware LLM-based Regression Test Generation for Python Programs
+Peço desculpa, entendo agora. Queres o conteúdo completo e contínuo num único bloco de código Markdown para que possas copiar tudo de uma vez.
 
-This repository contains the tools and experimental results mentioned in the paper.
+Aqui tens o ficheiro `README.md` completo:
 
-## 💡Overview
+```markdown
+# MARTA: A Decoupled Multi-Agent Architecture for Python Test Generation
 
-Automated regression test generation has been extensively explored, yet generating high-quality tests for Python programs remains particularly challenging. 
-Existing approaches, ranging from search-based software testing (SBST) to recent LLM-driven techniques, are often prone to type errors, resulting in invalid inputs and semantically inconsistent test cases, which ultimately undermine their practical effectiveness. 
-To address these limitations, we present Test4Py, a novel framework that enhances type correctness in automated test generation. 
-Test4Py leverages the program’s call graph to capture richer contextual information about parameters, and introduces a behavior-based type inference mechanism that accurately infers parameter types and construct valid test inputs. 
-Beyond input construction, Test4Py integrates an iterative repair procedure
-that progressively refines generated test cases to improve coverage. 
-In an evaluation on 183 real-world Python modules, Test4Py achieved an average statement coverage of 83.0% and branch coverage of 70.8%, outperforming state-of-the-art tools by 7.2% and 8.4%, respectively.
+![Architecture Diagram](figures/architecture.png)
 
-* Directory `ex-results` contains experimental results.
+This repository contains the source code, experimental data, and evaluation scripts for the paper: **"MARTA: A Decoupled Multi-Agent Architecture for Python Test Generation"**.
 
-## 🎬Requirements
+## 💡 Overview
 
-### 1. Install requirements
+Automated test generation using Large Language Models (LLMs) often struggles with dynamically typed languages like Python. When monolithic LLMs are forced to process massive structural contexts in a single pass, they suffer from cognitive overload. This frequently leads to hallucinated variables, non-existent method calls, and syntactically invalid code.
 
-```angular2html
+To overcome this bottleneck, we present **MARTA** (Multi-Agent Refinement and Testing Architecture). MARTA addresses these limitations through a decoupled, multi-agent pipeline:
+
+1.  **Task Decoupling:** Separates abstract test planning (QA Lead persona) from concrete syntax formulation (Developer persona).
+2.  **Inner ReAct Loop (Self-Healing):** Utilizes direct `pytest` execution feedback to dynamically refine and fix failing assertions before they reach the final suite.
+3.  **Outer Coverage-Driven Loop:** Parses intermediate `coverage.py` reports to augment the prompt with unexecuted line data, forcing the agents to explore complex edge cases.
+
+In our comprehensive evaluation across 10 diverse open-source Python projects, MARTA achieved a staggering **9x increase in executable tests** (from 220 to 2,020) compared to a monolithic baseline, while significantly boosting Statement Coverage (up to 65.02%) and Fault-Revealing Capability (Mutation Score of 35.82%).
+
+* Directory `ex-results/` contains the raw experimental data and generated test suites.
+* Directory `figures/` contains the Python scripts to replicate the visual data from the paper.
+
+## 🎬 Requirements
+
+### 1. Install dependencies
+
+Ensure you have Python 3.10+ installed. Clone this repository and install the required packages:
+
+```bash
 pip install -r requirements.txt
 ```
 
-### 2. Install transformer
+### 2. Environment Setup for Target Projects
 
-Download files from [here](https://huggingface.co/BAAI/bge-large-en-v1.5/tree/main).
+To properly execute and heal tests, MARTA requires the target Python project to be installed in your environment. You must also install the core testing utilities:
 
-Needed files are as follows:
-
-```
-config.json
-pytorch_model.bin
-special_token_map.json
-tokenizer.json
-tokenizer_config.json
-vocab.txt
+```bash
+pip install pytest coverage pytest-json-report
+# If running mutation testing:
+pip install mutmut 
 ```
 
-Change value of `TRANSFORMER_PATH` in `.env` to the path where these files above are.
+### 3. Configure LLM API Keys
 
-### 3. Add Python path
+MARTA utilizes external LLM APIs (e.g., DeepSeek-Coder-V2) for agent generation. Create a `.env` file in the root directory and add your API credentials:
 
-Change value of `USER_PYTHON_PATH` in `.env` to the path where your Python is.
-
-In this Python environment, you need to install all dependencies for the project under test and run the following commands:
-
-```angular2html
-pip install pytest
-pip install coverage
-pip install pylint
-pip install pytest-json-report
+```env
+LLM_API_KEY=your_api_key_here
+LLM_API_BASE=your_api_base_url_here
 ```
 
-### 4. Add OPENAI_API_KEY and OPENAI_API_BASE
+## 🚀 Quick Start
 
-Generate your own `OPENAI_API_KEY` and `OPENAI_API_BASE` , and add them into `.env` file.
+Ensure that the project you want to test can successfully run in your current Python environment. 
 
-## 🚀Quick Start
+To start generating and refining tests for a specific target (e.g., source code located in `src/`), run the following command:
 
-Ensure that the project under test can successfully run using the Python environment specified by `USER_PYTHON_PATH`.
-
-And If you are using Windows, you need to run ***Test4Py*** in WSL.
-
-If your project's path is `project_dir` and the source code is located under `src`, you can run Test4Py like this: 
-```shell
-$ python -m test4dt.start --project_path project_dir --source_path src
+```bash
+python -m marta.start --project_path ./my_project --source_path src/ --generations 3 --temperature 0.2
 ```
 
-## 🔥Experimental Results
+* `--generations 3`: Enables the full 3-round outer coverage-driven loop.
+* `--temperature 0.2`: Sets the optimal generative entropy for the ReAct self-healing phase.
 
-Original experimental data can be viewed at [Experimental Data](/ex-results).
+## 🔥 Experimental Results
 
-### RQ1: How does Test4Py compare with state-of-the-art baselines in terms of code coverage?
+The original experimental data, including baseline comparisons and ablation studies, can be viewed in the `ex-results/` directory. Our evaluation was guided by four main Evaluation Objectives (EOs):
 
-Test4Py consistently achieves higher and more stable coverage than state-of-the-art baselines. 
-Its advantages are especially pronounced in scenarios without type hints, underscoring its effectiveness in dynamically typed settings.
+### EO1: Assertion Robustness and Executability (Self-Healing)
+MARTA completely mitigates the hallucination problem inherent to single-shot generators. By utilizing the inner ReAct loop, MARTA increased the yield of valid, executable tests from a mere 220 (monolithic baseline) to **2,020**, an approximate 800% increase, while drastically reducing syntactically broken assertions.
 
-### RQ2: How do different large language models affect the performance of Test4Py in test generation?
+### EO2: Structural Coverage Maximization
+Single-shot generators suffer from "happy path" bias. By explicitly pointing the Planner Agent to unexecuted lines via our outer loop, MARTA actively explores complex branches. On average, MARTA outperformed the baseline by raising Statement Coverage from 58.20% to **65.02%** across 10 diverse repositories.
 
-Different LLMs have a measurable impact on the performance of Test4Py.
-Deepseek demonstrates the highest coverage, followed by gpt-4o and qwen. We further evaluated state-of-the-art baselines across the same models and observed that Test4Py exhibits greater stability across model variations, highlighting its stronger robustness to differences in underlying LLM capabilities.
+### EO3: Fault-Revealing Capability (Mutation Score)
+High coverage is only useful if assertions are rigorous. Our mutation analysis reveals that MARTA generates highly capable assertions, improving the average mutation score from 27.14% (Baseline) to **35.82%**. In complex projects like `flutes`, the score surged to over 67%.
 
-### RQ3: How effective is Test4Py ’s type inference module compared to existing type inference tools, and what is its impact through ablation analysis?
+### EO4: Ablation Study and Temperature Impact
+Our ablation study confirms the necessity of both iterative loops. While a single-generation pass ($X=1$) already beats the baseline by leveraging self-healing, running the full coverage-driven setup ($X=3$) nearly doubles the executable test yield and provides a definitive boost to fault detection. Furthermore, a slight temperature increase ($T=0.2$) was proven essential to prevent the ReAct agents from getting stuck in rigid correction loops.
+```
 
-Test4Py’s type inference is more effective than Hityper and LLM-Only, especially when handling user-defined types. 
-Additionally, the type inference system enables Test4Py to achieve better performance in the absence of type annotations.
-
-### RQ4: How does incorporating call graph-guided summaries influence the effectiveness of test case generation in Test4Py?
-
-Call graph-guided summaries improve both branch coverage and mutation score, thereby enhancing the semantic adequacy and fault-detection capability of the generated test cases.
-
-### RQ5: How does error repair and iterative test case generation improve the quality of test suites produced by Test4Py?
-
-Automated repair substantially mitigates both syntax- and semantics-related errors, ensuring that the final test suite is both comprehensive and reliable. 
-Although Test4Py incurs a higher execution cost, the resulting increase in coverage and suite quality justifies the additional time.
