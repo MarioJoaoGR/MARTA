@@ -1,3 +1,4 @@
+```markdown
 # MARTA: A Decoupled Multi-Agent Architecture for Python Test Generation
 
 This repository contains the source code, experimental data, and evaluation scripts for the paper: **"MARTA: A Decoupled Multi-Agent Architecture for Python Test Generation"**.
@@ -15,6 +16,7 @@ Automated test generation using Large Language Models (LLMs) often struggles wit
 
 Based on the core implementation and evaluation pipeline, the repository is structured as follows:
 
+```text
 .
 ├── test4dt/                      # 🧠 Core MARTA Source Code
 │   ├── pycg/                     # Call Graph generation utilities
@@ -35,51 +37,55 @@ Based on the core implementation and evaluation pipeline, the repository is stru
 ├── master_results_summary.csv    # 📝 Aggregated benchmark results 
 ├── projects.json                 # 📋 Configuration detailing the 10 target projects
 └── requirements.txt              # 📦 Python dependencies
+```
 
 ## 🎬 Requirements & Installation
 
 ### 1. Install Global Dependencies
-
 Ensure you have Python 3.10+ installed. Clone this repository and install the framework requirements:
+```bash
 pip install -r requirements.txt
+```
 
 ### 2. Environment Setup for Target Projects
-
 To properly execute and heal tests, MARTA requires the target Python project (e.g., `isort` or `sty`) to be installed in your environment alongside the core testing utilities:
-
+```bash
 pip install pytest coverage pytest-json-report mutmut
+```
 
 ### 3. Configure API Keys
 Create or edit the `.env` file in the root directory to include your LLM API credentials:
-
+```env
 OPENAI_API_KEY=your_api_key_here
 OPENAI_API_BASE=your_api_base_url_here
 TRANSFORMER_PATH=path_to_local_huggingface_embeddings # If using local RAG
-
+```
 
 ## 🚀 Quick Start (Generating Tests)
 
 Ensure the target project (e.g., `sty`) is available in the root directory. 
 
 **To run MARTA (Multi-Agent + ReAct):**
-
+```bash
 python -m test4dt.start_react --project_path sty --source_path sty
-
+```
 
 **To run the Monolithic Baseline:**
-
+```bash
 python -m test4dt.start --project_path sty --source_path sty
-
+```
 
 ## 📈 Replicating the Paper's Evaluation
 
 **1. Aggregating Raw Data:**
 To re-aggregate the raw execution logs into the consolidated CSV:
-
+```bash
 python aggregate_results.py
-
+```
 
 **2. Generating Academic Figures:**
 To replicate the exact figures used in the paper:
-
+```bash
 python generate_figures.py
+```
+```
