@@ -894,7 +894,8 @@ params:
                 RULES:
                 1. Output ONLY python code in ```python``` block.
                 2. Import correctly from module '{self.file.mod_name}'.
-                3. Use mocks if necessary.
+                3. CRITICAL MOCKING RULE: If you need to mock external dependencies, global variables, or attributes to prevent errors, you MUST use `unittest.mock.patch` as a context manager (with patch(...):) or the `monkeypatch` fixture. 
+                NEVER assign mock objects directly to global modules (e.g., do NOT do `module.config = Mock()`). Strict state isolation is mandatory.
                 """
                 
                 code_response = await model.aask(sys_prompt_dev, user_prompt_dev)
