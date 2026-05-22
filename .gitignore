@@ -1,3 +1,10 @@
 error.log
 pytest_report.json
 run_results
+
+# Ruído
+__pycache__/
+*.pyc
+.DS_Store
+.idea/
+.pytest_cache/
