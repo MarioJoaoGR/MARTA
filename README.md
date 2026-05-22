@@ -1,3 +1,4 @@
+
 ```markdown
 # MARTA: A Decoupled Multi-Agent Architecture for Python Test Generation
 
@@ -42,12 +43,14 @@ Based on the core implementation and evaluation pipeline, the repository is stru
 ## 🎬 Requirements & Installation
 
 ### 1. Install Global Dependencies
+
 Ensure you have Python 3.10+ installed. Clone this repository and install the framework requirements:
 ```bash
 pip install -r requirements.txt
 ```
 
 ### 2. Environment Setup for Target Projects
+
 To properly execute and heal tests, MARTA requires the target Python project (e.g., `isort` or `sty`) to be installed in your environment alongside the core testing utilities:
 ```bash
 pip install pytest coverage pytest-json-report mutmut
@@ -88,4 +91,15 @@ To replicate the exact figures used in the paper:
 ```bash
 python generate_figures.py
 ```
+
+**3. Running Mutation Analysis (Fault-Revealing Capability):**
+To evaluate the true fault-revealing capability (Mutation Score) of the generated tests using the `mutmut` framework:
+```bash
+# Example for evaluating the generated test suite of the 'sty' project
+mutmut run --paths-to-mutate sty --tests-dir Results_MARTA/sty/Test4DT_tests
+
+# To view the final mutation score and surviving mutants:
+mutmut results
+```
+*(Note: `mutmut` requires a fully passing test suite to begin the mutation process. MARTA guarantees this by automatically quarantining any syntactically invalid or failing tests during the generation phase).*
 ```

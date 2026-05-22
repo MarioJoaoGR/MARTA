@@ -44,13 +44,17 @@ class PreProcessor(ProcessingBase):
 
     def _get_fun_defaults(self, node):
         defaults = {}
-        start = len(node.args.args) - len(node.args.defaults)
+        
+        # --- CORREÇÃO: Combinar positional-only args com args normais ---
+        pos_and_args = getattr(node.args, 'posonlyargs', []) + node.args.args
+        
+        start = len(pos_and_args) - len(node.args.defaults)
         for cnt, d in enumerate(node.args.defaults, start=start):
             if not d:
                 continue
 
             self.visit(d)
-            defaults[node.args.args[cnt].arg] = self.decode_node(d)
+            defaults[pos_and_args[cnt].arg] = self.decode_node(d)
 
         start = len(node.args.kwonlyargs) - len(node.args.kw_defaults)
         for cnt, d in enumerate(node.args.kw_defaults, start=start):
@@ -241,17 +245,20 @@ class PreProcessor(ProcessingBase):
                 if isinstance(decorator, ast.Name) and decorator.id == utils.constants.STATIC_METHOD:
                     is_static_method = True
 
-        if current_def.get_type() == utils.constants.CLS_DEF and not is_static_method and node.args.args:
-            arg_ns = utils.join_ns(fn_def.get_ns(), node.args.args[0].arg)
+        # --- CORREÇÃO: Criar lista combinada e evitar modificar o AST original ---
+        pos_and_args = getattr(node.args, 'posonlyargs', []) + node.args.args
+
+        if current_def.get_type() == utils.constants.CLS_DEF and not is_static_method and pos_and_args:
+            arg_ns = utils.join_ns(fn_def.get_ns(), pos_and_args[0].arg)
             arg_def = self.def_manager.get(arg_ns)
             if not arg_def:
                 arg_def = self.def_manager.create(arg_ns, utils.constants.NAME_DEF)
             arg_def.get_name_pointer().add(current_def.get_ns())
 
             self.scope_manager.handle_assign(fn_def.get_ns(), arg_def.get_name(), arg_def)
-            node.args.args = node.args.args[1:]
+            pos_and_args = pos_and_args[1:] # Ignora o 'self' na iteração abaixo
 
-        for pos, arg in enumerate(node.args.args):
+        for pos, arg in enumerate(pos_and_args):
             arg_ns = utils.join_ns(fn_def.get_ns(), arg.arg)
             name_pointer.add_pos_arg(pos, arg.arg, arg_ns)
             defs_to_create.append(arg_ns)

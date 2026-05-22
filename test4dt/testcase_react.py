@@ -31,24 +31,31 @@ class TestManager:
         Recebe código do Agente, cria o ficheiro e valida.
         Retorna: (sucesso: bool, mensagem_erro: str)
         """
-        # 1. Definir o caminho do ficheiro
+        # --- 1. Sanitização Robusta do Nome do Cenário ---
+        # Valida se é None, vazio ou de um tipo não esperado
+        if not scenario_name or not isinstance(scenario_name, str):
+            scenario_name = f"auto_scenario_{len(self.testcases) + 1}"
+            
         clean_name = "".join(c for c in scenario_name if c.isalnum() or c == '_')
+        
+        # Failsafe: se a string original só tivesse caracteres especiais, clean_name ficaria vazio
+        if not clean_name:
+            clean_name = f"fallback_scenario_{len(self.testcases) + 1}"
+
+        # 2. Definir o caminho do ficheiro
         base_path = self.get_test_path()
         
-        # --- A CORREÇÃO: Evitar o bug das pastas com ".py" no nome ---
+        # Evitar o bug das pastas com ".py" no nome
         if base_path.endswith(".py"):
             test_path = base_path[:-3] + f"_{clean_name}.py"
         else:
             test_path = base_path + f"_{clean_name}.py"
     
 
-        # 2. Criar o objeto Testcase e Gravar
+        # 3. Criar o objeto Testcase e Gravar
         testcase = Testcase(self, self.func, test_path, code_content)
         
-        # LOG: Regista que vamos executar
-        # log("EXECUTOR", f"A validar ficheiro: {os.path.basename(test_path)}")
-
-        # 3. Validar
+        # 4. Validar
         success, error_msg = await testcase.run_react_check()
 
         if success:
@@ -102,6 +109,13 @@ class TestManager:
             if len(self.coverage.missing_lines) == 0:
                 return
         test_path = self.get_test_path()
+
+        if not self.func.file.project.code_changed and os.path.exists(test_path):
+            print(f"[SKIP] Teste para '{self.func.func_name}' já existe, a saltar...")
+            self.testcases.append(Testcase.load_existing(self, self.func, test_path))
+            self.count += 1
+            return
+
         await self.func.judge_params()
         if self.get_first_testcase() != "" and self.coverage is not None:
             code = await self.generate_test_case_evol()
@@ -314,6 +328,16 @@ class Testcase:
         self.error_message = ""
         self.set_code(code)
 
+    @classmethod
+    def load_existing(cls, test_manager, func, test_path: str):
+        """Referencia um ficheiro de teste já existente sem o sobrescrever."""
+        instance = cls.__new__(cls)
+        instance.test_manager = test_manager
+        instance.test_path = test_path
+        instance.func = func
+        instance.error_message = ""
+        return instance
+
     # def delete(self):
     #     try:
     #         os.remove(self.test_path)
@@ -321,13 +345,19 @@ class Testcase:
     #         return
         
     def delete(self):
+        # --- ALTERAÇÃO AQUI: Tornar a pasta de quarentena dinâmica ---
+        safe_model = os.environ.get('SAFE_MODEL', '')
+        folder_name = f"test_quarantine_{safe_model}" if safe_model else "test_quarantine"
+        
         # Define a quarantine directory
-        quarantine_dir = os.path.join(self.func.file.root_dir, "test_quarantine")
+        quarantine_dir = os.path.join(self.func.file.root_dir, folder_name)
         os.makedirs(quarantine_dir, exist_ok=True)
+        # -------------------------------------------------------------
 
         # Create a new filename for the quarantined test
-        filename = os.path.basename(self.test_path)
-        quarantine_path = os.path.join(quarantine_dir, filename)
+        original_filename = os.path.basename(self.test_path)
+        safe_filename = original_filename.replace("test_", "quarantined_")
+        quarantine_path = os.path.join(quarantine_dir, safe_filename)
 
         try:
             # 1. Read the current code
@@ -489,11 +519,16 @@ class Testcase:
         current_pp = env.get('PYTHONPATH', '')
         env['PYTHONPATH'] = f"{root_dir}:{current_pp}" if current_pp else root_dir
 
+        # --- ALTERAÇÃO AQUI: Ficheiro de report único por modelo ---
+        safe_model = os.environ.get('SAFE_MODEL', '')
+        report_name = f"pytest_report_{safe_model}.json" if safe_model else "pytest_report.json"
+        # -----------------------------------------------------------
+
         try:
-            # Executar pytest passando o env
+            # Executar pytest passando o env e o novo report_name
             result = subprocess.run(
                 [os.getenv('USER_PYTHON_PATH', 'python'), '-m', 'pytest', self.test_path, 
-                '--json-report', '--json-report-file=pytest_report.json'],
+                '--json-report', f'--json-report-file={report_name}'],
                 capture_output=True, text=True, timeout=30, env=env 
             )
         except subprocess.TimeoutExpired:
@@ -505,9 +540,9 @@ class Testcase:
         if result.returncode == 0:
             return False # Sucesso
 
-        # Tentar ler o report JSON
+        # Tentar ler o report JSON correto
         try:
-            with open('pytest_report.json', 'r') as f:
+            with open(report_name, 'r') as f:
                 pytest_report = json.load(f)
             tests = pytest_report.get('tests', [])
             for test in tests:

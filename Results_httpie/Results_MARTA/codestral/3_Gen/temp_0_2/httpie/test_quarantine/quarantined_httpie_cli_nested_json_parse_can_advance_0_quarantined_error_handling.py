@@ -1,0 +1,26 @@
+
+import pytest
+from unittest.mock import patch
+from httpie.cli.nested_json.parse import can_advance
+
+@pytest.mark.parametrize("cursor, source, expected", [
+    (0, "source_code", False),  # Test case where cursor is at the start and source length is greater than 0
+    (5, "source_code", True),   # Test case where cursor is within the bounds of the source
+    (-1, "source_code", False), # Test case where cursor is before the start of the source
+    (len("source_code"), "source_code", True),  # Test case where cursor is at the end of the source
+])
+@patch('httpie.cli.nested_json.parse.can_advance', return_value=False)
+def test_error_handling(mock_can_advance, cursor, source, expected):
+    with patch('httpie.cli.nested_json.parse.cursor', new=cursor):
+        with patch('httpie.cli.nested_json.parse.source', new=source):
+            assert can_advance() == expected
+
+"""
+[TEST4PY QUARANTINE REPORT]
+Reason: Test failed assertions or crashed.
+Error Log:
+************* Module Test4DT_tests_codestral.test_httpie_cli_nested_json_parse_can_advance_0_test_error_handling
+httpie/Test4DT_tests_codestral/test_httpie_cli_nested_json_parse_can_advance_0_test_error_handling.py:4:0: E0611: No name 'can_advance' in module 'httpie.cli.nested_json.parse' (no-name-in-module)
+
+
+"""

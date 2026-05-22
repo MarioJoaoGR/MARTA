@@ -1,0 +1,19 @@
+
+import pytest
+from pathlib import Path
+import sysconfig
+from unittest.mock import patch, MagicMock
+
+def test_invalid_input():
+    with pytest.raises(TypeError):
+        as_site("invalid_path", invalid_var=True)
+
+"""
+[TEST4PY QUARANTINE REPORT]
+Reason: Test failed assertions or crashed.
+Error Log:
+************* Module Test4DT_tests_qwen2.5-coder_32b.test_httpie_utils_as_site_8_test_invalid_input
+httpie/Test4DT_tests_qwen2.5-coder_32b/test_httpie_utils_as_site_8_test_invalid_input.py:9:8: E0602: Undefined variable 'as_site' (undefined-variable)
+
+
+"""

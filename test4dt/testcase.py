@@ -63,6 +63,13 @@ class TestManager:
             if len(self.coverage.missing_lines) == 0:
                 return
         test_path = self.get_test_path()
+
+        if not self.func.file.project.code_changed and os.path.exists(test_path):
+            print(f"[SKIP] Teste para '{self.func.func_name}' já existe, a saltar...")
+            self.testcases.append(Testcase.load_existing(self, self.func, test_path))
+            self.count += 1
+            return
+
         await self.func.judge_params()
         if self.get_first_testcase() != "" and self.coverage is not None:
             code = await self.generate_test_case_evol()
@@ -274,6 +281,16 @@ class Testcase:
         self.func = func
         self.error_message = ""
         self.set_code(code)
+
+    @classmethod
+    def load_existing(cls, test_manager, func, test_path: str):
+        """Referencia um ficheiro de teste já existente sem o sobrescrever."""
+        instance = cls.__new__(cls)
+        instance.test_manager = test_manager
+        instance.test_path = test_path
+        instance.func = func
+        instance.error_message = ""
+        return instance
 
     # def delete(self):
     #     try:

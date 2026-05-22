@@ -28,6 +28,7 @@ class ProjectMessage:
         self.dir_message = DictionaryMessage(self.root_dir, self, None)
         self.coverage_summary = None
         self.coverage = None
+        self.code_changed = True
 
 
     async def init(self):
@@ -35,10 +36,26 @@ class ProjectMessage:
         for file in files:
             self.file_messages.append(FileMessage(self.root_dir, file, self))
 
-        cg = CallGraphGenerator(files, self.root_dir, -1, 'call-graph')
-        cg.analyze()
-        formatter = formats.Simple(cg)
-        output = formatter.generate()
+        source_hash = compute_source_hash(self.root_dir, self.source_dir)
+        cached = load_cg_cache(self.root_dir, self.source_dir, source_hash)
+
+        if cached is not None:
+            print("🚀 [CACHE HIT] Grafo carregado com sucesso. A saltar análise estática.")
+            self.code_changed = False
+            output = cached["cg_output"]
+            cg = CachedCG(
+                CachedImportManager(cached["imports"]),
+                CachedClassManager(cached["class_mro"])
+            )
+        else:
+            print("⚠️ [CACHE MISS] Nenhuma cache válida encontrada. A iniciar análise estática (PyCG)...")
+            cg = CallGraphGenerator(files, self.root_dir, -1, 'call-graph')
+            cg.analyze()
+            formatter = formats.Simple(cg)
+            output = formatter.generate()
+            save_cg_cache(self.root_dir, self.source_dir, source_hash,
+                          output, cg.class_manager, cg.import_manager)
+
         self.analyze_function_members()
         self.complete_file_imports(cg)
         self.parseExtend(cg.class_manager.get_classes())

@@ -1,0 +1,22 @@
+
+import subprocess
+from typing import List
+from unittest.mock import patch
+from httpie.manager.compat import PipError, _run_pip_subprocess
+
+def test_valid_inputs():
+    with patch('httpie.manager.compat._run_pip_subprocess') as mock_run:
+        mock_run.return_value = b'output'
+        
+        result = _run_pip_subprocess(['pip', '--isolated'], ['install', 'somepackage'])
+        
+        assert isinstance(result, bytes)
+        assert mock_run.call_args[0][0] == ['pip', '--isolated']
+        assert mock_run.call_args[0][1] == ['install', 'somepackage']
+
+"""
+[TEST4PY QUARANTINE REPORT]
+Reason: Test failed assertions or crashed.
+Error Log:
+time exceeded
+"""

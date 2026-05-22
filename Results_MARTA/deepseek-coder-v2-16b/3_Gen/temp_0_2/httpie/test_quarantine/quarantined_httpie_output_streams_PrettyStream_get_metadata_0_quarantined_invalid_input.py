@@ -1,0 +1,33 @@
+
+import pytest
+from unittest.mock import patch, MagicMock
+from httpie.output.streams import PrettyStream
+from conversion_class import Conversion
+from formatting_class import Formatting
+
+@pytest.fixture
+def setup_pretty_stream():
+    conversion = Conversion()
+    formatting = Formatting()
+    stream = PrettyStream(conversion, formatting)
+    return stream
+
+def test_get_metadata_invalid_input(setup_pretty_stream):
+    with patch('httpie.output.streams.PrettyStream.formatting', new_callable=MagicMock):
+        with patch('httpie.output.streams.PrettyStream.msg', new_callable=MagicMock):
+            with patch('httpie.output.streams.PrettyStream.output_encoding', new_callable=MagicMock):
+                stream = setup_pretty_stream
+                # Assuming msg and formatting are properly mocked to return appropriate values for testing
+                result = stream.get_metadata()
+                assert result is not None  # Add more specific assertions based on expected behavior
+
+"""
+[TEST4PY QUARANTINE REPORT]
+Reason: Test failed assertions or crashed.
+Error Log:
+************* Module Test4DT_tests_deepseek-coder-v2_16b.test_httpie_output_streams_PrettyStream_get_metadata_0_test_invalid_input
+httpie/Test4DT_tests_deepseek-coder-v2_16b/test_httpie_output_streams_PrettyStream_get_metadata_0_test_invalid_input.py:5:0: E0401: Unable to import 'conversion_class' (import-error)
+httpie/Test4DT_tests_deepseek-coder-v2_16b/test_httpie_output_streams_PrettyStream_get_metadata_0_test_invalid_input.py:6:0: E0401: Unable to import 'formatting_class' (import-error)
+
+
+"""

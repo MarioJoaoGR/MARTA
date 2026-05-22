@@ -1,3 +1,4 @@
+import glob
 import os
 from _ast import arg
 import asyncio
@@ -7,13 +8,12 @@ import re
 from tqdm import tqdm
 from test4dt.coverage_message import MyCoverage, CoverageMessage
 from test4dt.embedding import embedder, find_topK_message, function_database
-import astor
 
 from test4dt.pycg.pycg import CallGraphGenerator
 from test4dt.pycg import formats
 from typing import List
 from test4dt.gptapi import model
-from test4dt.testcase_react import TestManager
+from test4dt.testcase_react import TestManager, Testcase
 from test4dt.utils import *
 from test4dt.recorder import recoder
 
@@ -25,12 +25,21 @@ class ProjectMessage:
     def __init__(self, root_dir: str, source_dir: str, dir_type='Test4DT_tests'):
         self.root_dir: str = root_dir
         self.source_dir = source_dir
-        self.dir_type: str = dir_type
+        
+        # --- ALTERAÇÃO AQUI: Tornar a pasta de testes dinâmica ---
+        safe_model = os.environ.get('SAFE_MODEL', '')
+        if safe_model:
+            self.dir_type: str = f"{dir_type}_{safe_model}"
+        else:
+            self.dir_type: str = dir_type
+        # ---------------------------------------------------------
+        
         self.file_messages: List[FileMessage] = []
         self.cg_edges: List[CGEdge] = []
         self.dir_message = DictionaryMessage(self.root_dir, self, None)
         self.coverage_summary = None
         self.coverage = None
+        self.code_changed = True
 
 
     async def init(self):
@@ -38,10 +47,26 @@ class ProjectMessage:
         for file in files:
             self.file_messages.append(FileMessage(self.root_dir, file, self))
 
-        cg = CallGraphGenerator(files, self.root_dir, -1, 'call-graph')
-        cg.analyze()
-        formatter = formats.Simple(cg)
-        output = formatter.generate()
+        source_hash = compute_source_hash(self.root_dir, self.source_dir)
+        cached = load_cg_cache(self.root_dir, self.source_dir, source_hash)
+
+        if cached is not None:
+            print("🚀 [CACHE HIT] Grafo carregado com sucesso. A saltar análise estática.")
+            self.code_changed = False
+            output = cached["cg_output"]
+            cg = CachedCG(
+                CachedImportManager(cached["imports"]),
+                CachedClassManager(cached["class_mro"])
+            )
+        else:
+            print("⚠️ [CACHE MISS] Nenhuma cache válida encontrada. A iniciar análise estática (PyCG)...")
+            cg = CallGraphGenerator(files, self.root_dir, -1, 'call-graph')
+            cg.analyze()
+            formatter = formats.Simple(cg)
+            output = formatter.generate()
+            save_cg_cache(self.root_dir, self.source_dir, source_hash,
+                          output, cg.class_manager, cg.import_manager)
+
         self.analyze_function_members()
         self.complete_file_imports(cg)
         self.parseExtend(cg.class_manager.get_classes())
@@ -414,7 +439,7 @@ class ClassMessage:
         ]
         class_stub = f"class {class_def.name}:\n"
         body_source = "\n".join(
-            "    " + astor.to_source(stmt).strip().replace("\n", "\n    ") for stmt in non_method_statements)
+            "    " + ast.unparse(stmt).strip().replace("\n", "\n    ") for stmt in non_method_statements)
         return class_stub + body_source
 
     def get_code_with_summary(self):
@@ -520,7 +545,7 @@ class FunctionMessage:
         self.docstring = ast.get_docstring(node, clean=False)
         self.start_line = node.lineno
         self.end_line = max(child.lineno for child in ast.walk(node) if hasattr(child, 'lineno'))
-        self.standard_code = astor.to_source(node)
+        self.standard_code = ast.unparse(node)
         self.code = get_origin_code(file_path, self.start_line, self.end_line)
         self.module_name = f"{module_name}.{self.func_name}"
         self.uses: List[CGEdge] = []
@@ -787,16 +812,27 @@ params:
     # EM test4dt/message_react.py - DENTRO DE FunctionMessage
 
     async def generate_react_flow(self):
-        # LOG: Início da análise
-        # log("PLANNER", f"A analisar função: {self.func_name}")
-
-        # Vai buscar as linhas em falta (se já tiverem sido calculadas numa iteração anterior)
         coverage_info = "First pass: Try to achieve maximum coverage."
         if hasattr(self.test_manager, 'coverage') and self.test_manager.coverage is not None:
             if len(self.test_manager.coverage.missing_lines) > 0:
                 coverage_info = f"MISSING LINES TO COVER: {self.test_manager.coverage.format_missing_lines()}"
             else:
-                return # Se já tem 100%, nem vale a pena chamar o Agente!
+                return
+
+        # Idempotência: no modo ReAct cada ronda pode gerar vários ficheiros
+        # com sufixo de cenário (_0_test_valid.py, _0_test_error.py, …).
+        # Usamos glob para detetar se já existe algum ficheiro para o índice atual.
+        if not self.file.project.code_changed:
+            base_path = self.test_manager.get_test_path()
+            base_prefix = base_path[:-3] if base_path.endswith('.py') else base_path
+            existing = sorted(glob.glob(f"{base_prefix}_*.py"))
+            if existing:
+                print(f"[SKIP] Testes para '{self.func_name}' já existem nesta ronda, a saltar...")
+                for filepath in existing:
+                    self.test_manager.testcases.append(
+                        Testcase.load_existing(self.test_manager, self, filepath)
+                    )
+                return
 
         # 1. Agrega o Contexto Rico
         context_block = f"""
@@ -1046,3 +1082,4 @@ Determine the classification of the parameter named {self.name} based on its usa
 {self.code}
 """
         return not (await model.aask(sys_prompt, user_prompt)).__contains__('<1>')
+ 
