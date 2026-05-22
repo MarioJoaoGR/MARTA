@@ -4,9 +4,9 @@ import traceback
 from dotenv import load_dotenv
 import argparse
 import os
-from test4dt.config import config
-from test4dt.react_logger import clear_log, log
-from test4dt.recorder import recoder
+from marta.config import config
+from marta.react_logger import clear_log, log
+from marta.recorder import recoder
 
 def main():
     # --- CONFIGURAÇÃO DE ARGUMENTOS ---
@@ -27,11 +27,7 @@ def main():
     project_name = base_dir.split(os.path.sep)[-1]
 
     # --- O DESVIO REACT ---
-    try:
-        from test4dt.message_react import ProjectMessage
-    except ImportError:
-        print("⚠️ AVISO: message_react.py não encontrado. A usar message.py original.")
-        from test4dt.message import ProjectMessage
+    from marta.message_react import ProjectMessage
 
     # --- INÍCIO DO BLOCO DE SEGURANÇA PARA O DEUCALION ---
     try:

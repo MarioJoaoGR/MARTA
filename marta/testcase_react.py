@@ -5,12 +5,12 @@ import os
 import subprocess
 from typing import List
 
-from test4dt.embedding import function_database
-from test4dt.gptapi import model
-from test4dt.recorder import recoder
-from test4dt.utils import get_code
+from marta.embedding import function_database
+from marta.gptapi import model
+from marta.recorder import recoder
+from marta.utils import get_code
 
-from test4dt.react_logger import log
+from marta.react_logger import log
 
 
 class TestManager:
