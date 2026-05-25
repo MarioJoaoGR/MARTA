@@ -50,6 +50,34 @@ def load_cg_cache(root_dir: str, source_dir: str, current_hash: str):
         return None
 
 
+def save_analysis_cache(root_dir: str, source_dir: str, source_hash: str,
+                        functions: dict, classes: dict) -> None:
+    """Write per-function/per-class LLM analysis results to disk."""
+    cache_data = {
+        "source_hash": source_hash,
+        "source_dir": source_dir,
+        "functions": functions,
+        "classes": classes,
+    }
+    with open(os.path.join(root_dir, 'analysis_cache.json'), 'w') as f:
+        json.dump(cache_data, f, indent=2)
+
+
+def load_analysis_cache(root_dir: str, source_dir: str, current_hash: str):
+    """Return cached analysis dict if hash matches, else None."""
+    path = os.path.join(root_dir, 'analysis_cache.json')
+    if not os.path.exists(path):
+        return None
+    try:
+        with open(path, 'r') as f:
+            data = json.load(f)
+        if data.get("source_hash") != current_hash or data.get("source_dir") != source_dir:
+            return None
+        return data
+    except Exception:
+        return None
+
+
 class CachedClassNode:
     def __init__(self, mro):
         self.mro = mro

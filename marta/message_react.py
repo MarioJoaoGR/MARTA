@@ -74,10 +74,20 @@ class ProjectMessage:
         self.parseCG(output)
 
         await self.dir_message.init()
-        await self.analyze_functions()
-        await self.get_total_what_todo()
-        await self.generate_summary()
-        await self.analyze_each_class()
+
+        analysis = load_analysis_cache(self.root_dir, self.source_dir, source_hash)
+        if analysis is not None:
+            print("🚀 [CACHE HIT] Análise de funções/classes carregada. A saltar análise LLM.")
+            self.apply_analysis_cache(analysis)
+        else:
+            print("⚠️ [CACHE MISS] Sem cache de análise. A analisar funções e classes (LLM)...")
+            await self.analyze_functions()
+            await self.get_total_what_todo()
+            await self.generate_summary()
+            await self.analyze_each_class()
+            save_analysis_cache(self.root_dir, self.source_dir, source_hash,
+                                self.collect_function_analysis(), self.collect_class_analysis())
+
         self.embedding_class_summary()
         function_database.init(self)
         self.init_test_path(self.dir_type)
@@ -242,6 +252,46 @@ class ProjectMessage:
             num += len(file_message.functions)
         return num
 
+
+    def collect_function_analysis(self) -> dict:
+        """Snapshot LLM-derived per-function fields, keyed by module_name."""
+        functions = {}
+        for file_message in self.file_messages:
+            for function in file_message.functions:
+                functions[function.module_name] = {
+                    "done_what": function.done_what,
+                    "what_todo": function.what_todo,
+                    "summary": function.summary,
+                }
+        return functions
+
+    def collect_class_analysis(self) -> dict:
+        """Snapshot LLM-derived per-class fields, keyed by full_name."""
+        classes = {}
+        for file_message in self.file_messages:
+            for class_message in file_message.classes:
+                classes[class_message.full_name] = {
+                    "summary": class_message.summary,
+                    "how_to_use": class_message.how_to_use,
+                }
+        return classes
+
+    def apply_analysis_cache(self, analysis: dict) -> None:
+        """Restore cached LLM analysis into function/class objects."""
+        functions = analysis.get("functions", {})
+        classes = analysis.get("classes", {})
+        for file_message in self.file_messages:
+            for function in file_message.functions:
+                cached = functions.get(function.module_name)
+                if cached is not None:
+                    function.done_what = cached.get("done_what")
+                    function.what_todo = cached.get("what_todo")
+                    function.summary = cached.get("summary")
+            for class_message in file_message.classes:
+                cached = classes.get(class_message.full_name)
+                if cached is not None:
+                    class_message.summary = cached.get("summary")
+                    class_message.how_to_use = cached.get("how_to_use")
 
     async def analyze_functions(self):
         num = 0
