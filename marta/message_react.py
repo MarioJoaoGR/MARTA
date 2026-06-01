@@ -75,21 +75,39 @@ class ProjectMessage:
 
         await self.dir_message.init()
 
-        analysis = load_analysis_cache(self.root_dir, self.source_dir, source_hash)
+        safe_model = os.environ.get('SAFE_MODEL', '')
+        analysis = load_analysis_cache(self.root_dir, self.source_dir, source_hash, safe_model)
+        needs_save = False
         if analysis is not None:
-            print("🚀 [CACHE HIT] Análise de funções/classes carregada. A saltar análise LLM.")
+            print(f"🚀 [CACHE HIT] Análise de funções/classes carregada (modelo={safe_model or 'default'}). A saltar análise LLM.")
             self.apply_analysis_cache(analysis)
         else:
-            print("⚠️ [CACHE MISS] Sem cache de análise. A analisar funções e classes (LLM)...")
+            print(f"⚠️ [CACHE MISS] Sem cache de análise para modelo={safe_model or 'default'}. A analisar funções e classes (LLM)...")
             await self.analyze_functions()
             await self.get_total_what_todo()
             await self.generate_summary()
             await self.analyze_each_class()
-            save_analysis_cache(self.root_dir, self.source_dir, source_hash,
-                                self.collect_function_analysis(), self.collect_class_analysis())
+            needs_save = True
 
         self.embedding_class_summary()
         function_database.init(self)
+
+        # Inferência de tipos por parâmetro (RAG sobre as embeddings de classes).
+        # Backfill em caches antigas que não tenham self.judge persistido.
+        needs_judge = any(
+            f.judge is None and len(f.params) > 0
+            for fm in self.file_messages for f in fm.functions
+        )
+        if needs_judge:
+            print("🔄 [PARAM TYPES] A inferir tipos de parâmetros via RAG...")
+            await self.analyze_param_types()
+            needs_save = True
+
+        if needs_save:
+            save_analysis_cache(self.root_dir, self.source_dir, source_hash,
+                                self.collect_function_analysis(), self.collect_class_analysis(),
+                                safe_model)
+
         self.init_test_path(self.dir_type)
         self.coverage = MyCoverage(self.root_dir, self.dir_type, self.source_dir)
 
@@ -262,6 +280,7 @@ class ProjectMessage:
                     "done_what": function.done_what,
                     "what_todo": function.what_todo,
                     "summary": function.summary,
+                    "judge": function.judge,
                 }
         return functions
 
@@ -287,6 +306,7 @@ class ProjectMessage:
                     function.done_what = cached.get("done_what")
                     function.what_todo = cached.get("what_todo")
                     function.summary = cached.get("summary")
+                    function.judge = cached.get("judge")
             for class_message in file_message.classes:
                 cached = classes.get(class_message.full_name)
                 if cached is not None:
@@ -355,6 +375,23 @@ class ProjectMessage:
         for file_message in self.file_messages:
             for class_message in file_message.classes:
                 class_message.vector = embedder.embed_query(class_message.summary)
+
+
+    async def analyze_param_types(self):
+        """Eagerly populate self.judge for every function via RAG-driven
+        parameter type inference. Idempotent: skips functions already judged
+        or without parameters. Runs sequentially to play nice with the LLM
+        rate limiter."""
+        targets = [
+            function
+            for file_message in self.file_messages
+            for function in file_message.functions
+            if function.judge is None and len(function.params) > 0
+        ]
+        with tqdm(total=len(targets), desc="Infer parameter types (RAG)") as pbar:
+            for function in targets:
+                await function.judge_params()
+                pbar.update(1)
 
 
 
@@ -884,22 +921,41 @@ params:
                     )
                 return
 
+        # self.judge é populado eagerly em ProjectMessage.init via analyze_param_types
+        # (RAG sobre embeddings de classes). Aqui só lê.
+
+        # RAG ao nível de função: procura funções semanticamente parecidas
+        # no projeto e fornece-as ao Planner como inspiração de cenários.
+        related_block = ""
+        rag_query = self.summary or self.done_what
+        if rag_query:
+            candidates = function_database.query(rag_query, 4)
+            related = [f for f in candidates if f.module_name != self.module_name][:3]
+            if related:
+                related_lines = ["RELATED FUNCTIONS IN THIS PROJECT (for inspiration):"]
+                for rf in related:
+                    snippet = (rf.done_what or rf.summary or "no summary")
+                    snippet = " ".join(snippet.split())[:200]
+                    related_lines.append(f"        - {rf.func_name}: {snippet}")
+                related_block = "\n        " + "\n        ".join(related_lines)
+
         # 1. Agrega o Contexto Rico
         context_block = f"""
         Function Name: {self.func_name}
         Module: {self.file.mod_name}
-        
+
         SOURCE CODE:
         {self.get_source_code()}
-        
+
         INFERRED TYPES & USAGE:
         {self.judge if self.judge else "No type inference available."}
-        
+
         DOCSTRING SUMMARY:
         {self.done_what if self.done_what else "No summary available."}
 
         COVERAGE FEEDBACK:
         {coverage_info}
+        {related_block}
         """
 
         # ========================================================
@@ -962,13 +1018,37 @@ params:
             last_error = None
             
             for attempt in range(max_attempts):
-                
+
                 # Constrói o Prompt
                 if attempt == 0:
                     instruction = f"Write a SINGLE pytest function for: {scn_name}\nDESC: {scenario.get('desc')}\nSETUP: {scenario.get('setup')}"
                 else:
                     # log("SELF-HEALING", f"Tentativa {attempt+1}. A corrigir erro anterior...")
-                    instruction = f"PREVIOUS CODE FAILED.\nERROR MESSAGE:\n{last_error}\nTASK: Rewrite the test case to fix this error.\nSCENARIO: {scn_name}"
+                    # RAG dirigido ao erro: vai buscar funções semanticamente parecidas
+                    # e (se existirem) um teste já validado dessa função como exemplo.
+                    similar_help = ""
+                    if last_error:
+                        candidates = function_database.query(last_error[:400], 3)
+                        similar = [f for f in candidates if f.module_name != self.module_name][:2]
+                        if similar:
+                            blocks = ["SIMILAR TESTED FUNCTIONS THAT MIGHT HELP:"]
+                            for sf in similar:
+                                summary_line = " ".join((sf.done_what or "no summary").split())[:200]
+                                blocks.append(f"- {sf.func_name}: {summary_line}")
+                                tcs = getattr(sf.test_manager, 'testcases', [])
+                                if tcs:
+                                    try:
+                                        with open(tcs[0].test_path, 'r', encoding='utf-8') as f:
+                                            example = f.read()[:400]
+                                        blocks.append(f"  Example passing test:\n  ```python\n{example}\n  ```")
+                                    except (FileNotFoundError, IOError, OSError):
+                                        pass
+                            similar_help = "\n\n" + "\n".join(blocks)
+                    instruction = (
+                        f"PREVIOUS CODE FAILED.\nERROR MESSAGE:\n{last_error}"
+                        f"{similar_help}\n"
+                        f"TASK: Rewrite the test case to fix this error.\nSCENARIO: {scn_name}"
+                    )
 
                 sys_prompt_dev = "You are a Pytest Expert. Write valid python code."
                 user_prompt_dev = f"""
