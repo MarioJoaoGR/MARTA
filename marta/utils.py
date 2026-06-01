@@ -50,22 +50,29 @@ def load_cg_cache(root_dir: str, source_dir: str, current_hash: str):
         return None
 
 
+def _analysis_cache_path(root_dir: str, model_suffix: str) -> str:
+    filename = f"analysis_cache_{model_suffix}.json" if model_suffix else "analysis_cache.json"
+    return os.path.join(root_dir, filename)
+
+
 def save_analysis_cache(root_dir: str, source_dir: str, source_hash: str,
-                        functions: dict, classes: dict) -> None:
-    """Write per-function/per-class LLM analysis results to disk."""
+                        functions: dict, classes: dict, model_suffix: str = "") -> None:
+    """Write per-function/per-class LLM analysis results to disk (per-model)."""
     cache_data = {
         "source_hash": source_hash,
         "source_dir": source_dir,
+        "model": model_suffix,
         "functions": functions,
         "classes": classes,
     }
-    with open(os.path.join(root_dir, 'analysis_cache.json'), 'w') as f:
+    with open(_analysis_cache_path(root_dir, model_suffix), 'w') as f:
         json.dump(cache_data, f, indent=2)
 
 
-def load_analysis_cache(root_dir: str, source_dir: str, current_hash: str):
+def load_analysis_cache(root_dir: str, source_dir: str, current_hash: str,
+                        model_suffix: str = ""):
     """Return cached analysis dict if hash matches, else None."""
-    path = os.path.join(root_dir, 'analysis_cache.json')
+    path = _analysis_cache_path(root_dir, model_suffix)
     if not os.path.exists(path):
         return None
     try:
