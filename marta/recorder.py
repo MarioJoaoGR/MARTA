@@ -17,12 +17,15 @@ class Recoder:
 
     def end(self, project_name):
         end_time = time.time()
-        if not os.path.exists('run_results'):
-            try:
-                os.mkdir('run_results')
-            except FileExistsError:
-                pass
-        with open('./run_results/'+project_name+'.json', 'w') as f:
+        # Se config.output_dir definido, escreve em {output_dir}/{project_name}/run_results/.
+        # Caso contrário, mantém comportamento legacy (./run_results/ relativo ao CWD).
+        base_dir = (
+            os.path.join(config.output_dir, project_name, 'run_results')
+            if config.output_dir
+            else 'run_results'
+        )
+        os.makedirs(base_dir, exist_ok=True)
+        with open(os.path.join(base_dir, project_name + '.json'), 'w') as f:
             json.dump({
                 'time': end_time - self.start_time,
                 'times': self.times,

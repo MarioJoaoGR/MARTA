@@ -8,7 +8,7 @@ from typing import List
 from marta.embedding import function_database
 from marta.gptapi import model
 from marta.recorder import recoder
-from marta.utils import get_code
+from marta.utils import get_code, get_output_root
 
 from marta.react_logger import log
 
@@ -95,7 +95,7 @@ class TestManager:
     
     def get_directory(self, dir_type):
         root_dir = self.func.file.root_dir
-        return root_dir + os.path.sep + dir_type
+        return get_output_root(root_dir) + os.path.sep + dir_type
 
     def init_test_single_path(self):
         if not os.path.exists(self.directory):
@@ -349,8 +349,9 @@ class Testcase:
         safe_model = os.environ.get('SAFE_MODEL', '')
         folder_name = f"test_quarantine_{safe_model}" if safe_model else "test_quarantine"
         
-        # Define a quarantine directory
-        quarantine_dir = os.path.join(self.func.file.root_dir, folder_name)
+        # Define a quarantine directory (vai para output_dir se definido,
+        # senão fica no source legacy)
+        quarantine_dir = os.path.join(get_output_root(self.func.file.root_dir), folder_name)
         os.makedirs(quarantine_dir, exist_ok=True)
         # -------------------------------------------------------------
 

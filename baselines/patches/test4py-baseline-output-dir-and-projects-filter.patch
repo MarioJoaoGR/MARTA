@@ -1,0 +1,197 @@
+diff --git a/test4dt/config.py b/test4dt/config.py
+index 0d3d50f..8163116 100644
+--- a/test4dt/config.py
++++ b/test4dt/config.py
+@@ -1,5 +1,9 @@
+ class Config:
+     need_extract_type: bool = False
+     run_benchmark: bool = False
++    # Se definido (via --output_dir), TODOS os outputs (Test4DT_tests, coverage,
++    # run_results) vão para {output_dir}/{project_name}/ em vez de poluírem
++    # o source. None = comportamento legacy.
++    output_dir: str = None
+ 
+ config = Config()
+\ No newline at end of file
+diff --git a/test4dt/message.py b/test4dt/message.py
+index 3d844b6..ad58994 100644
+--- a/test4dt/message.py
++++ b/test4dt/message.py
+@@ -15,6 +15,7 @@ from test4dt.gptapi import model
+ from test4dt.testcase import TestManager
+ from test4dt.utils import *
+ from test4dt.recorder import recoder
++from test4dt.config import config
+ 
+ 
+ 
+@@ -53,7 +54,11 @@ class ProjectMessage:
+         self.embedding_class_summary()
+         function_database.init(self)
+         self.init_test_path(self.dir_type)
+-        self.coverage = MyCoverage(self.root_dir, self.dir_type, self.source_dir)
++        self.coverage = MyCoverage(
++            self.root_dir,
++            os.path.join(get_output_root(self.root_dir), self.dir_type),
++            self.source_dir,
++        )
+ 
+ 
+     def generate_once(self):
+@@ -99,14 +104,31 @@ class ProjectMessage:
+         return covered_line, uncovered_line, covered_branch, uncovered_branch
+ 
+ 
++    def _targeted_file_messages(self):
++        """Return file_messages filtered by projects.json when run_benchmark=True.
++        Returns the full list if filtering doesn't apply."""
++        if not config.run_benchmark:
++            return self.file_messages
++        try:
++            with open('projects.json', 'r') as f:
++                projects = json.load(f)
++        except FileNotFoundError:
++            return self.file_messages
++        project = self.root_dir.split(os.path.sep)[-1]
++        if project not in projects:
++            return self.file_messages
++        targets = set(projects[project])
++        return [fm for fm in self.file_messages if fm.mod_name in targets]
++
+     async def generate_test_case(self):
++        targeted = self._targeted_file_messages()
+         num = 0
+-        for file_message in self.file_messages:
++        for file_message in targeted:
+             for _ in file_message.functions:
+                     num += 1
+         with tqdm(total=num, desc=f"Generate test cases") as pbar:
+             tasks = []
+-            for file_message in self.file_messages:
++            for file_message in targeted:
+                 for function in file_message.functions:
+                     tasks.append(self.fetch_data(function, pbar))
+             await asyncio.gather(*tasks)
+@@ -118,13 +140,14 @@ class ProjectMessage:
+ 
+ 
+     def init_test_path(self, dir_type):
++        out_root = get_output_root(self.root_dir)
+         conf_content = f"import sys\n\ndef pytest_configure(config):\n    sys.path.append(\'{self.root_dir}\')"
+-        test_dir = self.root_dir + os.path.sep + dir_type
++        test_dir = out_root + os.path.sep + dir_type
+         if not os.path.exists(test_dir):
+             os.makedirs(test_dir, exist_ok=True)
+-            with open(self.root_dir + os.path.sep + dir_type + os.path.sep + '__init__.py', 'w'):
++            with open(out_root + os.path.sep + dir_type + os.path.sep + '__init__.py', 'w'):
+                 pass
+-            with open(self.root_dir + os.path.sep + dir_type + os.path.sep + 'conftest.py', 'w') as f:
++            with open(out_root + os.path.sep + dir_type + os.path.sep + 'conftest.py', 'w') as f:
+                 f.write(conf_content)
+         for file_message in self.file_messages:
+             for function in file_message.functions:
+diff --git a/test4dt/recorder.py b/test4dt/recorder.py
+index ec019af..1663673 100644
+--- a/test4dt/recorder.py
++++ b/test4dt/recorder.py
+@@ -17,12 +17,15 @@ class Recoder:
+ 
+     def end(self, project_name):
+         end_time = time.time()
+-        if not os.path.exists('run_results'):
+-            try:
+-                os.mkdir('run_results')
+-            except FileExistsError:
+-                pass
+-        with open('./run_results/'+project_name+'.json', 'w') as f:
++        # Se config.output_dir definido, escreve em {output_dir}/{project_name}/run_results/.
++        # Caso contrário, mantém comportamento legacy (./run_results/ no CWD).
++        base_dir = (
++            os.path.join(config.output_dir, project_name, 'run_results')
++            if config.output_dir
++            else 'run_results'
++        )
++        os.makedirs(base_dir, exist_ok=True)
++        with open(os.path.join(base_dir, project_name + '.json'), 'w') as f:
+             json.dump({
+                 'time': end_time - self.start_time,
+                 'times': self.times,
+diff --git a/test4dt/start.py b/test4dt/start.py
+index 0fc7e8b..e98eb7b 100644
+--- a/test4dt/start.py
++++ b/test4dt/start.py
+@@ -11,6 +11,15 @@ parser.add_argument("--source_path", type=str, help="Source path", required=True
+ parser.add_argument("--num", type=int, help="The number of rounds for which you want to generate test cases.", default=3)
+ parser.add_argument("--type", type=bool, help="Output the extract type of function paras", default=False)
+ parser.add_argument("--run_benchmark", type=bool, help="Project under test is in projects.json", default=True)
++parser.add_argument(
++    "--output_dir",
++    type=str,
++    default=None,
++    help=(
++        "Pasta-base onde escrever TODOS os outputs (Test4DT_tests, coverage, "
++        "run_results). Se omitida, escreve dentro do source do projeto (legacy)."
++    ),
++)
+ 
+ load_dotenv()
+ args = parser.parse_args()
+@@ -18,6 +27,9 @@ base_dir: str = args.project_path
+ source_dir: str = args.source_path
+ config.need_extract_type = args.type
+ config.run_benchmark = args.run_benchmark
++if args.output_dir:
++    config.output_dir = os.path.abspath(args.output_dir)
++    os.makedirs(config.output_dir, exist_ok=True)
+ 
+ project_name = base_dir.split(os.path.sep)[-1]
+ 
+diff --git a/test4dt/testcase.py b/test4dt/testcase.py
+index f7db904..1578ad9 100644
+--- a/test4dt/testcase.py
++++ b/test4dt/testcase.py
+@@ -8,7 +8,7 @@ from typing import List
+ from test4dt.embedding import function_database
+ from test4dt.gptapi import model
+ from test4dt.recorder import recoder
+-from test4dt.utils import get_code
++from test4dt.utils import get_code, get_output_root
+ 
+ 
+ class TestManager:
+@@ -29,7 +29,7 @@ class TestManager:
+ 
+     def get_directory(self, dir_type):
+         root_dir = self.func.file.root_dir
+-        return root_dir + os.path.sep + dir_type
++        return get_output_root(root_dir) + os.path.sep + dir_type
+ 
+     def init_test_single_path(self):
+         if not os.path.exists(self.directory):
+diff --git a/test4dt/utils.py b/test4dt/utils.py
+index 1748380..787cf08 100644
+--- a/test4dt/utils.py
++++ b/test4dt/utils.py
+@@ -2,6 +2,22 @@ import ast
+ import os
+ 
+ 
++def get_output_root(root_dir: str) -> str:
++    """Devolve a pasta-base onde devem ser escritos os outputs.
++
++    Se ``config.output_dir`` estiver definido (via --output_dir), devolve
++    ``{config.output_dir}/{project_name}/``. Caso contrário devolve ``root_dir``
++    (legacy: escreve dentro do source do projeto).
++    """
++    from test4dt.config import config
++    if config.output_dir:
++        project_name = os.path.basename(root_dir.rstrip(os.path.sep))
++        path = os.path.join(config.output_dir, project_name)
++        os.makedirs(path, exist_ok=True)
++        return path
++    return root_dir
++
++
+ def get_code(code: str):
+     if len(code.split('```')) < 3:
+         return code

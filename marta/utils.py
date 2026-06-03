@@ -4,6 +4,24 @@ import json
 import os
 
 
+def get_output_root(root_dir: str) -> str:
+    """Devolve a pasta-base onde devem ser escritos os outputs (Test4DT_tests,
+    test_quarantine, caches, coverage.json) para um dado projeto.
+
+    Se ``config.output_dir`` estiver definido (via --output_dir), devolve
+    ``{config.output_dir}/{project_name}/`` e cria a pasta se não existir.
+    Caso contrário devolve ``root_dir`` (comportamento legacy, escreve dentro
+    do source do projeto).
+    """
+    from marta.config import config
+    if config.output_dir:
+        project_name = os.path.basename(root_dir.rstrip(os.path.sep))
+        path = os.path.join(config.output_dir, project_name)
+        os.makedirs(path, exist_ok=True)
+        return path
+    return root_dir
+
+
 def compute_source_hash(root_dir: str, source_dir: str) -> str:
     """MD5 of all .py files under source_dir, sorted for determinism."""
     hasher = hashlib.md5()
@@ -22,21 +40,23 @@ def compute_source_hash(root_dir: str, source_dir: str) -> str:
 def save_cg_cache(root_dir: str, source_dir: str, source_hash: str,
                   cg_output: dict, class_manager, import_manager) -> None:
     """Write call graph + metadata to disk."""
+    out_root = get_output_root(root_dir)
     metadata = {"source_hash": source_hash, "source_dir": source_dir}
-    with open(os.path.join(root_dir, 'cache_metadata.json'), 'w') as f:
+    with open(os.path.join(out_root, 'cache_metadata.json'), 'w') as f:
         json.dump(metadata, f, indent=2)
 
     class_mro = {name: node.mro for name, node in class_manager.get_classes().items()}
     imports = {mod: list(data["imports"]) for mod, data in import_manager.import_graph.items()}
     cache_data = {"cg_output": cg_output, "class_mro": class_mro, "imports": imports}
-    with open(os.path.join(root_dir, 'call_graph.json'), 'w') as f:
+    with open(os.path.join(out_root, 'call_graph.json'), 'w') as f:
         json.dump(cache_data, f, indent=2)
 
 
 def load_cg_cache(root_dir: str, source_dir: str, current_hash: str):
     """Return cached data dict if hash matches, else None."""
-    meta_path = os.path.join(root_dir, 'cache_metadata.json')
-    cg_path = os.path.join(root_dir, 'call_graph.json')
+    out_root = get_output_root(root_dir)
+    meta_path = os.path.join(out_root, 'cache_metadata.json')
+    cg_path = os.path.join(out_root, 'call_graph.json')
     if not os.path.exists(meta_path) or not os.path.exists(cg_path):
         return None
     try:
@@ -52,7 +72,7 @@ def load_cg_cache(root_dir: str, source_dir: str, current_hash: str):
 
 def _analysis_cache_path(root_dir: str, model_suffix: str) -> str:
     filename = f"analysis_cache_{model_suffix}.json" if model_suffix else "analysis_cache.json"
-    return os.path.join(root_dir, filename)
+    return os.path.join(get_output_root(root_dir), filename)
 
 
 def save_analysis_cache(root_dir: str, source_dir: str, source_hash: str,

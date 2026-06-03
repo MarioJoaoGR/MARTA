@@ -54,20 +54,51 @@ Decisão sobre CoverUp pendente (GPT-4o vs ablated mode vs skip).
 
 ## Modificações ao código das ferramentas
 
-### Patch: filtro `projects.json` na MARTA e Test4Py-baseline
+### Patches arquiteturais à MARTA e Test4Py-baseline
 
-Adicionado helper `_targeted_file_messages()` em:
+Dois patches importantes nos dois projetos:
+
+**1. Filtro `projects.json` no loop de geração**
+
+Helper `_targeted_file_messages()` em:
 - `Test4Py/marta/message_react.py`
 - `Test4Py/baselines/test4py-baseline/test4dt/message.py`
 
-Quando `--run_benchmark=True` (default) E o projeto está listado em
-`projects.json`, a geração de testes fica limitada aos módulos dessa lista.
-Call-graph e RAG continuam a analisar o projeto inteiro (necessário para
-contexto), mas LLM calls só acontecem para módulos-alvo.
+Quando `--run_benchmark=True` (default) E o projeto está em `projects.json`,
+a geração de testes fica limitada aos módulos dessa lista. Call-graph e RAG
+continuam a analisar o projeto inteiro (necessário para contexto), mas
+LLM calls só acontecem para módulos-alvo. Sem este patch, MARTA/Test4Py
+gerariam testes para todos os ficheiros do projeto, sem alinhamento com
+Pynguin/CoverUp (que aceitam módulo a módulo).
 
-Sem o patch, MARTA/Test4Py-baseline gerariam testes para TODOS os ficheiros
-do projeto, incluindo módulos fora dos 486 oficiais do CM. Não seria
-apples-to-apples com Pynguin/CoverUp (que aceitam módulo a módulo).
+**2. `--output_dir` para isolar outputs do source**
+
+Adicionado o flag `--output_dir <DIR>` em:
+- `marta/start_react.py`
+- `baselines/test4py-baseline/test4dt/start.py`
+
+Quando definido, TODAS as outputs (Test4DT_tests/, test_quarantine/,
+coverage.json, caches do call graph e análise LLM, run_results/,
+react_history.txt) vão para `{output_dir}/{project_name}/...` em vez de
+poluírem o source do projeto.
+
+Sem este patch, MARTA/Test4Py escreviam para dentro do `{project_path}/`,
+o que sujava o dataset CM (read-only) a cada run. Com `--output_dir`, o
+dataset fica intocado e podemos correr os 4 tools sobre o mesmo source
+em paralelo sem conflitos.
+
+A mudança preserva backward compat: sem `--output_dir`, comportamento legacy.
+
+### Aplicar os patches a um clone fresco do test4py-baseline
+
+A MARTA tem os patches diretamente no source tracked. O test4py-baseline é
+um clone externo (gitignored), por isso os patches estão guardados como
+`.patch` em `baselines/patches/`:
+
+```bash
+cd baselines/test4py-baseline
+git apply ../patches/test4py-baseline-output-dir-and-projects-filter.patch
+```
 
 ### projects.json — entradas adicionadas
 

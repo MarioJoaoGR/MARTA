@@ -110,7 +110,15 @@ class ProjectMessage:
                                 safe_model)
 
         self.init_test_path(self.dir_type)
-        self.coverage = MyCoverage(self.root_dir, self.dir_type, self.source_dir)
+        # MyCoverage usa self.root_dir como cwd do subprocess pytest (= onde o
+        # PYTHONPATH aponta, para os testes encontrarem o source). Mas test_path
+        # passa a ser um caminho ABSOLUTO via get_output_root(), para que o
+        # coverage.json fique em Results_*/ em vez de poluir o source.
+        self.coverage = MyCoverage(
+            self.root_dir,
+            os.path.join(get_output_root(self.root_dir), self.dir_type),
+            self.source_dir,
+        )
 
 
     def generate_once(self):
@@ -194,13 +202,14 @@ class ProjectMessage:
 
 
     def init_test_path(self, dir_type):
+        out_root = get_output_root(self.root_dir)
         conf_content = f"import sys\n\ndef pytest_configure(config):\n    sys.path.append(\'{self.root_dir}\')"
-        test_dir = self.root_dir + os.path.sep + dir_type
+        test_dir = out_root + os.path.sep + dir_type
         if not os.path.exists(test_dir):
             os.makedirs(test_dir, exist_ok=True)
-            with open(self.root_dir + os.path.sep + dir_type + os.path.sep + '__init__.py', 'w'):
+            with open(out_root + os.path.sep + dir_type + os.path.sep + '__init__.py', 'w'):
                 pass
-            with open(self.root_dir + os.path.sep + dir_type + os.path.sep + 'conftest.py', 'w') as f:
+            with open(out_root + os.path.sep + dir_type + os.path.sep + 'conftest.py', 'w') as f:
                 f.write(conf_content)
         for file_message in self._targeted_file_messages():
             for function in file_message.functions:
