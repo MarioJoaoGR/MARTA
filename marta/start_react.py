@@ -16,6 +16,17 @@ def main():
     parser.add_argument("--num", type=int, help="The number of rounds for which you want to generate test cases.", default=3)
     parser.add_argument("--type", type=bool, help="Output the extract type of function paras", default=False)
     parser.add_argument("--run_benchmark", type=bool, help="Project under test is in projects.json", default=True)
+    parser.add_argument(
+        "--output_dir",
+        type=str,
+        default=None,
+        help=(
+            "Pasta-base onde escrever TODOS os outputs (Test4DT_tests, "
+            "test_quarantine, coverage.json, caches, run_results, "
+            "react_history.txt). Se omitida, escreve dentro do source "
+            "do projeto (comportamento legacy)."
+        ),
+    )
 
     load_dotenv()
     args = parser.parse_args()
@@ -23,6 +34,9 @@ def main():
     source_dir: str = args.source_path
     config.need_extract_type = args.type
     config.run_benchmark = args.run_benchmark
+    if args.output_dir:
+        config.output_dir = os.path.abspath(args.output_dir)
+        os.makedirs(config.output_dir, exist_ok=True)
 
     project_name = base_dir.split(os.path.sep)[-1]
 
