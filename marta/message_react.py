@@ -16,6 +16,7 @@ from marta.gptapi import model
 from marta.testcase_react import TestManager, Testcase
 from marta.utils import *
 from marta.recorder import recoder
+from marta.config import config
 
 from marta.react_logger import log, log_block
 
@@ -155,14 +156,31 @@ class ProjectMessage:
         return covered_line, uncovered_line, covered_branch, uncovered_branch
 
 
+    def _targeted_file_messages(self):
+        """Return file_messages filtered by projects.json when run_benchmark=True.
+        Returns the full list if filtering doesn't apply."""
+        if not config.run_benchmark:
+            return self.file_messages
+        try:
+            with open('projects.json', 'r') as f:
+                projects = json.load(f)
+        except FileNotFoundError:
+            return self.file_messages
+        project = self.root_dir.split(os.path.sep)[-1]
+        if project not in projects:
+            return self.file_messages
+        targets = set(projects[project])
+        return [fm for fm in self.file_messages if fm.mod_name in targets]
+
     async def generate_test_case(self):
+        targeted = self._targeted_file_messages()
         num = 0
-        for file_message in self.file_messages:
+        for file_message in targeted:
             for _ in file_message.functions:
                     num += 1
         with tqdm(total=num, desc=f"Generate test cases") as pbar:
             tasks = []
-            for file_message in self.file_messages:
+            for file_message in targeted:
                 for function in file_message.functions:
                     tasks.append(self.fetch_data(function, pbar))
             await asyncio.gather(*tasks)
@@ -184,7 +202,7 @@ class ProjectMessage:
                 pass
             with open(self.root_dir + os.path.sep + dir_type + os.path.sep + 'conftest.py', 'w') as f:
                 f.write(conf_content)
-        for file_message in self.file_messages:
+        for file_message in self._targeted_file_messages():
             for function in file_message.functions:
                 function.test_manager.init_test_single_path()
 

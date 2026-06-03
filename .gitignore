@@ -11,3 +11,21 @@ __pycache__/
 
 # Office lock files
 ~$*
+
+# Archive do paper #1 (~300 MB) — guardar fora do git
+Results_Paper_1/
+src/
+
+# Logs gerados em runtime
+react_history.txt
+
+# Clones externos das baselines (re-clonáveis via BASELINES_README.md)
+baselines/pynguin/
+baselines/coverup/
+baselines/test4py-baseline/
+baselines/codamosa/
+
+# Mas mantemos versionado:
+# - baselines/BASELINES_README.md
+# - baselines/Results_Pynguin/, Results_CoverUp/, Results_Test4PyBaseline/, Results_MARTA/
+# - baselines/patches/  (se vier a existir, para as modificações ao código clonado)
