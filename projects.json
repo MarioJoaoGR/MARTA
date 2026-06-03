@@ -151,9 +151,6 @@
     "string_utils.generation",
     "string_utils.validation"
   ],
-  "codetiming": [
-    "codetiming._timers"
-  ],
   "apimd": [
     "apimd.parser",
     "apimd.loader"
