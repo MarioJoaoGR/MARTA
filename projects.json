@@ -479,9 +479,6 @@
     "ansible.vars.plugins",
     "ansible.vars.reserved"
   ],
-  "codetiming": [
-    "codetiming._timers"
-  ],
   "cookiecutter": [
     "cookiecutter.find",
     "cookiecutter.prompt",
