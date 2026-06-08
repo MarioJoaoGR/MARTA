@@ -1,239 +1,4 @@
 {
-  "docstring_parser": [
-    "docstring_parser.common",
-    "docstring_parser.google",
-    "docstring_parser.numpydoc",
-    "docstring_parser.parser",
-    "docstring_parser.rest"
-  ],
-  "httpie": [
-    "httpie.cli.argparser",
-    "httpie.cli.definition",
-    "httpie.cli.requestitems",
-    "httpie.client",
-    "httpie.config",
-    "httpie.context",
-    "httpie.core",
-    "httpie.models",
-    "httpie.output.formatters.colors",
-    "httpie.output.formatters.headers",
-    "httpie.output.formatters.json",
-    "httpie.output.processing",
-    "httpie.output.streams",
-    "httpie.output.writer",
-    "httpie.plugins.base",
-    "httpie.plugins.manager",
-    "httpie.sessions",
-    "httpie.uploads",
-    "httpie.utils"
-  ],
-  "pyMone": [
-    "pymonet.lazy",
-    "pymonet.utils",
-    "pymonet.box",
-    "pymonet.maybe",
-    "pymonet.semigroups",
-    "pymonet.immutable_list",
-    "pymonet.either",
-    "pymonet.validation",
-    "pymonet.task",
-    "pymonet.monad_try"
-  ],
-  "pytutils": [
-    "pytutils.env",
-    "pytutils.excs",
-    "pytutils.files",
-    "pytutils.lazy.lazy_import",
-    "pytutils.lazy.lazy_regex",
-    "pytutils.lazy.simple_import",
-    "pytutils.log",
-    "pytutils.path",
-    "pytutils.props",
-    "pytutils.python",
-    "pytutils.trees",
-    "pytutils.urls"
-  ],
-  "flutes": [
-    "flutes.iterator",
-    "flutes.structure",
-    "flutes.timing"
-  ],
-  "sty": [
-    "sty.lib",
-    "sty.primitive"
-  ],
-  "typesystem": [
-    "typesystem.base",
-    "typesystem.composites",
-    "typesystem.fields",
-    "typesystem.formats",
-    "typesystem.json_schema",
-    "typesystem.schemas",
-    "typesystem.tokenize.positional_validation",
-    "typesystem.tokenize.tokenize_json",
-    "typesystem.tokenize.tokenize_yaml",
-    "typesystem.tokenize.tokens"
-  ],
-  "pypara": [
-    "pypara.accounting.journaling",
-    "pypara.accounting.ledger",
-    "pypara.commons.errors",
-    "pypara.dcc",
-    "pypara.exchange",
-    "pypara.monetary"
-  ],
-  "black": [
-    "blib2to3.pgen2.grammar",
-    "blib2to3.pgen2.literals",
-    "blib2to3.pgen2.parse",
-    "blib2to3.pgen2.pgen",
-    "blib2to3.pgen2.tokenize",
-    "blib2to3.pytree"
-  ],
-  "dataclasses-json": [
-    "dataclasses_json.cfg",
-    "dataclasses_json.core",
-    "dataclasses_json.mm",
-    "dataclasses_json.undefined"
-  ],
-  "isort": [
-    "isort.exceptions",
-    "isort.format"
-  ],
-  "python-semantic-release": [
-    "semantic_release.ci_checks",
-    "semantic_release.dist",
-    "semantic_release.helpers",
-    "semantic_release.hvcs",
-    "semantic_release.pypi",
-    "semantic_release.settings"
-  ],
-  "py-backwards": [
-    "py_backwards.compiler",
-    "py_backwards.conf",
-    "py_backwards.files",
-    "py_backwards.main",
-    "py_backwards.transformers.base",
-    "py_backwards.transformers.dict_unpacking",
-    "py_backwards.transformers.metaclass",
-    "py_backwards.transformers.python2_future",
-    "py_backwards.transformers.return_from_generator",
-    "py_backwards.transformers.six_moves",
-    "py_backwards.transformers.starred_unpacking",
-    "py_backwards.transformers.string_types",
-    "py_backwards.transformers.super_without_arguments",
-    "py_backwards.transformers.variables_annotations",
-    "py_backwards.transformers.yield_from",
-    "py_backwards.types",
-    "py_backwards.utils.helpers",
-    "py_backwards.utils.snippet",
-    "py_backwards.utils.tree"
-  ],
-  "mimesis": [
-    "mimesis.builtins.en",
-    "mimesis.builtins.pl",
-    "mimesis.builtins.pt_br",
-    "mimesis.builtins.ru",
-    "mimesis.decorators",
-    "mimesis.providers.address",
-    "mimesis.providers.base",
-    "mimesis.providers.choice",
-    "mimesis.providers.cryptographic",
-    "mimesis.providers.generic",
-    "mimesis.providers.internet",
-    "mimesis.providers.path",
-    "mimesis.providers.payment",
-    "mimesis.providers.person",
-    "mimesis.providers.structure",
-    "mimesis.providers.text",
-    "mimesis.random",
-    "mimesis.schema"
-  ],
-  "python-string-utils": [
-    "string_utils.generation",
-    "string_utils.manipulation",
-    "string_utils.validation"
-  ],
-  "apimd": [
-    "apimd.loader",
-    "apimd.parser"
-  ],
-  "dfsql": [
-    "dfsql.cache",
-    "dfsql.commands",
-    "dfsql.config",
-    "dfsql.data_sources.base_data_source",
-    "dfsql.engine",
-    "dfsql.exceptions",
-    "dfsql.extensions",
-    "dfsql.functions",
-    "dfsql.table",
-    "dfsql.utils"
-  ],
-  "genty": [
-    "genty.genty",
-    "genty.genty_args",
-    "genty.genty_dataset",
-    "genty.genty_repeat"
-  ],
-  "kafka-shell": [
-    "kafkashell.bindings",
-    "kafkashell.completer",
-    "kafkashell.config",
-    "kafkashell.constants",
-    "kafkashell.executor",
-    "kafkashell.helpers",
-    "kafkashell.main",
-    "kafkashell.settings",
-    "kafkashell.style",
-    "kafkashell.toolbar",
-    "kafkashell.version"
-  ],
-  "PyCG": [
-    "pycg.formats.as_graph",
-    "pycg.formats.base",
-    "pycg.formats.fasten",
-    "pycg.formats.simple",
-    "pycg.machinery.callgraph",
-    "pycg.machinery.classes",
-    "pycg.machinery.definitions",
-    "pycg.machinery.imports",
-    "pycg.machinery.key_err",
-    "pycg.machinery.modules",
-    "pycg.machinery.pointers",
-    "pycg.machinery.scopes",
-    "pycg.processing.base",
-    "pycg.processing.cgprocessor",
-    "pycg.processing.keyerrprocessor",
-    "pycg.processing.postprocessor",
-    "pycg.processing.preprocessor",
-    "pycg.pycg",
-    "pycg.utils.common",
-    "pycg.utils.constants"
-  ],
-  "pymssa": [
-    "pymssa.mssa",
-    "pymssa.ops",
-    "pymssa.optimized"
-  ],
-  "pypykatz_server": [
-    "pypykatz_server.protocol.command",
-    "pypykatz_server.reader.remotereader",
-    "pypykatz_server.resultprocess",
-    "pypykatz_server.server.pypysocketserver",
-    "pypykatz_server.transport.sockettransport"
-  ],
-  "pyrthon": [
-    "pyrthon.console",
-    "pyrthon.pyrthon_extension"
-  ],
-  "superstring.py": [
-    "superstring.superstring"
-  ],
-  "woa": [
-    "src.animate_scatter",
-    "src.whale_optimization"
-  ],
   "PySnooper": [
     "pysnooper.pycompat",
     "pysnooper.tracer",
@@ -479,12 +244,45 @@
     "ansible.vars.plugins",
     "ansible.vars.reserved"
   ],
+  "apimd": [
+    "apimd.loader",
+    "apimd.parser"
+  ],
+  "black": [
+    "blib2to3.pgen2.grammar",
+    "blib2to3.pgen2.literals",
+    "blib2to3.pgen2.parse",
+    "blib2to3.pgen2.pgen",
+    "blib2to3.pgen2.tokenize",
+    "blib2to3.pytree"
+  ],
+  "codetiming": [
+    "codetiming._timers"
+  ],
   "cookiecutter": [
     "cookiecutter.find",
     "cookiecutter.prompt",
     "cookiecutter.replay",
     "cookiecutter.repository",
     "cookiecutter.zipfile"
+  ],
+  "dataclasses-json": [
+    "dataclasses_json.cfg",
+    "dataclasses_json.core",
+    "dataclasses_json.mm",
+    "dataclasses_json.undefined"
+  ],
+  "docstring_parser": [
+    "docstring_parser.common",
+    "docstring_parser.google",
+    "docstring_parser.numpydoc",
+    "docstring_parser.parser",
+    "docstring_parser.rest"
+  ],
+  "flutes": [
+    "flutes.iterator",
+    "flutes.structure",
+    "flutes.timing"
   ],
   "flutils": [
     "flutils.codecs.b64",
@@ -496,6 +294,72 @@
     "flutils.pathutils",
     "flutils.setuputils.cfg",
     "flutils.txtutils"
+  ],
+  "httpie": [
+    "httpie.cli.argparser",
+    "httpie.cli.definition",
+    "httpie.cli.requestitems",
+    "httpie.client",
+    "httpie.config",
+    "httpie.context",
+    "httpie.core",
+    "httpie.models",
+    "httpie.output.formatters.colors",
+    "httpie.output.formatters.headers",
+    "httpie.output.formatters.json",
+    "httpie.output.processing",
+    "httpie.output.streams",
+    "httpie.output.writer",
+    "httpie.plugins.base",
+    "httpie.plugins.manager",
+    "httpie.sessions",
+    "httpie.uploads",
+    "httpie.utils"
+  ],
+  "isort": [
+    "isort.exceptions",
+    "isort.format"
+  ],
+  "mimesis": [
+    "mimesis.builtins.en",
+    "mimesis.builtins.pl",
+    "mimesis.builtins.pt_br",
+    "mimesis.builtins.ru",
+    "mimesis.decorators",
+    "mimesis.providers.address",
+    "mimesis.providers.base",
+    "mimesis.providers.choice",
+    "mimesis.providers.cryptographic",
+    "mimesis.providers.generic",
+    "mimesis.providers.internet",
+    "mimesis.providers.path",
+    "mimesis.providers.payment",
+    "mimesis.providers.person",
+    "mimesis.providers.structure",
+    "mimesis.providers.text",
+    "mimesis.random",
+    "mimesis.schema"
+  ],
+  "py-backwards": [
+    "py_backwards.compiler",
+    "py_backwards.conf",
+    "py_backwards.files",
+    "py_backwards.main",
+    "py_backwards.transformers.base",
+    "py_backwards.transformers.dict_unpacking",
+    "py_backwards.transformers.metaclass",
+    "py_backwards.transformers.python2_future",
+    "py_backwards.transformers.return_from_generator",
+    "py_backwards.transformers.six_moves",
+    "py_backwards.transformers.starred_unpacking",
+    "py_backwards.transformers.string_types",
+    "py_backwards.transformers.super_without_arguments",
+    "py_backwards.transformers.variables_annotations",
+    "py_backwards.transformers.yield_from",
+    "py_backwards.types",
+    "py_backwards.utils.helpers",
+    "py_backwards.utils.snippet",
+    "py_backwards.utils.tree"
   ],
   "pyMonet": [
     "pymonet.box",
@@ -509,6 +373,41 @@
     "pymonet.utils",
     "pymonet.validation"
   ],
+  "pypara": [
+    "pypara.accounting.journaling",
+    "pypara.accounting.ledger",
+    "pypara.commons.errors",
+    "pypara.dcc",
+    "pypara.exchange",
+    "pypara.monetary"
+  ],
+  "python-semantic-release": [
+    "semantic_release.ci_checks",
+    "semantic_release.dist",
+    "semantic_release.helpers",
+    "semantic_release.hvcs",
+    "semantic_release.pypi",
+    "semantic_release.settings"
+  ],
+  "python-string-utils": [
+    "string_utils.generation",
+    "string_utils.manipulation",
+    "string_utils.validation"
+  ],
+  "pytutils": [
+    "pytutils.env",
+    "pytutils.excs",
+    "pytutils.files",
+    "pytutils.lazy.lazy_import",
+    "pytutils.lazy.lazy_regex",
+    "pytutils.lazy.simple_import",
+    "pytutils.log",
+    "pytutils.path",
+    "pytutils.props",
+    "pytutils.python",
+    "pytutils.trees",
+    "pytutils.urls"
+  ],
   "sanic": [
     "sanic.blueprint_group",
     "sanic.cookies",
@@ -521,6 +420,10 @@
     "sanic.response",
     "sanic.router",
     "sanic.utils"
+  ],
+  "sty": [
+    "sty.lib",
+    "sty.primitive"
   ],
   "thefuck": [
     "thefuck.argument_parser",
@@ -586,6 +489,18 @@
     "tqdm.gui",
     "tqdm.notebook",
     "tqdm.rich"
+  ],
+  "typesystem": [
+    "typesystem.base",
+    "typesystem.composites",
+    "typesystem.fields",
+    "typesystem.formats",
+    "typesystem.json_schema",
+    "typesystem.schemas",
+    "typesystem.tokenize.positional_validation",
+    "typesystem.tokenize.tokenize_json",
+    "typesystem.tokenize.tokenize_yaml",
+    "typesystem.tokenize.tokens"
   ],
   "youtube-dl": [
     "youtube_dl.aes",
