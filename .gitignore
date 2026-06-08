@@ -19,6 +19,15 @@ src/
 # Logs gerados em runtime
 react_history.txt
 
+# Artefactos do Pynguin (deixados no CWD quando corre sem cwd ajustado)
+pynguin-report/
+mutpy/
+docs/
+R\(*
+
+# State e logs do harness (regeneráveis a cada run)
+baselines/harness/
+
 # Clones externos das baselines (re-clonáveis via BASELINES_README.md)
 baselines/pynguin/
 baselines/coverup/
