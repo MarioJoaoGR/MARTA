@@ -235,14 +235,18 @@ def run_test4py_baseline(proj: str, info: dict, state: dict) -> None:
 
 def run_coverup(proj: str, info: dict, state: dict) -> None:
     """CoverUp: 1 run por projeto. Usa o LLM definido em COVERUP_MODEL.
-    Desligado se COVERUP_MODEL não estiver definido."""
+    Default: ``ollama_chat/gpt-oss:20b`` (validado em smoke; o prefixo
+    ``ollama_chat/`` é crítico para o LiteLLM extrair o ``content`` das
+    respostas do gpt-oss — o prefixo legacy ``ollama/`` devolve content
+    vazio porque vai pelo endpoint /api/generate em vez de /api/chat).
+    Desligado se COVERUP_MODEL=skip."""
     key = f"coverup/{proj}"
     if state.get(key, {}).get("status") in ("ok", "failed"):
         return
-    model = os.environ.get("COVERUP_MODEL")
-    if not model:
-        log(f"  coverup/{proj} … SKIP (COVERUP_MODEL não definido)")
-        state[key] = {"status": "skipped", "elapsed_s": 0, "err": "COVERUP_MODEL não definido"}
+    model = os.environ.get("COVERUP_MODEL", "ollama_chat/gpt-oss:20b")
+    if model.lower() == "skip":
+        log(f"  coverup/{proj} … SKIP (COVERUP_MODEL=skip)")
+        state[key] = {"status": "skipped", "elapsed_s": 0, "err": "COVERUP_MODEL=skip"}
         save_state(state)
         return
     coverup = ENVS["coverup"] + "/bin/coverup"
