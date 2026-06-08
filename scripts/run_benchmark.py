@@ -53,12 +53,16 @@ ENVS = {
     "marta": "/opt/homebrew/Caskroom/miniconda/base/envs/test4py_env",
 }
 
-# Default timeouts (segundos)
+# Default timeouts (segundos). None = sem timeout (corre até acabar ou falhar).
+# Pynguin é search-based determinístico → timeout faz sentido para apertar
+# o budget. LLM tools dependem do tamanho do projeto (ansible >> codetiming)
+# e do throughput do Ollama; default sem timeout para evitar matar runs
+# legítimas. Cada um pode ser sobreposto via --timeout-<tool> (segundos).
 TIMEOUTS = {
-    "pynguin": 300,          # 5 min por módulo (headroom para Pynguin)
-    "marta": 6 * 3600,       # 6h por projeto
-    "test4py_baseline": 6 * 3600,
-    "coverup": 6 * 3600,
+    "pynguin": 300,          # 5 min por módulo
+    "marta": None,           # sem timeout
+    "test4py_baseline": None,
+    "coverup": None,
 }
 
 # Order: Pynguin primeiro (rápido), MARTA, Test4Py-baseline. CoverUp depende
@@ -116,19 +120,20 @@ def populate_projects_json(cm: dict) -> None:
 # ────────────────────────────────────────────────────────────────────────────
 
 def _run(cmd: list[str], *, cwd: pathlib.Path, log_path: pathlib.Path,
-         timeout: int, extra_env: dict | None = None) -> tuple[str, float, str]:
+         timeout: int | None, extra_env: dict | None = None) -> tuple[str, float, str]:
     """Corre ``cmd``, redireciona stdout+stderr para ``log_path``,
-    devolve ``(status, elapsed_s, last_lines)``."""
+    devolve ``(status, elapsed_s, last_lines)``. ``timeout=None`` → sem limite."""
     env = os.environ.copy()
     if extra_env:
         env.update(extra_env)
     log_path.parent.mkdir(parents=True, exist_ok=True)
     t0 = time.time()
+    timeout_label = f"{timeout}s" if timeout else "sem limite"
     try:
         with open(log_path, "w") as out:
             out.write(f"# $ {' '.join(shlex.quote(c) for c in cmd)}\n")
             out.write(f"# cwd: {cwd}\n")
-            out.write(f"# timeout: {timeout}s\n")
+            out.write(f"# timeout: {timeout_label}\n")
             out.write(f"# started: {datetime.now(timezone.utc).isoformat()}\n\n")
             out.flush()
             r = subprocess.run(
@@ -142,7 +147,7 @@ def _run(cmd: list[str], *, cwd: pathlib.Path, log_path: pathlib.Path,
         return "failed", elapsed, f"returncode={r.returncode}"
     except subprocess.TimeoutExpired:
         elapsed = time.time() - t0
-        return "timeout", elapsed, f"after {timeout}s"
+        return "timeout", elapsed, f"after {timeout_label}"
     except Exception as e:
         return "failed", time.time() - t0, repr(e)
 
@@ -300,7 +305,26 @@ def main():
                         help="mostra o plano sem executar")
     parser.add_argument("--reset", action="store_true",
                         help="apaga state.json antes de começar")
+    parser.add_argument("--timeout-pynguin", type=int, default=None,
+                        help=f"timeout do Pynguin em segundos (default: {TIMEOUTS['pynguin']})")
+    parser.add_argument("--timeout-marta", type=int, default=None,
+                        help="timeout da MARTA em segundos (default: sem limite)")
+    parser.add_argument("--timeout-test4py-baseline", type=int, default=None,
+                        help="timeout do Test4Py-baseline em segundos (default: sem limite)")
+    parser.add_argument("--timeout-coverup", type=int, default=None,
+                        help="timeout do CoverUp em segundos (default: sem limite)")
     args = parser.parse_args()
+
+    # Overrides de timeout (None na CLI → manter default da tabela)
+    for tool, cli in [
+        ("pynguin", args.timeout_pynguin),
+        ("marta", args.timeout_marta),
+        ("test4py_baseline", args.timeout_test4py_baseline),
+        ("coverup", args.timeout_coverup),
+    ]:
+        if cli is not None:
+            # 0 ou negativo significa "sem limite"
+            TIMEOUTS[tool] = cli if cli > 0 else None
 
     cm = json.loads(CONFIG.read_text())
 
