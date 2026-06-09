@@ -31,38 +31,44 @@ poluir o dataset. Os outputs vão para `Results_<TOOL>/<project>/`.
 | `test4py_baseline_env` | Test4Py baseline | `conda activate test4py_baseline_env` |
 | `test4py_env` | MARTA (existente) | `conda activate test4py_env` |
 
-## LLMs por tool (bake-off empírico em curso)
+## LLMs por tool (decisão final após bake-off de 9 modelos)
 
-### Constraint do estudo
+### Setup final: MIXED (não foi possível single-LLM apples-to-apples)
 
-O utilizador requer **apples-to-apples**: o mesmo LLM em todas as tools LLM-based
-(MARTA, Test4Py-baseline, CoverUp). Para isso, o LLM tem de cumprir:
+| Tool | LLM | Endpoint |
+|---|---|---|
+| MARTA | `deepseek-coder-v2:16b` | OpenAI-compat `/v1` (env: MODEL) |
+| Test4Py-baseline | `deepseek-coder-v2:16b` | OpenAI-compat `/v1` (env: MODEL) |
+| CoverUp | `gpt-oss:20b` via `ollama_chat/` | Ollama nativo `/api/chat` (env: COVERUP_MODEL) |
+| Pynguin | — | — |
 
-1. Tools / function calling (essencial para CoverUp)
-2. Velocidade de inferência suficiente para MARTA (muitas chamadas curtas
-   por função; mistral-small revelou ser 3-4x mais lento que deepseek)
-3. Qualidade de output decente (granite ficou em 62% cov, demasiado fraco)
-4. Estabilidade em runs longos (gpt-oss colapsa em context overflow)
+**Justificação científica (Threats to Validity):** após testar 9 LLMs locais
+empiricamente, nenhum cumpre simultaneamente os requisitos de rapidez em
+MARTA (muitas chamadas curtas), function calling correcto em CoverUp,
+qualidade de output, e estabilidade em runs longos. MARTA e Test4Py-baseline
+correm em apples-to-apples (deepseek-coder-v2:16b); CoverUp usa gpt-oss
+por ser o único modelo local que produziu coverage decente (96% no smoke
+de codetiming._timers).
 
-### Bake-off empírico (CoverUp em codetiming._timers)
+### Bake-off empírico completo (CoverUp em codetiming._timers)
 
-| LLM | Tools | MARTA-friendly? | CoverUp cov | Veredito |
+| LLM | Tools | MARTA-friendly | CoverUp cov | Veredito |
 |---|---|---|---|---|
-| DeepSeek-Coder-V2 16B | ❌ | ✅ (98% MARTA) | n/a | Não serve para CoverUp |
-| Codestral 22B (Ollama) | ❌ | — | n/a | Não serve para CoverUp |
-| Qwen2.5-Coder 14B / 32B | ✅ | — | 0% (loops infinitos) | Não serve |
-| Mistral-Nemo 12B | ✅ | — | crash (alucina tools) | Não serve |
+| DeepSeek-Coder-V2 16B | ❌ | ✅ 98% | n/a | **ESCOLHIDO para MARTA/Test4Py** |
+| Codestral 22B (Ollama) | ❌ | — | n/a | Não testado em MARTA |
+| Qwen2.5-Coder 14B/32B | ✅ | — | 0% (loops) | Não serve |
+| Mistral-Nemo 12B | ✅ | — | crash (alucina) | Não serve |
 | Llama 3.1 8B | ✅ | — | loops lentos | Não serve |
 | Granite 3.1-dense 8B | ✅ | — | 62% | Qualidade insuficiente |
-| gpt-oss 20B | ✅ | ❌ (lento + crashes) | 96% | Instável em runs longos |
-| Mistral-small 24B | ✅ | ❌ (3x mais lento na MARTA) | 76% | Não passa MARTA |
-| **command-r:35b** | ✅ | a testar | a testar | **EM AVALIAÇÃO** |
+| **gpt-oss 20B** | ✅ | ❌ (3x+ lento) | **96%** | **ESCOLHIDO para CoverUp** |
+| Mistral-small 24B | ✅ | ❌ (3x lento MARTA) | 76% | Não passa MARTA |
+| command-r:35b | ✅ | n/t | content vazio | Bug Ollama wrapping com tools |
 
-### Config dos envs (constante, independente do LLM)
+### Config dos envs
 
 ```env
 # Test4Py/.env (MARTA)
-MODEL='<LLM-A-DETERMINAR>'
+MODEL='deepseek-coder-v2:16b'
 OPENAI_API_KEY='ollama'
 OPENAI_API_BASE='http://localhost:11434/v1'
 TRANSFORMER_PATH='BAAI/bge-large-en-v1.5'
@@ -70,8 +76,18 @@ TRANSFORMER_PATH='BAAI/bge-large-en-v1.5'
 # Test4Py/baselines/test4py-baseline/.env (idem MARTA)
 ```
 
-CoverUp não usa .env — é configurado via env var na invocação:
-`COVERUP_MODEL=ollama_chat/<LLM>`
+CoverUp configurado via env var na invocação do harness:
+```bash
+COVERUP_MODEL='ollama_chat/gpt-oss:20b'  # default do harness
+```
+
+### Modelos no Ollama necessários
+
+```
+deepseek-coder-v2:16b   8.9 GB    (MARTA, Test4Py-baseline)
+gpt-oss:20b             14 GB     (CoverUp)
+```
+Total: ~23 GB
 
 ## Modificações ao código das ferramentas
 

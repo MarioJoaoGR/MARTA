@@ -234,32 +234,40 @@ def run_test4py_baseline(proj: str, info: dict, state: dict) -> None:
 
 
 def run_coverup(proj: str, info: dict, state: dict) -> None:
-    """CoverUp: 1 run por projeto. Requer COVERUP_MODEL definido via env
-    (não temos default — depende da escolha empírica do LLM).
+    """CoverUp: 1 run por projeto.
 
-    O prefixo ``ollama_chat/`` é crítico (em vez do ``ollama/`` legacy)
-    porque encaminha pelo endpoint /api/chat do Ollama, garantindo que
-    o content das respostas chega ao LiteLLM correctamente.
+    Default: ``ollama_chat/gpt-oss:20b`` — escolhido após bake-off de 9
+    LLMs locais como o único que produz coverage decente (96% em codetiming._
+    timers smoke). Foi a escolha do utilizador apesar de crashar em runs
+    longos por context window overflow + thinking mode token-hungry;
+    estes crashes são recuperáveis via state.json + CoverUp checkpoint.
 
-    Bake-off empírico (em codetiming._timers):
-      - gpt-oss:20b           → 96% cov mas crashes em runs longos
-      - mistral-small:24b     → 76% cov, estável, MAS 3-4x mais lento em MARTA
-      - granite3.1-dense:8b   → 62% cov, fraco
-      - llama3.1:8b           → loop infinito
-      - qwen2.5-coder 14B/32B → loop infinito
-      - mistral-nemo:12b      → alucina tools
+    Setup geral é MIXED: deepseek-coder-v2:16b para MARTA/Test4Py (rápido,
+    no-tools), gpt-oss:20b para CoverUp (única opção local com qualidade).
+    Apples-to-apples imperfeito; documentado em Threats to Validity.
+
+    O prefixo ``ollama_chat/`` é crítico para o LiteLLM extrair o content
+    correctamente do endpoint /api/chat do Ollama.
+
+    Bake-off completo (em codetiming._timers, ordenado por viabilidade):
+      - gpt-oss:20b           → 96% cov (ESCOLHIDO; crashes recuperáveis)
+      - mistral-small:24b     → 76% cov estável mas 3-4x mais lento na MARTA
+      - granite3.1-dense:8b   → 62% cov, baixa qualidade
+      - llama3.1:8b           → loop infinito em tools
+      - qwen2.5-coder 14B/32B → loop infinito em tools
+      - mistral-nemo:12b      → alucina tools fictícias
+      - command-r:35b         → Ollama tools wrapping devolve content vazio
       - DeepSeek-Coder, Codestral → não suportam tools via Ollama
-      - command-r:35b         → em avaliação
 
-    Desligado se COVERUP_MODEL não definido ou COVERUP_MODEL=skip."""
+    Override com COVERUP_MODEL=<ollama_chat/MODEL>. COVERUP_MODEL=skip
+    desactiva CoverUp."""
     key = f"coverup/{proj}"
     if state.get(key, {}).get("status") in ("ok", "failed"):
         return
-    model = os.environ.get("COVERUP_MODEL", "")
-    if not model or model.lower() == "skip":
-        reason = "COVERUP_MODEL não definido" if not model else "COVERUP_MODEL=skip"
-        log(f"  coverup/{proj} … SKIP ({reason})")
-        state[key] = {"status": "skipped", "elapsed_s": 0, "err": reason}
+    model = os.environ.get("COVERUP_MODEL", "ollama_chat/gpt-oss:20b")
+    if model.lower() == "skip":
+        log(f"  coverup/{proj} … SKIP (COVERUP_MODEL=skip)")
+        state[key] = {"status": "skipped", "elapsed_s": 0, "err": "COVERUP_MODEL=skip"}
         save_state(state)
         return
     coverup = ENVS["coverup"] + "/bin/coverup"
