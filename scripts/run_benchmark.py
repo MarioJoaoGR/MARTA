@@ -65,8 +65,18 @@ TIMEOUTS = {
     "coverup": None,
 }
 
-# Order: Pynguin primeiro (rápido), MARTA, Test4Py-baseline. CoverUp depende
-# de decisão da professora — desligado por defeito.
+# Order: Pynguin primeiro (rápido), MARTA, Test4Py-baseline.
+# CoverUp NÃO está aqui por defeito: optámos por comparar contra os números
+# publicados no paper FSE 2025 do CoverUp (mesmo benchmark CM/CodaMosa,
+# GPT-4o no paper deles) em vez de re-correr localmente. Razões:
+#   1. Nenhum LLM local cumpre simultaneamente (a) function calling
+#      correcto sem loops, (b) qualidade de output decente, e (c) velocidade
+#      suficiente para o benchmark de 486 módulos (ver bake-off em
+#      baselines/BASELINES_README.md).
+#   2. Re-correr CoverUp com GPT-4o via API paga (~$30-150) não foi a
+#      escolha do utilizador.
+# Se mudares de ideias: re-clonar baselines/coverup, recriar coverup_env,
+# adicionar "coverup" a DEFAULT_TOOLS ou via --tools.
 DEFAULT_TOOLS = ["pynguin", "marta", "test4py_baseline"]
 
 # Ordem de projetos: menores primeiro (validar harness), ansible último.

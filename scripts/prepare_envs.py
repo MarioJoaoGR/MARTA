@@ -30,9 +30,12 @@ STATE = REPO / "baselines" / "harness" / "envs_state.json"
 
 CONDA_ENVS = {
     "pynguin_env": "/opt/homebrew/Caskroom/miniconda/base/envs/pynguin_env",
-    "coverup_env": "/opt/homebrew/Caskroom/miniconda/base/envs/coverup_env",
     "test4py_baseline_env": "/opt/homebrew/Caskroom/miniconda/base/envs/test4py_baseline_env",
     "test4py_env": "/opt/homebrew/Caskroom/miniconda/base/envs/test4py_env",
+    # coverup_env removido: comparamos contra números publicados no paper
+    # FSE 2025 do CoverUp em vez de re-correr localmente. Se quiseres re-
+    # instalar: ``conda create -n coverup_env python=3.10 && coverup_env/bin/pip
+    # install coverup``.
 }
 
 
