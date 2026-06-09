@@ -35,6 +35,7 @@ import os
 import pathlib
 import shlex
 import subprocess
+import signal
 import sys
 import time
 from datetime import datetime, timezone
@@ -391,16 +392,28 @@ def main():
         log("state.json apagado (reset)")
 
     state = load_state()
+
+    # SIGTERM handler: SLURM (e outros batch systems) enviam SIGTERM ~30s
+    # antes de SIGKILL. Convertemos em KeyboardInterrupt para o ciclo
+    # principal apanhar, gravar o state e sair com exit code 143 (= 128 + 15).
+    # Da próxima run, o resume salta o que está "ok" e re-tenta o resto.
+    def _on_terminate(signum, _frame):
+        log(f"signal {signum} recebido — a gravar state e sair limpo")
+        raise KeyboardInterrupt(f"signal {signum}")
+
+    signal.signal(signal.SIGTERM, _on_terminate)
+
     t0 = time.time()
     for tool in tools:
         log(f"━━━ {tool.upper()} ━━━")
         for proj, info in projects:
             try:
                 RUNNERS[tool](proj, info, state)
-            except KeyboardInterrupt:
-                log("interrompido pelo utilizador")
+            except KeyboardInterrupt as e:
+                msg = str(e) or "interrompido pelo utilizador"
+                log(f"interrompido ({msg}) — state gravado, sair")
                 save_state(state)
-                sys.exit(130)
+                sys.exit(143 if "signal 15" in msg else 130)
             except Exception as e:
                 log(f"  ❌ erro inesperado em {tool}/{proj}: {e!r}")
                 state[f"{tool}/{proj}"] = {"status": "failed", "elapsed_s": 0, "err": repr(e)}
