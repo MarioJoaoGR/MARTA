@@ -68,6 +68,13 @@ From: nvidia/cuda:12.4.1-runtime-ubuntu22.04
         zlib1g-dev \
         && rm -rf /var/lib/apt/lists/*
 
+    # Garantir que git NUNCA pede credenciais interactivamente — qualquer
+    # clone que precisaria de auth falha imediatamente em vez de bloquear
+    # o build à espera de input. Crítico em modo non-interactive (--fakeroot).
+    export GIT_TERMINAL_PROMPT=0
+    export GIT_ASKPASS=/bin/true
+    git config --global credential.helper ""
+
     # Clonar codamosa benchmark TEMPORARIAMENTE (só para extrair os sources
     # dos 27 projetos e fazer pip install). Mais à frente apagamos.
     git clone --depth 1 https://github.com/microsoft/codamosa.git /tmp/codamosa
