@@ -32,7 +32,13 @@ From: nvidia/cuda:12.4.1-runtime-ubuntu22.04
     bash miniconda.sh -b -p /opt/conda
     rm miniconda.sh
     /opt/conda/bin/conda config --set always_yes yes --set changeps1 no
-    /opt/conda/bin/conda update -n base conda
+    # Anaconda introduziu Terms of Service em 2024 para os channels default.
+    # Aceitar para que conda create/update funcione sem prompt interactivo.
+    /opt/conda/bin/conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/main
+    /opt/conda/bin/conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/r
+    # Update não é estritamente necessário (miniconda já vem recente). Skip
+    # para evitar tempo extra de build e potenciais erros de transação.
+    # /opt/conda/bin/conda update -n base conda
 
     # -------------------------------------------------------------------
     # 3. CRIAR OS 3 ENVS (replica setup local)
