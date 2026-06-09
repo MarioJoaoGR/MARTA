@@ -31,26 +31,42 @@ poluir o dataset. Os outputs vão para `Results_<TOOL>/<project>/`.
 | `test4py_baseline_env` | Test4Py baseline | `conda activate test4py_baseline_env` |
 | `test4py_env` | MARTA (existente) | `conda activate test4py_env` |
 
-## LLM endpoint (apples-to-apples)
+## LLMs por tool (baseado em smoke empírico)
 
-Todos os tools LLM-based apontam para o mesmo Ollama local:
+| Tool | LLM | Endpoint | Justificação |
+|---|---|---|---|
+| MARTA | `deepseek-coder-v2:16b` | OpenAI-compat `/v1` | Rápido, especializado em código, sem dependência de tools |
+| Test4Py-baseline | `deepseek-coder-v2:16b` | OpenAI-compat `/v1` | Igual MARTA (apples-to-apples) |
+| CoverUp | `mistral-small:24b` via `ollama_chat/` | Ollama nativo `/api/chat` | Único modelo local Ollama que suportou bem a arquitetura agentic do CoverUp |
+| Pynguin | — | — | Não usa LLM |
+
+### Smoke empírico de LLMs locais para CoverUp (codetiming._timers)
+
+| LLM | Resultado |
+|---|---|
+| DeepSeek-Coder-V2 16B | ❌ Não suporta function calling |
+| Codestral 22B (Ollama) | ❌ Não suporta function calling |
+| Qwen2.5-Coder 14B / 32B | ❌ Loop infinito em get_info |
+| Mistral-Nemo 12B | ❌ Alucina tools fictícias |
+| Llama 3.1 8B | ❌ Loop em tools |
+| Granite 3.1-dense 8B | ⚠️ Funciona mas baixa qualidade (62% cov) |
+| **gpt-oss 20B** | ⚠️ 96% cov mas crashes (context window + thinking mode) |
+| **mistral-small 24B** | ✅ **Escolhido — 76% cov, estável, sem loops** |
+
+### Config dos envs
 
 ```env
+# Test4Py/.env (MARTA)
 MODEL='deepseek-coder-v2:16b'
 OPENAI_API_KEY='ollama'
 OPENAI_API_BASE='http://localhost:11434/v1'
-TRANSFORMER_PATH='BAAI/bge-large-en-v1.5'    # cache HF para RAG
+TRANSFORMER_PATH='BAAI/bge-large-en-v1.5'
+
+# Test4Py/baselines/test4py-baseline/.env (idem MARTA)
 ```
 
-Configurado em `Test4Py/.env` (MARTA) e `baselines/test4py-baseline/.env`.
-
-⚠️ **CoverUp NÃO consegue usar DeepSeek-Coder-V2 16B** porque a sua arquitetura
-exige function calling. Tentativas falhadas (documentadas no projeto):
-- DeepSeek-Coder-V2 16B → não suporta function calling
-- Qwen2.5-Coder 14B → loop infinito em tool calls
-- Qwen2.5-Coder 32B → loop infinito (idem)
-
-Decisão sobre CoverUp pendente (GPT-4o vs ablated mode vs skip).
+CoverUp não usa .env — é configurado via env var na invocação:
+`COVERUP_MODEL=ollama_chat/mistral-small:24b`
 
 ## Modificações ao código das ferramentas
 
