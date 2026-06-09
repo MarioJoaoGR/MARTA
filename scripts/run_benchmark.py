@@ -234,31 +234,32 @@ def run_test4py_baseline(proj: str, info: dict, state: dict) -> None:
 
 
 def run_coverup(proj: str, info: dict, state: dict) -> None:
-    """CoverUp: 1 run por projeto. Usa o LLM definido em COVERUP_MODEL.
-    Default: ``ollama_chat/mistral-small:24b`` (validado em smoke: gera
-    testes válidos, 76% coverage em codetiming._timers, sem loops em
-    tool_calls nem crashes de context window).
+    """CoverUp: 1 run por projeto. Requer COVERUP_MODEL definido via env
+    (não temos default — depende da escolha empírica do LLM).
 
     O prefixo ``ollama_chat/`` é crítico (em vez do ``ollama/`` legacy)
     porque encaminha pelo endpoint /api/chat do Ollama, garantindo que
     o content das respostas chega ao LiteLLM correctamente.
 
-    Smokes empíricos feitos em codetiming._timers:
+    Bake-off empírico (em codetiming._timers):
       - gpt-oss:20b           → 96% cov mas crashes em runs longos
-      - mistral-small:24b     → 76% cov, ESTÁVEL (escolhido)
+      - mistral-small:24b     → 76% cov, estável, MAS 3-4x mais lento em MARTA
       - granite3.1-dense:8b   → 62% cov, fraco
       - llama3.1:8b           → loop infinito
       - qwen2.5-coder 14B/32B → loop infinito
       - mistral-nemo:12b      → alucina tools
+      - DeepSeek-Coder, Codestral → não suportam tools via Ollama
+      - command-r:35b         → em avaliação
 
-    Desligado se COVERUP_MODEL=skip."""
+    Desligado se COVERUP_MODEL não definido ou COVERUP_MODEL=skip."""
     key = f"coverup/{proj}"
     if state.get(key, {}).get("status") in ("ok", "failed"):
         return
-    model = os.environ.get("COVERUP_MODEL", "ollama_chat/mistral-small:24b")
-    if model.lower() == "skip":
-        log(f"  coverup/{proj} … SKIP (COVERUP_MODEL=skip)")
-        state[key] = {"status": "skipped", "elapsed_s": 0, "err": "COVERUP_MODEL=skip"}
+    model = os.environ.get("COVERUP_MODEL", "")
+    if not model or model.lower() == "skip":
+        reason = "COVERUP_MODEL não definido" if not model else "COVERUP_MODEL=skip"
+        log(f"  coverup/{proj} … SKIP ({reason})")
+        state[key] = {"status": "skipped", "elapsed_s": 0, "err": reason}
         save_state(state)
         return
     coverup = ENVS["coverup"] + "/bin/coverup"
