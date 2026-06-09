@@ -32,12 +32,17 @@ TOOLS="${TOOLS:-pynguin,marta,test4py_baseline}"
 PROJECTS="${PROJECTS:-}"          # vazio = todos os 27 projetos do CM
 TIMEOUT_PYNGUIN="${TIMEOUT_PYNGUIN:-300}"
 
-mkdir -p "$OLLAMA_DIR" "$RESULTS_DIR/harness" logs
+mkdir -p "$OLLAMA_DIR" logs
 
 # Sanitizar o nome do modelo para usar em paths
 SAFE_MODEL=$(echo "$MODEL" | tr ':/' '__')
 RUN_RESULTS="$RESULTS_DIR/$SAFE_MODEL"
-mkdir -p "$RUN_RESULTS"
+# Criar harness/ e Results_*/ ANTES de o container fazer os symlinks — caso
+# contrário ln -sfn cria symlinks dangling e Python falha o mkdir(exist_ok=True).
+mkdir -p "$RUN_RESULTS/harness" \
+         "$RUN_RESULTS/Results_Pynguin" \
+         "$RUN_RESULTS/Results_Test4PyBaseline" \
+         "$RUN_RESULTS/Results_MARTA"
 
 # Porta única por job (evita colisão entre jobs do mesmo utilizador)
 PORT_SUFFIX="${SLURM_JOB_ID: -4}"
