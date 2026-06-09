@@ -50,9 +50,89 @@ From: nvidia/cuda:12.4.1-runtime-ubuntu22.04
     /opt/conda/bin/conda create -n test4py_env python=3.10 pip setuptools
     /opt/conda/envs/test4py_env/bin/pip install --no-cache-dir "setuptools<80"
 
-    # As deps específicas do projeto MARTA + os 27 projetos do CM
-    # serão instaladas EM RUNTIME via prepare_envs.py (que vê o requirements.txt
-    # bind-mounted, em /opt/marta — ver %runscript).
+    # -------------------------------------------------------------------
+    # 3a. Pre-baked: deps da MARTA / Test4Py-baseline + 27 projetos CM
+    # -------------------------------------------------------------------
+    # Apt extras necessários para algumas deps (build/cython)
+    apt-get update
+    apt-get install -y --no-install-recommends \
+        gcc g++ make \
+        libffi-dev libssl-dev \
+        libxml2-dev libxslt1-dev \
+        zlib1g-dev \
+        && rm -rf /var/lib/apt/lists/*
+
+    # Clonar codamosa benchmark TEMPORARIAMENTE (só para extrair os sources
+    # dos 27 projetos e fazer pip install). Mais à frente apagamos.
+    git clone --depth 1 https://github.com/microsoft/codamosa.git /tmp/codamosa
+    # Os 27 projetos não estão no repo do codamosa em si — vêm via
+    # docker container. Como não podemos correr docker dentro do .sif,
+    # clonamos UM-A-UM via URLs hardcoded (mesma lista que o setup_test_apps.sh
+    # do codamosa usa).
+    mkdir -p /tmp/test-apps
+    cd /tmp/test-apps
+    # Lista dos 27 projetos do CM (extraída do modules_base_and_name.csv).
+    # Cada linha: nome_do_projeto git_url commit_hash_or_branch
+    cat > /tmp/cm_repos.txt <<'EOF'
+PySnooper https://github.com/cool-RR/PySnooper.git
+apimd https://github.com/KmolYuan/apimd.git
+codetiming https://github.com/realpython/codetiming.git
+cookiecutter https://github.com/cookiecutter/cookiecutter.git
+dataclasses-json https://github.com/lidatong/dataclasses-json.git
+docstring_parser https://github.com/rr-/docstring_parser.git
+flutes https://github.com/huzecong/flutes.git
+flutils https://gitlab.com/mburkard/flutils.git
+httpie https://github.com/httpie/cli.git
+isort https://github.com/PyCQA/isort.git
+mimesis https://github.com/lk-geimfari/mimesis.git
+py-backwards https://github.com/nvbn/py-backwards.git
+pyMonet https://github.com/przemyslawjanpietrzak/pyMonet.git
+pypara https://github.com/vst/pypara.git
+python-semantic-release https://github.com/python-semantic-release/python-semantic-release.git
+python-string-utils https://github.com/daveoncode/python-string-utils.git
+pytutils https://github.com/tehmaze/pytutils.git
+sanic https://github.com/sanic-org/sanic.git
+sty https://github.com/feluxe/sty.git
+thefuck https://github.com/nvbn/thefuck.git
+thonny https://github.com/thonny/thonny.git
+tornado https://github.com/tornadoweb/tornado.git
+tqdm https://github.com/tqdm/tqdm.git
+typesystem https://github.com/encode/typesystem.git
+youtube-dl https://github.com/ytdl-org/youtube-dl.git
+ansible https://github.com/ansible/ansible.git
+black https://github.com/psf/black.git
+EOF
+
+    # Clonar cada projeto (--depth 1 para poupar disco).
+    # Continuar mesmo se um falhar (algumas urls podem ter mudado de 2023).
+    while read name url; do
+        echo "→ A clonar $name..."
+        git clone --depth 1 "$url" "/tmp/test-apps/$name" 2>&1 | tail -2 || \
+            echo "⚠️  CLONE FALHOU para $name — continua sem este (pode ser path diferente em runtime)"
+    done < /tmp/cm_repos.txt
+
+    # Para cada env, instalar cada um dos 27 projetos (com deps runtime
+    # próprias mas SEM build isolation — usamos os build backends já
+    # disponíveis: flit_core, hatchling, setuptools).
+    for env in pynguin_env test4py_baseline_env test4py_env; do
+        PIP=/opt/conda/envs/$env/bin/pip
+        # Garantir build backends comuns para projetos modernos
+        $PIP install --no-cache-dir flit_core hatchling poetry-core build
+
+        for proj_dir in /tmp/test-apps/*/; do
+            proj_name=$(basename "$proj_dir")
+            echo "→ [$env] pip install $proj_name..."
+            # --no-build-isolation: usar build backends já instalados (mais rápido)
+            # || true: alguns projetos podem falhar (ex: ansible com deps pesadas);
+            #         deixar continuar — em runtime usa-se PYTHONPATH para esses
+            $PIP install --no-cache-dir --no-build-isolation "$proj_dir" 2>&1 | tail -1 \
+                || echo "⚠️  [$env] $proj_name falhou — vai usar PYTHONPATH em runtime"
+        done
+    done
+
+    # Cleanup do clone temporário (a codamosa benchmark "real" vem via bind-mount
+    # em runtime de /opt/marta/baselines/codamosa/).
+    rm -rf /tmp/codamosa /tmp/test-apps /tmp/cm_repos.txt
 
     # -------------------------------------------------------------------
     # 4. OLLAMA (binary install, modelos vivem fora do .sif)

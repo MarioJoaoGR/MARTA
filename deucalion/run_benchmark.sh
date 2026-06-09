@@ -99,9 +99,12 @@ srun -n1 singularity exec --nv \
         echo "→ Garantir que modelo $MODEL existe (pull-on-miss) ..."
         ollama show "$MODEL" >/dev/null 2>&1 || ollama pull "$MODEL"
 
-        echo "→ Garantir envs com projetos instalados ..."
-        /opt/conda/envs/test4py_env/bin/python scripts/prepare_envs.py 2>&1 \
-            | tee /data/results/prepare_envs.log
+        # NOTA: prepare_envs.py NÃO é chamado em Deucalion — os 27 projetos
+        # do CM já foram pip-installed nos 3 conda envs em build-time do .sif
+        # (ver Singularity.def secção 3a). Se algum projeto tiver falhado no
+        # build, é detectado em runtime quando MARTA falhar a importar — aí
+        # cai-se no fallback de adicionar /opt/marta/baselines/codamosa/replication/
+        # test-apps/$PROJECT ao PYTHONPATH (via patch futuro se preciso).
 
         echo "→ Arrancar harness ..."
         # state.json e logs vão para /data/results/harness/ (bind mount)
