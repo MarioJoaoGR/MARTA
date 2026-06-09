@@ -46,12 +46,22 @@ HARNESS_DIR = REPO / "baselines" / "harness"
 STATE = HARNESS_DIR / "state.json"
 LOGS_DIR = HARNESS_DIR / "logs"
 
-# Envs conda
+# Envs conda — defaults para Mac local. Overridable via env vars
+# (ENV_PYNGUIN, ENV_COVERUP, ENV_TEST4PY_BASELINE, ENV_MARTA) para que o
+# Deucalion (paths em /opt/conda/envs/...) funcione sem editar este ficheiro.
 ENVS = {
-    "pynguin": "/opt/homebrew/Caskroom/miniconda/base/envs/pynguin_env",
-    "coverup": "/opt/homebrew/Caskroom/miniconda/base/envs/coverup_env",
-    "test4py_baseline": "/opt/homebrew/Caskroom/miniconda/base/envs/test4py_baseline_env",
-    "marta": "/opt/homebrew/Caskroom/miniconda/base/envs/test4py_env",
+    "pynguin": os.environ.get(
+        "ENV_PYNGUIN",
+        "/opt/homebrew/Caskroom/miniconda/base/envs/pynguin_env"),
+    "coverup": os.environ.get(
+        "ENV_COVERUP",
+        "/opt/homebrew/Caskroom/miniconda/base/envs/coverup_env"),
+    "test4py_baseline": os.environ.get(
+        "ENV_TEST4PY_BASELINE",
+        "/opt/homebrew/Caskroom/miniconda/base/envs/test4py_baseline_env"),
+    "marta": os.environ.get(
+        "ENV_MARTA",
+        "/opt/homebrew/Caskroom/miniconda/base/envs/test4py_env"),
 }
 
 # Default timeouts (segundos). None = sem timeout (corre até acabar ou falhar).
