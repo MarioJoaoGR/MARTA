@@ -147,7 +147,7 @@ index 0fc7e8b..e98eb7b 100644
  project_name = base_dir.split(os.path.sep)[-1]
  
 diff --git a/test4dt/testcase.py b/test4dt/testcase.py
-index f7db904..1578ad9 100644
+index f7db904..368b3ff 100644
 --- a/test4dt/testcase.py
 +++ b/test4dt/testcase.py
 @@ -8,7 +8,7 @@ from typing import List
@@ -168,6 +168,42 @@ index f7db904..1578ad9 100644
  
      def init_test_single_path(self):
          if not os.path.exists(self.directory):
+@@ -43,6 +43,16 @@ class TestManager:
+             if len(self.coverage.missing_lines) == 0:
+                 return
+         test_path = self.get_test_path()
++        # Resume granularity: se o teste para esta função já existe em disco
++        # (de uma run anterior interrompida por timeout/SIGTERM ex. no SLURM),
++        # carrega-o sem voltar a chamar o LLM. Equivale ao mecanismo
++        # [SKIP] da MARTA (testcase_react.py:112-117), simplificado por o
++        # dataset CM ser imutável (não há hash-check necessário).
++        if os.path.exists(test_path) and self.count == 0:
++            print(f"[SKIP] Teste para '{self.func.func_name}' já existe em disco, a saltar...")
++            self.testcases.append(Testcase.load_existing(self, self.func, test_path))
++            self.count += 1
++            return
+         await self.func.judge_params()
+         if self.get_first_testcase() != "" and self.coverage is not None:
+             code = await self.generate_test_case_evol()
+@@ -253,6 +263,18 @@ class Testcase:
+         self.error_message = ""
+         self.set_code(code)
+ 
++    @classmethod
++    def load_existing(cls, test_manager, func, test_path: str):
++        """Referencia um ficheiro de teste já existente em disco sem o
++        sobrescrever. Usado para retomar runs interrompidas (ex. SLURM 48h)
++        sem voltar a invocar o LLM."""
++        instance = cls.__new__(cls)
++        instance.test_manager = test_manager
++        instance.test_path = test_path
++        instance.func = func
++        instance.error_message = ""
++        return instance
++
+     def delete(self):
+         try:
+             os.remove(self.test_path)
 diff --git a/test4dt/utils.py b/test4dt/utils.py
 index 1748380..787cf08 100644
 --- a/test4dt/utils.py
