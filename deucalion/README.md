@@ -1,7 +1,7 @@
 # Deucalion — guia de execução
 
 Conteúdo desta pasta:
-- `Singularity.def` — definição do container (build com `apptainer build`)
+- `Singularity.def` — definição do container (build com `singularity build`)
 - `run_benchmark.sh` — job SLURM principal (DeepSeek 16B em 1× A100 40GB)
 - `run_benchmark_236b.sh` — wrapper para DeepSeek 236B em 2× A100 80GB
 
@@ -22,12 +22,23 @@ cd MARTA
 #    re-clonar lá e re-aplicar os patches manualmente)
 
 # 4. Build do container (~30-60 min)
+# NOTA: O Deucalion tem `singularity` (não `apptainer`). São interchangeable
+# — sintaxe e .def file iguais.
 cd /projects/F202407648IACDCF2/mario/containers
-apptainer build marta_benchmark.sif /projects/F202407648IACDCF2/mario/MARTA/deucalion/Singularity.def
+
+# Se a build falhar por "permission denied" no login node, tenta uma destas:
+#   a) com --fakeroot (rootless build):
+#      singularity build --fakeroot marta_benchmark.sif ../MARTA/deucalion/Singularity.def
+#   b) num compute node interactivo (se login não tiver recursos):
+#      salloc -A f202407648iacdcf2g --time=2:00:00 --partition=dev-x86 \
+#          --nodes=1 --cpus-per-task=8 --mem=32G
+#      # depois, no nó alocado, voltar a esta pasta e correr:
+#      singularity build marta_benchmark.sif ../MARTA/deucalion/Singularity.def
+singularity build marta_benchmark.sif ../MARTA/deucalion/Singularity.def
 
 # 5. Verificar:
-apptainer exec --nv marta_benchmark.sif python --version
-apptainer exec --nv marta_benchmark.sif ollama --version
+singularity exec --nv marta_benchmark.sif python --version
+singularity exec --nv marta_benchmark.sif ollama --version
 ```
 
 ## Submeter jobs
