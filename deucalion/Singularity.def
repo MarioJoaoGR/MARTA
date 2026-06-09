@@ -1,0 +1,115 @@
+Bootstrap: docker
+From: nvidia/cuda:12.4.1-runtime-ubuntu22.04
+
+%labels
+    Maintainer Mario
+    Description MARTA benchmark CM — Pynguin + Test4Py-baseline + MARTA (DeepSeek 16B/236B)
+    Version 1.0
+
+%post
+    set -e
+    export DEBIAN_FRONTEND=noninteractive
+
+    # -------------------------------------------------------------------
+    # 1. SISTEMA + DEPS BASE
+    # -------------------------------------------------------------------
+    apt-get update
+    apt-get install -y --no-install-recommends \
+        ca-certificates curl wget git \
+        build-essential pkg-config \
+        python3.10 python3.10-venv python3.10-dev python3-pip \
+        libgomp1 \
+        && rm -rf /var/lib/apt/lists/*
+
+    update-alternatives --install /usr/bin/python python /usr/bin/python3.10 1
+    update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.10 1
+
+    # -------------------------------------------------------------------
+    # 2. MINICONDA (para gerir os 3 envs)
+    # -------------------------------------------------------------------
+    cd /tmp
+    wget -q https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
+    bash miniconda.sh -b -p /opt/conda
+    rm miniconda.sh
+    /opt/conda/bin/conda config --set always_yes yes --set changeps1 no
+    /opt/conda/bin/conda update -n base conda
+
+    # -------------------------------------------------------------------
+    # 3. CRIAR OS 3 ENVS (replica setup local)
+    # -------------------------------------------------------------------
+    # pynguin_env
+    /opt/conda/bin/conda create -n pynguin_env python=3.10 pip setuptools
+    /opt/conda/envs/pynguin_env/bin/pip install --no-cache-dir pynguin coverage
+
+    # test4py_baseline_env (todas as deps da MARTA — superset)
+    /opt/conda/bin/conda create -n test4py_baseline_env python=3.10 pip setuptools
+    # setuptools < 80 garante pkg_resources (necessário para pycg do baseline)
+    /opt/conda/envs/test4py_baseline_env/bin/pip install --no-cache-dir "setuptools<80"
+
+    # test4py_env (MARTA — mesmas deps que baseline + qualquer extra)
+    /opt/conda/bin/conda create -n test4py_env python=3.10 pip setuptools
+    /opt/conda/envs/test4py_env/bin/pip install --no-cache-dir "setuptools<80"
+
+    # As deps específicas do projeto MARTA + os 27 projetos do CM
+    # serão instaladas EM RUNTIME via prepare_envs.py (que vê o requirements.txt
+    # bind-mounted, em /opt/marta — ver %runscript).
+
+    # -------------------------------------------------------------------
+    # 4. OLLAMA (binary install, modelos vivem fora do .sif)
+    # -------------------------------------------------------------------
+    curl -fsSL https://ollama.com/install.sh | sh
+    # Modelos ficam em $OLLAMA_MODELS (env var) — definido no job script
+    # apontando para /projects/.../ollama_models/ (persistência entre jobs)
+
+    # -------------------------------------------------------------------
+    # 5. CACHE HUGGINGFACE PARA O EMBEDDING DO RAG (BAAI/bge-large-en-v1.5)
+    # -------------------------------------------------------------------
+    # Pre-fetch o modelo de embeddings para dentro do .sif (1.2 GB) para
+    # evitar re-download a cada job. Vai para $HF_HOME default = ~/.cache/huggingface.
+    /opt/conda/envs/test4py_env/bin/pip install --no-cache-dir huggingface-hub
+    HF_HOME=/opt/hf_cache /opt/conda/envs/test4py_env/bin/python -c "
+from huggingface_hub import snapshot_download
+snapshot_download('BAAI/bge-large-en-v1.5', cache_dir='/opt/hf_cache/hub')
+print('  ✓ BAAI/bge-large-en-v1.5 cached em /opt/hf_cache/')
+"
+
+    # -------------------------------------------------------------------
+    # 6. CLEANUP
+    # -------------------------------------------------------------------
+    /opt/conda/bin/conda clean -afy
+    rm -rf /root/.cache/pip /tmp/*
+
+%environment
+    # Pythons dos 3 envs no PATH (escolhe-se via prefixo absoluto no script)
+    export PATH=/opt/conda/bin:$PATH
+    export OLLAMA_KEEP_ALIVE=24h
+    export OLLAMA_NUM_PARALLEL=1
+    export OLLAMA_FLASH_ATTENTION=1
+    export OLLAMA_MAX_LOADED_MODELS=1
+    export ANONYMIZED_TELEMETRY=False
+    export CHROMA_TELEMETRY_IMPL=None
+    # HF: usa o cache pre-baked do .sif
+    export HF_HOME=/opt/hf_cache
+    export TRANSFORMERS_OFFLINE=0
+
+%help
+    Singularity container para o benchmark MARTA na suite CM (486 módulos).
+
+    Tools incluídas (via envs conda):
+      - pynguin_env          → /opt/conda/envs/pynguin_env/bin/python
+      - test4py_baseline_env → /opt/conda/envs/test4py_baseline_env/bin/python
+      - test4py_env (MARTA)  → /opt/conda/envs/test4py_env/bin/python
+
+    Ollama instalado em /usr/local/bin/ollama; modelos vivem em $OLLAMA_MODELS
+    (bind-mount externo).
+
+    Código MARTA NÃO está dentro do .sif — vem via bind-mount em /opt/marta.
+
+    O dataset CM (27 projetos) também é bind-mount, NÃO está dentro do .sif.
+
+    Uso típico (de dentro do job SLURM):
+      singularity exec --nv \
+        --bind /projects/.../MARTA:/opt/marta \
+        --bind /projects/.../ollama_models:/data/ollama \
+        --env OLLAMA_MODELS=/data/ollama \
+        marta_benchmark.sif bash /opt/marta/deucalion/run_benchmark.sh
