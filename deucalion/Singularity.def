@@ -172,7 +172,12 @@ print('  ✓ BAAI/bge-large-en-v1.5 cached em /opt/hf_cache/')
     # 6. CLEANUP
     # -------------------------------------------------------------------
     /opt/conda/bin/conda clean -afy
-    rm -rf /root/.cache/pip /tmp/*
+    # APENAS o pip cache de root — NÃO mexer em /tmp/* porque:
+    #  1. /tmp/codamosa, /tmp/test-apps já foram removidos acima
+    #  2. /tmp/* contém o próprio build-temp do Singularity (rootfs em uso)
+    #  3. Coisas do sistema (systemd, etc.) podem estar em /tmp sem
+    #     permissão para apagar em modo fakeroot
+    rm -rf /root/.cache/pip || true
 
 %environment
     # Pythons dos 3 envs no PATH (escolhe-se via prefixo absoluto no script)
