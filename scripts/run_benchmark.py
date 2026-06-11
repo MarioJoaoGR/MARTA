@@ -157,10 +157,14 @@ def _sandbox(name: str, link_from: pathlib.Path) -> pathlib.Path:
     if sb.exists() or sb.is_symlink():
         shutil.rmtree(sb, ignore_errors=True)
     sb.mkdir(parents=True, exist_ok=True)
+    # COPIAR (não symlink): os testes correm com PYNGUIN_DANGER_AWARE=1 e podem
+    # tentar escrever/apagar ficheiros no cwd. Com cópia, só afetam o sandbox
+    # descartável; os originais (projects.json regenerado a cada run, .env com
+    # credenciais) ficam protegidos.
     for fname in ("projects.json", ".env"):
         src = link_from / fname
         if src.exists():
-            (sb / fname).symlink_to(src)
+            shutil.copy2(src, sb / fname)
     return sb
 
 
