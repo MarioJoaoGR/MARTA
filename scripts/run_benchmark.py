@@ -34,6 +34,7 @@ import json
 import os
 import pathlib
 import shlex
+import shutil
 import subprocess
 import signal
 import sys
@@ -140,6 +141,29 @@ def populate_projects_json(cm: dict) -> None:
 # Runners (um por tool)
 # ────────────────────────────────────────────────────────────────────────────
 
+SANDBOX_ROOT = HARNESS_DIR / "sandbox"
+
+
+def _sandbox(name: str, link_from: pathlib.Path) -> pathlib.Path:
+    """cwd isolado para correr uma tool, sem poluir o repo.
+
+    Pynguin/MARTA/test4dt EXECUTAM os testes gerados, que correm código dos
+    projetos-alvo (cookiecutter, etc.) — esse código cria ficheiros/dirs no
+    cwd. Com cwd=REPO isso enche o repo de milhares de ficheiros-lixo. Aqui
+    damos um cwd descartável (limpo a cada projeto) e symlinkamos os ficheiros
+    que as tools leem relativamente (``projects.json``, ``.env``)."""
+    sb = SANDBOX_ROOT / name
+    # rmtree limpa o lixo do projeto anterior (evita acumular inodes).
+    if sb.exists() or sb.is_symlink():
+        shutil.rmtree(sb, ignore_errors=True)
+    sb.mkdir(parents=True, exist_ok=True)
+    for fname in ("projects.json", ".env"):
+        src = link_from / fname
+        if src.exists():
+            (sb / fname).symlink_to(src)
+    return sb
+
+
 def _pythonpath_env(*dirs) -> dict:
     """extra_env com PYTHONPATH = dirs (na ordem dada) + PYTHONPATH existente.
 
@@ -194,6 +218,8 @@ def run_pynguin(proj: str, info: dict, state: dict) -> None:
     project_path = info["project_path"]
     output_base = REPO / "baselines" / "Results_Pynguin" / proj
     output_base.mkdir(parents=True, exist_ok=True)
+    # cwd descartável: os módulos executados pelo Pynguin criam ficheiros no cwd.
+    sandbox = _sandbox("pynguin", REPO)
 
     for module in info["modules"]:
         key = f"pynguin/{proj}/{module}"
@@ -212,7 +238,7 @@ def run_pynguin(proj: str, info: dict, state: dict) -> None:
         ]
         log(f"  pynguin/{proj}/{module} …")
         status, elapsed, err = _run(
-            cmd, cwd=REPO, log_path=log_path,
+            cmd, cwd=sandbox, log_path=log_path,
             timeout=TIMEOUTS["pynguin"],
             extra_env={"PYNGUIN_DANGER_AWARE": "1"},
         )
@@ -238,9 +264,11 @@ def run_marta(proj: str, info: dict, state: dict) -> None:
         "--num", "3",
     ]
     log(f"  marta/{proj} ({len(info['modules'])} módulos) …")
-    # PYTHONPATH = deps pesadas (PYDEPS_MARTA) + repo root (pacote marta/).
+    # cwd descartável (com symlink projects.json + .env); PYTHONPATH dá
+    # acesso ao pacote marta/ (REPO) + deps pesadas (PYDEPS_MARTA).
+    sandbox = _sandbox("marta", REPO)
     extra_env = _pythonpath_env(os.environ.get("PYDEPS_MARTA"), REPO)
-    status, elapsed, err = _run(cmd, cwd=REPO, log_path=log_path,
+    status, elapsed, err = _run(cmd, cwd=sandbox, log_path=log_path,
                                 timeout=TIMEOUTS["marta"], extra_env=extra_env)
     state[key] = {"status": status, "elapsed_s": round(elapsed, 1), "err": err}
     save_state(state)
@@ -265,9 +293,11 @@ def run_test4py_baseline(proj: str, info: dict, state: dict) -> None:
         "--num", "3",
     ]
     log(f"  test4py_baseline/{proj} ({len(info['modules'])} módulos) …")
-    # PYTHONPATH = deps pesadas (PYDEPS_BASELINE) + dir do pacote test4dt/.
+    # cwd descartável (symlink projects.json + .env do test4py-baseline);
+    # PYTHONPATH = pacote test4dt/ (base_cwd) + deps pesadas (PYDEPS_BASELINE).
+    sandbox = _sandbox("test4py_baseline", base_cwd)
     extra_env = _pythonpath_env(os.environ.get("PYDEPS_BASELINE"), base_cwd)
-    status, elapsed, err = _run(cmd, cwd=base_cwd, log_path=log_path,
+    status, elapsed, err = _run(cmd, cwd=sandbox, log_path=log_path,
                                 timeout=TIMEOUTS["test4py_baseline"], extra_env=extra_env)
     state[key] = {"status": status, "elapsed_s": round(elapsed, 1), "err": err}
     save_state(state)
