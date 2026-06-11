@@ -140,6 +140,20 @@ def populate_projects_json(cm: dict) -> None:
 # Runners (um por tool)
 # ────────────────────────────────────────────────────────────────────────────
 
+def _pythonpath_env(*dirs) -> dict:
+    """extra_env com PYTHONPATH = dirs (na ordem dada) + PYTHONPATH existente.
+
+    Usado para injetar as deps pesadas instaladas via `pip install --target`
+    (em PYDEPS_MARTA / PYDEPS_BASELINE) + o diretório do pacote (marta/ ou
+    test4dt/) sem as ter instaladas no env. Em Deucalion o overlay/fakeroot
+    não funcionam, por isso as deps vêm por PYTHONPATH."""
+    parts = [str(d) for d in dirs if d]
+    existing = os.environ.get("PYTHONPATH", "")
+    if existing:
+        parts.append(existing)
+    return {"PYTHONPATH": os.pathsep.join(parts)}
+
+
 def _run(cmd: list[str], *, cwd: pathlib.Path, log_path: pathlib.Path,
          timeout: int | None, extra_env: dict | None = None) -> tuple[str, float, str]:
     """Corre ``cmd``, redireciona stdout+stderr para ``log_path``,
@@ -224,7 +238,10 @@ def run_marta(proj: str, info: dict, state: dict) -> None:
         "--num", "3",
     ]
     log(f"  marta/{proj} ({len(info['modules'])} módulos) …")
-    status, elapsed, err = _run(cmd, cwd=REPO, log_path=log_path, timeout=TIMEOUTS["marta"])
+    # PYTHONPATH = deps pesadas (PYDEPS_MARTA) + repo root (pacote marta/).
+    extra_env = _pythonpath_env(os.environ.get("PYDEPS_MARTA"), REPO)
+    status, elapsed, err = _run(cmd, cwd=REPO, log_path=log_path,
+                                timeout=TIMEOUTS["marta"], extra_env=extra_env)
     state[key] = {"status": status, "elapsed_s": round(elapsed, 1), "err": err}
     save_state(state)
     log(f"  └─ {status} ({elapsed/60:.1f} min)")
@@ -248,7 +265,10 @@ def run_test4py_baseline(proj: str, info: dict, state: dict) -> None:
         "--num", "3",
     ]
     log(f"  test4py_baseline/{proj} ({len(info['modules'])} módulos) …")
-    status, elapsed, err = _run(cmd, cwd=base_cwd, log_path=log_path, timeout=TIMEOUTS["test4py_baseline"])
+    # PYTHONPATH = deps pesadas (PYDEPS_BASELINE) + dir do pacote test4dt/.
+    extra_env = _pythonpath_env(os.environ.get("PYDEPS_BASELINE"), base_cwd)
+    status, elapsed, err = _run(cmd, cwd=base_cwd, log_path=log_path,
+                                timeout=TIMEOUTS["test4py_baseline"], extra_env=extra_env)
     state[key] = {"status": status, "elapsed_s": round(elapsed, 1), "err": err}
     save_state(state)
     log(f"  └─ {status} ({elapsed/60:.1f} min)")

@@ -24,12 +24,14 @@ MARTA_ROOT="/projects/F202407648IACDCF2/mario/MARTA"
 CONTAINER="/projects/F202407648IACDCF2/mario/containers/marta_benchmark.sif"
 OLLAMA_DIR="/projects/F202407648IACDCF2/mario/ollama_models"
 RESULTS_DIR="/projects/F202407648IACDCF2/mario/results"
-# Overlay (read-only) com as deps pesadas da MARTA/test4dt (torch, transformers,
-# chromadb, langchain...) que NÃO estão no .sif base. Ver deucalion/README.md
-# secção "Overlay de dependências". Se não existir, corre sem ele (Pynguin-only).
-OVERLAY="/projects/F202407648IACDCF2/mario/containers/deps_overlay.img"
-OVERLAY_ARG=""
-[ -f "$OVERLAY" ] && OVERLAY_ARG="--overlay $OVERLAY:ro"
+# Deps pesadas da MARTA/test4dt (torch, transformers, chromadb, langchain...)
+# que NÃO estão no .sif base. Instaladas via `pip install --target` em
+# /projects/.../pydeps/{marta,baseline} e injetadas via PYTHONPATH (ver README
+# secção "Deps pesadas (pydeps)"). Overlay/fakeroot não funcionam no Deucalion.
+PYDEPS_DIR="/projects/F202407648IACDCF2/mario/pydeps"
+# HF cache (BAAI embedding) copiada para writable — o /opt/hf_cache do .sif é
+# read-only e o transformers precisa de escrever locks/migração.
+HF_CACHE_DIR="/projects/F202407648IACDCF2/mario/hf_cache"
 
 # Modelo via env var (default: DeepSeek-Coder-V2 16B Lite).
 # Para o run de 236B: sbatch --export=MODEL=deepseek-coder-v2:236b,... run_benchmark.sh
@@ -87,10 +89,11 @@ ml OpenMPI/5.0.3-GCC-13.3.0 CUDA/11.8.0 NCCL/2.20.5-GCCcore-13.3.0-CUDA-12.4.0
 #   - USER_PYTHON_PATH   (interpretador certo do env conda da MARTA)
 
 srun -n1 singularity exec --nv \
-    $OVERLAY_ARG \
     --bind "$MARTA_ROOT:/opt/marta" \
     --bind "$OLLAMA_DIR:/data/ollama" \
     --bind "$RUN_RESULTS:/data/results" \
+    --bind "$PYDEPS_DIR:/data/pydeps" \
+    --bind "$HF_CACHE_DIR:/data/hf_cache" \
     --env "MODEL=$MODEL" \
     --env "OLLAMA_MODELS=/data/ollama" \
     --env "OLLAMA_HOST=127.0.0.1:$OLLAMA_PORT" \
@@ -102,6 +105,11 @@ srun -n1 singularity exec --nv \
     --env "ENV_PYNGUIN=/opt/conda/envs/pynguin_env" \
     --env "ENV_TEST4PY_BASELINE=/opt/conda/envs/test4py_baseline_env" \
     --env "ENV_MARTA=/opt/conda/envs/test4py_env" \
+    --env "PYDEPS_MARTA=/data/pydeps/marta" \
+    --env "PYDEPS_BASELINE=/data/pydeps/baseline" \
+    --env "HF_HOME=/data/hf_cache" \
+    --env "HF_HUB_OFFLINE=1" \
+    --env "TRANSFORMERS_OFFLINE=1" \
     "$CONTAINER" bash -c '
         set -e
         cd /opt/marta
