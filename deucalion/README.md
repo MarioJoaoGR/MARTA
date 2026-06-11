@@ -41,6 +41,53 @@ singularity exec --nv marta_benchmark.sif python --version
 singularity exec --nv marta_benchmark.sif ollama --version
 ```
 
+## Overlay de dependências (OBRIGATÓRIO para MARTA + Test4Py-baseline)
+
+O `.sif` base tem os 3 conda envs, Ollama, os 27 projetos CM e a cache do
+BAAI, mas **NÃO** tem as deps pesadas da MARTA/test4dt (torch, transformers,
+chromadb, sentence-transformers, langchain...). Sem elas, Pynguin corre mas
+MARTA e Test4Py-baseline falham com `ModuleNotFoundError`.
+
+Em vez de reconstruir o `.sif`, adicionamos essas deps num **overlay** (camada
+writable por cima do `.sif`). Faz-se UMA vez, num nó dev-x86 (tem internet):
+
+```bash
+# Alocar nó dev-x86 (internet + sem limites de threads do login node)
+salloc -A f202407648iacdcf2x --time=2:00:00 --partition=dev-x86 \
+    --nodes=1 --cpus-per-task=8 --mem=32G
+
+SIF=/projects/F202407648IACDCF2/mario/containers/marta_benchmark.sif
+MARTA_ROOT=/projects/F202407648IACDCF2/mario/MARTA
+OVERLAY=/projects/F202407648IACDCF2/mario/containers/deps_overlay.img
+
+# Criar overlay de 15 GB (torch×2 + transformers + chromadb + ...)
+singularity overlay create --size 15360 "$OVERLAY"
+
+# Instalar os 2 requirements nos envs respetivos (escreve no overlay)
+singularity exec --overlay "$OVERLAY" --bind "$MARTA_ROOT:/opt/marta" "$SIF" bash -c '
+    /opt/conda/envs/test4py_env/bin/pip install --no-cache-dir \
+        -r /opt/marta/requirements.txt
+    /opt/conda/envs/test4py_baseline_env/bin/pip install --no-cache-dir \
+        -r /opt/marta/baselines/test4py-baseline/requirements.txt
+'
+
+# Verificar
+singularity exec --overlay "$OVERLAY" "$SIF" \
+    /opt/conda/envs/test4py_env/bin/python -c \
+    "import torch, chromadb, langchain_core, transformers; print('marta deps OK')"
+singularity exec --overlay "$OVERLAY" "$SIF" \
+    /opt/conda/envs/test4py_baseline_env/bin/python -c \
+    "import torch, langchain_chroma, langchain_openai; print('baseline deps OK')"
+
+exit  # liberta o nó dev-x86
+```
+
+O `run_benchmark.sh` deteta `deps_overlay.img` automaticamente e monta-o `:ro`.
+Os pacotes `marta/` e `test4dt/` (código, não deps) vêm via bind-mount do
+`$MARTA_ROOT`; garantir que existem em `MARTA/marta/` e
+`MARTA/baselines/test4py-baseline/test4dt/` (rsync do Mac se faltarem —
+`test4dt/` é gitignored).
+
 ## Submeter jobs
 
 ```bash

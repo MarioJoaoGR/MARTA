@@ -24,6 +24,12 @@ MARTA_ROOT="/projects/F202407648IACDCF2/mario/MARTA"
 CONTAINER="/projects/F202407648IACDCF2/mario/containers/marta_benchmark.sif"
 OLLAMA_DIR="/projects/F202407648IACDCF2/mario/ollama_models"
 RESULTS_DIR="/projects/F202407648IACDCF2/mario/results"
+# Overlay (read-only) com as deps pesadas da MARTA/test4dt (torch, transformers,
+# chromadb, langchain...) que NÃO estão no .sif base. Ver deucalion/README.md
+# secção "Overlay de dependências". Se não existir, corre sem ele (Pynguin-only).
+OVERLAY="/projects/F202407648IACDCF2/mario/containers/deps_overlay.img"
+OVERLAY_ARG=""
+[ -f "$OVERLAY" ] && OVERLAY_ARG="--overlay $OVERLAY:ro"
 
 # Modelo via env var (default: DeepSeek-Coder-V2 16B Lite).
 # Para o run de 236B: sbatch --export=MODEL=deepseek-coder-v2:236b,... run_benchmark.sh
@@ -81,6 +87,7 @@ ml OpenMPI/5.0.3-GCC-13.3.0 CUDA/11.8.0 NCCL/2.20.5-GCCcore-13.3.0-CUDA-12.4.0
 #   - USER_PYTHON_PATH   (interpretador certo do env conda da MARTA)
 
 srun -n1 singularity exec --nv \
+    $OVERLAY_ARG \
     --bind "$MARTA_ROOT:/opt/marta" \
     --bind "$OLLAMA_DIR:/data/ollama" \
     --bind "$RUN_RESULTS:/data/results" \
