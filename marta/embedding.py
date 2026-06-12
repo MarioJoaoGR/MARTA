@@ -36,7 +36,10 @@ class HuggingFaceEmbedder(Embeddings):
         self.embed_instruction = embed_instruction
         self.show_progress = show_progress
         self.encode_kwargs = encode_kwargs
-        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        # EMBED_DEVICE força o device (ex: 'cpu' no Deucalion, para o Ollama ter
+        # a GPU sozinho — torch + llama.cpp na mesma GPU sem MPS mata o throughput).
+        _dev = os.environ.get("EMBED_DEVICE") or ("cuda" if torch.cuda.is_available() else "cpu")
+        self.device = torch.device(_dev)
         self.tokenizer = AutoTokenizer.from_pretrained(model_name_or_path, local_files_only=True)
         self.model = AutoModel.from_pretrained(model_name_or_path, local_files_only=True).to(self.device)
 

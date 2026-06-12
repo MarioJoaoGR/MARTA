@@ -104,7 +104,7 @@ class HybridClient:
 class MyGPT:
     count = 0
 
-    def __init__(self, temperature=0.2, max_rate=15, time_period=60, model_type="codellama:7b"):
+    def __init__(self, temperature=0.2, max_rate=300, time_period=20, model_type="codellama:7b"):
         load_dotenv()
         
         self.openai_api_key = os.getenv('OPENAI_API_KEY', 'ollama')
@@ -116,7 +116,8 @@ class MyGPT:
             path = os.getenv('TRANSFORMER_PATH', 'BAAI/bge-large-en-v1.5')
             try:
                 print(f"🔄 A carregar modelo de embeddings: {path}")
-                self.embedder = SentenceTransformer(path)
+                # device=None → auto (cuda se houver). EMBED_DEVICE='cpu' força CPU.
+                self.embedder = SentenceTransformer(path, device=os.environ.get("EMBED_DEVICE"))
                 print("✅ Embeddings carregados com sucesso!")
             except Exception as e:
                 print(f"⚠️ Erro ao carregar local, a baixar do Hub: {e}")
