@@ -184,7 +184,9 @@ print('  ✓ BAAI/bge-large-en-v1.5 cached em /opt/hf_cache/')
     export PATH=/opt/conda/bin:$PATH
     export OLLAMA_KEEP_ALIVE=24h
     export OLLAMA_NUM_PARALLEL=1
-    export OLLAMA_FLASH_ATTENTION=1
+    # MLA do DeepSeek-Coder-V2 tem caminho LENTO no flash-attention do llama.cpp
+    # (0.15 tok/s com FA on vs 165 tok/s com FA off no A100). Manter DESLIGADO.
+    export OLLAMA_FLASH_ATTENTION=0
     export OLLAMA_MAX_LOADED_MODELS=1
     export ANONYMIZED_TELEMETRY=False
     export CHROMA_TELEMETRY_IMPL=None
