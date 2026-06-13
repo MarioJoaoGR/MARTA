@@ -399,9 +399,20 @@ class ProjectMessage:
 
 
     def embedding_class_summary(self):
-        for file_message in self.file_messages:
-            for class_message in file_message.classes:
-                class_message.vector = embedder.embed_query(class_message.summary)
+        # Embedding em lote das summaries de classe (uma passagem por chunk em
+        # vez de um forward por classe). Classes sem summary ficam com
+        # vector=None e são filtradas no find_topK_message.
+        targets = [
+            cm
+            for file_message in self.file_messages
+            for cm in file_message.classes
+            if cm.summary is not None
+        ]
+        if not targets:
+            return
+        vectors = embedder.embed_documents([cm.summary for cm in targets])
+        for cm, vec in zip(targets, vectors):
+            cm.vector = vec
 
 
     async def analyze_param_types(self):
@@ -933,20 +944,20 @@ params:
             else:
                 return
 
-        # Idempotência: no modo ReAct cada ronda pode gerar vários ficheiros
-        # com sufixo de cenário (_0_test_valid.py, _0_test_error.py, …).
-        # Usamos glob para detetar se já existe algum ficheiro para o índice atual.
-        if not self.file.project.code_changed:
-            base_path = self.test_manager.get_test_path()
-            base_prefix = base_path[:-3] if base_path.endswith('.py') else base_path
-            existing = sorted(glob.glob(f"{base_prefix}_*.py"))
-            if existing:
-                print(f"[SKIP] Testes para '{self.func_name}' já existem nesta ronda, a saltar...")
-                for filepath in existing:
-                    self.test_manager.testcases.append(
-                        Testcase.load_existing(self.test_manager, self, filepath)
-                    )
-                return
+        # Idempotência + nomenclatura por ronda. Cada ronda escreve UM ficheiro
+        # combinado '<prefixo>_<ronda>.py' (ronda = nº de ficheiros já existentes),
+        # por isso rondas posteriores acumulam cobertura em vez de sobrescrever.
+        # Se o código não mudou e já existem testes, salta a geração (custo zero).
+        react_prefix = self.test_manager.get_react_prefix()
+        existing = sorted(glob.glob(f"{react_prefix}_*.py"))
+        if not self.file.project.code_changed and existing:
+            print(f"[SKIP] Testes para '{self.func_name}' já existem, a saltar...")
+            for filepath in existing:
+                self.test_manager.testcases.append(
+                    Testcase.load_existing(self.test_manager, self, filepath)
+                )
+            return
+        combined_path = f"{react_prefix}_{len(existing)}.py"
 
         # self.judge é populado eagerly em ProjectMessage.init via analyze_param_types
         # (RAG sobre embeddings de classes). Aqui só lê.
@@ -956,7 +967,7 @@ params:
         related_block = ""
         rag_query = self.summary or self.done_what
         if rag_query:
-            candidates = function_database.query(rag_query, 4)
+            candidates = await asyncio.to_thread(function_database.query, rag_query, 4)
             related = [f for f in candidates if f.module_name != self.module_name][:3]
             if related:
                 related_lines = ["RELATED FUNCTIONS IN THIS PROJECT (for inspiration):"]
@@ -973,9 +984,6 @@ params:
 
         SOURCE CODE:
         {self.get_source_code()}
-
-        INFERRED TYPES & USAGE:
-        {self.judge if self.judge else "No type inference available."}
 
         DOCSTRING SUMMARY:
         {self.done_what if self.done_what else "No summary available."}
@@ -1035,77 +1043,93 @@ params:
 
 
         # ========================================================
-        # 👷 AGENTE 2: ASSERTION (Com Self-Healing e Logs)
+        # 👷 AGENTE 2: DEV — 1 ficheiro com TODOS os cenários + self-healing
         # ========================================================
-        for scenario in test_plan:
-            scn_name = scenario.get('name')
-            # log("ASSERTION", f"A trabalhar no cenário: {scn_name}")
-            
-            max_attempts = 3
-            last_error = None
-            
-            for attempt in range(max_attempts):
+        # Antes: 1 chamada LLM por cenário (+ até 3 de cura cada) → 4-10 chamadas.
+        # Agora: 1 chamada gera o ficheiro inteiro; self-healing cura o ficheiro
+        # todo; no fim, salva os testes que passam (Opção D). Caminho feliz = 2
+        # chamadas (Planner + Dev) em vez de 4+.
+        scenarios_block = "\n".join(
+            f"          {i+1}. {s.get('name')}: {s.get('desc')} (setup: {s.get('setup')})"
+            for i, s in enumerate(test_plan)
+        )
 
-                # Constrói o Prompt
-                if attempt == 0:
-                    instruction = f"Write a SINGLE pytest function for: {scn_name}\nDESC: {scenario.get('desc')}\nSETUP: {scenario.get('setup')}"
-                else:
-                    # log("SELF-HEALING", f"Tentativa {attempt+1}. A corrigir erro anterior...")
-                    # RAG dirigido ao erro: vai buscar funções semanticamente parecidas
-                    # e (se existirem) um teste já validado dessa função como exemplo.
-                    similar_help = ""
-                    if last_error:
-                        candidates = function_database.query(last_error[:400], 3)
-                        similar = [f for f in candidates if f.module_name != self.module_name][:2]
-                        if similar:
-                            blocks = ["SIMILAR TESTED FUNCTIONS THAT MIGHT HELP:"]
-                            for sf in similar:
-                                summary_line = " ".join((sf.done_what or "no summary").split())[:200]
-                                blocks.append(f"- {sf.func_name}: {summary_line}")
-                                tcs = getattr(sf.test_manager, 'testcases', [])
-                                if tcs:
-                                    try:
-                                        with open(tcs[0].test_path, 'r', encoding='utf-8') as f:
-                                            example = f.read()[:400]
-                                        blocks.append(f"  Example passing test:\n  ```python\n{example}\n  ```")
-                                    except (FileNotFoundError, IOError, OSError):
-                                        pass
-                            similar_help = "\n\n" + "\n".join(blocks)
-                    instruction = (
-                        f"PREVIOUS CODE FAILED.\nERROR MESSAGE:\n{last_error}"
-                        f"{similar_help}\n"
-                        f"TASK: Rewrite the test case to fix this error.\nSCENARIO: {scn_name}"
-                    )
+        max_attempts = 3
+        last_error = None
+        last_results = {}
+        combined_tc = None
+        success = False
 
-                sys_prompt_dev = "You are a Pytest Expert. Write valid python code."
-                user_prompt_dev = f"""
-                {instruction}
-                
-                FUNCTION CODE:
-                {self.get_source_code()}
-                
-                RULES:
-                1. Output ONLY python code in ```python``` block.
-                2. Import correctly from module '{self.file.mod_name}'.
-                3. CRITICAL MOCKING RULE: If you need to mock external dependencies, global variables, or attributes to prevent errors, you MUST use `unittest.mock.patch` as a context manager (with patch(...):) or the `monkeypatch` fixture. 
-                NEVER assign mock objects directly to global modules (e.g., do NOT do `module.config = Mock()`). Strict state isolation is mandatory.
-                """
-                
-                code_response = await model.aask(sys_prompt_dev, user_prompt_dev)
-                clean_code = get_code(code_response)
-                
-                # EXECUTA
-                success, error_msg = await self.test_manager.inject_agent_test(clean_code, scn_name)
-                
-                if success:
-                    # log("RESULTADO", f"✅ Sucesso à tentativa {attempt+1}!")
-                    break 
+        for attempt in range(max_attempts):
+            if attempt == 0:
+                instruction = (
+                    f"Write a SINGLE pytest file containing ONE test function for EACH of "
+                    f"these {len(test_plan)} scenarios:\n{scenarios_block}"
+                )
+            else:
+                # RAG dirigido ao erro: funções semanticamente parecidas + (se
+                # existir) um teste já validado dessa função como exemplo.
+                similar_help = ""
+                if last_error:
+                    candidates = await asyncio.to_thread(function_database.query, last_error[:400], 3)
+                    similar = [f for f in candidates if f.module_name != self.module_name][:2]
+                    if similar:
+                        blocks = ["SIMILAR TESTED FUNCTIONS THAT MIGHT HELP:"]
+                        for sf in similar:
+                            summary_line = " ".join((sf.done_what or "no summary").split())[:200]
+                            blocks.append(f"- {sf.func_name}: {summary_line}")
+                            tcs = getattr(sf.test_manager, 'testcases', [])
+                            if tcs:
+                                try:
+                                    with open(tcs[0].test_path, 'r', encoding='utf-8') as f:
+                                        example = f.read()[:400]
+                                    blocks.append(f"  Example passing test:\n  ```python\n{example}\n  ```")
+                                except (FileNotFoundError, IOError, OSError):
+                                    pass
+                        similar_help = "\n\n" + "\n".join(blocks)
+                instruction = (
+                    f"PREVIOUS CODE FAILED.\nERROR MESSAGE:\n{last_error}"
+                    f"{similar_help}\n"
+                    f"TASK: Rewrite the ENTIRE test file to fix this error. "
+                    f"Keep one independent test function per scenario."
+                )
+
+            sys_prompt_dev = "You are a Pytest Expert. Write valid python code."
+            user_prompt_dev = f"""
+            {instruction}
+
+            FUNCTION CODE:
+            {self.get_source_code()}
+
+            RULES:
+            1. Output ONLY python code in ```python``` block (a complete test file).
+            2. Import correctly from module '{self.file.mod_name}'.
+            3. Write one independent, function-based pytest test per scenario.
+            4. CRITICAL MOCKING RULE: If you need to mock external dependencies, global variables, or attributes to prevent errors, you MUST use `unittest.mock.patch` as a context manager (with patch(...):) or the `monkeypatch` fixture.
+            NEVER assign mock objects directly to global modules (e.g., do NOT do `module.config = Mock()`). Strict state isolation is mandatory.
+            """
+
+            code_response = await model.aask(sys_prompt_dev, user_prompt_dev)
+            clean_code = get_code(code_response)
+
+            success, last_error, last_results, combined_tc = \
+                await self.test_manager.inject_combined_test(clean_code, combined_path)
+            if success:
+                break
+
+        # Opção D: se o ficheiro não passou inteiro, salva os testes que passaram
+        # e revalida; se mesmo assim não passar tudo, vai inteiro para quarentena.
+        if not success and combined_tc is not None:
+            survivors = combined_tc.salvage_passing_tests(last_results)
+            if survivors > 0:
+                ok, _results, _out = combined_tc.run_pytest_with_results()
+                if ok:
+                    self.test_manager.testcases.append(combined_tc)
+                    recoder.score.add_assertion_fix_success()
                 else:
-                    last_error = error_msg
-                    if attempt == max_attempts - 1:
-                        # log("RESULTADO", f"❌ Falhou após {max_attempts} tentativas.")
-                        # log_block("ÚLTIMO ERRO", last_error) # Opcional: ver erro no log
-                        pass
+                    combined_tc.delete()
+            else:
+                combined_tc.delete()
 
 class CGEdge:
     def __init__(self, source: FunctionMessage, dest: FunctionMessage, line_no: int):
@@ -1168,7 +1192,7 @@ class ArgMessage:
         if self.is_user_defined:
             if self.meaning is None:
                 self.meaning = await self.generate_meaning()
-                self.vector = embedder.embed_query(self.meaning)
+                self.vector = await asyncio.to_thread(embedder.embed_query, self.meaning)
             return self.find_type_by_RAG()
         return "build-in type"
 

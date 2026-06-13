@@ -61,44 +61,13 @@ from aiolimiter import AsyncLimiter
 import asyncio
 from openai import OpenAI
 
-# --- PARTE DOS EMBEDDINGS (Como o README pede) ---
-try:
-    from sentence_transformers import SentenceTransformer
-    HAS_LOCAL = True
-except ImportError:
-    HAS_LOCAL = False
-    print("❌ AVISO: 'sentence-transformers' não instalado.")
+from marta.recorder import recoder
 
-# Classes falsas para enganar o Test4Py
-class LocalEmbeddingResponse:
-    def __init__(self, data): self.data = data
-class LocalObject:
-    def __init__(self, embedding): self.embedding = embedding
+# NOTA: os embeddings (RAG) são tratados exclusivamente por marta/embedding.py
+# (HuggingFaceEmbedder). O antigo HybridClient/SentenceTransformer aqui carregava
+# um SEGUNDO modelo bge-large que nunca era usado — removido para poupar
+# tempo de arranque e memória (competia com o Ollama pela CPU/GPU).
 
-# --- O CLIENTE HÍBRIDO (A Ponte) ---
-class HybridClient:
-    def __init__(self, api_key, base_url, local_model):
-        self.chat_client = OpenAI(api_key=api_key, base_url=base_url)
-        self.local_model = local_model
-        self.embeddings = self 
-
-    @property
-    def chat(self):
-        return self.chat_client.chat
-
-    def create(self, input, model=None, **kwargs):
-        if not self.local_model:
-            return LocalEmbeddingResponse([LocalObject([0.0]*1024)])
-        
-        if isinstance(input, str): input = [input]
-        
-        try:
-            embeddings = self.local_model.encode(input).tolist()
-        except Exception as e:
-            print(f"⚠️ Erro no embedding local: {e}")
-            embeddings = [[0.0] * 1024 for _ in input]
-
-        return LocalEmbeddingResponse([LocalObject(emb) for emb in embeddings])
 
 # --- CLASSE PRINCIPAL ---
 class MyGPT:
@@ -106,28 +75,26 @@ class MyGPT:
 
     def __init__(self, temperature=0.2, max_rate=300, time_period=20, model_type="codellama:7b"):
         load_dotenv()
-        
+
         self.openai_api_key = os.getenv('OPENAI_API_KEY', 'ollama')
         self.openai_api_base = os.getenv('OPENAI_API_BASE', 'http://localhost:11434/v1')
         if os.getenv('MODEL'): model_type = os.getenv('MODEL')
-        
-        self.embedder = None
-        if HAS_LOCAL:
-            path = os.getenv('TRANSFORMER_PATH', 'BAAI/bge-large-en-v1.5')
-            try:
-                print(f"🔄 A carregar modelo de embeddings: {path}")
-                # device=None → auto (cuda se houver). EMBED_DEVICE='cpu' força CPU.
-                self.embedder = SentenceTransformer(path, device=os.environ.get("EMBED_DEVICE"))
-                print("✅ Embeddings carregados com sucesso!")
-            except Exception as e:
-                print(f"⚠️ Erro ao carregar local, a baixar do Hub: {e}")
-                self.embedder = SentenceTransformer('BAAI/bge-large-en-v1.5')
 
         self.temperature = temperature
         self.limiter = AsyncLimiter(max_rate=max_rate, time_period=time_period)
         self.model_type = model_type
 
-        self.client = HybridClient(self.openai_api_key, self.openai_api_base, self.embedder)
+        # Teto de geração: trava respostas em loop de modelos locais (o objetivo
+        # é cortar o runaway, não o output legítimo). Override via LLM_MAX_TOKENS;
+        # 'none'/0 desativa o limite.
+        _mt = os.getenv('LLM_MAX_TOKENS', '2048')
+        try:
+            _mt_int = int(_mt)
+        except (TypeError, ValueError):
+            _mt_int = 2048
+        self.max_tokens = _mt_int if _mt_int > 0 else None
+
+        self.client = OpenAI(api_key=self.openai_api_key, base_url=self.openai_api_base)
 
         logging.basicConfig(
             filename='error.log',
@@ -143,36 +110,28 @@ class MyGPT:
 
     def chat(self, messages) -> str:
         try:
-            # --- FIX HERE: Added timeout=300.0 ---
-            chat = self.client.chat.completions.create(
+            kwargs = dict(
                 model=self.model_type,
                 messages=messages,
                 temperature=self.temperature,
                 stream=False,
-                timeout=500.0  # <--- Increased to 300 seconds for local models
+                timeout=500.0,  # modelos locais podem ser lentos
             )
+            if self.max_tokens is not None:
+                kwargs['max_tokens'] = self.max_tokens
+
+            chat = self.client.chat.completions.create(**kwargs)
             output = chat.choices[0].message.content
             self.count += 1
 
-            # # --- NEW: LOGGING TO FILE ---
-            # try:
-            #     with open("llm_traffic.log", "a", encoding="utf-8") as f:
-            #         f.write(f"\n{'='*40} NEW REQUEST {'='*40}\n")
-                    
-            #         # Log the input messages (System and User prompts)
-            #         for msg in messages:
-            #             role = msg['role'].upper()
-            #             content = msg['content']
-            #             f.write(f"[{role}]:\n{content}\n{'-'*20}\n")
-                    
-            #         # Log the LLM's response
-            #         f.write(f"[ASSISTANT/LLM]:\n{output}\n")
-            #         f.write(f"{'='*93}\n")
-            # except Exception as log_err:
-            #     print(f"Failed to log LLM traffic: {log_err}")
-            # # -----------------------------
+            # Contabilização de tokens (Ollama devolve `usage` no formato OpenAI).
+            usage = getattr(chat, 'usage', None)
+            if usage is not None:
+                recoder.score.add_tokens(
+                    getattr(usage, 'prompt_tokens', 0) or 0,
+                    getattr(usage, 'completion_tokens', 0) or 0,
+                )
 
-            
         except Exception as e:
             logging.error(f"Erro no chat: {e}")
             return ""

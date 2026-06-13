@@ -53,6 +53,11 @@ class Score:
         self.assertion_error_types = {}
         self.coverage = []
 
+        # Contabilização de tokens / chamadas LLM (preenchido por gptapi.MyGPT.chat).
+        self.prompt_tokens = 0
+        self.completion_tokens = 0
+        self.llm_calls = 0
+
     def add_syntax_pass(self):
         self.syntax_pass += 1
         if self.first_run:
@@ -83,6 +88,11 @@ class Score:
         if self.first_run:
             self.first_assertion_fix_success += 1
 
+    def add_tokens(self, prompt_tokens: int, completion_tokens: int):
+        self.prompt_tokens += prompt_tokens
+        self.completion_tokens += completion_tokens
+        self.llm_calls += 1
+
     def add_assertion_error_type(self, error_type: str):
         if error_type in self.assertion_error_types:
             self.assertion_error_types[error_type] += 1
@@ -110,7 +120,11 @@ class Score:
             'first_assertion_error': self.first_assertion_error,
             'first_assertion_fix_success': self.first_assertion_fix_success,
             'first_assertion_error_types': self.first_assertion_error_types,
-            'coverage': self.coverage
+            'coverage': self.coverage,
+            'prompt_tokens': self.prompt_tokens,
+            'completion_tokens': self.completion_tokens,
+            'total_tokens': self.prompt_tokens + self.completion_tokens,
+            'llm_calls': self.llm_calls
         }
 
     def get_coverage(self, coverage, project):

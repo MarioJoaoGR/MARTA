@@ -1,4 +1,5 @@
 import ast
+import asyncio
 import json
 import logging
 import os
@@ -63,8 +64,33 @@ class TestManager:
             recoder.score.add_assertion_pass()
             return True, None
         else:
-            testcase.delete() 
+            testcase.delete()
             return False, error_msg
+
+    async def inject_combined_test(self, code_content, combined_path):
+        """Escreve o ficheiro combinado (vários testes) e valida-o INTEIRO.
+
+        Retorna (all_passed, error_msg, results, testcase). Em sucesso, o
+        testcase é registado aqui. Em falha NÃO é registado — o chamador decide
+        (Opção D: salvar os testes que passam ou mandar para quarentena).
+        `results` = {nodeid: outcome} para o salvamento por-teste."""
+        testcase = Testcase(self, self.func, combined_path, code_content)
+
+        # 1. Sintaxe (ast.parse, em processo)
+        if testcase.find_syntax_error():
+            recoder.score.add_syntax_error()
+            return False, f"Syntax Error:\n{testcase.error_message}", {}, testcase
+        recoder.score.add_syntax_pass()
+
+        # 2. Pytest do ficheiro inteiro, com resultados por-teste
+        all_passed, results, output = testcase.run_pytest_with_results()
+        if all_passed:
+            self.testcases.append(testcase)
+            recoder.score.add_assertion_pass()
+            return True, None, results, testcase
+
+        recoder.score.add_assertion_error()
+        return False, f"Assertion Error (Pytest):\n{output}", results, testcase
 
     # def get_test_path(self):
     #     root_dir = self.func.file.root_dir
@@ -92,7 +118,24 @@ class TestManager:
         
         filename = f"test_{clean_name}_{func_name}_{len(self.testcases)}.py"
         return os.path.join(self.directory, filename)
-    
+
+    def get_react_prefix(self):
+        """Prefixo ESTÁVEL (sem índice) para os ficheiros combinados do modo
+        ReAct: '<dir>/test_<mod>_<func>'. Cada ronda escreve um ficheiro
+        '<prefixo>_<ronda>.py' (a ronda = nº de ficheiros já existentes), por
+        isso rondas posteriores acumulam em vez de sobrescrever. O glob
+        '<prefixo>_*.py' identifica todos os testes desta função (idempotência)."""
+        from pathlib import Path
+        root_dir = Path(self.func.file.root_dir).resolve()
+        file_path = Path(self.func.file.file_path).resolve()
+        try:
+            rel_p = file_path.relative_to(root_dir)
+        except ValueError:
+            rel_p = Path(file_path.name)
+        clean_name = str(rel_p).replace('.py', '').replace(os.path.sep, '_').replace('.', '_')
+        func_name = self.func.func_name.replace('.', '_')
+        return os.path.join(self.directory, f"test_{clean_name}_{func_name}")
+
     def get_directory(self, dir_type):
         root_dir = self.func.file.root_dir
         return get_output_root(root_dir) + os.path.sep + dir_type
@@ -219,7 +262,7 @@ Other messages:
             query = await self.generate_query()
         else:
             query = await self.generate_repair_query(task)
-        function_messages = function_database.query(query, 3)
+        function_messages = await asyncio.to_thread(function_database.query, query, 3)
         found_message = ""
         for function_message in function_messages:
             found_message += function_message.get_code_with_tests_or_summary()
@@ -428,37 +471,21 @@ class Testcase:
 
     
     def find_syntax_error(self):
-        # 1. Obter caminhos absolutos
-        root_dir = os.path.abspath(self.func.file.root_dir)
-        user_python_path = os.getenv('USER_PYTHON_PATH', 'python')
-
-        # 2. Configurar o ambiente (A MANEIRA CORRETA)
-        env = os.environ.copy()
-        current_pythonpath = env.get('PYTHONPATH', '')
-        env['PYTHONPATH'] = f"{root_dir}:{current_pythonpath}"
-
-        # 3. DEVOLVER O INIT-HOOK para o Pylint não falhar imports cegamente
-        command = f'{user_python_path} -m pylint --errors-only --init-hook="import sys; sys.path.append(\'{root_dir}\')" {self.test_path}'
-
+        # Antes: subprocess pylint --errors-only (arranque de ~1-2s, corrido até
+        # 9x por função/ronda). Agora: ast.parse em processo (microssegundos),
+        # que apanha todos os SyntaxError. Erros de import / nomes indefinidos
+        # deixam de ser apanhados aqui, mas o pytest que corre logo a seguir
+        # apanha-os em runtime — com tracebacks mais acionáveis para o self-healing.
+        code = self.get_code()
         try:
-            # 4. Executar passando o 'env' e capturando STDERR
-            result = subprocess.run(
-                command, 
-                shell=True, 
-                env=env,      
-                stdout=subprocess.PIPE, 
-                stderr=subprocess.PIPE, 
-                text=True,
-                timeout=30
+            ast.parse(code)
+            return False  # Sintaxe válida
+        except SyntaxError as e:
+            text = (e.text or "").rstrip("\n")
+            self.error_message = (
+                f"SyntaxError: {e.msg} (line {e.lineno}, col {e.offset})\n{text}"
             )
-            
-            if result.returncode == 0:
-                return False  # Sucesso
-            else:
-                # Falha: Juntar stdout e stderr para o modelo ver tudo (O SEGREDO!)
-                self.error_message = result.stdout + "\n" + result.stderr
-                return True
-                
+            return True
         except Exception as e:
             self.error_message = str(e)
             return True
@@ -511,57 +538,90 @@ class Testcase:
     #         recoder.score.add_assertion_error_type('TimeoutExpired')
     #         return True
     
-    def find_assert_error(self):
-        # --- PARTE 1: O TEU SETUP ---
+    def run_pytest_with_results(self):
+        """Corre o pytest no ficheiro e devolve (all_passed, results, output).
+
+        results = {nodeid: outcome} (ex: '...::test_x': 'passed'/'failed'). Em
+        timeout/colapso devolve all_passed=False e results={}. Centraliza a
+        execução do pytest: o modo ReAct precisa dos resultados por-teste para
+        salvar os que passam (Opção D), e o find_assert_error legacy delega aqui."""
         root_dir = os.path.abspath(self.func.file.root_dir)
-        
-        # Configurar ambiente
         env = os.environ.copy()
         current_pp = env.get('PYTHONPATH', '')
         env['PYTHONPATH'] = f"{root_dir}:{current_pp}" if current_pp else root_dir
 
-        # --- ALTERAÇÃO AQUI: Ficheiro de report único por modelo ---
         safe_model = os.environ.get('SAFE_MODEL', '')
         report_name = f"pytest_report_{safe_model}.json" if safe_model else "pytest_report.json"
-        # -----------------------------------------------------------
 
         try:
-            # Executar pytest passando o env e o novo report_name
             result = subprocess.run(
-                [os.getenv('USER_PYTHON_PATH', 'python'), '-m', 'pytest', self.test_path, 
-                '--json-report', f'--json-report-file={report_name}'],
-                capture_output=True, text=True, timeout=30, env=env 
+                [os.getenv('USER_PYTHON_PATH', 'python'), '-m', 'pytest', self.test_path,
+                 '--json-report', f'--json-report-file={report_name}'],
+                capture_output=True, text=True, timeout=30, env=env
             )
         except subprocess.TimeoutExpired:
             self.error_message = "time exceeded"
             recoder.score.add_assertion_error_type('TimeoutExpired')
-            return True
+            return False, {}, "time exceeded"
 
-        # --- PARTE 2: A LÓGICA DE RETORNO ---
-        if result.returncode == 0:
-            return False # Sucesso
-
-        # Tentar ler o report JSON correto
+        results = {}
         try:
             with open(report_name, 'r') as f:
                 pytest_report = json.load(f)
-            tests = pytest_report.get('tests', [])
-            for test in tests:
-                try:
-                    traceback = test['call']['traceback']
-                    for item in traceback:
-                        error_type = item.get('message', 'Unknown Error')
-                        recoder.score.add_assertion_error_type(error_type)
-                except KeyError:
-                    pass
+            for test in pytest_report.get('tests', []):
+                nodeid = test.get('nodeid', '')
+                outcome = test.get('outcome', '')
+                results[nodeid] = outcome
+                if outcome != 'passed':
+                    try:
+                        for item in test['call']['traceback']:
+                            recoder.score.add_assertion_error_type(item.get('message', 'Unknown Error'))
+                    except (KeyError, TypeError):
+                        pass
         except (FileNotFoundError, json.JSONDecodeError):
             pass
 
-        # A CORREÇÃO DE OURO: Capturar o grito do Pytest (stderr e stdout)
-        full_output = result.stdout + "\n" + result.stderr
-        self.error_message = full_output.strip() if full_output.strip() else "Pytest failed totally silently (hard crash)."
-        
-        return True
+        full_output = (result.stdout + "\n" + result.stderr).strip()
+        self.error_message = full_output if full_output else "Pytest failed totally silently (hard crash)."
+        return result.returncode == 0, results, full_output
+
+    def find_assert_error(self):
+        # Mantido para o caminho legacy (assert_check). Delega no executor único.
+        all_passed, _results, _output = self.run_pytest_with_results()
+        return not all_passed
+
+    def salvage_passing_tests(self, results):
+        """Opção D: mantém no ficheiro só as funções de teste de topo que
+        passaram e remove (por intervalo de linhas) as que falharam, preservando
+        imports, fixtures e helpers. Devolve o nº de testes que passaram.
+
+        O chamador DEVE revalidar o ficheiro aparado a seguir
+        (run_pytest_with_results) — se não passar tudo, descarta-o por inteiro."""
+        failed_names = {nid.split("::")[-1] for nid, out in results.items() if out != 'passed'}
+        passed_names = {nid.split("::")[-1] for nid, out in results.items() if out == 'passed'}
+        if not failed_names:
+            return len(passed_names)
+        code = self.get_code()
+        try:
+            tree = ast.parse(code)
+        except SyntaxError:
+            return 0
+        lines = code.splitlines()
+        remove = set()
+        for node in tree.body:
+            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)) and node.name in failed_names:
+                start = node.decorator_list[0].lineno if node.decorator_list else node.lineno
+                end = getattr(node, 'end_lineno', node.lineno)
+                for ln in range(start, end + 1):
+                    remove.add(ln)
+        kept = [l for i, l in enumerate(lines, start=1) if i not in remove]
+        new_code = "\n".join(kept)
+        try:
+            ast.parse(new_code)  # garante que o ficheiro aparado ainda é válido
+        except SyntaxError:
+            return 0
+        self.set_code(new_code)
+        return len(passed_names)
 
             
 
@@ -708,25 +768,25 @@ class Testcase:
         return pass_the_assert
 
     async def repair_syntax_error(self):
-        sys_prompt = """You are an AI assistant that specializes in fixing syntax errors in Python test cases. 
-Given a test case written by the user and the corresponding pylint error messages, 
+        sys_prompt = """You are an AI assistant that specializes in fixing syntax errors in Python test cases.
+Given a test case written by the user and the corresponding Python syntax error message,
 your task is to correct the syntax errors while preserving the original logic and structure of the test case.
 
 Your response should:
 
-Fix all syntax errors reported by pylint.
+Fix all reported syntax errors.
 Ensure the corrected code remains a valid test case.
 Maintain the original coding style and structure as much as possible.
 Not introduce any logic changes beyond necessary fixes.
 **Do not re-implement the function.** Instead, import it correctly and write meaningful test cases.
-If the provided pylint errors are ambiguous or incomplete, make reasonable assumptions to correct the syntax while preserving the intent.
+If the provided error message is ambiguous or incomplete, make reasonable assumptions to correct the syntax while preserving the intent.
 """
-        user_prompt = f"""Here is a Python test case and the pylint errors it produces. Please correct the syntax errors accordingly.
+        user_prompt = f"""Here is a Python test case and the syntax error it produces. Please correct the syntax errors accordingly.
 
 Test Case:
 {self.get_code()}
 
-Pylint Errors:
+Syntax Error:
 {self.error_message}
 """
         self.set_code(get_code(await model.aask(sys_prompt, user_prompt)))

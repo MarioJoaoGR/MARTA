@@ -1,5 +1,6 @@
 import os
 import re
+import numpy as np
 from dotenv import load_dotenv
 from langchain_core.embeddings import Embeddings
 from transformers import AutoTokenizer, AutoModel
@@ -43,45 +44,62 @@ class HuggingFaceEmbedder(Embeddings):
         self.tokenizer = AutoTokenizer.from_pretrained(model_name_or_path, local_files_only=True)
         self.model = AutoModel.from_pretrained(model_name_or_path, local_files_only=True).to(self.device)
 
-    def embed_documents(self, texts: List[str]) -> List[List[float]]:
+    @staticmethod
+    def _masked_mean(last_hidden_state, attention_mask):
+        """Mean pooling que IGNORA os tokens de padding.
+
+        Crucial para que o embedding em lote seja idêntico ao de item único:
+        o `embed_query` não usa padding, por isso a sua média plana == média
+        mascarada. Já em lote há padding, e uma média plana (dim=1) poluiria o
+        vetor com tokens de padding → vetores fora do espaço das queries."""
+        mask = attention_mask.unsqueeze(-1).type_as(last_hidden_state)
+        summed = (last_hidden_state * mask).sum(dim=1)
+        counts = mask.sum(dim=1).clamp(min=1e-9)
+        return summed / counts
+
+    def embed_documents(self, texts: List[str], batch_size: int = 32) -> List[List[float]]:
+        """Embedding em lote (uma passagem por chunk) com pooling mascarado.
+
+        Equivale a chamar embed_query item-a-item, mas com muito menos forwards
+        no modelo. Faz chunking para limitar o pico de memória em projetos com
+        muitas funções/classes."""
         texts = [self.embed_instruction + t.replace("\n", " ") for t in texts]
-
-        inputs = self.tokenizer(texts, padding=True, truncation=True, return_tensors="pt", max_length=512, **self.encode_kwargs)
-        inputs = {key: value.to(self.device) for key, value in inputs.items()}
-        with torch.no_grad():
-            outputs = self.model(**inputs)
-
-        embeddings = torch.mean(outputs.last_hidden_state, dim=1)
-
-        return embeddings.tolist()
+        all_embeddings: List[List[float]] = []
+        for start in range(0, len(texts), batch_size):
+            chunk = texts[start:start + batch_size]
+            inputs = self.tokenizer(chunk, padding=True, truncation=True,
+                                    return_tensors="pt", max_length=512, **self.encode_kwargs)
+            inputs = {key: value.to(self.device) for key, value in inputs.items()}
+            with torch.no_grad():
+                outputs = self.model(**inputs)
+            pooled = self._masked_mean(outputs.last_hidden_state, inputs["attention_mask"])
+            all_embeddings.extend(pooled.tolist())
+        return all_embeddings
 
 
 def find_topK_message(name, messages, query_vector, k=1):
-    ids = []
-    vectors = []
-    name = re.sub(r"[^a-zA-Z]", "", name)[-30:]
-    collection = client.create_collection(name)
-    for index, value in enumerate(messages):
-        ids.append(str(index))
-        vectors.append(value.vector)
-    collection.add(
-        embeddings=vectors,
-        ids=ids
-    )
-    try:
-        results = collection.query(
-            query_embeddings=[query_vector],
-            n_results=k
-        )
-    except RuntimeError:
-        client.delete_collection(name)
-        return messages
-    client.delete_collection(name)
+    """Top-k por similaridade de cosseno em numpy.
 
-    top_k = []
-    for index in results['ids'][0]:
-        top_k.append(messages[int(index)])
-    return top_k
+    Antes criava/apagava uma coleção ChromaDB a cada chamada (uma por
+    parâmetro analisado) — overhead enorme no caminho quente. Como os vetores
+    das classes já estão pré-computados (embedding_class_summary), basta um
+    produto interno em memória. `name` mantém-se na assinatura por
+    compatibilidade mas já não é usado.
+    """
+    # Só considera mensagens com vetor válido; sem candidatos, devolve o input.
+    candidates = [m for m in messages if getattr(m, 'vector', None) is not None]
+    if not candidates:
+        return messages
+
+    mat = np.asarray([m.vector for m in candidates], dtype=np.float32)
+    q = np.asarray(query_vector, dtype=np.float32)
+
+    mat_norms = np.linalg.norm(mat, axis=1) + 1e-8
+    q_norm = np.linalg.norm(q) + 1e-8
+    sims = (mat @ q) / (mat_norms * q_norm)
+
+    top_idx = np.argsort(-sims)[:k]
+    return [candidates[i] for i in top_idx]
 
 
 class FunctionDatabase:
@@ -91,14 +109,18 @@ class FunctionDatabase:
 
     def init(self, project):
         ids = []
-        vectors = []
+        summaries = []
         for file_message in project.file_messages:
             for function in file_message.functions:
                 if function.summary is None:
                     continue
                 ids.append(str(len(self.functions)))
                 self.functions.append(function)
-                vectors.append(embedder.embed_query(function.summary))
+                summaries.append(function.summary)
+        if not summaries:
+            return
+        # Embedding em lote (uma passagem por chunk) em vez de N forwards.
+        vectors = embedder.embed_documents(summaries)
         self.collection.add(
             embeddings=vectors,
             ids=ids
