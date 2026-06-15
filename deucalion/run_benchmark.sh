@@ -73,6 +73,29 @@ echo "================================================================="
 ml OpenMPI/5.0.3-GCC-13.3.0 CUDA/11.8.0 NCCL/2.20.5-GCCcore-13.3.0-CUDA-12.4.0
 
 # ============================================================================
+# AUTO-CHAIN via trap SIGTERM
+# --signal=B:SIGTERM@120 envia SIGTERM à BASH 120s antes do walltime. Sem trap,
+# a bash morria sem encadear (bug anterior: o bloco no fim com EXIT_CODE==143
+# era inalcançável porque a bash nunca lá chegava). Apanhamos o SIGTERM aqui e
+# submetemos a continuação. Resume é seguro: state.json (por-projeto) + caches
+# (grafo/análise em Results_<tool>/<proj>/) persistem.
+# IMPORTANTE: o srun corre em BACKGROUND + wait — com srun em foreground a bash
+# adiaria o trap até o srun terminar (= nunca, até ao SIGKILL do walltime).
+# ============================================================================
+_chained=0
+chain_continuation() {
+    if [ "$_chained" -eq 0 ]; then
+        _chained=1
+        echo "→ SIGTERM (walltime). A submeter continuação ..."
+        sbatch --parsable --dependency=afterany:"${SLURM_JOB_ID}" \
+            --export=ALL,MODEL="${MODEL}",TOOLS="${TOOLS}",PROJECTS="${PROJECTS}" \
+            "$0" || echo "⚠️  sbatch da continuação falhou"
+    fi
+    exit 143
+}
+trap chain_continuation SIGTERM
+
+# ============================================================================
 # EXECUÇÃO NO CONTAINER
 # ============================================================================
 # Bind mounts:
@@ -155,23 +178,18 @@ srun -n1 singularity exec --nv \
         kill $OLLAMA_PID 2>/dev/null || true
 
         exit $EXIT_CODE
-    '
+    ' &
 
-EXIT_CODE=$?
+# srun em background; wait é interrompível → o trap chain_continuation dispara
+# no SIGTERM (120s antes do walltime) e submete a continuação.
+SRUN_PID=$!
+EXIT_CODE=0
+wait "$SRUN_PID" || EXIT_CODE=$?
+
 echo "================================================================="
 echo " Job $SLURM_JOB_ID terminou (exit $EXIT_CODE)"
 echo "================================================================="
-
-# ============================================================================
-# AUTO-CHAIN: se o harness saiu por SIGTERM (143) ainda há trabalho para fazer.
-# Submeter automaticamente um job dependente que retoma.
-# ============================================================================
-if [ $EXIT_CODE -eq 143 ]; then
-    echo "→ Walltime atingido. A submeter job de continuação ..."
-    NEXT_JOB=$(sbatch --parsable --dependency=afterany:$SLURM_JOB_ID \
-        --export=ALL,MODEL=$MODEL,TOOLS=$TOOLS,PROJECTS=$PROJECTS \
-        "$0")
-    echo "  Próximo job: $NEXT_JOB"
-fi
-
+# Auto-chain é via trap SIGTERM (chain_continuation), ~120s antes do walltime.
+# Se chegámos aqui sem SIGTERM, o harness terminou normalmente (trabalho feito
+# ou erro real) → não encadeia.
 exit $EXIT_CODE
