@@ -138,6 +138,7 @@ srun -n1 singularity exec --nv \
     --env "HF_HUB_OFFLINE=1" \
     --env "TRANSFORMERS_OFFLINE=1" \
     --env "OLLAMA_FLASH_ATTENTION=0" \
+    --env "PYTHONUNBUFFERED=1" \
     "$CONTAINER" bash -c '
         set -e
         cd /opt/marta
