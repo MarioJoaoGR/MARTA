@@ -6,7 +6,10 @@
 #SBATCH --gpus=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=32
-#SBATCH --mem=64G
+# 200G (nó tem ~500G): absorve picos de RAM da análise PyCG e, sobretudo, de
+# testes gerados memory-bomb (ex: tqdm(range(1e10)) com input fuzzed) que com
+# 64G davam OOM-kill (-9) do job inteiro. Ver falha marta/tqdm.
+#SBATCH --mem=200G
 #SBATCH --time=47:30:00
 #SBATCH --output=logs/bench_%j.out
 #SBATCH --signal=B:SIGTERM@120
