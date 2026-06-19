@@ -7,6 +7,7 @@ from transformers import AutoTokenizer, AutoModel
 import torch
 from typing import List
 import chromadb
+from chromadb.config import Settings
 
 
 class HuggingFaceEmbedder(Embeddings):
@@ -144,5 +145,9 @@ class FunctionDatabase:
 
 load_dotenv()
 embedder = HuggingFaceEmbedder(model_name_or_path=os.getenv('TRANSFORMER_PATH') or '')
-client = chromadb.Client()
+# anonymized_telemetry=False: a telemetria posthog do chromadb está partida
+# (capture() com assinatura errada) e, em queries RAG via asyncio.to_thread,
+# o batched_events dá KeyError que MATA o processo a meio (perdeu o httpie aos
+# 170 min). Desligá-la remove o crash sem afetar funcionalidade.
+client = chromadb.Client(Settings(anonymized_telemetry=False))
 function_database = FunctionDatabase()
