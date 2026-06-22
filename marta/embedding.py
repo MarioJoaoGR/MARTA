@@ -8,6 +8,19 @@ import torch
 from typing import List
 import chromadb
 from chromadb.config import Settings
+# Bulletproof: a telemetria posthog do chromadb dá KeyError em batched_events
+# (matou o httpie aos 170min) e o Settings(anonymized_telemetry=False) sozinho
+# NÃO a desliga (os avisos "capture() takes 1 positional argument" persistem —
+# é um singleton global). Neutralizar a .capture() diretamente em qualquer
+# classe do módulo posthog. Sem efeito funcional (é só analytics).
+try:
+    import chromadb.telemetry.product.posthog as _cph
+    for _n in dir(_cph):
+        _c = getattr(_cph, _n)
+        if isinstance(_c, type) and hasattr(_c, "capture"):
+            _c.capture = lambda *a, **k: None
+except Exception:
+    pass
 
 
 class HuggingFaceEmbedder(Embeddings):
