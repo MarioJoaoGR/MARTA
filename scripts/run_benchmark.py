@@ -215,11 +215,26 @@ def _run(cmd: list[str], *, cwd: pathlib.Path, log_path: pathlib.Path,
         return "failed", time.time() - t0, repr(e)
 
 
+def _import_root(project_path: str, source_path: str) -> str:
+    """Raiz de sys.path para importar os módulos do projeto.
+
+    Se source_path for um CONTAINER (sem __init__.py — ex.: ansible/lib,
+    black/src), os módulos (ansible.cli.adhoc, blib2to3.*) só são importáveis a
+    partir de project_path/source_path. Sem isto o Pynguin corria com
+    --project-path=project_path e dava ModuleNotFoundError → falhava 237/237 no
+    ansible (e 6/6 no black). Se source_path for o próprio pacote (codetiming/),
+    devolve project_path → comportamento inalterado nos 25 projetos normais."""
+    src_full = os.path.join(project_path, source_path) if source_path else project_path
+    if source_path and not os.path.exists(os.path.join(src_full, "__init__.py")):
+        return src_full
+    return project_path
+
+
 def run_pynguin(proj: str, info: dict, state: dict) -> None:
     """Pynguin corre 1 vez por módulo. Cria entry no state por módulo
     para retomar de onde parou."""
     pynguin = ENVS["pynguin"] + "/bin/pynguin"
-    project_path = info["project_path"]
+    project_path = _import_root(info["project_path"], info["source_path"])
     output_base = REPO / "baselines" / "Results_Pynguin" / proj
     output_base.mkdir(parents=True, exist_ok=True)
     # cwd descartável: os módulos executados pelo Pynguin criam ficheiros no cwd.

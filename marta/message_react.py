@@ -26,7 +26,22 @@ class ProjectMessage:
     def __init__(self, root_dir: str, source_dir: str, dir_type='Test4DT_tests'):
         self.root_dir: str = root_dir
         self.source_dir = source_dir
-        
+
+        # Raiz de import. Se source_dir for um CONTAINER (sem __init__.py — ex.:
+        # ansible/lib, black/src), os módulos só são importáveis a partir de
+        # root_dir/source_dir, e o mod_name (relativo a root_dir) leva o prefixo
+        # do container ('lib.ansible...') que NÃO faz parte do import real. Se
+        # source_dir for o próprio pacote (codetiming/), import_root == root_dir
+        # e o mod_name já é o nome importável → tudo fica como estava nos 25
+        # projetos normais (prefixo vazio, import_root inalterado).
+        _src_full = os.path.join(self.root_dir, self.source_dir) if self.source_dir else self.root_dir
+        self.source_is_container = bool(self.source_dir) and \
+            not os.path.exists(os.path.join(_src_full, '__init__.py'))
+        self.import_root = _src_full if self.source_is_container else self.root_dir
+        self._src_prefix = (self.source_dir.replace(os.path.sep, '.').strip('.') + '.') \
+            if self.source_is_container else ''
+
+
         # --- ALTERAÇÃO AQUI: Tornar a pasta de testes dinâmica ---
         safe_model = os.environ.get('SAFE_MODEL', '')
         if safe_model:
@@ -218,7 +233,12 @@ class ProjectMessage:
 
     def init_test_path(self, dir_type):
         out_root = get_output_root(self.root_dir)
-        conf_content = f"import sys\n\ndef pytest_configure(config):\n    sys.path.append(\'{self.root_dir}\')"
+        # import_root == root_dir nos projetos normais; nos containers (ansible/
+        # lib, black/src) é root_dir/source_dir, para os módulos serem importáveis
+        # pelo nome real (ansible.cli.adhoc) e os imports internos do pacote
+        # ('from ansible.x import ...') resolverem. Vale para validação, coverage
+        # e re-validação (todas descobrem este conftest).
+        conf_content = f"import sys\n\ndef pytest_configure(config):\n    sys.path.append(\'{self.import_root}\')"
         test_dir = out_root + os.path.sep + dir_type
         if not os.path.exists(test_dir):
             os.makedirs(test_dir, exist_ok=True)
@@ -507,6 +527,17 @@ class FileMessage:
         self.extract_classes_functions_with_comments(file_path)
         self.father = None
 
+    @property
+    def import_name(self):
+        """Nome importável do módulo (o que vai nos imports dos testes gerados).
+        Igual ao mod_name, exceto quando source_dir é um container (lib/src):
+        aí tira o prefixo do container ('lib.ansible.cli.adhoc' → 'ansible.cli.
+        adhoc'), porque o import_root já é root_dir/source_dir."""
+        prefix = getattr(self.project, '_src_prefix', '')
+        if prefix and self.mod_name.startswith(prefix):
+            return self.mod_name[len(prefix):]
+        return self.mod_name
+
 
     def find_readme(self):
         if self.father is not None:
@@ -583,7 +614,7 @@ class ClassMessage:
         return class_stub + body_source
 
     def get_code_with_summary(self):
-        define_code = f"# mod: {self.file.mod_name}"
+        define_code = f"# mod: {self.file.import_name}"
         define_code += self.class_code
         for function in self.functions:
             define_code += function.get_code_with_summary() + '\n'
@@ -995,7 +1026,7 @@ params:
         # 1. Agrega o Contexto Rico
         context_block = f"""
         Function Name: {self.func_name}
-        Module: {self.file.mod_name}
+        Module: {self.file.import_name}
 
         SOURCE CODE:
         {self.get_source_code()}
@@ -1118,7 +1149,7 @@ params:
 
             RULES:
             1. Output ONLY python code in ```python``` block (a complete test file).
-            2. Import correctly from module '{self.file.mod_name}'.
+            2. Import correctly from module '{self.file.import_name}'.
             3. Write one independent, function-based pytest test per scenario.
             4. CRITICAL MOCKING RULE: If you need to mock external dependencies, global variables, or attributes to prevent errors, you MUST use `unittest.mock.patch` as a context manager (with patch(...):) or the `monkeypatch` fixture.
             NEVER assign mock objects directly to global modules (e.g., do NOT do `module.config = Mock()`). Strict state isolation is mandatory.

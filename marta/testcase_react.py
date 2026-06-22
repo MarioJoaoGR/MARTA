@@ -198,14 +198,14 @@ Analyze the target function before writing the test cases.
         user_prompt = f"""Here is a Python function and its module name. 
 Generate a pytest test case file ensuring proper assertions:
 
-# Module: {self.func.file.mod_name}
+# Module: {self.func.file.import_name}
 **Do not re-implement the function.** Instead, import it correctly and write meaningful test cases.
 
 Function Code: 
 
 {self.func.get_source_code()}
 """
-        return f'# Module: {self.func.file.mod_name}' + get_code(await model.aask(sys_prompt, user_prompt))
+        return f'# Module: {self.func.file.import_name}' + get_code(await model.aask(sys_prompt, user_prompt))
 
     def get_coverage_message_code(self):
         lines = self.func.code.splitlines()
@@ -237,7 +237,7 @@ If any uncovered lines indicate potential edge cases, ensure those are explicitl
 and a list of uncovered lines. Please generate additional `pytest` test cases to increase coverage, 
 ensuring that all assertions are correct.  
 
-# Module: {self.func.file.mod_name}
+# Module: {self.func.file.import_name}
 
 **Function source code:**  
 ```python
@@ -353,14 +353,14 @@ No Additional Explanations: Only output the test file content without extra comm
         user_prompt = f"""Here is a Python function and its module name. 
 Generate a pytest test case file ensuring proper assertions:
 
-# Module: {self.func.file.mod_name}
+# Module: {self.func.file.import_name}
 **Do not re-implement the function.** Instead, import it correctly and write meaningful test cases.
 
 Function Code: 
 
 {self.func.get_source_code()}
 """
-        return f'# Module: {self.func.file.mod_name}' + get_code(await model.aask(sys_prompt, user_prompt))
+        return f'# Module: {self.func.file.import_name}' + get_code(await model.aask(sys_prompt, user_prompt))
 
 
 class Testcase:
