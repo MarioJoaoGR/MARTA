@@ -178,7 +178,22 @@ class ProjectMessage:
         if project not in projects:
             return self.file_messages
         targets = set(projects[project])
-        return [fm for fm in self.file_messages if fm.mod_name in targets]
+        # mod_name vem de get_mod_name(file, root_dir) → relativo ao root_dir,
+        # logo inclui o source_dir como prefixo (ex.: source_dir='lib' →
+        # 'lib.ansible.cli.adhoc'). Quando o source_dir é um CONTAINER (lib, src)
+        # e não o próprio pacote, os módulos CM no projects.json NÃO têm esse
+        # prefixo ('ansible.cli.adhoc', 'blib2to3.*') → o match exato falhava e
+        # dava 0 testes (ansible, black). Casar também sem o prefixo source_dir.
+        src_prefix = self.source_dir.replace(os.path.sep, '.').strip('.')
+        src_prefix = (src_prefix + '.') if src_prefix else ''
+
+        def _hit(name):
+            if name in targets:
+                return True
+            return bool(src_prefix) and name.startswith(src_prefix) \
+                and name[len(src_prefix):] in targets
+
+        return [fm for fm in self.file_messages if _hit(fm.mod_name)]
 
     async def generate_test_case(self):
         targeted = self._targeted_file_messages()
