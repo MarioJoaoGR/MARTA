@@ -256,10 +256,16 @@ def run_pynguin(proj: str, info: dict, state: dict) -> None:
             "-v",
         ]
         log(f"  pynguin/{proj}/{module} …")
+        # PYDEPS_SUT: deps do SUT em falta no env (regex, stringcase, invoke,
+        # urllib3<2 do httpie) instaladas via pip --target e injetadas no
+        # PYTHONPATH (precede o site-packages → também faz override de versão).
+        # Necessário para a comparação ser justa (o CoverdUp/CM tinha-as).
+        extra_env = {"PYNGUIN_DANGER_AWARE": "1"}
+        extra_env.update(_pythonpath_env(os.environ.get("PYDEPS_SUT")))
         status, elapsed, err = _run(
             cmd, cwd=sandbox, log_path=log_path,
             timeout=TIMEOUTS["pynguin"],
-            extra_env={"PYNGUIN_DANGER_AWARE": "1"},
+            extra_env=extra_env,
         )
         state[key] = {"status": status, "elapsed_s": round(elapsed, 1), "err": err}
         save_state(state)
@@ -286,7 +292,7 @@ def run_marta(proj: str, info: dict, state: dict) -> None:
     # cwd descartável (com symlink projects.json + .env); PYTHONPATH dá
     # acesso ao pacote marta/ (REPO) + deps pesadas (PYDEPS_MARTA).
     sandbox = _sandbox("marta", REPO)
-    extra_env = _pythonpath_env(os.environ.get("PYDEPS_MARTA"), REPO)
+    extra_env = _pythonpath_env(os.environ.get("PYDEPS_SUT"), os.environ.get("PYDEPS_MARTA"), REPO)
     status, elapsed, err = _run(cmd, cwd=sandbox, log_path=log_path,
                                 timeout=TIMEOUTS["marta"], extra_env=extra_env)
     state[key] = {"status": status, "elapsed_s": round(elapsed, 1), "err": err}
@@ -315,7 +321,7 @@ def run_test4py_baseline(proj: str, info: dict, state: dict) -> None:
     # cwd descartável (symlink projects.json + .env do test4py-baseline);
     # PYTHONPATH = pacote test4dt/ (base_cwd) + deps pesadas (PYDEPS_BASELINE).
     sandbox = _sandbox("test4py_baseline", base_cwd)
-    extra_env = _pythonpath_env(os.environ.get("PYDEPS_BASELINE"), base_cwd)
+    extra_env = _pythonpath_env(os.environ.get("PYDEPS_SUT"), os.environ.get("PYDEPS_BASELINE"), base_cwd)
     status, elapsed, err = _run(cmd, cwd=sandbox, log_path=log_path,
                                 timeout=TIMEOUTS["test4py_baseline"], extra_env=extra_env)
     state[key] = {"status": status, "elapsed_s": round(elapsed, 1), "err": err}

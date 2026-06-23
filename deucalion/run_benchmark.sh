@@ -133,6 +133,7 @@ srun -n1 singularity exec --nv \
     --env "ENV_MARTA=/opt/conda/envs/test4py_env" \
     --env "PYDEPS_MARTA=/data/pydeps/marta" \
     --env "PYDEPS_BASELINE=/data/pydeps/baseline" \
+    --env "PYDEPS_SUT=/data/pydeps/sut" \
     --env "EMBED_DEVICE=cpu" \
     --env "HF_HOME=/data/hf_cache" \
     --env "HF_HUB_OFFLINE=1" \
