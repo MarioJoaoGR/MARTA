@@ -38,9 +38,12 @@ HF_CACHE_DIR="/projects/F202407648IACDCF2/mario/hf_cache"
 
 # Modelo via env var (default: DeepSeek-Coder-V2 16B Lite).
 # Para o run de 236B: sbatch --export=MODEL=deepseek-coder-v2:236b,... run_benchmark.sh
-MODEL="${MODEL:-deepseek-coder-v2:16b}"
-TOOLS="${TOOLS:-pynguin,marta,test4py_baseline}"
-PROJECTS="${PROJECTS:-}"          # vazio = todos os 27 projetos do CM
+# export: para o --export=ALL da continuação (auto-chain) os herdar SEM os meter
+# em --export=KEY=VAL (valores com vírgula como TOOLS=pynguin,marta seriam
+# partidos pelo sbatch). Passar TOOLS multi-valor: `export TOOLS=...; sbatch --export=ALL`.
+export MODEL="${MODEL:-deepseek-coder-v2:16b}"
+export TOOLS="${TOOLS:-pynguin,marta,test4py_baseline}"
+export PROJECTS="${PROJECTS:-}"          # vazio = todos os 27 projetos do CM
 TIMEOUT_PYNGUIN="${TIMEOUT_PYNGUIN:-300}"
 
 mkdir -p "$OLLAMA_DIR" logs
@@ -90,9 +93,12 @@ chain_continuation() {
     if [ "$_chained" -eq 0 ]; then
         _chained=1
         echo "→ SIGTERM (walltime). A submeter continuação ..."
+        # --export=ALL só: MODEL/TOOLS/PROJECTS já estão exportados → herdados.
+        # NÃO os meter em --export=KEY=VAL: valores com vírgula (TOOLS=pynguin,marta)
+        # são partidos pelo sbatch (a vírgula separa vars) → só apanhava o 1º.
+        # Foi esse bug que fez o 1692915 correr só pynguin (TOOLS ficou =pynguin).
         sbatch --parsable --dependency=afterany:"${SLURM_JOB_ID}" \
-            --export=ALL,MODEL="${MODEL}",TOOLS="${TOOLS}",PROJECTS="${PROJECTS}" \
-            "$0" || echo "⚠️  sbatch da continuação falhou"
+            --export=ALL "$0" || echo "⚠️  sbatch da continuação falhou"
     fi
     exit 143
 }
