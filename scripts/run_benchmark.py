@@ -319,9 +319,15 @@ def run_test4py_baseline(proj: str, info: dict, state: dict) -> None:
     ]
     log(f"  test4py_baseline/{proj} ({len(info['modules'])} módulos) …")
     # cwd descartável (symlink projects.json + .env do test4py-baseline);
-    # PYTHONPATH = pacote test4dt/ (base_cwd) + deps pesadas (PYDEPS_BASELINE).
+    # PYTHONPATH = pacote test4dt/ (base_cwd) + deps. PYDEPS_BASELINE estava
+    # INCOMPLETO (faltava aiolimiter, etc.) e a baseline nunca tinha corrido.
+    # test4dt é fork do marta → mesmas deps de terceiros; juntamos PYDEPS_MARTA
+    # (completo) para preencher as que faltam. Ordem: BASELINE ganha onde tem,
+    # MARTA preenche o resto. Não há conflito de package (o source test4dt vem
+    # só de base_cwd; os pydeps são só libs de terceiros via pip --target).
     sandbox = _sandbox("test4py_baseline", base_cwd)
-    extra_env = _pythonpath_env(os.environ.get("PYDEPS_SUT"), os.environ.get("PYDEPS_BASELINE"), base_cwd)
+    extra_env = _pythonpath_env(os.environ.get("PYDEPS_SUT"), os.environ.get("PYDEPS_BASELINE"),
+                                os.environ.get("PYDEPS_MARTA"), base_cwd)
     status, elapsed, err = _run(cmd, cwd=sandbox, log_path=log_path,
                                 timeout=TIMEOUTS["test4py_baseline"], extra_env=extra_env)
     state[key] = {"status": status, "elapsed_s": round(elapsed, 1), "err": err}
