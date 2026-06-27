@@ -146,11 +146,15 @@ class Score:
         for file_name, file in coverage['files'].items():
             module = file_name[:-3].replace("/", ".")
             if module in modules:
+                # .get com default 0: ficheiros sem branches/statements podem não
+                # trazer todas as chaves no JSON do coverage.py → acesso direto
+                # dava KeyError e crashava o projeto no fim (visto no test4dt/isort).
+                summary = file['summary']
                 result[module] = {
-                    'covered_lines': file['summary']['covered_lines'],
-                    'covered_branches': file['summary']['covered_branches'],
-                    'num_statements': file['summary']['num_statements'],
-                    'num_branches': file['summary']['num_branches']
+                    'covered_lines': summary.get('covered_lines', 0),
+                    'covered_branches': summary.get('covered_branches', 0),
+                    'num_statements': summary.get('num_statements', 0),
+                    'num_branches': summary.get('num_branches', 0)
                 }
         self.coverage.append(result)
     
