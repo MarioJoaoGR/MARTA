@@ -46,16 +46,16 @@ class CoverageMessage:
         self.summary = summary
 
     def get_missing_lines(self):
-        return self.summary['missing_lines']
+        return self.summary.get('missing_lines', 0)
 
     def get_covered_lines(self):
-        return self.summary['covered_lines']
+        return self.summary.get('covered_lines', 0)
 
     def get_missing_branches(self):
-        return self.summary['missing_branches']
+        return self.summary.get('missing_branches', 0)
 
     def get_covered_branches(self):
-        return self.summary['covered_branches']
+        return self.summary.get('covered_branches', 0)
 
     def format_missing_lines(self):
         if not self.missing_lines:
