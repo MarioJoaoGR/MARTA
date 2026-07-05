@@ -65,10 +65,13 @@ for tool, base in TOOLS:
         ae = rr.get("assertion_error")       # testes que falham
         sp = rr.get("syntax_pass")           # sintaticamente válidos
         tm = rr.get("time")                  # runtime total (s)
-        rows.append([tool, proj, stmt, br, sp, ap, ae, tm])
+        tt = rr.get("total_tokens")          # tokens totais (prompt+completion)
+        rows.append([tool, proj, stmt, br, sp, ap, ae, tm, tt,
+                     rr.get("prompt_tokens"), rr.get("completion_tokens")])
 
 # ── Tabela ──
-hdr = f"{'tool':9} {'projeto':24} {'stmt%':>6} {'brnch%':>6} {'syn':>4} {'pass':>5} {'fail':>5} {'time_s':>8}"
+hdr = (f"{'tool':9} {'projeto':24} {'stmt%':>6} {'brnch%':>6} {'syn':>4} "
+       f"{'pass':>5} {'fail':>5} {'time_s':>8} {'tokens':>10}")
 print(hdr)
 print("-" * len(hdr))
 for r in rows:
@@ -78,7 +81,8 @@ for r in rows:
     ap = str(r[5]) if r[5] is not None else "-"
     ae = str(r[6]) if r[6] is not None else "-"
     tm = f"{r[7]:.0f}" if r[7] is not None else "-"
-    print(f"{r[0]:9} {r[1]:24} {stmt:>6} {br:>6} {syn:>4} {ap:>5} {ae:>5} {tm:>8}")
+    tk = f"{r[8]:,}" if r[8] is not None else "-"
+    print(f"{r[0]:9} {r[1]:24} {stmt:>6} {br:>6} {syn:>4} {ap:>5} {ae:>5} {tm:>8} {tk:>10}")
 
 # ── Agregados ──
 print("\n=== AGREGADOS (média por projeto) ===")
@@ -91,14 +95,19 @@ for tool, _ in TOOLS:
     avg_br = sum(r[3] for r in tr) / n
     tot_pass = sum(r[5] or 0 for r in tr)
     tot_fail = sum(r[6] or 0 for r in tr)
+    tot_tok = sum(r[8] or 0 for r in tr)
+    tot_time = sum(r[7] or 0 for r in tr)
+    avg_tok = tot_tok / n
     print(f"  {tool:9}: stmt {avg_stmt:5.1f}%  branch {avg_br:5.1f}%  "
-          f"| Σpass {tot_pass}  Σfail {tot_fail}  ({n} projetos)")
+          f"| Σpass {tot_pass}  Σfail {tot_fail}  "
+          f"| Σtokens {tot_tok:,} (média {avg_tok:,.0f}/proj)  Σtempo {tot_time/3600:.1f}h  ({n} proj)")
 
 # ── CSV ──
 out = os.path.join(RES, "consolidated_16b.csv")
 with open(out, "w", newline="") as f:
     w = csv.writer(f)
     w.writerow(["tool", "project", "stmt_pct", "branch_pct", "syntax_pass",
-                "assertion_pass", "assertion_error", "time_s"])
+                "assertion_pass", "assertion_error", "time_s",
+                "total_tokens", "prompt_tokens", "completion_tokens"])
     w.writerows(rows)
 print(f"\nCSV escrito: {out}")
