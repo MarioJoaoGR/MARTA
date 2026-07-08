@@ -97,8 +97,17 @@ chain_continuation() {
         # NÃO os meter em --export=KEY=VAL: valores com vírgula (TOOLS=pynguin,marta)
         # são partidos pelo sbatch (a vírgula separa vars) → só apanhava o 1º.
         # Foi esse bug que fez o 1692915 correr só pynguin (TOOLS ficou =pynguin).
+        #
+        # CHAIN_SCRIPT: qual script reenviar. O run_benchmark_236b.sh faz
+        # `exec bash run_benchmark.sh` → depois do exec o $0 aqui é
+        # run_benchmark.sh, cujo header é a100-40/gpus=1/mem=200G. Se a
+        # continuação do 236B reenviasse esse $0, ia p/ a partição errada e
+        # morria (modelo 132GB não cabe em a100-40, e 200G dava OOM). O wrapper
+        # 236B exporta CHAIN_SCRIPT=<ele próprio> → a continuação herda o header
+        # a100-80/gpus=4/mem=400G correto. No run 16B, CHAIN_SCRIPT não existe
+        # → cai no $0 = run_benchmark.sh (header a100-40 correto p/ 16B).
         sbatch --parsable --dependency=afterany:"${SLURM_JOB_ID}" \
-            --export=ALL "$0" || echo "⚠️  sbatch da continuação falhou"
+            --export=ALL "${CHAIN_SCRIPT:-$0}" || echo "⚠️  sbatch da continuação falhou"
     fi
     exit 143
 }
