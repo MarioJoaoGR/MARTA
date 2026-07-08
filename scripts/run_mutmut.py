@@ -1,0 +1,259 @@
+#!/usr/bin/env python3
+"""Mutation testing (mutmut) por (tool, projeto) — mede fault-detection.
+
+Cobertura diz que linhas o teste EXECUTA; mutation score diz se o teste
+DETETA faltas (mata mutantes). Muta APENAS os módulos-alvo (projects.json),
+não o repo inteiro → viável (menos mutantes) e mais significativo (mede
+deteção no código realmente sob teste).
+
+Por cada (tool, projeto):
+  1. Copia a source do projeto p/ um scratch isolado. O mutmut altera os
+     ficheiros in-place → NUNCA mutar a source partilhada (/opt/marta/...).
+  2. Pré-voo verde: corre pytest ficheiro-a-ficheiro e fica só com os que
+     passam 100%. O mutmut aborta se o baseline não for verde; apesar da
+     quarentena remover testes falhados, o ambiente do mutmut pode reintroduzir
+     falhas (imports, rootdir), por isso filtramos aqui à cabeça.
+  3. setup.cfg: paths_to_mutate = ficheiros dos módulos-alvo (no scratch);
+     runner = pytest sobre os testes verdes copiados p/ scratch/_mut_tests,
+     com PYTHONPATH=scratch_import_root → os testes importam a source MUTADA
+     (do scratch), não a original.
+  4. mutmut run (com timeout por projeto).
+  5. mutmut result-ids {killed,survived,timeout,suspicious} → mutation score
+     = killed / (killed+survived+timeout+suspicious).
+
+CORRE DENTRO DO CONTAINER (precisa de pytest + o SUT + mutmut):
+  # instalar mutmut 2.x NO ENV (não em pydeps --target, p/ o console-script existir):
+  /opt/conda/envs/test4py_env/bin/pip install 'mutmut<3'
+  singularity exec ... python scripts/run_mutmut.py --tool marta --project codetiming
+
+Args:
+  --tool X            (marta|test4py_baseline|pynguin) — default: os 3
+  --project Y         um só projeto — default: os 27
+  --results DIR       default /data/results/deepseek-coder-v2_16b
+  --dry-run           só imprime paths_to_mutate/testes (não corre mutmut)
+
+⚠️ DRAFT — VALIDAR DIA 1 com `--tool marta --project codetiming --dry-run` e
+   depois sem --dry-run, ANTES dos 27×3. Ver CHECKLIST no fim do ficheiro.
+"""
+import argparse
+import csv
+import glob
+import json
+import os
+import shutil
+import subprocess
+import sys
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+REPO = os.path.dirname(HERE)
+PY = os.getenv("USER_PYTHON_PATH", sys.executable)
+# console-script do mutmut: por defeito ao lado do python do env. Override: MUTMUT_BIN.
+MUTMUT_BIN = os.getenv("MUTMUT_BIN") or os.path.join(os.path.dirname(PY), "mutmut")
+GREEN_TIMEOUT = int(os.getenv("MUTMUT_GREEN_TIMEOUT", "90"))    # s por ficheiro de teste
+MUTMUT_TIMEOUT = int(os.getenv("MUTMUT_TIMEOUT", "10800"))      # s por projeto (3h)
+SCRATCH = os.getenv("MUTMUT_SCRATCH", "/data/results/_mutmut_scratch")
+
+TOOL_DIRS = {
+    "marta": "Results_MARTA",
+    "test4py_baseline": "Results_Test4PyBaseline",
+    "pynguin": "Results_Pynguin",
+}
+
+
+def import_root(project_path, source_path):
+    """Raiz de sys.path (== _import_root do run_benchmark.py)."""
+    src_full = os.path.join(project_path, source_path) if source_path else project_path
+    if source_path and not os.path.exists(os.path.join(src_full, "__init__.py")):
+        return src_full
+    return project_path
+
+
+def module_files(project_path, source_path, modules):
+    """Módulos dotted → paths de ficheiro RELATIVOS ao project_path (== ao scratch)."""
+    iroot = import_root(project_path, source_path)
+    iroot_rel = os.path.relpath(iroot, project_path)
+    out = []
+    for m in modules:
+        base = os.path.join(iroot_rel, m.replace(".", os.sep))
+        for cand in (base + ".py", os.path.join(base, "__init__.py")):
+            if os.path.exists(os.path.join(project_path, cand)):
+                out.append(cand)
+                break
+    return out, iroot_rel
+
+
+def locate_tests(tool, proj, results):
+    """(test_dir, [test_files absolutos])."""
+    base = os.path.join(results, TOOL_DIRS[tool], proj)
+    if tool == "pynguin":
+        files = glob.glob(os.path.join(base, "**", "test_*.py"), recursive=True)
+    else:
+        files = glob.glob(os.path.join(base, "Test4DT_tests", "test_*.py"))
+    return base, sorted(files)
+
+
+def green_filter(test_files, scratch, scratch_iroot, env):
+    """Corre cada ficheiro de teste; devolve os que passam 100% (returncode 0)."""
+    green = []
+    for tf in test_files:
+        cmd = [PY, "-m", "pytest", tf, "-q", "-c", "/dev/null",
+               "--rootdir", scratch, "-p", "no:cacheprovider"]
+        try:
+            r = subprocess.run(cmd, cwd=scratch, env=env,
+                               capture_output=True, timeout=GREEN_TIMEOUT)
+            if r.returncode == 0:
+                green.append(tf)
+        except subprocess.TimeoutExpired:
+            pass
+    return green
+
+
+def count_ids(cat, scratch, env):
+    r = subprocess.run([MUTMUT_BIN, "result-ids", cat], cwd=scratch, env=env,
+                       capture_output=True, text=True)
+    return len(r.stdout.split())
+
+
+def run_one(tool, proj, cm, projects, results, dry):
+    if proj not in cm:
+        return {"status": "not_in_cm"}
+    info = cm[proj]
+    ppath, spath = info["project_path"], info.get("source_path", "")
+    mods = projects.get(proj, [])
+    mut_paths, iroot_rel = module_files(ppath, spath, mods)
+    if not mut_paths:
+        return {"status": "no_target_files"}
+    _, test_files = locate_tests(tool, proj, results)
+    if not test_files:
+        return {"status": "no_tests"}
+
+    if dry:
+        print(f"    paths_to_mutate ({len(mut_paths)}): {mut_paths[:4]}"
+              f"{' ...' if len(mut_paths) > 4 else ''}")
+        print(f"    testes ({len(test_files)}): {[os.path.basename(t) for t in test_files[:4]]}"
+              f"{' ...' if len(test_files) > 4 else ''}")
+        return {"status": "dry", "n_mut_files": len(mut_paths), "n_tests": len(test_files)}
+
+    if not os.path.exists(ppath):
+        return {"status": "project_path_missing"}
+    scratch = os.path.join(SCRATCH, tool, proj)
+    shutil.rmtree(scratch, ignore_errors=True)
+    shutil.copytree(ppath, scratch, symlinks=True)
+    scratch_iroot = os.path.join(scratch, iroot_rel)
+
+    env = os.environ.copy()
+    prev = env.get("PYTHONPATH", "")
+    env["PYTHONPATH"] = f"{scratch_iroot}:{prev}" if prev else scratch_iroot
+
+    # pré-voo verde
+    green = green_filter(test_files, scratch, scratch_iroot, env)
+    if not green:
+        return {"status": "no_green_tests", "n_tests": len(test_files)}
+
+    # copiar testes verdes p/ scratch/_mut_tests (nomes únicos)
+    mtests = os.path.join(scratch, "_mut_tests")
+    os.makedirs(mtests, exist_ok=True)
+    open(os.path.join(mtests, "__init__.py"), "w").close()
+    with open(os.path.join(mtests, "conftest.py"), "w") as f:
+        f.write(f"import sys\nsys.path.insert(0, {scratch_iroot!r})\n")
+    seen = set()
+    for tf in green:
+        name = os.path.basename(tf)
+        i = 0
+        while name in seen:
+            i += 1
+            name = f"{i}_{os.path.basename(tf)}"
+        seen.add(name)
+        shutil.copy(tf, os.path.join(mtests, name))
+
+    # setup.cfg do mutmut
+    runner = (f"{PY} -m pytest _mut_tests -x -q -c /dev/null "
+              f"--rootdir={scratch} -p no:cacheprovider")
+    with open(os.path.join(scratch, "setup.cfg"), "w") as f:
+        f.write("[mutmut]\n")
+        f.write("paths_to_mutate=" + ",".join(mut_paths) + "\n")
+        f.write("runner=" + runner + "\n")
+
+    partial = False
+    try:
+        subprocess.run([MUTMUT_BIN, "run"], cwd=scratch, env=env,
+                       capture_output=True, timeout=MUTMUT_TIMEOUT)
+    except subprocess.TimeoutExpired:
+        partial = True
+    except FileNotFoundError:
+        return {"status": "mutmut_not_found", "hint": MUTMUT_BIN}
+
+    counts = {c: count_ids(c, scratch, env)
+              for c in ("killed", "survived", "timeout", "suspicious")}
+    denom = sum(counts.values())
+    score = 100 * counts["killed"] / denom if denom else None
+    return {
+        "status": "partial" if partial else "ok",
+        "killed": counts["killed"], "survived": counts["survived"],
+        "timeout_mut": counts["timeout"], "suspicious": counts["suspicious"],
+        "total": denom, "score": score,
+        "green_tests": len(green), "n_mut_files": len(mut_paths),
+    }
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--results", default="/data/results/deepseek-coder-v2_16b")
+    ap.add_argument("--tool", choices=list(TOOL_DIRS))
+    ap.add_argument("--project")
+    ap.add_argument("--cm", default=os.path.join(HERE, "cm_benchmark.json"))
+    ap.add_argument("--projects", default=os.path.join(REPO, "projects.json"))
+    ap.add_argument("--dry-run", action="store_true")
+    args = ap.parse_args()
+
+    cm = json.load(open(args.cm))
+    projects = json.load(open(args.projects))
+    tools = [args.tool] if args.tool else list(TOOL_DIRS)
+    projs = [args.project] if args.project else sorted(projects)
+
+    rows = []
+    for tool in tools:
+        for proj in projs:
+            print(f"→ {tool}/{proj}")
+            r = run_one(tool, proj, cm, projects, args.results, args.dry_run)
+            print(f"    {r}")
+            rows.append({"tool": tool, "project": proj, **r})
+            sys.stdout.flush()
+
+    if not args.dry_run:
+        out = os.path.join(args.results, "mutmut.csv")
+        cols = ["tool", "project", "status", "score", "killed", "survived",
+                "timeout_mut", "suspicious", "total", "green_tests", "n_mut_files"]
+        with open(out, "w", newline="") as f:
+            w = csv.DictWriter(f, fieldnames=cols, extrasaction="ignore")
+            w.writeheader()
+            w.writerows(rows)
+        print(f"\nCSV: {out}")
+        ok = [r for r in rows if r.get("score") is not None]
+        for tool in tools:
+            tr = [r for r in ok if r["tool"] == tool]
+            if tr:
+                print(f"  {tool:18}: mutation score médio "
+                      f"{sum(r['score'] for r in tr)/len(tr):.1f}%  ({len(tr)} proj)")
+
+
+if __name__ == "__main__":
+    main()
+
+# ─────────────────────────────────────────────────────────────────────────────
+# CHECKLIST DE VALIDAÇÃO (DIA 1, antes dos 27×3):
+#   1. mutmut instalado e chamável:
+#        /opt/conda/envs/test4py_env/bin/pip install 'mutmut<3'
+#        which mutmut  ||  export MUTMUT_BIN=/opt/conda/envs/test4py_env/bin/mutmut
+#   2. Paths certos (sem correr mutmut):
+#        python scripts/run_mutmut.py --tool marta --project codetiming --dry-run
+#      → confirmar paths_to_mutate = codetiming/_timers.py e testes existem.
+#   3. Um par real pequeno:
+#        python scripts/run_mutmut.py --tool marta --project codetiming
+#      → status 'ok', total>0, score preenchido. Se total=0 → paths_to_mutate
+#        errado ou mutmut não encontrou os módulos.
+#   4. Confirmar que os testes veem a source MUTADA (senão survived=100%):
+#      sanity — se score sempre ~0%, o PYTHONPATH do scratch não está a ganhar.
+#   5. `mutmut result-ids <cat>` existe nesta versão? Se falhar, usar
+#      `mutmut results` / `mutmut junitxml` (ajustar count_ids).
+# ─────────────────────────────────────────────────────────────────────────────
