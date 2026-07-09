@@ -22,8 +22,10 @@ Por cada (tool, projeto):
      = killed / (killed+survived+timeout+suspicious).
 
 CORRE DENTRO DO CONTAINER (precisa de pytest + o SUT + mutmut):
-  # instalar mutmut 2.x NO ENV (não em pydeps --target, p/ o console-script existir):
-  /opt/conda/envs/test4py_env/bin/pip install 'mutmut<3'
+  # envs conda estão no .sif (read-only) → instalar mutmut em pydeps via --target
+  # (como as outras deps); invoca-se por `python -m mutmut` (ver MUTMUT_CMD):
+  singularity exec --bind $PYDEPS:/data/pydeps $SIF \
+    /opt/conda/envs/test4py_env/bin/pip install --target /data/pydeps/marta 'mutmut<3'
   singularity exec ... python scripts/run_mutmut.py --tool marta --project codetiming
 
 Args:
@@ -47,8 +49,11 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
 PY = os.getenv("USER_PYTHON_PATH", sys.executable)
-# console-script do mutmut: por defeito ao lado do python do env. Override: MUTMUT_BIN.
-MUTMUT_BIN = os.getenv("MUTMUT_BIN") or os.path.join(os.path.dirname(PY), "mutmut")
+# Invocação do mutmut. No Deucalion os envs conda estão no .sif (read-only) → o
+# mutmut instala-se em pydeps via `pip install --target ... 'mutmut<3'`, onde NÃO
+# há console-script. Por isso invoca-se como módulo: `python -m mutmut`. Override:
+# MUTMUT_BIN="/caminho/para/mutmut" (split por espaços) se preferires o executável.
+MUTMUT_CMD = os.getenv("MUTMUT_BIN", "").split() or [PY, "-m", "mutmut"]
 GREEN_TIMEOUT = int(os.getenv("MUTMUT_GREEN_TIMEOUT", "90"))    # s por ficheiro de teste
 MUTMUT_TIMEOUT = int(os.getenv("MUTMUT_TIMEOUT", "10800"))      # s por projeto (3h)
 SCRATCH = os.getenv("MUTMUT_SCRATCH", "/data/results/_mutmut_scratch")
@@ -109,7 +114,7 @@ def green_filter(test_files, scratch, scratch_iroot, env):
 
 
 def count_ids(cat, scratch, env):
-    r = subprocess.run([MUTMUT_BIN, "result-ids", cat], cwd=scratch, env=env,
+    r = subprocess.run([*MUTMUT_CMD, "result-ids", cat], cwd=scratch, env=env,
                        capture_output=True, text=True)
     return len(r.stdout.split())
 
@@ -176,12 +181,12 @@ def run_one(tool, proj, cm, projects, results, dry):
 
     partial = False
     try:
-        subprocess.run([MUTMUT_BIN, "run"], cwd=scratch, env=env,
+        subprocess.run([*MUTMUT_CMD, "run"], cwd=scratch, env=env,
                        capture_output=True, timeout=MUTMUT_TIMEOUT)
     except subprocess.TimeoutExpired:
         partial = True
     except FileNotFoundError:
-        return {"status": "mutmut_not_found", "hint": MUTMUT_BIN}
+        return {"status": "mutmut_not_found", "hint": " ".join(MUTMUT_CMD)}
 
     counts = {c: count_ids(c, scratch, env)
               for c in ("killed", "survived", "timeout", "suspicious")}
@@ -242,9 +247,11 @@ if __name__ == "__main__":
 
 # ─────────────────────────────────────────────────────────────────────────────
 # CHECKLIST DE VALIDAÇÃO (DIA 1, antes dos 27×3):
-#   1. mutmut instalado e chamável:
-#        /opt/conda/envs/test4py_env/bin/pip install 'mutmut<3'
-#        which mutmut  ||  export MUTMUT_BIN=/opt/conda/envs/test4py_env/bin/mutmut
+#   1. mutmut instalado e chamável (via módulo, com pydeps no PYTHONPATH):
+#        pip install --target /data/pydeps/marta 'mutmut<3'
+#        PYTHONPATH=/data/pydeps/marta python -m mutmut version   # deve imprimir versão
+#      Se `python -m mutmut` falhar, instalar num env writable e
+#        export MUTMUT_BIN=/caminho/para/mutmut
 #   2. Paths certos (sem correr mutmut):
 #        python scripts/run_mutmut.py --tool marta --project codetiming --dry-run
 #      → confirmar paths_to_mutate = codetiming/_timers.py e testes existem.
