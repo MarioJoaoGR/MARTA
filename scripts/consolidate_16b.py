@@ -1,13 +1,19 @@
 #!/usr/bin/env python3
 """Consolida os resultados do benchmark (cobertura + executability + runtime).
 
-MARTA e Test4Py-baseline: lê o coverage.json (totals) e o run_results/<proj>.json
-de cada projeto → statement%, branch%, testes passados/falhados, tempo. Agrega
-por tool e escreve CSV. O Pynguin é medido à parte (não tem coverage.json — ver
-consolidate_pynguin_cov.py).
+COBERTURA — medida sobre os MÓDULOS-ALVO (projects.json), como os papers, e NÃO
+sobre o source_dir inteiro. O coverage.json tem o `summary` de cada ficheiro em
+`files`; filtramos aos módulos-alvo (por sufixo, p/ apanhar containers: ansible
+source=lib → ficheiros `lib.ansible...`; black source=src → `src.blib2to3...`) e
+somamos. O uso antigo de `totals` media o PACOTE INTEIRO — centenas de ficheiros
+não-alvo contados a 0% pelo coverage.py `--source` → diluía tudo (ex.: thonny
+reportava 0.8%, que é EXATAMENTE a fração de ficheiros que eram alvo). Mantemos o
+`totals` numa coluna `pkg%` só para transparência/comparação.
 
-Uso:  python3 scripts/consolidate_16b.py [RESULTS_DIR]
-      (default: results/deepseek-coder-v2_16b)
+MARTA e Test4Py-baseline: coverage.json + run_results/<proj>.json por projeto.
+O Pynguin é medido à parte (measure_pynguin_coverage.py, mesma lógica de alvos).
+
+Uso:  python3 scripts/consolidate_16b.py [RESULTS_DIR] [PROJECTS_JSON]
 """
 import json
 import os
@@ -15,25 +21,70 @@ import glob
 import csv
 import sys
 
+HERE = os.path.dirname(os.path.abspath(__file__))
 DEFAULT = "/projects/F202407648IACDCF2/mario/results/deepseek-coder-v2_16b"
 RES = sys.argv[1] if len(sys.argv) > 1 else DEFAULT
+PROJECTS_JSON = sys.argv[2] if len(sys.argv) > 2 else os.path.join(HERE, "..", "projects.json")
+TARGETS = json.load(open(PROJECTS_JSON))
 
 TOOLS = [("marta", "Results_MARTA"), ("baseline", "Results_Test4PyBaseline")]
 
 
-def coverage(proj_dir):
-    """(stmt%, branch%, covered_lines, num_statements, covered_branches, num_branches) ou None."""
+def _cov_json(proj_dir):
     hits = glob.glob(os.path.join(proj_dir, "**", "coverage.json"), recursive=True)
     if not hits:
         return None
     try:
-        t = json.load(open(hits[0]))["totals"]
+        return json.load(open(hits[0]))
     except Exception:
         return None
+
+
+def _dotted(fname):
+    """Caminho de ficheiro do coverage.json → nome de módulo dotted."""
+    d = fname[:-3] if fname.endswith(".py") else fname
+    d = d.replace("/", ".").replace("\\", ".").lstrip(".")
+    if d.endswith(".__init__"):
+        d = d[:-len(".__init__")]
+    return d
+
+
+def _matches(dotted, targets):
+    # sufixo tolera prefixos de container (lib., src.) sem falsos positivos práticos
+    return any(dotted == t or dotted.endswith("." + t) for t in targets)
+
+
+def coverage_target(proj, proj_dir):
+    """(stmt%, br%, cl, ns, cb, nb, n_mods) sobre os módulos-alvo, ou None."""
+    cj = _cov_json(proj_dir)
+    if not cj:
+        return None
+    targets = TARGETS.get(proj, [])
+    cl = ns = cb = nb = matched = 0
+    for fname, f in cj.get("files", {}).items():
+        if _matches(_dotted(fname), targets):
+            s = f.get("summary", {})
+            cl += s.get("covered_lines", 0)
+            ns += s.get("num_statements", 0)
+            cb += s.get("covered_branches", 0)
+            nb += s.get("num_branches", 0)
+            matched += 1
+    if matched == 0:
+        return None
+    stmt = 100 * cl / ns if ns else 0.0
+    br = 100 * cb / nb if nb else 0.0
+    return (stmt, br, cl, ns, cb, nb, matched)
+
+
+def pkg_coverage(proj_dir):
+    """(stmt%, br%) sobre o source_dir inteiro (totals) — só transparência."""
+    cj = _cov_json(proj_dir)
+    if not cj:
+        return None
+    t = cj.get("totals", {})
     stmt = 100 * t["covered_lines"] / t["num_statements"] if t.get("num_statements") else 0.0
     br = 100 * t.get("covered_branches", 0) / t["num_branches"] if t.get("num_branches") else 0.0
-    return (stmt, br, t["covered_lines"], t.get("num_statements", 0),
-            t.get("covered_branches", 0), t.get("num_branches", 0))
+    return (stmt, br)
 
 
 def run_results(proj_dir):
@@ -55,37 +106,42 @@ for tool, base in TOOLS:
         pd = os.path.join(root, proj)
         if not os.path.isdir(pd):
             continue
-        cov = coverage(pd)
+        cov = coverage_target(proj, pd)   # PRIMÁRIO: módulos-alvo
+        pkg = pkg_coverage(pd)            # secundário: pacote inteiro
         rr = run_results(pd)
         if cov is None and not rr:
             continue
         stmt = cov[0] if cov else None
         br = cov[1] if cov else None
-        ap = rr.get("assertion_pass")       # testes que passam (executáveis + assert válido)
-        ae = rr.get("assertion_error")       # testes que falham
-        sp = rr.get("syntax_pass")           # sintaticamente válidos
-        tm = rr.get("time")                  # runtime total (s)
-        tt = rr.get("total_tokens")          # tokens totais (prompt+completion)
-        rows.append([tool, proj, stmt, br, sp, ap, ae, tm, tt,
+        nmods = cov[6] if cov else None
+        pkgstmt = pkg[0] if pkg else None
+        ap = rr.get("assertion_pass")     # testes que passam (executáveis + assert válido)
+        ae = rr.get("assertion_error")     # testes que falham
+        sp = rr.get("syntax_pass")         # sintaticamente válidos
+        tm = rr.get("time")                # runtime total (s)
+        tt = rr.get("total_tokens")        # tokens totais
+        rows.append([tool, proj, stmt, br, pkgstmt, nmods, sp, ap, ae, tm, tt,
                      rr.get("prompt_tokens"), rr.get("completion_tokens")])
 
 # ── Tabela ──
-hdr = (f"{'tool':9} {'projeto':24} {'stmt%':>6} {'brnch%':>6} {'syn':>4} "
-       f"{'pass':>5} {'fail':>5} {'time_s':>8} {'tokens':>10}")
+hdr = (f"{'tool':9} {'projeto':22} {'stmt%':>6} {'brnch%':>6} {'pkg%':>6} {'#mod':>4} "
+       f"{'syn':>4} {'pass':>5} {'fail':>5} {'time_s':>8} {'tokens':>10}")
 print(hdr)
 print("-" * len(hdr))
 for r in rows:
     stmt = f"{r[2]:.1f}" if r[2] is not None else "-"
     br = f"{r[3]:.1f}" if r[3] is not None else "-"
-    syn = str(r[4]) if r[4] is not None else "-"
-    ap = str(r[5]) if r[5] is not None else "-"
-    ae = str(r[6]) if r[6] is not None else "-"
-    tm = f"{r[7]:.0f}" if r[7] is not None else "-"
-    tk = f"{r[8]:,}" if r[8] is not None else "-"
-    print(f"{r[0]:9} {r[1]:24} {stmt:>6} {br:>6} {syn:>4} {ap:>5} {ae:>5} {tm:>8} {tk:>10}")
+    pkg = f"{r[4]:.1f}" if r[4] is not None else "-"
+    nm = str(r[5]) if r[5] is not None else "-"
+    syn = str(r[6]) if r[6] is not None else "-"
+    ap = str(r[7]) if r[7] is not None else "-"
+    ae = str(r[8]) if r[8] is not None else "-"
+    tm = f"{r[9]:.0f}" if r[9] is not None else "-"
+    tk = f"{r[10]:,}" if r[10] is not None else "-"
+    print(f"{r[0]:9} {r[1]:22} {stmt:>6} {br:>6} {pkg:>6} {nm:>4} {syn:>4} {ap:>5} {ae:>5} {tm:>8} {tk:>10}")
 
 # ── Agregados ──
-print("\n=== AGREGADOS (média por projeto) ===")
+print("\n=== AGREGADOS (média por projeto, sobre módulos-alvo) ===")
 for tool, _ in TOOLS:
     tr = [r for r in rows if r[0] == tool and r[2] is not None]
     if not tr:
@@ -93,21 +149,21 @@ for tool, _ in TOOLS:
     n = len(tr)
     avg_stmt = sum(r[2] for r in tr) / n
     avg_br = sum(r[3] for r in tr) / n
-    tot_pass = sum(r[5] or 0 for r in tr)
-    tot_fail = sum(r[6] or 0 for r in tr)
-    tot_tok = sum(r[8] or 0 for r in tr)
-    tot_time = sum(r[7] or 0 for r in tr)
-    avg_tok = tot_tok / n
-    print(f"  {tool:9}: stmt {avg_stmt:5.1f}%  branch {avg_br:5.1f}%  "
+    avg_pkg = sum(r[4] for r in tr if r[4] is not None) / n
+    tot_pass = sum(r[7] or 0 for r in tr)
+    tot_fail = sum(r[8] or 0 for r in tr)
+    tot_tok = sum(r[10] or 0 for r in tr)
+    tot_time = sum(r[9] or 0 for r in tr)
+    print(f"  {tool:9}: stmt {avg_stmt:5.1f}%  branch {avg_br:5.1f}%  (pkg {avg_pkg:4.1f}%)  "
           f"| Σpass {tot_pass}  Σfail {tot_fail}  "
-          f"| Σtokens {tot_tok:,} (média {avg_tok:,.0f}/proj)  Σtempo {tot_time/3600:.1f}h  ({n} proj)")
+          f"| Σtokens {tot_tok:,}  Σtempo {tot_time/3600:.1f}h  ({n} proj)")
 
 # ── CSV ──
 out = os.path.join(RES, "consolidated_16b.csv")
 with open(out, "w", newline="") as f:
     w = csv.writer(f)
-    w.writerow(["tool", "project", "stmt_pct", "branch_pct", "syntax_pass",
-                "assertion_pass", "assertion_error", "time_s",
+    w.writerow(["tool", "project", "stmt_pct", "branch_pct", "pkg_stmt_pct", "n_target_mods",
+                "syntax_pass", "assertion_pass", "assertion_error", "time_s",
                 "total_tokens", "prompt_tokens", "completion_tokens"])
     w.writerows(rows)
 print(f"\nCSV escrito: {out}")

@@ -27,8 +27,20 @@ import csv
 
 RES = sys.argv[1] if len(sys.argv) > 1 else "/data/results/deepseek-coder-v2_16b"
 CM = sys.argv[2] if len(sys.argv) > 2 else "/opt/marta/scripts/cm_benchmark.json"
+PROJECTS_JSON = sys.argv[3] if len(sys.argv) > 3 else "/opt/marta/projects.json"
 PY = os.getenv("USER_PYTHON_PATH", "python")
 PER_PROJ_TIMEOUT = int(os.getenv("COV_TIMEOUT", "1800"))  # 30 min/projeto
+TARGETS = json.load(open(PROJECTS_JSON))
+
+
+def _dotted(fname):
+    d = fname[:-3] if fname.endswith(".py") else fname
+    d = d.replace("/", ".").replace("\\", ".").lstrip(".")
+    return d[:-len(".__init__")] if d.endswith(".__init__") else d
+
+
+def _matches(dotted, targets):
+    return any(dotted == t or dotted.endswith("." + t) for t in targets)
 
 
 def import_root(project_path, source_path):
@@ -73,12 +85,26 @@ def measure(proj, info):
     subprocess.run([PY, "-m", "coverage", "json", f"--data-file={dataf}", "-o", jf],
                    cwd=project_path, env=env, capture_output=True)
     try:
-        t = json.load(open(jf))["totals"]
-        stmt = 100 * t["covered_lines"] / t["num_statements"] if t.get("num_statements") else 0.0
-        br = 100 * t.get("covered_branches", 0) / t["num_branches"] if t.get("num_branches") else 0.0
-        return ("ok", stmt, br, len(tests))
+        cj = json.load(open(jf))
     except Exception as e:
         return (f"parse_err:{e}", None, None, len(tests))
+    # Cobertura só sobre os módulos-alvo (como os papers), não o source_dir inteiro:
+    # o 'totals' contaria centenas de ficheiros não-alvo a 0% e diluía tudo.
+    targets = TARGETS.get(proj, [])
+    cl = ns = cb = nb = matched = 0
+    for fname, fobj in cj.get("files", {}).items():
+        if _matches(_dotted(fname), targets):
+            s = fobj.get("summary", {})
+            cl += s.get("covered_lines", 0)
+            ns += s.get("num_statements", 0)
+            cb += s.get("covered_branches", 0)
+            nb += s.get("num_branches", 0)
+            matched += 1
+    if matched == 0:
+        return ("no_target_match", None, None, len(tests))
+    stmt = 100 * cl / ns if ns else 0.0
+    br = 100 * cb / nb if nb else 0.0
+    return ("ok", stmt, br, len(tests))
 
 
 cm = json.load(open(CM))
