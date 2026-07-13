@@ -61,6 +61,7 @@ class ClassInfo:
     includes: List[str] = field(default_factory=list)
     extends: List[str] = field(default_factory=list)
     prepends: List[str] = field(default_factory=list)
+    attributes: List[str] = field(default_factory=list)  # attr_* reader/writer methods
 
 
 @dataclass
@@ -111,6 +112,7 @@ def _from_json(data: dict) -> FileParse:
             includes=c.get("includes", []),
             extends=c.get("extends", []),
             prepends=c.get("prepends", []),
+            attributes=c.get("attributes", []),
         )
         for c in data.get("classes", [])
     ]

@@ -29,7 +29,8 @@ class ProjectTypeIndex:
     def add_file(self, fp: FileParse) -> "ProjectTypeIndex":
         for c in fp.classes:
             self.classes[c.qualified_name] = c
-            self.own_methods.setdefault(c.qualified_name, set())
+            # attr_* readers/writers are part of the class's instance interface.
+            self.own_methods.setdefault(c.qualified_name, set()).update(c.attributes)
             self._by_short.setdefault(c.name, c.qualified_name)
         for m in fp.methods:
             if m.owner and not m.singleton:  # instance methods define the interface

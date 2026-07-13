@@ -98,6 +98,7 @@ module MartaParse
         "includes" => [],
         "extends" => [],
         "prepends" => [],
+        "attributes" => [],   # methods created by attr_reader/writer/accessor
       }
       @classes << entry
       @scope.push(name)
@@ -139,6 +140,18 @@ module MartaParse
          %i[include extend prepend].include?(node.name) && node.arguments
         bucket = cur["#{node.name}s"]
         node.arguments.arguments.each { |arg| bucket << arg.slice }
+      end
+
+      # attr_reader/writer/accessor create reader/writer methods — record them so
+      # type inference knows the class responds to those names.
+      if cur && node.receiver.nil? &&
+         %i[attr_reader attr_writer attr_accessor].include?(node.name) && node.arguments
+        node.arguments.arguments.each do |arg|
+          next unless arg.is_a?(Prism::SymbolNode)
+          nm = arg.value.to_s
+          cur["attributes"] << nm if %i[attr_reader attr_accessor].include?(node.name)
+          cur["attributes"] << "#{nm}=" if %i[attr_writer attr_accessor].include?(node.name)
+        end
       end
 
       # Method invoked on a parameter (`param.foo`): record `foo` as a member

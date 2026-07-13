@@ -19,7 +19,7 @@ from dataclasses import dataclass, field
 from typing import Dict, List, Optional
 
 from . import coverage_runner, param_types, rag, readme, ruby_ast, summaries
-from .generate import AskFn, GenOutcome, generate_spec_for_method
+from .generate import AskFn, GenOutcome, _default_ask, generate_spec_for_method
 
 # Methods we never target directly: exercised indirectly as construction context.
 SKIP_METHODS = {"initialize"}
@@ -165,11 +165,12 @@ class RubyProject:
             outcomes.append(outcome)
         return outcomes
 
-    async def analyze_summaries(self, ask: AskFn, limit: Optional[int] = None) -> None:
+    async def analyze_summaries(self, ask: Optional[AskFn] = None, limit: Optional[int] = None) -> None:
         """Populate each target's done_what / what_todo / summary before
         generation — the context-building phase MARTA runs in ``init()``.
         ``done_what`` is source-only until the call graph enriches it.
         """
+        ask = ask or _default_ask()
         targets = self.targets[:limit] if limit else self.targets
         overviews = readme.ReadmeOverviewCache(self.abs_source)
         for t in targets:
