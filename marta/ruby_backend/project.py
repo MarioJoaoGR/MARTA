@@ -19,6 +19,7 @@ from dataclasses import dataclass, field
 from typing import Dict, List, Optional
 
 from . import cache, coverage_runner, param_types, rag, readme, recorder as rec, ruby_ast, summaries
+from .backend import LanguageBackend, RubyBackend
 from .generate import AskFn, GenOutcome, _default_ask, generate_spec_for_method
 
 # Methods we never target directly: exercised indirectly as construction context.
@@ -104,6 +105,7 @@ class RubyProject:
     rag_db: Optional[rag.RubyFunctionDatabase] = None
     type_index: Optional[param_types.ProjectTypeIndex] = None
     recorder: Optional[rec.RubyRecorder] = None
+    backend: LanguageBackend = field(default_factory=RubyBackend)
 
     def _recorder(self) -> rec.RubyRecorder:
         if self.recorder is None:
@@ -119,16 +121,13 @@ class RubyProject:
         self.files = []
         self.targets = []
         self.type_index = param_types.ProjectTypeIndex()
-        pattern = os.path.join(self.abs_source, "**", "*.rb")
-        for path in sorted(glob.glob(pattern, recursive=True)):
+        for path in self.backend.discover_files(self.abs_source):
             rel = os.path.relpath(path, self.abs_source)
-            if rel.split(os.sep)[0] == "spec":
-                continue
             self.files.append(path)
-            fp = ruby_ast.parse_file(path)
+            fp = self.backend.parse_file(path)
             self.type_index.add_file(fp)  # whole-project index for type inference
             classes_by_qn = {c.qualified_name: c for c in fp.classes}
-            require_target = os.path.splitext(rel)[0]
+            require_target = self.backend.module_ref(rel)
             for m in fp.methods:
                 if m.name in SKIP_METHODS:
                     continue
@@ -169,6 +168,7 @@ class RubyProject:
                 related=self._related_for(t),
                 max_attempts=max_attempts,
                 recorder=recorder,
+                backend=self.backend,
             )
             outcomes.append(outcome)
         return outcomes
@@ -250,11 +250,11 @@ class RubyProject:
         by_target: Dict[int, coverage_runner.MethodCoverage] = {}
         if not spec_paths:
             return by_target
-        result = coverage_runner.run_line_coverage(self.source_dir, spec_paths, cwd=self.root_dir)
+        result = self.backend.run_coverage(self.source_dir, spec_paths, cwd=self.root_dir)
         for i, t in enumerate(self.targets):
             lines = result.files.get(t.source_rel)
             if lines:
-                by_target[i] = coverage_runner.synthesize(t.method, lines)
+                by_target[i] = self.backend.synthesize_coverage(t.method, lines)
         return by_target
 
     async def generate_rounds(
@@ -303,6 +303,7 @@ class RubyProject:
                     max_attempts=max_attempts,
                     coverage_info=coverage_info,
                     recorder=recorder,
+                    backend=self.backend,
                 )
                 outcomes.append(outcome)
             recorder.end_count_time(f"round_{rnd}")

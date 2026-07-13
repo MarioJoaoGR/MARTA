@@ -6,8 +6,9 @@ self-healing loop feeds syntax/RSpec errors back until the file is green or the
 attempt budget runs out. One round, no coverage loop yet (that is Fase 2).
 
 The LLM is injected as ``ask`` (``async (system, user) -> str``), defaulting to
-``gptapi.model.aask``. This keeps the flow runnable and testable without a live
-model — pass a stub that returns canned responses.
+``gptapi.model.aask``. Language-specific operations (syntax check, test runner,
+salvage, prompts, parsing) go through an injected ``LanguageBackend`` (default
+``RubyBackend``), so this ReAct loop is itself language-agnostic.
 """
 from __future__ import annotations
 
@@ -16,8 +17,8 @@ import os
 from dataclasses import dataclass, field
 from typing import Awaitable, Callable, Dict, List, Optional
 
-from . import prompts, runner, salvage
-from .ruby_ast import parse_source
+from .backend import LanguageBackend, RubyBackend
+from .runner import RSpecResult
 
 AskFn = Callable[[str, str], Awaitable[str]]
 
@@ -74,6 +75,7 @@ async def generate_spec_for_method(
     related: Optional[List[str]] = None,
     max_attempts: int = 3,
     recorder=None,
+    backend: Optional[LanguageBackend] = None,
 ) -> GenOutcome:
     """Generate, self-heal and validate one spec file for one method.
 
@@ -83,6 +85,8 @@ async def generate_spec_for_method(
     metrics.
     """
     ask = ask or _default_ask()
+    backend = backend or RubyBackend()
+    prompts = backend.prompts
     score = recorder.score if recorder is not None else None
 
     def _call() -> None:
@@ -101,7 +105,7 @@ async def generate_spec_for_method(
     last_error: Optional[str] = None
     results: Dict[str, str] = {}
     spec_code: Optional[str] = None
-    last_res: Optional[runner.RSpecResult] = None
+    last_res: Optional[RSpecResult] = None
     success = False
     attempt = 0
     abs_spec = os.path.join(cwd, spec_path)
@@ -126,7 +130,7 @@ async def generate_spec_for_method(
         _write(spec_code)
 
         # Cheap gate first: ruby -c. Only run RSpec if it parses.
-        syntax_err = runner.syntax_check(spec_code)
+        syntax_err = backend.syntax_check(spec_code)
         if score is not None:
             (score.add_syntax_error if syntax_err else score.add_syntax_pass)()
             if syntax_err is None and attempt > 1:
@@ -136,7 +140,7 @@ async def generate_spec_for_method(
             last_res = None
             continue
 
-        res = runner.run_rspec(spec_path, load_paths=load_paths, cwd=cwd)
+        res = backend.run_tests(spec_path, load_paths, cwd)
         results = res.results
         last_res = res
         if res.all_passed:
@@ -157,13 +161,13 @@ async def generate_spec_for_method(
     removed = 0
     if not success and spec_code and last_res is not None and not last_res.load_error:
         failed_lines = [e.line_number for e in last_res.failed if e.line_number]
-        examples = parse_source(spec_code, spec_path).examples
-        trimmed = salvage.salvage_spec(spec_code, examples, failed_lines)
+        examples = backend.parse_source(spec_code, spec_path).examples
+        trimmed = backend.salvage(spec_code, examples, failed_lines)
         if trimmed is not None:
             new_code, removed = trimmed
-            if runner.syntax_check(new_code) is None:
+            if backend.syntax_check(new_code) is None:
                 _write(new_code)
-                recheck = runner.run_rspec(spec_path, load_paths=load_paths, cwd=cwd)
+                recheck = backend.run_tests(spec_path, load_paths, cwd)
                 if recheck.all_passed and recheck.examples:
                     success = True
                     salvaged = True
