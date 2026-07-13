@@ -18,7 +18,7 @@ import re
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional
 
-from . import coverage_runner, ruby_ast, summaries
+from . import coverage_runner, rag, ruby_ast, summaries
 from .generate import AskFn, GenOutcome, generate_spec_for_method
 
 # Methods we never target directly: exercised indirectly as construction context.
@@ -94,6 +94,7 @@ class RubyProject:
 
     files: List[str] = field(default_factory=list)          # absolute .rb paths
     targets: List[MethodTarget] = field(default_factory=list)
+    rag_db: Optional[rag.RubyFunctionDatabase] = None
 
     @property
     def abs_source(self) -> str:
@@ -145,6 +146,7 @@ class RubyProject:
                 cwd=self.root_dir,
                 ask=ask,
                 summary=t.summary,
+                related=self._related_for(t),
                 max_attempts=max_attempts,
             )
             outcomes.append(outcome)
@@ -159,6 +161,20 @@ class RubyProject:
         for t in targets:
             t.done_what = await summaries.analyze_done_what(ask, t.context_source)
             t.summary = await summaries.generate_summary(ask, t.context_source, t.done_what)
+
+    def build_rag(self, embed_documents=None, embed_query=None) -> None:
+        """Index target summaries for retrieval. Call after analyze_summaries.
+        A custom embedder can be injected (tests); default is the real bge one."""
+        self.rag_db = rag.RubyFunctionDatabase(embed_documents, embed_query)
+        self.rag_db.init(self.targets)
+
+    def _related_for(self, t: MethodTarget) -> Optional[List[str]]:
+        if self.rag_db is None:
+            return None
+        query = t.summary or t.done_what
+        if not query:
+            return None
+        return self.rag_db.related_lines(query, k=3, exclude=t.method.qualified_name) or None
 
     def _all_spec_paths(self) -> List[str]:
         specs = glob.glob(os.path.join(self.root_dir, "spec", "**", "*.rb"), recursive=True)
@@ -218,6 +234,7 @@ class RubyProject:
                     cwd=self.root_dir,
                     ask=ask,
                     summary=t.summary,
+                    related=self._related_for(t),
                     max_attempts=max_attempts,
                     coverage_info=coverage_info,
                 )
