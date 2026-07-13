@@ -67,7 +67,8 @@ class LanguageBackend(ABC):
 
     @abstractmethod
     def build_call_graph(self, files: List[str]) -> Optional[Any]:
-        """Call graph, or None when unavailable (the Ruby MVP returns None)."""
+        """Static call graph over ``files`` (``CallGraph``), or None if the
+        backend has none."""
 
     @property
     @abstractmethod
@@ -119,7 +120,16 @@ class RubyBackend(LanguageBackend):
         return salvage.salvage_spec(test_source, examples, failed_lines)
 
     def build_call_graph(self, files: List[str]) -> Optional[Any]:
-        return None  # no call graph in the Ruby MVP (item 6, still open)
+        # Static resolution over the parsed methods (see call_graph.py).
+        from .call_graph import StaticCallGraph
+        from .param_types import ProjectTypeIndex
+        methods = []
+        index = ProjectTypeIndex()
+        for f in files:
+            fp = self.parse_file(f)
+            index.add_file(fp)
+            methods.extend(fp.methods)
+        return StaticCallGraph.build(methods, index)
 
     @property
     def prompts(self) -> ModuleType:

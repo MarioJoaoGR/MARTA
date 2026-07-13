@@ -81,3 +81,27 @@ def test_no_edges_for_unresolved_or_builtin():
     # validate has no outgoing edges to project methods (only raise/<=/amount)
     # amount IS resolved (entry: Transaction); raise/<= are not.
     assert set(g.callees("Wallet#validate")) == {"Transaction#amount"}
+
+
+def test_discover_builds_graph_and_enriches_done_what(tmp_path):
+    import asyncio
+    from marta.ruby_backend import project
+
+    (tmp_path / "src").mkdir()
+    (tmp_path / "src" / "wallet.rb").write_text(SRC)
+    proj = project.RubyProject(root_dir=str(tmp_path), source_dir="src").discover()
+    assert proj.call_graph is not None
+    assert "Wallet#apply" in proj.call_graph.callees("Wallet#deposit")
+
+    # Track which done_what calls include callee context (enrichment pass 2).
+    enriched = []
+
+    async def ask(system, user):
+        if "methods it calls" in system:  # WITH_CALLS prompt
+            enriched.append(user)
+            return "enriched summary"
+        return "base summary"
+
+    asyncio.run(proj.analyze_summaries(ask=ask, use_cache=False))
+    # deposit calls apply -> its done_what gets re-computed with callee context.
+    assert any("Wallet#apply" in u for u in enriched)

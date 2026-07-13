@@ -81,3 +81,16 @@ def test_cache_invalidated_when_source_changes(tmp_path, monkeypatch):
     proj2 = project.RubyProject(root_dir=str(tmp_path), source_dir="src").discover()
     asyncio.run(proj2.analyze_summaries(ask=ask))
     assert calls["n"] > first  # cache invalidated -> recomputed
+
+
+def test_call_graph_cache_roundtrip(tmp_path):
+    from marta.ruby_backend.call_graph import CallEdge, CallGraph
+
+    g = CallGraph(edges=[CallEdge("A#a", "A#b", 3, "self")])
+    g._index()
+    p = cache.call_graph_path(str(tmp_path))
+    cache.save_call_graph(p, "h1", g.to_json())
+    assert cache.load_call_graph(p, "other") is None       # hash mismatch -> miss
+    loaded = cache.load_call_graph(p, "h1")
+    g2 = CallGraph.from_json(loaded)
+    assert "A#b" in g2.callees("A#a")

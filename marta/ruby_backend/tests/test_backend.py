@@ -25,8 +25,15 @@ def test_ruby_backend_implements_every_abstract_method():
     assert not getattr(RubyBackend, "__abstractmethods__", frozenset())
 
 
-def test_call_graph_is_none_on_ruby_mvp():
-    assert RubyBackend().build_call_graph(["a.rb"]) is None
+def test_build_call_graph_returns_graph(tmp_path):
+    f = tmp_path / "w.rb"
+    f.write_text("class W\n  def a; b; end\n  def b; end\nend\n")
+    try:
+        g = RubyBackend().build_call_graph([str(f)])
+    except RubyParseError:
+        pytest.skip("no Ruby toolchain")
+    assert g is not None
+    assert "W#b" in g.callees("W#a")
 
 
 def test_module_ref_strips_extension():

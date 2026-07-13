@@ -55,6 +55,15 @@ class CallGraph:
     def edge_set(self):
         return {(e.caller, e.callee) for e in self.edges}
 
+    def to_json(self) -> dict:
+        return {"edges": [[e.caller, e.callee, e.line, e.kind] for e in self.edges]}
+
+    @classmethod
+    def from_json(cls, data: dict) -> "CallGraph":
+        g = cls(edges=[CallEdge(c, ce, ln, k) for c, ce, ln, k in data.get("edges", [])])
+        g._index()
+        return g
+
 
 class StaticCallGraph:
     """Best-effort static resolution over the parser's per-method call records."""

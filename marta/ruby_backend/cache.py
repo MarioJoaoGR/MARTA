@@ -34,6 +34,29 @@ def cache_path(root_dir: str, model: str) -> str:
     return os.path.join(root_dir, ".marta_ruby_cache", f"analysis_{safe}.json")
 
 
+def call_graph_path(root_dir: str) -> str:
+    return os.path.join(root_dir, ".marta_ruby_cache", "call_graph.json")
+
+
+def save_call_graph(path: str, source_hash: str, graph_json: dict) -> None:
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump({"source_hash": source_hash, "graph": graph_json}, f, indent=2)
+
+
+def load_call_graph(path: str, source_hash: str) -> Optional[dict]:
+    """Return the cached call-graph JSON iff the source hash matches (the model
+    is irrelevant — the graph is purely static)."""
+    if not os.path.exists(path):
+        return None
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+    except (OSError, json.JSONDecodeError):
+        return None
+    return data.get("graph") if data.get("source_hash") == source_hash else None
+
+
 def save_analysis(path: str, source_hash: str, model: str, targets: Dict[str, dict]) -> None:
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "w", encoding="utf-8") as f:

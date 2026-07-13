@@ -105,6 +105,7 @@ class RubyProject:
     rag_db: Optional[rag.RubyFunctionDatabase] = None
     type_index: Optional[param_types.ProjectTypeIndex] = None
     recorder: Optional[rec.RubyRecorder] = None
+    call_graph: Optional[object] = None   # CallGraph (static), built in discover()
     backend: LanguageBackend = field(default_factory=RubyBackend)
 
     def _recorder(self) -> rec.RubyRecorder:
@@ -142,6 +143,18 @@ class RubyProject:
         # Judge needs the full index (cross-file classes), so compute after.
         for t in self.targets:
             t.judge = self.type_index.judge_for_method(t.method)
+        # Static call graph (item 6) — feeds cross-method done_what enrichment.
+        # Cached by source hash (cg_cache); rebuilt only when the source changes.
+        src_hash = cache.compute_source_hash(self.files)
+        cg_path = cache.call_graph_path(self.root_dir)
+        cached_cg = cache.load_call_graph(cg_path, src_hash)
+        if cached_cg is not None:
+            from .call_graph import CallGraph
+            self.call_graph = CallGraph.from_json(cached_cg)
+        else:
+            self.call_graph = self.backend.build_call_graph(self.files)
+            if self.call_graph is not None:
+                cache.save_call_graph(cg_path, src_hash, self.call_graph.to_json())
         return self
 
     async def generate_all(
@@ -200,8 +213,29 @@ class RubyProject:
 
         ask = ask or _default_ask()
         overviews = readme.ReadmeOverviewCache(self.abs_source)
+
+        # Pass 1: source-only done_what (MARTA's no-call-graph branch).
         for t in targets:
             t.done_what = await summaries.analyze_done_what(ask, t.context_source)
+
+        # Pass 2: enrich done_what of callers with their callees' done_what,
+        # following the static call graph (the PyCG-driven enrichment). Only
+        # methods that actually call project methods pay the extra LLM call.
+        if self.call_graph is not None:
+            by_qn = {t.method.qualified_name: t for t in targets}
+            for t in targets:
+                called = [
+                    f"{by_qn[c].method.qualified_name}: {by_qn[c].done_what}"
+                    for c in self.call_graph.callees(t.method.qualified_name)
+                    if c in by_qn and by_qn[c].done_what
+                ]
+                if called:
+                    t.done_what = await summaries.analyze_done_what(
+                        ask, t.context_source, called_summaries=called
+                    )
+
+        # what_todo (README) + final merged summary.
+        for t in targets:
             overview = await overviews.overview_for(ask, t.file_path)
             t.what_todo = await readme.analyze_what_todo(ask, t.context_source, overview)
             t.summary = await summaries.generate_summary(
