@@ -16,9 +16,9 @@ import glob
 import os
 import re
 from dataclasses import dataclass, field
-from typing import List, Optional
+from typing import Dict, List, Optional
 
-from . import ruby_ast
+from . import coverage_runner, ruby_ast
 from .generate import AskFn, GenOutcome, generate_spec_for_method
 
 # Methods we never target directly: exercised indirectly as construction context.
@@ -63,10 +63,26 @@ class MethodTarget:
         return _slice_lines(self.file_path, self.method.start_line, self.method.end_line)
 
     @property
-    def spec_path(self) -> str:
+    def _spec_stem(self) -> str:
         stem = os.path.splitext(os.path.basename(self.file_path))[0]
         owner = _sanitize(self.owner_class.qualified_name) if self.owner_class else "toplevel"
-        return os.path.join("spec", f"{stem}__{owner}__{_sanitize(self.method.name)}_spec.rb")
+        return f"{stem}__{owner}__{_sanitize(self.method.name)}"
+
+    @property
+    def spec_path(self) -> str:
+        return os.path.join("spec", f"{self._spec_stem}_spec.rb")
+
+    def spec_path_for_round(self, rnd: int) -> str:
+        """One spec file per round (``..._r0_spec.rb``, ``..._r1_spec.rb``), so
+        later rounds ADD coverage-targeted specs instead of overwriting — the
+        Ruby analogue of MARTA's ``<prefix>_<round>.py`` accumulation."""
+        return os.path.join("spec", f"{self._spec_stem}_r{rnd}_spec.rb")
+
+    @property
+    def source_rel(self) -> str:
+        """Path of the code file relative to source_dir (= require_target + .rb).
+        Matches the keys returned by the coverage runner."""
+        return self.require_target + ".rb"
 
 
 @dataclass
@@ -113,7 +129,7 @@ class RubyProject:
         max_attempts: int = 3,
         limit: Optional[int] = None,
     ) -> List[GenOutcome]:
-        """Generate a spec per discovered method target. Returns the outcomes."""
+        """Generate a spec per discovered method target (single round)."""
         outcomes: List[GenOutcome] = []
         targets = self.targets[:limit] if limit else self.targets
         for t in targets:
@@ -129,4 +145,68 @@ class RubyProject:
                 max_attempts=max_attempts,
             )
             outcomes.append(outcome)
+        return outcomes
+
+    def _all_spec_paths(self) -> List[str]:
+        specs = glob.glob(os.path.join(self.root_dir, "spec", "**", "*.rb"), recursive=True)
+        return [os.path.relpath(s, self.root_dir) for s in sorted(specs)]
+
+    def measure_coverage(self) -> Dict[int, coverage_runner.MethodCoverage]:
+        """Run every generated spec under Coverage and synthesise per-method
+        missing_lines. Keyed by target index. Targets whose source file has no
+        coverage data (e.g. no passing spec yet) map to full-miss coverage."""
+        spec_paths = self._all_spec_paths()
+        by_target: Dict[int, coverage_runner.MethodCoverage] = {}
+        if not spec_paths:
+            return by_target
+        result = coverage_runner.run_line_coverage(self.source_dir, spec_paths, cwd=self.root_dir)
+        for i, t in enumerate(self.targets):
+            lines = result.files.get(t.source_rel)
+            if lines:
+                by_target[i] = coverage_runner.synthesize(t.method, lines)
+        return by_target
+
+    async def generate_rounds(
+        self,
+        rounds: int = 3,
+        ask: Optional[AskFn] = None,
+        max_attempts: int = 3,
+        limit: Optional[int] = None,
+    ) -> List[GenOutcome]:
+        """Coverage-guided multi-round generation — the Fase 2 loop.
+
+        Round 0 generates for every target; after each round coverage is
+        measured over all accumulated specs, and later rounds regenerate only
+        methods with missing lines, feeding those lines back to the Planner.
+        Returns the flat list of per-round outcomes.
+        """
+        targets = list(enumerate(self.targets))
+        if limit:
+            targets = targets[:limit]
+        outcomes: List[GenOutcome] = []
+        cov: Dict[int, coverage_runner.MethodCoverage] = {}
+
+        for rnd in range(rounds):
+            for idx, t in targets:
+                mc = cov.get(idx)
+                if rnd > 0 and mc is not None and mc.fully_covered:
+                    continue  # already fully covered — skip, like the Python loop
+                if rnd == 0 or mc is None:
+                    coverage_info = "First pass: Try to achieve maximum coverage."
+                else:
+                    coverage_info = f"MISSING LINES TO COVER: {mc.format_missing_lines()}"
+                outcome = await generate_spec_for_method(
+                    method_qualified_name=t.method.qualified_name,
+                    describe_subject=t.describe_subject,
+                    method_source=t.context_source,
+                    require_target=t.require_target,
+                    load_paths=[self.source_dir],
+                    spec_path=t.spec_path_for_round(rnd),
+                    cwd=self.root_dir,
+                    ask=ask,
+                    max_attempts=max_attempts,
+                    coverage_info=coverage_info,
+                )
+                outcomes.append(outcome)
+            cov = self.measure_coverage()
         return outcomes
