@@ -7,7 +7,7 @@
 >
 > Legenda: ✅ replicado · 🟡 parcial/simplificado · ❌ em falta
 
-_Última atualização: 2026-07-13 — itens 1–5 e 7 feitos. Falta 6 (call graph, adiado), 8 (caching/recorder), 9 (LanguageBackend)._
+_Última atualização: 2026-07-13 — itens 1–5, 7, 8 feitos. Falta 6 (call graph, adiado) e 9 (LanguageBackend)._
 
 ---
 
@@ -16,7 +16,7 @@ _Última atualização: 2026-07-13 — itens 1–5 e 7 feitos. Falta 6 (call gra
 | # | Etapa Python | Ficheiro Python | Ruby | Estado |
 |---|---|---|---|---|
 | 1 | Descobrir ficheiros | `_get_files` | `RubyProject.discover` (glob `*.rb`) | ✅ |
-| 2 | Cache do grafo (`source_hash`) | `utils.save/load_cg_cache` | — | ❌ |
+| 2 | Cache (`source_hash`) | `utils.save/load_cg_cache` + `analysis_cache` | `cache.py` (analysis por hash+modelo); cache do grafo N/A (sem grafo) | 🟡 |
 | 3 | **Call graph (PyCG)** → `cg_output` | `pycg/` | — | ❌ **(o "grafo" que perguntaste)** |
 | 4 | Parse params + members | `analyze_function_members` (ast.walk Attribute) | Param **kinds** + `param_members` (métodos chamados no param) via Prism | ✅ |
 | 5 | Completar imports | `complete_file_imports` | `require_target` + `-I` (load path) | 🟡 |
@@ -24,7 +24,7 @@ _Última atualização: 2026-07-13 — itens 1–5 e 7 feitos. Falta 6 (call gra
 | 7 | Membros completos da classe | `parse_full_members` | `ProjectTypeIndex.responds_to` (own+herdados) | ✅ |
 | 8 | Construir arestas `uses/used` | `parseCG` | — (depende de #3) | ❌ |
 | 9 | README por diretório | `DictionaryMessage.init` | `readme.py` (nearest_readme + overview + what_todo) | ✅ |
-| 10 | Cache de análise LLM | `load/save_analysis_cache` | — | ❌ |
+| 10 | Cache de análise LLM | `load/save_analysis_cache` | `cache.load/save_analysis` (skip LLM em hit) | ✅ |
 | 11 | **`done_what`** (segue call graph) | `analyze_done_what` | `summaries.analyze_done_what` (source-only; hook p/ CG) | 🟡 |
 | 12 | **`what_todo`** (do README) | `get_total_what_todo` | `readme.analyze_what_todo` (merge no summary) | ✅ |
 | 13 | **`summary`** (merge das duas) | `generate_summary` | `summaries.generate_summary` (merge; sem what_todo = done_what) | ✅ |
@@ -54,8 +54,8 @@ _Última atualização: 2026-07-13 — itens 1–5 e 7 feitos. Falta 6 (call gra
 | Test runner | `pytest --json-report` | `rspec -f json` | ✅ |
 | Cobertura | `coverage.py` (missing_lines/função) | `Coverage` embutido (`:lines`) + síntese | ✅ |
 | Salvamento (cirurgia) | `ast` (linhas por `def`) | Prism (linhas por bloco `it`) | ✅ |
-| Recorder (tokens/tempo/score) | integrado | só tokens (via `gptapi` global) | 🟡 |
-| Caching | `cg_cache` + `analysis_cache` | — | ❌ |
+| Recorder (tokens/tempo/score) | integrado | `recorder.RubyRecorder` (próprio, mesmas métricas) | ✅ |
+| Caching | `cg_cache` + `analysis_cache` | `cache.py` (analysis por hash+modelo) | ✅ |
 
 ---
 
@@ -79,6 +79,6 @@ _Última atualização: 2026-07-13 — itens 1–5 e 7 feitos. Falta 6 (call gra
 5. ~~**Tipos de params + members + MRO**~~ ✅ feito.
 6. **Call graph** (walker sobre Prism ou TracePoint) → completa `done_what` + mixins. ⏸️ **adiado por decisão** — fazer no fim.
 7. ~~**README / DictionaryMessage** → `what_todo`~~ ✅ feito.
-8. **Caching + recorder** completos. ← próximo
-9. **Formalizar `LanguageBackend`** — extrair a interface partilhada Python/Ruby.
+8. ~~**Caching + recorder**~~ ✅ feito.
+9. **Formalizar `LanguageBackend`** — extrair a interface partilhada Python/Ruby. ← próximo
 10. (voltar ao #6 call graph — enriquece `done_what` + propaga `what_todo` + mixins)
