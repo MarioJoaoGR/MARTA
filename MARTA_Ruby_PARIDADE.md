@@ -7,7 +7,7 @@
 >
 > Legenda: ✅ replicado · 🟡 parcial/simplificado · ❌ em falta
 
-_Última atualização: 2026-07-13 — itens 1–4 feitos (salvamento, cobertura+loop, summaries, RAG)._
+_Última atualização: 2026-07-13 — itens 1–5 feitos (+ tipos/members/MRO). Falta 6 (call graph, adiado), 7 (README), 8, 9._
 
 ---
 
@@ -18,10 +18,10 @@ _Última atualização: 2026-07-13 — itens 1–4 feitos (salvamento, cobertura
 | 1 | Descobrir ficheiros | `_get_files` | `RubyProject.discover` (glob `*.rb`) | ✅ |
 | 2 | Cache do grafo (`source_hash`) | `utils.save/load_cg_cache` | — | ❌ |
 | 3 | **Call graph (PyCG)** → `cg_output` | `pycg/` | — | ❌ **(o "grafo" que perguntaste)** |
-| 4 | Parse params + members | `analyze_function_members` (ast.walk Attribute) | Param **kinds** via Prism (req/opt/rest/key…); members ❌ | 🟡 |
+| 4 | Parse params + members | `analyze_function_members` (ast.walk Attribute) | Param **kinds** + `param_members` (métodos chamados no param) via Prism | ✅ |
 | 5 | Completar imports | `complete_file_imports` | `require_target` + `-I` (load path) | 🟡 |
-| 6 | **MRO / herança** | `parseExtend` | Parser dá superclass + include/extend/prepend; MRO não computada | 🟡 |
-| 7 | Membros completos da classe | `parse_full_members` | — | ❌ |
+| 6 | **MRO / herança** | `parseExtend` | `ProjectTypeIndex.ancestors` (prepend/self/include/superclass) | ✅ |
+| 7 | Membros completos da classe | `parse_full_members` | `ProjectTypeIndex.responds_to` (own+herdados) | ✅ |
 | 8 | Construir arestas `uses/used` | `parseCG` | — (depende de #3) | ❌ |
 | 9 | README por diretório | `DictionaryMessage.init` | — | ❌ |
 | 10 | Cache de análise LLM | `load/save_analysis_cache` | — | ❌ |
@@ -30,7 +30,7 @@ _Última atualização: 2026-07-13 — itens 1–4 feitos (salvamento, cobertura
 | 13 | **`summary`** (merge das duas) | `generate_summary` | `summaries.generate_summary` (merge; sem what_todo = done_what) | ✅ |
 | 14 | Summaries de classes | `analyze_each_class` | — | ❌ |
 | 15 | **RAG / embeddings** (funções+classes) | `embedding.py`, `function_database` | `rag.RubyFunctionDatabase` (reusa bge) — funções ✅; classes ❌ | 🟡 |
-| 16 | **Tipos de params** (judge via RAG) | `analyze_param_types`, `ArgMessage` | — | ❌ |
+| 16 | **Tipos de params** (judge) | `analyze_param_types`, `ArgMessage` | `param_types.judge_for_method` (members→candidatos via MRO) | ✅ |
 | 17 | Setup de cobertura | `MyCoverage` | `coverage_runner` (Coverage embutido) | ✅ |
 
 ## Loop de geração (`generate_once` / `generate_react_flow`)
@@ -76,8 +76,8 @@ _Última atualização: 2026-07-13 — itens 1–4 feitos (salvamento, cobertura
 2. ~~**Fase 2 — cobertura** `:lines` × line-ranges → `missing_lines`/método → loop multi-ronda~~ ✅ feito.
 3. ~~**Pipeline de summaries** `done_what`/`summary`~~ ✅ feito (source-only; `what_todo` fica p/ #7 README).
 4. ~~**RAG / embeddings** — funções → Planner~~ ✅ feito (classes/self-heal ficam p/ depois).
-5. **Tipos de params + members + MRO** (`ArgMessage`/`judge`/`ancestors`). ← próximo
-6. **Call graph** (walker sobre Prism ou TracePoint) → completa `done_what` + mixins. ⚠️ decisão de abordagem
-7. **README / DictionaryMessage**.
+5. ~~**Tipos de params + members + MRO**~~ ✅ feito.
+6. **Call graph** (walker sobre Prism ou TracePoint) → completa `done_what` + mixins. ⏸️ **adiado por decisão** — fazer no fim.
+7. **README / DictionaryMessage** → `what_todo` do summary. ← próximo
 8. **Caching + recorder** completos.
 9. **Formalizar `LanguageBackend`** — extrair a interface partilhada Python/Ruby.
