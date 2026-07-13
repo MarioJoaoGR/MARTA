@@ -7,7 +7,7 @@
 >
 > Legenda: ✅ replicado · 🟡 parcial/simplificado · ❌ em falta
 
-_Última atualização: 2026-07-13 — itens 1–5, 7, 8 feitos. Falta 6 (call graph, adiado) e 9 (LanguageBackend)._
+_Última atualização: 2026-07-13 — itens 1–5, 7, 8, 9 feitos. Só falta 6 (call graph). 64 testes verdes._
 
 ---
 
@@ -80,5 +80,5 @@ _Última atualização: 2026-07-13 — itens 1–5, 7, 8 feitos. Falta 6 (call g
 6. **Call graph** (walker sobre Prism ou TracePoint) → completa `done_what` + mixins. ⏸️ **adiado por decisão** — fazer no fim.
 7. ~~**README / DictionaryMessage** → `what_todo`~~ ✅ feito.
 8. ~~**Caching + recorder**~~ ✅ feito.
-9. **Formalizar `LanguageBackend`** — extrair a interface partilhada Python/Ruby. ← próximo
-10. (voltar ao #6 call graph — enriquece `done_what` + propaga `what_todo` + mixins)
+9. ~~**Formalizar `LanguageBackend`**~~ ✅ feito (baixo-risco: ABC + `RubyBackend`, Python intacto).
+10. **Call graph (#6)** — última peça: walker estático sobre Prism → enriquece `done_what` + propaga `what_todo` + mixins; adicionar aí o `cg_cache`. ← única pendente
