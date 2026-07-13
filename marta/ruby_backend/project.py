@@ -18,7 +18,7 @@ import re
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional
 
-from . import coverage_runner, param_types, rag, ruby_ast, summaries
+from . import coverage_runner, param_types, rag, readme, ruby_ast, summaries
 from .generate import AskFn, GenOutcome, generate_spec_for_method
 
 # Methods we never target directly: exercised indirectly as construction context.
@@ -44,6 +44,7 @@ class MethodTarget:
     file_path: str            # absolute path to the .rb file
     require_target: str       # e.g. "foo/bar" (relative to source_dir, no .rb)
     done_what: str = ""       # implementation-view summary (item 3)
+    what_todo: str = ""       # requirement-view summary, from README (item 7)
     summary: str = ""         # final merged summary, fed to the Planner context
     judge: str = ""           # inferred parameter types hint (item 5)
 
@@ -165,14 +166,19 @@ class RubyProject:
         return outcomes
 
     async def analyze_summaries(self, ask: AskFn, limit: Optional[int] = None) -> None:
-        """Populate each target's done_what/summary before generation — the
-        context-building phase MARTA runs in ``init()``. Source-only for now
-        (no call graph / README); those enrich done_what and add what_todo later.
+        """Populate each target's done_what / what_todo / summary before
+        generation — the context-building phase MARTA runs in ``init()``.
+        ``done_what`` is source-only until the call graph enriches it.
         """
         targets = self.targets[:limit] if limit else self.targets
+        overviews = readme.ReadmeOverviewCache(self.abs_source)
         for t in targets:
             t.done_what = await summaries.analyze_done_what(ask, t.context_source)
-            t.summary = await summaries.generate_summary(ask, t.context_source, t.done_what)
+            overview = await overviews.overview_for(ask, t.file_path)
+            t.what_todo = await readme.analyze_what_todo(ask, t.context_source, overview)
+            t.summary = await summaries.generate_summary(
+                ask, t.context_source, t.done_what, t.what_todo
+            )
 
     def build_rag(self, embed_documents=None, embed_query=None) -> None:
         """Index target summaries for retrieval. Call after analyze_summaries.
