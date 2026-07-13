@@ -18,7 +18,7 @@ import re
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional
 
-from . import coverage_runner, param_types, rag, readme, ruby_ast, summaries
+from . import cache, coverage_runner, param_types, rag, readme, recorder as rec, ruby_ast, summaries
 from .generate import AskFn, GenOutcome, _default_ask, generate_spec_for_method
 
 # Methods we never target directly: exercised indirectly as construction context.
@@ -103,6 +103,12 @@ class RubyProject:
     targets: List[MethodTarget] = field(default_factory=list)
     rag_db: Optional[rag.RubyFunctionDatabase] = None
     type_index: Optional[param_types.ProjectTypeIndex] = None
+    recorder: Optional[rec.RubyRecorder] = None
+
+    def _recorder(self) -> rec.RubyRecorder:
+        if self.recorder is None:
+            self.recorder = rec.RubyRecorder()
+        return self.recorder
 
     @property
     def abs_source(self) -> str:
@@ -148,6 +154,7 @@ class RubyProject:
         """Generate a spec per discovered method target (single round)."""
         outcomes: List[GenOutcome] = []
         targets = self.targets[:limit] if limit else self.targets
+        recorder = self._recorder()
         for t in targets:
             outcome = await generate_spec_for_method(
                 method_qualified_name=t.method.qualified_name,
@@ -161,17 +168,37 @@ class RubyProject:
                 summary=t.planner_summary,
                 related=self._related_for(t),
                 max_attempts=max_attempts,
+                recorder=recorder,
             )
             outcomes.append(outcome)
         return outcomes
 
-    async def analyze_summaries(self, ask: Optional[AskFn] = None, limit: Optional[int] = None) -> None:
+    async def analyze_summaries(
+        self,
+        ask: Optional[AskFn] = None,
+        limit: Optional[int] = None,
+        use_cache: bool = True,
+    ) -> None:
         """Populate each target's done_what / what_todo / summary before
         generation — the context-building phase MARTA runs in ``init()``.
         ``done_what`` is source-only until the call graph enriches it.
+
+        Cached by source hash + model: on an unchanged project the whole LLM
+        summary phase is skipped (``load_analysis_cache`` analogue).
         """
-        ask = ask or _default_ask()
         targets = self.targets[:limit] if limit else self.targets
+        model = os.getenv("MODEL", "default")
+        src_hash = cache.compute_source_hash(self.files)
+        path = cache.cache_path(self.root_dir, model)
+
+        if use_cache:
+            cached = cache.load_analysis(path, src_hash, model)
+            if cached is not None and all(t.method.qualified_name in cached for t in targets):
+                for t in targets:
+                    self._apply_cached(t, cached[t.method.qualified_name])
+                return
+
+        ask = ask or _default_ask()
         overviews = readme.ReadmeOverviewCache(self.abs_source)
         for t in targets:
             t.done_what = await summaries.analyze_done_what(ask, t.context_source)
@@ -180,6 +207,22 @@ class RubyProject:
             t.summary = await summaries.generate_summary(
                 ask, t.context_source, t.done_what, t.what_todo
             )
+        if use_cache:
+            cache.save_analysis(path, src_hash, model, {
+                t.method.qualified_name: {
+                    "done_what": t.done_what, "what_todo": t.what_todo,
+                    "summary": t.summary, "judge": t.judge,
+                }
+                for t in targets
+            })
+
+    @staticmethod
+    def _apply_cached(t: MethodTarget, entry: dict) -> None:
+        t.done_what = entry.get("done_what", "")
+        t.what_todo = entry.get("what_todo", "")
+        t.summary = entry.get("summary", "")
+        if entry.get("judge"):
+            t.judge = entry["judge"]
 
     def build_rag(self, embed_documents=None, embed_query=None) -> None:
         """Index target summaries for retrieval. Call after analyze_summaries.
@@ -233,8 +276,11 @@ class RubyProject:
             targets = targets[:limit]
         outcomes: List[GenOutcome] = []
         cov: Dict[int, coverage_runner.MethodCoverage] = {}
+        recorder = self._recorder()
 
         for rnd in range(rounds):
+            recorder.score.first_run = (rnd == 0)  # first_run metrics = round 0
+            recorder.start_count_time(f"round_{rnd}")
             for idx, t in targets:
                 mc = cov.get(idx)
                 if rnd > 0 and mc is not None and mc.fully_covered:
@@ -256,7 +302,13 @@ class RubyProject:
                     related=self._related_for(t),
                     max_attempts=max_attempts,
                     coverage_info=coverage_info,
+                    recorder=recorder,
                 )
                 outcomes.append(outcome)
+            recorder.end_count_time(f"round_{rnd}")
             cov = self.measure_coverage()
+            recorder.score.coverage.append(
+                {t.method.qualified_name: (cov[i].covered_lines if i in cov else 0)
+                 for i, t in targets}
+            )
         return outcomes

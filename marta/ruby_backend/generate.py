@@ -73,20 +73,28 @@ async def generate_spec_for_method(
     coverage_info: str = "First pass: Try to achieve maximum coverage.",
     related: Optional[List[str]] = None,
     max_attempts: int = 3,
+    recorder=None,
 ) -> GenOutcome:
     """Generate, self-heal and validate one spec file for one method.
 
     On success the spec file is left on disk (green). On total failure the file
     is removed and ``success`` is False; the caller can inspect ``results`` /
-    ``last_error``. (Per-``it`` salvage is a later addition.)
+    ``last_error``. An optional ``RubyRecorder`` collects syntax/assertion/LLM
+    metrics.
     """
     ask = ask or _default_ask()
+    score = recorder.score if recorder is not None else None
+
+    def _call() -> None:
+        if score is not None:
+            score.add_llm_call()
 
     # ---- Planner ---------------------------------------------------------- #
     context_block = prompts.build_context_block(
         method_qualified_name, require_target, method_source, summary, coverage_info, related
     )
     raw_plan = await ask(prompts.PLAN_SYS, prompts.plan_user(context_block))
+    _call()
     scenarios = parse_plan(raw_plan, describe_subject)
 
     # ---- Dev + self-healing ---------------------------------------------- #
@@ -113,11 +121,16 @@ async def generate_spec_for_method(
             prompts.DEV_SYS,
             prompts.dev_user(instruction, method_source, require_target, describe_subject),
         )
+        _call()
         spec_code = prompts.get_ruby_code(raw_dev)
         _write(spec_code)
 
         # Cheap gate first: ruby -c. Only run RSpec if it parses.
         syntax_err = runner.syntax_check(spec_code)
+        if score is not None:
+            (score.add_syntax_error if syntax_err else score.add_syntax_pass)()
+            if syntax_err is None and attempt > 1:
+                score.add_syntax_fix_success()
         if syntax_err is not None:
             last_error = syntax_err
             last_res = None
@@ -128,8 +141,16 @@ async def generate_spec_for_method(
         last_res = res
         if res.all_passed:
             success = True
+            if score is not None:
+                score.add_assertion_pass()
+                if attempt > 1:
+                    score.add_assertion_fix_success()
             break
         last_error = res.output
+        if score is not None:
+            score.add_assertion_error()
+            for e in res.failed:
+                score.add_assertion_error_type((e.message or "Unknown").splitlines()[0][:80])
 
     # ---- Option D: salvage passing examples before discarding ------------ #
     salvaged = False
@@ -148,6 +169,9 @@ async def generate_spec_for_method(
                     salvaged = True
                     spec_code = new_code
                     results = recheck.results
+                    if score is not None:
+                        score.add_salvaged()
+                        score.add_assertion_fix_success()
 
     outcome = GenOutcome(
         method=method_qualified_name,
