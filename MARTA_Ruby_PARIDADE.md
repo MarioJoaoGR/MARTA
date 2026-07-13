@@ -7,7 +7,7 @@
 >
 > Legenda: ✅ replicado · 🟡 parcial/simplificado · ❌ em falta
 
-_Última atualização: 2026-07-13 — itens 1–5 feitos (+ tipos/members/MRO). Falta 6 (call graph, adiado), 7 (README), 8, 9._
+_Última atualização: 2026-07-13 — itens 1–5 e 7 feitos. Falta 6 (call graph, adiado), 8 (caching/recorder), 9 (LanguageBackend)._
 
 ---
 
@@ -23,10 +23,10 @@ _Última atualização: 2026-07-13 — itens 1–5 feitos (+ tipos/members/MRO).
 | 6 | **MRO / herança** | `parseExtend` | `ProjectTypeIndex.ancestors` (prepend/self/include/superclass) | ✅ |
 | 7 | Membros completos da classe | `parse_full_members` | `ProjectTypeIndex.responds_to` (own+herdados) | ✅ |
 | 8 | Construir arestas `uses/used` | `parseCG` | — (depende de #3) | ❌ |
-| 9 | README por diretório | `DictionaryMessage.init` | — | ❌ |
+| 9 | README por diretório | `DictionaryMessage.init` | `readme.py` (nearest_readme + overview + what_todo) | ✅ |
 | 10 | Cache de análise LLM | `load/save_analysis_cache` | — | ❌ |
 | 11 | **`done_what`** (segue call graph) | `analyze_done_what` | `summaries.analyze_done_what` (source-only; hook p/ CG) | 🟡 |
-| 12 | **`what_todo`** (do README) | `get_total_what_todo` | — (chega com #9 README) | ❌ |
+| 12 | **`what_todo`** (do README) | `get_total_what_todo` | `readme.analyze_what_todo` (merge no summary) | ✅ |
 | 13 | **`summary`** (merge das duas) | `generate_summary` | `summaries.generate_summary` (merge; sem what_todo = done_what) | ✅ |
 | 14 | Summaries de classes | `analyze_each_class` | — | ❌ |
 | 15 | **RAG / embeddings** (funções+classes) | `embedding.py`, `function_database` | `rag.RubyFunctionDatabase` (reusa bge) — funções ✅; classes ❌ | 🟡 |
@@ -78,6 +78,7 @@ _Última atualização: 2026-07-13 — itens 1–5 feitos (+ tipos/members/MRO).
 4. ~~**RAG / embeddings** — funções → Planner~~ ✅ feito (classes/self-heal ficam p/ depois).
 5. ~~**Tipos de params + members + MRO**~~ ✅ feito.
 6. **Call graph** (walker sobre Prism ou TracePoint) → completa `done_what` + mixins. ⏸️ **adiado por decisão** — fazer no fim.
-7. **README / DictionaryMessage** → `what_todo` do summary. ← próximo
-8. **Caching + recorder** completos.
+7. ~~**README / DictionaryMessage** → `what_todo`~~ ✅ feito.
+8. **Caching + recorder** completos. ← próximo
 9. **Formalizar `LanguageBackend`** — extrair a interface partilhada Python/Ruby.
+10. (voltar ao #6 call graph — enriquece `done_what` + propaga `what_todo` + mixins)
