@@ -15,7 +15,7 @@ import json
 import os
 import subprocess
 from dataclasses import dataclass, field
-from typing import List, Optional
+from typing import Dict, List, Optional
 
 _HELPER = os.path.join(os.path.dirname(__file__), "rb", "marta_parse.rb")
 
@@ -37,6 +37,8 @@ class MethodInfo:
     start_line: int
     end_line: int
     params: List[ParamInfo] = field(default_factory=list)
+    # param name -> methods invoked on it in the body (duck-typing "members")
+    param_members: Dict[str, List[str]] = field(default_factory=dict)
 
     @property
     def qualified_name(self) -> str:
@@ -120,6 +122,7 @@ def _from_json(data: dict) -> FileParse:
             start_line=m["start_line"],
             end_line=m["end_line"],
             params=[ParamInfo(name=p.get("name"), kind=p["kind"]) for p in m.get("params", [])],
+            param_members=m.get("param_members", {}),
         )
         for m in data.get("methods", [])
     ]

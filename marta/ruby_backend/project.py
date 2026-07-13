@@ -18,7 +18,7 @@ import re
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional
 
-from . import coverage_runner, rag, ruby_ast, summaries
+from . import coverage_runner, param_types, rag, ruby_ast, summaries
 from .generate import AskFn, GenOutcome, generate_spec_for_method
 
 # Methods we never target directly: exercised indirectly as construction context.
@@ -45,6 +45,12 @@ class MethodTarget:
     require_target: str       # e.g. "foo/bar" (relative to source_dir, no .rb)
     done_what: str = ""       # implementation-view summary (item 3)
     summary: str = ""         # final merged summary, fed to the Planner context
+    judge: str = ""           # inferred parameter types hint (item 5)
+
+    @property
+    def planner_summary(self) -> str:
+        """Summary + inferred param types, as fed to the Planner context."""
+        return f"{self.summary}\n\n{self.judge}".strip() if self.judge else self.summary
 
     @property
     def describe_subject(self) -> str:
@@ -95,6 +101,7 @@ class RubyProject:
     files: List[str] = field(default_factory=list)          # absolute .rb paths
     targets: List[MethodTarget] = field(default_factory=list)
     rag_db: Optional[rag.RubyFunctionDatabase] = None
+    type_index: Optional[param_types.ProjectTypeIndex] = None
 
     @property
     def abs_source(self) -> str:
@@ -104,6 +111,7 @@ class RubyProject:
         """Find *.rb under source_dir (excluding spec/) and build method targets."""
         self.files = []
         self.targets = []
+        self.type_index = param_types.ProjectTypeIndex()
         pattern = os.path.join(self.abs_source, "**", "*.rb")
         for path in sorted(glob.glob(pattern, recursive=True)):
             rel = os.path.relpath(path, self.abs_source)
@@ -111,6 +119,7 @@ class RubyProject:
                 continue
             self.files.append(path)
             fp = ruby_ast.parse_file(path)
+            self.type_index.add_file(fp)  # whole-project index for type inference
             classes_by_qn = {c.qualified_name: c for c in fp.classes}
             require_target = os.path.splitext(rel)[0]
             for m in fp.methods:
@@ -124,6 +133,9 @@ class RubyProject:
                         require_target=require_target,
                     )
                 )
+        # Judge needs the full index (cross-file classes), so compute after.
+        for t in self.targets:
+            t.judge = self.type_index.judge_for_method(t.method)
         return self
 
     async def generate_all(
@@ -145,7 +157,7 @@ class RubyProject:
                 spec_path=t.spec_path,
                 cwd=self.root_dir,
                 ask=ask,
-                summary=t.summary,
+                summary=t.planner_summary,
                 related=self._related_for(t),
                 max_attempts=max_attempts,
             )
@@ -233,7 +245,7 @@ class RubyProject:
                     spec_path=t.spec_path_for_round(rnd),
                     cwd=self.root_dir,
                     ask=ask,
-                    summary=t.summary,
+                    summary=t.planner_summary,
                     related=self._related_for(t),
                     max_attempts=max_attempts,
                     coverage_info=coverage_info,

@@ -71,6 +71,7 @@ module MartaParse
       @examples = []        # RSpec `it`/`specify`/... blocks with line ranges
       @scope = []          # enclosing class/module names, e.g. ["Foo", "Bar"]
       @class_stack = []     # matching class/module hashes for mixin attribution
+      @method_stack = []    # current def(s): param names + members-called map
     end
 
     def owner
@@ -109,6 +110,13 @@ module MartaParse
     def visit_def_node(node)
       # `def self.foo` / `def Klass.foo` carry a receiver; instance methods do not.
       receiver = node.receiver.nil? ? nil : node.receiver.slice
+      params = MartaParse.params(node.parameters)
+      # param_members: for each parameter, the methods invoked ON it in the body
+      # (the Ruby duck-typing analogue of MARTA's attribute-access members —
+      # used to guess a parameter's likely type by who responds to those calls).
+      members = {}
+      param_names = params.map { |p| p["name"] }.compact
+      param_names.each { |n| members[n] = [] }
       @methods << {
         "name" => node.name.to_s,
         "owner" => owner,
@@ -116,10 +124,13 @@ module MartaParse
         "singleton" => !node.receiver.nil?,
         "start_line" => node.location.start_line,
         "end_line" => node.location.end_line,
-        "params" => MartaParse.params(node.parameters),
+        "params" => params,
+        "param_members" => members,
       }
-      # Nested defs are legal but rare; recurse so we don't miss them.
-      visit_child_nodes(node)
+      @method_stack.push({ names: param_names, members: members })
+      visit_child_nodes(node)  # nested defs are legal but rare; recurse anyway
+      @method_stack.pop
+      members.each_value(&:uniq!)
     end
 
     def visit_call_node(node)
@@ -128,6 +139,14 @@ module MartaParse
          %i[include extend prepend].include?(node.name) && node.arguments
         bucket = cur["#{node.name}s"]
         node.arguments.arguments.each { |arg| bucket << arg.slice }
+      end
+
+      # Method invoked on a parameter (`param.foo`): record `foo` as a member
+      # accessed on `param`, for type inference on the Python side.
+      m = @method_stack.last
+      if m && node.receiver.is_a?(Prism::LocalVariableReadNode)
+        rname = node.receiver.name.to_s
+        m[:members][rname] << node.name.to_s if m[:names].include?(rname)
       end
 
       # RSpec example blocks: `it "desc" do ... end`. Record the full call's
