@@ -7,7 +7,7 @@
 >
 > Legenda: ✅ replicado · 🟡 parcial/simplificado · ❌ em falta
 
-_Última atualização: 2026-07-13 — itens 1–3 feitos (salvamento, cobertura+loop, summaries)._
+_Última atualização: 2026-07-13 — itens 1–4 feitos (salvamento, cobertura+loop, summaries, RAG)._
 
 ---
 
@@ -29,7 +29,7 @@ _Última atualização: 2026-07-13 — itens 1–3 feitos (salvamento, cobertura
 | 12 | **`what_todo`** (do README) | `get_total_what_todo` | — (chega com #9 README) | ❌ |
 | 13 | **`summary`** (merge das duas) | `generate_summary` | `summaries.generate_summary` (merge; sem what_todo = done_what) | ✅ |
 | 14 | Summaries de classes | `analyze_each_class` | — | ❌ |
-| 15 | **RAG / embeddings** (funções+classes) | `embedding.py`, `function_database` | Módulo agnóstico existe; não populado p/ Ruby | ❌ |
+| 15 | **RAG / embeddings** (funções+classes) | `embedding.py`, `function_database` | `rag.RubyFunctionDatabase` (reusa bge) — funções ✅; classes ❌ | 🟡 |
 | 16 | **Tipos de params** (judge via RAG) | `analyze_param_types`, `ArgMessage` | — | ❌ |
 | 17 | Setup de cobertura | `MyCoverage` | `coverage_runner` (Coverage embutido) | ✅ |
 
@@ -38,7 +38,7 @@ _Última atualização: 2026-07-13 — itens 1–3 feitos (salvamento, cobertura
 | Etapa Python | Ruby | Estado |
 |---|---|---|
 | Feedback de cobertura (missing lines) | `generate_rounds` + `measure_coverage` (feedback ao Planner) | ✅ |
-| RAG: funções relacionadas → Planner | — | ❌ |
+| RAG: funções relacionadas → Planner | `_related_for` → `related_block` | ✅ |
 | **Planner** (plano JSON de cenários) | `prompts.plan_*` + `parse_plan` | ✅ |
 | **Dev** (1 ficheiro, todos os cenários) | `prompts.dev_*` | ✅ |
 | **Self-healing** (erro → reescrita ×3) | `generate.py` (syntax gate → rspec) | ✅ |
@@ -75,9 +75,9 @@ _Última atualização: 2026-07-13 — itens 1–3 feitos (salvamento, cobertura
 1. ~~**Salvamento por bloco `it`** (Opção D)~~ ✅ feito.
 2. ~~**Fase 2 — cobertura** `:lines` × line-ranges → `missing_lines`/método → loop multi-ronda~~ ✅ feito.
 3. ~~**Pipeline de summaries** `done_what`/`summary`~~ ✅ feito (source-only; `what_todo` fica p/ #7 README).
-4. **RAG / embeddings** — popular `function_database` com dados Ruby (reusa `embedding.py`). ← próximo
-5. **Tipos de params + members + MRO** (`ArgMessage`/`judge`/`ancestors`).
-6. **Call graph** (walker sobre Prism ou TracePoint) → completa `done_what` + mixins.
+4. ~~**RAG / embeddings** — funções → Planner~~ ✅ feito (classes/self-heal ficam p/ depois).
+5. **Tipos de params + members + MRO** (`ArgMessage`/`judge`/`ancestors`). ← próximo
+6. **Call graph** (walker sobre Prism ou TracePoint) → completa `done_what` + mixins. ⚠️ decisão de abordagem
 7. **README / DictionaryMessage**.
 8. **Caching + recorder** completos.
 9. **Formalizar `LanguageBackend`** — extrair a interface partilhada Python/Ruby.
