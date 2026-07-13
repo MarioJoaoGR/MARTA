@@ -18,7 +18,7 @@ import re
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional
 
-from . import coverage_runner, ruby_ast
+from . import coverage_runner, ruby_ast, summaries
 from .generate import AskFn, GenOutcome, generate_spec_for_method
 
 # Methods we never target directly: exercised indirectly as construction context.
@@ -43,6 +43,8 @@ class MethodTarget:
     owner_class: Optional[ruby_ast.ClassInfo]
     file_path: str            # absolute path to the .rb file
     require_target: str       # e.g. "foo/bar" (relative to source_dir, no .rb)
+    done_what: str = ""       # implementation-view summary (item 3)
+    summary: str = ""         # final merged summary, fed to the Planner context
 
     @property
     def describe_subject(self) -> str:
@@ -142,10 +144,21 @@ class RubyProject:
                 spec_path=t.spec_path,
                 cwd=self.root_dir,
                 ask=ask,
+                summary=t.summary,
                 max_attempts=max_attempts,
             )
             outcomes.append(outcome)
         return outcomes
+
+    async def analyze_summaries(self, ask: AskFn, limit: Optional[int] = None) -> None:
+        """Populate each target's done_what/summary before generation — the
+        context-building phase MARTA runs in ``init()``. Source-only for now
+        (no call graph / README); those enrich done_what and add what_todo later.
+        """
+        targets = self.targets[:limit] if limit else self.targets
+        for t in targets:
+            t.done_what = await summaries.analyze_done_what(ask, t.context_source)
+            t.summary = await summaries.generate_summary(ask, t.context_source, t.done_what)
 
     def _all_spec_paths(self) -> List[str]:
         specs = glob.glob(os.path.join(self.root_dir, "spec", "**", "*.rb"), recursive=True)
@@ -204,6 +217,7 @@ class RubyProject:
                     spec_path=t.spec_path_for_round(rnd),
                     cwd=self.root_dir,
                     ask=ask,
+                    summary=t.summary,
                     max_attempts=max_attempts,
                     coverage_info=coverage_info,
                 )
