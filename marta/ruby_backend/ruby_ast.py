@@ -62,10 +62,25 @@ class ClassInfo:
 
 
 @dataclass
+class ExampleBlock:
+    """An RSpec `it`/`specify`/... block, with its source line range. Used by
+    the salvage step to remove failing examples by line range (the Ruby analogue
+    of removing failing `def`s in ``salvage_passing_tests``)."""
+    name: str                  # "it", "specify", ...
+    description: Optional[str]
+    start_line: int
+    end_line: int
+
+    def contains(self, line: int) -> bool:
+        return self.start_line <= line <= self.end_line
+
+
+@dataclass
 class FileParse:
     path: str
     classes: List[ClassInfo] = field(default_factory=list)
     methods: List[MethodInfo] = field(default_factory=list)
+    examples: List[ExampleBlock] = field(default_factory=list)
     errors: List[dict] = field(default_factory=list)
 
     @property
@@ -108,10 +123,20 @@ def _from_json(data: dict) -> FileParse:
         )
         for m in data.get("methods", [])
     ]
+    examples = [
+        ExampleBlock(
+            name=e["name"],
+            description=e.get("description"),
+            start_line=e["start_line"],
+            end_line=e["end_line"],
+        )
+        for e in data.get("examples", [])
+    ]
     return FileParse(
         path=data.get("path", ""),
         classes=classes,
         methods=methods,
+        examples=examples,
         errors=data.get("errors", []),
     )
 

@@ -59,10 +59,16 @@ module MartaParse
   class Walker < Prism::Visitor
     attr_reader :classes, :methods
 
+    # RSpec example-defining calls whose blocks we may want to salvage/remove.
+    EXAMPLE_CALLS = %i[it specify example scenario fit xit].freeze
+
+    attr_reader :examples
+
     def initialize
       super
       @classes = []
       @methods = []
+      @examples = []        # RSpec `it`/`specify`/... blocks with line ranges
       @scope = []          # enclosing class/module names, e.g. ["Foo", "Bar"]
       @class_stack = []     # matching class/module hashes for mixin attribution
     end
@@ -123,6 +129,20 @@ module MartaParse
         bucket = cur["#{node.name}s"]
         node.arguments.arguments.each { |arg| bucket << arg.slice }
       end
+
+      # RSpec example blocks: `it "desc" do ... end`. Record the full call's
+      # line range (the block is what gets removed when salvaging a failing
+      # example) and its description, for the Python salvage step.
+      if EXAMPLE_CALLS.include?(node.name) && node.block.is_a?(Prism::BlockNode)
+        arg = node.arguments&.arguments&.first
+        desc = arg.is_a?(Prism::StringNode) ? arg.unescaped : nil
+        @examples << {
+          "name" => node.name.to_s,
+          "description" => desc,
+          "start_line" => node.location.start_line,
+          "end_line" => node.location.end_line,
+        }
+      end
       visit_child_nodes(node)
     end
   end
@@ -135,6 +155,7 @@ module MartaParse
       "path" => path,
       "classes" => walker.classes,
       "methods" => walker.methods,
+      "examples" => walker.examples,
       "errors" => result.errors.map do |e|
         { "message" => e.message, "line" => e.location.start_line }
       end,

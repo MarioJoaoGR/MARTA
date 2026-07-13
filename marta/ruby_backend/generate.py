@@ -16,7 +16,8 @@ import os
 from dataclasses import dataclass, field
 from typing import Awaitable, Callable, Dict, List, Optional
 
-from . import prompts, runner
+from . import prompts, runner, salvage
+from .ruby_ast import parse_source
 
 AskFn = Callable[[str, str], Awaitable[str]]
 
@@ -30,6 +31,8 @@ class GenOutcome:
     spec_code: Optional[str] = None
     last_error: Optional[str] = None
     results: Dict[str, str] = field(default_factory=dict)
+    salvaged: bool = False           # kept via Option D (some examples removed)
+    removed_examples: int = 0
 
 
 def _default_ask() -> AskFn:
@@ -90,8 +93,15 @@ async def generate_spec_for_method(
     last_error: Optional[str] = None
     results: Dict[str, str] = {}
     spec_code: Optional[str] = None
+    last_res: Optional[runner.RSpecResult] = None
     success = False
     attempt = 0
+    abs_spec = os.path.join(cwd, spec_path)
+
+    def _write(code: str) -> None:
+        os.makedirs(os.path.dirname(abs_spec) or cwd, exist_ok=True)
+        with open(abs_spec, "w", encoding="utf-8") as f:
+            f.write(code + "\n")
 
     for attempt in range(1, max_attempts + 1):
         if attempt == 1:
@@ -104,24 +114,40 @@ async def generate_spec_for_method(
             prompts.dev_user(instruction, method_source, require_target, describe_subject),
         )
         spec_code = prompts.get_ruby_code(raw_dev)
-
-        os.makedirs(os.path.dirname(os.path.join(cwd, spec_path)) or cwd, exist_ok=True)
-        abs_spec = os.path.join(cwd, spec_path)
-        with open(abs_spec, "w", encoding="utf-8") as f:
-            f.write(spec_code + "\n")
+        _write(spec_code)
 
         # Cheap gate first: ruby -c. Only run RSpec if it parses.
         syntax_err = runner.syntax_check(spec_code)
         if syntax_err is not None:
             last_error = syntax_err
+            last_res = None
             continue
 
         res = runner.run_rspec(spec_path, load_paths=load_paths, cwd=cwd)
         results = res.results
+        last_res = res
         if res.all_passed:
             success = True
             break
         last_error = res.output
+
+    # ---- Option D: salvage passing examples before discarding ------------ #
+    salvaged = False
+    removed = 0
+    if not success and spec_code and last_res is not None and not last_res.load_error:
+        failed_lines = [e.line_number for e in last_res.failed if e.line_number]
+        examples = parse_source(spec_code, spec_path).examples
+        trimmed = salvage.salvage_spec(spec_code, examples, failed_lines)
+        if trimmed is not None:
+            new_code, removed = trimmed
+            if runner.syntax_check(new_code) is None:
+                _write(new_code)
+                recheck = runner.run_rspec(spec_path, load_paths=load_paths, cwd=cwd)
+                if recheck.all_passed and recheck.examples:
+                    success = True
+                    salvaged = True
+                    spec_code = new_code
+                    results = recheck.results
 
     outcome = GenOutcome(
         method=method_qualified_name,
@@ -131,10 +157,12 @@ async def generate_spec_for_method(
         spec_code=spec_code if success else None,
         last_error=None if success else last_error,
         results=results,
+        salvaged=salvaged,
+        removed_examples=removed if salvaged else 0,
     )
     if not success:
         try:
-            os.remove(os.path.join(cwd, spec_path))
+            os.remove(abs_spec)
         except OSError:
             pass
     return outcome
