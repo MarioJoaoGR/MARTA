@@ -39,6 +39,8 @@ class MethodInfo:
     params: List[ParamInfo] = field(default_factory=list)
     # param name -> methods invoked on it in the body (duck-typing "members")
     param_members: Dict[str, List[str]] = field(default_factory=dict)
+    # every call made in the body: {name, recv, recv_name, line} (call graph)
+    calls: List[dict] = field(default_factory=list)
 
     @property
     def qualified_name(self) -> str:
@@ -125,6 +127,7 @@ def _from_json(data: dict) -> FileParse:
             end_line=m["end_line"],
             params=[ParamInfo(name=p.get("name"), kind=p["kind"]) for p in m.get("params", [])],
             param_members=m.get("param_members", {}),
+            calls=m.get("calls", []),
         )
         for m in data.get("methods", [])
     ]

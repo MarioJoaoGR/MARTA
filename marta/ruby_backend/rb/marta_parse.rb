@@ -118,6 +118,7 @@ module MartaParse
       members = {}
       param_names = params.map { |p| p["name"] }.compact
       param_names.each { |n| members[n] = [] }
+      calls = []   # every method call made in the body (for the call graph)
       @methods << {
         "name" => node.name.to_s,
         "owner" => owner,
@@ -127,8 +128,9 @@ module MartaParse
         "end_line" => node.location.end_line,
         "params" => params,
         "param_members" => members,
+        "calls" => calls,
       }
-      @method_stack.push({ names: param_names, members: members })
+      @method_stack.push({ names: param_names, members: members, calls: calls })
       visit_child_nodes(node)  # nested defs are legal but rare; recurse anyway
       @method_stack.pop
       members.each_value(&:uniq!)
@@ -160,6 +162,26 @@ module MartaParse
       if m && node.receiver.is_a?(Prism::LocalVariableReadNode)
         rname = node.receiver.name.to_s
         m[:members][rname] << node.name.to_s if m[:names].include?(rname)
+      end
+
+      # Record the call itself (name + receiver shape) for call-graph resolution.
+      if m
+        r = node.receiver
+        if r.nil?
+          kind = "none"; rname = nil
+        elsif r.is_a?(Prism::SelfNode)
+          kind = "self"; rname = nil
+        elsif r.is_a?(Prism::ConstantReadNode) || r.is_a?(Prism::ConstantPathNode)
+          kind = "const"; rname = r.slice
+        elsif r.is_a?(Prism::LocalVariableReadNode)
+          kind = "lvar"; rname = r.name.to_s
+        else
+          kind = "other"; rname = nil
+        end
+        m[:calls] << {
+          "name" => node.name.to_s, "recv" => kind, "recv_name" => rname,
+          "line" => node.location.start_line,
+        }
       end
 
       # RSpec example blocks: `it "desc" do ... end`. Record the full call's
