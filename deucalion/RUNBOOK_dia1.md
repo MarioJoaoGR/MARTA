@@ -3,17 +3,23 @@
 Plano de execução por ordem. Objetivo: quando o Deucalion voltar, ser **só
 disparar** — cada passo já pensado e validado no que era validável sem cluster.
 
-## Contexto — o que falta
+## Estado atual (2026-07-15) — o que já fizemos e o que falta
 
 | Tarefa | Estado | Nota |
 |---|---|---|
-| 16B marta | ✅ feito | 27 projetos, em `results/deepseek-coder-v2_16b/` |
-| 16B pynguin | ✅ feito | 417 ok / 10 timeout / 59 limites do Pynguin |
-| **16B baseline** | ❌ **re-run** | run anterior VAZIO (bug pylint, fix `f8cf8e1`) |
-| **236B marta+baseline** | ❌ por correr | pynguin NÃO (independente do modelo) |
-| Cobertura Pynguin (16B) | ❌ medir | script pronto (`measure_pynguin_coverage.py`) |
-| mutmut (todos) | ❌ correr | script pronto (`run_mutmut.py`), validar dia-1 |
-| Consolidação | parcial | `consolidate_16b.py` existe |
+| 16B marta — geração | ✅ | 27 projetos |
+| 16B marta — cobertura | ✅ | **51.9% stmt / 29.6% branch** (per-módulo-alvo, fix `d39e1e1d`) |
+| 16B pynguin — geração | ✅ | 417 ok / 10 timeout / 59 limites do Pynguin |
+| 16B pynguin — cobertura | ✅/⏳ | **60.2% / 40.9%** (25 proj); re-correr JUSTO (`d4263e6f`, falhados→0%) |
+| **16B baseline — re-run** | ⏳ a correr | job 1753101 (fix pylint `f8cf8e1` deployado) |
+| Cobertura baseline (16B) | ⛔ | depois do re-run acabar |
+| **mutmut (todos)** | ⛔ **PRÓXIMO** | é o eixo onde a MARTA deve ganhar (deteção de faltas) |
+| **236B marta+baseline** | ⛔ por correr | pynguin NÃO (independente do modelo) |
+| black — cobertura | ⚠️ | `no_target_match` nos 2 tools — investigar (chaves do coverage.json) |
+
+**DESCOBERTA-CHAVE:** na cobertura crua o **Pynguin > MARTA** (é o objetivo-de-vida do SBST).
+A tese da MARTA tem de assentar em **mutation score + vencer o baseline**, não em cobertura.
+A cobertura estava a ser medida sobre o pacote inteiro (diluída) → corrigido p/ módulos-alvo.
 
 Paths fixos:
 ```
@@ -125,19 +131,25 @@ continuação NÃO cai para a partição errada. Confirma na 1ª continuação:
 
 ---
 
-## FASE 3 — Cobertura do Pynguin (16B)  [CPU, a qualquer momento]
+## FASE 3 — Cobertura do Pynguin (16B)  [CPU, num nó via salloc — NÃO na login node]
 
-O Pynguin não deixa `coverage.json`. Mede com o script (dentro do container):
+O Pynguin não deixa `coverage.json`. Mede com o script. ⚠️ CORRE NUM NÓ (os
+testes fuzzed podem rebentar memória) e usa o env `test4py_env` (é onde estão o
+coverage+pytest, via pydeps/marta):
 ```bash
-singularity exec --nv \
+salloc -A f202407648iacdcf2x --partition=dev-x86 --time=4:00:00 --cpus-per-task=16 --mem=64G
+
+singularity exec \
   --bind $MARTA_ROOT:/opt/marta --bind $RES16:/data/results \
   --bind $PYDEPS:/data/pydeps \
-  --env USER_PYTHON_PATH=/opt/conda/envs/pynguin_env/bin/python \
-  --env PYTHONPATH=/data/pydeps/sut \
-  $SIF /opt/conda/envs/pynguin_env/bin/python \
-  /opt/marta/scripts/measure_pynguin_coverage.py /data/results /opt/marta/scripts/cm_benchmark.json
-# valida primeiro num pequeno: COV_TIMEOUT=120 e olhar o codetiming.
-# saída: RES16/pynguin_coverage.csv
+  --env USER_PYTHON_PATH=/opt/conda/envs/test4py_env/bin/python \
+  --env PYTHONPATH=/data/pydeps/sut:/data/pydeps/marta \
+  --env COV_TIMEOUT=900 \
+  $SIF /opt/conda/envs/test4py_env/bin/python \
+  /opt/marta/scripts/measure_pynguin_coverage.py /data/results
+# PYTHONPATH TEM de incluir /data/pydeps/marta (coverage+pytest vivem lá, não no env).
+# ONLY_PROJECTS=a,b,c p/ sanity-check rápido. saída: RES16/pynguin_coverage.csv
+# projetos onde o Pynguin falhou em tudo contam 0% (justo); no_target_match = investigar.
 ```
 
 ---
