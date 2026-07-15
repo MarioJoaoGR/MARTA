@@ -108,10 +108,14 @@ def measure(proj, info):
 
 
 cm = json.load(open(CM))
+# Filtro opcional p/ sanity-check rápido: ONLY_PROJECTS=codetiming,sty,...
+_only = set(p.strip() for p in os.getenv("ONLY_PROJECTS", "").split(",") if p.strip())
 rows = []
 print(f"{'projeto':24} {'status':10} {'stmt%':>6} {'brnch%':>6} {'#tests':>7}")
 print("-" * 60)
 for proj, info in sorted(cm.items()):
+    if _only and proj not in _only:
+        continue
     r = measure(proj, info)
     if r is None:
         print(f"{proj:24} {'sem-testes':10} {'-':>6} {'-':>6} {'0':>7}")
