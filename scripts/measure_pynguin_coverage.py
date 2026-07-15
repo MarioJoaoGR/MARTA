@@ -56,7 +56,10 @@ def measure(proj, info):
     proj_dir = os.path.join(RES, "Results_Pynguin", proj)
     tests = sorted(glob.glob(os.path.join(proj_dir, "**", "test_*.py"), recursive=True))
     if not tests:
-        return None
+        # Pynguin não gerou NADA para este projeto (falhou/timeout em todos os
+        # módulos) → 0% de cobertura. NÃO excluir (senão inflacionava a média
+        # do Pynguin ao contar só onde ele teve sucesso — comparação injusta).
+        return ("no_tests", 0.0, 0.0, 0, 0)
     project_path = info["project_path"]
     source_path = info["source_path"]
     root = import_root(project_path, source_path)
@@ -80,14 +83,14 @@ def measure(proj, info):
         subprocess.run(run, cwd=project_path, env=env,
                        capture_output=True, timeout=PER_PROJ_TIMEOUT)
     except subprocess.TimeoutExpired:
-        return ("timeout", None, None, len(tests))
+        return ("timeout", None, None, len(tests), 0)
 
     subprocess.run([PY, "-m", "coverage", "json", f"--data-file={dataf}", "-o", jf],
                    cwd=project_path, env=env, capture_output=True)
     try:
         cj = json.load(open(jf))
     except Exception as e:
-        return (f"parse_err:{e}", None, None, len(tests))
+        return (f"parse_err:{e}", None, None, len(tests), 0)
     # Cobertura só sobre os módulos-alvo (como os papers), não o source_dir inteiro:
     # o 'totals' contaria centenas de ficheiros não-alvo a 0% e diluía tudo.
     targets = TARGETS.get(proj, [])
@@ -101,40 +104,48 @@ def measure(proj, info):
             nb += s.get("num_branches", 0)
             matched += 1
     if matched == 0:
-        return ("no_target_match", None, None, len(tests))
+        # nenhum módulo-alvo apareceu no coverage.json → possível bug de match
+        # (ex.: black) OU os testes não tocaram nada. Flag p/ investigar (não
+        # conta na média até percebermos qual dos dois é).
+        return ("no_target_match", None, None, len(tests), 0)
     stmt = 100 * cl / ns if ns else 0.0
     br = 100 * cb / nb if nb else 0.0
-    return ("ok", stmt, br, len(tests))
+    return ("ok", stmt, br, len(tests), matched)
 
 
 cm = json.load(open(CM))
 # Filtro opcional p/ sanity-check rápido: ONLY_PROJECTS=codetiming,sty,...
 _only = set(p.strip() for p in os.getenv("ONLY_PROJECTS", "").split(",") if p.strip())
 rows = []
-print(f"{'projeto':24} {'status':10} {'stmt%':>6} {'brnch%':>6} {'#tests':>7}")
-print("-" * 60)
+print(f"{'projeto':24} {'status':13} {'stmt%':>6} {'brnch%':>6} {'#mod':>5} {'#tests':>7}")
+print("-" * 66)
 for proj, info in sorted(cm.items()):
     if _only and proj not in _only:
         continue
-    r = measure(proj, info)
-    if r is None:
-        print(f"{proj:24} {'sem-testes':10} {'-':>6} {'-':>6} {'0':>7}")
-        continue
-    status, stmt, br, n = r
+    status, stmt, br, n, nmod = measure(proj, info)
     sd = f"{stmt:.1f}" if stmt is not None else "-"
     bd = f"{br:.1f}" if br is not None else "-"
-    print(f"{proj:24} {status:10} {sd:>6} {bd:>6} {n:>7}")
-    rows.append([proj, status, stmt, br, n])
+    nt = len(TARGETS.get(proj, []))
+    md = f"{nmod}/{nt}"
+    print(f"{proj:24} {status:13} {sd:>6} {bd:>6} {md:>5} {n:>7}")
+    rows.append([proj, status, stmt, br, nmod, nt, n])
     sys.stdout.flush()
 
+# Média JUSTA: inclui os projetos onde o Pynguin deu 0% (no_tests), exclui só os
+# 'no_target_match' (stmt=None, a investigar). Assim os falhados contam como 0.
 ok = [r for r in rows if r[2] is not None]
 if ok:
+    zeros = sum(1 for r in ok if r[1] == "no_tests")
     print(f"\npynguin: stmt média {sum(r[2] for r in ok)/len(ok):.1f}%  "
-          f"branch média {sum(r[3] for r in ok)/len(ok):.1f}%  ({len(ok)} projetos)")
+          f"branch média {sum(r[3] for r in ok)/len(ok):.1f}%  "
+          f"({len(ok)} projetos, dos quais {zeros} a 0% por falha total)")
+excl = [r[0] for r in rows if r[2] is None]
+if excl:
+    print(f"  (excluídos por no_target_match, a investigar: {', '.join(excl)})")
 
 out = os.path.join(RES, "pynguin_coverage.csv")
 with open(out, "w", newline="") as f:
     w = csv.writer(f)
-    w.writerow(["project", "status", "stmt_pct", "branch_pct", "n_tests"])
+    w.writerow(["project", "status", "stmt_pct", "branch_pct", "n_target_matched", "n_target_total", "n_tests"])
     w.writerows(rows)
 print(f"CSV: {out}")
