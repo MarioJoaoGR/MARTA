@@ -247,11 +247,13 @@ def run_pynguin(proj: str, info: dict, state: dict) -> None:
         out_dir = output_base / module.replace(".", "_")
         out_dir.mkdir(parents=True, exist_ok=True)
         log_path = LOGS_DIR / "pynguin" / proj / f"{module}.log"
-        # Protocolo do CodaMosa (mesmo benchmark): 600s de busca + algoritmo MOSA
-        # (Pynguin 0.19 usava MOSA p/ line+branch). Antes usávamos 60s (1/10!) e o
-        # default → Pynguin subvalorizado. Configurável por env p/ afinar/ablação.
+        # Budget de busca: 600s = o padrão do CodaMosa (MESMO benchmark) e do próprio
+        # paper do Pynguin. Antes usávamos 60s (1/10!) → baseline subvalorizada.
+        # Algoritmo: vazio = default do Pynguin = DynaMOSA, que o paper do Pynguin
+        # mostra ser o MELHOR (Fig.2: DynaMOSA 68.0% > MOSA 67.8%) → Pynguin no seu
+        # melhor = comparação justa. PYNGUIN_ALGORITHM=MOSA p/ replicar o CodaMosa.
         search_time = os.environ.get("PYNGUIN_SEARCH_TIME", "600")
-        algorithm = os.environ.get("PYNGUIN_ALGORITHM", "MOSA")  # "" = default do Pynguin
+        algorithm = os.environ.get("PYNGUIN_ALGORITHM", "")  # "" = DynaMOSA (default)
         cmd = [
             pynguin,
             "--project-path", project_path,
