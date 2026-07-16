@@ -114,56 +114,74 @@ for tool, base in TOOLS:
         stmt = cov[0] if cov else None
         br = cov[1] if cov else None
         nmods = cov[6] if cov else None
+        # line+branch COMBINADO — é assim que o CoverUp reporta ("line+branch
+        # coverage"), = (covered_lines+covered_branches)/(num_statements+num_branches),
+        # o mesmo que o percent_covered do coverage.py com --branch. Sem isto não
+        # somos comparáveis aos números publicados.
+        comb = None
+        if cov:
+            den = cov[3] + cov[5]
+            comb = 100 * (cov[2] + cov[4]) / den if den else 0.0
         pkgstmt = pkg[0] if pkg else None
         ap = rr.get("assertion_pass")     # testes que passam (executáveis + assert válido)
         ae = rr.get("assertion_error")     # testes que falham
         sp = rr.get("syntax_pass")         # sintaticamente válidos
         tm = rr.get("time")                # runtime total (s)
         tt = rr.get("total_tokens")        # tokens totais
-        rows.append([tool, proj, stmt, br, pkgstmt, nmods, sp, ap, ae, tm, tt,
+        rows.append([tool, proj, stmt, br, comb, pkgstmt, nmods, sp, ap, ae, tm, tt,
                      rr.get("prompt_tokens"), rr.get("completion_tokens")])
 
 # ── Tabela ──
-hdr = (f"{'tool':9} {'projeto':22} {'stmt%':>6} {'brnch%':>6} {'pkg%':>6} {'#mod':>4} "
+hdr = (f"{'tool':9} {'projeto':22} {'stmt%':>6} {'brnch%':>6} {'l+b%':>6} {'pkg%':>6} {'#mod':>5} "
        f"{'syn':>4} {'pass':>5} {'fail':>5} {'time_s':>8} {'tokens':>10}")
 print(hdr)
 print("-" * len(hdr))
 for r in rows:
     stmt = f"{r[2]:.1f}" if r[2] is not None else "-"
     br = f"{r[3]:.1f}" if r[3] is not None else "-"
-    pkg = f"{r[4]:.1f}" if r[4] is not None else "-"
-    nm = str(r[5]) if r[5] is not None else "-"
-    syn = str(r[6]) if r[6] is not None else "-"
-    ap = str(r[7]) if r[7] is not None else "-"
-    ae = str(r[8]) if r[8] is not None else "-"
-    tm = f"{r[9]:.0f}" if r[9] is not None else "-"
-    tk = f"{r[10]:,}" if r[10] is not None else "-"
-    print(f"{r[0]:9} {r[1]:22} {stmt:>6} {br:>6} {pkg:>6} {nm:>4} {syn:>4} {ap:>5} {ae:>5} {tm:>8} {tk:>10}")
+    comb = f"{r[4]:.1f}" if r[4] is not None else "-"
+    pkg = f"{r[5]:.1f}" if r[5] is not None else "-"
+    nm = str(r[6]) if r[6] is not None else "-"
+    syn = str(r[7]) if r[7] is not None else "-"
+    ap = str(r[8]) if r[8] is not None else "-"
+    ae = str(r[9]) if r[9] is not None else "-"
+    tm = f"{r[10]:.0f}" if r[10] is not None else "-"
+    tk = f"{r[11]:,}" if r[11] is not None else "-"
+    print(f"{r[0]:9} {r[1]:22} {stmt:>6} {br:>6} {comb:>6} {pkg:>6} {nm:>5} "
+          f"{syn:>4} {ap:>5} {ae:>5} {tm:>8} {tk:>10}")
+
+
+def _median(xs):
+    s = sorted(xs)
+    n = len(s)
+    if not n:
+        return 0.0
+    m = n // 2
+    return s[m] if n % 2 else (s[m - 1] + s[m]) / 2
+
 
 # ── Agregados ──
-print("\n=== AGREGADOS (média por projeto, sobre módulos-alvo) ===")
+print("\n=== AGREGADOS (sobre módulos-alvo) ===")
+print("  l+b% = line+branch COMBINADO — a métrica que o CoverUp reporta (mediana + overall).")
 for tool, _ in TOOLS:
     tr = [r for r in rows if r[0] == tool and r[2] is not None]
     if not tr:
         continue
     n = len(tr)
-    avg_stmt = sum(r[2] for r in tr) / n
-    avg_br = sum(r[3] for r in tr) / n
-    avg_pkg = sum(r[4] for r in tr if r[4] is not None) / n
-    tot_pass = sum(r[7] or 0 for r in tr)
-    tot_fail = sum(r[8] or 0 for r in tr)
-    tot_tok = sum(r[10] or 0 for r in tr)
-    tot_time = sum(r[9] or 0 for r in tr)
-    print(f"  {tool:9}: stmt {avg_stmt:5.1f}%  branch {avg_br:5.1f}%  (pkg {avg_pkg:4.1f}%)  "
-          f"| Σpass {tot_pass}  Σfail {tot_fail}  "
-          f"| Σtokens {tot_tok:,}  Σtempo {tot_time/3600:.1f}h  ({n} proj)")
+    combs = [r[4] for r in tr if r[4] is not None]
+    print(f"  {tool:9}: stmt {sum(r[2] for r in tr)/n:5.1f}%  branch {sum(r[3] for r in tr)/n:5.1f}%  "
+          f"| l+b méd {sum(combs)/len(combs):5.1f}%  l+b MEDIANA {_median(combs):5.1f}%  "
+          f"| Σpass {sum(r[8] or 0 for r in tr)}  Σfail {sum(r[9] or 0 for r in tr)}  "
+          f"| Σtokens {sum(r[11] or 0 for r in tr):,}  "
+          f"Σtempo {sum(r[10] or 0 for r in tr)/3600:.1f}h  ({n} proj)")
 
 # ── CSV ──
 out = os.path.join(RES, "consolidated_16b.csv")
 with open(out, "w", newline="") as f:
     w = csv.writer(f)
-    w.writerow(["tool", "project", "stmt_pct", "branch_pct", "pkg_stmt_pct", "n_target_mods",
-                "syntax_pass", "assertion_pass", "assertion_error", "time_s",
-                "total_tokens", "prompt_tokens", "completion_tokens"])
+    w.writerow(["tool", "project", "stmt_pct", "branch_pct", "line_branch_pct",
+                "pkg_stmt_pct", "n_target_mods", "syntax_pass", "assertion_pass",
+                "assertion_error", "time_s", "total_tokens", "prompt_tokens",
+                "completion_tokens"])
     w.writerows(rows)
 print(f"\nCSV escrito: {out}")
