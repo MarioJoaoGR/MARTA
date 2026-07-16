@@ -247,14 +247,21 @@ def run_pynguin(proj: str, info: dict, state: dict) -> None:
         out_dir = output_base / module.replace(".", "_")
         out_dir.mkdir(parents=True, exist_ok=True)
         log_path = LOGS_DIR / "pynguin" / proj / f"{module}.log"
+        # Protocolo do CodaMosa (mesmo benchmark): 600s de busca + algoritmo MOSA
+        # (Pynguin 0.19 usava MOSA p/ line+branch). Antes usávamos 60s (1/10!) e o
+        # default → Pynguin subvalorizado. Configurável por env p/ afinar/ablação.
+        search_time = os.environ.get("PYNGUIN_SEARCH_TIME", "600")
+        algorithm = os.environ.get("PYNGUIN_ALGORITHM", "MOSA")  # "" = default do Pynguin
         cmd = [
             pynguin,
             "--project-path", project_path,
             "--output-path", str(out_dir),
             "--module-name", module,
-            "--maximum-search-time", "60",
+            "--maximum-search-time", search_time,
             "-v",
         ]
+        if algorithm:
+            cmd += ["--algorithm", algorithm]
         log(f"  pynguin/{proj}/{module} …")
         # PYDEPS_SUT: deps do SUT em falta no env (regex, stringcase, invoke,
         # urllib3<2 do httpie) instaladas via pip --target e injetadas no
@@ -262,9 +269,12 @@ def run_pynguin(proj: str, info: dict, state: dict) -> None:
         # Necessário para a comparação ser justa (o CoverdUp/CM tinha-as).
         extra_env = {"PYNGUIN_DANGER_AWARE": "1"}
         extra_env.update(_pythonpath_env(os.environ.get("PYDEPS_SUT")))
+        # kill timeout TEM de exceder a busca (600s) + overhead (arranque, geração
+        # de asserts). Senão o subprocesso era morto a meio da busca.
+        kill_timeout = max(TIMEOUTS["pynguin"], int(search_time) + 300)
         status, elapsed, err = _run(
             cmd, cwd=sandbox, log_path=log_path,
-            timeout=TIMEOUTS["pynguin"],
+            timeout=kill_timeout,
             extra_env=extra_env,
         )
         state[key] = {"status": status, "elapsed_s": round(elapsed, 1), "err": err}
