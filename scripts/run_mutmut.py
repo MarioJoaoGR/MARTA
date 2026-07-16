@@ -118,7 +118,35 @@ def green_filter(test_files, scratch, scratch_iroot, env):
 def count_ids(cat, scratch, env):
     r = subprocess.run([*MUTMUT_CMD, "result-ids", cat], cwd=scratch, env=env,
                        capture_output=True, text=True)
-    return len(r.stdout.split())
+    # IDs vêm um por token; se o mutmut abortou, sai vazio (0). Não confiar em
+    # stdout com texto de ajuda → filtrar tokens que não parecem IDs.
+    return len([t for t in r.stdout.split() if t.strip().isdigit()])
+
+
+def suite_green(mtests, scratch, env):
+    """Corre a suite TODA junta (é o que o mutmut faz). → (ok, [ficheiros que falham]).
+
+    O filtro por-ficheiro NÃO chega: testes que passam isolados falham em conjunto
+    (poluição de estado, ordem, fixtures). Se o baseline não for verde o mutmut
+    ABORTA e devolve lixo — era a causa dos total=8/total=0 (ex.: tornado, 286
+    passed + 1 failed → mutmut não produzia nada).
+    """
+    cmd = [PY, "-m", "pytest", mtests, "-q", "-c", "/dev/null",
+           "--rootdir", scratch, "-p", "no:cacheprovider"]
+    try:
+        r = subprocess.run(cmd, cwd=scratch, env=env, capture_output=True,
+                           text=True, timeout=GREEN_TIMEOUT * 10)
+    except subprocess.TimeoutExpired:
+        return False, []
+    if r.returncode == 0:
+        return True, []
+    bad = set()
+    for line in ((r.stdout or "") + (r.stderr or "")).splitlines():
+        if line.startswith(("FAILED ", "ERROR ")):
+            parts = line.split()
+            if len(parts) > 1:
+                bad.add(os.path.basename(parts[1].split("::")[0]))
+    return False, sorted(bad)
 
 
 def run_one(tool, proj, cm, projects, results, dry):
@@ -173,6 +201,29 @@ def run_one(tool, proj, cm, projects, results, dry):
         seen.add(name)
         shutil.copy(tf, os.path.join(mtests, name))
 
+    # BASELINE VERDE COM A SUITE JUNTA — o mutmut aborta se os testes não passarem
+    # todos juntos. Vai removendo os ficheiros que falham em conjunto até ficar
+    # verde (max 6 iterações). Sem isto, 1 teste mau em 287 deitava tudo abaixo.
+    dropped = []
+    for _ in range(6):
+        ok, bad = suite_green(mtests, scratch, env)
+        if ok:
+            break
+        if not bad:
+            return {"status": "suite_not_green", "green_tests": len(green),
+                    "n_mut_files": len(mut_paths)}
+        for b in bad:
+            p = os.path.join(mtests, b)
+            if os.path.exists(p):
+                os.remove(p)
+                dropped.append(b)
+    else:
+        return {"status": "suite_not_green_6x", "green_tests": len(green),
+                "dropped": len(dropped), "n_mut_files": len(mut_paths)}
+    kept = len(glob.glob(os.path.join(mtests, "test_*.py")))
+    if kept == 0:
+        return {"status": "no_green_tests", "n_tests": len(test_files)}
+
     # setup.cfg do mutmut
     runner = (f"{PY} -m pytest _mut_tests -x -q -c /dev/null "
               f"--rootdir={scratch} -p no:cacheprovider")
@@ -199,7 +250,8 @@ def run_one(tool, proj, cm, projects, results, dry):
         "killed": counts["killed"], "survived": counts["survived"],
         "timeout_mut": counts["timeout"], "suspicious": counts["suspicious"],
         "total": denom, "score": score,
-        "green_tests": len(green), "n_mut_files": len(mut_paths),
+        # green_tests = os que ficaram DEPOIS de garantir a suite verde em conjunto
+        "green_tests": kept, "dropped": len(dropped), "n_mut_files": len(mut_paths),
     }
 
 
@@ -219,7 +271,8 @@ def main():
     projs = [args.project] if args.project else sorted(projects)
     out = os.path.join(args.results, "mutmut.csv")
     cols = ["tool", "project", "status", "score", "killed", "survived",
-            "timeout_mut", "suspicious", "total", "green_tests", "n_mut_files"]
+            "timeout_mut", "suspicious", "total", "green_tests", "dropped",
+            "n_mut_files"]
 
     # RESUME: salta combos já em mutmut.csv (mutmut é lento; sobrevive ao walltime).
     done = set()
