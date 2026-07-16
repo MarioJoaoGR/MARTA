@@ -88,12 +88,14 @@ def module_files(project_path, source_path, modules):
 
 
 def locate_tests(tool, proj, results):
-    """(test_dir, [test_files absolutos])."""
+    """(test_dir, [test_files absolutos]).
+
+    Glob recursivo p/ todos os tools: a MARTA/baseline gravam em
+    Test4DT_tests_<SAFE_MODEL>/ (com sufixo do modelo), não 'Test4DT_tests'. Os
+    ficheiros em quarentena chamam-se 'quarantined_*.py' → não batem em test_*.py.
+    """
     base = os.path.join(results, TOOL_DIRS[tool], proj)
-    if tool == "pynguin":
-        files = glob.glob(os.path.join(base, "**", "test_*.py"), recursive=True)
-    else:
-        files = glob.glob(os.path.join(base, "Test4DT_tests", "test_*.py"))
+    files = glob.glob(os.path.join(base, "**", "test_*.py"), recursive=True)
     return base, sorted(files)
 
 
