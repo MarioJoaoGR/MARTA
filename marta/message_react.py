@@ -26,6 +26,7 @@ class ProjectMessage:
     def __init__(self, root_dir: str, source_dir: str, dir_type='Test4DT_tests'):
         self.root_dir: str = root_dir
         self.source_dir = source_dir
+        self.current_round = 0  # ronda atual do loop --num (ver generate_once)
 
         # Raiz de import. Se source_dir for um CONTAINER (sem __init__.py — ex.:
         # ansible/lib, black/src), os módulos só são importáveis a partir de
@@ -136,7 +137,13 @@ class ProjectMessage:
         )
 
 
-    def generate_once(self):
+    def generate_once(self, round_num: int = 0):
+        # current_round torna o [SKIP] da generate_react_flow round-aware: a ronda
+        # i só salta funções que JÁ tenham > i ficheiros de teste. Antes o skip
+        # disparava sempre que code_changed=False e existisse 1 ficheiro → as
+        # rondas 2-3 (--num 3, protocolo Test4Py: 65.2→74.1% = +8.9pts) eram
+        # no-ops em runs retomados/com cache (1901 _0 vs 138 _1 no run 16B).
+        self.current_round = round_num
         asyncio.run(self.generate_test_case())
         coverage = self.coverage.get_coverage()
         recoder.score.get_coverage(coverage, self.root_dir.split(os.path.sep)[-1])
@@ -996,8 +1003,15 @@ params:
         # Se o código não mudou e já existem testes, salta a geração (custo zero).
         react_prefix = self.test_manager.get_react_prefix()
         existing = sorted(glob.glob(f"{react_prefix}_*.py"))
-        if not self.file.project.code_changed and existing:
-            print(f"[SKIP] Testes para '{self.func_name}' já existem, a saltar...")
+        # SKIP round-aware: a ronda i (0-based) só salta se esta função já tiver
+        # MAIS de i ficheiros (i.e., a ronda i já produziu o dela). Resume-safe:
+        # num restart, as rondas re-percorridas saltam ficheiros já feitos e a
+        # geração retoma exatamente na ronda interrompida. O skip antigo
+        # (`existing` não-vazio → return) matava as rondas 2-3 nos runs com
+        # cache/retomados: funções meio-cobertas nunca eram re-atacadas.
+        current_round = getattr(self.file.project, 'current_round', 0)
+        if not self.file.project.code_changed and len(existing) > current_round:
+            print(f"[SKIP] Testes para '{self.func_name}' já existem (ronda {current_round}), a saltar...")
             for filepath in existing:
                 self.test_manager.testcases.append(
                     Testcase.load_existing(self.test_manager, self, filepath)
@@ -1056,11 +1070,14 @@ params:
         2. Edge cases (e.g., None, empty lists, boundary values)
         3. Invalid inputs/Error handling
         
+        SETUP GUIDANCE: prefer REAL objects with simple concrete values in 'setup';
+        only suggest mocking for true external I/O (network, filesystem, subprocess).
+
         OUTPUT FORMAT:
         Return ONLY a raw JSON list. No Markdown. No Explanations.
         Example:
         [
-            {{"name": "test_valid_case", "desc": "Test standard input", "setup": "Mock class X"}},
+            {{"name": "test_valid_case", "desc": "Test standard input", "setup": "Real instance of X with minimal args"}},
             {{"name": "test_error_case", "desc": "Test raising ValueError", "setup": "None"}}
         ]
         """
@@ -1151,8 +1168,9 @@ params:
             1. Output ONLY python code in ```python``` block (a complete test file).
             2. Import correctly from module '{self.file.import_name}'.
             3. Write one independent, function-based pytest test per scenario.
-            4. CRITICAL MOCKING RULE: If you need to mock external dependencies, global variables, or attributes to prevent errors, you MUST use `unittest.mock.patch` as a context manager (with patch(...):) or the `monkeypatch` fixture.
-            NEVER assign mock objects directly to global modules (e.g., do NOT do `module.config = Mock()`). Strict state isolation is mandatory.
+            4. AVOID MOCKS unless strictly necessary: prefer constructing REAL objects with simple values. Only mock true external I/O (network, filesystem, subprocess, environment). NEVER mock the module under test, plain data classes, or anything you can instantiate directly. A wrong mock fails the test without testing anything.
+            5. IF you must mock, use `unittest.mock.patch` as a context manager (with patch(...):) or the `monkeypatch` fixture. NEVER assign mock objects directly to global modules (e.g., do NOT do `module.config = Mock()`). NEVER assert on mock internals (call counts of magic methods). Strict state isolation is mandatory.
+            6. ASSERTIONS: keep each test focused — 1 to 2 assertions per test function, asserting CONCRETE expected values you derived from the source code. Prefer several small tests over one test with many assertions (one wrong assertion kills the whole test).
             """
 
             code_response = await model.aask(sys_prompt_dev, user_prompt_dev)

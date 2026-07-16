@@ -62,7 +62,7 @@ def main():
             print(f"🔄 [ReAct Loop] Ronda {i+1} de {args.num}...")
             recoder.start_count_time(f'run_{i}')
             
-            project.generate_once()
+            project.generate_once(round_num=i)
             project.get_coverage_message()
             
             recoder.score.first_run = False
