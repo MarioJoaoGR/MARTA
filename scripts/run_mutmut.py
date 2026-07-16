@@ -217,31 +217,42 @@ def main():
     projects = json.load(open(args.projects))
     tools = [args.tool] if args.tool else list(TOOL_DIRS)
     projs = [args.project] if args.project else sorted(projects)
+    out = os.path.join(args.results, "mutmut.csv")
+    cols = ["tool", "project", "status", "score", "killed", "survived",
+            "timeout_mut", "suspicious", "total", "green_tests", "n_mut_files"]
 
-    rows = []
+    # RESUME: salta combos já em mutmut.csv (mutmut é lento; sobrevive ao walltime).
+    done = set()
+    if not args.dry_run and os.path.exists(out):
+        for row in csv.DictReader(open(out)):
+            done.add((row["tool"], row["project"]))
+
     for tool in tools:
         for proj in projs:
+            if (tool, proj) in done:
+                print(f"→ {tool}/{proj} … já feito (skip)")
+                continue
             print(f"→ {tool}/{proj}")
             r = run_one(tool, proj, cm, projects, args.results, args.dry_run)
             print(f"    {r}")
-            rows.append({"tool": tool, "project": proj, **r})
             sys.stdout.flush()
+            if not args.dry_run:
+                # append imediato → progresso persiste mesmo se o job morrer a meio
+                new = not os.path.exists(out)
+                with open(out, "a", newline="") as f:
+                    w = csv.DictWriter(f, fieldnames=cols, extrasaction="ignore")
+                    if new:
+                        w.writeheader()
+                    w.writerow({"tool": tool, "project": proj, **r})
 
-    if not args.dry_run:
-        out = os.path.join(args.results, "mutmut.csv")
-        cols = ["tool", "project", "status", "score", "killed", "survived",
-                "timeout_mut", "suspicious", "total", "green_tests", "n_mut_files"]
-        with open(out, "w", newline="") as f:
-            w = csv.DictWriter(f, fieldnames=cols, extrasaction="ignore")
-            w.writeheader()
-            w.writerows(rows)
+    if not args.dry_run and os.path.exists(out):
+        rows = list(csv.DictReader(open(out)))
         print(f"\nCSV: {out}")
-        ok = [r for r in rows if r.get("score") is not None]
         for tool in tools:
-            tr = [r for r in ok if r["tool"] == tool]
+            tr = [r for r in rows if r["tool"] == tool and r.get("score") not in (None, "", "None")]
             if tr:
                 print(f"  {tool:18}: mutation score médio "
-                      f"{sum(r['score'] for r in tr)/len(tr):.1f}%  ({len(tr)} proj)")
+                      f"{sum(float(r['score']) for r in tr)/len(tr):.1f}%  ({len(tr)} proj)")
 
 
 if __name__ == "__main__":
