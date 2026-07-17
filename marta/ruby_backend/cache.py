@@ -57,17 +57,23 @@ def load_call_graph(path: str, source_hash: str) -> Optional[dict]:
     return data.get("graph") if data.get("source_hash") == source_hash else None
 
 
-def save_analysis(path: str, source_hash: str, model: str, targets: Dict[str, dict]) -> None:
+def save_analysis(
+    path: str,
+    source_hash: str,
+    model: str,
+    targets: Dict[str, dict],
+    classes: Optional[Dict[str, str]] = None,
+) -> None:
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "w", encoding="utf-8") as f:
         json.dump(
-            {"source_hash": source_hash, "model": model, "targets": targets},
+            {"source_hash": source_hash, "model": model,
+             "targets": targets, "classes": classes or {}},
             f, indent=2,
         )
 
 
-def load_analysis(path: str, source_hash: str, model: str) -> Optional[Dict[str, dict]]:
-    """Return the cached per-target analysis iff hash and model match, else None."""
+def _load_valid(path: str, source_hash: str, model: str) -> Optional[dict]:
     if not os.path.exists(path):
         return None
     try:
@@ -77,4 +83,16 @@ def load_analysis(path: str, source_hash: str, model: str) -> Optional[Dict[str,
         return None
     if data.get("source_hash") != source_hash or data.get("model") != model:
         return None
-    return data.get("targets", {})
+    return data
+
+
+def load_analysis(path: str, source_hash: str, model: str) -> Optional[Dict[str, dict]]:
+    """Return the cached per-target analysis iff hash and model match, else None."""
+    data = _load_valid(path, source_hash, model)
+    return data.get("targets", {}) if data is not None else None
+
+
+def load_class_analysis(path: str, source_hash: str, model: str) -> Optional[Dict[str, str]]:
+    """Cached per-class summaries under the same validity rules."""
+    data = _load_valid(path, source_hash, model)
+    return data.get("classes", {}) if data is not None else None

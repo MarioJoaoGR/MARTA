@@ -67,6 +67,54 @@ async def analyze_done_what(
     return await ask(sys_prompt, user_prompt)
 
 
+_CLASS_SYS = (
+    "You are a helpful assistant that analyzes Ruby classes. Based on the "
+    "provided class source, generate a clear and concise summary describing the "
+    "class's purpose, its main responsibilities, how to construct it, and how to "
+    "use its public methods. Only output the summary content; no source code, "
+    "Ruby comments, or YARD tags."
+)
+
+
+async def analyze_class(ask: AskFn, class_source: str) -> str:
+    """Class-level summary (purpose + how to use) — the lean Ruby analogue of
+    ``analyze_each_class``/``generate_how_to_use``. Embedded for semantic
+    parameter-type hints."""
+    user = (
+        "Here is the source code of a Ruby class. Summarize what it is for and "
+        f"how to use it.\n```ruby\n{class_source}\n```"
+    )
+    return await ask(_CLASS_SYS, user)
+
+
+_WHAT_TODO_FROM_CALLER_SYS = (
+    "You are a Ruby code analysis assistant. Your task is to analyze a method "
+    "call and produce a precise summary describing: the purpose of the called "
+    "method, and the semantic roles and likely types of its parameters, inferred "
+    "from the call context and the caller's intent — not just their names. Only "
+    "output the summary content; no source code, Ruby comments, or YARD tags."
+)
+
+
+async def analyze_what_todo_from_caller(
+    ask: AskFn,
+    method_qn: str,
+    method_source: str,
+    caller_qn: str,
+    caller_what_todo: str,
+) -> str:
+    """Requirement view of a *called* method, propagated from its caller — the
+    Ruby analogue of the callee branch of ``analyze_what_todo`` (which walks the
+    PyCG edges). Roots get the README-based view; callees get this one."""
+    user = (
+        f"Identify the purpose of the called method {method_qn} and explain how "
+        f"to use it.\n\n"
+        f"Intent of the caller {caller_qn}:\n{caller_what_todo}\n\n"
+        f"Called method source:\n```ruby\n{method_source}\n```"
+    )
+    return await ask(_WHAT_TODO_FROM_CALLER_SYS, user)
+
+
 _SUMMARY_SYS = (
     "You are an AI assistant skilled in analyzing and summarizing Ruby methods. "
     "Your task is to integrate two perspectives — one describing what the method "

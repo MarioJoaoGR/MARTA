@@ -38,6 +38,19 @@ def _sanitize(name: str) -> str:
     return re.sub(r"[^0-9A-Za-z_]", "_", name)
 
 
+class _ClassEntry:
+    """Adapter so class summaries fit the RubyFunctionDatabase target shape."""
+
+    class _M:
+        def __init__(self, qn):
+            self.qualified_name = qn
+
+    def __init__(self, qn: str, summary: str):
+        self.method = self._M(qn)
+        self.summary = summary
+        self.done_what = ""
+
+
 @dataclass
 class MethodTarget:
     method: ruby_ast.MethodInfo
@@ -107,6 +120,9 @@ class RubyProject:
     recorder: Optional[rec.RubyRecorder] = None
     call_graph: Optional[object] = None   # CallGraph (static), built in discover()
     code_changed: bool = True             # False on cg_cache hit (source unchanged)
+    class_files: Dict[str, str] = field(default_factory=dict)   # class qn -> abs path
+    class_summaries: Dict[str, str] = field(default_factory=dict)  # class qn -> summary
+    class_db: Optional[rag.RubyFunctionDatabase] = None
     backend: LanguageBackend = field(default_factory=RubyBackend)
 
     def _recorder(self) -> rec.RubyRecorder:
@@ -129,6 +145,8 @@ class RubyProject:
             fp = self.backend.parse_file(path)
             self.type_index.add_file(fp)  # whole-project index for type inference
             classes_by_qn = {c.qualified_name: c for c in fp.classes}
+            for c in fp.classes:
+                self.class_files.setdefault(c.qualified_name, path)
             require_target = self.backend.module_ref(rel)
             for m in fp.methods:
                 if m.name in SKIP_METHODS:
@@ -214,6 +232,7 @@ class RubyProject:
             if cached is not None and all(t.method.qualified_name in cached for t in targets):
                 for t in targets:
                     self._apply_cached(t, cached[t.method.qualified_name])
+                self.class_summaries = cache.load_class_analysis(path, src_hash, model) or {}
                 return
 
         ask = ask or _default_ask()
@@ -240,13 +259,58 @@ class RubyProject:
                         ask, t.context_source, called_summaries=called
                     )
 
-        # what_todo (README) + final merged summary.
+        # what_todo: raízes (sem callers) a partir do README; métodos chamados
+        # herdam a perspetiva de requisito do chamador via grafo (porta do ramo
+        # de propagação do analyze_what_todo). Ciclos/soltos caem no README.
+        by_qn = {t.method.qualified_name: t for t in targets}
+
+        def _callers_of(t: MethodTarget) -> List[MethodTarget]:
+            if self.call_graph is None:
+                return []
+            return [by_qn[c] for c in self.call_graph.callers(t.method.qualified_name) if c in by_qn]
+
         for t in targets:
-            overview = await overviews.overview_for(ask, t.file_path)
-            t.what_todo = await readme.analyze_what_todo(ask, t.context_source, overview)
+            if not _callers_of(t):  # raiz
+                overview = await overviews.overview_for(ask, t.file_path)
+                t.what_todo = await readme.analyze_what_todo(ask, t.context_source, overview)
+
+        changed = True
+        while changed:  # propaga pelas arestas até fixpoint
+            changed = False
+            for t in targets:
+                if t.what_todo:
+                    continue
+                ready = [c for c in _callers_of(t) if c.what_todo]
+                if ready:
+                    c = ready[0]
+                    t.what_todo = await summaries.analyze_what_todo_from_caller(
+                        ask, t.method.qualified_name, t.context_source,
+                        c.method.qualified_name, c.what_todo,
+                    )
+                    changed = True
+
+        for t in targets:
+            if not t.what_todo:  # ciclo sem raiz processada — fallback README
+                overview = await overviews.overview_for(ask, t.file_path)
+                t.what_todo = await readme.analyze_what_todo(ask, t.context_source, overview)
+
+        # Merge final das duas perspetivas.
+        for t in targets:
             t.summary = await summaries.generate_summary(
                 ask, t.context_source, t.done_what, t.what_todo
             )
+
+        # Summaries de classes (analogo leve do analyze_each_class): base do
+        # RAG semantico de tipos. Uma chamada por classe do projeto.
+        for qn, cls in (self.type_index.classes if self.type_index else {}).items():
+            if cls.kind != "class" or qn in self.class_summaries:
+                continue
+            src_path = self.class_files.get(qn)
+            if not src_path:
+                continue
+            class_src = _slice_lines(src_path, cls.start_line, cls.end_line)
+            self.class_summaries[qn] = await summaries.analyze_class(ask, class_src)
+
         if use_cache:
             cache.save_analysis(path, src_hash, model, {
                 t.method.qualified_name: {
@@ -254,7 +318,7 @@ class RubyProject:
                     "summary": t.summary, "judge": t.judge,
                 }
                 for t in targets
-            })
+            }, classes=self.class_summaries)
 
     @staticmethod
     def _apply_cached(t: MethodTarget, entry: dict) -> None:
@@ -266,9 +330,40 @@ class RubyProject:
 
     def build_rag(self, embed_documents=None, embed_query=None) -> None:
         """Index target summaries for retrieval. Call after analyze_summaries.
-        A custom embedder can be injected (tests); default is the real bge one."""
+        A custom embedder can be injected (tests); default is the real bge one.
+        Also indexes class summaries and adds semantic type hints to ambiguous
+        judges (the ``find_type_by_RAG`` analogue)."""
         self.rag_db = rag.RubyFunctionDatabase(embed_documents, embed_query)
         self.rag_db.init(self.targets)
+        if self.class_summaries:
+            self.class_db = rag.RubyFunctionDatabase(embed_documents, embed_query)
+            self.class_db.init([_ClassEntry(qn, s) for qn, s in self.class_summaries.items()])
+            self._augment_judge_semantic()
+
+    def _augment_judge_semantic(self) -> None:
+        """For params whose structural candidates are absent or ambiguous (!=1),
+        append the semantically closest class from the class-summary embeddings."""
+        if self.class_db is None or self.type_index is None:
+            return
+        for t in self.targets:
+            extra = []
+            for pname, members in (t.method.param_members or {}).items():
+                if not members:
+                    continue
+                cands = self.type_index.candidates(set(members))
+                if len(cands) == 1:
+                    continue  # structurally unambiguous — nothing to add
+                hits = self.class_db.query(
+                    f"an object used as parameter `{pname}` responding to {', '.join(sorted(members))}",
+                    k=1,
+                )
+                if hits:
+                    extra.append(
+                        f"- `{pname}`: semantically closest class: {hits[0].method.qualified_name}"
+                    )
+            if extra:
+                prefix = t.judge + "\n" if t.judge else "INFERRED PARAMETER TYPES:\n"
+                t.judge = prefix + "\n".join(extra)
 
     def _related_for(self, t: MethodTarget) -> Optional[List[str]]:
         if self.rag_db is None:
