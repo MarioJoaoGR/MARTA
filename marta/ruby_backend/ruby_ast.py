@@ -81,11 +81,25 @@ class ExampleBlock:
 
 
 @dataclass
+class GroupBlock:
+    """An RSpec `describe`/`context` block. Salvage removes groups left with no
+    surviving examples (avoids empty `context "..." do end` husks)."""
+    name: str                  # "describe" | "context"
+    description: Optional[str]
+    start_line: int
+    end_line: int
+
+    def contains(self, line: int) -> bool:
+        return self.start_line <= line <= self.end_line
+
+
+@dataclass
 class FileParse:
     path: str
     classes: List[ClassInfo] = field(default_factory=list)
     methods: List[MethodInfo] = field(default_factory=list)
     examples: List[ExampleBlock] = field(default_factory=list)
+    groups: List[GroupBlock] = field(default_factory=list)
     errors: List[dict] = field(default_factory=list)
 
     @property
@@ -140,11 +154,21 @@ def _from_json(data: dict) -> FileParse:
         )
         for e in data.get("examples", [])
     ]
+    groups = [
+        GroupBlock(
+            name=g["name"],
+            description=g.get("description"),
+            start_line=g["start_line"],
+            end_line=g["end_line"],
+        )
+        for g in data.get("groups", [])
+    ]
     return FileParse(
         path=data.get("path", ""),
         classes=classes,
         methods=methods,
         examples=examples,
+        groups=groups,
         errors=data.get("errors", []),
     )
 

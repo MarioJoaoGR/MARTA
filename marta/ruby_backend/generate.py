@@ -76,6 +76,7 @@ async def generate_spec_for_method(
     max_attempts: int = 3,
     recorder=None,
     backend: Optional[LanguageBackend] = None,
+    error_help_fn: Optional[Callable[[str], str]] = None,
 ) -> GenOutcome:
     """Generate, self-heal and validate one spec file for one method.
 
@@ -118,7 +119,10 @@ async def generate_spec_for_method(
         if attempt == 1:
             instruction = prompts.first_dev_instruction(scenarios)
         else:
-            instruction = prompts.repair_dev_instruction(last_error or "")
+            # RAG dirigido ao erro (porta do generate_react_flow): métodos
+            # semanticamente próximos do erro + um spec exemplo que já passa.
+            similar_help = error_help_fn(last_error or "") if error_help_fn else ""
+            instruction = prompts.repair_dev_instruction(last_error or "", similar_help)
 
         raw_dev = await ask(
             prompts.DEV_SYS,
@@ -159,8 +163,8 @@ async def generate_spec_for_method(
     removed = 0
     if not success and spec_code and last_res is not None and not last_res.load_error:
         failed_lines = [e.line_number for e in last_res.failed if e.line_number]
-        examples = backend.parse_source(spec_code, spec_path).examples
-        trimmed = backend.salvage(spec_code, examples, failed_lines)
+        fp = backend.parse_source(spec_code, spec_path)
+        trimmed = backend.salvage(spec_code, fp.examples, failed_lines, fp.groups)
         if trimmed is not None:
             new_code, removed = trimmed
             if backend.syntax_check(new_code) is None:

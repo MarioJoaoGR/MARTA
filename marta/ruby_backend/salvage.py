@@ -14,7 +14,7 @@ from __future__ import annotations
 
 from typing import Iterable, List, Optional, Tuple
 
-from .ruby_ast import ExampleBlock
+from .ruby_ast import ExampleBlock, GroupBlock
 
 
 def _blocks_for_lines(
@@ -41,11 +41,14 @@ def salvage_spec(
     spec_source: str,
     examples: List[ExampleBlock],
     failed_lines: List[int],
+    groups: Optional[List[GroupBlock]] = None,
 ) -> Optional[Tuple[str, int]]:
     """Return ``(trimmed_source, removed_count)`` or None if salvage isn't safe.
 
     None when there are no examples, no failing lines map to a block, or every
-    example would be removed (nothing left to keep).
+    example would be removed (nothing left to keep). ``groups`` (describe/
+    context blocks) left without any surviving example are removed too, so the
+    trimmed spec has no empty husks.
     """
     if not examples or not failed_lines:
         return None
@@ -58,6 +61,14 @@ def salvage_spec(
     remove_lines = set()
     for ex in to_remove:
         remove_lines.update(range(ex.start_line, ex.end_line + 1))
+
+    # Drop groups with no surviving example inside their range. Ancestors of
+    # survivors always intersect a surviving example, so they are kept.
+    removed_keys = {(ex.start_line, ex.end_line) for ex in to_remove}
+    surviving = [ex for ex in examples if (ex.start_line, ex.end_line) not in removed_keys]
+    for g in groups or []:
+        if not any(g.contains(ex.start_line) for ex in surviving):
+            remove_lines.update(range(g.start_line, g.end_line + 1))
 
     lines = spec_source.splitlines()
     kept = [ln for i, ln in enumerate(lines, start=1) if i not in remove_lines]

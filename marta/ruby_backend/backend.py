@@ -62,7 +62,11 @@ class LanguageBackend(ABC):
 
     @abstractmethod
     def salvage(
-        self, test_source: str, examples: List[ExampleBlock], failed_lines: List[int]
+        self,
+        test_source: str,
+        examples: List[ExampleBlock],
+        failed_lines: List[int],
+        groups=None,
     ) -> Optional[Tuple[str, int]]: ...
 
     @abstractmethod
@@ -115,9 +119,13 @@ class RubyBackend(LanguageBackend):
         return coverage_runner.synthesize(method, lines)
 
     def salvage(
-        self, test_source: str, examples: List[ExampleBlock], failed_lines: List[int]
+        self,
+        test_source: str,
+        examples: List[ExampleBlock],
+        failed_lines: List[int],
+        groups=None,
     ) -> Optional[Tuple[str, int]]:
-        return salvage.salvage_spec(test_source, examples, failed_lines)
+        return salvage.salvage_spec(test_source, examples, failed_lines, groups)
 
     def build_call_graph(self, files: List[str]) -> Optional[Any]:
         # Static resolution over the parsed methods (see call_graph.py).

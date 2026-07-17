@@ -185,6 +185,8 @@ class RubyProject:
                 max_attempts=max_attempts,
                 recorder=recorder,
                 backend=self.backend,
+
+                error_help_fn=self._error_help_fn(t),
             )
             outcomes.append(outcome)
         return outcomes
@@ -276,6 +278,39 @@ class RubyProject:
             return None
         return self.rag_db.related_lines(query, k=3, exclude=t.method.qualified_name) or None
 
+    def _example_passing_spec(self, t: MethodTarget) -> Optional[str]:
+        """First spec already on disk for this target (kept specs are green)."""
+        files = sorted(glob.glob(os.path.join(self.root_dir, "spec", f"{t._spec_stem}*_spec.rb")))
+        for f in files:
+            try:
+                with open(f, "r", encoding="utf-8") as fh:
+                    return fh.read()
+            except OSError:
+                continue
+        return None
+
+    def _error_help_fn(self, t: MethodTarget):
+        """Error-directed RAG for the self-heal loop (generate_react_flow port):
+        given the failure output, retrieve similar methods and, when available,
+        one of their passing specs as a concrete example."""
+        if self.rag_db is None:
+            return None
+
+        def helper(error: str) -> str:
+            hits = self.rag_db.query(error[:400], k=3, exclude=t.method.qualified_name)[:2]
+            if not hits:
+                return ""
+            blocks = ["SIMILAR TESTED METHODS THAT MIGHT HELP:"]
+            for sf in hits:
+                snippet = " ".join((sf.done_what or sf.summary or "no summary").split())[:200]
+                blocks.append(f"- {sf.method.qualified_name}: {snippet}")
+                example = self._example_passing_spec(sf)
+                if example:
+                    blocks.append(f"  Example passing spec:\n  ```ruby\n{example[:400]}\n  ```")
+            return "\n\n" + "\n".join(blocks)
+
+        return helper
+
     def _all_spec_paths(self) -> List[str]:
         specs = glob.glob(os.path.join(self.root_dir, "spec", "**", "*.rb"), recursive=True)
         return [os.path.relpath(s, self.root_dir) for s in sorted(specs)]
@@ -350,6 +385,8 @@ class RubyProject:
                     coverage_info=coverage_info,
                     recorder=recorder,
                     backend=self.backend,
+
+                    error_help_fn=self._error_help_fn(t),
                 )
                 outcomes.append(outcome)
             recorder.end_count_time(f"round_{rnd}")
