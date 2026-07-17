@@ -210,6 +210,24 @@ echo "================================================================="
 echo " Job $SLURM_JOB_ID terminou (exit $EXIT_CODE)"
 echo "================================================================="
 # Auto-chain é via trap SIGTERM (chain_continuation), ~120s antes do walltime.
-# Se chegámos aqui sem SIGTERM, o harness terminou normalmente (trabalho feito
-# ou erro real) → não encadeia.
+# Se chegámos aqui sem SIGTERM, ou o harness terminou normalmente (não encadeia)
+# ou a TASK foi morta por SIGKILL (exit 137/9) — tipicamente o OOM-killer por um
+# teste gerado memory-bomb (ver baseline/sanic, job 1753101). O SIGKILL não é
+# apanhável → o trap não dispara → sem isto o run morria silenciosamente a meio.
+# Resubmissão é segura (resume via state.json salta o que está ok) e NEUTRA para
+# a comparação (infra, não muda nenhum tool). OOM_RETRIES trava loops (projeto
+# que OOM sempre): esgota-se ao fim de 5 e fica para intervenção manual.
+# Nota: `scancel --batch --signal=KILL` mata a própria bash → este bloco nem
+# corre → o kill manual continua a funcionar como sempre.
+if [ "$EXIT_CODE" -eq 137 ] || [ "$EXIT_CODE" -eq 9 ]; then
+    OOM_RETRIES="${OOM_RETRIES:-0}"
+    if [ "$OOM_RETRIES" -lt 5 ] && [ "$_chained" -eq 0 ]; then
+        export OOM_RETRIES=$((OOM_RETRIES+1))
+        echo "→ Task morta por SIGKILL (OOM provável). Resubmissão automática ($OOM_RETRIES/5) ..."
+        sbatch --parsable --export=ALL "${CHAIN_SCRIPT:-$0}" \
+            || echo "⚠️  resubmissão automática falhou"
+    else
+        echo "⚠️  SIGKILL com OOM_RETRIES=$OOM_RETRIES — sem resubmissão (intervir manualmente)"
+    fi
+fi
 exit $EXIT_CODE
