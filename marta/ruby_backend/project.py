@@ -106,6 +106,7 @@ class RubyProject:
     type_index: Optional[param_types.ProjectTypeIndex] = None
     recorder: Optional[rec.RubyRecorder] = None
     call_graph: Optional[object] = None   # CallGraph (static), built in discover()
+    code_changed: bool = True             # False on cg_cache hit (source unchanged)
     backend: LanguageBackend = field(default_factory=RubyBackend)
 
     def _recorder(self) -> rec.RubyRecorder:
@@ -148,6 +149,8 @@ class RubyProject:
         src_hash = cache.compute_source_hash(self.files)
         cg_path = cache.call_graph_path(self.root_dir)
         cached_cg = cache.load_call_graph(cg_path, src_hash)
+        # code_changed espelha o Python: cache hit do grafo => source inalterado.
+        self.code_changed = cached_cg is None
         if cached_cg is not None:
             from .call_graph import CallGraph
             self.call_graph = CallGraph.from_json(cached_cg)
@@ -319,6 +322,14 @@ class RubyProject:
                 mc = cov.get(idx)
                 if rnd > 0 and mc is not None and mc.fully_covered:
                     continue  # already fully covered — skip, like the Python loop
+                # Skip resume-safe (porta o skip round-aware do Python): se o
+                # código não mudou e o spec DESTA ronda já existe (run retomado),
+                # não regenera — o ficheiro em disco conta para a cobertura via
+                # _all_spec_paths(). Rondas por fazer continuam normalmente.
+                round_spec = os.path.join(self.root_dir, t.spec_path_for_round(rnd))
+                if not self.code_changed and os.path.exists(round_spec):
+                    print(f"[SKIP] Spec de '{t.method.qualified_name}' já existe (ronda {rnd}), a saltar...")
+                    continue
                 if rnd == 0 or mc is None:
                     coverage_info = "First pass: Try to achieve maximum coverage."
                 else:

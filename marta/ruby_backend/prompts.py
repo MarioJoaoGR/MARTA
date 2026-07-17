@@ -44,11 +44,14 @@ CRITICAL: If 'MISSING LINES TO COVER' are provided in the context, you MUST desi
 2. Edge cases (e.g., nil, empty arrays, boundary values)
 3. Invalid inputs / error handling (e.g. raising an error)
 
+SETUP GUIDANCE: prefer REAL objects with simple concrete values in 'setup';
+only suggest doubles/stubs for true external I/O (network, filesystem, subprocess).
+
 OUTPUT FORMAT:
 Return ONLY a raw JSON list. No Markdown. No Explanations.
 Example:
 [
-    {{"name": "adds two positive numbers", "desc": "Test standard input", "setup": "None"}},
+    {{"name": "adds two positive numbers", "desc": "Test standard input", "setup": "Real instance with minimal args"}},
     {{"name": "raises on nil argument", "desc": "Test ArgumentError", "setup": "None"}}
 ]
 """
@@ -76,7 +79,9 @@ RULES:
 2. Start the file with: require "{require_target}"
 3. Use RSpec: `RSpec.describe {describe_subject} do ... end` with one independent `it "..." do ... end` block per scenario.
 4. Use `expect(...).to eq(...)` / `raise_error(...)` matchers. Do NOT use any other test framework.
-5. CRITICAL MOCKING RULE: if you must isolate dependencies, use RSpec doubles (`instance_double`, `double`) with `allow(...).to receive(...)`. NEVER redefine global constants or monkey-patch classes directly. Strict state isolation is mandatory.
+5. AVOID MOCKS unless strictly necessary: prefer constructing REAL objects with simple values. Only stub true external I/O (network, filesystem, subprocess, environment). NEVER mock the class under test, plain value objects, or anything you can instantiate directly. A wrong double fails the test without testing anything.
+6. IF you must isolate a dependency, use RSpec doubles (`instance_double`, `double`) with `allow(...).to receive(...)`. NEVER redefine global constants or monkey-patch classes directly. NEVER assert on a double's internals. Strict state isolation is mandatory.
+7. EXPECTATIONS: keep each `it` block focused — 1 to 2 `expect` calls per block, asserting CONCRETE expected values you derived from the source code. Prefer several small `it` blocks over one block with many expectations (one wrong expectation kills the whole example).
 """
 
 
