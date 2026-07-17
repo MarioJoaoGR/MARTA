@@ -87,6 +87,29 @@ class RubyScore:
         return d
 
 
+def _python_side_tokens() -> tuple:
+    """Current token tally of the Python gptapi singleton (which counts usage
+    for every LLM call), or (0, 0) if the LLM stack isn't loaded."""
+    try:
+        from marta.recorder import recoder
+        return recoder.score.prompt_tokens, recoder.score.completion_tokens
+    except Exception:
+        return (0, 0)
+
+
+def token_tracking_ask(ask, score: RubyScore):
+    """Wrap an ``ask`` so each call credits llm_calls AND token deltas (read off
+    the Python gptapi singleton) to this RubyScore. Additive: gptapi itself is
+    never touched. With a stub ask the delta is simply 0."""
+    async def wrapped(system: str, user: str) -> str:
+        before = _python_side_tokens()
+        out = await ask(system, user)
+        after = _python_side_tokens()
+        score.add_llm_call(after[0] - before[0], after[1] - before[1])
+        return out
+    return wrapped
+
+
 class RubyRecorder:
     def __init__(self):
         self.start_time = time.time()

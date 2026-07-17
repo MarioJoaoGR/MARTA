@@ -215,6 +215,7 @@ class RubyProject:
                 return
 
         ask = ask or _default_ask()
+        ask = rec.token_tracking_ask(ask, self._recorder().score)
         overviews = readme.ReadmeOverviewCache(self.abs_source)
 
         # Pass 1: source-only done_what (MARTA's no-call-graph branch).

@@ -40,6 +40,33 @@ def test_recorder_writes_json(tmp_path):
     assert data["syntax_pass"] == 1
 
 
+def test_token_tracking_ask_credits_singleton_delta():
+    """token_tracking_ask reads token deltas off the Python gptapi singleton."""
+    from marta.recorder import recoder as py_recoder
+
+    async def fake_llm_ask(system, user):
+        # Simulate what gptapi.chat does on a real call: credit the singleton.
+        py_recoder.score.add_tokens(100, 40)
+        return "resp"
+
+    s = recorder.RubyScore()
+    wrapped = recorder.token_tracking_ask(fake_llm_ask, s)
+    out = asyncio.run(wrapped("sys", "usr"))
+    assert out == "resp"
+    assert s.llm_calls == 1
+    assert s.prompt_tokens == 100
+    assert s.completion_tokens == 40
+
+
+def test_token_tracking_ask_zero_delta_with_stub():
+    async def stub(system, user):
+        return "resp"  # no singleton movement (pure stub)
+
+    s = recorder.RubyScore()
+    asyncio.run(recorder.token_tracking_ask(stub, s)("a", "b"))
+    assert s.llm_calls == 1 and s.prompt_tokens == 0 and s.completion_tokens == 0
+
+
 # --- flow instrumentation -------------------------------------------------- #
 def _toolchain_ok():
     try:

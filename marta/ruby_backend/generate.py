@@ -88,17 +88,16 @@ async def generate_spec_for_method(
     backend = backend or RubyBackend()
     prompts = backend.prompts
     score = recorder.score if recorder is not None else None
-
-    def _call() -> None:
-        if score is not None:
-            score.add_llm_call()
+    if score is not None:
+        # Credita llm_calls + tokens (delta do singleton gptapi) por chamada.
+        from .recorder import token_tracking_ask
+        ask = token_tracking_ask(ask, score)
 
     # ---- Planner ---------------------------------------------------------- #
     context_block = prompts.build_context_block(
         method_qualified_name, require_target, method_source, summary, coverage_info, related
     )
     raw_plan = await ask(prompts.PLAN_SYS, prompts.plan_user(context_block))
-    _call()
     scenarios = parse_plan(raw_plan, describe_subject)
 
     # ---- Dev + self-healing ---------------------------------------------- #
@@ -125,7 +124,6 @@ async def generate_spec_for_method(
             prompts.DEV_SYS,
             prompts.dev_user(instruction, method_source, require_target, describe_subject),
         )
-        _call()
         spec_code = prompts.get_ruby_code(raw_dev)
         _write(spec_code)
 
