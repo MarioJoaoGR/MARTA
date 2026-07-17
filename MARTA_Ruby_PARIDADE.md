@@ -7,7 +7,7 @@
 >
 > Legenda: ✅ replicado · 🟡 parcial/simplificado · ❌ em falta
 
-_Última atualização: 2026-07-13 — **todos os 10 itens feitos** (call graph estático+dinâmico incluído). 74 testes verdes._
+_Última atualização: 2026-07-17 — **replicação COMPLETA**: 10 itens do roadmap + 4 refinamentos finais + CLI + portes do Python. 87 testes verdes. Na `main` (merge aditivo)._
 
 ---
 
@@ -88,7 +88,10 @@ _Última atualização: 2026-07-13 — **todos os 10 itens feitos** (call graph 
 - **Dinâmico** (`DynamicCallGraph`, TracePoint): observa as chamadas reais ao correr um *driver*. Exato para os caminhos exercidos, mas **cego ao que não é executado** e a métodos C-level (`attr_*`, operadores). Precisa de um ponto de entrada — logo não serve para o enriquecimento pré-geração.
 - **Veredicto atual:** estático como default (é o que encaixa no fluxo da MARTA); dinâmico fica disponível como ferramenta de validação/comparação. `compare()` dá `both/static_only/dynamic_only` + agreement para medir nos teus dados.
 
-### Ainda por fazer (refinamentos menores, não bloqueiam paridade)
-- RAG dirigido ao erro no self-heal (MARTA usa; nós só temos o RAG no Planner).
-- Propagação do `what_todo` aos callees via grafo (temos o `what_todo` do README; falta a propagação estilo `analyze_what_todo`).
-- Summaries/embeddings de classes (temos os de funções).
+### Refinamentos finais — TODOS FEITOS (2026-07-17)
+- ✅ RAG dirigido ao erro no self-heal (`error_help_fn`: métodos semelhantes ao erro + spec exemplo verde em disco → prompt de reparação).
+- ✅ Propagação do `what_todo` aos callees via grafo (raízes←README; chamados←intenção do caller; fallback README em ciclos).
+- ✅ Summaries/embeddings de classes (`analyze_class` + `class_db`; hint semântico no judge quando a inferência estrutural é ambígua).
+- ✅ Limpeza pós-salvamento: `describe`/`context` sem exemplos sobreviventes são removidos (sem "cascas" vazias).
+
+**Também na main:** CLI simétrico (`python -m marta.ruby_backend.start_react`), tokens no RubyRecorder (delta do singleton gptapi), skip resume-safe, prompts anti-mock/asserts focados portados do commit Python 04ab6743. Merge para main 100% aditivo (Python core intacto).
