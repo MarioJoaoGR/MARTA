@@ -21,6 +21,7 @@ _HELPER = os.path.join(os.path.dirname(__file__), "rb", "marta_tracegraph.rb")
 def run_dynamic(source_dir: str, driver_path: str, cwd: str, timeout: int = 60) -> CallGraph:
     """Trace ``driver_path`` (which exercises the code under ``source_dir``) and
     build a CallGraph from the observed edges."""
+    cwd = os.path.abspath(cwd)  # o filtro de caminhos no helper compara absolutos
     abs_source = source_dir if os.path.isabs(source_dir) else os.path.join(cwd, source_dir)
     try:
         proc = subprocess.run(

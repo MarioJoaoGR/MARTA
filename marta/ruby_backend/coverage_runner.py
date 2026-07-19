@@ -69,6 +69,9 @@ def run_line_coverage(
     ``source_dir`` may be relative to ``cwd``; it is resolved to absolute and
     prepended to the load path so specs can ``require`` the code under test.
     """
+    # cwd pode chegar relativo (ex.: CLI com --project_path relativo); o filtro
+    # de caminhos no helper compara absolutos — absolutizar SEMPRE.
+    cwd = os.path.abspath(cwd)
     abs_source = source_dir if os.path.isabs(source_dir) else os.path.join(cwd, source_dir)
     args = [ruby_bin(), _HELPER, abs_source, *spec_paths]
     try:
