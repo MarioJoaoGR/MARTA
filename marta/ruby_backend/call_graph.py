@@ -88,47 +88,74 @@ class StaticCallGraph:
             for name in names:
                 exists.add(f"{qn}#{name}")
 
-        def resolve(caller: MethodInfo, call: dict) -> Optional[str]:
+        def _instance_lookup(cqn: str, name: str) -> Optional[str]:
+            """First ancestor of cqn defining `name`, as an existing target."""
+            for anc in type_index.ancestors(cqn):
+                if name in instance_methods.get(anc, set()):
+                    cand = f"{anc}#{name}"
+                    if cand in exists:
+                        return cand
+            return None
+
+        # Duck-typed collaborators (ivar/getter/lvar): cap the candidate fan-out
+        # so one generic member (e.g. `==`) doesn't edge to the whole project.
+        MAX_CANDIDATES = 5
+
+        def _duck_targets(members, name) -> List[str]:
+            if not members:
+                return []
+            cands = type_index.candidates(set(members))
+            if not cands or len(cands) > MAX_CANDIDATES:
+                return []
+            out = []
+            for cqn in cands:
+                t = _instance_lookup(cqn, name)
+                if t:
+                    out.append(t)
+            return out
+
+        def resolve(caller: MethodInfo, call: dict) -> List[str]:
             name, recv, rname = call["name"], call["recv"], call.get("recv_name")
+            owner_cls = type_index.classes.get(caller.owner) if caller.owner else None
             if recv in ("none", "self"):
                 if caller.owner:
-                    for anc in type_index.ancestors(caller.owner):
-                        if name in instance_methods.get(anc, set()):
-                            cand = f"{anc}#{name}"
-                            if cand in exists:
-                                return cand
-                if name in toplevel:
-                    return name
-                return None
+                    t = _instance_lookup(caller.owner, name)
+                    if t:
+                        return [t]
+                return [name] if name in toplevel else []
             if recv == "const":
                 cqn = type_index._resolve(rname)
                 if not cqn:
-                    return None
+                    return []
                 if name == "new":
                     cand = f"{cqn}#initialize"
-                    return cand if cand in exists else None
-                if name in singleton.get(cqn, set()):
-                    return f"{cqn}.{name}"
-                return None
+                    return [cand] if cand in exists else []
+                return [f"{cqn}.{name}"] if name in singleton.get(cqn, set()) else []
+            if recv == "selfclass":
+                # self.class.new -> Owner#initialize; self.class.foo -> Owner.foo
+                if not caller.owner:
+                    return []
+                if name == "new":
+                    cand = f"{caller.owner}#initialize"
+                    return [cand] if cand in exists else []
+                return [f"{caller.owner}.{name}"] if name in singleton.get(caller.owner, set()) else []
             if recv == "lvar":
-                members = (caller.param_members or {}).get(rname)
-                if not members:
-                    return None
-                for cqn in type_index.candidates(set(members)):
-                    for anc in type_index.ancestors(cqn):
-                        if name in instance_methods.get(anc, set()):
-                            cand = f"{anc}#{name}"
-                            if cand in exists:
-                                return cand
-                return None
-            return None
+                return _duck_targets((caller.param_members or {}).get(rname), name)
+            if recv in ("ivar", "getter"):
+                # Collaborator held in an ivar (or exposed via a zero-arg getter):
+                # type it by the interface used on it across the whole class.
+                if owner_cls is None:
+                    return []
+                return _duck_targets(owner_cls.receiver_members.get(rname), name)
+            return []
 
         edges: List[CallEdge] = []
         seen = set()
         for m in methods:
             for call in m.calls:
-                target = resolve(m, call)
-                if target and target != m.qualified_name:
+                for target in resolve(m, call):
+                    if target == m.qualified_name:
+                        continue
                     key = (m.qualified_name, target)
                     if key not in seen:
                         seen.add(key)

@@ -83,6 +83,80 @@ def test_no_edges_for_unresolved_or_builtin():
     assert set(g.callees("Wallet#validate")) == {"Transaction#amount"}
 
 
+RESOLVER_SRC = """
+class Bank
+  def exchange(amount); amount; end
+end
+
+class Registry
+  def self.default
+    new
+  end
+
+  class << self
+    def lookup(key); key; end
+  end
+end
+
+class Wallet
+  attr_reader :bank
+
+  def initialize
+    @bank = Bank.new
+  end
+
+  def convert(amount)
+    @bank.exchange(amount)      # ivar collaborator
+  end
+
+  def convert_via_getter(amount)
+    bank.exchange(amount)       # zero-arg getter collaborator
+  end
+
+  def clone_empty
+    self.class.new              # self.class.new -> Wallet#initialize
+  end
+
+  def find(key)
+    Registry.lookup(key)        # singleton defined inside `class << self`
+  end
+end
+"""
+
+
+def _resolver_graph():
+    fp = parse_source(RESOLVER_SRC, "resolver.rb")
+    idx = param_types.ProjectTypeIndex().add_file(fp)
+    return call_graph.StaticCallGraph.build(fp.methods, idx), fp
+
+
+def test_class_shovel_self_methods_are_singletons():
+    _, fp = _resolver_graph()
+    lookup = next(m for m in fp.methods if m.name == "lookup")
+    assert lookup.singleton is True
+    assert lookup.qualified_name == "Registry.lookup"
+
+
+def test_ivar_collaborator_resolved_by_interface():
+    g, _ = _resolver_graph()
+    assert "Bank#exchange" in g.callees("Wallet#convert")
+
+
+def test_getter_collaborator_resolved_by_interface():
+    g, _ = _resolver_graph()
+    assert "Bank#exchange" in g.callees("Wallet#convert_via_getter")
+
+
+def test_self_class_new_resolves_to_initialize():
+    g, _ = _resolver_graph()
+    assert "Wallet#initialize" in g.callees("Wallet#clone_empty")
+
+
+def test_const_singleton_in_shovel_block_resolved():
+    g, _ = _resolver_graph()
+    assert "Registry.lookup" in g.callees("Wallet#find")
+
+
 def test_discover_builds_graph_and_enriches_done_what(tmp_path):
     import asyncio
     from marta.ruby_backend import project

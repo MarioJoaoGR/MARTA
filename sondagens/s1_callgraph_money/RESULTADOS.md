@@ -2,6 +2,14 @@
 
 **Data:** 2026-07-19 · **Veredicto: ✅ viável, com limitações quantificadas (ver conclusões)**
 
+> **UPDATE (mesmo dia): resolver melhorado com os dados desta sondagem — recall 35.9% → 49.6%.**
+> Três correções guiadas pelo diagnóstico dos misses:
+> 1. **Bug:** métodos em `class << self` eram registados como instância → agora singletons (resolve `Currency.wrap` e afins).
+> 2. **Colaboradores em ivar/getter** (o padrão dominante, ex.: `bank.exchange_with`): duck-typing por interface — os métodos invocados no colaborador em toda a classe → `candidates()` via MRO (cap de 5 candidatos; multi-alvo = polimorfismo).
+> 3. **`self.class.new`** → `Owner#initialize`.
+>
+> Nova medição: estático 231 arestas (getter:20, selfclass:5, ivar:1), both=123, dynamic_only=125, **recall 49.6%**. Nota operacional: o `cg_cache` é keyed só pelo hash do source — depois de mudar o *resolver* é preciso apagar `.marta_ruby_cache/` manualmente (melhoria futura: incluir versão do resolver na chave).
+
 ## Setup
 - Alvo: `RubyMoney/money` @ `ed8ed6b6` (2026-06-22), clonado em `sondagens/targets/money` (gitignored; pin registado aqui).
 - Toolchain: Ruby 3.4.10 (rbenv), RSpec 3.13, `bundle install` limpo.

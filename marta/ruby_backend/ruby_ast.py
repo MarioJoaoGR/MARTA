@@ -64,6 +64,9 @@ class ClassInfo:
     extends: List[str] = field(default_factory=list)
     prepends: List[str] = field(default_factory=list)
     attributes: List[str] = field(default_factory=list)  # attr_* reader/writer methods
+    # receiver token ("@bank" / getter "bank") -> methods invoked on it in the
+    # class body (duck-typing interface of collaborator objects)
+    receiver_members: Dict[str, List[str]] = field(default_factory=dict)
 
 
 @dataclass
@@ -129,6 +132,7 @@ def _from_json(data: dict) -> FileParse:
             extends=c.get("extends", []),
             prepends=c.get("prepends", []),
             attributes=c.get("attributes", []),
+            receiver_members=c.get("receiver_members", {}),
         )
         for c in data.get("classes", [])
     ]

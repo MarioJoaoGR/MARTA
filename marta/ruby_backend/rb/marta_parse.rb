@@ -75,6 +75,18 @@ module MartaParse
       @scope = []          # enclosing class/module names, e.g. ["Foo", "Bar"]
       @class_stack = []     # matching class/module hashes for mixin attribution
       @method_stack = []    # current def(s): param names + members-called map
+      @singleton_depth = 0  # inside `class << self` blocks
+    end
+
+    # `class << self` — defs inside are singleton methods even without receiver.
+    def visit_singleton_class_node(node)
+      if node.expression.is_a?(Prism::SelfNode)
+        @singleton_depth += 1
+        visit_child_nodes(node)
+        @singleton_depth -= 1
+      else
+        visit_child_nodes(node)
+      end
     end
 
     def owner
@@ -102,6 +114,9 @@ module MartaParse
         "extends" => [],
         "prepends" => [],
         "attributes" => [],   # methods created by attr_reader/writer/accessor
+        # receiver token ("@bank" or getter "bank") -> methods invoked on it,
+        # across the whole class body (duck-typing for collaborator objects)
+        "receiver_members" => {},
       }
       @classes << entry
       @scope.push(name)
@@ -109,11 +124,14 @@ module MartaParse
       visit_child_nodes(node)
       @class_stack.pop
       @scope.pop
+      entry["receiver_members"].each_value(&:uniq!)
     end
 
     def visit_def_node(node)
-      # `def self.foo` / `def Klass.foo` carry a receiver; instance methods do not.
+      # `def self.foo` / `def Klass.foo` carry a receiver; instance methods do
+      # not — except inside `class << self`, where every def is a singleton.
       receiver = node.receiver.nil? ? nil : node.receiver.slice
+      receiver = "self" if receiver.nil? && @singleton_depth > 0
       params = MartaParse.params(node.parameters)
       # param_members: for each parameter, the methods invoked ON it in the body
       # (the Ruby duck-typing analogue of MARTA's attribute-access members —
@@ -126,7 +144,7 @@ module MartaParse
         "name" => node.name.to_s,
         "owner" => owner,
         "receiver" => receiver,          # nil => instance method
-        "singleton" => !node.receiver.nil?,
+        "singleton" => !receiver.nil?,
         "start_line" => node.location.start_line,
         "end_line" => node.location.end_line,
         "params" => params,
@@ -178,6 +196,13 @@ module MartaParse
           kind = "const"; rname = r.slice
         elsif r.is_a?(Prism::LocalVariableReadNode)
           kind = "lvar"; rname = r.name.to_s
+        elsif r.is_a?(Prism::InstanceVariableReadNode)
+          kind = "ivar"; rname = r.name.to_s          # "@bank"
+        elsif r.is_a?(Prism::CallNode) && r.receiver.is_a?(Prism::SelfNode) && r.name == :class
+          kind = "selfclass"; rname = nil              # self.class.new / .foo
+        elsif r.is_a?(Prism::CallNode) && r.receiver.nil? &&
+              (r.arguments.nil? || r.arguments.arguments.empty?) && r.block.nil?
+          kind = "getter"; rname = r.name.to_s         # bank.exchange_with
         else
           kind = "other"; rname = nil
         end
@@ -185,6 +210,11 @@ module MartaParse
           "name" => node.name.to_s, "recv" => kind, "recv_name" => rname,
           "line" => node.location.start_line,
         }
+        # Duck-typing dos colaboradores: acumula, por classe, os métodos
+        # invocados em cada ivar/getter (para resolver o tipo por interface).
+        if (kind == "ivar" || kind == "getter") && cur
+          (cur["receiver_members"][rname] ||= []) << node.name.to_s
+        end
       end
 
       # RSpec example blocks: `it "desc" do ... end`. Record the full call's
