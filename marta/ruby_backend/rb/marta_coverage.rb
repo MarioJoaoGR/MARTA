@@ -19,13 +19,16 @@ require "coverage"
 Coverage.start(lines: true, branches: true)
 
 require "json"
-require "rspec/core"
 
 # --isolated: ignora o .rspec do projeto (specs gerados sao auto-contidos);
 # sem a flag, corre com a config do projeto (medicao de suites humanas).
 isolated = ARGV.delete("--isolated") ? true : false
+# --minitest: os ficheiros de teste sao Minitest (nao RSpec).
+minitest_mode = ARGV.delete("--minitest") ? true : false
 source_dir = ARGV.shift
-specs = ARGV
+# .dup é essencial: o modo minitest faz ARGV.clear (Minitest.run parseia ARGV),
+# e sem a cópia isso esvaziaria também esta lista — nenhum teste era carregado.
+specs = ARGV.dup
 
 if source_dir.nil? || specs.empty?
   warn "usage: ruby marta_coverage.rb <source_abs_dir> <spec1> [spec2 ...]"
@@ -35,17 +38,36 @@ end
 source_dir = File.expand_path(source_dir)
 $LOAD_PATH.unshift(source_dir)
 
-# Keep stdout clean for JSON — send RSpec's report to stderr.
-rspec_args = isolated ? ["-O", "/dev/null", *specs] : specs
-RSpec::Core::Runner.run(rspec_args, $stderr, $stderr)
-
-result = Coverage.result
-files = {}
-prefix = source_dir + File::SEPARATOR
-result.each do |path, data|
-  next unless path.start_with?(prefix)
-  rel = path[prefix.length..]
-  files[rel] = { "lines" => data[:lines] }
+def emit_coverage(source_dir)
+  result = Coverage.result
+  files = {}
+  prefix = source_dir + File::SEPARATOR
+  result.each do |path, data|
+    next unless path.start_with?(prefix)
+    files[path[prefix.length..]] = { "lines" => data[:lines] }
+  end
+  $stdout.write(JSON.generate({ "source_dir" => source_dir, "files" => files }))
 end
 
-$stdout.write(JSON.generate({ "source_dir" => source_dir, "files" => files }))
+if minitest_mode
+  require "minitest"
+  # Silence Minitest's own console output (stdout must stay pure JSON) and emit
+  # coverage only AFTER the suite runs — minitest executes via autorun's at_exit.
+  module Minitest
+    def self.plugin_marta_cov_options(_opts, _options); end
+
+    def self.plugin_marta_cov_init(_options)
+      reporter.reporters.clear
+    end
+  end
+  Minitest.extensions << "marta_cov"
+  Minitest.after_run { emit_coverage(source_dir) }
+  ARGV.clear
+  specs.each { |f| require File.expand_path(f) }
+else
+  require "rspec/core"
+  # Keep stdout clean for JSON — send RSpec's report to stderr.
+  rspec_args = isolated ? ["-O", "/dev/null", *specs] : specs
+  RSpec::Core::Runner.run(rspec_args, $stderr, $stderr)
+  emit_coverage(source_dir)
+end

@@ -12,11 +12,16 @@ rbenv 3.4 binaries) and the LLM configured via .env (ollama etc.).
 """
 import argparse
 import asyncio
+import functools
 import os
 import sys
 import traceback
 
 from dotenv import load_dotenv
+
+# Progresso tem de aparecer mesmo com stdout redirecionado para ficheiro (runs
+# em background/SLURM); sem isto o output fica no buffer e a run parece pendurada.
+print = functools.partial(print, flush=True)  # noqa: A001
 
 
 def main():
@@ -27,6 +32,10 @@ def main():
     parser.add_argument("--limit", type=int, default=None, help="Only the first N method targets (smoke runs)")
     parser.add_argument("--no_rag", action="store_true", help="Skip embeddings/RAG (faster start, less context)")
     parser.add_argument("--no_cache", action="store_true", help="Ignore the analysis cache (recompute summaries)")
+    parser.add_argument(
+        "--framework", choices=("auto", "rspec", "minitest"), default="auto",
+        help="Test framework to generate (default: auto-detect from the project)",
+    )
     parser.add_argument(
         "--output_dir", type=str, default=None,
         help="Where to write run_results (default: <project_path>/run_results)",
@@ -50,8 +59,17 @@ def main():
     project_name = os.path.abspath(args.project_path).rstrip(os.sep).split(os.sep)[-1]
     print(f"🚀 [MARTA Ruby] A iniciar análise para o projeto: {project_name}")
 
+    from marta.ruby_backend.backend import MinitestBackend, RubyBackend, detect_backend
+    abs_source = os.path.join(args.project_path, args.source_path)
+    backend = {
+        "rspec": RubyBackend(), "minitest": MinitestBackend(),
+    }.get(args.framework) or detect_backend(abs_source)
+    print(f"🧪 [Framework] {type(backend).__name__.replace('Ruby', 'RSpec')}"
+          f"{' (auto-detetado)' if args.framework == 'auto' else ''}")
+
     try:
-        proj = RubyProject(root_dir=args.project_path, source_dir=args.source_path).discover()
+        proj = RubyProject(root_dir=args.project_path, source_dir=args.source_path,
+                           backend=backend).discover()
         print(f"🔍 [Contexto] {len(proj.files)} ficheiros, {len(proj.targets)} métodos-alvo; "
               f"grafo: {len(proj.call_graph.edges) if proj.call_graph else 0} arestas "
               f"({'source inalterado' if not proj.code_changed else 'source novo/alterado'})")

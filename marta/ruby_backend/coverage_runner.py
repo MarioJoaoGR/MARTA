@@ -64,6 +64,7 @@ def run_line_coverage(
     cwd: str,
     timeout: int = 120,
     isolated: bool = False,
+    minitest: bool = False,
 ) -> CoverageResult:
     """Run specs under Coverage and return per-file per-line hit arrays.
 
@@ -79,6 +80,8 @@ def run_line_coverage(
     args = [ruby_bin(), _HELPER]
     if isolated:
         args.append("--isolated")
+    if minitest:
+        args.append("--minitest")
     args += [abs_source, *spec_paths]
     try:
         proc = subprocess.run(

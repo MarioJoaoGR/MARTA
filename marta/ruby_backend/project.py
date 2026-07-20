@@ -223,6 +223,7 @@ class RubyProject:
         ask: Optional[AskFn] = None,
         limit: Optional[int] = None,
         use_cache: bool = True,
+        max_class_summaries: int = 50,
     ) -> None:
         """Populate each target's done_what / what_todo / summary before
         generation — the context-building phase MARTA runs in ``init()``.
@@ -309,10 +310,18 @@ class RubyProject:
                 ask, t.context_source, t.done_what, t.what_todo
             )
 
-        # Summaries de classes (analogo leve do analyze_each_class): base do
-        # RAG semantico de tipos. Uma chamada por classe do projeto.
-        for qn, cls in (self.type_index.classes if self.type_index else {}).items():
-            if cls.kind != "class" or qn in self.class_summaries:
+        # Summaries de classes (análogo leve do analyze_each_class): base do RAG
+        # semântico de tipos. ATENÇÃO ao âmbito: só as classes DONAS dos targets
+        # em análise (+ cap), nunca o projeto inteiro — a faker tem 260 classes,
+        # o que dava ~1h de LLM mesmo com --limit 2.
+        owner_qns = []
+        for t in targets:
+            qn = t.owner_class.qualified_name if t.owner_class else None
+            if qn and qn not in owner_qns:
+                owner_qns.append(qn)
+        for qn in owner_qns[:max_class_summaries]:
+            cls = (self.type_index.classes if self.type_index else {}).get(qn)
+            if cls is None or cls.kind != "class" or qn in self.class_summaries:
                 continue
             src_path = self.class_files.get(qn)
             if not src_path:
