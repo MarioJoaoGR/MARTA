@@ -37,6 +37,13 @@ end
 
 source_dir = File.expand_path(source_dir)
 $LOAD_PATH.unshift(source_dir)
+# Suites humanas carregam helpers a partir da própria pasta de testes
+# (`require "test_helper"` / `"spec_helper"`) — é o que o `rake test -Ilib -Itest`
+# faz. Sem isto, medir a suite de um projeto minitest falha com LoadError.
+%w[test spec].each do |d|
+  p = File.expand_path(d, Dir.pwd)
+  $LOAD_PATH.unshift(p) if File.directory?(p)
+end
 
 def emit_coverage(source_dir)
   result = Coverage.result

@@ -92,12 +92,29 @@ def run_line_coverage(
     except subprocess.TimeoutExpired as e:
         raise RubyParseError("marta_coverage.rb timed out") from e
 
-    try:
-        data = json.loads(proc.stdout)
-    except json.JSONDecodeError as e:
+    # Projetos reais escrevem no stdout durante a suite (ex.: o spec_helper da
+    # ruby-jwt imprime a versão do OpenSSL), o que corrompe um json.loads direto.
+    # O nosso payload é o ÚLTIMO objeto JSON escrito — recorta-se defensivamente.
+    data = None
+    raw = proc.stdout.strip()
+    if raw:
+        try:
+            data = json.loads(raw)
+        except json.JSONDecodeError:
+            start = raw.find('{"source_dir"')
+            if start == -1:
+                start = raw.find("{")
+            end = raw.rfind("}")
+            if start != -1 and end > start:
+                try:
+                    data = json.loads(raw[start:end + 1])
+                except json.JSONDecodeError:
+                    data = None
+    if data is None:
         raise RubyParseError(
-            f"marta_coverage.rb emitted non-JSON (stderr: {proc.stderr[:300]})"
-        ) from e
+            f"marta_coverage.rb emitted non-JSON "
+            f"(stdout[:200]: {raw[:200]!r}; stderr: {proc.stderr[:200]})"
+        )
     # Helper wraps each file as {"lines": [...]}; unwrap to the bare hit array.
     files = {rel: entry.get("lines", []) for rel, entry in data.get("files", {}).items()}
     return CoverageResult(source_dir=data.get("source_dir", abs_source), files=files)
