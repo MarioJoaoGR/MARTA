@@ -46,6 +46,11 @@ Driver dinâmico = a própria suite do gem (499 exemplos ≈ ground truth dos ca
   3. Polimorfismo real (vários alvos para o mesmo call site: `SingleCurrency` E `VariableExchange`).
 - Em Python, o PyCG tem limitações da mesma família — isto não invalida a abordagem; **quantifica-a** (material direto para o paper: primeira medição estático-vs-dinâmico de call graph em Ruby neste contexto).
 
+## Validade da medição (o que ela prova e o que não prova)
+- O dinâmico **só vê o que a suite exercita** → arestas não exercitadas saem de AMBOS os lados (do denominador incluído). O viés é proporcional ao que fica por correr — na `money` é pequeno (suite cobre 99.8% das linhas), e é por isso que ela serve de instrumento. **Regra: medições do grafo só em gems de cobertura humana alta, reportando a cobertura do driver ao lado do recall.**
+- Assimetria fundamental: `dynamic_only` = misses **certos** do estático (a chamada aconteceu); `static_only` = **inconclusivo** (mistura de: real-mas-não-exercitado, arestas `attr_*` invisíveis ao TracePoint por serem C-level, e falsos positivos genuínos). **Medimos recall, não precisão.**
+- Para precisão (futuro/paper): auditoria manual amostrada das `static_only` (~30, classificadas nas 3 categorias) e/ou estender o instrumento com eventos `:c_call` do TracePoint para eliminar a cegueira aos `attr_*`.
+
 ## Percalços encontrados (e corrigidos)
 1. `coverage_runner.run_line_coverage` e `dyn_call_graph.run_dynamic` partiam-se com `cwd` **relativo** (o filtro de caminhos compara absolutos; os testes usavam sempre tmp_path absoluto e nunca o apanharam). Fix: `os.path.abspath(cwd)` em ambos.
 
