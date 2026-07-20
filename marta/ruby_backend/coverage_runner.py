@@ -63,17 +63,23 @@ def run_line_coverage(
     spec_paths: List[str],
     cwd: str,
     timeout: int = 120,
+    isolated: bool = False,
 ) -> CoverageResult:
     """Run specs under Coverage and return per-file per-line hit arrays.
 
     ``source_dir`` may be relative to ``cwd``; it is resolved to absolute and
     prepended to the load path so specs can ``require`` the code under test.
+    ``isolated=True`` ignores the project's .rspec (for GENERATED specs, which
+    are self-contained); leave False to measure human suites with their config.
     """
     # cwd pode chegar relativo (ex.: CLI com --project_path relativo); o filtro
     # de caminhos no helper compara absolutos — absolutizar SEMPRE.
     cwd = os.path.abspath(cwd)
     abs_source = source_dir if os.path.isabs(source_dir) else os.path.join(cwd, source_dir)
-    args = [ruby_bin(), _HELPER, abs_source, *spec_paths]
+    args = [ruby_bin(), _HELPER]
+    if isolated:
+        args.append("--isolated")
+    args += [abs_source, *spec_paths]
     try:
         proc = subprocess.run(
             args, cwd=cwd, capture_output=True, text=True, timeout=timeout

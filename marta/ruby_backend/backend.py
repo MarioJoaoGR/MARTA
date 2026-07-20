@@ -113,7 +113,8 @@ class RubyBackend(LanguageBackend):
         return runner.run_rspec(test_path, load_paths=load_paths, cwd=cwd)
 
     def run_coverage(self, source_dir: str, test_paths: List[str], cwd: str) -> CoverageResult:
-        return coverage_runner.run_line_coverage(source_dir, test_paths, cwd=cwd)
+        # Generated specs are self-contained -> isolate from the project .rspec.
+        return coverage_runner.run_line_coverage(source_dir, test_paths, cwd=cwd, isolated=True)
 
     def synthesize_coverage(self, method: MethodInfo, lines: List[Optional[int]]) -> MethodCoverage:
         return coverage_runner.synthesize(method, lines)

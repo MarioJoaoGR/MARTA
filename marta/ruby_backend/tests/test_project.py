@@ -43,7 +43,7 @@ def test_discover_builds_targets(tmp_path):
     assert t.require_target == "calculator"
     assert t.describe_subject == "Calculator"
     assert "class Calculator" in t.context_source  # whole class as context
-    assert t.spec_path == "spec/calculator__Calculator__add_spec.rb"
+    assert t.spec_path == "marta_specs/calculator__Calculator__add_spec.rb"
 
 
 def test_generate_all_with_stub(tmp_path):
@@ -68,4 +68,4 @@ end
     outcomes = asyncio.run(proj.generate_all(ask=ask))
     assert len(outcomes) == 1
     assert outcomes[0].success
-    assert (p / "spec" / "calculator__Calculator__add_spec.rb").exists()
+    assert (p / "marta_specs" / "calculator__Calculator__add_spec.rb").exists()

@@ -80,8 +80,8 @@ def test_coverage_guided_rounds(tmp_path):
 
     # Round 0 produced the partial spec; round 1 saw missing lines and added more.
     assert any("MISSING LINES" in p for p in prompts_seen)
-    r0 = tmp_path / "spec" / "calc__Calc__sign_r0_spec.rb"
-    r1 = tmp_path / "spec" / "calc__Calc__sign_r1_spec.rb"
+    r0 = tmp_path / "marta_specs" / "calc__Calc__sign_r0_spec.rb"
+    r1 = tmp_path / "marta_specs" / "calc__Calc__sign_r1_spec.rb"
     assert r0.exists() and r1.exists()  # specs accumulate across rounds
 
     # After both rounds the method is fully covered.
@@ -115,5 +115,5 @@ end
     proj = project.RubyProject(root_dir=str(tmp_path), source_dir="src").discover()
     asyncio.run(proj.generate_rounds(rounds=3, ask=ask, max_attempts=1))
     # A one-line method is fully covered after round 0, so no r1/r2 specs.
-    assert not (tmp_path / "spec" / "calc__Calc__double_r1_spec.rb").exists()
-    assert not (tmp_path / "spec" / "calc__Calc__double_r2_spec.rb").exists()
+    assert not (tmp_path / "marta_specs" / "calc__Calc__double_r1_spec.rb").exists()
+    assert not (tmp_path / "marta_specs" / "calc__Calc__double_r2_spec.rb").exists()

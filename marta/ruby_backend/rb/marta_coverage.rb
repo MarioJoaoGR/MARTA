@@ -21,6 +21,9 @@ Coverage.start(lines: true, branches: true)
 require "json"
 require "rspec/core"
 
+# --isolated: ignora o .rspec do projeto (specs gerados sao auto-contidos);
+# sem a flag, corre com a config do projeto (medicao de suites humanas).
+isolated = ARGV.delete("--isolated") ? true : false
 source_dir = ARGV.shift
 specs = ARGV
 
@@ -33,7 +36,8 @@ source_dir = File.expand_path(source_dir)
 $LOAD_PATH.unshift(source_dir)
 
 # Keep stdout clean for JSON — send RSpec's report to stderr.
-RSpec::Core::Runner.run(specs, $stderr, $stderr)
+rspec_args = isolated ? ["-O", "/dev/null", *specs] : specs
+RSpec::Core::Runner.run(rspec_args, $stderr, $stderr)
 
 result = Coverage.result
 files = {}

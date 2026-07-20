@@ -76,10 +76,12 @@ def main():
 
         outcomes = asyncio.run(_pipeline())
 
+        from marta.ruby_backend.project import GENERATED_SPEC_DIR
         ok = sum(1 for o in outcomes if o.success)
         salvaged = sum(1 for o in outcomes if o.salvaged)
         print(f"✅ [MARTA Ruby] {ok}/{len(outcomes)} gerações com sucesso "
-              f"({salvaged} via salvamento). Specs em {os.path.join(args.project_path, 'spec')}")
+              f"({salvaged} via salvamento). Specs em "
+              f"{os.path.join(args.project_path, GENERATED_SPEC_DIR)}")
 
         out_dir = args.output_dir or os.path.join(args.project_path, "run_results")
         path = recorder.end(out_dir, project_name)

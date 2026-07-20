@@ -121,7 +121,8 @@ def test_error_help_reaches_repair_prompt(tmp_path):
     proj.build_rag(lambda docs: [_vec(d) for d in docs], _vec)
 
     # A passing spec for `sub` already on disk -> becomes the RAG example.
-    (tmp_path / "spec" / "calc__Calc__sub_r0_spec.rb").write_text(
+    (tmp_path / "marta_specs").mkdir()
+    (tmp_path / "marta_specs" / "calc__Calc__sub_r0_spec.rb").write_text(
         'require "calc"\nRSpec.describe Calc do\n  it "subs" do\n'
         "    expect(Calc.new.sub(5, 3)).to eq(2)\n  end\nend\n"
     )

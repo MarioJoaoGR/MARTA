@@ -126,7 +126,10 @@ def run_rspec(
     can ``require`` the code under test. ``all_passed`` follows RSpec's exit code
     (0 only when every example passed and nothing errored outside examples).
     """
-    args = [rspec_bin(), "-f", "json"]
+    # -O /dev/null: a "vacina" (analoga ao -c /dev/null do pytest na MARTA
+    # Python) — ignora o .rspec do projeto-alvo, para os specs gerados serem
+    # auto-contidos e nao dependerem do spec_helper/config da suite humana.
+    args = [rspec_bin(), "-O", os.devnull, "-f", "json"]
     for p in load_paths or []:
         args += ["-I", p]
     args.append(spec_path)

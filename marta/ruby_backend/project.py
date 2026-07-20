@@ -51,12 +51,19 @@ class _ClassEntry:
         self.done_what = ""
 
 
+# Where generated specs live, relative to the project root — SEPARATE from the
+# project's own spec/ (the Test4DT_tests analogue). Keeps tool output apart from
+# the human suite so benchmark coverage measures ONLY generated tests.
+GENERATED_SPEC_DIR = "marta_specs"
+
+
 @dataclass
 class MethodTarget:
     method: ruby_ast.MethodInfo
     owner_class: Optional[ruby_ast.ClassInfo]
     file_path: str            # absolute path to the .rb file
     require_target: str       # e.g. "foo/bar" (relative to source_dir, no .rb)
+    spec_dir: str = GENERATED_SPEC_DIR
     done_what: str = ""       # implementation-view summary (item 3)
     what_todo: str = ""       # requirement-view summary, from README (item 7)
     summary: str = ""         # final merged summary, fed to the Planner context
@@ -93,13 +100,13 @@ class MethodTarget:
 
     @property
     def spec_path(self) -> str:
-        return os.path.join("spec", f"{self._spec_stem}_spec.rb")
+        return os.path.join(self.spec_dir, f"{self._spec_stem}_spec.rb")
 
     def spec_path_for_round(self, rnd: int) -> str:
         """One spec file per round (``..._r0_spec.rb``, ``..._r1_spec.rb``), so
         later rounds ADD coverage-targeted specs instead of overwriting — the
         Ruby analogue of MARTA's ``<prefix>_<round>.py`` accumulation."""
-        return os.path.join("spec", f"{self._spec_stem}_r{rnd}_spec.rb")
+        return os.path.join(self.spec_dir, f"{self._spec_stem}_r{rnd}_spec.rb")
 
     @property
     def source_rel(self) -> str:
@@ -163,8 +170,10 @@ class RubyProject:
         for t in self.targets:
             t.judge = self.type_index.judge_for_method(t.method)
         # Static call graph (item 6) — feeds cross-method done_what enrichment.
-        # Cached by source hash (cg_cache); rebuilt only when the source changes.
-        src_hash = cache.compute_source_hash(self.files)
+        # Cache keyed by source hash + RESOLVER_VERSION (rebuilds when o resolver
+        # muda, não só quando o source muda — mordeu-nos na sondagem 1).
+        from .call_graph import RESOLVER_VERSION
+        src_hash = f"{cache.compute_source_hash(self.files)}:r{RESOLVER_VERSION}"
         cg_path = cache.call_graph_path(self.root_dir)
         cached_cg = cache.load_call_graph(cg_path, src_hash)
         # code_changed espelha o Python: cache hit do grafo => source inalterado.
@@ -375,7 +384,7 @@ class RubyProject:
 
     def _example_passing_spec(self, t: MethodTarget) -> Optional[str]:
         """First spec already on disk for this target (kept specs are green)."""
-        files = sorted(glob.glob(os.path.join(self.root_dir, "spec", f"{t._spec_stem}*_spec.rb")))
+        files = sorted(glob.glob(os.path.join(self.root_dir, t.spec_dir, f"{t._spec_stem}*_spec.rb")))
         for f in files:
             try:
                 with open(f, "r", encoding="utf-8") as fh:
@@ -407,7 +416,10 @@ class RubyProject:
         return helper
 
     def _all_spec_paths(self) -> List[str]:
-        specs = glob.glob(os.path.join(self.root_dir, "spec", "**", "*.rb"), recursive=True)
+        """Every GENERATED spec (marta_specs/), never the project's own spec/ —
+        benchmark coverage must reflect only what the tool produced."""
+        specs = glob.glob(os.path.join(self.root_dir, GENERATED_SPEC_DIR, "**", "*.rb"),
+                          recursive=True)
         return [os.path.relpath(s, self.root_dir) for s in sorted(specs)]
 
     def measure_coverage(self) -> Dict[int, coverage_runner.MethodCoverage]:

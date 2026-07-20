@@ -21,6 +21,10 @@ from typing import Dict, List, Optional, Sequence, Set
 from .param_types import ProjectTypeIndex
 from .ruby_ast import MethodInfo
 
+# Bump whenever the resolver's behaviour changes: it participates in the
+# cg_cache key so stale graphs are rebuilt automatically (bit us on sondagem 1).
+RESOLVER_VERSION = 2
+
 
 @dataclass(frozen=True)
 class CallEdge:
