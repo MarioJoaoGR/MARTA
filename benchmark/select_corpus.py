@@ -21,11 +21,15 @@ import os
 import sys
 import urllib.request
 
-# Excluir gems acopladas a Rails (dep runtime) — precisam de install pesado,
-# violam o critério "library standalone". E gems gigantes/auto-geradas (cap de
-# tamanho) — extremo matematico mas nao e codigo significativo para testar.
-RAILS_DEPS = {"rails", "activerecord", "activesupport", "railties",
-              "actionpack", "activemodel", "actionview", "activejob"}
+# Excluir gems que nao sao "library standalone testavel":
+#  - acopladas a Rails (dep runtime -> install pesado);
+#  - plugins de ferramentas (rubocop, ...): o proposito e' estender a ferramenta,
+#    testa-los isoladamente e' artificial;
+#  - gigantes/auto-geradas (cap de tamanho): extremo matematico, nao codigo util.
+RAILS_DEPS = {"rails", "activerecord", "activesupport", "railties", "actionpack",
+              "activemodel", "actionview", "activejob", "actionmailer", "actioncable"}
+PLUGIN_DEPS = {"rubocop", "rubocop-ast"}
+EXCLUDE_DEPS = RAILS_DEPS | PLUGIN_DEPS
 MAX_METHODS = 2000
 
 FEATURES = [
@@ -64,7 +68,7 @@ def _rails_coupling(gems) -> dict:
             deps = [x["name"] for x in d.get("dependencies", {}).get("runtime", [])]
         except Exception:
             deps = []
-        cache[name] = sorted(RAILS_DEPS & set(deps))
+        cache[name] = sorted(EXCLUDE_DEPS & set(deps))
         changed = True
     if changed:
         os.makedirs("benchmark/results", exist_ok=True)
