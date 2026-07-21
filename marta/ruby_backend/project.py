@@ -56,6 +56,11 @@ class _ClassEntry:
 # the human suite so benchmark coverage measures ONLY generated tests.
 GENERATED_SPEC_DIR = "marta_specs"
 
+# Teto do código enviado ao LLM por método. Classes maiores passam a uma vista
+# focada (ver MethodTarget.context_source) — sem isto, classes grandes de
+# projetos reais estouram a janela de contexto do modelo.
+MAX_CONTEXT_CHARS = int(os.getenv("MARTA_MAX_CONTEXT_CHARS", "6000"))
+
 
 @dataclass
 class MethodTarget:
@@ -63,6 +68,8 @@ class MethodTarget:
     owner_class: Optional[ruby_ast.ClassInfo]
     file_path: str            # absolute path to the .rb file
     require_target: str       # e.g. "foo/bar" (relative to source_dir, no .rb)
+    # outros métodos da mesma classe (para a vista focada de context_source)
+    siblings: List[ruby_ast.MethodInfo] = field(default_factory=list)
     spec_dir: str = GENERATED_SPEC_DIR
     done_what: str = ""       # implementation-view summary (item 3)
     what_todo: str = ""       # requirement-view summary, from README (item 7)
@@ -84,13 +91,49 @@ class MethodTarget:
 
     @property
     def context_source(self) -> str:
-        """Source shown to the LLM as the code under test: the whole owning
-        class (so it knows how to construct it) or just the method."""
-        if self.owner_class is not None:
-            return _slice_lines(
-                self.file_path, self.owner_class.start_line, self.owner_class.end_line
-            )
-        return _slice_lines(self.file_path, self.method.start_line, self.method.end_line)
+        """Código mostrado ao LLM. A classe INTEIRA quando cabe (melhor
+        contexto), senão uma **vista focada**: declaração + mixins + initialize
+        + método-alvo + assinaturas dos restantes.
+
+        Sem isto, classes grandes estouram a janela de contexto do modelo — em
+        projetos reais (fpm: classe de 43k chars) o LLM devolvia
+        `prompt is longer than the context length` e a geração falhava a 100%.
+        """
+        if self.owner_class is None:
+            return _slice_lines(self.file_path, self.method.start_line, self.method.end_line)
+
+        cls = self.owner_class
+        whole = _slice_lines(self.file_path, cls.start_line, cls.end_line)
+        if len(whole) <= MAX_CONTEXT_CHARS:
+            return whole
+
+        target = _slice_lines(self.file_path, self.method.start_line, self.method.end_line)
+        parts = [_slice_lines(self.file_path, cls.start_line, cls.start_line)]
+        parts += [f"  include {m}" for m in cls.includes]
+        parts += [f"  extend {m}" for m in cls.extends]
+
+        init = next((m for m in self.siblings if m.name == "initialize"), None)
+        if init is not None:
+            parts.append(_slice_lines(self.file_path, init.start_line, init.end_line))
+
+        others = [m for m in self.siblings
+                  if m.name not in ("initialize", self.method.name)]
+        if others:
+            parts.append("  # (restantes métodos desta classe, só assinaturas)")
+            for m in others[:40]:
+                sig = _slice_lines(self.file_path, m.start_line, m.start_line).strip()
+                parts.append(f"  {sig}")
+            if len(others) > 40:
+                parts.append(f"  # ... e mais {len(others) - 40} métodos")
+
+        parts.append("\n  # MÉTODO SOB TESTE:")
+        parts.append(target)
+        parts.append("end")
+        focused = "\n".join(parts)
+        if len(focused) > MAX_CONTEXT_CHARS:  # método-alvo gigante: truncar
+            keep = max(MAX_CONTEXT_CHARS - 200, 500)
+            focused = focused[:keep] + "\n  # ... (truncado)\nend"
+        return focused
 
     @property
     def _spec_stem(self) -> str:
@@ -155,6 +198,10 @@ class RubyProject:
             for c in fp.classes:
                 self.class_files.setdefault(c.qualified_name, path)
             require_target = self.backend.module_ref(rel)
+            by_owner: Dict[str, List] = {}
+            for m in fp.methods:
+                if m.owner:
+                    by_owner.setdefault(m.owner, []).append(m)
             for m in fp.methods:
                 if m.name in SKIP_METHODS:
                     continue
@@ -164,6 +211,8 @@ class RubyProject:
                         owner_class=classes_by_qn.get(m.owner) if m.owner else None,
                         file_path=path,
                         require_target=require_target,
+                        siblings=[s for s in by_owner.get(m.owner or "", [])
+                                  if s is not m],
                     )
                 )
         # Judge needs the full index (cross-file classes), so compute after.
