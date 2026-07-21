@@ -64,6 +64,9 @@ class ClassInfo:
     extends: List[str] = field(default_factory=list)
     prepends: List[str] = field(default_factory=list)
     attributes: List[str] = field(default_factory=list)  # attr_* reader/writer methods
+    # statements do corpo que nao sao metodos (constantes, attr_*, include):
+    # o "class stub" para o prompt (== non_method_statements do Python)
+    body_statements: List[str] = field(default_factory=list)
     # receiver token ("@bank" / getter "bank") -> methods invoked on it in the
     # class body (duck-typing interface of collaborator objects)
     receiver_members: Dict[str, List[str]] = field(default_factory=dict)
@@ -133,6 +136,7 @@ def _from_json(data: dict) -> FileParse:
             prepends=c.get("prepends", []),
             attributes=c.get("attributes", []),
             receiver_members=c.get("receiver_members", {}),
+            body_statements=c.get("body_statements", []),
         )
         for c in data.get("classes", [])
     ]

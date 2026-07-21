@@ -90,50 +90,43 @@ class MethodTarget:
         return f'"{self.method.name}"'
 
     @property
-    def context_source(self) -> str:
-        """Código mostrado ao LLM. A classe INTEIRA quando cabe (melhor
-        contexto), senão uma **vista focada**: declaração + mixins + initialize
-        + método-alvo + assinaturas dos restantes.
+    def class_code(self) -> str:
+        """"Class stub": a declaração da classe + os statements do corpo que NÃO
+        são métodos (constantes, `attr_*`, `include`). Paridade estrita com o
+        ``ClassMessage.get_class_code`` do Python, que filtra os
+        ``non_method_statements`` — nunca envia corpos de métodos."""
+        cls = self.owner_class
+        if cls is None:
+            return ""
+        header = f"class {cls.qualified_name}"
+        if cls.superclass:
+            header += f" < {cls.superclass}"
+        body = "\n".join(f"  {s}" for s in cls.body_statements)
+        return f"{header}\n{body}" if body else header
 
-        Sem isto, classes grandes estouram a janela de contexto do modelo — em
-        projetos reais (fpm: classe de 43k chars) o LLM devolvia
-        `prompt is longer than the context length` e a geração falhava a 100%.
+    @property
+    def context_source(self) -> str:
+        """Código mostrado ao LLM — paridade estrita com ``get_source_code`` da
+        MARTA Python: *class stub* (sem corpos de métodos) + ``initialize`` +
+        método-alvo. Nunca a classe inteira.
+
+        É esta focagem (não uma precaução extra do Ruby) que evita estourar a
+        janela de contexto: o Python fá-lo desde sempre, e a versão inicial do
+        port divergia ao enviar a classe toda — na `fpm` (classe de 43k chars)
+        o modelo devolvia `prompt is longer than the context length`.
         """
         if self.owner_class is None:
             return _slice_lines(self.file_path, self.method.start_line, self.method.end_line)
 
-        cls = self.owner_class
-        whole = _slice_lines(self.file_path, cls.start_line, cls.end_line)
-        if len(whole) <= MAX_CONTEXT_CHARS:
-            return whole
-
-        target = _slice_lines(self.file_path, self.method.start_line, self.method.end_line)
-        parts = [_slice_lines(self.file_path, cls.start_line, cls.start_line)]
-        parts += [f"  include {m}" for m in cls.includes]
-        parts += [f"  extend {m}" for m in cls.extends]
-
+        parts = [self.class_code]
         init = next((m for m in self.siblings if m.name == "initialize"), None)
         if init is not None:
             parts.append(_slice_lines(self.file_path, init.start_line, init.end_line))
-
-        others = [m for m in self.siblings
-                  if m.name not in ("initialize", self.method.name)]
-        if others:
-            parts.append("  # (restantes métodos desta classe, só assinaturas)")
-            for m in others[:40]:
-                sig = _slice_lines(self.file_path, m.start_line, m.start_line).strip()
-                parts.append(f"  {sig}")
-            if len(others) > 40:
-                parts.append(f"  # ... e mais {len(others) - 40} métodos")
-
-        parts.append("\n  # MÉTODO SOB TESTE:")
-        parts.append(target)
-        parts.append("end")
-        focused = "\n".join(parts)
-        if len(focused) > MAX_CONTEXT_CHARS:  # método-alvo gigante: truncar
-            keep = max(MAX_CONTEXT_CHARS - 200, 500)
-            focused = focused[:keep] + "\n  # ... (truncado)\nend"
-        return focused
+        parts.append(_slice_lines(self.file_path, self.method.start_line, self.method.end_line))
+        out = "\n".join(p for p in parts if p)
+        if len(out) > MAX_CONTEXT_CHARS:  # rede de segurança: método gigante
+            out = out[:MAX_CONTEXT_CHARS] + "\n# ... (truncado)"
+        return out
 
     @property
     def _spec_stem(self) -> str:
@@ -368,14 +361,30 @@ class RubyProject:
             qn = t.owner_class.qualified_name if t.owner_class else None
             if qn and qn not in owner_qns:
                 owner_qns.append(qn)
+        # Paridade com o Python: ClassMessage.generate_summary usa
+        # get_code_with_summary -> class_code (o *stub*), NUNCA os corpos dos
+        # métodos. Enviar a classe inteira estourava a janela de contexto em
+        # classes grandes (fpm/Deb: 43k chars).
+        stub_by_qn, sigs_by_qn = {}, {}
+        for t in targets:
+            if t.owner_class is None:
+                continue
+            q = t.owner_class.qualified_name
+            stub_by_qn.setdefault(q, t.class_code)
+            sigs_by_qn.setdefault(q, []).append(
+                _slice_lines(t.file_path, t.method.start_line, t.method.start_line).strip())
+
         for qn in owner_qns[:max_class_summaries]:
             cls = (self.type_index.classes if self.type_index else {}).get(qn)
             if cls is None or cls.kind != "class" or qn in self.class_summaries:
                 continue
-            src_path = self.class_files.get(qn)
-            if not src_path:
+            stub = stub_by_qn.get(qn)
+            if not stub:
                 continue
-            class_src = _slice_lines(src_path, cls.start_line, cls.end_line)
+            sigs = sigs_by_qn.get(qn, [])[:40]
+            class_src = stub + ("\n" + "\n".join(f"  {s}" for s in sigs) if sigs else "")
+            if len(class_src) > MAX_CONTEXT_CHARS:
+                class_src = class_src[:MAX_CONTEXT_CHARS] + "\n# ... (truncado)"
             self.class_summaries[qn] = await summaries.analyze_class(ask, class_src)
 
         if use_cache:

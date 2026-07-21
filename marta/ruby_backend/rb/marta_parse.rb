@@ -102,7 +102,10 @@ module MartaParse
     end
 
     def enter_namespace(node, kind)
-      name = node.name.to_s
+      # constant_path (não node.name!) — na forma COMPACTA `class FPM::Command`
+      # o node.name devolve só `Command` e o namespace perdia-se, gerando specs
+      # com `RSpec.describe Command` (constante inexistente) em projetos reais.
+      name = node.constant_path.respond_to?(:slice) ? node.constant_path.slice.to_s : node.name.to_s
       entry = {
         "name" => name,
         "qualified_name" => [owner, name].compact.join("::"),
@@ -117,7 +120,24 @@ module MartaParse
         # receiver token ("@bank" or getter "bank") -> methods invoked on it,
         # across the whole class body (duck-typing for collaborator objects)
         "receiver_members" => {},
+        # Statements do corpo da classe que NÃO são métodos (constantes,
+        # attr_*, include/extend, chamadas de DSL). É o equivalente ao
+        # `non_method_statements` do get_class_code da MARTA Python, que monta
+        # o "class stub" enviado ao LLM (sem corpos de métodos).
+        "body_statements" => [],
       }
+      # Statements do corpo que não são defs (o análogo do non_method_statements
+      # do Python) — o "class stub" para o prompt, sem corpos de métodos.
+      if node.body.respond_to?(:body)
+        node.body.body.each do |stmt|
+          next if stmt.is_a?(Prism::DefNode)
+          next if stmt.is_a?(Prism::ClassNode) || stmt.is_a?(Prism::ModuleNode)
+          next if stmt.is_a?(Prism::SingletonClassNode)
+          line = stmt.slice.to_s.strip
+          entry["body_statements"] << line unless line.empty?
+        end
+      end
+
       @classes << entry
       @scope.push(name)
       @class_stack.push(entry)
