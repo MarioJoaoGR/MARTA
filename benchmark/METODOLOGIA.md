@@ -90,14 +90,34 @@ parte da MARTA que cada uma exercita:
 | mixins/classe, prof. herança | grafo + MRO | complexidade estrutural |
 | metaprog/100 métodos | **limite da análise estática** | `define_method`, `method_missing`, `send`… |
 
-**Processo (script de seleção, a correr após o diagnóstico):** normalizar as
-métricas, e escolher ~12 que maximizam a cobertura do espaço (extremos + centro
-de cada dimensão), garantindo variedade de categoria/domínio. Isto transforma
-"porquê estas 12?" numa resposta com dados: *"span das dimensões medidas na
-população de 125"*.
+**Processo (`select_corpus.py`):** normalizar as métricas (log para tamanho/
+profundidade, linear para o resto), e aplicar **farthest-first traversal** —
+escolher iterativamente a gem mais distante das já escolhidas no espaço
+normalizado. Determinístico (semente = a mais afastada do centróide) e
+reprodutível. Restrição: ≤2 gems por categoria (variedade de domínio).
 
-> **[A PREENCHER]** número final, tabela das selecionadas, e a distância ao resto
-> da população (para mostrar que cobrem os extremos).
+**Refinamento dos critérios de inclusão (achado empírico):** a seleção crua
+apanhou extremos **impraticáveis** — gems acopladas a Rails (`activerecord-import`,
+`rails-i18n`…, precisam de install pesado) e código **auto-gerado** (`twilio-ruby`,
+22 047 métodos de boilerplate). *Extremo matemático ≠ alvo útil.* Adicionados
+dois filtros (`select_corpus.py`): (a) excluir dependência runtime de Rails
+(rails/activerecord/railties/…); (b) cap de tamanho (>2000 métodos). Efeito:
+110 incluídas → 13 Rails + 2 gigantes excluídas → **95 elegíveis**.
+
+**Resultado (k=15, 2026-07-19):** `gitlab`, `parallel`, `rdoc`, `premailer-rails`,
+`faker`, `rubocop-performance`, `virtus`, `formatador`, `concurrent-ruby`,
+`terminal-table`, `timecop`, `addressable`, `chronic`, `rouge`, `fastimage`.
+Span verificado: tamanho 20→1771 métodos, metaprog 0→28.4/100, singleton 0→98%,
+avg LOC/método 4.0→18.3, ≥12 categorias distintas.
+
+**Validação:** das 12 gems escolhidas *ad-hoc* no início, só 3 (`addressable`,
+`chronic`, `faker`) foram recuperadas pela seleção sistemática — evidência de que
+a seleção por juízo **não** coincidia com a diversidade real, e de que este
+processo era necessário.
+
+> Cortar em k=12 (as 12 primeiras da ordenação) ou manter 15 é decisão do corpus
+> final; alguns casos borderline (plugins como `premailer-rails`,
+> `rubocop-performance`) podem ser trocados manualmente com justificação.
 
 ---
 
