@@ -104,20 +104,53 @@ dois filtros (`select_corpus.py`): (a) excluir dependência runtime de Rails
 (rails/activerecord/railties/…); (b) cap de tamanho (>2000 métodos). Efeito:
 110 incluídas → 13 Rails + 2 gigantes excluídas → **95 elegíveis**.
 
-**Resultado (k=15, 2026-07-19):** `gitlab`, `parallel`, `rdoc`, `premailer-rails`,
-`faker`, `rubocop-performance`, `virtus`, `formatador`, `concurrent-ruby`,
-`terminal-table`, `timecop`, `addressable`, `chronic`, `rouge`, `fastimage`.
-Span verificado: tamanho 20→1771 métodos, metaprog 0→28.4/100, singleton 0→98%,
-avg LOC/método 4.0→18.3, ≥12 categorias distintas.
+## 4b. Portão final: instalabilidade isolada (`finalize_corpus.py`)
 
-**Validação:** das 12 gems escolhidas *ad-hoc* no início, só 3 (`addressable`,
-`chronic`, `faker`) foram recuperadas pela seleção sistemática — evidência de que
-a seleção por juízo **não** coincidia com a diversidade real, e de que este
-processo era necessário.
+A análise estática não vê se uma gem **instala sem dependências pesadas**. Passo
+final: percorrer a ordenação de diversidade e, por cada gem, clonar (registar o
+**SHA** = pinning) e instalar as **runtime deps do gemspec** (`gem build` +
+`gem install`, num `GEM_HOME` isolado no clone; NÃO o Gemfile de dev do repo) —
+apagando o clone a seguir. Mantêm-se as 12 primeiras que passam.
 
-> Cortar em k=12 (as 12 primeiras da ordenação) ou manter 15 é decisão do corpus
-> final; alguns casos borderline (plugins como `premailer-rails`,
-> `rubocop-performance`) podem ser trocados manualmente com justificação.
+**Achado — o portão expôs 4 modos de falha reais** (contribuição metodológica;
+qualquer benchmark Ruby os enfrenta):
+1. **dev-deps ≠ runtime-deps** — instalar o Gemfile de dev do repo dava falsos
+   fracassos (tooling irrelevante que não compila). Correto: só o gemspec.
+2. **extensões nativas** (`mysql2`, `bootsnap`, `concurrent-ruby`) — precisam de
+   compilação + libs de sistema (não portável ao Deucalion) → excluídas por
+   classe (deteção: `ext/**/extconf.rb`).
+3. **gemspec dinâmico** (`kramdown` gera-o via Rakefile) — sem gemspec estático,
+   build não-standard → excluída por reprodutibilidade.
+4. **acoplamento a Rails / plugins de ferramentas** — já filtrado na §4a.
+
+## 4c. CORPUS FINAL (12 gems, verificadas + pinadas, 2026-07-19)
+
+| gem | categoria | métodos | metaprog/100 | singleton% | SHA |
+|---|---|---:|---:|---:|---|
+| gitlab | third-party apis | 644 | 1.4 | 4 | `8aef58f39f` |
+| parallel | concurrency | 53 | 9.4 | 75 | `9bc03fe4e8` |
+| rdoc | documentation | 1771 | 1.4 | 5 | `75fecbb911` |
+| faker | testing (data-gen) | 1381 | 0.9 | 98 | `cca4184947` |
+| connection_pool | database tools | 38 | 2.6 | 8 | `b262ff9981` |
+| virtus | core extensions | 204 | **28.4** | 30 | `fce56bd667` |
+| formatador | cli utilities | 20 | 0.0 | 0 | `b059e42ee5` |
+| addressable | core extensions | 132 | 2.3 | 23 | `d298c9f551` |
+| rouge | code highlighting | 844 | 1.8 | 70 | `aed8a2f81e` |
+| pry-byebug | debugging tools | 66 | 3.0 | 2 | `5459d85346` |
+| sprockets | assets | 485 | 1.9 | 11 | `834279b163` |
+| httparty | http clients | 238 | 8.8 | 13 | `2daba91bf3` |
+
+**Span:** métodos 20→1771 · metaprog 0→28.4/100 · singleton 0→98% · avg
+LOC/método 4.0→18.3 · **11 categorias distintas**.
+
+**Validação:** das 12 *ad-hoc* iniciais, só 3 (`addressable`, `faker`, +`httparty`
+via ordenação estendida) sobreviveram à seleção sistemática — a escolha por juízo
+**não** coincidia com a diversidade real. Prova que o Caminho B era necessário.
+
+> Borderline (variedade OK, mas são extensões de outras ferramentas): `pry-byebug`
+> (plugin do pry), `sprockets` (pipeline de assets). Instalam limpo, logo válidos;
+> podem trocar-se por `state_machines` (DSL, metaprog 20.7) ou `timecop` se se
+> preferir "libraries puras". Decisão do corpus final.
 
 ---
 

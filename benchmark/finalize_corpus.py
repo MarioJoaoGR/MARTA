@@ -24,17 +24,29 @@ import tempfile
 import time
 
 RUBY_BIN = os.environ.get("MARTA_RUBY_BIN", "ruby")
-BUNDLE_BIN = os.path.join(os.path.dirname(RUBY_BIN), "bundle") if os.path.dirname(RUBY_BIN) else "bundle"
+_BIN = os.path.dirname(RUBY_BIN)
+GEM_BIN = os.path.join(_BIN, "gem") if _BIN else "gem"
 
 
-def _run(cmd, cwd, timeout):
+def _run(cmd, cwd, timeout, env=None):
     try:
-        r = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True, timeout=timeout)
+        r = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True,
+                           timeout=timeout, env=env)
         return r.returncode == 0, (r.stderr or r.stdout)[-500:]
     except subprocess.TimeoutExpired:
         return False, "timeout"
     except Exception as e:
         return False, str(e)[:300]
+
+
+import glob
+
+
+def _has_native_ext(dest: str) -> bool:
+    """Extensão C/nativa: precisa de compilação + libs de sistema — a 'dep nativa
+    pesada' a evitar (não portável ao Deucalion). Sinal: ext/**/extconf.rb."""
+    return bool(glob.glob(os.path.join(dest, "ext", "**", "extconf.rb"), recursive=True)) \
+        or bool(glob.glob(os.path.join(dest, "ext", "**", "*.c"), recursive=True))
 
 
 def try_install(repo_url: str, dest: str, timeout: int):
@@ -43,11 +55,27 @@ def try_install(repo_url: str, dest: str, timeout: int):
         return {"status": "clone_failed", "detail": err}
     sha = subprocess.run(["git", "-C", dest, "rev-parse", "HEAD"],
                          capture_output=True, text=True).stdout.strip()
-    if not os.path.exists(os.path.join(dest, "Gemfile")):
-        return {"status": "no_gemfile", "sha": sha}
-    # Isolar: gems vão para vendor/bundle DENTRO do clone (nada no store global).
-    _run([BUNDLE_BIN, "config", "set", "--local", "path", "vendor/bundle"], dest, 30)
-    ok, err = _run([BUNDLE_BIN, "install", "--jobs", "4"], dest, timeout)
+
+    if _has_native_ext(dest):
+        return {"status": "native_extension", "sha": sha}
+
+    specs = glob.glob(os.path.join(dest, "*.gemspec"))
+    if not specs:
+        return {"status": "no_gemspec", "sha": sha}
+
+    # Instalar SÓ as runtime deps do gemspec (não o Gemfile de dev do repo, que
+    # arrasta tooling irrelevante e dava falsos install_failed). Tudo num GEM_HOME
+    # isolado dentro do clone -> nada no store global, apagado com o clone.
+    gem_home = os.path.join(dest, ".gem_home")
+    env = {**os.environ, "GEM_HOME": gem_home, "GEM_PATH": gem_home}
+    ok, err = _run([GEM_BIN, "build", os.path.basename(specs[0])], dest, 60, env)
+    if not ok:
+        return {"status": "build_failed", "sha": sha, "detail": err}
+    built = sorted(glob.glob(os.path.join(dest, "*.gem")))
+    if not built:
+        return {"status": "build_failed", "sha": sha}
+    ok, err = _run([GEM_BIN, "install", os.path.basename(built[-1]),
+                    "--install-dir", gem_home, "--no-document"], dest, timeout, env)
     return {"status": "installed" if ok else "install_failed",
             "sha": sha, "detail": None if ok else err}
 
