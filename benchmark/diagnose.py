@@ -53,6 +53,63 @@ def _git(root: str, *args) -> str:
         return ""
 
 
+# Chamadas que denunciam metaprogramação — o que torna um projeto "difícil" e
+# distinto (stress no parser/grafo/inferência estática). Contá-las caracteriza
+# a especificidade do CÓDIGO (o que nos interessa), não a suite de testes.
+METAPROG_CALLS = {
+    "define_method", "define_singleton_method", "method_missing", "respond_to_missing?",
+    "send", "__send__", "public_send", "instance_eval", "class_eval", "module_eval",
+    "instance_exec", "const_get", "const_set", "instance_variable_get",
+    "instance_variable_set", "define_delegator", "def_delegator", "delegate",
+    "method_added", "included", "extended", "inherited",
+}
+
+
+def _code_metrics(proj) -> dict:
+    """Métricas que caracterizam a DIVERSIDADE do código (agnóstico a testes).
+
+    Cada uma mapeia para uma parte da MARTA que é exercida de forma diferente:
+    tamanho de método (contexto do LLM), singletons/mixins/herança (inferência de
+    tipos + grafo), metaprogramação (limite da análise estática), duck-typing
+    (inferência de tipos por uso).
+    """
+    targets = proj.targets
+    n = len(targets) or 1
+    classes = [c for c in proj.type_index.classes.values()]
+    real_classes = [c for c in classes if c.kind == "class"]
+    modules = [c for c in classes if c.kind == "module"]
+
+    method_locs = [t.method.end_line - t.method.start_line + 1 for t in targets]
+    singletons = sum(1 for t in targets if t.method.singleton)
+    duck = sum(1 for t in targets if any((t.method.param_members or {}).values()))
+    mixins = sum(len(c.includes) + len(c.extends) + len(c.prepends) for c in classes)
+
+    metaprog = 0
+    for t in targets:
+        for c in t.method.calls:
+            if c["name"] in METAPROG_CALLS:
+                metaprog += 1
+
+    depths = []
+    for c in real_classes:
+        try:
+            depths.append(len(proj.type_index.ancestors(c.qualified_name)))
+        except Exception:
+            pass
+
+    return {
+        "avg_method_loc": round(sum(method_locs) / n, 1),
+        "max_method_loc": max(method_locs) if method_locs else 0,
+        "pct_singleton": round(100 * singletons / n),
+        "pct_duck_typed": round(100 * duck / n),
+        "modules": len(modules),
+        "mixins_per_class": round(mixins / (len(real_classes) or 1), 2),
+        "max_ancestor_depth": max(depths) if depths else 0,
+        "metaprog_calls": metaprog,
+        "metaprog_per_100methods": round(100 * metaprog / n, 1),
+    }
+
+
 def _loc(root: str, source_dir: str) -> int:
     total = 0
     for dirpath, _dirs, files in os.walk(os.path.join(root, source_dir)):
@@ -118,7 +175,7 @@ def _human_suite_coverage(root: str, source_dir: str, proj: RubyProject,
             "seconds": round(dt, 1)}
 
 
-def diagnose(root: str) -> dict:
+def diagnose(root: str, measure_coverage: bool = False) -> dict:
     root = os.path.abspath(root.rstrip(os.sep))
     name = os.path.basename(root)
     out: dict = {"name": name, "path": root}
@@ -130,11 +187,7 @@ def diagnose(root: str) -> dict:
     out["source_dir"] = source_dir
     out["commit"] = _git(root, "rev-parse", "HEAD")[:12]
     out["commit_date"] = _git(root, "log", "-1", "--format=%cs")
-
-    # A MARTA gera sempre RSpec; o framework aqui é só o da suite HUMANA, para a
-    # medir como baseline de comparação.
-    minitest = _human_suite_framework(root) == "minitest"
-    out["human_framework"] = "minitest" if minitest else "rspec"
+    out["human_framework"] = _human_suite_framework(root)
 
     t0 = time.time()
     proj = RubyProject(root_dir=root, source_dir=source_dir).discover()
@@ -155,16 +208,20 @@ def diagnose(root: str) -> dict:
         "targets_with_types": sum(1 for t in proj.targets if t.judge),
         "parse_errors": parse_errors,
     })
-    out["human_suite"] = _human_suite_coverage(root, source_dir, proj, minitest)
+    out["code"] = _code_metrics(proj)
+
+    if measure_coverage:  # opcional (lento) — baseline de comparação, não seleção
+        out["human_suite"] = _human_suite_coverage(
+            root, source_dir, proj, out["human_framework"] == "minitest")
     return out
 
 
-def main(paths):
+def main(paths, measure_coverage=False):
     rows = []
     for p in paths:
         print(f"→ {p} ...", flush=True)
         try:
-            rows.append(diagnose(p))
+            rows.append(diagnose(p, measure_coverage=measure_coverage))
         except Exception as e:  # diagnóstico nunca deve abortar o lote
             rows.append({"name": os.path.basename(p.rstrip("/")), "error": f"{type(e).__name__}: {e}"[:200]})
 
@@ -172,27 +229,29 @@ def main(paths):
     with open("benchmark/results/diagnose.json", "w", encoding="utf-8") as f:
         json.dump(rows, f, indent=2)
 
-    hdr = ("| gem | fw | ficheiros | LOC | métodos | classes | arestas | "
-           "erros parse | cobertura-base | métodos 100% |")
-    sep = "|" + "---|" * 10
+    # Tabela focada na DIVERSIDADE do código (o critério de seleção).
+    hdr = ("| gem | fw humana | métodos | classes | LOC | avg loc/mét | "
+           "% singleton | % duck | mixins/cl | prof. herança | metaprog/100 | erros parse |")
+    sep = "|" + "---|" * 12
     lines = [hdr, sep]
     for r in rows:
-        if "error" in r and "files" not in r:
-            lines.append(f"| {r['name']} | — | ERRO: {r['error'][:60]} ||||||||")
+        if "files" not in r:
+            lines.append(f"| {r['name']} | ERRO: {r.get('error','?')[:50]} |||||||||||")
             continue
-        hs = r.get("human_suite", {})
-        covp = hs.get("line_coverage_pct")
-        covs = f"{covp}%" if covp is not None else f"n/d ({hs.get('error','?')[:28]})"
+        c = r["code"]
         lines.append(
-            f"| {r['name']} | {r['human_framework']} | {r['files']} | {r['loc']} | "
-            f"{r['target_methods']} | {r['classes']} | {r['call_graph_edges']} | "
-            f"{r['parse_errors']} | {covs} | {hs.get('methods_fully_covered','—')} |"
+            f"| {r['name']} | {r['human_framework']} | {r['target_methods']} | "
+            f"{r['classes']} | {r['loc']} | {c['avg_method_loc']} | {c['pct_singleton']}% | "
+            f"{c['pct_duck_typed']}% | {c['mixins_per_class']} | {c['max_ancestor_depth']} | "
+            f"{c['metaprog_per_100methods']} | {r['parse_errors']} |"
         )
     table = "\n".join(lines)
     with open("benchmark/results/diagnose.md", "w", encoding="utf-8") as f:
-        f.write("# Diagnóstico de candidatas ao corpus\n\n" + table + "\n")
+        f.write("# Diagnóstico de candidatas — diversidade de código\n\n" + table + "\n")
     print("\n" + table)
 
 
 if __name__ == "__main__":
+    argv = [a for a in sys.argv[1:] if a != "--coverage"]
+    main(argv, measure_coverage="--coverage" in sys.argv)
     main(sys.argv[1:])
