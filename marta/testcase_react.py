@@ -554,10 +554,15 @@ class Testcase:
         report_name = f"pytest_report_{safe_model}.json" if safe_model else "pytest_report.json"
 
         try:
+            # errors='replace': testes que imprimem bytes não-UTF8 (ex.: módulos do
+            # ansible) faziam o decode do text=True lançar UnicodeDecodeError e
+            # matavam o RUN INTEIRO. Apanhado no baseline (ansible morreu a
+            # 994/1939 após 13.5h); a marta tinha a mesma bomba, só não a pisou.
+            # Simétrico nos dois tools; robustez de infra, não altera a geração.
             result = subprocess.run(
                 [os.getenv('USER_PYTHON_PATH', 'python'), '-m', 'pytest', self.test_path,
                  '--json-report', f'--json-report-file={report_name}'],
-                capture_output=True, text=True, timeout=30, env=env
+                capture_output=True, text=True, errors='replace', timeout=30, env=env
             )
         except subprocess.TimeoutExpired:
             self.error_message = "time exceeded"
