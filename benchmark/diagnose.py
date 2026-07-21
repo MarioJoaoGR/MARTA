@@ -22,11 +22,20 @@ import time
 from typing import Optional
 
 from marta.ruby_backend import coverage_runner as cov
-from marta.ruby_backend.backend import MinitestBackend, detect_backend
 from marta.ruby_backend.project import RubyProject
 from marta.ruby_backend.ruby_ast import RubyParseError
 
 SOURCE_CANDIDATES = ("lib", "src")
+
+
+def _human_suite_framework(root: str) -> str:
+    """Framework da SUITE HUMANA do projeto — só para a medir (a MARTA gera
+    sempre RSpec, independentemente disto). spec/ => rspec, test/ => minitest."""
+    if os.path.isdir(os.path.join(root, "spec")):
+        return "rspec"
+    if os.path.isdir(os.path.join(root, "test")):
+        return "minitest"
+    return "rspec"
 
 
 def _source_dir(root: str) -> Optional[str]:
@@ -122,18 +131,19 @@ def diagnose(root: str) -> dict:
     out["commit"] = _git(root, "rev-parse", "HEAD")[:12]
     out["commit_date"] = _git(root, "log", "-1", "--format=%cs")
 
-    backend = detect_backend(os.path.join(root, source_dir))
-    minitest = isinstance(backend, MinitestBackend)
-    out["framework"] = "minitest" if minitest else "rspec"
+    # A MARTA gera sempre RSpec; o framework aqui é só o da suite HUMANA, para a
+    # medir como baseline de comparação.
+    minitest = _human_suite_framework(root) == "minitest"
+    out["human_framework"] = "minitest" if minitest else "rspec"
 
     t0 = time.time()
-    proj = RubyProject(root_dir=root, source_dir=source_dir, backend=backend).discover()
+    proj = RubyProject(root_dir=root, source_dir=source_dir).discover()
     out["discover_seconds"] = round(time.time() - t0, 1)
 
     parse_errors = 0
     for f in proj.files:
         try:
-            parse_errors += len(backend.parse_file(f).errors)
+            parse_errors += len(proj.backend.parse_file(f).errors)
         except RubyParseError:
             parse_errors += 1
     out.update({
@@ -174,7 +184,7 @@ def main(paths):
         covp = hs.get("line_coverage_pct")
         covs = f"{covp}%" if covp is not None else f"n/d ({hs.get('error','?')[:28]})"
         lines.append(
-            f"| {r['name']} | {r['framework']} | {r['files']} | {r['loc']} | "
+            f"| {r['name']} | {r['human_framework']} | {r['files']} | {r['loc']} | "
             f"{r['target_methods']} | {r['classes']} | {r['call_graph_edges']} | "
             f"{r['parse_errors']} | {covs} | {hs.get('methods_fully_covered','—')} |"
         )

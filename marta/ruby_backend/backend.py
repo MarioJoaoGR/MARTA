@@ -19,7 +19,7 @@ from abc import ABC, abstractmethod
 from types import ModuleType
 from typing import Any, List, Optional, Tuple
 
-from . import coverage_runner, prompts as ruby_prompts, prompts_minitest, runner, salvage
+from . import coverage_runner, prompts as ruby_prompts, runner, salvage
 from . import ruby_ast
 from .coverage_runner import CoverageResult, MethodCoverage
 from .ruby_ast import ExampleBlock, FileParse, MethodInfo
@@ -143,66 +143,3 @@ class RubyBackend(LanguageBackend):
     @property
     def prompts(self) -> ModuleType:
         return ruby_prompts
-
-
-class MinitestBackend(RubyBackend):
-    """Ruby/Minitest variant. Same parsing, call graph and coverage machinery —
-    only the test framework changes: Minitest tests are plain ``def test_x``
-    methods, run through our JSON-reporter helper, and salvaged by removing
-    failing methods (the same surgery the Python MARTA does on pytest funcs)."""
-
-    test_dir = "test"
-
-    def run_tests(self, test_path: str, load_paths: List[str], cwd: str) -> RSpecResult:
-        return runner.run_minitest(test_path, load_paths=load_paths, cwd=cwd)
-
-    def run_coverage(self, source_dir: str, test_paths: List[str], cwd: str) -> CoverageResult:
-        return coverage_runner.run_line_coverage(
-            source_dir, test_paths, cwd=cwd, isolated=True, minitest=True
-        )
-
-    def salvage(
-        self,
-        test_source: str,
-        examples: List[ExampleBlock],
-        failed_lines: List[int],
-        groups=None,
-    ) -> Optional[Tuple[str, int]]:
-        # `examples` (RSpec `it` blocks) are empty for Minitest; the units are
-        # the parsed `def test_*` methods of the generated file.
-        methods = self.parse_source(test_source, "generated_test.rb").methods
-        return salvage.salvage_minitest(test_source, methods, failed_lines)
-
-    @property
-    def prompts(self) -> ModuleType:
-        return prompts_minitest
-
-
-def detect_backend(abs_source_root: str) -> LanguageBackend:
-    """Pick the backend from the project's own layout/Gemfile.
-
-    RSpec wins when there's a ``spec/`` dir or rspec in the Gemfile; Minitest
-    when there's a ``test/`` dir or minitest declared. Defaults to RSpec (the
-    most common choice in the ecosystem)."""
-    root = os.path.dirname(os.path.abspath(abs_source_root.rstrip(os.sep)))
-    has_spec = os.path.isdir(os.path.join(root, "spec"))
-    has_test = os.path.isdir(os.path.join(root, "test"))
-
-    gem_text = ""
-    for name in ("Gemfile", "Gemfile.lock"):
-        p = os.path.join(root, name)
-        if os.path.isfile(p):
-            try:
-                with open(p, "r", encoding="utf-8", errors="ignore") as f:
-                    gem_text += f.read().lower()
-            except OSError:
-                pass
-    if "rspec" in gem_text and has_spec:
-        return RubyBackend()
-    if "minitest" in gem_text and has_test and "rspec" not in gem_text:
-        return MinitestBackend()
-    if has_spec and not has_test:
-        return RubyBackend()
-    if has_test and not has_spec:
-        return MinitestBackend()
-    return RubyBackend()

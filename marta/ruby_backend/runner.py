@@ -26,9 +26,6 @@ from typing import Dict, List, Optional
 from .ruby_ast import RubyParseError, ruby_bin
 
 
-_MINITEST_HELPER = os.path.join(os.path.dirname(__file__), "rb", "marta_minitest_runner.rb")
-
-
 def rspec_bin() -> str:
     override = os.getenv("MARTA_RSPEC_BIN")
     if override:
@@ -170,57 +167,4 @@ def run_rspec(
         examples=examples,
         output=full_output,
         load_error=load_error,
-    )
-
-
-def run_minitest(
-    test_path: str,
-    load_paths: Optional[List[str]] = None,
-    cwd: Optional[str] = None,
-    timeout: int = 60,
-) -> RSpecResult:
-    """Run one Minitest file via our JSON reporter helper.
-
-    Minitest is stdlib but has no JSON output, so ``marta_minitest_runner.rb``
-    installs a reporter that emits the SAME shape as ``rspec -f json`` — hence
-    the shared ``RSpecResult``. The verdict is derived from the JSON summary
-    (not just the exit code), which is the robust signal for both frameworks.
-    """
-    args = [ruby_bin(), _MINITEST_HELPER, test_path]
-    for p in load_paths or []:
-        args += ["-I", p]
-
-    try:
-        proc = subprocess.run(
-            args, cwd=cwd, capture_output=True, text=True, timeout=timeout
-        )
-    except FileNotFoundError as e:
-        raise RubyParseError(f"Ruby binary '{ruby_bin()}' not found") from e
-    except subprocess.TimeoutExpired:
-        return RSpecResult(all_passed=False, output="time exceeded")
-
-    data = _extract_json(proc.stdout)
-    full_output = (proc.stdout + "\n" + proc.stderr).strip()
-    if data is None:
-        return RSpecResult(all_passed=False, output=full_output, load_error=True)
-
-    examples = [
-        ExampleResult(
-            id=ex.get("id", ""),
-            full_description=ex.get("full_description", ""),
-            status=ex.get("status", ""),
-            line_number=ex.get("line_number"),
-            message=(ex.get("exception") or {}).get("message"),
-        )
-        for ex in data.get("examples", [])
-    ]
-    summary = data.get("summary", {})
-    load_error = summary.get("errors_outside_of_examples_count", 0) > 0
-    all_passed = (
-        not load_error
-        and summary.get("failure_count", 1) == 0
-        and summary.get("example_count", 0) > 0
-    )
-    return RSpecResult(
-        all_passed=all_passed, examples=examples, output=full_output, load_error=load_error
     )
