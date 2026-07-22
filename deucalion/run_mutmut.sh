@@ -16,8 +16,15 @@
 # walltime e a continuação (auto-chain) retoma de onde parou. Por isso um walltime
 # curto (4h, seguro em dev-x86) basta: encadeia até acabar os 81 combos.
 #
-# Modelo (escolhe o results dir): default 16b. Para o 236b:
-#   export MODEL=deepseek-coder-v2:236b; sbatch --export=ALL deucalion/run_mutmut.sh
+# Modelo (escolhe o results dir): default 16b. Para outro modelo:
+#   export MODEL=qwen2.5-coder:32b; sbatch --export=ALL deucalion/run_mutmut.sh
+#
+# MUTMUT_TOOL limita a um tool (marta|test4py_baseline|pynguin). ESSENCIAL para
+# correr em PARALELO com uma geração: muta só o tool cujos testes estão ESTÁTICOS.
+# Ex.: durante o re-run da marta → MUTMUT_TOOL=test4py_baseline.
+# Este job é seguro em paralelo (não cria symlinks em /opt/marta nem toca no
+# state.json do harness) — ao contrário do run_benchmark.sh/run_pynguin_cpu.sh,
+# que partilham os symlinks baselines/harness e baselines/Results_*.
 # ⚠️ Confirmar a partição CPU do teu cluster; dev-x86 é a que temos usado.
 # ─────────────────────────────────────────────────────────────────────────────
 
@@ -59,7 +66,7 @@ srun -n1 singularity exec \
     --env "MUTMUT_SCRATCH=/data/results/_mutmut_scratch" \
     --env "PYTHONUNBUFFERED=1" \
     "$CONTAINER" /opt/conda/envs/test4py_env/bin/python \
-    /opt/marta/scripts/run_mutmut.py --results /data/results &
+    /opt/marta/scripts/run_mutmut.py --results /data/results ${MUTMUT_TOOL:+--tool "$MUTMUT_TOOL"} &
 
 SRUN_PID=$!
 EXIT_CODE=0
