@@ -155,6 +155,10 @@ class MethodTarget:
 class RubyProject:
     root_dir: str             # project root (cwd for RSpec)
     source_dir: str           # dir containing the code under test, relative to root
+    # Paridade com o get_output_root do Python: se definido, TODOS os outputs
+    # (marta_specs/, caches) vão para esta pasta em vez de poluírem o projeto.
+    # Run independente = output_root novo, exatamente como no lado Python.
+    output_root: Optional[str] = None
 
     files: List[str] = field(default_factory=list)          # absolute .rb paths
     targets: List[MethodTarget] = field(default_factory=list)
@@ -172,6 +176,18 @@ class RubyProject:
         if self.recorder is None:
             self.recorder = rec.RubyRecorder()
         return self.recorder
+
+    def out_root(self) -> str:
+        """Raiz dos outputs (specs gerados + caches). = get_output_root do
+        Python: output_root quando definido, senão o próprio projeto (legacy)."""
+        if self.output_root:
+            os.makedirs(self.output_root, exist_ok=True)
+            return self.output_root
+        return self.root_dir
+
+    def _spec_dir(self) -> str:
+        return os.path.join(self.out_root(), GENERATED_SPEC_DIR) \
+            if self.output_root else GENERATED_SPEC_DIR
 
     @property
     def abs_source(self) -> str:
@@ -204,6 +220,7 @@ class RubyProject:
                         owner_class=classes_by_qn.get(m.owner) if m.owner else None,
                         file_path=path,
                         require_target=require_target,
+                        spec_dir=self._spec_dir(),
                         siblings=[s for s in by_owner.get(m.owner or "", [])
                                   if s is not m],
                     )
@@ -216,7 +233,7 @@ class RubyProject:
         # muda, não só quando o source muda — mordeu-nos na sondagem 1).
         from .call_graph import RESOLVER_VERSION
         src_hash = f"{cache.compute_source_hash(self.files)}:r{RESOLVER_VERSION}"
-        cg_path = cache.call_graph_path(self.root_dir)
+        cg_path = cache.call_graph_path(self.out_root())
         cached_cg = cache.load_call_graph(cg_path, src_hash)
         # code_changed espelha o Python: cache hit do grafo => source inalterado.
         self.code_changed = cached_cg is None
@@ -277,7 +294,7 @@ class RubyProject:
         targets = self.targets[:limit] if limit else self.targets
         model = os.getenv("MODEL", "default")
         src_hash = cache.compute_source_hash(self.files)
-        path = cache.cache_path(self.root_dir, model)
+        path = cache.cache_path(self.out_root(), model)
 
         if use_cache:
             cached = cache.load_analysis(path, src_hash, model)
@@ -485,7 +502,7 @@ class RubyProject:
     def _all_spec_paths(self) -> List[str]:
         """Every GENERATED spec (marta_specs/), never the project's own spec/ —
         benchmark coverage must reflect only what the tool produced."""
-        specs = glob.glob(os.path.join(self.root_dir, GENERATED_SPEC_DIR, "**", "*.rb"),
+        specs = glob.glob(os.path.join(self.out_root(), GENERATED_SPEC_DIR, "**", "*.rb"),
                           recursive=True)
         return [os.path.relpath(s, self.root_dir) for s in sorted(specs)]
 

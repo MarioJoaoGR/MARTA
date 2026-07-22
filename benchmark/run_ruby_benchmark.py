@@ -105,7 +105,7 @@ class Harness:
         # são contexto determinístico, reutilizado entre runs também no Python.
         if self.fresh_specs:
             import shutil
-            spec_dir = proj / "marta_specs"
+            spec_dir = self.out_dir / name / "marta_specs"
             if spec_dir.is_dir():
                 shutil.rmtree(spec_dir)
                 log(f"  {name}: marta_specs/ limpo (--fresh-specs)")
@@ -113,7 +113,7 @@ class Harness:
                "--project_path", str(proj),
                "--source_path", info["source_path"],
                "--num", str(self.num),
-               "--output_dir", str(self.out_dir / "run_results")]
+               "--output_dir", str(self.out_dir)]
         if self.limit:
             cmd += ["--limit", str(self.limit)]
 
@@ -140,16 +140,18 @@ class Harness:
             from marta.ruby_backend import coverage_runner as cov
             from marta.ruby_backend.project import GENERATED_SPEC_DIR, RubyProject
 
-            specs = sorted(str(p.relative_to(proj)) for p in
-                           (proj / GENERATED_SPEC_DIR).glob("**/*.rb")) \
-                if (proj / GENERATED_SPEC_DIR).is_dir() else []
+            out_root = self.out_dir / name
+            spec_root = out_root / GENERATED_SPEC_DIR
+            specs = sorted(str(p) for p in spec_root.glob("**/*.rb")) \
+                if spec_root.is_dir() else []
             if not specs:
                 self.state[key] = {"status": "no_specs"}
                 self.save()
                 return
 
             os.environ.update(_gem_env(proj))  # deps do projeto + rspec global
-            p = RubyProject(root_dir=str(proj), source_dir=info["source_path"]).discover()
+            p = RubyProject(root_dir=str(proj), source_dir=info["source_path"],
+                            output_root=str(out_root)).discover()
             result = cov.run_line_coverage(info["source_path"], specs, cwd=str(proj),
                                            timeout=1800, isolated=True)
             tot_exec = tot_cov = fully = 0

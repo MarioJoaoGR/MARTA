@@ -47,10 +47,11 @@ implementação open-source do **TestGen-LLM da Meta** (não Google). RuTeG (SBS
 - ⚠️ **Fica em aberto:** eficácia real em gems nossas (o run de 2 iterações não
   chega para julgar) — medir no benchmark é precisamente o objetivo.
 
-### Single-prompt baseline (estilo Test4Py-baseline) — ❌ NÃO EXISTE ainda
-O plano prevê-o e o lado Python tem o análogo. Para Ruby há que o construir
-(pequeno: 1 chamada LLM por método, sem ReAct/self-heal, mesmo runner/medição).
-**Ação antes das runs a sério** (~meio-dia, testável com stub sem LLM).
+### Single-prompt baseline — ❌ DESCARTADO por decisão do utilizador (2026-07-22)
+**Não construímos baselines nossas.** A comparação é contra ferramentas
+EXISTENTES apenas; a ausência delas é o claim de pioneirismo, não um buraco a
+preencher por nós. (Removido do plano; o `single-prompt` referido no plano
+original fica sem efeito.)
 
 ### Sondagem 3 (mutant) — ❌ por fazer
 Licença já verificada (grátis open-source), mas nunca corremos. ⚠️ risco

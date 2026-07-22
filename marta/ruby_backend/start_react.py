@@ -56,7 +56,14 @@ def main():
     print(f"🚀 [MARTA Ruby] A iniciar análise para o projeto: {project_name}")
 
     try:
-        proj = RubyProject(root_dir=args.project_path, source_dir=args.source_path).discover()
+        # Semântica do --output_dir IGUAL ao Python (get_output_root): outputs
+        # (marta_specs/, caches, run_results) vão para {output_dir}/{projeto}/,
+        # sem poluir o projeto. Run independente = output_dir novo.
+        output_root = None
+        if args.output_dir:
+            output_root = os.path.join(os.path.abspath(args.output_dir), project_name)
+        proj = RubyProject(root_dir=args.project_path, source_dir=args.source_path,
+                           output_root=output_root).discover()
         print(f"🔍 [Contexto] {len(proj.files)} ficheiros, {len(proj.targets)} métodos-alvo; "
               f"grafo: {len(proj.call_graph.edges) if proj.call_graph else 0} arestas "
               f"({'source inalterado' if not proj.code_changed else 'source novo/alterado'})")
@@ -84,11 +91,12 @@ def main():
         from marta.ruby_backend.project import GENERATED_SPEC_DIR
         ok = sum(1 for o in outcomes if o.success)
         salvaged = sum(1 for o in outcomes if o.salvaged)
+        specs_at = os.path.join(proj.out_root(), GENERATED_SPEC_DIR)
         print(f"✅ [MARTA Ruby] {ok}/{len(outcomes)} gerações com sucesso "
-              f"({salvaged} via salvamento). Specs em "
-              f"{os.path.join(args.project_path, GENERATED_SPEC_DIR)}")
+              f"({salvaged} via salvamento). Specs em {specs_at}")
 
-        out_dir = args.output_dir or os.path.join(args.project_path, "run_results")
+        out_dir = os.path.join(output_root, "run_results") if output_root \
+            else os.path.join(args.project_path, "run_results")
         path = recorder.end(out_dir, project_name)
         print(f"📊 Métricas em {path}")
 
@@ -96,7 +104,8 @@ def main():
         print("\n🚨 ERRO CRÍTICO NA EXECUÇÃO RUBY!")
         traceback.print_exc()
         try:  # salvamento de emergência das métricas parciais, como o Python
-            out_dir = args.output_dir or os.path.join(args.project_path, "run_results")
+            out_dir = os.path.join(output_root, "run_results") if output_root \
+                else os.path.join(args.project_path, "run_results")
             proj._recorder().end(out_dir, project_name)
         except Exception:
             pass
