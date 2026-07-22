@@ -53,10 +53,12 @@ EXISTENTES apenas; a ausência delas é o claim de pioneirismo, não um buraco a
 preencher por nós. (Removido do plano; o `single-prompt` referido no plano
 original fica sem efeito.)
 
-### Sondagem 3 (mutant) — ❌ por fazer
-Licença já verificada (grátis open-source), mas nunca corremos. ⚠️ risco
-específico Deucalion: a ativação `--usage opensource` pode querer rede — testar
-localmente E no login node antes de contar com mutation score na Fase 1.
+### Sondagem 3 (mutant) — ✅ FEITA (2026-07-22)
+Corrido de verdade na `money`: 12 mutações em `Money#hash`, 11 mortas,
+**mutation score 91.66%**. `--usage opensource` aceite sem conta. Fricções
+mapeadas (locale UTF-8 obrigatório; `RUBYOPT -I` para a integração rspec fora
+de bundle; binário é `mutant-ruby`). Ver `sondagens/s3_mutant/RESULTADOS.md`.
+Pendente só: confirmar no nó offline do Deucalion.
 
 ## C. Benchmark/dados
 
@@ -90,6 +92,6 @@ localmente E no login node antes de contar com mutation score na Fase 1.
 (Ruby no Deucalion — item novo e obrigatório), (ii) o **single-prompt baseline**
 (construir antes das runs, senão a comparação fica só MARTA vs cover-agent),
 (iii) decidir o protocolo do cover-agent (seed specs + sandbox + nº iterações)
-e (iv) mutant por testar. Nada disto exige LLM para preparar, exceto validações
+e (iv) ~~mutant por testar~~ FEITO. Nada disto exige LLM para preparar, exceto validações
 finais. A Fase 1 pode arrancar assim que o modelo for decidido **e** o item D.1
 estiver feito.
