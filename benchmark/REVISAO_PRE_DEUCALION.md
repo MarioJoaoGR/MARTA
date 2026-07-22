@@ -88,10 +88,11 @@ Pendente só: confirmar no nó offline do Deucalion.
 
 ## Veredicto
 
-**A ferramenta e o harness estão prontos.** O que falta é (i) infra no cluster
-(Ruby no Deucalion — item novo e obrigatório), (ii) o **single-prompt baseline**
-(construir antes das runs, senão a comparação fica só MARTA vs cover-agent),
-(iii) decidir o protocolo do cover-agent (seed specs + sandbox + nº iterações)
-e (iv) ~~mutant por testar~~ FEITO. Nada disto exige LLM para preparar, exceto validações
-finais. A Fase 1 pode arrancar assim que o modelo for decidido **e** o item D.1
-estiver feito.
+**A ferramenta e o harness estão prontos.** Falta: (i) infra no cluster (Ruby
+no Deucalion — obrigatório, item D.1) e (ii) decidir o protocolo do cover-agent
+(seed specs + sandbox + nº iterações). **Comparação fechada por decisão:** MARTA
+vs cover-agent (única ferramenta externa viável — Keploy é record-replay de
+APIs, não gera testes de bibliotecas; Diffblue=Java, CoverUp=Python,
+TestPilot=JS) vs suites humanas como referência. Não se constrói baseline
+nossa. A Fase 1 arranca assim que o modelo for decidido **e** o D.1 estiver
+feito.
