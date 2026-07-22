@@ -55,10 +55,11 @@ def _gem_env(proj: pathlib.Path) -> dict:
 
 
 class Harness:
-    def __init__(self, projects_dir, out_dir, num, limit, timeout):
+    def __init__(self, projects_dir, out_dir, num, limit, timeout, fresh_specs=False):
         self.projects_dir = pathlib.Path(projects_dir).resolve()
         self.out_dir = pathlib.Path(out_dir).resolve()
         self.num, self.limit, self.timeout = num, limit, timeout
+        self.fresh_specs = fresh_specs
         self.harness_dir = self.out_dir / "harness"
         self.logs_dir = self.harness_dir / "logs"
         self.state_path = self.harness_dir / "state.json"
@@ -98,6 +99,16 @@ class Harness:
             return self.state[key]["status"] == "ok"
 
         proj = self.projects_dir / name
+        # Runs independentes (desenho experimental: N runs + Wilcoxon): sem
+        # isto, a run k reutilizaria os specs da run k-1 (o skip resume-safe vê
+        # os ficheiros no projeto e não regenera). As caches de ANÁLISE ficam —
+        # são contexto determinístico, reutilizado entre runs também no Python.
+        if self.fresh_specs:
+            import shutil
+            spec_dir = proj / "marta_specs"
+            if spec_dir.is_dir():
+                shutil.rmtree(spec_dir)
+                log(f"  {name}: marta_specs/ limpo (--fresh-specs)")
         cmd = [PYTHON, "-m", "marta.ruby_backend.start_react",
                "--project_path", str(proj),
                "--source_path", info["source_path"],
@@ -187,6 +198,9 @@ def main():
     ap.add_argument("--num", type=int, default=3, help="rondas do loop de cobertura")
     ap.add_argument("--limit", type=int, default=None, help="limitar métodos-alvo (smoke)")
     ap.add_argument("--timeout", type=int, default=0, help="timeout por projeto (0 = sem limite)")
+    ap.add_argument("--fresh-specs", action="store_true",
+                    help="apaga marta_specs/ de cada projeto antes de gerar "
+                         "(runs independentes p/ o desenho N-runs+Wilcoxon)")
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--reset", action="store_true")
     args = ap.parse_args()
@@ -203,7 +217,7 @@ def main():
         config = {k: v for k, v in config.items() if k in wanted}
 
     h = Harness(args.projects_dir, args.out_dir, args.num, args.limit,
-                args.timeout or None)
+                args.timeout or None, fresh_specs=args.fresh_specs)
     if args.reset and h.state_path.exists():
         h.state_path.unlink()
         h.state = {}
