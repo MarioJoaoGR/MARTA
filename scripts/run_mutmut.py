@@ -234,10 +234,11 @@ def run_one(tool, proj, cm, projects, results, dry):
 
     partial = False
     try:
-        subprocess.run([*MUTMUT_CMD, "run"], cwd=scratch, env=env,
-                       capture_output=True, timeout=MUTMUT_TIMEOUT)
+        run = subprocess.run([*MUTMUT_CMD, "run"], cwd=scratch, env=env,
+                             capture_output=True, text=True, timeout=MUTMUT_TIMEOUT)
     except subprocess.TimeoutExpired:
         partial = True
+        run = None
     except FileNotFoundError:
         return {"status": "mutmut_not_found", "hint": " ".join(MUTMUT_CMD)}
 
@@ -245,7 +246,7 @@ def run_one(tool, proj, cm, projects, results, dry):
               for c in ("killed", "survived", "timeout", "suspicious")}
     denom = sum(counts.values())
     score = 100 * counts["killed"] / denom if denom else None
-    return {
+    result = {
         "status": "partial" if partial else "ok",
         "killed": counts["killed"], "survived": counts["survived"],
         "timeout_mut": counts["timeout"], "suspicious": counts["suspicious"],
@@ -253,6 +254,14 @@ def run_one(tool, proj, cm, projects, results, dry):
         # green_tests = os que ficaram DEPOIS de garantir a suite verde em conjunto
         "green_tests": kept, "dropped": len(dropped), "n_mut_files": len(mut_paths),
     }
+    # total=0 apesar de mutar ficheiros reais = o mutmut run falhou (parse/erro)
+    # e o capture escondeu-o. Marca status='run_error' e guarda a última linha do
+    # stderr → diagnóstico sem re-correr às cegas (ex.: tornado/ansible, 2026-07).
+    if denom == 0 and not partial and run is not None:
+        tail = (run.stderr or run.stdout or "").strip().splitlines()
+        result["status"] = "run_error"
+        result["err"] = (tail[-1][:160] if tail else f"rc={run.returncode}")
+    return result
 
 
 def main():
@@ -272,7 +281,7 @@ def main():
     out = os.path.join(args.results, "mutmut.csv")
     cols = ["tool", "project", "status", "score", "killed", "survived",
             "timeout_mut", "suspicious", "total", "green_tests", "dropped",
-            "n_mut_files"]
+            "n_mut_files", "err", "hint"]
 
     # RESUME: salta combos já em mutmut.csv (mutmut é lento; sobrevive ao walltime).
     done = set()
