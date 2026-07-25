@@ -26,7 +26,12 @@
 
 set -euo pipefail
 
-MARTA_ROOT=/projects/F202407648IACDCF2/mario/MARTA
+# MARTA_ROOT configurável: para correr em PARALELO com um job da marta é preciso
+# uma CÓPIA do repo (os symlinks baselines/harness e baselines/Results_* são
+# criados dentro do repo e dois jobs repontam-nos um ao outro). Combinar com um
+# MODEL/results dir diferente (o state.json vive lá) → isolamento total.
+#   export MARTA_ROOT=/projects/.../MARTA_pyn MODEL=pynguin_300s
+MARTA_ROOT="${MARTA_ROOT:-/projects/F202407648IACDCF2/mario/MARTA}"
 CONTAINER=/projects/F202407648IACDCF2/mario/containers/marta_benchmark.sif
 PYDEPS_DIR=/projects/F202407648IACDCF2/mario/pydeps
 RESULTS_DIR=/projects/F202407648IACDCF2/mario/results
