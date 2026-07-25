@@ -85,7 +85,7 @@ def run_line_coverage(
     args += [abs_source, *spec_paths]
     try:
         proc = subprocess.run(
-            args, cwd=cwd, capture_output=True, text=True, timeout=timeout
+            args, cwd=cwd, capture_output=True, text=True, errors='replace', timeout=timeout
         )
     except FileNotFoundError as e:
         raise RubyParseError(f"Ruby binary '{ruby_bin()}' not found") from e

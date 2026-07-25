@@ -49,3 +49,13 @@ Mutation score dos **specs gerados** exige apontar o mutant à *nossa* suite
 (marta_specs) em vez da humana — mesmo mecanismo, `--require` + integração rspec
 com os nossos ficheiros. A fazer no harness de métricas (pós-geração), por
 subject ou por classe (custo: ~44 mutações/s neste exemplo — viável).
+
+## Lições do lado Python (commits do mutmut, jul 2026) — aplicar no harness de mutação Ruby
+Não são código portável (mutmut≠mutant), mas são armadilhas já pagas:
+1. **Validar o baseline com o comando EXATO do runner** (`bbafc97a`): se a suite
+   não estiver verde com *o mesmo comando* que a ferramenta de mutação usa, esta
+   aborta e devolve 0 mutantes. → validar `marta_specs` com o comando exato antes.
+2. **Distinguir "0 mutantes" de "falhou"** (`a933c30c`): capturar o erro quando o
+   total é 0, senão a falha passa por sucesso silencioso.
+3. **Flag para limitar a um tool/subject** (`291a3ff2`): permite paralelizar e
+   fazer sanity-checks rápidos.

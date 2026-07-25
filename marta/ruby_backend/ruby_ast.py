@@ -187,7 +187,7 @@ def _run(args: List[str], stdin: Optional[str] = None) -> dict:
             [ruby_bin(), _HELPER, *args],
             input=stdin,
             capture_output=True,
-            text=True,
+            text=True, errors='replace',
             timeout=30,
         )
     except FileNotFoundError as e:

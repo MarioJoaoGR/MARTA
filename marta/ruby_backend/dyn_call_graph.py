@@ -26,7 +26,7 @@ def run_dynamic(source_dir: str, driver_path: str, cwd: str, timeout: int = 60) 
     try:
         proc = subprocess.run(
             [ruby_bin(), _HELPER, abs_source, driver_path],
-            cwd=cwd, capture_output=True, text=True, timeout=timeout,
+            cwd=cwd, capture_output=True, text=True, errors='replace', timeout=timeout,
         )
     except FileNotFoundError as e:
         raise RubyParseError(f"Ruby binary '{ruby_bin()}' not found") from e

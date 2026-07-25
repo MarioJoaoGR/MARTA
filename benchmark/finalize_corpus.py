@@ -30,7 +30,7 @@ GEM_BIN = os.path.join(_BIN, "gem") if _BIN else "gem"
 
 def _run(cmd, cwd, timeout, env=None):
     try:
-        r = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True,
+        r = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True, errors='replace',
                            timeout=timeout, env=env)
         return r.returncode == 0, (r.stderr or r.stdout)[-500:]
     except subprocess.TimeoutExpired:
@@ -54,7 +54,7 @@ def try_install(repo_url: str, dest: str, timeout: int):
     if not ok:
         return {"status": "clone_failed", "detail": err}
     sha = subprocess.run(["git", "-C", dest, "rev-parse", "HEAD"],
-                         capture_output=True, text=True).stdout.strip()
+                         capture_output=True, text=True, errors='replace').stdout.strip()
 
     if _has_native_ext(dest):
         return {"status": "native_extension", "sha": sha}

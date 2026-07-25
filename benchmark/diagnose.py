@@ -48,7 +48,7 @@ def _source_dir(root: str) -> Optional[str]:
 def _git(root: str, *args) -> str:
     try:
         return subprocess.run(["git", "-C", root, *args], capture_output=True,
-                              text=True, timeout=30).stdout.strip()
+                              text=True, errors='replace', timeout=30).stdout.strip()
     except Exception:
         return ""
 

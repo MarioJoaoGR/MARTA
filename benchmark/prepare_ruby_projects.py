@@ -36,7 +36,7 @@ BUNDLE_BIN = os.path.join(_BIN, "bundle") if _BIN else "bundle"
 def _run(cmd, cwd=None, timeout=600, env=None, quiet=True):
     try:
         r = subprocess.run(cmd, cwd=cwd, timeout=timeout, env=env,
-                           capture_output=True, text=True)
+                           capture_output=True, text=True, errors='replace')
         if r.returncode != 0 and not quiet:
             print(f"    ! {' '.join(cmd[:3])}: {(r.stderr or r.stdout)[-300:]}")
         return r.returncode == 0, (r.stderr or r.stdout)[-400:]

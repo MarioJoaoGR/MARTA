@@ -34,7 +34,7 @@ EXCLUDE = {"rails", "rake", "rspec", "minitest", "bundler", "rubocop-ast",
 def clone(url: str, dest: str) -> bool:
     try:
         r = subprocess.run(["git", "clone", "--depth", "1", url, dest],
-                           capture_output=True, text=True, timeout=120)
+                           capture_output=True, text=True, errors='replace', timeout=120)
         return r.returncode == 0
     except Exception:
         return False

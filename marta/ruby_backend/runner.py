@@ -48,7 +48,7 @@ def syntax_check(source: str, timeout: int = 15) -> Optional[str]:
             [ruby_bin(), "-c"],
             input=source,
             capture_output=True,
-            text=True,
+            text=True, errors='replace',
             timeout=timeout,
         )
     except FileNotFoundError as e:
@@ -136,7 +136,7 @@ def run_rspec(
 
     try:
         proc = subprocess.run(
-            args, cwd=cwd, capture_output=True, text=True, timeout=timeout
+            args, cwd=cwd, capture_output=True, text=True, errors='replace', timeout=timeout
         )
     except FileNotFoundError as e:
         raise RubyParseError(f"rspec binary '{rspec_bin()}' not found") from e

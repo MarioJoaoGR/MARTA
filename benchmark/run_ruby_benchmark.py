@@ -45,7 +45,7 @@ def _gem_env(proj: pathlib.Path) -> dict:
     gem_home = proj / ".gem_home"
     try:
         default_dir = subprocess.run([RUBY_BIN, "-e", "print Gem.default_dir"],
-                                     capture_output=True, text=True, timeout=30).stdout.strip()
+                                     capture_output=True, text=True, errors='replace', timeout=30).stdout.strip()
     except Exception:
         default_dir = ""
     paths = [str(gem_home)] + ([default_dir] if default_dir else [])
