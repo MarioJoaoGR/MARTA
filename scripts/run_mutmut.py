@@ -230,6 +230,12 @@ def run_one(tool, proj, cm, projects, results, dry):
     with open(os.path.join(scratch, "setup.cfg"), "w") as f:
         f.write("[mutmut]\n")
         f.write("paths_to_mutate=" + ",".join(mut_paths) + "\n")
+        # tests_dir EXPLÍCITO: sem isto, o mutmut adivinha procurando uma pasta
+        # 'tests/' no cwd e aborta com FileNotFoundError se não existir. Os
+        # projetos que 'funcionavam' tinham uma pasta tests/ própria copiada do
+        # source; os que não têm (apimd, docstring_parser) falhavam. Apontar aos
+        # NOSSOS testes remove a adivinhação e é correto para todos.
+        f.write("tests_dir=_mut_tests\n")
         f.write("runner=" + runner + "\n")
 
     partial = False
