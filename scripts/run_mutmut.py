@@ -123,30 +123,45 @@ def count_ids(cat, scratch, env):
     return len([t for t in r.stdout.split() if t.strip().isdigit()])
 
 
-def suite_green(mtests, scratch, env):
-    """Corre a suite TODA junta (é o que o mutmut faz). → (ok, [ficheiros que falham]).
+def runner_cmd(scratch):
+    """O comando EXATO que o mutmut vai usar como runner (ver setup.cfg).
+
+    A validação do baseline TEM de usar este mesmo comando: validar com um
+    comando diferente (ex.: sem -x) pode dar verde onde o runner dá vermelho →
+    o mutmut aborta e devolve 0 mutantes (ex.: tqdm, err='1 failed, 51 passed').
+    """
+    return [PY, "-m", "pytest", "_mut_tests", "-x", "-q", "-c", "/dev/null",
+            f"--rootdir={scratch}", "-p", "no:cacheprovider"]
+
+
+def suite_green(scratch, env, runs=2):
+    """Corre a suite TODA junta, como o mutmut faz. → (ok, [ficheiros que falham]).
 
     O filtro por-ficheiro NÃO chega: testes que passam isolados falham em conjunto
     (poluição de estado, ordem, fixtures). Se o baseline não for verde o mutmut
     ABORTA e devolve lixo — era a causa dos total=8/total=0 (ex.: tornado, 286
     passed + 1 failed → mutmut não produzia nada).
+
+    runs=2: repete a validação para apanhar testes FLAKY (passam à 1ª, falham à
+    2ª — típico em código com timing/barras de progresso, ex.: tqdm). Basta
+    falhar numa das passagens para o ficheiro ser removido.
     """
-    cmd = [PY, "-m", "pytest", mtests, "-q", "-c", "/dev/null",
-           "--rootdir", scratch, "-p", "no:cacheprovider"]
-    try:
-        r = subprocess.run(cmd, cwd=scratch, env=env, capture_output=True,
-                           text=True, timeout=GREEN_TIMEOUT * 10)
-    except subprocess.TimeoutExpired:
-        return False, []
-    if r.returncode == 0:
-        return True, []
     bad = set()
-    for line in ((r.stdout or "") + (r.stderr or "")).splitlines():
-        if line.startswith(("FAILED ", "ERROR ")):
-            parts = line.split()
-            if len(parts) > 1:
-                bad.add(os.path.basename(parts[1].split("::")[0]))
-    return False, sorted(bad)
+    for _ in range(runs):
+        try:
+            r = subprocess.run(runner_cmd(scratch), cwd=scratch, env=env,
+                               capture_output=True, text=True,
+                               timeout=GREEN_TIMEOUT * 10)
+        except subprocess.TimeoutExpired:
+            return False, sorted(bad)
+        if r.returncode == 0:
+            continue
+        for line in ((r.stdout or "") + (r.stderr or "")).splitlines():
+            if line.startswith(("FAILED ", "ERROR ")):
+                parts = line.split()
+                if len(parts) > 1:
+                    bad.add(os.path.basename(parts[1].split("::")[0]))
+    return (not bad), sorted(bad)
 
 
 def run_one(tool, proj, cm, projects, results, dry):
@@ -204,29 +219,35 @@ def run_one(tool, proj, cm, projects, results, dry):
     # BASELINE VERDE COM A SUITE JUNTA — o mutmut aborta se os testes não passarem
     # todos juntos. Vai removendo os ficheiros que falham em conjunto até ficar
     # verde (max 6 iterações). Sem isto, 1 teste mau em 287 deitava tudo abaixo.
+    # GREEN_ITERS alto: com -x (igual ao runner do mutmut) o pytest para na 1ª
+    # falha → cada iteração remove ~1 ficheiro. 6 iterações eram poucas para
+    # suites grandes; 25 dá margem sem custo (cada iteração é rápida).
     dropped = []
-    for _ in range(6):
-        ok, bad = suite_green(mtests, scratch, env)
+    for _ in range(int(os.getenv("MUTMUT_GREEN_ITERS", "25"))):
+        ok, bad = suite_green(scratch, env)
         if ok:
             break
         if not bad:
+            # falhou SEM produzir linhas FAILED/ERROR parseáveis (crash de
+            # coleção, erro de import em massa) → não há o que remover.
             return {"status": "suite_not_green", "green_tests": len(green),
-                    "n_mut_files": len(mut_paths)}
+                    "dropped": len(dropped), "n_mut_files": len(mut_paths)}
         for b in bad:
             p = os.path.join(mtests, b)
             if os.path.exists(p):
                 os.remove(p)
                 dropped.append(b)
     else:
-        return {"status": "suite_not_green_6x", "green_tests": len(green),
+        return {"status": "suite_not_green_maxiter", "green_tests": len(green),
                 "dropped": len(dropped), "n_mut_files": len(mut_paths)}
     kept = len(glob.glob(os.path.join(mtests, "test_*.py")))
     if kept == 0:
         return {"status": "no_green_tests", "n_tests": len(test_files)}
 
-    # setup.cfg do mutmut
-    runner = (f"{PY} -m pytest _mut_tests -x -q -c /dev/null "
-              f"--rootdir={scratch} -p no:cacheprovider")
+    # setup.cfg do mutmut — runner_cmd() garante que é EXATAMENTE o comando com
+    # que validámos o baseline verde acima (senão o mutmut aborta com o baseline
+    # vermelho e devolve 0 mutantes).
+    runner = " ".join(runner_cmd(scratch))
     with open(os.path.join(scratch, "setup.cfg"), "w") as f:
         f.write("[mutmut]\n")
         f.write("paths_to_mutate=" + ",".join(mut_paths) + "\n")
