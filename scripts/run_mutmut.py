@@ -123,44 +123,49 @@ def count_ids(cat, scratch, env):
     return len([t for t in r.stdout.split() if t.strip().isdigit()])
 
 
-def runner_cmd(scratch):
-    """O comando EXATO que o mutmut vai usar como runner (ver setup.cfg).
+def runner_cmd(scratch, stop_first=True):
+    """O comando que o mutmut usa como runner (stop_first=True → com -x, igual ao
+    setup.cfg). stop_first=False corre a suite TODA para RECOLHER todas as falhas
+    de uma vez (o -x pára na 1ª → só revelava 1 ficheiro mau por passagem, o que
+    tornava a poda inviável em suites grandes: ansible/tornado esgotavam as
+    iterações). Detetar sem -x, verificar com -x."""
+    cmd = [PY, "-m", "pytest", "_mut_tests", "-q", "-c", "/dev/null",
+           f"--rootdir={scratch}", "-p", "no:cacheprovider"]
+    if stop_first:
+        cmd.insert(4, "-x")
+    return cmd
 
-    A validação do baseline TEM de usar este mesmo comando: validar com um
-    comando diferente (ex.: sem -x) pode dar verde onde o runner dá vermelho →
-    o mutmut aborta e devolve 0 mutantes (ex.: tqdm, err='1 failed, 51 passed').
-    """
-    return [PY, "-m", "pytest", "_mut_tests", "-x", "-q", "-c", "/dev/null",
-            f"--rootdir={scratch}", "-p", "no:cacheprovider"]
+
+def _failing_files(r):
+    bad = set()
+    for line in ((r.stdout or "") + (r.stderr or "")).splitlines():
+        if line.startswith(("FAILED ", "ERROR ")):
+            parts = line.split()
+            if len(parts) > 1:
+                bad.add(os.path.basename(parts[1].split("::")[0]))
+    return bad
 
 
-def suite_green(scratch, env, runs=2):
-    """Corre a suite TODA junta, como o mutmut faz. → (ok, [ficheiros que falham]).
+def suite_green(scratch, env, stop_first, runs=1):
+    """Corre a suite junta, como o mutmut faz. → (ok, [ficheiros que falham]).
 
     O filtro por-ficheiro NÃO chega: testes que passam isolados falham em conjunto
     (poluição de estado, ordem, fixtures). Se o baseline não for verde o mutmut
-    ABORTA e devolve lixo — era a causa dos total=8/total=0 (ex.: tornado, 286
-    passed + 1 failed → mutmut não produzia nada).
+    ABORTA e devolve lixo (era a causa dos total=0).
 
-    runs=2: repete a validação para apanhar testes FLAKY (passam à 1ª, falham à
-    2ª — típico em código com timing/barras de progresso, ex.: tqdm). Basta
-    falhar numa das passagens para o ficheiro ser removido.
+    runs=2 na fase de verificação apanha testes FLAKY (passam à 1ª, falham à 2ª —
+    típico com timing/barras, ex.: tqdm). Basta falhar numa passagem para sair.
     """
     bad = set()
     for _ in range(runs):
         try:
-            r = subprocess.run(runner_cmd(scratch), cwd=scratch, env=env,
+            r = subprocess.run(runner_cmd(scratch, stop_first), cwd=scratch, env=env,
                                capture_output=True, text=True,
                                timeout=GREEN_TIMEOUT * 10)
         except subprocess.TimeoutExpired:
             return False, sorted(bad)
-        if r.returncode == 0:
-            continue
-        for line in ((r.stdout or "") + (r.stderr or "")).splitlines():
-            if line.startswith(("FAILED ", "ERROR ")):
-                parts = line.split()
-                if len(parts) > 1:
-                    bad.add(os.path.basename(parts[1].split("::")[0]))
+        if r.returncode != 0:
+            bad |= _failing_files(r)
     return (not bad), sorted(bad)
 
 
@@ -219,25 +224,39 @@ def run_one(tool, proj, cm, projects, results, dry):
     # BASELINE VERDE COM A SUITE JUNTA — o mutmut aborta se os testes não passarem
     # todos juntos. Vai removendo os ficheiros que falham em conjunto até ficar
     # verde (max 6 iterações). Sem isto, 1 teste mau em 287 deitava tudo abaixo.
-    # GREEN_ITERS alto: com -x (igual ao runner do mutmut) o pytest para na 1ª
-    # falha → cada iteração remove ~1 ficheiro. 6 iterações eram poucas para
-    # suites grandes; 25 dá margem sem custo (cada iteração é rápida).
+    # PODA EM 2 FASES:
+    #  (A) detetar SEM -x → todas as falhas de uma vez → remover em bloco
+    #      (com -x saía 1 ficheiro por passagem: ansible/tornado esgotavam as
+    #       iterações e ficavam sem medição)
+    #  (B) verificar COM -x (comando exato do runner), 2 passagens p/ flaky
+    # Alterna A→B até o baseline ficar verde.
     dropped = []
-    for _ in range(int(os.getenv("MUTMUT_GREEN_ITERS", "25"))):
-        ok, bad = suite_green(scratch, env)
-        if ok:
-            break
-        if not bad:
-            # falhou SEM produzir linhas FAILED/ERROR parseáveis (crash de
-            # coleção, erro de import em massa) → não há o que remover.
-            return {"status": "suite_not_green", "green_tests": len(green),
-                    "dropped": len(dropped), "n_mut_files": len(mut_paths)}
+    max_iter = int(os.getenv("MUTMUT_GREEN_ITERS", "25"))
+
+    def _drop(bad):
         for b in bad:
             p = os.path.join(mtests, b)
             if os.path.exists(p):
                 os.remove(p)
                 dropped.append(b)
-    else:
+
+    ok = False
+    for _ in range(max_iter):
+        okA, badA = suite_green(scratch, env, stop_first=False)   # (A) massa
+        if badA:
+            _drop(badA)
+            continue
+        if not okA:
+            # falhou SEM linhas FAILED/ERROR parseáveis (crash de coleção /
+            # erro de import em massa) → não há o que remover.
+            return {"status": "suite_not_green", "green_tests": len(green),
+                    "dropped": len(dropped), "n_mut_files": len(mut_paths)}
+        okB, badB = suite_green(scratch, env, stop_first=True, runs=2)  # (B) exato
+        if okB:
+            ok = True
+            break
+        _drop(badB)
+    if not ok:
         return {"status": "suite_not_green_maxiter", "green_tests": len(green),
                 "dropped": len(dropped), "n_mut_files": len(mut_paths)}
     kept = len(glob.glob(os.path.join(mtests, "test_*.py")))
