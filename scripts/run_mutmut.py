@@ -192,13 +192,30 @@ def run_one(tool, proj, cm, projects, results, dry):
     if not os.path.exists(ppath):
         return {"status": "project_path_missing"}
     scratch = os.path.join(SCRATCH, tool, proj)
-    shutil.rmtree(scratch, ignore_errors=True)
-    shutil.copytree(ppath, scratch, symlinks=True)
+    # RETOMAR runs 'partial': o mutmut guarda o progresso em .mutmut-cache dentro
+    # do scratch. Apagar o scratch deitava fora os mutantes já avaliados e
+    # recomeçava do zero a cada tentativa (youtube-dl: 4179 → 6247 e nunca
+    # acabava). Se já existe cache, reaproveita-se o scratch e o `mutmut run`
+    # continua de onde ficou. MUTMUT_FRESH=1 força recomeço limpo.
+    resuming = (os.path.exists(os.path.join(scratch, ".mutmut-cache"))
+                and os.getenv("MUTMUT_FRESH", "") != "1")
+    if not resuming:
+        shutil.rmtree(scratch, ignore_errors=True)
+        shutil.copytree(ppath, scratch, symlinks=True)
     scratch_iroot = os.path.join(scratch, iroot_rel)
 
     env = os.environ.copy()
     prev = env.get("PYTHONPATH", "")
     env["PYTHONPATH"] = f"{scratch_iroot}:{prev}" if prev else scratch_iroot
+
+    mtests = os.path.join(scratch, "_mut_tests")
+    # A RETOMAR: o _mut_tests já tem a suite exatamente como foi podada antes.
+    # Re-copiar/re-podar mudaria o conjunto medido (e desperdiçaria tempo) →
+    # salta direto para o mutmut run, que continua pela .mutmut-cache.
+    if resuming and glob.glob(os.path.join(mtests, "test_*.py")):
+        kept = len(glob.glob(os.path.join(mtests, "test_*.py")))
+        dropped = []
+        return _run_mutmut(scratch, env, mut_paths, kept, dropped, resumed=True)
 
     # pré-voo verde
     green = green_filter(test_files, scratch, scratch_iroot, env)
@@ -206,7 +223,6 @@ def run_one(tool, proj, cm, projects, results, dry):
         return {"status": "no_green_tests", "n_tests": len(test_files)}
 
     # copiar testes verdes p/ scratch/_mut_tests (nomes únicos)
-    mtests = os.path.join(scratch, "_mut_tests")
     os.makedirs(mtests, exist_ok=True)
     open(os.path.join(mtests, "__init__.py"), "w").close()
     with open(os.path.join(mtests, "conftest.py"), "w") as f:
@@ -263,9 +279,17 @@ def run_one(tool, proj, cm, projects, results, dry):
     if kept == 0:
         return {"status": "no_green_tests", "n_tests": len(test_files)}
 
-    # setup.cfg do mutmut — runner_cmd() garante que é EXATAMENTE o comando com
-    # que validámos o baseline verde acima (senão o mutmut aborta com o baseline
-    # vermelho e devolve 0 mutantes).
+    return _run_mutmut(scratch, env, mut_paths, kept, dropped)
+
+
+def _run_mutmut(scratch, env, mut_paths, kept, dropped, resumed=False):
+    """Escreve o setup.cfg e corre o mutmut; devolve as contagens.
+
+    Usado pelo caminho normal E pelo de retoma (partial) — garante que os dois
+    escrevem exatamente a mesma configuração.
+    """
+    # runner_cmd() garante que é EXATAMENTE o comando com que validámos o baseline
+    # verde (senão o mutmut aborta com o baseline vermelho e devolve 0 mutantes).
     runner = " ".join(runner_cmd(scratch))
     with open(os.path.join(scratch, "setup.cfg"), "w") as f:
         f.write("[mutmut]\n")
@@ -299,6 +323,7 @@ def run_one(tool, proj, cm, projects, results, dry):
         "total": denom, "score": score,
         # green_tests = os que ficaram DEPOIS de garantir a suite verde em conjunto
         "green_tests": kept, "dropped": len(dropped), "n_mut_files": len(mut_paths),
+        "resumed": int(resumed),
     }
     # total=0 apesar de mutar ficheiros reais = o mutmut run falhou (parse/erro)
     # e o capture escondeu-o. Marca status='run_error' e guarda a última linha do
@@ -327,7 +352,7 @@ def main():
     out = os.path.join(args.results, "mutmut.csv")
     cols = ["tool", "project", "status", "score", "killed", "survived",
             "timeout_mut", "suspicious", "total", "green_tests", "dropped",
-            "n_mut_files", "err", "hint"]
+            "n_mut_files", "resumed", "err", "hint"]
 
     # RESUME: salta combos já em mutmut.csv (mutmut é lento; sobrevive ao walltime).
     done = set()
