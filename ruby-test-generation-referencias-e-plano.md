@@ -134,3 +134,38 @@ aí que a agnosticidade se perde, não no prompt.
 formulação defensável é a habitual em SE: *"to the best of our knowledge"*,
 suportada por (i) esta verificação de código, (ii) as buscas académicas da §6 e
 (iii) a busca no gestor de pacotes do ecossistema. Guardar datas e queries.
+
+### 9.1 Varredura sistemática alargada (2026-07-23) — para além do exemplo do utilizador
+
+Método: (a) survey académico de referência da área, (b) enumeração das ferramentas
+da sua secção de geração de testes, (c) verificação de linguagem por repo/código,
+(d) buscas diretas no GitHub por geradores de RSpec, (e) busca no RubyGems (§9).
+
+**Achado principal — o survey [AwesomeLLM4SE](https://github.com/iSEngLab/AwesomeLLM4SE)
+(SCIS 2025, 1711 linhas):** **ZERO menções a Ruby ou RSpec** em todo o documento.
+(As 3 correspondências de "rspec" que o grep devolve são falsos positivos dentro
+da palavra "Pe-rspec-tives".) Contagem de menções por linguagem: Python 13,
+Rust 8, Java 7, Go 4, JavaScript 3, PHP 1, Kotlin 1, **Ruby 0**.
+
+**Ferramentas da secção "Test Generation" verificadas (25 entradas):**
+
+| Ferramenta | Linguagem | Fonte da verificação |
+|---|---|---|
+| CODAMOSA | Python | assente no Pynguin |
+| RUG | Rust | "Turbo LLM for **Rust** Unit Test Generation" |
+| TestART | Java | repo `sikygu/TestART` |
+| TestSpark (JetBrains) | Java + Kotlin | plugin IntelliJ; changelog anuncia suporte Kotlin |
+| CoverUp | Python | repo `plasma-umass/coverup` |
+| TestPilot | TypeScript/JS | repo `githubnext/testpilot` |
+| ChatUniTest | Java | plugin Maven/IntelliJ |
+| ChatTester | Java | código: `javalang`, JDK+Maven, glob `*.java` |
+| **CasModaTest** | Java | ⚠️ "**model**-agnostic" ≠ *language*-agnostic — confusão fácil |
+
+**Buscas diretas no GitHub** (`rspec+generation+llm`, `ruby+test+generation+ai`,
+`generate+rspec+gpt`, `ruby+unit+test+generation`): **nenhum gerador de testes
+para Ruby**. Os poucos resultados são projetos não relacionados (uma app de
+receitas, um projeto escolar de TDD).
+
+**Conclusão:** a lacuna não é só de ferramentas *utilizáveis* — é de **literatura**.
+A comunidade de LLM4SE não estudou Ruby. Isto reforça o claim e é, em si, um dado
+reportável ("Ruby está ausente do survey de referência da área").
