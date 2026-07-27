@@ -104,3 +104,33 @@ Verificado: Scholar, IEEE Xplore (4 resultados irrelevantes), Scopus/ACM/DBLP (v
 - Antes de decisões de desenho com impacto nos papers (ex: abandonar call graph estático, excluir o mutant, mudar de baseline), parar e apresentar as opções com trade-offs — a decisão é discutida, não tomada unilateralmente.
 - Se um link/dataset estiver morto ou diferente do descrito aqui, registar no RESULTADOS.md e procurar a fonte atual antes de prosseguir.
 - Idioma dos artefactos de investigação (RESULTADOS.md, notas): português ou inglês, mas terminologia técnica e futura escrita de paper em inglês.
+
+---
+
+## 9. Verificação do landscape de ferramentas (2026-07-23) — evidência para o claim
+
+Busca sistemática para responder a "existe alguma ferramenta que gere testes
+unitários para Ruby?". Método: docs oficiais + **inspeção do código-fonte**
+(não confiar em alegações de "language-agnostic") + busca no próprio RubyGems.
+
+| Ferramenta | Alegação | Verificado | Veredicto p/ Ruby |
+|---|---|---|---|
+| **cover-agent / Qodo Cover** (open-source do TestGen-LLM da Meta) | multi-linguagem | instalado e corrido E2E c/ ollama; tem exemplo `ruby_sinatra` | ✅ **única viável** — mas só **estende** suites existentes, não gera de raiz |
+| **ChatTester** (Yuan et al., arXiv 2305.04207) | "prompting" ⇒ pareceria agnóstico | código: exige `JDK>17 + Maven`, `import javalang`, glob `**/src/test/**/*.java`, `javalang.tree.MethodDeclaration` | ❌ **Java hard-coded** |
+| **ChatUniTest** (FSE 2024) | framework LLM | plugin Maven + IntelliJ; "generate tests for an entire **Java** project" | ❌ Java |
+| **Keploy** | "**language-agnostic** (eBPF)" | README: intercepta **tráfego de rede** de apps a correr (record-replay de APIs) | ❌ não gera testes unitários de bibliotecas |
+| Diffblue Cover | comercial | Java/JVM | ❌ |
+| CoverUp, Pynguin | — | Python | ❌ |
+| TestPilot | — | JavaScript | ❌ |
+| **RuTeG** (GECCO 2011) | SBST p/ Ruby | pré-LLM, descontinuado, sem artefacto usável | ❌ morto |
+| Busca no **RubyGems** (`test generation`, `llm test`, `ai test generation`, `gpt rspec`) | — | só geradores de *dados* (faker-likes), relatórios e scaffolding Rails | ❌ nenhuma |
+
+**Lição transversal (o ponto que interessa ao paper):** mesmo as abordagens que
+são "só prompting" na ideia têm o **andaime preso a uma linguagem** — parsing do
+código-fonte, resolução do método focal, sistema de build e execução da suite. É
+aí que a agnosticidade se perde, não no prompt.
+
+**Rigor da afirmação:** não é possível *provar* uma negativa universal. A
+formulação defensável é a habitual em SE: *"to the best of our knowledge"*,
+suportada por (i) esta verificação de código, (ii) as buscas académicas da §6 e
+(iii) a busca no gestor de pacotes do ecossistema. Guardar datas e queries.
