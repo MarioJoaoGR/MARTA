@@ -140,6 +140,32 @@ def runner_cmd(scratch, stop_first=True):
     return cmd
 
 
+def uncollectable_files(mtests, scratch, env):
+    """Ficheiros que rebentam a COLEÇÃO do pytest (não apenas falham).
+
+    Um ficheiro assim mata o pytest inteiro com INTERNALERROR antes de listar as
+    falhas → a poda normal não os vê (o ansible removia ~2 por iteração e nunca
+    convergia). Caso real: um teste instancia `AnsibleModule`, que lê os
+    parâmetros do stdin e chama sys.exit(1) durante a coleção.
+
+    Testa ficheiro-a-ficheiro com --collect-only (rápido, não executa nada);
+    devolve os que não colecionam limpo. Só é chamado quando a deteção normal
+    não produz falhas parseáveis, por isso não pesa no caso comum.
+    """
+    bad = []
+    for f in sorted(glob.glob(os.path.join(mtests, "test_*.py"))):
+        cmd = [PY, "-m", "pytest", "--collect-only", "-q", "-c", "/dev/null",
+               f"--rootdir={scratch}", "-p", "no:cacheprovider", f]
+        try:
+            r = subprocess.run(cmd, cwd=scratch, env=env,
+                               capture_output=True, timeout=60)
+            if r.returncode != 0:
+                bad.append(os.path.basename(f))
+        except subprocess.TimeoutExpired:
+            bad.append(os.path.basename(f))
+    return bad
+
+
 def _failing_files(r):
     bad = set()
     for line in ((r.stdout or "") + (r.stderr or "")).splitlines():
@@ -261,16 +287,28 @@ def run_one(tool, proj, cm, projects, results, dry):
                 dropped.append(b)
 
     ok = False
+    scanned = False
     for _ in range(max_iter):
         okA, badA = suite_green(scratch, env, stop_first=False)   # (A) massa
         if badA:
             _drop(badA)
             continue
         if not okA:
-            # falhou SEM linhas FAILED/ERROR parseáveis (crash de coleção /
-            # erro de import em massa) → não há o que remover.
-            return {"status": "suite_not_green", "green_tests": len(green),
-                    "dropped": len(dropped), "n_mut_files": len(mut_paths)}
+            # Falhou SEM linhas FAILED/ERROR parseáveis → tipicamente um ficheiro
+            # que rebenta a COLEÇÃO (INTERNALERROR, ex.: sys.exit do AnsibleModule)
+            # e mata o pytest antes de reportar seja o que for. Varre
+            # ficheiro-a-ficheiro com --collect-only para os isolar. Uma só vez.
+            if scanned:
+                return {"status": "suite_not_green", "green_tests": len(green),
+                        "dropped": len(dropped), "n_mut_files": len(mut_paths)}
+            scanned = True
+            crashers = uncollectable_files(mtests, scratch, env)
+            if not crashers:
+                return {"status": "suite_not_green", "green_tests": len(green),
+                        "dropped": len(dropped), "n_mut_files": len(mut_paths)}
+            print(f"    ⚠️  {len(crashers)} ficheiros não colecionam (crash) → removidos")
+            _drop(crashers)
+            continue
         okB, badB = suite_green(scratch, env, stop_first=True, runs=2)  # (B) exato
         if okB:
             ok = True
