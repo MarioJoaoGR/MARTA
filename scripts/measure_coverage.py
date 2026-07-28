@@ -1,0 +1,186 @@
+#!/usr/bin/env python3
+"""Mede a cobertura dos testes gerados — IGUAL para os 3 tools, à prova de crash.
+
+PORQUÊ ESTE SCRIPT (e não o coverage.json que os tools produzem):
+o MyCoverage de cada tool corre `pytest <dir_de_testes>` numa única invocação. Se
+UM ficheiro rebentar durante a COLEÇÃO, o pytest morre inteiro e a cobertura
+medida colapsa. Aconteceu no ansible: um teste instancia `AnsibleModule`, que lê
+os parâmetros do stdin (`module_utils/basic.py:_load_params`), falha o
+json.loads e chama `sys.exit(1)` → `INTERNALERROR` → 84 erros em 6s e cobertura
+de ~11% em vez dos ~31% reais. Afeta MARTA e baseline por igual.
+
+Aqui o pytest corre em LOTES (default 50 ficheiros) com `coverage run --append`:
+um lote que rebente perde só os seus testes, os restantes contam. É medição —
+não altera nada em nenhum tool, e aplica-se identicamente aos três.
+
+Cobertura reportada sobre os MÓDULOS-ALVO (projects.json), como os papers.
+
+Uso (dentro do container, num nó CPU):
+  python scripts/measure_coverage.py --results /data/results --tool marta
+  (--tool all p/ os três; ONLY_PROJECTS=a,b p/ subconjunto)
+"""
+import argparse
+import csv
+import glob
+import json
+import os
+import subprocess
+import sys
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+PY = os.getenv("USER_PYTHON_PATH", sys.executable)
+BATCH = int(os.getenv("COV_BATCH", "50"))
+BATCH_TIMEOUT = int(os.getenv("COV_BATCH_TIMEOUT", "900"))
+
+TOOL_DIRS = {
+    "marta": "Results_MARTA",
+    "test4py_baseline": "Results_Test4PyBaseline",
+    "pynguin": "Results_Pynguin",
+}
+
+
+def import_root(project_path, source_path):
+    """Raiz de sys.path (== _import_root do run_benchmark.py)."""
+    src_full = os.path.join(project_path, source_path) if source_path else project_path
+    if source_path and not os.path.exists(os.path.join(src_full, "__init__.py")):
+        return src_full
+    return project_path
+
+
+def _dotted(fname):
+    d = fname[:-3] if fname.endswith(".py") else fname
+    d = d.replace("/", ".").replace("\\", ".").lstrip(".")
+    return d[:-len(".__init__")] if d.endswith(".__init__") else d
+
+
+def _matches(dotted, targets):
+    return any(dotted == t or dotted.endswith("." + t) for t in targets)
+
+
+def find_tests(results, tool, proj):
+    """Ficheiros de teste ATUAIS (exclui arquivos de runs anteriores e quarentena)."""
+    base = os.path.join(results, TOOL_DIRS[tool], proj)
+    return sorted(f for f in glob.glob(os.path.join(base, "**", "test_*.py"), recursive=True)
+                  if "OLD" not in f and "quarantine" not in f and "_cov_" not in f)
+
+
+def measure(results, tool, proj, info, targets):
+    tests = find_tests(results, tool, proj)
+    if not tests:
+        # o tool não produziu testes para este projeto → 0% (não excluir: excluir
+        # inflacionaria a média ao contar só onde o tool teve sucesso)
+        return dict(status="no_tests", stmt=0.0, branch=0.0, lb=0.0,
+                    n_mod=0, n_tests=0, batches_failed=0)
+
+    ppath = info["project_path"]
+    spath = info.get("source_path", "")
+    root = import_root(ppath, spath)
+    if not os.path.isdir(ppath):
+        return dict(status="project_missing", stmt=None, branch=None, lb=None,
+                    n_mod=0, n_tests=len(tests), batches_failed=0)
+
+    env = os.environ.copy()
+    prev = env.get("PYTHONPATH", "")
+    env["PYTHONPATH"] = f"{root}:{prev}" if prev else root
+
+    covdir = os.path.join(results, TOOL_DIRS[tool], proj, f"_cov_{tool}")
+    os.makedirs(covdir, exist_ok=True)
+    dataf = os.path.join(covdir, ".coverage")
+    jf = os.path.join(covdir, "coverage.json")
+    for f in glob.glob(dataf + "*"):
+        os.remove(f)
+
+    # LOTES: um ficheiro que rebente na coleção (sys.exit/INTERNALERROR) só
+    # invalida o seu lote; os restantes continuam a contar.
+    failed = 0
+    for i in range(0, len(tests), BATCH):
+        chunk = tests[i:i + BATCH]
+        cmd = [PY, "-m", "coverage", "run", "--append", "--branch",
+               f"--source={spath or '.'}", f"--data-file={dataf}",
+               "-m", "pytest", "-q", "-c", "/dev/null", "--rootdir", ppath,
+               "--continue-on-collection-errors", "-p", "no:cacheprovider"] + chunk
+        try:
+            r = subprocess.run(cmd, cwd=ppath, env=env,
+                               capture_output=True, timeout=BATCH_TIMEOUT)
+            # returncode 3 (INTERNALERROR) ou 2 (interrupção) = lote perdido
+            if r.returncode in (2, 3):
+                failed += 1
+        except subprocess.TimeoutExpired:
+            failed += 1
+
+    subprocess.run([PY, "-m", "coverage", "json", "-i", f"--data-file={dataf}", "-o", jf],
+                   cwd=ppath, env=env, capture_output=True)
+    try:
+        cj = json.load(open(jf))
+    except Exception as e:
+        return dict(status=f"parse_err:{str(e)[:40]}", stmt=None, branch=None,
+                    lb=None, n_mod=0, n_tests=len(tests), batches_failed=failed)
+
+    tgt = targets.get(proj, [])
+    cl = ns = cb = nb = matched = 0
+    for fname, fobj in cj.get("files", {}).items():
+        if _matches(_dotted(fname), tgt):
+            s = fobj.get("summary", {})
+            cl += s.get("covered_lines", 0);  ns += s.get("num_statements", 0)
+            cb += s.get("covered_branches", 0); nb += s.get("num_branches", 0)
+            matched += 1
+    if matched == 0:
+        return dict(status="no_target_match", stmt=None, branch=None, lb=None,
+                    n_mod=0, n_tests=len(tests), batches_failed=failed)
+    stmt = 100 * cl / ns if ns else 0.0
+    br = 100 * cb / nb if nb else 0.0
+    lb = 100 * (cl + cb) / (ns + nb) if (ns + nb) else 0.0
+    return dict(status="ok", stmt=stmt, branch=br, lb=lb, n_mod=matched,
+                n_tests=len(tests), batches_failed=failed)
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--results", default="/data/results")
+    ap.add_argument("--tool", default="all")
+    ap.add_argument("--cm", default=os.path.join(HERE, "cm_benchmark.json"))
+    ap.add_argument("--projects", default="/opt/marta/projects.json")
+    args = ap.parse_args()
+
+    cm = json.load(open(args.cm))
+    targets = json.load(open(args.projects))
+    tools = list(TOOL_DIRS) if args.tool == "all" else [args.tool]
+    only = set(p.strip() for p in os.getenv("ONLY_PROJECTS", "").split(",") if p.strip())
+
+    out = os.path.join(args.results, "coverage_measured.csv")
+    cols = ["tool", "project", "status", "stmt_pct", "branch_pct", "lb_pct",
+            "n_target_mods", "n_tests", "batches_failed"]
+    done = set()
+    if os.path.exists(out):
+        for row in csv.DictReader(open(out)):
+            done.add((row["tool"], row["project"]))
+
+    print(f"{'tool':18} {'projeto':22} {'status':14} {'stmt':>6} {'brnch':>6} {'l+b':>6} {'#mod':>5} {'#test':>6} {'lotes✗':>7}")
+    print("-" * 100)
+    for tool in tools:
+        for proj in sorted(targets):
+            if only and proj not in only:
+                continue
+            if (tool, proj) in done:
+                continue
+            if proj not in cm:
+                continue
+            r = measure(args.results, tool, proj, cm[proj], targets)
+            f = lambda k: f"{r[k]:.1f}" if r.get(k) is not None else "-"
+            print(f"{tool:18} {proj:22} {r['status']:14} {f('stmt'):>6} {f('branch'):>6} "
+                  f"{f('lb'):>6} {r['n_mod']:>5} {r['n_tests']:>6} {r['batches_failed']:>7}")
+            sys.stdout.flush()
+            new = not os.path.exists(out)
+            with open(out, "a", newline="") as fh:
+                w = csv.DictWriter(fh, fieldnames=cols)
+                if new:
+                    w.writeheader()
+                w.writerow({"tool": tool, "project": proj, "status": r["status"],
+                            "stmt_pct": r["stmt"], "branch_pct": r["branch"],
+                            "lb_pct": r["lb"], "n_target_mods": r["n_mod"],
+                            "n_tests": r["n_tests"], "batches_failed": r["batches_failed"]})
+    print(f"\nCSV: {out}")
+
+
+if __name__ == "__main__":
+    main()
