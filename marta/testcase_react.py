@@ -14,6 +14,28 @@ from marta.utils import get_code, get_output_root
 from marta.react_logger import log
 
 
+def safe_cwd():
+    """Diretório de trabalho garantidamente existente para os subprocessos de
+    validação.
+
+    Os testes gerados executam código do SUT com inputs arbitrários e alguns são
+    DESTRUTIVOS: um teste do flutils (pathutils/cmdutils) apagou o diretório onde
+    o processo corria. A partir daí `os.getcwd()` falha e o pytest nem arranca
+    ('FileNotFoundError ... in cwd') → TODOS os testes seguintes do projeto eram
+    marcados como falhados e mandados para quarentena, em cascata (flutils: 92
+    dos 93 testes descartados por isto, cobertura 42%→8%).
+
+    Se o cwd tiver desaparecido, recria-o e volta a entrar nele.
+    """
+    try:
+        return os.getcwd()
+    except (FileNotFoundError, OSError):
+        d = os.environ.get("MARTA_SAFE_CWD") or "/tmp/marta_cwd"
+        os.makedirs(d, exist_ok=True)
+        os.chdir(d)
+        return d
+
+
 class TestManager:
     def __init__(self, func, dir_type):
         self.func = func
@@ -559,10 +581,14 @@ class Testcase:
             # matavam o RUN INTEIRO. Apanhado no baseline (ansible morreu a
             # 994/1939 após 13.5h); a marta tinha a mesma bomba, só não a pisou.
             # Simétrico nos dois tools; robustez de infra, não altera a geração.
+            # cwd=safe_cwd(): sem isto o subprocesso herda o cwd do pai, que pode
+            # ter sido APAGADO por um teste destrutivo → pytest não arranca e todos
+            # os testes seguintes do projeto caem em cascata (ver safe_cwd()).
             result = subprocess.run(
                 [os.getenv('USER_PYTHON_PATH', 'python'), '-m', 'pytest', self.test_path,
                  '--json-report', f'--json-report-file={report_name}'],
-                capture_output=True, text=True, errors='replace', timeout=30, env=env
+                capture_output=True, text=True, errors='replace', timeout=30, env=env,
+                cwd=safe_cwd()
             )
         except subprocess.TimeoutExpired:
             self.error_message = "time exceeded"
