@@ -95,7 +95,11 @@ def locate_tests(tool, proj, results):
     ficheiros em quarentena chamam-se 'quarantined_*.py' → não batem em test_*.py.
     """
     base = os.path.join(results, TOOL_DIRS[tool], proj)
-    files = glob.glob(os.path.join(base, "**", "test_*.py"), recursive=True)
+    # EXCLUIR pastas arquivadas de runs anteriores (Test4DT_tests_OLD_prompts/),
+    # quarentena e dirs de medição. Sem isto, o mutmut da marta misturava os
+    # testes VELHOS (prompts antigos) com os novos → medição sem sentido.
+    files = [f for f in glob.glob(os.path.join(base, "**", "test_*.py"), recursive=True)
+             if "OLD" not in f and "quarantine" not in f and "_cov_" not in f]
     return base, sorted(files)
 
 
