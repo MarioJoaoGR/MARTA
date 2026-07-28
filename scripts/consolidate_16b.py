@@ -31,9 +31,20 @@ TOOLS = [("marta", "Results_MARTA"), ("baseline", "Results_Test4PyBaseline")]
 
 
 def _cov_json(proj_dir):
-    hits = glob.glob(os.path.join(proj_dir, "**", "coverage.json"), recursive=True)
+    """coverage.json ATUAL do projeto.
+
+    ⚠️ O glob '**' apanha também os coverage.json de pastas ARQUIVADAS de runs
+    anteriores (Test4DT_tests_OLD_prompts/, *_OLD*, quarentena). Com hits[0] a
+    ordem do filesystem decidia qual era lido → ~18 projetos apareciam com a
+    cobertura EXATA do run antigo. Filtra-se o arquivo e, havendo mais que um,
+    escolhe-se o mais RECENTE (mtime).
+    """
+    hits = [h for h in glob.glob(os.path.join(proj_dir, "**", "coverage.json"),
+                                 recursive=True)
+            if "OLD" not in h and "quarantine" not in h and "_pynguin_cov" not in h]
     if not hits:
         return None
+    hits.sort(key=os.path.getmtime, reverse=True)
     try:
         return json.load(open(hits[0]))
     except Exception:
