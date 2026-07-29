@@ -396,6 +396,19 @@ def main():
             "timeout_mut", "suspicious", "total", "green_tests", "dropped",
             "n_mut_files", "resumed", "err", "hint"]
 
+    # Se o CSV já existe com um cabeçalho ANTIGO (colunas acrescentadas entretanto),
+    # usa-se o cabeçalho do ficheiro: escrever com mais campos do que o header
+    # produzia linhas com colunas a mais → csv.DictReader devolvia-as sob a chave
+    # None e qualquer reescrita rebentava. Preserva compatibilidade sem perder o
+    # que já lá está.
+    if not args.dry_run and os.path.exists(out):
+        with open(out) as f:
+            existing = next(csv.reader(f), None)
+        if existing and existing != cols:
+            print(f"⚠️  cabeçalho existente com {len(existing)} colunas "
+                  f"(código tem {len(cols)}) → a usar o do ficheiro")
+            cols = existing
+
     # RESUME: salta combos já em mutmut.csv (mutmut é lento; sobrevive ao walltime).
     done = set()
     if not args.dry_run and os.path.exists(out):
