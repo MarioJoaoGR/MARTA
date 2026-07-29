@@ -96,21 +96,34 @@ def analyze_file(path):
         if not isinstance(fn, ast.FunctionDef) or not fn.name.startswith("test"):
             continue
         asserts = [n for n in ast.walk(fn) if isinstance(n, ast.Assert)]
-        # pytest.raises / pytest.warns contam como oráculo (não-trivial)
+        # pytest.raises / pytest.warns = oráculo (não-trivial). Conta-se APENAS a
+        # chamada: contar também o `withitem` do `with` duplicava cada raises e
+        # inflacionava artificialmente tools que usam muito este padrão.
         raises = sum(
             1 for n in ast.walk(fn)
-            if isinstance(n, ast.withitem) or (
-                isinstance(n, ast.Call) and getattr(n.func, "attr", "") in ("raises", "warns"))
+            if isinstance(n, ast.Call) and getattr(n.func, "attr", "") in ("raises", "warns")
         )
+        # @pytest.mark.parametrize(..., [caso1, caso2, ...]) → o corpo corre N
+        # vezes. Sem isto, um teste parametrizado com 6 casos contava como 1 e
+        # penalizava injustamente quem usa este padrão (o baseline usa-o).
+        cases = 1
+        for dec in fn.decorator_list:
+            if isinstance(dec, ast.Call) and getattr(dec.func, "attr", "") == "parametrize":
+                for a in dec.args:
+                    if isinstance(a, (ast.List, ast.Tuple)) and a.elts:
+                        cases = max(cases, len(a.elts))
         mock_local = uses_mock_module or any(
             (getattr(n, "id", None) in MOCK_NAMES) or (getattr(n, "attr", None) in MOCK_NAMES)
             for n in ast.walk(fn)
         )
         loc = (fn.end_lineno or fn.lineno) - fn.lineno + 1
+        n_assert = (len(asserts) + raises) * cases
+        n_trivial = sum(1 for a in asserts if _is_trivial(a)) * cases
         out.append({
-            "n_assert": len(asserts) + raises,
-            "n_trivial": sum(1 for a in asserts if _is_trivial(a)),
-            "zero": (len(asserts) + raises) == 0,
+            "n_assert": n_assert,
+            "n_trivial": n_trivial,
+            "n_cases": cases,
+            "zero": n_assert == 0,
             "mock": bool(mock_local),
             "loc": loc,
         })
