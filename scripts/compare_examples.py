@@ -45,16 +45,16 @@ def stem_key(path, modules):
     tolerando o 't' extra do baseline, e limpar os índices finais.
     """
     b = os.path.basename(path)[len("test_"):-len(".py")]
-    best = ""
+    best, best_mod = "", ""
     for m in modules:                     # prefixo mais longo que casar
         p = m.replace(".", "_")
         for cand in (p + "_t", p + "_", p):
             if b.lower().startswith(cand.lower()) and len(cand) > len(best):
-                best = cand
+                best, best_mod = cand, m
     if best:
         b = b[len(best):]
     b = re.sub(r"[_\d]+$", "", b)          # índices de ronda / contador
-    return re.sub(r"[^a-z0-9]", "", b.lower())
+    return best_mod, re.sub(r"[^a-z0-9]", "", b.lower())
 
 
 def main():
@@ -74,7 +74,7 @@ def main():
 
     common = sorted(set(marta) & set(base))
     if args.func:
-        common = [k for k in common if args.func.lower() in k]
+        common = [k for k in common if args.func.lower() in k[1]]
     if not common:
         print(f"sem funções em comum entre MARTA e baseline em {args.project}")
         print(f"  marta: {len(marta)} ficheiros | baseline: {len(base)} | pynguin: {len(pyn)}")
@@ -83,9 +83,12 @@ def main():
         return
 
     key = common[0]
-    # ficheiro do pynguin do MESMO módulo (o nome do módulo é o prefixo da chave)
-    pyn_match = next((p for p in pyn if os.path.basename(p)[5:-3].lower() in key),
-                     pyn[0] if pyn else None)
+    mod, func = key
+    # ficheiro do PYNGUIN do MESMO módulo (ele gera 1 ficheiro por módulo):
+    # test_<modulo_com_underscores>.py — antes caía no primeiro ficheiro do
+    # projeto e a figura mostrava um módulo diferente do das outras duas tools.
+    want = "test_" + mod.replace(".", "_") + ".py"
+    pyn_match = next((p for p in pyn if os.path.basename(p) == want), None)
 
     def block(title, path):
         if not path or not os.path.exists(path):
@@ -96,7 +99,7 @@ def main():
         return (f"### {title}\n`{os.path.basename(path)}`\n\n"
                 f"```python\n{trimmed}{more}\n```\n")
 
-    md = [f"# Testes gerados para `{key}` — projeto `{args.project}`\n",
+    md = [f"# Testes gerados para `{mod}.{func}` — projeto `{args.project}`\n",
           f"_Funções com teste nas 3 ferramentas: {len(common)}_\n",
           block("MARTA", marta[key]),
           block("Test4Py (baseline)", base[key]),
@@ -108,7 +111,7 @@ def main():
     else:
         print(text)
     if len(common) > 1:
-        print(f"\n(outras funções disponíveis: {', '.join(common[1:8])}…)")
+        print('\n(outras funções disponíveis: ' + ', '.join(f'{m}.{f}' for m, f in common[1:8]) + '…)')
 
 
 if __name__ == "__main__":
