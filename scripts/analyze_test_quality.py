@@ -40,33 +40,44 @@ MOCK_NAMES = {"patch", "MagicMock", "Mock", "mocker", "monkeypatch", "AsyncMock"
 
 
 def _is_trivial(node):
-    """Assertion que não codifica intenção semântica forte.
+    """Assertion ESTRUTURALMENTE fraca — não verifica comportamento do SUT.
 
-    - assert isinstance(x, T) / assert x is None / assert x is not None
-    - assert <expr> == <literal>            (regressão: valor observado)
-    - assert True / assert bool(x)
-    - assert mock.called / assert m.call_count == N   (verifica o mock, não o SUT)
+    ⚠️ Critério deliberadamente CONSERVADOR. Comparar com um literal NÃO é
+    trivial: `assert add(2,3) == 5` é precisamente um bom oráculo. Só contam
+    como fracas as formas que não dizem nada sobre o que a função CALCULA:
+
+      • assert True / assert 1                    (constante)
+      • assert isinstance(x, T) / bool(x) / hasattr(...)   (estrutura, não valor)
+      • assert type(x) == T  ou  f"{type(x).__module__}..." == "..."
+            ← o padrão dominante do Pynguin
+      • assert mock.called / m.call_count == N / m.assert_called_with(...)
+            ← verifica o duplo de teste, não o código sob teste
     """
     t = node.test
     if isinstance(t, ast.Constant):
         return True
     if isinstance(t, ast.Call):
-        f = t.func
-        name = getattr(f, "id", None) or getattr(f, "attr", None)
-        if name in ("isinstance", "bool", "len", "hasattr"):
+        name = getattr(t.func, "id", None) or getattr(t.func, "attr", None)
+        if name in ("isinstance", "bool", "hasattr", "callable"):
             return True
-        if name and name.startswith("assert_"):       # mock.assert_called_with
+        if name and name.startswith("assert_"):          # mock.assert_called_with
             return True
     if isinstance(t, ast.Attribute) and t.attr in ("called", "call_count"):
         return True
     if isinstance(t, ast.Compare):
-        # comparação com literal simples = oráculo de regressão
-        if all(isinstance(c, ast.Constant) for c in t.comparators):
-            return True
-        # x.call_count == N  → verifica o mock
         left = t.left
+        # mock: x.call_count == N / x.called == True
         if isinstance(left, ast.Attribute) and left.attr in ("call_count", "called"):
             return True
+        # type(x) == T  → verifica o tipo, não o valor
+        if isinstance(left, ast.Call) and getattr(left.func, "id", None) == "type":
+            return True
+        # f-string sobre type(...) — a assinatura do Pynguin:
+        #   assert f"{type(o).__module__}.{type(o).__qualname__}" == "pkg.Cls"
+        if isinstance(left, ast.JoinedStr):
+            for n in ast.walk(left):
+                if isinstance(n, ast.Call) and getattr(n.func, "id", None) == "type":
+                    return True
     return False
 
 

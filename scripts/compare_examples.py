@@ -65,6 +65,9 @@ def main():
     ap.add_argument("--max-lines", type=int, default=60)
     ap.add_argument("--out", help="escrever markdown para ficheiro")
     ap.add_argument("--projects", default="/opt/marta/projects.json")
+    ap.add_argument("--rank", type=int, metavar="N",
+                    help="lista as N funções onde a MARTA mais supera o baseline "
+                         "em assertions não-triviais (baseline com asserts reais)")
     args = ap.parse_args()
 
     mods = json.load(open(args.projects)).get(args.project, [])
@@ -80,6 +83,34 @@ def main():
         print(f"  marta: {len(marta)} ficheiros | baseline: {len(base)} | pynguin: {len(pyn)}")
         if marta:
             print("  exemplos marta:", list(marta)[:5])
+        return
+
+    # ── MODO RANKING: encontrar o melhor exemplo com base nos DADOS ──────────
+    # Critério: a MARTA tem mais assertions COM SIGNIFICADO (não-triviais) que o
+    # baseline, E o baseline tem assertions reais (b_nt>0, sem assert deletion)
+    # → o contraste é de qualidade de conteúdo, não de o baseline ter batota.
+    if args.rank:
+        from analyze_test_quality import analyze_file
+        cand = []
+        for k in common:
+            m, b = analyze_file(marta[k]), analyze_file(base[k])
+            if not m or not b:
+                continue
+            m_nt = sum(t["n_assert"] - t["n_trivial"] for t in m)
+            b_nt = sum(t["n_assert"] - t["n_trivial"] for t in b)
+            if b_nt < 1 or any(t["zero"] for t in b):
+                continue                      # baseline sem asserts → não serve
+            cand.append((m_nt - b_nt, m_nt, b_nt, len(m), len(b), k))
+        cand.sort(reverse=True)
+        print(f"{'Δnão-triv':>9} {'marta':>12} {'baseline':>12}  função")
+        print(f"{'':>9} {'nt/tests':>12} {'nt/tests':>12}")
+        print("-" * 62)
+        for d, mnt, bnt, mt, bt, k in cand[:args.rank]:
+            print(f"{d:>+9} {f'{mnt}/{mt}':>12} {f'{bnt}/{bt}':>12}  {k[0]}.{k[1]}")
+        if cand:
+            print(f"\nmelhor candidato:  --func {cand[0][5][1]}")
+        else:
+            print("nenhum candidato (baseline sem assertions em todas as funções comuns)")
         return
 
     key = common[0]
