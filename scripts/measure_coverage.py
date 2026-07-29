@@ -90,12 +90,21 @@ def measure(results, tool, proj, info, targets):
     for f in glob.glob(dataf + "*"):
         os.remove(f)
 
+    # RCFILE PRÓPRIO: sem isto o coverage.py lê a configuração DO PROJETO
+    # (.coveragerc / setup.cfg / pyproject.toml no cwd) e aplica os `omit` dele.
+    # O black omite `src/blib2to3` (código vendored) — que são precisamente os
+    # seus 6 módulos-alvo → 0 ficheiros medidos e o projeto ficava sem número.
+    # Cada projeto teria regras diferentes = medição enviesada e não comparável.
+    rcfile = os.path.join(covdir, "coveragerc")
+    with open(rcfile, "w") as f:
+        f.write("[run]\nbranch = True\nomit =\n")
+
     # LOTES: um ficheiro que rebente na coleção (sys.exit/INTERNALERROR) só
     # invalida o seu lote; os restantes continuam a contar.
     failed = 0
     for i in range(0, len(tests), BATCH):
         chunk = tests[i:i + BATCH]
-        cmd = [PY, "-m", "coverage", "run", "--append", "--branch",
+        cmd = [PY, "-m", "coverage", "run", f"--rcfile={rcfile}", "--append", "--branch",
                f"--source={spath or '.'}", f"--data-file={dataf}",
                "-m", "pytest", "-q", "-c", "/dev/null", "--rootdir", ppath,
                "--continue-on-collection-errors", "-p", "no:cacheprovider"] + chunk
@@ -108,7 +117,8 @@ def measure(results, tool, proj, info, targets):
         except subprocess.TimeoutExpired:
             failed += 1
 
-    subprocess.run([PY, "-m", "coverage", "json", "-i", f"--data-file={dataf}", "-o", jf],
+    subprocess.run([PY, "-m", "coverage", "json", f"--rcfile={rcfile}", "-i",
+                    f"--data-file={dataf}", "-o", jf],
                    cwd=ppath, env=env, capture_output=True)
     try:
         cj = json.load(open(jf))
