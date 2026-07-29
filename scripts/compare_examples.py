@@ -57,6 +57,26 @@ def stem_key(path, modules):
     return best_mod, re.sub(r"[^a-z0-9]", "", b.lower())
 
 
+
+def calls_target(path, func_canon):
+    """O teste INVOCA a função-alvo? (não basta importar/instanciar a classe)
+
+    func_canon vem canonizado (minúsculas, sem '_'), ex. 'fieldgetdefaultvalue'
+    para Field.get_default_value. Procuram-se no código todas as chamadas
+    `nome(` e `.nome(` e vê-se se alguma, canonizada, é sufixo do alvo — isso
+    apanha o método (get_default_value) dentro de Class_method.
+    """
+    try:
+        src = open(path, encoding="utf-8", errors="replace").read()
+    except OSError:
+        return False
+    for name in set(re.findall(r"\.?([A-Za-z_][A-Za-z0-9_]*)\s*\(", src)):
+        canon = re.sub(r"[^a-z0-9]", "", name.lower())
+        if len(canon) >= 4 and func_canon.endswith(canon):
+            return True
+    return False
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--results", default="/data/results")
@@ -100,17 +120,27 @@ def main():
             b_nt = sum(t["n_assert"] - t["n_trivial"] for t in b)
             if b_nt < 1 or any(t["zero"] for t in b):
                 continue                      # baseline sem asserts → não serve
-            cand.append((m_nt - b_nt, m_nt, b_nt, len(m), len(b), k))
+            # A assertion só vale se o teste EXERCITAR a função-alvo. Caso real:
+            # em Field.get_default_value a MARTA tinha 9 assertions "não-triviais"
+            # mas nunca chamava get_default_value() — verificava atributos do
+            # construtor. Contar isso como superioridade seria enganador.
+            m_calls = calls_target(marta[k], k[1])
+            b_calls = calls_target(base[k], k[1])
+            if not m_calls:
+                continue                      # a marta nem toca no alvo → fora
+            cand.append((m_nt - b_nt, m_nt, b_nt, len(m), len(b), b_calls, k))
         cand.sort(reverse=True)
-        print(f"{'Δnão-triv':>9} {'marta':>12} {'baseline':>12}  função")
-        print(f"{'':>9} {'nt/tests':>12} {'nt/tests':>12}")
-        print("-" * 62)
-        for d, mnt, bnt, mt, bt, k in cand[:args.rank]:
-            print(f"{d:>+9} {f'{mnt}/{mt}':>12} {f'{bnt}/{bt}':>12}  {k[0]}.{k[1]}")
+        print(f"{'Δnão-triv':>9} {'marta':>12} {'baseline':>12} {'base chama':>11}  função")
+        print("-" * 74)
+        for d, mnt, bnt, mt, bt, bc, k in cand[:args.rank]:
+            print(f"{d:>+9} {f'{mnt}/{mt}':>12} {f'{bnt}/{bt}':>12} {('sim' if bc else 'NÃO'):>11}  {k[0]}.{k[1]}")
         if cand:
-            print(f"\nmelhor candidato:  --func {cand[0][5][1]}")
+            print(f"\nmelhor candidato:  --func {cand[0][6][1]}")
+            print("(só entram funções que a MARTA realmente invoca; 'base chama'=NÃO "
+                  "significa que o baseline não testa o alvo)")
         else:
-            print("nenhum candidato (baseline sem assertions em todas as funções comuns)")
+            print("nenhum candidato — a MARTA não invoca a função-alvo em nenhuma "
+                  "das funções comuns deste projeto")
         return
 
     key = common[0]
