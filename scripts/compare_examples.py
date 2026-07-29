@@ -16,6 +16,7 @@ Uso:
 """
 import argparse
 import glob
+import json
 import os
 import re
 
@@ -33,11 +34,27 @@ def tests_of(results, dirname, proj):
                   and "_mut_tests" not in f)
 
 
-def stem_key(path):
-    """'test_pymonet_maybe_Maybe_map_0.py' → 'pymonet_maybe_maybe_map' (sem ronda)."""
+def stem_key(path, modules):
+    """Nome canónico da FUNÇÃO testada, comparável entre as 3 ferramentas.
+
+    Os formatos divergem:
+      MARTA     test_<mod_path>_<Func>_<ronda>.py   → 'pymonet_box_Box___eq___0'
+      Test4Py   test_<mod_path>_t<Func><n>.py       → 'pymonet_box_tBox___eq__0'
+                (o dir do baseline é <ficheiro>_t, daí o 't' colado)
+    Estratégia: retirar o prefixo do módulo (de projects.json, com '.'→'_'),
+    tolerando o 't' extra do baseline, e limpar os índices finais.
+    """
     b = os.path.basename(path)[len("test_"):-len(".py")]
-    b = re.sub(r"_\d+$", "", b)          # sufixo de ronda/índice
-    return b.lower()
+    best = ""
+    for m in modules:                     # prefixo mais longo que casar
+        p = m.replace(".", "_")
+        for cand in (p + "_t", p + "_", p):
+            if b.lower().startswith(cand.lower()) and len(cand) > len(best):
+                best = cand
+    if best:
+        b = b[len(best):]
+    b = re.sub(r"[_\d]+$", "", b)          # índices de ronda / contador
+    return re.sub(r"[^a-z0-9]", "", b.lower())
 
 
 def main():
@@ -47,10 +64,12 @@ def main():
     ap.add_argument("--func", help="filtro (substring do nome do ficheiro)")
     ap.add_argument("--max-lines", type=int, default=60)
     ap.add_argument("--out", help="escrever markdown para ficheiro")
+    ap.add_argument("--projects", default="/opt/marta/projects.json")
     args = ap.parse_args()
 
-    marta = {stem_key(p): p for p in tests_of(args.results, TOOL_DIRS["MARTA"], args.project)}
-    base = {stem_key(p): p for p in tests_of(args.results, TOOL_DIRS["Test4Py (baseline)"], args.project)}
+    mods = json.load(open(args.projects)).get(args.project, [])
+    marta = {stem_key(p, mods): p for p in tests_of(args.results, TOOL_DIRS["MARTA"], args.project)}
+    base = {stem_key(p, mods): p for p in tests_of(args.results, TOOL_DIRS["Test4Py (baseline)"], args.project)}
     pyn = tests_of(args.results, TOOL_DIRS["Pynguin"], args.project)
 
     common = sorted(set(marta) & set(base))
