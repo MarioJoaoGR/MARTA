@@ -66,7 +66,7 @@ srun -n1 singularity exec \
     --env "MUTMUT_SCRATCH=/data/results/_mutmut_scratch" \
     --env "PYTHONUNBUFFERED=1" \
     "$CONTAINER" /opt/conda/envs/test4py_env/bin/python \
-    /opt/marta/scripts/run_mutmut.py --results /data/results ${MUTMUT_TOOL:+--tool "$MUTMUT_TOOL"} &
+    /opt/marta/scripts/run_mutmut.py --results /data/results ${MUTMUT_TOOL:+--tool "$MUTMUT_TOOL"} ${MUTMUT_PROJECT:+--project "$MUTMUT_PROJECT"} &
 
 SRUN_PID=$!
 EXIT_CODE=0
