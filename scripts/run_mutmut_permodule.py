@@ -188,10 +188,18 @@ def do_module(task):
 
     status = "ok"
     if kept == 0:
-        # Sem testes utilizáveis: os mutantes deste módulo contam como
-        # SOBREVIVIDOS (não se exclui o módulo — isso favoreceria quem gera
-        # menos testes). Conta-se o total com um runner que falha sempre.
+        # Sem testes utilizáveis para este módulo, os mutantes têm de contar como
+        # SOBREVIVIDOS — excluir o módulo favoreceria quem gera menos testes.
+        # Mas se o baseline não for verde o mutmut ABORTA e não conta nada (visto
+        # no baseline/sty: total 54 em vez de 62, o que INFLACIONAVA o score).
+        # Solução: um teste dummy que passa sempre → baseline verde, o mutmut
+        # corre, e nenhum mutante é detetado (o dummy não importa o módulo) →
+        # todos sobrevivem. É exatamente a semântica correta.
         status = "no_tests" if not tests else "no_green"
+        for f in glob.glob(os.path.join(mtests, "test_*.py")):
+            os.remove(f)
+        with open(os.path.join(mtests, "test_dummy.py"), "w") as f:
+            f.write("def test_dummy():\n    assert True\n")
     try:
         subprocess.run([*MUTMUT_CMD, "run"], cwd=scratch, env=env,
                        capture_output=True, timeout=MODULE_TIMEOUT)
