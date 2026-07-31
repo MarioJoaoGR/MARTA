@@ -86,25 +86,30 @@ quantity.
 
 \begin{table}[htpb]
 \centering
-\caption{Line+branch coverage over the target modules (16B model, 27 projects).
-The module-weighted mean is the benchmark's own unit of evaluation; pooled coverage
-uses an identical denominator for all three tools.}
+\caption{Line+branch coverage over the 486 target modules (16B model). The
+per-module figures treat each module as one observation, which is both the
+benchmark's unit of evaluation and the unit reported by CoverUp; pooled coverage
+uses an identical denominator (68{,}248 coverable elements) for all three tools.
+Modules for which a tool produced no covering test count as 0\%.}
 \label{tab:coverage}
 \begin{tabular}{lrrr}
 \hline
 \textbf{Aggregation} & \textbf{MARTA} & \textbf{Test4Py} & \textbf{Pynguin} \\
 \hline
-Module-weighted (primary) & \textbf{41.8\%} & 38.0\% & 38.7\% \\
-Pooled (overall)          & \textbf{40.6\%} & 37.1\% & 35.3\% \\
+\multicolumn{4}{l}{\textit{Per module (486 observations)}} \\
+\quad Median            & \textbf{44.3\%} & 37.1\% & 43.1\% \\
+\quad Mean              & \textbf{45.2\%} & 39.7\% & 44.8\% \\
+\quad Pooled (overall)  & \textbf{40.6\%} & 37.1\% & 35.3\% \\
 \hline
-Mean over projects        & 49.1\%          & 44.9\% & \textbf{54.7\%} \\
-Median over projects      & 42.1\%          & 43.3\% & \textbf{49.1\%} \\
+\multicolumn{4}{l}{\textit{Per project (27 observations)}} \\
+\quad Mean              & 49.1\%          & 44.9\% & \textbf{54.7\%} \\
+\quad Median            & 42.1\%          & 43.3\% & \textbf{49.1\%} \\
 \hline
 \end{tabular}
 \end{table}
 
-Under both module-level aggregations MARTA ranks first, and it improves over the
-single-prompt baseline under every aggregation, winning 19 of the 27 pairwise
+At the module level MARTA ranks first on all three measures, and it improves over
+the single-prompt baseline under every aggregation, winning 19 of the 27 pairwise
 per-project comparisons. Averaged over projects, however, Pynguin ranks first, and
 the discrepancy between the two views is itself the finding. Pynguin's advantage is
 concentrated in small, structurally simple modules, where an evolutionary search can
@@ -172,7 +177,45 @@ and Phase~1 is restored from cache when the source is unchanged, so no LLM budge
 spent re-deriving context. Pynguin, which performs no inference, is excluded from
 this comparison; its cost is CPU search time (300\,s per module).
 
+\subsection{Comparison with Published Results}
+
+Two of the systems most often cited on this benchmark, CodaMosa
+\cite{lemieux2023codamosa} and CoverUp \cite{altmayer2025coverup}, are not re-executed
+here: CoverUp could not be run to completion under our local-inference setup, and we
+therefore position our measurements against the figures reported in their respective
+publications. Because those figures are stated as per-module medians and overall
+line+branch coverage, Table~\ref{tab:coverage} is directly expressible in the same
+terms.
+
+The comparison first serves as a sanity check on our instrumentation. CodaMosa is
+Pynguin augmented with an LLM, and reports a per-module median of 47.0\%; our
+re-execution of Pynguin alone yields 43.1\%. The residual difference of roughly four
+percentage points is consistent with the contribution attributed to the LLM component
+in the original work, which indicates that our search-based baseline is configured and
+measured in line with the published setup rather than being inadvertently
+handicapped.
+
+Against that reference, MARTA attains a per-module median of 44.3\% and an overall
+coverage of 40.6\% while driven by DeepSeek-Coder-V2-Lite, a mixture-of-experts model
+that activates only 2.4B parameters per token. CoverUp reports substantially higher
+figures (80.0\% median, 60.0\% overall) using GPT-4o. We regard this gap as primarily
+attributable to model capacity rather than to architecture: Pynguin, which performs no
+inference at all, is unaffected by the choice of model and lands within a few points
+of our LLM-driven systems, whereas the LLM-based approaches vary widely with the
+underlying model. This interpretation is examined directly in
+Section~\ref{sec:model-capacity}.
+
+Three caveats bound this comparison, and none of them applies to the Pynguin and
+Test4Py results, which we execute ourselves under identical conditions. First,
+CoverUp is evaluated on 4{,}116 functions derived from the CodaMosa benchmark rather
+than on its 486 modules, so the subject granularity differs. Second, neither CoverUp
+nor CodaMosa was re-executed in our environment, making these external reference
+points rather than controlled baselines. Third, both use frontier models
+(GPT-4o and Codex) served through hosted APIs, whereas all systems we execute are
+served locally on a single GPU.
+
 \subsection{Effect of Model Capacity}
+\label{sec:model-capacity}
 
 % [[QWEN]] Preencher quando a run do Qwen2.5-Coder-32B terminar.
 % Hipótese a testar: se a vantagem MARTA-vs-baseline CRESCE de 16B para 32B,
