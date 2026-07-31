@@ -208,16 +208,30 @@ Pynguin  & 21.9\%          & 17.0\%          & 7 projects \\
 \subsection{Computational Cost}
 
 Decoupling generation into two agents plus a repair loop could reasonably be expected
-to multiply inference cost. It does not. Over the 27 projects, MARTA consumed
-115.5M tokens and 42.2 GPU-hours, against 201.6M tokens and 98.7 GPU-hours for the
-single-prompt baseline: roughly half the cost for a suite of equivalent size and
-stronger oracles. Two design decisions account for this. First, the Assertion Agent
-emits one complete file per function in a single inference call rather than one call
-per scenario, so the planning call is amortized across all scenarios of a function.
-Second, the outer loop regenerates only functions with remaining uncovered lines,
-and Phase~1 is restored from cache when the source is unchanged, so no LLM budget is
-spent re-deriving context. Pynguin, which performs no inference, is excluded from
-this comparison; its cost is CPU search time (300\,s per module).
+to multiply inference cost. To assess this we separate the two phases, since they are
+not architecturally comparable: Phase~1 is a shared context-building pipeline that
+MARTA inherits from the single-prompt baseline and that both systems execute
+identically, whereas Phase~2 is where the architectures actually differ. Conflating
+them is misleading, particularly because Phase~1 results are cached and keyed by a
+content hash of the source, so a run over unchanged code restores them at negligible
+cost.
+
+Measured separately over the 27 projects, the shared analysis phase accounts for
+21.0 GPU-hours when executed from scratch. The generation phase, which is the
+architectural variable, costs 40.6 GPU-hours for MARTA against 81.7 for the
+single-prompt baseline: the decoupled pipeline generates its suites in half the time,
+despite issuing an additional planning call per function. Two design decisions account
+for this. First, the Assertion Agent emits one complete file per function in a single
+inference call rather than one call per scenario, so the planning call is amortized
+across all scenarios of that function. Second, the outer loop regenerates only
+functions with remaining uncovered lines, so later rounds are progressively cheaper.
+In total tokens, MARTA consumed 119.2M against the baseline's 210.4M; this comparison
+is conservative rather than exact, since our logs do not separate tokens by phase and
+the baseline's figure therefore includes its Phase~1 summarization while MARTA's run
+restored Phase~1 from cache.
+
+Pynguin is excluded from this comparison, as it performs no inference at all; its cost
+is CPU search time, fixed at 300\,s per module by configuration.
 
 \subsection{Calibration Against Published Results}
 
