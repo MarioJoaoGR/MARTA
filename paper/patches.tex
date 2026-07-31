@@ -204,3 +204,63 @@ faithful to the published configuration (Section~5.5), and we report the CoverUp
 figures as an end-to-end reference point: the subjects coincide, so the numbers are
 comparable as system results, but the difference in underlying model (GPT-4o against
 a locally served open-weights model) precludes attributing the gap to architecture.
+
+
+% ---------------------------------------------------------------------
+% [8] INTRODUÇÃO — 1.ª contribuição (substituição integral do bullet)
+% PORQUÊ: hoje a contribuição 1 é "o desacoplamento", e é ao desacoplamento
+% que o título, o abstract e a conclusão atribuem todos os resultados. Mas
+% os dois números mais fortes têm outras causas: os oráculos vêm da política
+% de retenção (§3.2.4) e o custo vem do batching ao ficheiro (§5.4). Nenhuma
+% experiência isola o desacoplamento sozinho. Reivindicar o PIPELINE — que é
+% o que de facto construíste e mediste — é simultaneamente mais honesto e
+% mais defensável do que reivindicar uma peça e ser apanhado a atribuir-lhe
+% o mérito das outras.
+% ---------------------------------------------------------------------
+\item A decoupled, multi-agent generation pipeline (\textbf{MARTA}) for Python, whose
+effectiveness rests on four mechanisms operating together: the separation of abstract
+test planning from concrete syntax formulation, which prevents the context dilution
+and instruction forgetting that degrade single-prompt generators; file-level
+generation, in which one inference call emits a complete test file for a function;
+an inner ReAct loop that repairs the file from execution traces; and a retention
+policy that discards what cannot be repaired instead of weakening it. We evaluate the
+pipeline as a whole and attribute each measured effect to the mechanism responsible
+for it, rather than to the decomposition alone.
+
+
+% ---------------------------------------------------------------------
+% [9] ABSTRACT — última frase (substitui de "We conclude that decoupling..."
+%     até ao fim do parágrafo)
+% PORQUÊ: "decoupling ... yields robust suites that detect more faults" é a
+% atribuição exata que a §5 não sustenta. A conclusão que os dados SUPORTAM
+% é sobre o pipeline e sobre a métrica pela qual estes sistemas devem ser
+% julgados — e essa continua a ser forte.
+% ---------------------------------------------------------------------
+We conclude that a pipeline which plans before it writes, generates at file
+granularity, and discards what it cannot repair produces suites that detect more
+faults per unit of coverage. More broadly, these findings indicate that the value of
+such decomposition is revealed by fault detection rather than by structural coverage
+alone, a metric a test suite can satisfy without verifying anything at all.
+
+
+% ---------------------------------------------------------------------
+% [10] CONCLUSÃO — 1.º parágrafo (substituição integral)
+% PORQUÊ: mesma razão do [9]; e acrescenta a ressalva que desarma a crítica
+% em vez de a absorver. Um parágrafo que já reconhece o limite da atribuição
+% não pode ser atacado por não o reconhecer.
+% ---------------------------------------------------------------------
+In this paper, we presented \textbf{MARTA}, an automated code-level robustness and
+regression test generation pipeline for Python. By separating abstract planning from
+syntax formulation, generating one complete test file per function, repairing it
+through a ReAct self-healing loop, and discarding what the loop cannot repair, our
+approach translates complex semantic context into executable suites that retain their
+full verifying power. Our empirical evaluation shows that this pipeline reduces hollow
+oracles by an order of magnitude relative to a single-prompt architecture on the same
+context and the same model, attains the highest coverage and mutation score among the
+evaluated systems, and generates its suites in half the time. We attribute these
+effects to specific mechanisms rather than to the architecture in the abstract: the
+oracle gap follows from the retention policy, the cost reduction from file-level
+batching, and the coverage gain from the outer planning loop. Isolating the
+contribution of the agent decomposition on its own would require an ablation in which
+a single agent performs both planning and syntax formulation under otherwise identical
+conditions, which we leave to future work.
