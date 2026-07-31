@@ -69,50 +69,59 @@ Pynguin          &  4{,}100 & 2.84 & 38.3\%          & 30.4\% \\
 
 \subsection{Structural Coverage}
 
-Because the benchmark projects differ by two orders of magnitude in size (from a
-single module in \texttt{codetiming} to 237 in \texttt{ansible}), the choice of
-aggregation materially changes the ranking. We therefore report three complementary
-aggregations rather than selecting one: the mean over projects, a module-weighted
-mean (the unit of evaluation used in the CodaMosa benchmark, where each of the 486
-modules is a benchmark instance), and a pooled measure computed as the ratio of all
-covered lines and branches to all coverable ones, which is the ``overall'' coverage
-reported by CoverUp. The pooled measure is the strictest of the three: it uses an
-identical denominator (68{,}248 coverable elements) for all tools and involves no
-weighting choice.
+The benchmark defines 486 \emph{modules} as its units of evaluation
+\cite{lemieux2023codamosa}, and we adopt that unit as our primary aggregation. This
+choice is consequential, because the projects differ by more than two orders of
+magnitude in size: \texttt{codetiming} contributes a single module, whereas
+\texttt{ansible} alone contributes 237, that is, 49\% of the benchmark. Averaging
+percentages over projects would therefore weight a one-module utility as heavily as a
+237-module framework. We report the module-weighted mean as our primary result, a
+pooled measure as a weighting-free confirmation, and the mean over projects as a
+secondary view that we analyse separately in the next paragraph. The pooled measure
+is the strictest of the three: computed as the ratio of all covered lines and
+branches to all coverable ones, it uses an identical denominator (68{,}248 coverable
+elements) for the three tools and involves no weighting choice at all; it is also the
+``overall'' coverage reported by CoverUp, which makes it the directly comparable
+quantity.
 
 \begin{table}[htpb]
 \centering
-\caption{Line+branch coverage over the target modules under three aggregations
-(16B model, 27 projects). Pooled coverage uses an identical denominator for all
-three tools.}
+\caption{Line+branch coverage over the target modules (16B model, 27 projects).
+The module-weighted mean is the benchmark's own unit of evaluation; pooled coverage
+uses an identical denominator for all three tools.}
 \label{tab:coverage}
 \begin{tabular}{lrrr}
 \hline
 \textbf{Aggregation} & \textbf{MARTA} & \textbf{Test4Py} & \textbf{Pynguin} \\
 \hline
-Pooled (overall)        & \textbf{40.6\%} & 37.1\% & 35.3\% \\
-Module-weighted         & \textbf{41.8\%} & 38.0\% & 38.7\% \\
-Mean over projects      & 49.1\%          & 44.9\% & \textbf{54.7\%} \\
-Median over projects    & 42.1\%          & 43.3\% & \textbf{49.1\%} \\
+Module-weighted (primary) & \textbf{41.8\%} & 38.0\% & 38.7\% \\
+Pooled (overall)          & \textbf{40.6\%} & 37.1\% & 35.3\% \\
+\hline
+Mean over projects        & 49.1\%          & 44.9\% & \textbf{54.7\%} \\
+Median over projects      & 42.1\%          & 43.3\% & \textbf{49.1\%} \\
 \hline
 \end{tabular}
 \end{table}
 
-MARTA leads under both the pooled and the module-weighted aggregation, and improves
-over the single-prompt baseline under all four, winning 19 of the 27 pairwise
-per-project comparisons. Under the mean over projects, however, Pynguin ranks first.
-This inversion is informative rather than incidental. Averaging over projects assigns
-equal weight to \texttt{codetiming} (one module) and to \texttt{ansible} (237
-modules), and Pynguin's advantage is concentrated precisely in small, structurally
-simple modules where an evolutionary search can exhaust the input space: it reaches
-100\% on \texttt{sty} and 96.2\% on \texttt{codetiming}. On the largest and most
-structurally complex subjects the ordering reverses: on \texttt{ansible}, which alone
-accounts for 49\% of the benchmark's modules, MARTA attains 40.0\% against Pynguin's
-27.7\%; on \texttt{flutils} the gap is 66.6\% against 33.6\%, and on \texttt{black}
-Pynguin covers none of the target modules. This is the coverage plateau that
-motivated LLM-augmented search in the first place \cite{lemieux2023codamosa}: search
-saturates where the state space is large and object construction is non-trivial,
-which is exactly the regime where semantic context helps.
+Under both module-level aggregations MARTA ranks first, and it improves over the
+single-prompt baseline under every aggregation, winning 19 of the 27 pairwise
+per-project comparisons. Averaged over projects, however, Pynguin ranks first, and
+the discrepancy between the two views is itself the finding. Pynguin's advantage is
+concentrated in small, structurally simple modules, where an evolutionary search can
+effectively exhaust the input space: it reaches 100\% on \texttt{sty} (two modules)
+and 96.2\% on \texttt{codetiming} (one module). Because such projects are numerous
+but contribute few modules each, they dominate a per-project average while
+representing a small fraction of the benchmark. On the largest and most complex
+subjects the ordering reverses: on \texttt{ansible} MARTA attains 40.0\% against
+Pynguin's 27.7\%, on \texttt{flutils} 66.6\% against 33.6\%, and on \texttt{black}
+Pynguin covers none of the target modules. This is precisely the coverage plateau
+that motivated augmenting search with LLMs \cite{lemieux2023codamosa}: evolutionary
+search saturates where the state space is large and valid object construction is
+non-trivial, which is the regime in which semantic context pays off. We therefore
+read the two views as complementary rather than contradictory: search-based
+generation remains the stronger choice for small, self-contained modules, while the
+multi-agent pipeline scales better to the complex subjects that dominate the
+benchmark by module count.
 
 \subsection{Fault-Revealing Capability}
 

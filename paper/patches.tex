@@ -1,0 +1,160 @@
+% =====================================================================
+% PATCHES PARA O PAPER — substituições prontas a colar.
+% Cada bloco indica ONDE substitui e PORQUÊ.
+% Base: experiência 16B, 27 projetos / 486 módulos.
+% =====================================================================
+
+
+% ---------------------------------------------------------------------
+% [1] ABSTRACT — último parágrafo
+% PORQUÊ: a versão atual promete "significantly higher yield of valid,
+% executable tests" (na verdade é empate: 11.255 vs 11.235) e "maximizes
+% statement coverage ... " sem ressalva (o Pynguin ganha na média por
+% projeto). O que os dados sustentam é mais forte e é verdadeiro.
+% ---------------------------------------------------------------------
+We evaluate MARTA on 27 open-source Python projects (486 modules) against a
+search-based generator and a state-of-the-art single-prompt LLM baseline running on
+the identical semantic context. Compared to the single-prompt architecture, our
+decoupled pipeline produces suites of equivalent size but markedly stronger oracles:
+0.8\% of its tests contain no assertion, against 7.1\% for the single-prompt baseline
+and 38.3\% for the search-based generator. It attains the highest coverage under
+both module-weighted and pooled aggregation and the highest mutation score of the
+three tools, at roughly half the token and time cost of the single-prompt pipeline.
+A per-project breakdown shows that the search-based generator remains superior on
+small, structurally simple modules, whereas our approach dominates on large and
+complex subjects, precisely the regime in which evolutionary search saturates. These
+results indicate that decomposing regression test generation into planning and
+syntactic sub-tasks yields tests that verify more, rather than merely tests that
+execute more.
+
+
+% ---------------------------------------------------------------------
+% [2] INTRODUÇÃO — 4.º item da lista de contribuições
+% PORQUÊ: "substantially higher yields of valid, executable tests,
+% statement and branch coverage, and mutation score than single-prompt AND
+% search-based baselines" é falso para cobertura vs Pynguin por projeto.
+% ---------------------------------------------------------------------
+\item An empirical study on a state-of-the-art Python benchmark of 27 projects
+showing that the decoupled pipeline yields substantially stronger test oracles and
+higher mutation score than both a single-prompt and a search-based baseline, and
+higher coverage under module-weighted and pooled aggregation, while consuming
+roughly half the tokens and wall-clock time of the single-prompt architecture. We
+further characterize where each paradigm prevails, showing that search-based
+generation retains an advantage on small, simple modules while the multi-agent
+pipeline scales better to large, structurally complex subjects.
+
+
+% ---------------------------------------------------------------------
+% [3] §4.3 IMPLEMENTATION DETAILS — parágrafo dos modelos e temperatura
+% PORQUÊ: (a) o 236B foi substituído pelo Qwen2.5-Coder-32B por
+% restrições de quota (o 236B exige 4 GPUs, ou seja 4x o consumo);
+% (b) o paper afirma T=0.2 para ambos, mas o baseline corre a T=0.0
+% (o seu valor por omissão) — o artefacto é público e contradiz.
+% SUBSTITUI os dois parágrafos que começam em "The pipeline is evaluated
+% at two model scales..." e "Following established practices...".
+% ---------------------------------------------------------------------
+The pipeline is evaluated at two model scales to assess how the architectural
+benefits transfer across model capacity: the lightweight
+\textbf{DeepSeek-Coder-V2-Lite (16B)} and \textbf{Qwen2.5-Coder-32B}. The two differ
+in more than parameter count: DeepSeek-Coder-V2-Lite is a mixture-of-experts model
+that activates only 2.4B parameters per token, whereas Qwen2.5-Coder-32B is dense and
+therefore applies its full 32B parameters to every token, making it a substantially
+stronger reasoner per unit of inference. Both are served locally via Ollama, and the
+retrieval-augmented context module uses the \texttt{BAAI/bge-large-en-v1.5} sentence
+embedder across all configurations. All experiments were conducted on the Deucalion
+HPC cluster, on a single x86/GPU node with one NVIDIA A100 (40\,GB) GPU, 32 CPU
+cores, and 200\,GB of RAM. Because all inference is served locally rather than
+through a hosted API, the runtimes we report reflect genuine on-device inference cost
+(model loading, prompt evaluation, and token decoding) rather than network latency or
+third-party rate limits; to make the computational comparison robust to hardware and
+serving differences, we supplement total runtime with token consumption.
+
+Regarding decoding, each tool is run at the temperature configured by its authors:
+$T=0.2$ for MARTA and $T=0.0$ for the single-prompt baseline. Values at or near zero
+maximize reproducibility but are known to trap models in degenerate, repetitive
+loops \cite{holtzman2020curious}, which is particularly detrimental inside a ReAct
+self-healing loop that requires the model to propose \emph{alternative} corrections
+rather than re-emitting identical invalid syntax; higher temperatures, conversely,
+increase the risk of hallucinated identifiers. We report this asymmetry explicitly
+and revisit it in Section~6.1, as it is the one configuration parameter that is not
+held constant across the two LLM-based systems. Both systems share an identical
+repair budget of $N=3$ LLM generation attempts per test file (one initial generation
+followed by at most two repairs), the same Phase~1 semantic context, and the same
+execution environment.
+
+
+% ---------------------------------------------------------------------
+% [4] §6.1 THREATS — INTERNAL VALIDITY (substituição integral)
+% PORQUÊ: o texto atual afirma "every configuration is repeated across
+% multiple independent runs" — foi feita UMA run por ferramenta. E omite
+% a assimetria de temperatura.
+% ---------------------------------------------------------------------
+\subsection{Internal Validity}
+Internal validity concerns whether the observed improvements can be attributed to our
+architectural treatment rather than to confounding factors. We designed the
+evaluation so that the decoupled architecture is, as far as possible, the only
+independent variable: the single-prompt baseline and MARTA share the identical
+Phase~1 semantic context (the Rich Type Context), the same underlying LLM, the same
+repair budget ($N=3$), and the same execution environment. One parameter is not held
+constant: each system runs at the decoding temperature configured by its authors
+($T=0.2$ for MARTA, $T=0.0$ for the baseline). We report this explicitly rather than
+retrofitting a common value, since altering the baseline's configuration would
+misrepresent the system as published; the direction of its effect is not obvious, as
+a lower temperature favours reproducibility but is also associated with repetitive
+outputs inside repair loops.
+
+A second threat concerns sampling variance. Because local inference for the full
+benchmark is computationally expensive, each configuration was executed once rather
+than repeated; we therefore report per-project distributions (mean and median) and
+assess differences with the Wilcoxon signed-rank test over the paired per-project
+results, but we cannot report confidence intervals over repeated runs, and
+project-level outliers should be interpreted with corresponding caution.
+
+To prevent instrumentation bias, all metrics are computed with established libraries
+(\texttt{coverage.py} for structural adequacy and \texttt{mutmut} for mutation
+analysis) and, critically, through a single measurement pipeline applied uniformly to
+all three tools rather than through each tool's own reporting. This proved necessary:
+measuring coverage with each project's own \texttt{coverage.py} configuration would
+have silently excluded entire target modules in one subject, and executing an entire
+generated suite in a single \texttt{pytest} invocation allows one pathological test to
+abort collection and collapse the measured coverage of a whole project. We therefore
+execute test suites in batches and with a uniform coverage configuration.
+
+A further threat is prompt-engineering effort, as the agent prompts may have received
+more refinement than the baseline; we mitigate this by reusing the baseline's original
+generation prompt from TEST4PY \cite{test4py2025} unchanged. Finally, because the
+benchmark consists of public open-source projects, partial memorization by the LLM
+cannot be excluded; as both systems use the same model, this would affect absolute
+scores rather than the relative comparison on which our conclusions rest.
+
+
+% ---------------------------------------------------------------------
+% [5] §6.2 THREATS — EXTERNAL VALIDITY (parágrafo dos modelos)
+% PORQUÊ: 236B -> Qwen-32B; e a conclusão sobre capacidade do modelo é
+% baseada em DOIS pontos, o que permite afirmar direção, não escala.
+% ---------------------------------------------------------------------
+Regarding the model, our experiments use two open-weights models
+(DeepSeek-Coder-V2-Lite 16B and Qwen2.5-Coder-32B), selected to differ in effective
+reasoning capacity while remaining servable on a single GPU. Two points are
+sufficient to establish a direction but not a scaling law: our observations about how
+the architectural benefit varies with model capacity should be read as indicative
+rather than as a characterized trend. The magnitude of the decoupling benefit may
+also differ for other model families or for frontier API models, which we did not
+evaluate.
+
+
+% ---------------------------------------------------------------------
+% [6] §6.3 THREATS — CONSTRUCT VALIDITY (parágrafo adicional no fim)
+% PORQUÊ: documentar as limitações de medição que encontrámos.
+% ---------------------------------------------------------------------
+Two measurement limitations warrant explicit mention. First, mutation analysis
+attributes each mutant to the module that contains it and executes it against the
+tests targeting that module; a mutant that would only be detected by a test of a
+different module is therefore counted as surviving. We consider this the more
+faithful attribution, but it yields systematically lower scores than executing the
+entire suite against every mutant. Second, our weak-assertion criterion is
+deliberately conservative: it flags only assertions that cannot discriminate
+behaviour (constants, type and \texttt{isinstance} checks, and assertions over mock
+internals) and does \emph{not} penalize comparisons against literal values, since
+these are the canonical form of a correct oracle. The reported weak-assertion rates
+are consequently lower bounds.
