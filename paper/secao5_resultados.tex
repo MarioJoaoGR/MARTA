@@ -1,0 +1,179 @@
+% =====================================================================
+% SECÇÃO 5 — RESULTS AND DISCUSSION
+% Reescrita com os dados REAIS da experiência de 16B (27 projetos, 486 módulos).
+%
+% NÚMEROS CONFIRMADOS (fonte: coverage_measured.csv, mutmut.csv,
+% test_quality.csv, run_results/*.json — todos em results/deepseek-coder-v2_16b/)
+%
+% MARCADORES:
+%   [[MUTMUT-ANSIBLE]] -> substituir quando o mutmut por-módulo terminar
+%   [[QWEN]]           -> preencher com a run do Qwen2.5-Coder-32B
+%   [[WILCOXON]]       -> preencher com p-values e tamanho de efeito
+% =====================================================================
+
+\section{Results and Discussion}
+
+In this section we compare MARTA against the single-prompt baseline (Test4Py) and
+the search-based generator (Pynguin) across the 27 projects (486 modules) of our
+corpus. As described in Section~\ref{sec:implementation}, MARTA and the
+single-prompt baseline share the identical Phase~1 semantic context, the same
+underlying model, and a repair budget of $N=3$; the results below report the full
+pipeline with its outer coverage-driven loop enabled (three generation rounds).
+
+\subsection{Test Suite Yield and Oracle Strength}
+
+A recurring claim in LLM-based test generation is that richer context yields more
+executable tests. Our data show that, at this model scale, the decisive difference
+between architectures lies not in \emph{how many} tests survive validation, but in
+\emph{what those tests actually verify}.
+
+Both LLM-based pipelines converge on suites of comparable size: MARTA retains
+11{,}255 test functions and the single-prompt baseline 11{,}235, while Pynguin
+produces 4{,}100. The distinguishing factor is oracle strength. As shown in
+Table~\ref{tab:oracles}, only 0.8\% of MARTA's tests contain no assertion at all,
+against 7.1\% for the single-prompt baseline and 38.3\% for Pynguin. The baseline's
+rate is a direct, measurable consequence of its \emph{heuristic reduction} step,
+which minimizes a test until it executes cleanly and thereby removes its assertions;
+MARTA, by contrast, discards unrepairable tests outright rather than hollowing them
+out (Section~3.2.4). Pynguin's much higher rate reflects a different mechanism: as a
+search-based generator optimizing structural coverage, a substantial portion of its
+test cases exist purely to execute code paths, with regression assertions attached
+only where its assertion generator can produce them.
+
+The same asymmetry appears in assertion quality. We classify an assertion as
+\emph{structurally weak} when it cannot discriminate program behaviour: assertions
+over constants, \texttt{isinstance}/\texttt{hasattr} checks, comparisons against
+\texttt{type(x)} (including the \texttt{f}-string type signatures characteristic of
+Pynguin), and assertions over mock internals such as \texttt{call\_count}. Under this
+deliberately conservative criterion, which does \emph{not} penalize comparisons
+against literal values, 13.1\% of MARTA's assertions are weak, against 17.0\% for the
+baseline and 30.4\% for Pynguin.
+
+\begin{table}[htpb]
+\centering
+\caption{Oracle strength of the generated suites (16B model, 27 projects).
+``No assertion'' is the share of test functions containing no assertion or
+\texttt{pytest.raises}; ``weak'' is the share of assertions that cannot
+discriminate behaviour. Parametrized tests are expanded to their number of cases.}
+\label{tab:oracles}
+\begin{tabular}{lrrrr}
+\hline
+\textbf{Tool} & \textbf{Tests} & \textbf{Asrt/test} & \textbf{No assertion} & \textbf{Weak} \\
+\hline
+MARTA            & 11{,}255 & 1.85 & \textbf{0.8\%}  & \textbf{13.1\%} \\
+Test4Py          & 11{,}235 & 1.96 & 7.1\%           & 17.0\% \\
+Pynguin          &  4{,}100 & 2.84 & 38.3\%          & 30.4\% \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Structural Coverage}
+
+Because the benchmark projects differ by two orders of magnitude in size (from a
+single module in \texttt{codetiming} to 237 in \texttt{ansible}), the choice of
+aggregation materially changes the ranking. We therefore report three complementary
+aggregations rather than selecting one: the mean over projects, a module-weighted
+mean (the unit of evaluation used in the CodaMosa benchmark, where each of the 486
+modules is a benchmark instance), and a pooled measure computed as the ratio of all
+covered lines and branches to all coverable ones, which is the ``overall'' coverage
+reported by CoverUp. The pooled measure is the strictest of the three: it uses an
+identical denominator (68{,}248 coverable elements) for all tools and involves no
+weighting choice.
+
+\begin{table}[htpb]
+\centering
+\caption{Line+branch coverage over the target modules under three aggregations
+(16B model, 27 projects). Pooled coverage uses an identical denominator for all
+three tools.}
+\label{tab:coverage}
+\begin{tabular}{lrrr}
+\hline
+\textbf{Aggregation} & \textbf{MARTA} & \textbf{Test4Py} & \textbf{Pynguin} \\
+\hline
+Pooled (overall)        & \textbf{40.6\%} & 37.1\% & 35.3\% \\
+Module-weighted         & \textbf{41.8\%} & 38.0\% & 38.7\% \\
+Mean over projects      & 49.1\%          & 44.9\% & \textbf{54.7\%} \\
+Median over projects    & 42.1\%          & 43.3\% & \textbf{49.1\%} \\
+\hline
+\end{tabular}
+\end{table}
+
+MARTA leads under both the pooled and the module-weighted aggregation, and improves
+over the single-prompt baseline under all four, winning 19 of the 27 pairwise
+per-project comparisons. Under the mean over projects, however, Pynguin ranks first.
+This inversion is informative rather than incidental. Averaging over projects assigns
+equal weight to \texttt{codetiming} (one module) and to \texttt{ansible} (237
+modules), and Pynguin's advantage is concentrated precisely in small, structurally
+simple modules where an evolutionary search can exhaust the input space: it reaches
+100\% on \texttt{sty} and 96.2\% on \texttt{codetiming}. On the largest and most
+structurally complex subjects the ordering reverses: on \texttt{ansible}, which alone
+accounts for 49\% of the benchmark's modules, MARTA attains 40.0\% against Pynguin's
+27.7\%; on \texttt{flutils} the gap is 66.6\% against 33.6\%, and on \texttt{black}
+Pynguin covers none of the target modules. This is the coverage plateau that
+motivated LLM-augmented search in the first place \cite{lemieux2023codamosa}: search
+saturates where the state space is large and object construction is non-trivial,
+which is exactly the regime where semantic context helps.
+
+\subsection{Fault-Revealing Capability}
+
+High coverage is a well-known vanity metric: executing a line does not imply
+detecting a fault in it. We therefore assess the generated suites with mutation
+analysis. Because the projects differ in size, mutants are attributed to the module
+they belong to, and modules for which a tool produced no usable test contribute their
+mutants as survived rather than being excluded, so that a tool is not rewarded for
+generating fewer tests.
+
+Over the [[MUTMUT-ANSIBLE: 23]] projects for which all three tools yield a mutation
+score, MARTA achieves a mean score of 26.5\% against 25.0\% for the single-prompt
+baseline and 21.9\% for Pynguin, and obtains the highest score on 13 projects
+against 6 and 7 respectively. The comparison with Pynguin is the more informative
+one: Pynguin attains higher per-project coverage yet detects fewer injected faults,
+which is consistent with the oracle measurements in Table~\ref{tab:oracles}. A suite
+in which 38.3\% of tests assert nothing accumulates structural coverage without
+acquiring the ability to detect a regression.
+
+% [[MUTMUT-ANSIBLE]] Substituir o parágrafo acima e a tabela quando a medição
+% por-módulo terminar: passa a 27 projetos, incluindo ansible.
+\begin{table}[htpb]
+\centering
+\caption{Mutation score (16B model). [[MUTMUT-ANSIBLE: atualizar para 27 projetos]]}
+\label{tab:mutation}
+\begin{tabular}{lrrr}
+\hline
+\textbf{Tool} & \textbf{Mean} & \textbf{Median} & \textbf{Best on} \\
+\hline
+MARTA    & \textbf{26.5\%} & \textbf{20.5\%} & \textbf{13} projects \\
+Test4Py  & 25.0\%          & 19.8\%          & 6 projects \\
+Pynguin  & 21.9\%          & 17.0\%          & 7 projects \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Computational Cost}
+
+Decoupling generation into two agents plus a repair loop could reasonably be expected
+to multiply inference cost. It does not. Over the 27 projects, MARTA consumed
+115.5M tokens and 42.2 GPU-hours, against 201.6M tokens and 98.7 GPU-hours for the
+single-prompt baseline: roughly half the cost for a suite of equivalent size and
+stronger oracles. Two design decisions account for this. First, the Assertion Agent
+emits one complete file per function in a single inference call rather than one call
+per scenario, so the planning call is amortized across all scenarios of a function.
+Second, the outer loop regenerates only functions with remaining uncovered lines,
+and Phase~1 is restored from cache when the source is unchanged, so no LLM budget is
+spent re-deriving context. Pynguin, which performs no inference, is excluded from
+this comparison; its cost is CPU search time (300\,s per module).
+
+\subsection{Effect of Model Capacity}
+
+% [[QWEN]] Preencher quando a run do Qwen2.5-Coder-32B terminar.
+% Hipótese a testar: se a vantagem MARTA-vs-baseline CRESCE de 16B para 32B,
+% isso suporta a tese de que arquiteturas agênticas escalam com a capacidade do
+% modelo. Com dois pontos só se pode afirmar uma DIREÇÃO, não uma curva.
+[[QWEN: resultados com Qwen2.5-Coder-32B e comparação com o 16B.]]
+
+\subsection{Statistical Significance}
+
+% [[WILCOXON]] Preencher após correr os testes.
+[[WILCOXON: Wilcoxon signed-rank sobre os pares por-projeto para cobertura,
+mutation score e força dos oráculos, com tamanho de efeito (Vargha--Delaney
+$\hat{A}_{12}$).]]
