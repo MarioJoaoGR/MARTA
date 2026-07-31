@@ -95,7 +95,7 @@ def tests_by_module(test_files, modules):
 
 def _count(cat, cwd, env):
     r = subprocess.run([*MUTMUT_CMD, "result-ids", cat], cwd=cwd, env=env,
-                       capture_output=True, text=True)
+                       capture_output=True, text=True, errors="replace")
     return len([t for t in r.stdout.split() if t.strip().isdigit()])
 
 
@@ -112,8 +112,11 @@ def _prune_green(mtests, scratch, env):
             if stop_first:
                 cmd.insert(4, "-x")
             try:
+                # errors='replace': testes de projetos como o ansible cospem bytes
+                # nao-UTF8; o decode do text=True lancava UnicodeDecodeError, o worker
+                # morria e o pool.map propagava a excecao, derrubando a run INTEIRA.
                 r = subprocess.run(cmd, cwd=scratch, env=env, capture_output=True,
-                                   text=True, timeout=GREEN_TIMEOUT)
+                                   text=True, errors="replace", timeout=GREEN_TIMEOUT)
             except subprocess.TimeoutExpired:
                 return 0, dropped
             if r.returncode == 0:
@@ -163,7 +166,7 @@ def _init_worker(dirs):
     _WDIR = dirs[(ident[0] - 1) % len(dirs)] if ident else dirs[0]
 
 
-def do_module(task):
+def _do_module(task):
     """Muta UM módulo no scratch DESTE processo. Devolve as contagens."""
     iroot_rel, module, mfile, tests = task
     scratch = _WDIR
@@ -230,6 +233,21 @@ def do_module(task):
          ("killed", "survived", "timeout", "suspicious")}
     return dict(module=module, status=status, killed=c["killed"],
                 total=sum(c.values()), kept=kept, dropped=dropped)
+
+
+def do_module(task):
+    """Nunca deixa uma excecao subir ao Pool.
+
+    O `pool.map` propaga qualquer excecao de um worker e aborta o projeto inteiro
+    — foi assim que o job 1795689 perdeu 2h40 por causa de um unico byte nao-UTF8.
+    Um modulo que rebente conta 0 mutantes mortos, que e o mesmo tratamento
+    conservador ja dado aos modulos sem testes utilizaveis."""
+    try:
+        return _do_module(task)
+    except Exception as e:
+        print(f"   [!] modulo {task[1]}: {type(e).__name__}: {str(e)[:120]}", flush=True)
+        return dict(module=task[1], status=f"crashed:{type(e).__name__}",
+                    killed=0, total=0, kept=0, dropped=0)
 
 
 def run_project(tool, proj, info, modules, results):
