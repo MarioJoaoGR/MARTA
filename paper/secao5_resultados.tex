@@ -75,14 +75,15 @@ choice is consequential, because the projects differ by more than two orders of
 magnitude in size: \texttt{codetiming} contributes a single module, whereas
 \texttt{ansible} alone contributes 237, that is, 49\% of the benchmark. Averaging
 percentages over projects would therefore weight a one-module utility as heavily as a
-237-module framework. We report the module-weighted mean as our primary result, a
-pooled measure as a weighting-free confirmation, and the mean over projects as a
-secondary view that we analyse separately in the next paragraph. The pooled measure
-is the strictest of the three: computed as the ratio of all covered lines and
-branches to all coverable ones, it uses an identical denominator (68{,}248 coverable
-elements) for the three tools and involves no weighting choice at all; it is also the
-``overall'' coverage reported by CoverUp, which makes it the directly comparable
-quantity.
+237-module framework. We consequently treat each module as one observation and report
+its median and mean as our primary results, together with a pooled measure as a
+weighting-free confirmation; the per-project view is retained as a secondary
+perspective and analysed separately below. The pooled measure is the strictest of the
+three: computed as the ratio of all covered lines and branches to all coverable ones,
+it uses an identical denominator (68{,}248 coverable elements) for the three tools and
+involves no weighting choice at all. Both the per-module median and the pooled figure
+are also the quantities reported by CoverUp \cite{altmayer2025coverup}, which makes
+them directly comparable to published results (Section~5.5).
 
 \begin{table}[htpb]
 \centering
