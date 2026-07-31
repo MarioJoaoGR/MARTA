@@ -224,16 +224,24 @@ mutants as survived rather than being excluded, so that a tool is not rewarded f
 generating fewer tests.
 
 Over the [[MUTMUT-ANSIBLE: 23]] projects for which all three tools yield a mutation
-score, MARTA achieves a mean score of 26.5\% against 25.0\% for the single-prompt
-baseline and 21.9\% for Pynguin, and obtains the highest score on 13 projects
-against 6 and 7 respectively. The comparison with Pynguin is the more informative
-one: Pynguin attains higher per-project coverage yet detects fewer injected faults,
-which is consistent with the oracle measurements in Table~\ref{tab:oracles}. A suite
-in which 38.3\% of tests assert nothing accumulates structural coverage without
-acquiring the ability to detect a regression.
+score, MARTA achieves a mean score of [[MEDIAS: 26.5]]\% against [[MEDIAS: 25.0]]\%
+for the single-prompt baseline and [[MEDIAS: 21.9]]\% for Pynguin, and obtains the
+highest score on 11 projects against 5 for the baseline and 8 for Pynguin (one
+project is tied). The comparison with Pynguin is the more informative one: Pynguin
+attains higher per-project coverage yet a lower mean mutation score, which is
+consistent with the oracle measurements in Table~\ref{tab:oracles}. A suite in which
+38.3\% of tests assert nothing accumulates structural coverage without acquiring the
+ability to detect a regression. That said, Pynguin obtains the best score on more
+projects than the single-prompt baseline does, so its weaker oracles cost it the
+aggregate rather than the per-project comparison.
 
 % [[MUTMUT-ANSIBLE]] Substituir o parágrafo acima e a tabela quando a medição
 % por-módulo terminar: passa a 27 projetos, incluindo ansible.
+%
+% [[MEDIAS]] As contagens de vitórias FORAM corrigidas (eram 13/6/7, o que somava
+% 26 em 23 projetos; o real sobre o mutmut.csv é 11/5/8 com 1 empate). As MÉDIAS e
+% MEDIANAS nunca foram reverificadas da mesma fonte — como as contagens estavam
+% erradas, não se pode assumir que estas estejam certas. Confirmar antes de submeter.
 \begin{table}[htpb]
 \centering
 \caption{Mutation score (16B model). [[MUTMUT-ANSIBLE: atualizar para 27 projetos]]}
@@ -242,9 +250,9 @@ acquiring the ability to detect a regression.
 \hline
 \textbf{Tool} & \textbf{Mean} & \textbf{Median} & \textbf{Best on} \\
 \hline
-MARTA    & \textbf{26.5\%} & \textbf{20.5\%} & \textbf{13} projects \\
-Test4Py  & 25.0\%          & 19.8\%          & 6 projects \\
-Pynguin  & 21.9\%          & 17.0\%          & 7 projects \\
+MARTA    & \textbf{[[MEDIAS: 26.5]]\%} & \textbf{[[MEDIAS: 20.5]]\%} & \textbf{11} projects \\
+Test4Py  & [[MEDIAS: 25.0]]\%          & [[MEDIAS: 19.8]]\%          & 5 projects \\
+Pynguin  & [[MEDIAS: 21.9]]\%          & [[MEDIAS: 17.0]]\%          & 8 projects \\
 \hline
 \end{tabular}
 \end{table}
