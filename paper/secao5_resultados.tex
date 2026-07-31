@@ -192,20 +192,24 @@ attributed to the LLM component in the original work, which indicates that our
 search-based baseline is configured and instrumented in line with the published
 setup rather than being inadvertently handicapped.
 
-For completeness we note the coverage reported by CoverUp \cite{altmayer2025coverup},
-the strongest published result on this benchmark family: a per-module median of
-80.0\% and an overall coverage of 60.0\%. We deliberately refrain from presenting
-this alongside our own figures as a head-to-head comparison. CoverUp is driven by
-GPT-4o, whereas every system we execute is driven by a locally served open-weights
-model that activates 2.4B parameters per token; it is evaluated on 4{,}116 functions
-derived from this benchmark rather than on its 486 modules; and we were unable to
-execute it to completion in our environment, so we have no control over its
-configuration. With the underlying model, the subject granularity, and the execution
-environment all differing simultaneously, the difference between the two numbers
-cannot be attributed to architecture, and we make no claim in either direction. The
-question of how much of that gap is explained by model capacity alone is the subject
-of Section~\ref{sec:model-capacity}, where we hold the architecture fixed and vary
-only the model.
+The same benchmark also underpins the strongest published result in this line of
+work. CoverUp \cite{altmayer2025coverup}, evaluated on a suite of 4{,}116 functions
+drawn from these same subjects, reports a per-module median line+branch coverage of
+80.0\% and an overall coverage of 60.0\%, against our 44.3\% and 40.6\% respectively.
+Because the subjects and the reported quantities coincide, these figures are
+comparable as \emph{end-to-end system} results, and we report them as such.
+
+They are not, however, comparable as a measurement of architecture. CoverUp is driven
+by GPT-4o, whereas every system we execute is driven by a locally served
+open-weights model that activates 2.4B parameters per token, and we were unable to
+execute CoverUp in our environment, so its configuration is outside our control. The
+gap therefore conflates the effect of the generation architecture with the effect of
+model capacity, and we make no architectural claim from it. That the two effects are
+separable at all is suggested by Pynguin, which performs no inference and is thus
+invariant to model choice: it lands within two percentage points of our LLM-driven
+systems at this model scale, while the published LLM-based results span more than
+thirty. Section~\ref{sec:model-capacity} probes this directly by holding the
+architecture fixed and varying only the model.
 
 \subsection{Effect of Model Capacity}
 \label{sec:model-capacity}
