@@ -51,21 +51,35 @@ to the generation strategy alone.
 % SUBSTITUI os dois parágrafos que começam em "The pipeline is evaluated
 % at two model scales..." e "Following established practices...".
 % ---------------------------------------------------------------------
-The pipeline is evaluated at two model scales to assess how the architectural
-benefits transfer across model capacity: the lightweight
-\textbf{DeepSeek-Coder-V2-Lite (16B)} and \textbf{Qwen2.5-Coder-32B}. The two differ
-in more than parameter count: DeepSeek-Coder-V2-Lite is a mixture-of-experts model
-that activates only 2.4B parameters per token, whereas Qwen2.5-Coder-32B is dense and
-therefore applies its full 32B parameters to every token, making it a substantially
-stronger reasoner per unit of inference. Both are served locally via Ollama, and the
-retrieval-augmented context module uses the \texttt{BAAI/bge-large-en-v1.5} sentence
-embedder across all configurations. All experiments were conducted on the Deucalion
-HPC cluster, on a single x86/GPU node with one NVIDIA A100 (40\,GB) GPU, 32 CPU
-cores, and 200\,GB of RAM. Because all inference is served locally rather than
-through a hosted API, the runtimes we report reflect genuine on-device inference cost
-(model loading, prompt evaluation, and token decoding) rather than network latency or
-third-party rate limits; to make the computational comparison robust to hardware and
-serving differences, we supplement total runtime with token consumption.
+The pipeline is evaluated with two models to assess how the architectural benefits
+transfer across model capacity. The primary evaluation, covering all 27 projects, uses
+\textbf{DeepSeek-Coder-V2-Lite (16B)}, a mixture-of-experts model that activates only
+2.4B parameters per token. To probe whether the observed benefits are sensitive to
+model capacity, we additionally run both MARTA and the single-prompt baseline with
+\textbf{Qwen2.5-Coder-32B}, a dense model that applies its full 32B parameters to every
+token and is therefore a substantially stronger reasoner per unit of inference.
+
+This second configuration is deliberately exploratory. Serving a dense 32B model
+locally proved roughly an order of magnitude slower per project than the 16B
+mixture-of-experts model, and a full 27-project run for both systems would have
+exceeded our entire remaining allocation on the shared cluster. We therefore restrict
+it to a subset of ten projects (31 modules), fixed before observing any 32B result and
+deliberately balanced: it contains projects on which MARTA leads the baseline at 16B as
+well as projects on which the baseline leads, so that a change in the gap cannot be an
+artefact of the selection. We treat this configuration as directional evidence about
+the role of model capacity rather than as a second full evaluation, and we draw no
+scaling conclusions from two points.
+
+Both models are served locally via Ollama, and the retrieval-augmented context module
+uses the \texttt{BAAI/bge-large-en-v1.5} sentence embedder across all configurations.
+All experiments were conducted on the Deucalion HPC cluster, on a single x86/GPU node
+with one NVIDIA A100 (40\,GB) GPU, 32 CPU cores, and 200\,GB of RAM. Because all
+inference is served locally rather than through a hosted API, the runtimes we report
+reflect genuine on-device inference cost (model loading, prompt evaluation, and token
+decoding) rather than network latency or third-party rate limits. Since Phase~1 is
+cached and shared by both LLM-based systems, we report the cost of the generation phase
+separately from that of context building, and supplement wall-clock time with token
+consumption so that the comparison does not depend on the serving stack.
 
 Regarding decoding, each tool is run at the temperature configured by its authors:
 $T=0.2$ for MARTA and $T=0.0$ for the single-prompt baseline. Values at or near zero
