@@ -17,9 +17,9 @@ search-based generator and a state-of-the-art single-prompt LLM baseline running
 the identical semantic context. Compared to the single-prompt architecture, our
 decoupled pipeline produces suites of equivalent size but markedly stronger oracles:
 0.8\% of its tests contain no assertion, against 7.1\% for the single-prompt baseline
-and 38.3\% for the search-based generator. It attains the highest coverage under
-both module-weighted and pooled aggregation and the highest mutation score of the
-three tools, at roughly half the token and time cost of the single-prompt pipeline.
+and 38.3\% for the search-based generator. It attains the highest coverage at the benchmark's own unit of evaluation (the
+module) under median, mean and pooled aggregation, and the highest mutation score of
+the three tools, at roughly half the token and time cost of the single-prompt pipeline.
 A per-project breakdown shows that the search-based generator remains superior on
 small, structurally simple modules, whereas our approach dominates on large and
 complex subjects, precisely the regime in which evolutionary search saturates. These
@@ -37,7 +37,7 @@ execute more.
 \item An empirical study on a state-of-the-art Python benchmark of 27 projects
 showing that the decoupled pipeline yields substantially stronger test oracles and
 higher mutation score than both a single-prompt and a search-based baseline, and
-higher coverage under module-weighted and pooled aggregation, while consuming
+higher coverage at the module level (median, mean and pooled), while consuming
 roughly half the tokens and wall-clock time of the single-prompt architecture. We
 further characterize where each paradigm prevails, showing that search-based
 generation retains an advantage on small, simple modules while the multi-agent
