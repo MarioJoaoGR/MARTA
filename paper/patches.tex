@@ -15,9 +15,9 @@
 We evaluate MARTA on 27 open-source Python projects (486 modules) against a
 search-based generator and a state-of-the-art single-prompt LLM baseline running on
 the identical semantic context. Across the benchmark's modules, MARTA achieves the
-highest line+branch coverage and the highest mutation score of the three systems, at
-roughly half the token and wall-clock cost of the single-prompt pipeline. The gain
-comes less from producing more tests than from producing tests that actually verify:
+highest line+branch coverage and the highest mutation score of the three systems. The
+gain comes less from producing more tests than from producing tests that actually
+verify:
 only 0.8\% of MARTA's tests contain no assertion at all, against 7.1\% for the
 single-prompt baseline and 38.3\% for the search-based generator, whose structural
 coverage is therefore accrued in substantial part by tests that execute code without
