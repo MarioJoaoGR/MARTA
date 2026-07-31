@@ -73,7 +73,10 @@ def find_tests(results, tool, proj, max_gen=None):
     base = os.path.join(results, TOOL_DIRS[tool], proj)
     out = [f for f in glob.glob(os.path.join(base, "**", "test_*.py"), recursive=True)
            if "OLD" not in f and "quarantine" not in f and "_cov_" not in f]
-    if max_gen is not None:
+    # SÓ a MARTA usa este esquema de sufixos. No baseline o sufixo é o nome do
+    # cenário — uma função chamada `parse_v2` daria `test_..._2.py` e seria
+    # filtrada por engano. O Pynguin não tem sufixo nenhum.
+    if max_gen is not None and tool == "marta":
         keep = []
         for f in out:
             stem = os.path.basename(f)[:-3]

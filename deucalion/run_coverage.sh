@@ -18,6 +18,10 @@
 #   export MODEL=deepseek-coder-v2:16b; sbatch --export=ALL deucalion/run_coverage.sh
 #   COV_TOOL=marta        limita a um tool (default: all)
 #   ONLY_PROJECTS=a,b     limita a projetos
+#   MAX_GEN=0             ABLAÇÃO do ciclo externo: mede só o 1.º ficheiro de
+#                         teste de cada função (só afeta a MARTA). Escreve em
+#                         coverage_measured_g0.csv e _cov_marta_g0/ — NÃO toca
+#                         na medição canónica. Usar com COV_TOOL=marta.
 # ─────────────────────────────────────────────────────────────────────────────
 
 set -euo pipefail
@@ -31,7 +35,7 @@ SAFE_MODEL=$(echo "$MODEL" | tr ':/' '__')
 RES=/projects/F202407648IACDCF2/mario/results/$SAFE_MODEL
 mkdir -p logs
 
-echo "=== cobertura  job=$SLURM_JOB_ID  tool=${COV_TOOL:-all}  results=$RES ==="
+echo "=== cobertura  job=$SLURM_JOB_ID  tool=${COV_TOOL:-all}  results=$RES  max_gen=${MAX_GEN:-<todos>} ==="
 
 _chained=0
 chain() {
@@ -57,7 +61,7 @@ srun -n1 singularity exec \
     --env "PYTHONUNBUFFERED=1" \
     "$CONTAINER" /opt/conda/envs/test4py_env/bin/python \
     /opt/marta/scripts/measure_coverage.py --results /data/results \
-    --tool "${COV_TOOL:-all}" &
+    --tool "${COV_TOOL:-all}" ${MAX_GEN:+--max-gen $MAX_GEN} &
 
 SRUN_PID=$!
 EXIT_CODE=0
