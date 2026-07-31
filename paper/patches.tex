@@ -14,18 +14,16 @@
 % ---------------------------------------------------------------------
 We evaluate MARTA on 27 open-source Python projects (486 modules) against a
 search-based generator and a state-of-the-art single-prompt LLM baseline running on
-the identical semantic context. Compared to the single-prompt architecture, our
-decoupled pipeline produces suites of equivalent size but markedly stronger oracles:
-0.8\% of its tests contain no assertion, against 7.1\% for the single-prompt baseline
-and 38.3\% for the search-based generator. It attains the highest coverage at the benchmark's own unit of evaluation (the
-module) under median, mean and pooled aggregation, and the highest mutation score of
-the three tools, at roughly half the token and time cost of the single-prompt pipeline.
-A per-project breakdown shows that the search-based generator remains superior on
-small, structurally simple modules, whereas our approach dominates on large and
-complex subjects, precisely the regime in which evolutionary search saturates. These
-results indicate that decomposing regression test generation into planning and
-syntactic sub-tasks yields tests that verify more, rather than merely tests that
-execute more.
+the identical semantic context. Across the benchmark's modules, MARTA achieves the
+highest line+branch coverage and the highest mutation score of the three systems, at
+roughly half the token and wall-clock cost of the single-prompt pipeline. The gain
+comes less from producing more tests than from producing tests that actually verify:
+only 0.8\% of MARTA's tests contain no assertion at all, against 7.1\% for the
+single-prompt baseline and 38.3\% for the search-based generator, whose structural
+coverage is therefore accrued in substantial part by tests that execute code without
+checking it. We conclude that decoupling planning from syntax yields suites that
+detect more faults per unit of coverage, and that the benefit of such decomposition is
+better assessed by fault detection than by structural coverage alone.
 
 
 % ---------------------------------------------------------------------
@@ -35,13 +33,12 @@ execute more.
 % search-based baselines" é falso para cobertura vs Pynguin por projeto.
 % ---------------------------------------------------------------------
 \item An empirical study on a state-of-the-art Python benchmark of 27 projects
-showing that the decoupled pipeline yields substantially stronger test oracles and
-higher mutation score than both a single-prompt and a search-based baseline, and
-higher coverage at the module level (median, mean and pooled), while consuming
-roughly half the tokens and wall-clock time of the single-prompt architecture. We
-further characterize where each paradigm prevails, showing that search-based
-generation retains an advantage on small, simple modules while the multi-agent
-pipeline scales better to large, structurally complex subjects.
+(486 modules) showing that the decoupled pipeline produces substantially stronger test
+oracles and achieves the highest coverage and mutation score among the evaluated
+systems, while consuming roughly half the tokens and wall-clock time of the
+single-prompt architecture. We further analyse where each paradigm is most effective,
+relating the residual differences to the capacity of the underlying model rather than
+to the generation strategy alone.
 
 
 % ---------------------------------------------------------------------
