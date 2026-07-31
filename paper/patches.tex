@@ -158,3 +158,36 @@ behaviour (constants, type and \texttt{isinstance} checks, and assertions over m
 internals) and does \emph{not} penalize comparisons against literal values, since
 these are the canonical form of a correct oracle. The reported weak-assertion rates
 are consequently lower bounds.
+
+
+% ---------------------------------------------------------------------
+% [7] §4.3 — LISTA DE BASELINES (substituição integral do parágrafo
+%     introdutório e da lista com bullets)
+% PORQUÊ: o texto atual anuncia "three distinct state-of-the-art
+% paradigms" e inclui o CoverUp, que NÃO foi executado. Chamar baseline
+% a um sistema que não se corre é indefensável em revisão. Passam a ser
+% DUAS baselines controladas; o CoverUp é reposicionado como referência
+% publicada, o que é o seu estatuto real.
+% ---------------------------------------------------------------------
+We compare MARTA against two baselines, both re-executed by us under identical
+conditions, each representing a distinct generation paradigm:
+\begin{itemize}
+    \item \textbf{Pynguin} \cite{lukasczyk2022pynguin}: the state-of-the-art
+    Search-Based Software Testing (SBST) framework for Python, representing
+    generation without any language model.
+    \item \textbf{Single-Prompt Baseline}: the generation module of TEST4PY
+    \cite{test4py2025}, executed on the exact same Phase~1 semantic context, the same
+    model, and the same repair budget as MARTA. Because the two differ only in how the
+    generation step is organized, this constitutes an ablation of the multi-agent
+    decomposition itself.
+\end{itemize}
+
+We additionally relate our measurements to the results published for CodaMosa
+\cite{lemieux2023codamosa} and CoverUp \cite{altmayer2025coverup} on this benchmark
+family. Neither is treated as a baseline: CoverUp could not be executed to completion
+under our local-inference setup, and both are driven by frontier models served through
+hosted APIs rather than by the locally served open-weights models used throughout our
+experiments. We use the CodaMosa figures to verify that our re-execution of Pynguin is
+faithful to the published configuration (Section~5.5), and we report the CoverUp
+figures as context rather than as a comparison, since model, subject granularity and
+execution environment all differ simultaneously.

@@ -81,9 +81,9 @@ weighting-free confirmation; the per-project view is retained as a secondary
 perspective and analysed separately below. The pooled measure is the strictest of the
 three: computed as the ratio of all covered lines and branches to all coverable ones,
 it uses an identical denominator (68{,}248 coverable elements) for the three tools and
-involves no weighting choice at all. Both the per-module median and the pooled figure
-are also the quantities reported by CoverUp \cite{altmayer2025coverup}, which makes
-them directly comparable to published results (Section~5.5).
+involves no weighting choice at all. Reporting the per-module median additionally
+allows the search-based baseline to be calibrated against published figures for the
+same benchmark (Section~5.5).
 
 \begin{table}[htpb]
 \centering
@@ -178,42 +178,34 @@ and Phase~1 is restored from cache when the source is unchanged, so no LLM budge
 spent re-deriving context. Pynguin, which performs no inference, is excluded from
 this comparison; its cost is CPU search time (300\,s per module).
 
-\subsection{Comparison with Published Results}
+\subsection{Calibration Against Published Results}
 
-Two of the systems most often cited on this benchmark, CodaMosa
-\cite{lemieux2023codamosa} and CoverUp \cite{altmayer2025coverup}, are not re-executed
-here: CoverUp could not be run to completion under our local-inference setup, and we
-therefore position our measurements against the figures reported in their respective
-publications. Because those figures are stated as per-module medians and overall
-line+branch coverage, Table~\ref{tab:coverage} is directly expressible in the same
-terms.
+Our conclusions rest on two baselines that we re-execute ourselves under identical
+conditions. A natural question is whether those re-executions are faithful to the
+systems as published, since a misconfigured baseline would inflate our results
+without any architectural merit. The benchmark's shared lineage allows us to check
+this directly for the search-based baseline. CodaMosa \cite{lemieux2023codamosa} is
+Pynguin augmented with an LLM, and reports a per-module median line+branch coverage
+of 47.0\% on this benchmark; our re-execution of Pynguin alone yields 43.1\%. The
+residual gap of roughly four percentage points is consistent with the contribution
+attributed to the LLM component in the original work, which indicates that our
+search-based baseline is configured and instrumented in line with the published
+setup rather than being inadvertently handicapped.
 
-The comparison first serves as a sanity check on our instrumentation. CodaMosa is
-Pynguin augmented with an LLM, and reports a per-module median of 47.0\%; our
-re-execution of Pynguin alone yields 43.1\%. The residual difference of roughly four
-percentage points is consistent with the contribution attributed to the LLM component
-in the original work, which indicates that our search-based baseline is configured and
-measured in line with the published setup rather than being inadvertently
-handicapped.
-
-Against that reference, MARTA attains a per-module median of 44.3\% and an overall
-coverage of 40.6\% while driven by DeepSeek-Coder-V2-Lite, a mixture-of-experts model
-that activates only 2.4B parameters per token. CoverUp reports substantially higher
-figures (80.0\% median, 60.0\% overall) using GPT-4o. We regard this gap as primarily
-attributable to model capacity rather than to architecture: Pynguin, which performs no
-inference at all, is unaffected by the choice of model and lands within a few points
-of our LLM-driven systems, whereas the LLM-based approaches vary widely with the
-underlying model. This interpretation is examined directly in
-Section~\ref{sec:model-capacity}.
-
-Three caveats bound this comparison, and none of them applies to the Pynguin and
-Test4Py results, which we execute ourselves under identical conditions. First,
-CoverUp is evaluated on 4{,}116 functions derived from the CodaMosa benchmark rather
-than on its 486 modules, so the subject granularity differs. Second, neither CoverUp
-nor CodaMosa was re-executed in our environment, making these external reference
-points rather than controlled baselines. Third, both use frontier models
-(GPT-4o and Codex) served through hosted APIs, whereas all systems we execute are
-served locally on a single GPU.
+For completeness we note the coverage reported by CoverUp \cite{altmayer2025coverup},
+the strongest published result on this benchmark family: a per-module median of
+80.0\% and an overall coverage of 60.0\%. We deliberately refrain from presenting
+this alongside our own figures as a head-to-head comparison. CoverUp is driven by
+GPT-4o, whereas every system we execute is driven by a locally served open-weights
+model that activates 2.4B parameters per token; it is evaluated on 4{,}116 functions
+derived from this benchmark rather than on its 486 modules; and we were unable to
+execute it to completion in our environment, so we have no control over its
+configuration. With the underlying model, the subject granularity, and the execution
+environment all differing simultaneously, the difference between the two numbers
+cannot be attributed to architecture, and we make no claim in either direction. The
+question of how much of that gap is explained by model capacity alone is the subject
+of Section~\ref{sec:model-capacity}, where we hold the architecture fixed and vary
+only the model.
 
 \subsection{Effect of Model Capacity}
 \label{sec:model-capacity}
