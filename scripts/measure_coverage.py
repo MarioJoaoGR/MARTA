@@ -57,15 +57,36 @@ def _matches(dotted, targets):
     return any(dotted == t or dotted.endswith("." + t) for t in targets)
 
 
-def find_tests(results, tool, proj):
-    """Ficheiros de teste ATUAIS (exclui arquivos de runs anteriores e quarentena)."""
+def find_tests(results, tool, proj, max_gen=None):
+    """Ficheiros de teste ATUAIS (exclui arquivos de runs anteriores e quarentena).
+
+    `max_gen` serve a ablação do ciclo externo (contribuição 3). O sufixo dos
+    ficheiros da MARTA é `len(existing)` no momento da geração
+    (message_react.py:1020), ou seja o ÍNDICE DE GERAÇÃO POR FUNÇÃO — o 1.º, 2.º
+    ou 3.º ficheiro de teste produzido para aquela função — e não o número da
+    ronda: se a ronda 1 falhou e não deixou ficheiro, a ronda 2 volta a escrever
+    `_0`. Com max_gen=0 mede-se a cobertura do primeiro ficheiro de cada função;
+    a diferença para o total é exatamente o ganho marginal atribuível ao ciclo
+    externo, que é o que faz existir um 2.º e 3.º ficheiro. Reportar como
+    'primeira geração vs todas', NÃO como 'ronda 1 vs ronda 3'.
+    """
     base = os.path.join(results, TOOL_DIRS[tool], proj)
-    return sorted(f for f in glob.glob(os.path.join(base, "**", "test_*.py"), recursive=True)
-                  if "OLD" not in f and "quarantine" not in f and "_cov_" not in f)
+    out = [f for f in glob.glob(os.path.join(base, "**", "test_*.py"), recursive=True)
+           if "OLD" not in f and "quarantine" not in f and "_cov_" not in f]
+    if max_gen is not None:
+        keep = []
+        for f in out:
+            stem = os.path.basename(f)[:-3]
+            idx = stem.rsplit("_", 1)[-1]
+            # ficheiros sem sufixo numérico (baseline) não são afetados
+            if not idx.isdigit() or int(idx) <= max_gen:
+                keep.append(f)
+        out = keep
+    return sorted(out)
 
 
-def measure(results, tool, proj, info, targets):
-    tests = find_tests(results, tool, proj)
+def measure(results, tool, proj, info, targets, max_gen=None):
+    tests = find_tests(results, tool, proj, max_gen)
     if not tests:
         # o tool não produziu testes para este projeto → 0% (não excluir: excluir
         # inflacionaria a média ao contar só onde o tool teve sucesso)
@@ -83,7 +104,9 @@ def measure(results, tool, proj, info, targets):
     prev = env.get("PYTHONPATH", "")
     env["PYTHONPATH"] = f"{root}:{prev}" if prev else root
 
-    covdir = os.path.join(results, TOOL_DIRS[tool], proj, f"_cov_{tool}")
+    # a ablação escreve num dir próprio para não destruir a medição canónica
+    sfx = f"_g{max_gen}" if max_gen is not None else ""
+    covdir = os.path.join(results, TOOL_DIRS[tool], proj, f"_cov_{tool}{sfx}")
     os.makedirs(covdir, exist_ok=True)
     dataf = os.path.join(covdir, ".coverage")
     jf = os.path.join(covdir, "coverage.json")
@@ -150,6 +173,11 @@ def main():
     ap.add_argument("--tool", default="all")
     ap.add_argument("--cm", default=os.path.join(HERE, "cm_benchmark.json"))
     ap.add_argument("--projects", default="/opt/marta/projects.json")
+    ap.add_argument("--max-gen", type=int, default=None,
+                    help="ablação do ciclo externo: usa só os ficheiros cujo índice "
+                         "de geração por função é <= N (0 = só o 1.º ficheiro de cada "
+                         "função). Escreve em ficheiros separados; não toca na medição "
+                         "canónica.")
     args = ap.parse_args()
 
     cm = json.load(open(args.cm))
@@ -157,7 +185,8 @@ def main():
     tools = list(TOOL_DIRS) if args.tool == "all" else [args.tool]
     only = set(p.strip() for p in os.getenv("ONLY_PROJECTS", "").split(",") if p.strip())
 
-    out = os.path.join(args.results, "coverage_measured.csv")
+    out = os.path.join(args.results, "coverage_measured.csv" if args.max_gen is None
+                       else f"coverage_measured_g{args.max_gen}.csv")
     cols = ["tool", "project", "status", "stmt_pct", "branch_pct", "lb_pct",
             "n_target_mods", "n_tests", "batches_failed"]
     done = set()
@@ -175,7 +204,7 @@ def main():
                 continue
             if proj not in cm:
                 continue
-            r = measure(args.results, tool, proj, cm[proj], targets)
+            r = measure(args.results, tool, proj, cm[proj], targets, args.max_gen)
             f = lambda k: f"{r[k]:.1f}" if r.get(k) is not None else "-"
             print(f"{tool:18} {proj:22} {r['status']:14} {f('stmt'):>6} {f('branch'):>6} "
                   f"{f('lb'):>6} {r['n_mod']:>5} {r['n_tests']:>6} {r['batches_failed']:>7}")
