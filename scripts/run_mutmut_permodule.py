@@ -147,9 +147,26 @@ def _prune_green(mtests, scratch, env):
     return len(glob.glob(os.path.join(mtests, "test_*.py"))), dropped
 
 
+# Cada PROCESSO do pool é dono de um scratch (não cada tarefa): o mutmut escreve
+# .mutmut-cache/_mut_tests no cwd, e o Pool.map atribui tarefas a qualquer
+# processo livre — a associação tarefa→dir por índice criava RACE (duas tarefas
+# concorrentes no mesmo w0: uma apagava o _mut_tests enquanto a outra copiava
+# → FileNotFoundError). O worker retira o seu dir de uma fila no arranque.
+_WDIR = None
+
+
+def _init_worker(dirs):
+    """Deriva o dir da IDENTIDADE do processo do pool (1..nw) — sem filas nem
+    objetos partilhados, que bloqueiam no start method 'spawn'."""
+    global _WDIR
+    ident = getattr(mp.current_process(), "_identity", (1,))
+    _WDIR = dirs[(ident[0] - 1) % len(dirs)] if ident else dirs[0]
+
+
 def do_module(task):
-    """Muta UM módulo no scratch do worker. Devolve as contagens."""
-    scratch, iroot_rel, module, mfile, tests = task
+    """Muta UM módulo no scratch DESTE processo. Devolve as contagens."""
+    iroot_rel, module, mfile, tests = task
+    scratch = _WDIR
     mtests = os.path.join(scratch, "_mut_tests")
     shutil.rmtree(mtests, ignore_errors=True)
     os.makedirs(mtests, exist_ok=True)
@@ -244,10 +261,9 @@ def run_project(tool, proj, info, modules, results):
             shutil.copytree(ppath, d, symlinks=True)
         wdirs.append(d)
 
-    tasks = [(wdirs[i % nw], iroot_rel, m, mf, ts)
-             for i, (m, mf, ts) in enumerate(tasks_src)]
-    with mp.Pool(nw) as pool:
-        res = pool.map(do_module, tasks)
+    tasks = [(iroot_rel, m, mf, ts) for (m, mf, ts) in tasks_src]
+    with mp.Pool(nw, initializer=_init_worker, initargs=(wdirs,)) as pool:
+        res = pool.map(do_module, tasks, chunksize=1)
 
     killed = sum(r["killed"] for r in res)
     total = sum(r["total"] for r in res)
