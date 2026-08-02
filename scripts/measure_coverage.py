@@ -60,29 +60,33 @@ def _matches(dotted, targets):
 def find_tests(results, tool, proj, max_gen=None):
     """Ficheiros de teste ATUAIS (exclui arquivos de runs anteriores e quarentena).
 
-    `max_gen` serve a ablação do ciclo externo (contribuição 3). O sufixo dos
-    ficheiros da MARTA é `len(existing)` no momento da geração
-    (message_react.py:1020), ou seja o ÍNDICE DE GERAÇÃO POR FUNÇÃO — o 1.º, 2.º
-    ou 3.º ficheiro de teste produzido para aquela função — e não o número da
-    ronda: se a ronda 1 falhou e não deixou ficheiro, a ronda 2 volta a escrever
-    `_0`. Com max_gen=0 mede-se a cobertura do primeiro ficheiro de cada função;
-    a diferença para o total é exatamente o ganho marginal atribuível ao ciclo
-    externo, que é o que faz existir um 2.º e 3.º ficheiro. Reportar como
-    'primeira geração vs todas', NÃO como 'ronda 1 vs ronda 3'.
+    `max_gen` serve a ablação do ciclo externo (contribuição 3). AS DUAS
+    ferramentas LLM gravam o ÍNDICE DE GERAÇÃO POR FUNÇÃO no nome do ficheiro —
+    o 1.º, 2.º ou 3.º ficheiro produzido para aquela função:
+
+      MARTA     f"{react_prefix}_{len(existing)}.py"        message_react.py:1020
+      Test4Py   ... + func_name + str(len(self.testcases))  testcase.py:46
+
+    A MARTA separa com underscore, o baseline cola o dígito ao nome da função.
+    Ler o ÚLTIMO CARACTERE resolve os dois: o índice nunca passa de 2 (são 3
+    rondas), por isso uma função chamada `md5` com índice 0 dá `...md50`, cujo
+    último caractere é `0` — correto. Um `rsplit("_")` é que falharia no
+    baseline.
+
+    NÃO é o número da ronda: se a ronda 1 não deixou ficheiro para uma função, a
+    ronda 2 escreve o índice 0. Reportar como 'primeira geração vs todas'.
+
+    O Pynguin não tem rondas e nunca é filtrado.
     """
     base = os.path.join(results, TOOL_DIRS[tool], proj)
     out = [f for f in glob.glob(os.path.join(base, "**", "test_*.py"), recursive=True)
            if "OLD" not in f and "quarantine" not in f and "_cov_" not in f]
-    # SÓ a MARTA usa este esquema de sufixos. No baseline o sufixo é o nome do
-    # cenário — uma função chamada `parse_v2` daria `test_..._2.py` e seria
-    # filtrada por engano. O Pynguin não tem sufixo nenhum.
-    if max_gen is not None and tool == "marta":
+    if max_gen is not None and tool in ("marta", "test4py_baseline"):
         keep = []
         for f in out:
-            stem = os.path.basename(f)[:-3]
-            idx = stem.rsplit("_", 1)[-1]
-            # ficheiros sem sufixo numérico (baseline) não são afetados
-            if not idx.isdigit() or int(idx) <= max_gen:
+            last = os.path.basename(f)[:-3][-1:]
+            # sem dígito final: não classificável, fica (conservador)
+            if not last.isdigit() or int(last) <= max_gen:
                 keep.append(f)
         out = keep
     return sorted(out)
