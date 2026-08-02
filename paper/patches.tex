@@ -63,12 +63,18 @@ This second configuration is deliberately exploratory. Serving a dense 32B model
 locally proved roughly an order of magnitude slower per project than the 16B
 mixture-of-experts model, and a full 27-project run for both systems would have
 exceeded our entire remaining allocation on the shared cluster. We therefore restrict
-it to a subset of ten projects (31 modules), fixed before observing any 32B result and
-deliberately balanced: it contains projects on which MARTA leads the baseline at 16B as
-well as projects on which the baseline leads, so that a change in the gap cannot be an
-artefact of the selection. We treat this configuration as directional evidence about
-the role of model capacity rather than as a second full evaluation, and we draw no
-scaling conclusions from two points.
+it to a subset of ten projects (31 modules), selected before observing any 32B result
+and deliberately balanced: it contains projects on which MARTA leads the baseline at
+16B as well as projects on which the baseline leads, so that a change in the gap cannot
+be an artefact of the selection. An eleventh project, \texttt{thonny}, was attempted
+and excluded on cost grounds alone: its Phase~1 analysis of 6{,}412 functions did not
+complete within the job's walltime at this model scale, so no test was generated for it
+and no result of any kind was observed. This exclusion illustrates the constraint
+motivating the subset rather than qualifying it, and it is worth noting that context
+building, not generation, is what dominates cost at this scale: across the ten projects
+MARTA spent 20.1 GPU-hours on Phase~1 against 12.0 on generation. We treat this
+configuration as directional evidence about the role of model capacity rather than as a
+second full evaluation, and we draw no scaling conclusions from two points.
 
 Both models are served locally via Ollama, and the retrieval-augmented context module
 uses the \texttt{BAAI/bge-large-en-v1.5} sentence embedder across all configurations.
