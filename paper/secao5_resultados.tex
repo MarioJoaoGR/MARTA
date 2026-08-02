@@ -6,7 +6,6 @@
 % test_quality.csv, run_results/*.json — todos em results/deepseek-coder-v2_16b/)
 %
 % MARCADORES:
-%   [[MUTMUT-ANSIBLE]] -> substituir quando o mutmut por-módulo terminar
 %   [[QWEN]]           -> preencher com a run do Qwen2.5-Coder-32B
 %   [[WILCOXON]]       -> preencher com p-values e tamanho de efeito
 % =====================================================================
@@ -153,6 +152,7 @@ decomposition.
 % a frase tem de o dizer (ou o número tem de ser recalculado sobre a mesma base).
 
 \subsection{Structural Coverage}
+\label{sec:coverage}
 
 The benchmark defines 486 \emph{modules} as its units of evaluation
 \cite{lemieux2023codamosa}, and we adopt that unit as our primary aggregation. This
@@ -214,6 +214,67 @@ generation remains the stronger choice for small, self-contained modules, while 
 multi-agent pipeline scales better to the complex subjects that dominate the
 benchmark by module count.
 
+\subsection{The Contribution of the Coverage-Driven Loop}
+\label{sec:outer-loop}
+
+The coverage figures reported above are those of the complete pipeline after three
+generation rounds, and therefore do not separate what the multi-agent generation step
+produces from what the outer planning loop subsequently adds. Since both LLM-based
+systems run the same number of rounds on the same context and the same model, the
+per-round trajectories are directly comparable, and they locate the difference between
+the two architectures precisely.
+
+Table~\ref{tab:rounds} reports coverage accumulated after each round, measured for
+both systems by their own instrumentation so that the two trajectories are produced
+identically. After a single round the two architectures are, for practical purposes,
+indistinguishable: 34.2\% for MARTA against 33.4\% for the single-prompt baseline, a
+gap of 0.8 percentage points. After three rounds the gap is 3.7 points. The outer loop
+adds 7.6 points to MARTA and 4.7 to the baseline, so roughly four fifths of MARTA's
+final advantage in coverage is created by the loop rather than present at the outset.
+Both systems exhibit the same diminishing returns, and MARTA's are steeper in absolute
+terms at each step (+5.4 then +2.2 points, against +3.7 then +1.0), which supports the
+choice of three rounds as the point where further generation stops repaying its cost.
+
+\begin{table}[htpb]
+\centering
+\caption{Coverage accumulated after each generation round (16B model, line+branch,
+pooled over the 25 projects for which both systems' internal instrumentation resolves
+the target modules). Both systems run three rounds on the same context and model.}
+\label{tab:rounds}
+\begin{tabular}{lrrrr}
+\hline
+\textbf{Tool} & \textbf{Round 1} & \textbf{Round 2} & \textbf{Round 3} & \textbf{Gain} \\
+\hline
+MARTA    & 34.2\% & 39.6\% & \textbf{41.8\%} & \textbf{+7.6} \\
+Test4Py  & 33.4\% & 37.1\% & 38.1\%          & +4.7 \\
+\hline
+\end{tabular}
+\end{table}
+
+We corroborate this with an independent ablation that avoids relying on each tool's
+internal instrumentation. Re-measuring MARTA's suites with our uniform pipeline while
+retaining only the first test file generated for each function, and comparing against
+the complete suites, isolates the marginal contribution of the material the loop adds.
+Weighted by module over all 27 projects, that contribution is 12.9 points. It is
+strongly concentrated: \texttt{ansible}, which alone accounts for 49\% of the
+benchmark's modules, gains 24.6 points, and \texttt{flutes} 17.9, whereas the median
+project gains under one point and \texttt{sanic} loses 0.9. This is consistent with
+the reading of Section~\ref{sec:coverage}: on small modules a single generation round
+already approaches what the model can reach, and the loop earns its cost on the large,
+structurally complex subjects where the first round leaves most of the code
+unexercised.
+
+Two limitations bound these measurements. The per-round trajectories rely on each
+tool's own coverage instrumentation, which resolves target modules by exact name and
+therefore does not report on \texttt{ansible} and \texttt{black}; those two projects
+are consequently absent from Table~\ref{tab:rounds}, which is why the ablation
+measured over all 27 projects yields the larger figure. Conversely, the ablation's
+unit is the first test file generated for a function rather than the first round as
+such, since a function whose initial generation failed entirely receives its first
+retained file in a later round. The two measurements therefore approach the same
+quantity from different directions and agree on its sign and on where it is
+concentrated, which is the claim we make.
+
 \subsection{Fault-Revealing Capability}
 
 High coverage is a well-known vanity metric: executing a line does not imply
@@ -223,36 +284,41 @@ they belong to, and modules for which a tool produced no usable test contribute 
 mutants as survived rather than being excluded, so that a tool is not rewarded for
 generating fewer tests.
 
-Over the [[MUTMUT-ANSIBLE: 23]] projects for which all three tools yield a mutation
-score, MARTA achieves a mean score of [[MEDIAS: 26.5]]\% against [[MEDIAS: 25.0]]\%
-for the single-prompt baseline and [[MEDIAS: 21.9]]\% for Pynguin, and obtains the
-highest score on 11 projects against 5 for the baseline and 8 for Pynguin (one
-project is tied). The comparison with Pynguin is the more informative one: Pynguin
-attains higher per-project coverage yet a lower mean mutation score, which is
-consistent with the oracle measurements in Table~\ref{tab:oracles}. A suite in which
-38.3\% of tests assert nothing accumulates structural coverage without acquiring the
-ability to detect a regression. That said, Pynguin obtains the best score on more
+Over the 27 projects, MARTA achieves a mean mutation score of 23.4\% against 20.9\%
+for the single-prompt baseline and 17.2\% for Pynguin, and obtains the highest score
+on 15 projects against 5 and 8 respectively, with one project tied. The comparison
+with Pynguin is the more informative one, since it isolates the effect of oracle
+strength from that of the underlying model: Pynguin attains the highest per-project
+coverage of the three systems (Table~\ref{tab:coverage}) yet the lowest mutation
+score, which is precisely what the oracle measurements of Table~\ref{tab:oracles}
+predict. A suite in which 38.3\% of tests assert nothing accumulates structural
+coverage without acquiring the ability to detect a regression. The effect is one of
+degree rather than of rank, however: Pynguin still obtains the best score on more
 projects than the single-prompt baseline does, so its weaker oracles cost it the
-aggregate rather than the per-project comparison.
+aggregate rather than every individual comparison.
 
-% [[MUTMUT-ANSIBLE]] Substituir o parágrafo acima e a tabela quando a medição
-% por-módulo terminar: passa a 27 projetos, incluindo ansible.
-%
-% [[MEDIAS]] As contagens de vitórias FORAM corrigidas (eram 13/6/7, o que somava
-% 26 em 23 projetos; o real sobre o mutmut.csv é 11/5/8 com 1 empate). As MÉDIAS e
-% MEDIANAS nunca foram reverificadas da mesma fonte — como as contagens estavam
-% erradas, não se pode assumir que estas estejam certas. Confirmar antes de submeter.
+The absolute values are low by the standards usually reported for mutation analysis,
+and deliberately so. Mutants are evaluated only against the tests targeting their own
+module rather than against the entire project suite, and modules for which a tool
+produced no usable test contribute their mutants as survived. Both choices depress
+every score, and they depress them uniformly; what they buy is that no tool is
+rewarded for generating fewer tests, and that a mutant killed by an unrelated test is
+not credited to a module whose behaviour was never actually checked.
+
 \begin{table}[htpb]
 \centering
-\caption{Mutation score (16B model). [[MUTMUT-ANSIBLE: atualizar para 27 projetos]]}
+\caption{Mutation score over the 27 projects (16B model). Mutants are evaluated
+against the tests targeting their own module; modules with no usable test contribute
+their mutants as survived. One project is tied between MARTA and Pynguin, and is
+counted for both.}
 \label{tab:mutation}
 \begin{tabular}{lrrr}
 \hline
 \textbf{Tool} & \textbf{Mean} & \textbf{Median} & \textbf{Best on} \\
 \hline
-MARTA    & \textbf{[[MEDIAS: 26.5]]\%} & \textbf{[[MEDIAS: 20.5]]\%} & \textbf{11} projects \\
-Test4Py  & [[MEDIAS: 25.0]]\%          & [[MEDIAS: 19.8]]\%          & 5 projects \\
-Pynguin  & [[MEDIAS: 21.9]]\%          & [[MEDIAS: 17.0]]\%          & 8 projects \\
+MARTA    & \textbf{23.4\%} & \textbf{17.0\%} & \textbf{15} projects \\
+Test4Py  & 20.9\%          & 15.8\%          & 5 projects \\
+Pynguin  & 17.2\%          & 11.4\%          & 8 projects \\
 \hline
 \end{tabular}
 \end{table}
