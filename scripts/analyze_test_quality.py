@@ -116,7 +116,8 @@ def analyze_file(path):
             (getattr(n, "id", None) in MOCK_NAMES) or (getattr(n, "attr", None) in MOCK_NAMES)
             for n in ast.walk(fn)
         )
-        loc = (fn.end_lineno or fn.lineno) - fn.lineno + 1
+        # end_lineno é 3.8+; o python do nó de login do Deucalion é mais antigo
+        loc = (getattr(fn, 'end_lineno', None) or fn.lineno) - fn.lineno + 1
         n_assert = (len(asserts) + raises) * cases
         n_trivial = sum(1 for a in asserts if _is_trivial(a)) * cases
         out.append({
