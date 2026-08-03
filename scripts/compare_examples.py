@@ -85,15 +85,24 @@ def main():
     ap.add_argument("--max-lines", type=int, default=60)
     ap.add_argument("--out", help="escrever markdown para ficheiro")
     ap.add_argument("--projects", default="/opt/marta/projects.json")
+    # Origens por ferramenta: no 32B só correram MARTA e baseline; o Pynguin não
+    # usa LLM nenhum, portanto a suite dele é a mesma independentemente do modelo
+    # e vem sempre do diretório do 16B.
+    ap.add_argument("--results-marta")
+    ap.add_argument("--results-baseline")
+    ap.add_argument("--results-pynguin")
     ap.add_argument("--rank", type=int, metavar="N",
                     help="lista as N funções onde a MARTA mais supera o baseline "
                          "em assertions não-triviais (baseline com asserts reais)")
     args = ap.parse_args()
 
     mods = json.load(open(args.projects)).get(args.project, [])
-    marta = {stem_key(p, mods): p for p in tests_of(args.results, TOOL_DIRS["MARTA"], args.project)}
-    base = {stem_key(p, mods): p for p in tests_of(args.results, TOOL_DIRS["Test4Py (baseline)"], args.project)}
-    pyn = tests_of(args.results, TOOL_DIRS["Pynguin"], args.project)
+    r_m = args.results_marta or args.results
+    r_b = args.results_baseline or args.results
+    r_p = args.results_pynguin or args.results
+    marta = {stem_key(p, mods): p for p in tests_of(r_m, TOOL_DIRS["MARTA"], args.project)}
+    base = {stem_key(p, mods): p for p in tests_of(r_b, TOOL_DIRS["Test4Py (baseline)"], args.project)}
+    pyn = tests_of(r_p, TOOL_DIRS["Pynguin"], args.project)
 
     common = sorted(set(marta) & set(base))
     if args.func:
