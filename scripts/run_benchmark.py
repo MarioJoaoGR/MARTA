@@ -43,7 +43,17 @@ from datetime import datetime, timezone
 
 REPO = pathlib.Path(__file__).resolve().parent.parent
 CONFIG = REPO / "scripts" / "cm_benchmark.json"
-HARNESS_DIR = REPO / "baselines" / "harness"
+
+# PROBE_TAG: corre uma medição paralela sem tocar nos resultados reais — estado,
+# logs e outputs vão todos para diretórios com o sufixo. Criado para medir o
+# custo da FASE 1 da MARTA a 16B, que se perdeu: na run principal ela veio de
+# cache (2.6h de leitura) enquanto o baseline a construiu de raiz (21.0h), o que
+# torna a comparação de custo incomparável. Com MARTA_ROUNDS=0 corre-se só o
+# init() (o `for i in range(args.num)` não executa e o recoder.end() grava na
+# mesma), num output_dir virgem onde não há cache para restaurar.
+_TAG = os.environ.get("PROBE_TAG", "")
+_SFX = f"_{_TAG}" if _TAG else ""
+HARNESS_DIR = REPO / "baselines" / f"harness{_SFX}"
 STATE = HARNESS_DIR / "state.json"
 LOGS_DIR = HARNESS_DIR / "logs"
 
@@ -290,7 +300,7 @@ def run_marta(proj: str, info: dict, state: dict) -> None:
     if state.get(key, {}).get("status") in ("ok", "failed"):
         return
     python = ENVS["marta"] + "/bin/python"
-    out_dir = REPO / "baselines" / "Results_MARTA"
+    out_dir = REPO / "baselines" / f"Results_MARTA{_SFX}"
     out_dir.mkdir(parents=True, exist_ok=True)
     log_path = LOGS_DIR / "marta" / f"{proj}.log"
     cmd = [
@@ -298,7 +308,7 @@ def run_marta(proj: str, info: dict, state: dict) -> None:
         "--project_path", info["project_path"],
         "--source_path", info["source_path"],
         "--output_dir", str(out_dir),
-        "--num", "3",
+        "--num", os.environ.get("MARTA_ROUNDS", "3"),
     ]
     log(f"  marta/{proj} ({len(info['modules'])} módulos) …")
     # cwd descartável (com symlink projects.json + .env); PYTHONPATH dá

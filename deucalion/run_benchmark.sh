@@ -143,6 +143,8 @@ srun -n1 singularity exec --nv \
     --env "TRANSFORMER_PATH=BAAI/bge-large-en-v1.5" \
     --env "USER_PYTHON_PATH=/opt/conda/envs/test4py_env/bin/python" \
     --env "SAFE_MODEL=$SAFE_MODEL" \
+    --env "PROBE_TAG=${PROBE_TAG:-}" \
+    --env "MARTA_ROUNDS=${MARTA_ROUNDS:-3}" \
     --env "ENV_PYNGUIN=/opt/conda/envs/pynguin_env" \
     --env "ENV_TEST4PY_BASELINE=/opt/conda/envs/test4py_baseline_env" \
     --env "ENV_MARTA=/opt/conda/envs/test4py_env" \
