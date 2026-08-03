@@ -26,12 +26,27 @@ import sys
 
 # Os nomes deles usam underscores e minúsculas; os nossos vêm do projects.json.
 # blib2to3 é o pacote-alvo do black — o diretório deles tem o nome do pacote,
-# não o do projeto.
-EXPLICIT = {"blib2to3": "black"}
+# não o do projeto. Os outros dois perdem o prefixo `python-`.
+EXPLICIT = {
+    "blib2to3": "black",
+    "semantic_release": "python-semantic-release",
+    "string_utils": "python-string-utils",
+}
 
 
 def norm(n):
     return n.lower().replace("-", "").replace("_", "")
+
+
+def resolve(theirs, ours):
+    """EXPLICIT, depois igualdade normalizada, depois sufixo (`python-` e afins)."""
+    if theirs in EXPLICIT:
+        return EXPLICIT[theirs]
+    t = norm(theirs)
+    if t in ours:
+        return ours[t]
+    cands = [v for k, v in ours.items() if k.endswith(t) or t.endswith(k)]
+    return cands[0] if len(cands) == 1 else None
 
 
 def main():
@@ -56,7 +71,7 @@ def main():
         tests_dir = os.path.join(src_root, theirs, "coverup-tests")
         if not os.path.isdir(tests_dir):
             continue
-        ourname = EXPLICIT.get(theirs) or ours.get(norm(theirs))
+        ourname = resolve(theirs, ours)
         if not ourname:
             unmatched.append(theirs)
             continue
