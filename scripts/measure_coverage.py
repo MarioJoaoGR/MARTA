@@ -36,6 +36,13 @@ TOOL_DIRS = {
     "marta": "Results_MARTA",
     "test4py_baseline": "Results_Test4PyBaseline",
     "pynguin": "Results_Pynguin",
+    # Suites publicadas pelo CoverUp (FSE'25), do repositorio de replicacao
+    # plasma-umass/coverup-eval. NAO sao re-execucao da ferramenta: sao os
+    # ficheiros de teste que eles geraram com GPT-4o, medidos pelo NOSSO
+    # pipeline sobre os NOSSOS modulos-alvo. Isso elimina a diferenca de
+    # granularidade (eles reportam por funcao) e a de pipeline de medicao,
+    # deixando o modelo como unica diferenca por declarar.
+    "coverup": "Results_CoverUp",
 }
 
 
