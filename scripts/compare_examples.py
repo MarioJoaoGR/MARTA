@@ -58,6 +58,27 @@ def stem_key(path, modules):
 
 
 
+def imports_target(path, module):
+    """O teste importa o MÓDULO sob teste?
+
+    Sem isto o ranking aceita testes que chamam um método com o mesmo nome numa
+    classe completamente diferente. Caso real: em tornado.locks.BoundedSemaphore
+    o baseline fazia `from threading import BoundedSemaphore` e testava a classe
+    da biblioteca padrão — o calls_target via `.release()` e dava por bom.
+    """
+    try:
+        src = open(path, encoding="utf-8", errors="replace").read()
+    except OSError:
+        return False
+    parts = module.split(".")
+    # aceita `import a.b.c`, `from a.b import c`, `from a.b.c import x`
+    pats = [rf"\bimport\s+{re.escape(module)}\b",
+            rf"\bfrom\s+{re.escape(module)}\s+import\b"]
+    if len(parts) > 1:
+        pats.append(rf"\bfrom\s+{re.escape('.'.join(parts[:-1]))}\s+import\b[^\n]*\b{re.escape(parts[-1])}\b")
+    return any(re.search(x, src) for x in pats)
+
+
 def calls_target(path, func_canon):
     """O teste INVOCA a função-alvo? (não basta importar/instanciar a classe)
 
@@ -106,7 +127,11 @@ def main():
 
     common = sorted(set(marta) & set(base))
     if args.func:
-        common = [k for k in common if args.func.lower() in k[1]]
+        f = args.func.lower()
+        exact = [k for k in common if k[1] == f]
+        # sem isto, --func semaphorerelease casava primeiro com
+        # boundedsemaphorerelease (ordem alfabética)
+        common = exact or [k for k in common if f in k[1]]
     if not common:
         print(f"sem funções em comum entre MARTA e baseline em {args.project}")
         print(f"  marta: {len(marta)} ficheiros | baseline: {len(base)} | pynguin: {len(pyn)}")
@@ -133,8 +158,8 @@ def main():
             # em Field.get_default_value a MARTA tinha 9 assertions "não-triviais"
             # mas nunca chamava get_default_value() — verificava atributos do
             # construtor. Contar isso como superioridade seria enganador.
-            m_calls = calls_target(marta[k], k[1])
-            b_calls = calls_target(base[k], k[1])
+            m_calls = calls_target(marta[k], k[1]) and imports_target(marta[k], k[0])
+            b_calls = calls_target(base[k], k[1]) and imports_target(base[k], k[0])
             if not m_calls:
                 continue                      # a marta nem toca no alvo → fora
             cand.append((m_nt - b_nt, m_nt, b_nt, len(m), len(b), b_calls, k))
