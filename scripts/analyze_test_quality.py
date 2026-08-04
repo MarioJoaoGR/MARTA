@@ -93,7 +93,14 @@ def analyze_file(path):
     )
     out = []
     for fn in ast.walk(tree):
-        if not isinstance(fn, ast.FunctionDef) or not fn.name.startswith("test"):
+        # AsyncFunctionDef é um nó SEPARADO de FunctionDef: sem ele, todos os
+        # `async def test_*` eram descartados em silêncio. Isso enviesava a
+        # Tabela 1 a favor da MARTA — o baseline gera testes async (ex.:
+        # tornado.locks.Semaphore, com @pytest.mark.asyncio) e a MARTA gera
+        # síncronos, logo descartavam-se testes DELE que tinham assertions,
+        # subindo artificialmente a percentagem de testes sem assertion.
+        if not isinstance(fn, (ast.FunctionDef, ast.AsyncFunctionDef)) \
+                or not fn.name.startswith("test"):
             continue
         asserts = [n for n in ast.walk(fn) if isinstance(n, ast.Assert)]
         # pytest.raises / pytest.warns = oráculo (não-trivial). Conta-se APENAS a
