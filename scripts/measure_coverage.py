@@ -24,8 +24,10 @@ import csv
 import glob
 import json
 import os
+import shutil
 import subprocess
 import sys
+import tempfile
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 PY = os.getenv("USER_PYTHON_PATH", sys.executable)
@@ -107,12 +109,28 @@ def measure(results, tool, proj, info, targets, max_gen=None):
         return dict(status="no_tests", stmt=0.0, branch=0.0, lb=0.0,
                     n_mod=0, n_tests=0, batches_failed=0)
 
-    ppath = info["project_path"]
+    ppath0 = info["project_path"]
     spath = info.get("source_path", "")
-    root = import_root(ppath, spath)
-    if not os.path.isdir(ppath):
+    if not os.path.isdir(ppath0):
         return dict(status="project_missing", stmt=None, branch=None, lb=None,
                     n_mod=0, n_tests=len(tests), batches_failed=0)
+
+    # CÓPIA DESCARTÁVEL: os testes gerados (sobretudo os do Pynguin, que correm
+    # com PYNGUIN_DANGER_AWARE) criam e apagam ficheiros no cwd. Medindo com
+    # cwd no diretório REAL do projeto, cada medição deixava-o num estado
+    # diferente e a seguinte media outra coisa: o ansible deu 27.7% numa
+    # execução e 8.4% noutra, com os MESMOS 227 ficheiros e zero lotes
+    # falhados. Medir sobre uma cópia torna a medição reprodutível e impede
+    # que medir um tool contamine a medição do seguinte.
+    scratch = tempfile.mkdtemp(prefix=f"cov_{proj}_", dir=os.getenv("COV_SCRATCH") or None)
+    ppath = os.path.join(scratch, os.path.basename(ppath0.rstrip("/")) or "proj")
+    try:
+        shutil.copytree(ppath0, ppath, symlinks=True)
+    except Exception as e:
+        shutil.rmtree(scratch, ignore_errors=True)
+        return dict(status=f"copy_err:{str(e)[:30]}", stmt=None, branch=None,
+                    lb=None, n_mod=0, n_tests=len(tests), batches_failed=0)
+    root = import_root(ppath, spath)
 
     env = os.environ.copy()
     prev = env.get("PYTHONPATH", "")
@@ -157,6 +175,7 @@ def measure(results, tool, proj, info, targets, max_gen=None):
     subprocess.run([PY, "-m", "coverage", "json", f"--rcfile={rcfile}", "-i",
                     f"--data-file={dataf}", "-o", jf],
                    cwd=ppath, env=env, capture_output=True)
+    shutil.rmtree(scratch, ignore_errors=True)
     try:
         cj = json.load(open(jf))
     except Exception as e:

@@ -33,7 +33,7 @@ PYDEPS=/projects/F202407648IACDCF2/mario/pydeps
 export MODEL="${MODEL:-deepseek-coder-v2:16b}"
 SAFE_MODEL=$(echo "$MODEL" | tr ':/' '__')
 RES=/projects/F202407648IACDCF2/mario/results/$SAFE_MODEL
-mkdir -p logs
+mkdir -p logs "$RES/_cov_scratch"
 
 echo "=== cobertura  job=$SLURM_JOB_ID  tool=${COV_TOOL:-all}  results=$RES  max_gen=${MAX_GEN:-<todos>} ==="
 
@@ -56,6 +56,7 @@ srun -n1 singularity exec \
     --env "USER_PYTHON_PATH=/opt/conda/envs/test4py_env/bin/python" \
     --env "PYTHONPATH=/data/pydeps/sut:/data/pydeps/marta" \
     --env "COV_BATCH=${COV_BATCH:-50}" \
+    --env "COV_SCRATCH=${COV_SCRATCH:-/data/results/_cov_scratch}" \
     --env "COV_BATCH_TIMEOUT=${COV_BATCH_TIMEOUT:-600}" \
     --env "ONLY_PROJECTS=${ONLY_PROJECTS:-}" \
     --env "PYTHONUNBUFFERED=1" \
