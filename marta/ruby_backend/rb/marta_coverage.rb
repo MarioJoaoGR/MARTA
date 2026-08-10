@@ -35,7 +35,16 @@ if source_dir.nil? || specs.empty?
   exit 2
 end
 
-source_dir = File.expand_path(source_dir)
+# realpath, não expand_path: o Coverage reporta caminhos com os symlinks já
+# resolvidos. No macOS /var é symlink de /private/var, por isso um source_dir
+# em /var/folders (o que o mkdtemp devolve) nunca casava com os caminhos
+# reportados em /private/var/folders — e a medição devolvia ZERO ficheiros,
+# silenciosamente. Resolver dos dois lados evita o falso 0%.
+source_dir = begin
+  File.realpath(File.expand_path(source_dir))
+rescue StandardError
+  File.expand_path(source_dir)
+end
 $LOAD_PATH.unshift(source_dir)
 # Suites humanas carregam helpers a partir da própria pasta de testes
 # (`require "test_helper"` / `"spec_helper"`) — é o que o `rake test -Ilib -Itest`

@@ -19,6 +19,7 @@ import json
 import os
 import pathlib
 import shlex
+import shutil
 import signal
 import subprocess
 import sys
@@ -107,7 +108,6 @@ class Harness:
         # os ficheiros no projeto e não regenera). As caches de ANÁLISE ficam —
         # são contexto determinístico, reutilizado entre runs também no Python.
         if self.fresh_specs:
-            import shutil
             spec_dir = self.out_dir / name / "marta_specs"
             if spec_dir.is_dir():
                 shutil.rmtree(spec_dir)
