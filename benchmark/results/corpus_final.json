@@ -1,0 +1,459 @@
+{
+  "target": 12,
+  "corpus": [
+    {
+      "gem": "gitlab",
+      "repo": "NARKOZ/gitlab",
+      "sha": "8aef58f39fb4c3a8e568bba8ad1c6d131abfead0",
+      "section": "third-party apis",
+      "downloads": 113116823,
+      "metrics": {
+        "files": 82,
+        "loc": 9693,
+        "target_methods": 644,
+        "classes": 29,
+        "call_graph_edges": 95,
+        "parse_errors": 0
+      },
+      "code": {
+        "avg_method_loc": 4.0,
+        "max_method_loc": 43,
+        "pct_singleton": 4,
+        "pct_duck_typed": 11,
+        "modules": 71,
+        "mixins_per_class": 2.31,
+        "max_ancestor_depth": 68,
+        "metaprog_calls": 9,
+        "metaprog_per_100methods": 1.4
+      }
+    },
+    {
+      "gem": "parallel",
+      "repo": "grosser/parallel",
+      "sha": "9bc03fe4e800ced0636c73c77f8c2134e9ae522d",
+      "section": "concurrency and parallelism",
+      "downloads": 794250714,
+      "metrics": {
+        "files": 3,
+        "loc": 803,
+        "target_methods": 53,
+        "classes": 9,
+        "call_graph_edges": 30,
+        "parse_errors": 0
+      },
+      "code": {
+        "avg_method_loc": 11.5,
+        "max_method_loc": 59,
+        "pct_singleton": 75,
+        "pct_duck_typed": 53,
+        "modules": 2,
+        "mixins_per_class": 0.0,
+        "max_ancestor_depth": 2,
+        "metaprog_calls": 5,
+        "metaprog_per_100methods": 9.4
+      }
+    },
+    {
+      "gem": "rdoc",
+      "repo": "ruby/rdoc",
+      "sha": "75fecbb911d20d398699441b297579321d2c27d1",
+      "section": "documentation",
+      "downloads": 324042025,
+      "metrics": {
+        "files": 110,
+        "loc": 48444,
+        "target_methods": 1771,
+        "classes": 106,
+        "call_graph_edges": 3662,
+        "parse_errors": 0
+      },
+      "code": {
+        "avg_method_loc": 18.3,
+        "max_method_loc": 1405,
+        "pct_singleton": 5,
+        "pct_duck_typed": 35,
+        "modules": 14,
+        "mixins_per_class": 0.16,
+        "max_ancestor_depth": 4,
+        "metaprog_calls": 24,
+        "metaprog_per_100methods": 1.4
+      }
+    },
+    {
+      "gem": "faker",
+      "repo": "faker-ruby/faker",
+      "sha": "cca4184947e09fdd02afb8b89d25a9c8ebc7274e",
+      "section": "testing",
+      "downloads": 332706722,
+      "metrics": {
+        "files": 253,
+        "loc": 22402,
+        "target_methods": 1381,
+        "classes": 260,
+        "call_graph_edges": 204,
+        "parse_errors": 0
+      },
+      "code": {
+        "avg_method_loc": 4.8,
+        "max_method_loc": 72,
+        "pct_singleton": 98,
+        "pct_duck_typed": 11,
+        "modules": 5,
+        "mixins_per_class": 0.0,
+        "max_ancestor_depth": 2,
+        "metaprog_calls": 12,
+        "metaprog_per_100methods": 0.9
+      }
+    },
+    {
+      "gem": "connection_pool",
+      "repo": "mperham/connection_pool",
+      "sha": "b262ff998159848dfe49ee31fe421cb933c818e4",
+      "section": "database tools",
+      "downloads": 694158885,
+      "metrics": {
+        "files": 5,
+        "loc": 507,
+        "target_methods": 38,
+        "classes": 6,
+        "call_graph_edges": 28,
+        "parse_errors": 0
+      },
+      "code": {
+        "avg_method_loc": 6.3,
+        "max_method_loc": 26,
+        "pct_singleton": 8,
+        "pct_duck_typed": 5,
+        "modules": 1,
+        "mixins_per_class": 0.0,
+        "max_ancestor_depth": 2,
+        "metaprog_calls": 1,
+        "metaprog_per_100methods": 2.6
+      }
+    },
+    {
+      "gem": "virtus",
+      "repo": "solnic/virtus",
+      "sha": "fce56bd6676d767f287e4051176d3d323e48902f",
+      "section": "core extensions",
+      "downloads": 128955913,
+      "metrics": {
+        "files": 34,
+        "loc": 3154,
+        "target_methods": 204,
+        "classes": 25,
+        "call_graph_edges": 226,
+        "parse_errors": 0
+      },
+      "code": {
+        "avg_method_loc": 4.9,
+        "max_method_loc": 25,
+        "pct_singleton": 30,
+        "pct_duck_typed": 40,
+        "modules": 27,
+        "mixins_per_class": 0.8,
+        "max_ancestor_depth": 2,
+        "metaprog_calls": 58,
+        "metaprog_per_100methods": 28.4
+      }
+    },
+    {
+      "gem": "formatador",
+      "repo": "geemus/formatador",
+      "sha": "b059e42ee5aa6ccee5310e1dac57689659278197",
+      "section": "cli utilities",
+      "downloads": 277217753,
+      "metrics": {
+        "files": 3,
+        "loc": 347,
+        "target_methods": 20,
+        "classes": 2,
+        "call_graph_edges": 24,
+        "parse_errors": 0
+      },
+      "code": {
+        "avg_method_loc": 10.8,
+        "max_method_loc": 69,
+        "pct_singleton": 0,
+        "pct_duck_typed": 50,
+        "modules": 0,
+        "mixins_per_class": 0.0,
+        "max_ancestor_depth": 1,
+        "metaprog_calls": 0,
+        "metaprog_per_100methods": 0.0
+      }
+    },
+    {
+      "gem": "addressable",
+      "repo": "sporkmonger/addressable",
+      "sha": "d298c9f551fa9748d16dbfb6273b70f60b3d61bc",
+      "section": "core extensions",
+      "downloads": 1224691994,
+      "metrics": {
+        "files": 7,
+        "loc": 8491,
+        "target_methods": 132,
+        "classes": 10,
+        "call_graph_edges": 350,
+        "parse_errors": 0
+      },
+      "code": {
+        "avg_method_loc": 18.2,
+        "max_method_loc": 120,
+        "pct_singleton": 23,
+        "pct_duck_typed": 52,
+        "modules": 6,
+        "mixins_per_class": 0.1,
+        "max_ancestor_depth": 1,
+        "metaprog_calls": 3,
+        "metaprog_per_100methods": 2.3
+      }
+    },
+    {
+      "gem": "rouge",
+      "repo": "rouge-ruby/rouge",
+      "sha": "aed8a2f81e76470a5a5fe19eca01b2dd0179cb33",
+      "section": "code highlighting",
+      "downloads": 311595443,
+      "metrics": {
+        "files": 301,
+        "loc": 41425,
+        "target_methods": 844,
+        "classes": 312,
+        "call_graph_edges": 485,
+        "parse_errors": 0
+      },
+      "code": {
+        "avg_method_loc": 11.3,
+        "max_method_loc": 475,
+        "pct_singleton": 70,
+        "pct_duck_typed": 20,
+        "modules": 17,
+        "mixins_per_class": 0.18,
+        "max_ancestor_depth": 6,
+        "metaprog_calls": 15,
+        "metaprog_per_100methods": 1.8
+      }
+    },
+    {
+      "gem": "pry-byebug",
+      "repo": "deivid-rodriguez/pry-byebug",
+      "sha": "5459d85346c43b1eae3c01f066995a60b997da03",
+      "section": "debugging tools",
+      "downloads": 281070336,
+      "metrics": {
+        "files": 24,
+        "loc": 1040,
+        "target_methods": 66,
+        "classes": 15,
+        "call_graph_edges": 58,
+        "parse_errors": 0
+      },
+      "code": {
+        "avg_method_loc": 6.2,
+        "max_method_loc": 23,
+        "pct_singleton": 2,
+        "pct_duck_typed": 24,
+        "modules": 10,
+        "mixins_per_class": 1.13,
+        "max_ancestor_depth": 4,
+        "metaprog_calls": 2,
+        "metaprog_per_100methods": 3.0
+      }
+    },
+    {
+      "gem": "sprockets",
+      "repo": "rails/sprockets",
+      "sha": "834279b1633d5c41d8c746a0317de27c4ab2c69d",
+      "section": "assets",
+      "downloads": 609737692,
+      "metrics": {
+        "files": 80,
+        "loc": 8879,
+        "target_methods": 485,
+        "classes": 53,
+        "call_graph_edges": 470,
+        "parse_errors": 0
+      },
+      "code": {
+        "avg_method_loc": 8.4,
+        "max_method_loc": 93,
+        "pct_singleton": 11,
+        "pct_duck_typed": 32,
+        "modules": 36,
+        "mixins_per_class": 1.15,
+        "max_ancestor_depth": 25,
+        "metaprog_calls": 9,
+        "metaprog_per_100methods": 1.9
+      }
+    },
+    {
+      "gem": "httparty",
+      "repo": "jnunemaker/httparty",
+      "sha": "2daba91bf3f61de2676a2e906f4d3181ebadea83",
+      "section": "http clients and tools",
+      "downloads": 468997775,
+      "metrics": {
+        "files": 24,
+        "loc": 2906,
+        "target_methods": 238,
+        "classes": 27,
+        "call_graph_edges": 400,
+        "parse_errors": 0
+      },
+      "code": {
+        "avg_method_loc": 6.6,
+        "max_method_loc": 63,
+        "pct_singleton": 13,
+        "pct_duck_typed": 22,
+        "modules": 9,
+        "mixins_per_class": 0.07,
+        "max_ancestor_depth": 4,
+        "metaprog_calls": 21,
+        "metaprog_per_100methods": 8.8
+      }
+    }
+  ],
+  "attempts": [
+    {
+      "status": "installed",
+      "sha": "8aef58f39fb4c3a8e568bba8ad1c6d131abfead0",
+      "detail": null,
+      "gem": "gitlab",
+      "repo": "NARKOZ/gitlab",
+      "rank": 1,
+      "seconds": 6.6
+    },
+    {
+      "status": "installed",
+      "sha": "9bc03fe4e800ced0636c73c77f8c2134e9ae522d",
+      "detail": null,
+      "gem": "parallel",
+      "repo": "grosser/parallel",
+      "rank": 2,
+      "seconds": 1.1
+    },
+    {
+      "status": "installed",
+      "sha": "75fecbb911d20d398699441b297579321d2c27d1",
+      "detail": null,
+      "gem": "rdoc",
+      "repo": "ruby/rdoc",
+      "rank": 3,
+      "seconds": 8.5
+    },
+    {
+      "status": "installed",
+      "sha": "cca4184947e09fdd02afb8b89d25a9c8ebc7274e",
+      "detail": null,
+      "gem": "faker",
+      "repo": "faker-ruby/faker",
+      "rank": 4,
+      "seconds": 2.5
+    },
+    {
+      "status": "installed",
+      "sha": "b262ff998159848dfe49ee31fe421cb933c818e4",
+      "detail": null,
+      "gem": "connection_pool",
+      "repo": "mperham/connection_pool",
+      "rank": 5,
+      "seconds": 1.2
+    },
+    {
+      "status": "installed",
+      "sha": "fce56bd6676d767f287e4051176d3d323e48902f",
+      "detail": null,
+      "gem": "virtus",
+      "repo": "solnic/virtus",
+      "rank": 6,
+      "seconds": 2.6
+    },
+    {
+      "status": "native_extension",
+      "sha": "0b88d5ff75f69b3740c8f0868e76f833cb2fd45d",
+      "gem": "concurrent-ruby",
+      "repo": "ruby-concurrency/concurrent-ruby",
+      "rank": 7,
+      "seconds": 1.3
+    },
+    {
+      "status": "installed",
+      "sha": "b059e42ee5aa6ccee5310e1dac57689659278197",
+      "detail": null,
+      "gem": "formatador",
+      "repo": "geemus/formatador",
+      "rank": 8,
+      "seconds": 2.5
+    },
+    {
+      "status": "no_gemspec",
+      "sha": "12b3d2e752793d4128b6355c338b23fefa674ee0",
+      "gem": "kramdown",
+      "repo": "gettalong/kramdown",
+      "rank": 9,
+      "seconds": 1.3
+    },
+    {
+      "status": "native_extension",
+      "sha": "1aa1e6673813d4a6dd7cb1d582f84bf03c9f8091",
+      "gem": "mysql2",
+      "repo": "brianmario/mysql2",
+      "rank": 10,
+      "seconds": 1.0
+    },
+    {
+      "status": "native_extension",
+      "sha": "160fc10a7994510ef22f4c5aa81f5a07614c7102",
+      "gem": "bootsnap",
+      "repo": "rails/bootsnap",
+      "rank": 11,
+      "seconds": 1.0
+    },
+    {
+      "status": "installed",
+      "sha": "d298c9f551fa9748d16dbfb6273b70f60b3d61bc",
+      "detail": null,
+      "gem": "addressable",
+      "repo": "sporkmonger/addressable",
+      "rank": 12,
+      "seconds": 1.5
+    },
+    {
+      "status": "installed",
+      "sha": "aed8a2f81e76470a5a5fe19eca01b2dd0179cb33",
+      "detail": null,
+      "gem": "rouge",
+      "repo": "rouge-ruby/rouge",
+      "rank": 13,
+      "seconds": 2.6
+    },
+    {
+      "status": "installed",
+      "sha": "5459d85346c43b1eae3c01f066995a60b997da03",
+      "detail": null,
+      "gem": "pry-byebug",
+      "repo": "deivid-rodriguez/pry-byebug",
+      "rank": 14,
+      "seconds": 3.8
+    },
+    {
+      "status": "installed",
+      "sha": "834279b1633d5c41d8c746a0317de27c4ab2c69d",
+      "detail": null,
+      "gem": "sprockets",
+      "repo": "rails/sprockets",
+      "rank": 15,
+      "seconds": 1.9
+    },
+    {
+      "status": "installed",
+      "sha": "2daba91bf3f61de2676a2e906f4d3181ebadea83",
+      "detail": null,
+      "gem": "httparty",
+      "repo": "jnunemaker/httparty",
+      "rank": 16,
+      "seconds": 3.4
+    }
+  ]
+}

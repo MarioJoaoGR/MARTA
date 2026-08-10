@@ -1,1 +1,7 @@
-results/
+# Dados intermédios volumosos/regeneráveis ficam fora do git...
+results/*
+# ...mas os ARTEFACTOS DO PAPER são versionados (definem o corpus e a seleção):
+!results/corpus_final.json
+!results/corpus_selection.json
+!results/population.json
+!results/sampling_frame.json

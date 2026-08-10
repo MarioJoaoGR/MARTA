@@ -1,0 +1,91 @@
+{
+  "top_n": 200,
+  "min_downloads": 100000000,
+  "all_in_frame": true,
+  "gems": [
+    {
+      "repo": "i18n",
+      "gem": "i18n",
+      "downloads": 1391284532,
+      "total_rank": 6,
+      "in_frame": true
+    },
+    {
+      "repo": "addressable",
+      "gem": "addressable",
+      "downloads": 1224691994,
+      "total_rank": 16,
+      "in_frame": true
+    },
+    {
+      "repo": "public_suffix",
+      "gem": "public_suffix",
+      "downloads": 1196593995,
+      "total_rank": 19,
+      "in_frame": true
+    },
+    {
+      "repo": "ruby-jwt",
+      "gem": "jwt",
+      "downloads": 786280531,
+      "total_rank": 42,
+      "in_frame": true
+    },
+    {
+      "repo": "rubyzip",
+      "gem": "rubyzip",
+      "downloads": 762675971,
+      "total_rank": 47,
+      "in_frame": true
+    },
+    {
+      "repo": "hashie",
+      "gem": "hashie",
+      "downloads": 470728982,
+      "total_rank": 103,
+      "in_frame": true
+    },
+    {
+      "repo": "httparty",
+      "gem": "httparty",
+      "downloads": 468997775,
+      "total_rank": 106,
+      "in_frame": true
+    },
+    {
+      "repo": "faker",
+      "gem": "faker",
+      "downloads": 332706722,
+      "total_rank": 152,
+      "in_frame": true
+    },
+    {
+      "repo": "kramdown",
+      "gem": "kramdown",
+      "downloads": 244648522,
+      "total_rank": 212,
+      "in_frame": true
+    },
+    {
+      "repo": "liquid",
+      "gem": "liquid",
+      "downloads": 134010982,
+      "total_rank": 384,
+      "in_frame": true
+    },
+    {
+      "repo": "chronic",
+      "gem": "chronic",
+      "downloads": 132229118,
+      "total_rank": 385,
+      "in_frame": true
+    },
+    {
+      "repo": "money",
+      "gem": "money",
+      "downloads": 129351548,
+      "total_rank": 399,
+      "in_frame": true
+    }
+  ]
+}

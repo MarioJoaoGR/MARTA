@@ -1,0 +1,882 @@
+{
+  "min_downloads": 100000000,
+  "source": "awesome-ruby",
+  "count": 125,
+  "gems": [
+    {
+      "gem": "i18n",
+      "repo": "ruby-i18n/i18n",
+      "section": "internationalization",
+      "downloads": 1391284532,
+      "clone": "https://github.com/ruby-i18n/i18n"
+    },
+    {
+      "gem": "rake",
+      "repo": "ruby/rake",
+      "section": "cli builder",
+      "downloads": 1368592932,
+      "clone": "https://github.com/ruby/rake"
+    },
+    {
+      "gem": "concurrent-ruby",
+      "repo": "ruby-concurrency/concurrent-ruby",
+      "section": "concurrency and parallelism",
+      "downloads": 1323126716,
+      "clone": "https://github.com/ruby-concurrency/concurrent-ruby"
+    },
+    {
+      "gem": "tzinfo",
+      "repo": "tzinfo/tzinfo",
+      "section": "date and time processing",
+      "downloads": 1281267228,
+      "clone": "https://github.com/tzinfo/tzinfo"
+    },
+    {
+      "gem": "minitest",
+      "repo": "minitest/minitest",
+      "section": "testing",
+      "downloads": 1257661374,
+      "clone": "https://github.com/minitest/minitest"
+    },
+    {
+      "gem": "addressable",
+      "repo": "sporkmonger/addressable",
+      "section": "core extensions",
+      "downloads": 1224691994,
+      "clone": "https://github.com/sporkmonger/addressable"
+    },
+    {
+      "gem": "faraday",
+      "repo": "lostisland/faraday",
+      "section": "http clients and tools",
+      "downloads": 1219354539,
+      "clone": "https://github.com/lostisland/faraday"
+    },
+    {
+      "gem": "rspec",
+      "repo": "rspec/rspec",
+      "section": "testing",
+      "downloads": 999275361,
+      "clone": "https://github.com/rspec/rspec"
+    },
+    {
+      "gem": "parallel",
+      "repo": "grosser/parallel",
+      "section": "concurrency and parallelism",
+      "downloads": 794250714,
+      "clone": "https://github.com/grosser/parallel"
+    },
+    {
+      "gem": "jwt",
+      "repo": "jwt/ruby-jwt",
+      "section": "authentication and oauth",
+      "downloads": 786280531,
+      "clone": "https://github.com/jwt/ruby-jwt"
+    },
+    {
+      "gem": "tilt",
+      "repo": "rtomayko/tilt",
+      "section": "template engine",
+      "downloads": 773915317,
+      "clone": "https://github.com/rtomayko/tilt"
+    },
+    {
+      "gem": "rails",
+      "repo": "rails/rails",
+      "section": "core extensions",
+      "downloads": 765697712,
+      "clone": "https://github.com/rails/rails"
+    },
+    {
+      "gem": "mail",
+      "repo": "mikel/mail",
+      "section": "email",
+      "downloads": 741713138,
+      "clone": "https://github.com/mikel/mail"
+    },
+    {
+      "gem": "rubocop",
+      "repo": "rubocop/rubocop",
+      "section": "code formatting",
+      "downloads": 718844018,
+      "clone": "https://github.com/rubocop/rubocop"
+    },
+    {
+      "gem": "connection_pool",
+      "repo": "mperham/connection_pool",
+      "section": "database tools",
+      "downloads": 694158885,
+      "clone": "https://github.com/mperham/connection_pool"
+    },
+    {
+      "gem": "excon",
+      "repo": "excon/excon",
+      "section": "http clients and tools",
+      "downloads": 688986208,
+      "clone": "https://github.com/excon/excon"
+    },
+    {
+      "gem": "zeitwerk",
+      "repo": "fxn/zeitwerk",
+      "section": "code loaders",
+      "downloads": 671401791,
+      "clone": "https://github.com/fxn/zeitwerk"
+    },
+    {
+      "gem": "coderay",
+      "repo": "rubychan/coderay",
+      "section": "code highlighting",
+      "downloads": 624648776,
+      "clone": "https://github.com/rubychan/coderay"
+    },
+    {
+      "gem": "pry",
+      "repo": "pry/pry",
+      "section": "irb",
+      "downloads": 618250730,
+      "clone": "https://github.com/pry/pry"
+    },
+    {
+      "gem": "sprockets",
+      "repo": "rails/sprockets",
+      "section": "assets",
+      "downloads": 609737692,
+      "clone": "https://github.com/rails/sprockets"
+    },
+    {
+      "gem": "dotenv",
+      "repo": "bkeepers/dotenv",
+      "section": "configuration",
+      "downloads": 526275913,
+      "clone": "https://github.com/bkeepers/dotenv"
+    },
+    {
+      "gem": "httpclient",
+      "repo": "nahi/httpclient",
+      "section": "http clients and tools",
+      "downloads": 520973946,
+      "clone": "https://github.com/nahi/httpclient"
+    },
+    {
+      "gem": "docile",
+      "repo": "ms-ati/docile",
+      "section": "core extensions",
+      "downloads": 488608550,
+      "clone": "https://github.com/ms-ati/docile"
+    },
+    {
+      "gem": "simplecov",
+      "repo": "simplecov-ruby/simplecov",
+      "section": "code analysis and metrics",
+      "downloads": 484039519,
+      "clone": "https://github.com/simplecov-ruby/simplecov"
+    },
+    {
+      "gem": "rest-client",
+      "repo": "rest-client/rest-client",
+      "section": "http clients and tools",
+      "downloads": 476450224,
+      "clone": "https://github.com/rest-client/rest-client"
+    },
+    {
+      "gem": "hashie",
+      "repo": "hashie/hashie",
+      "section": "core extensions",
+      "downloads": 470728982,
+      "clone": "https://github.com/hashie/hashie"
+    },
+    {
+      "gem": "httparty",
+      "repo": "jnunemaker/httparty",
+      "section": "http clients and tools",
+      "downloads": 468997775,
+      "clone": "https://github.com/jnunemaker/httparty"
+    },
+    {
+      "gem": "byebug",
+      "repo": "deivid-rodriguez/byebug",
+      "section": "debugging tools",
+      "downloads": 468879573,
+      "clone": "https://github.com/deivid-rodriguez/byebug"
+    },
+    {
+      "gem": "pg",
+      "repo": "ged/ruby-pg",
+      "section": "database drivers",
+      "downloads": 456473623,
+      "clone": "https://github.com/ged/ruby-pg"
+    },
+    {
+      "gem": "webmock",
+      "repo": "bblimke/webmock",
+      "section": "testing",
+      "downloads": 409470665,
+      "clone": "https://github.com/bblimke/webmock"
+    },
+    {
+      "gem": "terminal-table",
+      "repo": "tj/terminal-table",
+      "section": "cli utilities",
+      "downloads": 403794613,
+      "clone": "https://github.com/tj/terminal-table"
+    },
+    {
+      "gem": "sawyer",
+      "repo": "lostisland/sawyer",
+      "section": "http clients and tools",
+      "downloads": 390861512,
+      "clone": "https://github.com/lostisland/sawyer"
+    },
+    {
+      "gem": "listen",
+      "repo": "guard/listen",
+      "section": "file system listener",
+      "downloads": 389894851,
+      "clone": "https://github.com/guard/listen"
+    },
+    {
+      "gem": "knapsack",
+      "repo": "KnapsackPro/knapsack",
+      "section": "testing",
+      "downloads": 373246302,
+      "clone": "https://github.com/KnapsackPro/knapsack"
+    },
+    {
+      "gem": "bootsnap",
+      "repo": "rails/bootsnap",
+      "section": "optimizations",
+      "downloads": 360318994,
+      "clone": "https://github.com/rails/bootsnap"
+    },
+    {
+      "gem": "sinatra",
+      "repo": "sinatra/sinatra",
+      "section": "security",
+      "downloads": 349507400,
+      "clone": "https://github.com/sinatra/sinatra"
+    },
+    {
+      "gem": "capybara",
+      "repo": "teamcapybara/capybara",
+      "section": "testing",
+      "downloads": 349274643,
+      "clone": "https://github.com/teamcapybara/capybara"
+    },
+    {
+      "gem": "factory_bot",
+      "repo": "thoughtbot/factory_bot",
+      "section": "testing",
+      "downloads": 342498582,
+      "clone": "https://github.com/thoughtbot/factory_bot"
+    },
+    {
+      "gem": "faker",
+      "repo": "faker-ruby/faker",
+      "section": "testing",
+      "downloads": 332706722,
+      "clone": "https://github.com/faker-ruby/faker"
+    },
+    {
+      "gem": "eventmachine",
+      "repo": "eventmachine/eventmachine",
+      "section": "concurrency and parallelism",
+      "downloads": 325968465,
+      "clone": "https://github.com/eventmachine/eventmachine"
+    },
+    {
+      "gem": "responders",
+      "repo": "heartcombo/responders",
+      "section": "decorators",
+      "downloads": 325562610,
+      "clone": "https://github.com/heartcombo/responders"
+    },
+    {
+      "gem": "rdoc",
+      "repo": "ruby/rdoc",
+      "section": "documentation",
+      "downloads": 324042025,
+      "clone": "https://github.com/ruby/rdoc"
+    },
+    {
+      "gem": "rubocop-performance",
+      "repo": "rubocop/rubocop-performance",
+      "section": "code formatting",
+      "downloads": 311862623,
+      "clone": "https://github.com/rubocop/rubocop-performance"
+    },
+    {
+      "gem": "rouge",
+      "repo": "rouge-ruby/rouge",
+      "section": "code highlighting",
+      "downloads": 311595443,
+      "clone": "https://github.com/rouge-ruby/rouge"
+    },
+    {
+      "gem": "jbuilder",
+      "repo": "rails/jbuilder",
+      "section": "api builder and discovery",
+      "downloads": 303705578,
+      "clone": "https://github.com/rails/jbuilder"
+    },
+    {
+      "gem": "childprocess",
+      "repo": "enkessler/childprocess",
+      "section": "processes",
+      "downloads": 302513971,
+      "clone": "https://github.com/enkessler/childprocess"
+    },
+    {
+      "gem": "warden",
+      "repo": "wardencommunity/warden",
+      "section": "authentication and oauth",
+      "downloads": 298265490,
+      "clone": "https://github.com/wardencommunity/warden"
+    },
+    {
+      "gem": "rubocop-rails",
+      "repo": "rubocop/rubocop-rails",
+      "section": "code formatting",
+      "downloads": 292941069,
+      "clone": "https://github.com/rubocop/rubocop-rails"
+    },
+    {
+      "gem": "devise",
+      "repo": "heartcombo/devise",
+      "section": "authentication and oauth",
+      "downloads": 287629942,
+      "clone": "https://github.com/heartcombo/devise"
+    },
+    {
+      "gem": "rubocop-rspec",
+      "repo": "rubocop/rubocop-rspec",
+      "section": "code formatting",
+      "downloads": 283897042,
+      "clone": "https://github.com/rubocop/rubocop-rspec"
+    },
+    {
+      "gem": "awesome_print",
+      "repo": "awesome-print/awesome_print",
+      "section": "cli utilities",
+      "downloads": 283189041,
+      "clone": "https://github.com/awesome-print/awesome_print"
+    },
+    {
+      "gem": "pry-byebug",
+      "repo": "deivid-rodriguez/pry-byebug",
+      "section": "debugging tools",
+      "downloads": 281070336,
+      "clone": "https://github.com/deivid-rodriguez/pry-byebug"
+    },
+    {
+      "gem": "typhoeus",
+      "repo": "typhoeus/typhoeus",
+      "section": "http clients and tools",
+      "downloads": 279926848,
+      "clone": "https://github.com/typhoeus/typhoeus"
+    },
+    {
+      "gem": "formatador",
+      "repo": "geemus/formatador",
+      "section": "cli utilities",
+      "downloads": 277217753,
+      "clone": "https://github.com/geemus/formatador"
+    },
+    {
+      "gem": "oauth2",
+      "repo": "ruby-oauth/oauth2",
+      "section": "authentication and oauth",
+      "downloads": 268409368,
+      "clone": "https://github.com/ruby-oauth/oauth2"
+    },
+    {
+      "gem": "rack-cors",
+      "repo": "cyu/rack-cors",
+      "section": "http clients and tools",
+      "downloads": 266045021,
+      "clone": "https://github.com/cyu/rack-cors"
+    },
+    {
+      "gem": "timecop",
+      "repo": "travisjeffery/timecop",
+      "section": "testing",
+      "downloads": 265905000,
+      "clone": "https://github.com/travisjeffery/timecop"
+    },
+    {
+      "gem": "shoulda-matchers",
+      "repo": "thoughtbot/shoulda-matchers",
+      "section": "testing",
+      "downloads": 265322401,
+      "clone": "https://github.com/thoughtbot/shoulda-matchers"
+    },
+    {
+      "gem": "kaminari",
+      "repo": "amatsuda/kaminari",
+      "section": "pagination",
+      "downloads": 264937790,
+      "clone": "https://github.com/amatsuda/kaminari"
+    },
+    {
+      "gem": "spring",
+      "repo": "rails/spring",
+      "section": "testing",
+      "downloads": 254176669,
+      "clone": "https://github.com/rails/spring"
+    },
+    {
+      "gem": "kramdown",
+      "repo": "gettalong/kramdown",
+      "section": "markdown processors",
+      "downloads": 244648522,
+      "clone": "https://github.com/gettalong/kramdown"
+    },
+    {
+      "gem": "mysql2",
+      "repo": "brianmario/mysql2",
+      "section": "database drivers",
+      "downloads": 237680672,
+      "clone": "https://github.com/brianmario/mysql2"
+    },
+    {
+      "gem": "pry-rails",
+      "repo": "pry/pry-rails",
+      "section": "debugging tools",
+      "downloads": 224243130,
+      "clone": "https://github.com/pry/pry-rails"
+    },
+    {
+      "gem": "brakeman",
+      "repo": "presidentbeef/brakeman",
+      "section": "code analysis and metrics",
+      "downloads": 223411874,
+      "clone": "https://github.com/presidentbeef/brakeman"
+    },
+    {
+      "gem": "omniauth",
+      "repo": "omniauth/omniauth",
+      "section": "authentication and oauth",
+      "downloads": 217281984,
+      "clone": "https://github.com/omniauth/omniauth"
+    },
+    {
+      "gem": "database_cleaner",
+      "repo": "DatabaseCleaner/database_cleaner",
+      "section": "database tools",
+      "downloads": 214143143,
+      "clone": "https://github.com/DatabaseCleaner/database_cleaner"
+    },
+    {
+      "gem": "dry-types",
+      "repo": "dry-rb/dry-types",
+      "section": "type signatures and type checking",
+      "downloads": 213094468,
+      "clone": "https://github.com/dry-rb/dry-types"
+    },
+    {
+      "gem": "http",
+      "repo": "httprb/http",
+      "section": "http clients and tools",
+      "downloads": 207990463,
+      "clone": "https://github.com/httprb/http"
+    },
+    {
+      "gem": "fastlane",
+      "repo": "fastlane/fastlane",
+      "section": "mobile development",
+      "downloads": 204694103,
+      "clone": "https://github.com/fastlane/fastlane"
+    },
+    {
+      "gem": "fastimage",
+      "repo": "sdsykes/fastimage",
+      "section": "image processing",
+      "downloads": 202871075,
+      "clone": "https://github.com/sdsykes/fastimage"
+    },
+    {
+      "gem": "haml",
+      "repo": "haml/haml",
+      "section": "template engine",
+      "downloads": 201647818,
+      "clone": "https://github.com/haml/haml"
+    },
+    {
+      "gem": "lograge",
+      "repo": "roidrage/lograge",
+      "section": "logging",
+      "downloads": 193995038,
+      "clone": "https://github.com/roidrage/lograge"
+    },
+    {
+      "gem": "state_machines",
+      "repo": "state-machines/state_machines",
+      "section": "state machines",
+      "downloads": 181736746,
+      "clone": "https://github.com/state-machines/state_machines"
+    },
+    {
+      "gem": "bullet",
+      "repo": "flyerhzm/bullet",
+      "section": "profiler and optimization",
+      "downloads": 179277207,
+      "clone": "https://github.com/flyerhzm/bullet"
+    },
+    {
+      "gem": "colorize",
+      "repo": "fazibear/colorize",
+      "section": "cli utilities",
+      "downloads": 164451115,
+      "clone": "https://github.com/fazibear/colorize"
+    },
+    {
+      "gem": "activerecord-import",
+      "repo": "zdennis/activerecord-import",
+      "section": "orm/odm extensions",
+      "downloads": 161674034,
+      "clone": "https://github.com/zdennis/activerecord-import"
+    },
+    {
+      "gem": "autoprefixer-rails",
+      "repo": "ai/autoprefixer-rails",
+      "section": "assets",
+      "downloads": 161389302,
+      "clone": "https://github.com/ai/autoprefixer-rails"
+    },
+    {
+      "gem": "parallel_tests",
+      "repo": "grosser/parallel_tests",
+      "section": "testing",
+      "downloads": 161127723,
+      "clone": "https://github.com/grosser/parallel_tests"
+    },
+    {
+      "gem": "vcr",
+      "repo": "vcr/vcr",
+      "section": "testing",
+      "downloads": 160058495,
+      "clone": "https://github.com/vcr/vcr"
+    },
+    {
+      "gem": "slop",
+      "repo": "leejarvis/slop",
+      "section": "cli builder",
+      "downloads": 156245453,
+      "clone": "https://github.com/leejarvis/slop"
+    },
+    {
+      "gem": "stackprof",
+      "repo": "tmm1/stackprof",
+      "section": "profiler and optimization",
+      "downloads": 152276638,
+      "clone": "https://github.com/tmm1/stackprof"
+    },
+    {
+      "gem": "guard",
+      "repo": "guard/guard",
+      "section": "file system listener",
+      "downloads": 151736668,
+      "clone": "https://github.com/guard/guard"
+    },
+    {
+      "gem": "rack-attack",
+      "repo": "rack/rack-attack",
+      "section": "security",
+      "downloads": 146273057,
+      "clone": "https://github.com/rack/rack-attack"
+    },
+    {
+      "gem": "sentry-ruby",
+      "repo": "getsentry/sentry-ruby",
+      "section": "error handling",
+      "downloads": 143578151,
+      "clone": "https://github.com/getsentry/sentry-ruby"
+    },
+    {
+      "gem": "paper_trail",
+      "repo": "paper-trail-gem/paper_trail",
+      "section": "orm/odm extensions",
+      "downloads": 142362441,
+      "clone": "https://github.com/paper-trail-gem/paper_trail"
+    },
+    {
+      "gem": "commander",
+      "repo": "commander-rb/commander",
+      "section": "cli builder",
+      "downloads": 141789794,
+      "clone": "https://github.com/commander-rb/commander"
+    },
+    {
+      "gem": "rufus-scheduler",
+      "repo": "jmettraux/rufus-scheduler",
+      "section": "scheduling",
+      "downloads": 139217207,
+      "clone": "https://github.com/jmettraux/rufus-scheduler"
+    },
+    {
+      "gem": "carrierwave",
+      "repo": "carrierwaveuploader/carrierwave",
+      "section": "file upload",
+      "downloads": 138758870,
+      "clone": "https://github.com/carrierwaveuploader/carrierwave"
+    },
+    {
+      "gem": "slack-notifier",
+      "repo": "slack-notifier/slack-notifier",
+      "section": "third-party apis",
+      "downloads": 137669280,
+      "clone": "https://github.com/slack-notifier/slack-notifier"
+    },
+    {
+      "gem": "bundler-audit",
+      "repo": "rubysec/bundler-audit",
+      "section": "security",
+      "downloads": 137459739,
+      "clone": "https://github.com/rubysec/bundler-audit"
+    },
+    {
+      "gem": "rails-i18n",
+      "repo": "svenfuchs/rails-i18n",
+      "section": "internationalization",
+      "downloads": 136382303,
+      "clone": "https://github.com/svenfuchs/rails-i18n"
+    },
+    {
+      "gem": "jaro_winkler",
+      "repo": "tonytonyjan/jaro_winkler",
+      "section": "scientific",
+      "downloads": 136242790,
+      "clone": "https://github.com/tonytonyjan/jaro_winkler"
+    },
+    {
+      "gem": "active_model_serializers",
+      "repo": "rails-api/active_model_serializers",
+      "section": "api builder and discovery",
+      "downloads": 134491965,
+      "clone": "https://github.com/rails-api/active_model_serializers"
+    },
+    {
+      "gem": "liquid",
+      "repo": "Shopify/liquid",
+      "section": "template engine",
+      "downloads": 134010982,
+      "clone": "https://github.com/Shopify/liquid"
+    },
+    {
+      "gem": "chronic",
+      "repo": "mojombo/chronic",
+      "section": "date and time processing",
+      "downloads": 132229118,
+      "clone": "https://github.com/mojombo/chronic"
+    },
+    {
+      "gem": "optimist",
+      "repo": "ManageIQ/optimist",
+      "section": "cli builder",
+      "downloads": 132079631,
+      "clone": "https://github.com/ManageIQ/optimist"
+    },
+    {
+      "gem": "twilio-ruby",
+      "repo": "twilio/twilio-ruby",
+      "section": "third-party apis",
+      "downloads": 130091030,
+      "clone": "https://github.com/twilio/twilio-ruby"
+    },
+    {
+      "gem": "foreman",
+      "repo": "ddollar/foreman",
+      "section": "process management and monitoring",
+      "downloads": 129712905,
+      "clone": "https://github.com/ddollar/foreman"
+    },
+    {
+      "gem": "money",
+      "repo": "RubyMoney/money",
+      "section": "money",
+      "downloads": 129351548,
+      "clone": "https://github.com/RubyMoney/money"
+    },
+    {
+      "gem": "redcarpet",
+      "repo": "vmg/redcarpet",
+      "section": "markdown processors",
+      "downloads": 129233984,
+      "clone": "https://github.com/vmg/redcarpet"
+    },
+    {
+      "gem": "virtus",
+      "repo": "solnic/virtus",
+      "section": "core extensions",
+      "downloads": 128955913,
+      "clone": "https://github.com/solnic/virtus"
+    },
+    {
+      "gem": "countries",
+      "repo": "countries/countries",
+      "section": "country data",
+      "downloads": 128072961,
+      "clone": "https://github.com/countries/countries"
+    },
+    {
+      "gem": "dalli",
+      "repo": "petergoldstein/dalli",
+      "section": "caching",
+      "downloads": 126841275,
+      "clone": "https://github.com/petergoldstein/dalli"
+    },
+    {
+      "gem": "rqrcode",
+      "repo": "whomwah/rqrcode",
+      "section": "qr",
+      "downloads": 124125209,
+      "clone": "https://github.com/whomwah/rqrcode"
+    },
+    {
+      "gem": "danger",
+      "repo": "danger/danger",
+      "section": "automation",
+      "downloads": 122312424,
+      "clone": "https://github.com/danger/danger"
+    },
+    {
+      "gem": "image_processing",
+      "repo": "janko/image_processing",
+      "section": "image processing",
+      "downloads": 117609961,
+      "clone": "https://github.com/janko/image_processing"
+    },
+    {
+      "gem": "letter_opener",
+      "repo": "ryanb/letter_opener",
+      "section": "email",
+      "downloads": 115269341,
+      "clone": "https://github.com/ryanb/letter_opener"
+    },
+    {
+      "gem": "debug",
+      "repo": "ruby/debug",
+      "section": "developer tooling",
+      "downloads": 114844074,
+      "clone": "https://github.com/ruby/debug"
+    },
+    {
+      "gem": "eye",
+      "repo": "kostya/eye",
+      "section": "process management and monitoring",
+      "downloads": 114052199,
+      "clone": "https://github.com/kostya/eye"
+    },
+    {
+      "gem": "ransack",
+      "repo": "activerecord-hackery/ransack",
+      "section": "search",
+      "downloads": 113980582,
+      "clone": "https://github.com/activerecord-hackery/ransack"
+    },
+    {
+      "gem": "gitlab",
+      "repo": "NARKOZ/gitlab",
+      "section": "third-party apis",
+      "downloads": 113116823,
+      "clone": "https://github.com/NARKOZ/gitlab"
+    },
+    {
+      "gem": "pastel",
+      "repo": "piotrmurach/pastel",
+      "section": "cli utilities",
+      "downloads": 112831712,
+      "clone": "https://github.com/piotrmurach/pastel"
+    },
+    {
+      "gem": "wisper",
+      "repo": "krisleech/wisper",
+      "section": "business logic",
+      "downloads": 112825121,
+      "clone": "https://github.com/krisleech/wisper"
+    },
+    {
+      "gem": "roo",
+      "repo": "roo-rb/roo",
+      "section": "spreadsheets and documents",
+      "downloads": 111055327,
+      "clone": "https://github.com/roo-rb/roo"
+    },
+    {
+      "gem": "doorkeeper",
+      "repo": "doorkeeper-gem/doorkeeper",
+      "section": "authentication and oauth",
+      "downloads": 110372450,
+      "clone": "https://github.com/doorkeeper-gem/doorkeeper"
+    },
+    {
+      "gem": "premailer-rails",
+      "repo": "fphilipe/premailer-rails",
+      "section": "email",
+      "downloads": 108584496,
+      "clone": "https://github.com/fphilipe/premailer-rails"
+    },
+    {
+      "gem": "gli",
+      "repo": "davetron5000/gli",
+      "section": "cli builder",
+      "downloads": 107978339,
+      "clone": "https://github.com/davetron5000/gli"
+    },
+    {
+      "gem": "better_errors",
+      "repo": "BetterErrors/better_errors",
+      "section": "error handling",
+      "downloads": 107516512,
+      "clone": "https://github.com/BetterErrors/better_errors"
+    },
+    {
+      "gem": "yajl-ruby",
+      "repo": "brianmario/yajl-ruby",
+      "section": "optimizations",
+      "downloads": 107225723,
+      "clone": "https://github.com/brianmario/yajl-ruby"
+    },
+    {
+      "gem": "geocoder",
+      "repo": "alexreisner/geocoder",
+      "section": "geolocation",
+      "downloads": 106288787,
+      "clone": "https://github.com/alexreisner/geocoder"
+    },
+    {
+      "gem": "diffy",
+      "repo": "samg/diffy",
+      "section": "diff",
+      "downloads": 106056733,
+      "clone": "https://github.com/samg/diffy"
+    },
+    {
+      "gem": "will_paginate",
+      "repo": "mislav/will_paginate",
+      "section": "pagination",
+      "downloads": 105798877,
+      "clone": "https://github.com/mislav/will_paginate"
+    },
+    {
+      "gem": "pundit",
+      "repo": "varvet/pundit",
+      "section": "authorization",
+      "downloads": 105559279,
+      "clone": "https://github.com/varvet/pundit"
+    },
+    {
+      "gem": "logging",
+      "repo": "TwP/logging",
+      "section": "logging",
+      "downloads": 105201358,
+      "clone": "https://github.com/TwP/logging"
+    },
+    {
+      "gem": "aasm",
+      "repo": "aasm/aasm",
+      "section": "state machines",
+      "downloads": 102164659,
+      "clone": "https://github.com/aasm/aasm"
+    }
+  ]
+}
