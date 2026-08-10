@@ -22,6 +22,7 @@ import shlex
 import signal
 import subprocess
 import sys
+import tempfile
 import time
 from datetime import datetime, timezone
 
@@ -55,11 +56,13 @@ def _gem_env(proj: pathlib.Path) -> dict:
 
 
 class Harness:
-    def __init__(self, projects_dir, out_dir, num, limit, timeout, fresh_specs=False):
+    def __init__(self, projects_dir, out_dir, num, limit, timeout, fresh_specs=False,
+                 targets=None):
         self.projects_dir = pathlib.Path(projects_dir).resolve()
         self.out_dir = pathlib.Path(out_dir).resolve()
         self.num, self.limit, self.timeout = num, limit, timeout
         self.fresh_specs = fresh_specs
+        self.targets = targets or {}
         self.harness_dir = self.out_dir / "harness"
         self.logs_dir = self.harness_dir / "logs"
         self.state_path = self.harness_dir / "state.json"
@@ -116,6 +119,12 @@ class Harness:
                "--output_dir", str(self.out_dir)]
         if self.limit:
             cmd += ["--limit", str(self.limit)]
+        # Seleção de ficheiros-alvo (benchmark/select_targets.py): escreve a
+        # lista deste projeto num ficheiro temporário e passa-a ao CLI.
+        if self.targets and name in self.targets:
+            tf = self.harness_dir / f"targets_{name}.json"
+            tf.write_text(json.dumps(self.targets[name]["files"], indent=2))
+            cmd += ["--targets", str(tf)]
 
         extra = _gem_env(proj)
         pp = [str(REPO)] + ([os.environ["PYTHONPATH"]] if os.environ.get("PYTHONPATH") else [])
@@ -152,8 +161,23 @@ class Harness:
             os.environ.update(_gem_env(proj))  # deps do projeto + rspec global
             p = RubyProject(root_dir=str(proj), source_dir=info["source_path"],
                             output_root=str(out_root)).discover()
-            result = cov.run_line_coverage(info["source_path"], specs, cwd=str(proj),
-                                           timeout=1800, isolated=True)
+
+            # CÓPIA DESCARTÁVEL (porte do fix Python b8cb6ac7): os testes
+            # gerados podem criar/apagar ficheiros no cwd. Medir com cwd no
+            # diretório REAL do projeto deixava-o num estado diferente a cada
+            # medição — no lado Python o mesmo projeto deu 27.7% numa execução e
+            # 8.4% noutra com os MESMOS ficheiros. Medir sobre uma cópia torna a
+            # medição reprodutível e impede que uma medição contamine a seguinte.
+            scratch = tempfile.mkdtemp(prefix=f"cov_{name}_",
+                                       dir=os.getenv("COV_SCRATCH") or None)
+            try:
+                proj_copy = os.path.join(scratch, proj.name)
+                shutil.copytree(str(proj), proj_copy, symlinks=True)
+                result = cov.run_line_coverage(info["source_path"], specs,
+                                               cwd=proj_copy, timeout=1800,
+                                               isolated=True)
+            finally:
+                shutil.rmtree(scratch, ignore_errors=True)
             tot_exec = tot_cov = fully = 0
             for t in p.targets:
                 lines = result.files.get(t.source_rel)
@@ -200,6 +224,8 @@ def main():
     ap.add_argument("--num", type=int, default=3, help="rondas do loop de cobertura")
     ap.add_argument("--limit", type=int, default=None, help="limitar métodos-alvo (smoke)")
     ap.add_argument("--timeout", type=int, default=0, help="timeout por projeto (0 = sem limite)")
+    ap.add_argument("--targets", default=None,
+                    help="targets.json do select_targets (limita os ficheiros-alvo)")
     ap.add_argument("--fresh-specs", action="store_true",
                     help="apaga marta_specs/ de cada projeto antes de gerar "
                          "(runs independentes p/ o desenho N-runs+Wilcoxon)")
@@ -218,8 +244,11 @@ def main():
         wanted = {p.strip() for p in args.projects.split(",")}
         config = {k: v for k, v in config.items() if k in wanted}
 
+    targets = None
+    if args.targets:
+        targets = json.loads(pathlib.Path(args.targets).read_text())["projects"]
     h = Harness(args.projects_dir, args.out_dir, args.num, args.limit,
-                args.timeout or None, fresh_specs=args.fresh_specs)
+                args.timeout or None, fresh_specs=args.fresh_specs, targets=targets)
     if args.reset and h.state_path.exists():
         h.state_path.unlink()
         h.state = {}

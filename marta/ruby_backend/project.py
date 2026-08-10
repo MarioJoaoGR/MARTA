@@ -159,6 +159,11 @@ class RubyProject:
     # (marta_specs/, caches) vão para esta pasta em vez de poluírem o projeto.
     # Run independente = output_root novo, exatamente como no lado Python.
     output_root: Optional[str] = None
+    # Ficheiros-alvo (caminhos relativos a source_dir). Se definido, só os
+    # métodos DESTES ficheiros viram alvos — o análogo do `modules` do
+    # projects.json na MARTA Python (_targeted_file_messages). A análise
+    # estática continua a ver o projeto inteiro (o grafo precisa disso).
+    target_files: Optional[List[str]] = None
 
     files: List[str] = field(default_factory=list)          # absolute .rb paths
     targets: List[MethodTarget] = field(default_factory=list)
@@ -207,6 +212,10 @@ class RubyProject:
             for c in fp.classes:
                 self.class_files.setdefault(c.qualified_name, path)
             require_target = self.backend.module_ref(rel)
+            # Fora da seleção de alvos? O ficheiro continua a ser PARSEADO
+            # (alimenta o grafo e o índice de tipos), mas não gera alvos.
+            if self.target_files is not None and rel not in self.target_files:
+                continue
             by_owner: Dict[str, List] = {}
             for m in fp.methods:
                 if m.owner:

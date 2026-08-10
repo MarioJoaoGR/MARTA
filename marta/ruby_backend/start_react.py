@@ -33,6 +33,10 @@ def main():
     parser.add_argument("--no_rag", action="store_true", help="Skip embeddings/RAG (faster start, less context)")
     parser.add_argument("--no_cache", action="store_true", help="Ignore the analysis cache (recompute summaries)")
     parser.add_argument(
+        "--targets", type=str, default=None,
+        help="Ficheiro JSON com os ficheiros-alvo deste projeto (ver "
+             "benchmark/select_targets.py). Sem ele, todos os ficheiros são alvo.")
+    parser.add_argument(
         "--output_dir", type=str, default=None,
         help="Where to write run_results (default: <project_path>/run_results)",
     )
@@ -62,8 +66,16 @@ def main():
         output_root = None
         if args.output_dir:
             output_root = os.path.join(os.path.abspath(args.output_dir), project_name)
+        target_files = None
+        if args.targets:
+            import json as _json
+            with open(args.targets, encoding="utf-8") as _f:
+                target_files = [e["file"] if isinstance(e, dict) else e
+                                for e in _json.load(_f)]
+            print(f"🎯 [Alvos] {len(target_files)} ficheiros selecionados "
+                  f"(seleção de alvos ativa)")
         proj = RubyProject(root_dir=args.project_path, source_dir=args.source_path,
-                           output_root=output_root).discover()
+                           output_root=output_root, target_files=target_files).discover()
         print(f"🔍 [Contexto] {len(proj.files)} ficheiros, {len(proj.targets)} métodos-alvo; "
               f"grafo: {len(proj.call_graph.edges) if proj.call_graph else 0} arestas "
               f"({'source inalterado' if not proj.code_changed else 'source novo/alterado'})")

@@ -1,45 +1,10 @@
 {
-  "_comment": "Fase 1 do benchmark Ruby: os 6 repos Ruby do SWE-bench Multilingual, fixados no base_commit da task mais recente de cada um (SHAs REAIS, extraidos do dataset). Todos sao alvos validos porque a MARTA gera SEMPRE RSpec, independentemente do framework da suite humana. source_path = pasta do codigo sob teste. Fase 2 usara benchmark/results/corpus_final.json.",
-  "faker": {
-    "repo": "faker-ruby/faker",
-    "commit": "37a7ea2cdceae530d79197d887a347a877cd3dd4",
+  "_comment": "demo local Mac",
+  "formatador": {
+    "repo": "geemus/formatador",
+    "commit": "b059e42ee5aa6ccee5310e1dac57689659278197",
     "source_path": "lib",
-    "human_suite": "minitest",
-    "swebench_tasks": 2
-  },
-  "fpm": {
-    "repo": "jordansissel/fpm",
-    "commit": "809c7269442f6b6e4be7c3d480bb4489caa281c5",
-    "source_path": "lib",
-    "human_suite": "rspec",
-    "swebench_tasks": 2
-  },
-  "jekyll": {
-    "repo": "jekyll/jekyll",
-    "commit": "bb851e235dfbe1f197388aea3e7f0eeb1b50c4e3",
-    "source_path": "lib",
-    "human_suite": "minitest",
-    "swebench_tasks": 5
-  },
-  "fastlane": {
-    "repo": "fastlane/fastlane",
-    "commit": "c18d01c03cf22b82ff5e2e03f01e59f956684708",
-    "source_path": "fastlane/lib",
-    "human_suite": "rspec",
-    "swebench_tasks": 7
-  },
-  "fluentd": {
-    "repo": "fluent/fluentd",
-    "commit": "6f5ea8971d1c9aa5cad29bf6aaf24789e868f842",
-    "source_path": "lib",
-    "human_suite": "test-unit",
-    "swebench_tasks": 12
-  },
-  "rubocop": {
-    "repo": "rubocop/rubocop",
-    "commit": "f2671d877442d7553fe2d0998ec934e36400b8f9",
-    "source_path": "lib",
-    "human_suite": "rspec",
-    "swebench_tasks": 16
+    "human_suite": "shindo",
+    "swebench_tasks": 0
   }
 }
