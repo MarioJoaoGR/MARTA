@@ -55,7 +55,7 @@ if [ "${1:-}" != "--apagar" ]; then
 fi
 
 # GUARDA: nunca remover o rspec do global sem o venv já a funcionar, senão a
-# ferramenta fica sem rspec nenhum.
+# ferramenta fica sem rspec nenhum. Env explícito para não depender do shell.
 DEF="$("$RUBY" -e 'print Gem.default_dir')"
 if ! GEM_HOME="$VENV" GEM_PATH="$VENV" "$RUBY" -e 'require "rspec/core"' 2>/dev/null \
    || [ ! -x "$VENV/bin/rspec" ]; then
@@ -63,7 +63,15 @@ if ! GEM_HOME="$VENV" GEM_PATH="$VENV" "$RUBY" -e 'require "rspec/core"' 2>/dev/
   echo "          corre primeiro:  ./scripts/setup_ruby_env.sh" >&2
   exit 1
 fi
-echo "venv verificado (rspec funcional). A limpar o global…"
+
+# CRÍTICO: forçar o alvo no store GLOBAL. Sem isto, correr este script com o
+# venv activo (`source scripts/ruby_env.sh`) herdava GEM_HOME=.ruby_env e o
+# `gem uninstall` ia esvaziar o VENV em vez do global — foi o que aconteceu à
+# primeira. O nome do script promete "globais": tem de o garantir sozinho.
+export GEM_HOME="$DEF"
+export GEM_PATH="$DEF"
+
+echo "venv verificado (rspec funcional). A limpar o global em $DEF …"
 echo
 
 for g in "${TODAS[@]}"; do
@@ -82,10 +90,19 @@ command -v rbenv >/dev/null && rbenv rehash 2>/dev/null
 
 echo
 echo "=== verificação: o venv continua inteiro? ==="
+venv_ok=1
 GEM_HOME="$VENV" GEM_PATH="$VENV:$DEF" "$RUBY" -e '
+  ok = true
   %w[json prism coverage minitest rspec/core].each do |g|
-    begin; require g; puts "  OK      #{g}"; rescue LoadError; puts "  FALHA   #{g}"; end
-  end'
+    begin; require g; puts "  OK      #{g}"
+    rescue LoadError; puts "  FALHA   #{g}"; ok = false; end
+  end
+  exit(ok ? 0 : 1)' || venv_ok=0
+if [ "$venv_ok" -eq 0 ] || [ ! -x "$VENV/bin/rspec" ]; then
+  echo
+  echo "!!! O VENV FICOU PARTIDO. Recupera com:  ./scripts/setup_ruby_env.sh" >&2
+  exit 1
+fi
 echo
 echo "=== o que sobra no store global (deve ser só a distribuição do Ruby) ==="
 du -sh "$DEF/gems"
