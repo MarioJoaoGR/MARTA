@@ -24,7 +24,8 @@ VENV="$REPO/.ruby_env"
 FUGAS=(
   ast:2.4.3 bigdecimal:4.1.2 coderay:1.1.3 concurrent-ruby:1.3.7
   concurrent-ruby:1.3.8 erb:6.0.5 i18n:1.15.2 io-console:0.8.2 json:2.21.1
-  language_server-protocol:3.17.0.6 lint_roller:1.1.0 method_source:1.1.0
+  language_server-protocol:3.17.0.6 lint_roller:1.1.0 logger:1.7.0
+  method_source:1.1.0
   minitest:5.27.0 mocha:2.1.0 parallel:2.1.0 parser:3.3.12.0 prism:1.9.0
   pry:0.16.0 rainbow:3.1.1 rake:13.4.2 rbs:4.0.3 rdoc:8.0.0 redcarpet:3.6.1
   regexp_parser:2.12.0 reline:0.6.3 rubocop:1.86.2 rubocop-ast:1.50.0
