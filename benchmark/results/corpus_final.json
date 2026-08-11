@@ -184,6 +184,32 @@
       }
     },
     {
+      "gem": "kramdown",
+      "repo": "gettalong/kramdown",
+      "sha": "12b3d2e752793d4128b6355c338b23fefa674ee0",
+      "section": "markdown processors",
+      "downloads": 244648522,
+      "metrics": {
+        "files": 55,
+        "loc": 8547,
+        "target_methods": 328,
+        "classes": 19,
+        "call_graph_edges": 735,
+        "parse_errors": 0
+      },
+      "code": {
+        "avg_method_loc": 10.8,
+        "max_method_loc": 142,
+        "pct_singleton": 10,
+        "pct_duck_typed": 62,
+        "modules": 17,
+        "mixins_per_class": 0.37,
+        "max_ancestor_depth": 4,
+        "metaprog_calls": 19,
+        "metaprog_per_100methods": 5.8
+      }
+    },
+    {
       "gem": "sprockets",
       "repo": "rails/sprockets",
       "sha": "834279b1633d5c41d8c746a0317de27c4ab2c69d",
@@ -286,32 +312,6 @@
         "metaprog_calls": 2,
         "metaprog_per_100methods": 3.0
       }
-    },
-    {
-      "gem": "formatador",
-      "repo": "geemus/formatador",
-      "sha": "b059e42ee5aa6ccee5310e1dac57689659278197",
-      "section": "cli utilities",
-      "downloads": 277217753,
-      "metrics": {
-        "files": 3,
-        "loc": 347,
-        "target_methods": 20,
-        "classes": 2,
-        "call_graph_edges": 24,
-        "parse_errors": 0
-      },
-      "code": {
-        "avg_method_loc": 10.8,
-        "max_method_loc": 69,
-        "pct_singleton": 0,
-        "pct_duck_typed": 50,
-        "modules": 0,
-        "mixins_per_class": 0.0,
-        "max_ancestor_depth": 1,
-        "metaprog_calls": 0,
-        "metaprog_per_100methods": 0.0
-      }
     }
   ],
   "attempts": [
@@ -322,7 +322,7 @@
       "gem": "gitlab",
       "repo": "NARKOZ/gitlab",
       "rank": 1,
-      "seconds": 10.7
+      "seconds": 6.7
     },
     {
       "status": "installed",
@@ -340,7 +340,7 @@
       "gem": "geocoder",
       "repo": "alexreisner/geocoder",
       "rank": 3,
-      "seconds": 1.8
+      "seconds": 1.4
     },
     {
       "status": "installed",
@@ -349,7 +349,7 @@
       "gem": "virtus",
       "repo": "solnic/virtus",
       "rank": 4,
-      "seconds": 2.0
+      "seconds": 1.4
     },
     {
       "status": "installed",
@@ -358,7 +358,7 @@
       "gem": "coderay",
       "repo": "rubychan/coderay",
       "rank": 5,
-      "seconds": 1.4
+      "seconds": 1.3
     },
     {
       "status": "installed",
@@ -367,7 +367,7 @@
       "gem": "faker",
       "repo": "faker-ruby/faker",
       "rank": 6,
-      "seconds": 2.6
+      "seconds": 2.1
     },
     {
       "status": "installed",
@@ -376,15 +376,19 @@
       "gem": "letter_opener",
       "repo": "ryanb/letter_opener",
       "rank": 7,
-      "seconds": 2.0
+      "seconds": 1.3
     },
     {
-      "status": "no_gemspec",
+      "status": "installed",
       "sha": "12b3d2e752793d4128b6355c338b23fefa674ee0",
+      "via": "rubygems_deps",
+      "deps": [
+        "rexml"
+      ],
       "gem": "kramdown",
       "repo": "gettalong/kramdown",
       "rank": 8,
-      "seconds": 1.3
+      "seconds": 2.1
     },
     {
       "status": "installed",
@@ -393,15 +397,15 @@
       "gem": "sprockets",
       "repo": "rails/sprockets",
       "rank": 9,
-      "seconds": 1.9
+      "seconds": 1.5
     },
     {
       "status": "native_extension",
-      "sha": "82f9e18e65eabf3755b482feaf80c72d5f6f0ad8",
+      "sha": "96252dcc575e8626026c1e823e06a3d25739d915",
       "gem": "mysql2",
       "repo": "brianmario/mysql2",
       "rank": 10,
-      "seconds": 1.2
+      "seconds": 1.0
     },
     {
       "status": "native_extension",
@@ -409,7 +413,7 @@
       "gem": "bootsnap",
       "repo": "rails/bootsnap",
       "rank": 11,
-      "seconds": 1.0
+      "seconds": 1.4
     },
     {
       "status": "installed",
@@ -418,7 +422,7 @@
       "gem": "rouge",
       "repo": "rouge-ruby/rouge",
       "rank": 12,
-      "seconds": 2.6
+      "seconds": 2.3
     },
     {
       "status": "installed",
@@ -427,7 +431,7 @@
       "gem": "knapsack",
       "repo": "KnapsackPro/knapsack",
       "rank": 13,
-      "seconds": 1.9
+      "seconds": 1.4
     },
     {
       "status": "installed",
@@ -436,16 +440,7 @@
       "gem": "pry-byebug",
       "repo": "deivid-rodriguez/pry-byebug",
       "rank": 14,
-      "seconds": 6.2
-    },
-    {
-      "status": "installed",
-      "sha": "b059e42ee5aa6ccee5310e1dac57689659278197",
-      "detail": null,
-      "gem": "formatador",
-      "repo": "geemus/formatador",
-      "rank": 15,
-      "seconds": 2.5
+      "seconds": 2.8
     }
   ]
 }
