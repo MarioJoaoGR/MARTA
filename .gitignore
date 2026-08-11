@@ -12,8 +12,6 @@ __pycache__/
 # Office lock files
 ~$*
 
-# Archive do paper #1 (~300 MB) — guardar fora do git
-Results_Paper_1/
 src/
 
 # Logs gerados em runtime
