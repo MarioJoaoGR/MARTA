@@ -40,9 +40,15 @@ def log(msg: str) -> None:
 def _gem_env(proj: pathlib.Path) -> dict:
     """GEM_HOME/GEM_PATH para correr os specs do projeto.
 
-    GEM_PATH tem de incluir o ``.gem_home`` do projeto (deps do código sob teste,
-    pré-instaladas offline) **E** o store global (onde vive o rspec). Apontar só
-    para o do projeto escondia o rspec: `can't find gem rspec-core`.
+    GEM_PATH tem de ver TRÊS sítios, e falhou uma vez por faltar cada um deles:
+      1. ``<proj>/.gem_home`` — deps do código sob teste, pré-instaladas offline;
+      2. o venv de Ruby (``MARTA_RUBY_ENV``) — onde vive o rspec. Apontar só para
+         o do projeto escondia-o: `can't find gem rspec-core`;
+      3. ``Gem.default_dir`` — as bundled gems da distribuição (minitest & c.),
+         sem as quais a medição das suites humanas em Minitest rebenta.
+
+    GEM_HOME fica no projeto e nada escreve lá durante a medição — a regra de
+    nunca instalar fora do venv mantém-se (ver scripts/ruby_env.sh).
     """
     gem_home = proj / ".gem_home"
     try:
@@ -50,10 +56,15 @@ def _gem_env(proj: pathlib.Path) -> dict:
                                      capture_output=True, text=True, errors='replace', timeout=30).stdout.strip()
     except Exception:
         default_dir = ""
-    paths = [str(gem_home)] + ([default_dir] if default_dir else [])
-    if os.environ.get("GEM_PATH"):
-        paths.append(os.environ["GEM_PATH"])
-    return {"GEM_HOME": str(gem_home), "GEM_PATH": os.pathsep.join(paths)}
+    paths = [str(gem_home), os.environ.get("MARTA_RUBY_ENV", ""), default_dir,
+             os.environ.get("GEM_PATH", "")]
+    seen, ordered = set(), []
+    for p in paths:
+        for part in p.split(os.pathsep):
+            if part and part not in seen:
+                seen.add(part)
+                ordered.append(part)
+    return {"GEM_HOME": str(gem_home), "GEM_PATH": os.pathsep.join(ordered)}
 
 
 class Harness:

@@ -30,6 +30,15 @@ def rspec_bin() -> str:
     override = os.getenv("MARTA_RSPEC_BIN")
     if override:
         return override
+    # O venv de Ruby (scripts/ruby_env.sh) é o sítio onde o rspec deve viver: nada
+    # nosso é instalado no store global do rbenv. Procurá-lo aqui ANTES do irmão
+    # do `ruby` faz a ferramenta funcionar com o venv activo mesmo sem
+    # MARTA_RSPEC_BIN definido.
+    venv = os.getenv("MARTA_RUBY_ENV")
+    if venv:
+        candidate = os.path.join(venv, "bin", "rspec")
+        if os.path.exists(candidate):
+            return candidate
     resolved = shutil.which(ruby_bin()) or ruby_bin()
     sibling = os.path.join(os.path.dirname(os.path.abspath(resolved)), "rspec")
     return sibling if os.path.exists(sibling) else "rspec"

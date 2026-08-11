@@ -38,3 +38,6 @@ baselines/codamosa/
 # - baselines/BASELINES_README.md
 # - baselines/Results_Pynguin/, Results_CoverUp/, Results_Test4PyBaseline/, Results_MARTA/
 # - baselines/patches/  (se vier a existir, para as modificações ao código clonado)
+
+# Venv de Ruby (scripts/ruby_env.sh) — recriável com scripts/setup_ruby_env.sh
+.ruby_env/
