@@ -74,16 +74,26 @@ export GEM_PATH="$DEF"
 echo "venv verificado (rspec funcional). A limpar o global em $DEF …"
 echo
 
+n_rm=0; n_skip=0
 for g in "${TODAS[@]}"; do
   name="${g%%:*}"; ver="${g##*:}"
+  # Verificar a presença ANTES: `gem uninstall --force` devolve 0 mesmo quando a
+  # gem não existe, por isso confiar no seu código de saída fazia o relatório
+  # dizer "removida" para dezenas de gems já ausentes.
+  if [ ! -f "$DEF/specifications/$name-$ver.gemspec" ]; then
+    n_skip=$((n_skip+1)); continue
+  fi
   # -x remove executáveis, -I ignora dependências (evita prompts interactivos),
   # --force não aborta se outra gem ainda a declarar como dep.
-  if "$GEM" uninstall "$name" -v "$ver" -x -I --force >/dev/null 2>&1; then
-    echo "  removida  $name $ver"
+  if "$GEM" uninstall "$name" -v "$ver" -x -I --force >/dev/null 2>&1 \
+     && [ ! -f "$DEF/specifications/$name-$ver.gemspec" ]; then
+    echo "  removida  $name $ver"; n_rm=$((n_rm+1))
   else
-    echo "  saltada   $name $ver (default gem ou já ausente)"
+    echo "  FALHOU    $name $ver (ainda presente)"
   fi
 done
+echo
+echo "  $n_rm removidas, $n_skip já ausentes."
 
 # O shim do rspec fica pendurado depois de o remover do global.
 command -v rbenv >/dev/null && rbenv rehash 2>/dev/null
