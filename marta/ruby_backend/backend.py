@@ -86,13 +86,23 @@ class RubyBackend(LanguageBackend):
     source_glob = "*.rb"
     test_dir = "spec"
 
+    # Diretórios cujos `.rb` NÃO são Ruby: os geradores (Rails e afins) guardam
+    # aqui *templates ERB* com extensão .rb (`<%= ... %>`), que naturalmente não
+    # parseiam. Sem este filtro, gems perfeitamente válidas eram descartadas por
+    # "erros de parse" que na verdade eram ficheiros que não são código —
+    # aconteceu com jbuilder, devise, geocoder e aasm.
+    NON_RUBY_DIRS = ("templates",)
+
     def discover_files(self, abs_source: str) -> List[str]:
         pattern = os.path.join(abs_source, "**", self.source_glob)
         files = []
         for path in sorted(glob.glob(pattern, recursive=True)):
             rel = os.path.relpath(path, abs_source)
-            if rel.split(os.sep)[0] == self.test_dir:
+            parts = rel.split(os.sep)
+            if parts[0] == self.test_dir:
                 continue  # skip spec/ — those are tests, not code under test
+            if any(p in self.NON_RUBY_DIRS for p in parts[:-1]):
+                continue  # templates ERB disfarçados de .rb
             files.append(path)
         return files
 
