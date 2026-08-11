@@ -24,6 +24,7 @@ import pathlib
 import subprocess
 import sys
 import time
+import urllib.request
 
 REPO = pathlib.Path(__file__).resolve().parent.parent
 CONFIG = REPO / "benchmark" / "ruby_projects.json"
@@ -44,6 +45,20 @@ def _run(cmd, cwd=None, timeout=600, env=None, quiet=True):
         return False, "timeout"
     except Exception as e:
         return False, repr(e)[:200]
+
+
+def _rubygems_runtime_deps(name: str):
+    """Deps de runtime da gem publicada, ou None se a consulta FALHAR (ver a
+    mesma função em finalize_corpus.py: devolver [] numa falha de rede daria um
+    projeto 'pronto' sem deps, que só rebentava já offline no cluster)."""
+    try:
+        req = urllib.request.Request(
+            f"https://rubygems.org/api/v1/gems/{name}.json",
+            headers={"User-Agent": "marta"})
+        d = json.load(urllib.request.urlopen(req, timeout=20))
+        return [x["name"] for x in d.get("dependencies", {}).get("runtime", [])]
+    except Exception:
+        return None
 
 
 def prepare(name: str, info: dict, out_dir: pathlib.Path, timeout: int) -> dict:
@@ -86,6 +101,23 @@ def prepare(name: str, info: dict, out_dir: pathlib.Path, timeout: int) -> dict:
                     cwd=str(dest), timeout=timeout, env=env)
         else:
             detail = f"gem build falhou: {err}"
+    else:
+        # Sem gemspec versionado (ex.: kramdown gera-o com `rake gemspec`). Aqui
+        # NÃO se pode falhar em silêncio: os nós do Deucalion não têm rede, por
+        # isso uma dep em falta só rebentaria durante o job. Mesmo critério do
+        # portão em finalize_corpus.py — deps de runtime vindas do RubyGems.
+        deps = _rubygems_runtime_deps(name)
+        if deps is None:
+            detail = "sem gemspec e a consulta ao RubyGems falhou"
+        else:
+            installed, detail = True, None
+            for dep in deps:
+                ok, err = _run([GEM_BIN, "install", dep, "--install-dir",
+                                str(gem_home), "--no-document"],
+                               cwd=str(dest), timeout=timeout, env=env)
+                if not ok:
+                    installed, detail = False, f"dep {dep} falhou: {err}"
+                    break
 
     rb_files = len(glob.glob(str(src / "**" / "*.rb"), recursive=True))
     return {**res, "status": "ready" if installed else "ready_no_deps",

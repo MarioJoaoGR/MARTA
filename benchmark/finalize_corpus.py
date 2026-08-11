@@ -22,6 +22,7 @@ import subprocess
 import sys
 import tempfile
 import time
+import urllib.request
 
 RUBY_BIN = os.environ.get("MARTA_RUBY_BIN", "ruby")
 _BIN = os.path.dirname(RUBY_BIN)
@@ -49,7 +50,23 @@ def _has_native_ext(dest: str) -> bool:
         or bool(glob.glob(os.path.join(dest, "ext", "**", "*.c"), recursive=True))
 
 
-def try_install(repo_url: str, dest: str, timeout: int):
+def _rubygems_runtime_deps(name: str):
+    """Deps de runtime da gem publicada, ou None se a consulta FALHAR.
+
+    O None é deliberado: devolver [] numa falha de rede faria uma gem passar o
+    portão por engano — exatamente o modo de falha silencioso que queremos evitar.
+    """
+    try:
+        req = urllib.request.Request(
+            f"https://rubygems.org/api/v1/gems/{name}.json",
+            headers={"User-Agent": "marta"})
+        d = json.load(urllib.request.urlopen(req, timeout=20))
+        return [x["name"] for x in d.get("dependencies", {}).get("runtime", [])]
+    except Exception:
+        return None
+
+
+def try_install(gem_name: str, repo_url: str, dest: str, timeout: int):
     ok, err = _run(["git", "clone", "--depth", "1", repo_url, dest], cwd=".", timeout=120)
     if not ok:
         return {"status": "clone_failed", "detail": err}
@@ -59,15 +76,29 @@ def try_install(repo_url: str, dest: str, timeout: int):
     if _has_native_ext(dest):
         return {"status": "native_extension", "sha": sha}
 
-    specs = glob.glob(os.path.join(dest, "*.gemspec"))
-    if not specs:
-        return {"status": "no_gemspec", "sha": sha}
-
     # Instalar SÓ as runtime deps do gemspec (não o Gemfile de dev do repo, que
     # arrasta tooling irrelevante e dava falsos install_failed). Tudo num GEM_HOME
     # isolado dentro do clone -> nada no store global, apagado com o clone.
     gem_home = os.path.join(dest, ".gem_home")
     env = {**os.environ, "GEM_HOME": gem_home, "GEM_PATH": gem_home}
+
+    specs = glob.glob(os.path.join(dest, "*.gemspec"))
+    if not specs:
+        # Sem gemspec versionado no repo. NÃO é motivo para excluir: algumas gems
+        # geram-no no momento do release (a kramdown fá-lo com `rake gemspec`).
+        # O que o portão quer mesmo saber é se as deps de runtime instalam limpas,
+        # por isso vamos buscá-las ao RubyGems e instalá-las no mesmo GEM_HOME.
+        deps = _rubygems_runtime_deps(gem_name)
+        if deps is None:
+            return {"status": "deps_lookup_failed", "sha": sha}
+        for dep in deps:
+            ok, err = _run([GEM_BIN, "install", dep, "--install-dir", gem_home,
+                            "--no-document"], dest, timeout, env)
+            if not ok:
+                return {"status": "install_failed", "sha": sha, "detail": err}
+        return {"status": "installed", "sha": sha, "via": "rubygems_deps",
+                "deps": deps}
+
     ok, err = _run([GEM_BIN, "build", os.path.basename(specs[0])], dest, 60, env)
     if not ok:
         return {"status": "build_failed", "sha": sha, "detail": err}
@@ -90,7 +121,8 @@ def main(target=12, timeout=240):
                 break
             dest = os.path.join(work, s["gem"])
             t0 = time.time()
-            r = try_install(s["clone"] if "clone" in s else f"https://github.com/{s['repo']}",
+            r = try_install(s["gem"],
+                            s["clone"] if "clone" in s else f"https://github.com/{s['repo']}",
                             dest, timeout)
             r.update({"gem": s["gem"], "repo": s["repo"], "rank": s["rank"],
                       "seconds": round(time.time() - t0, 1)})

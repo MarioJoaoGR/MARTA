@@ -97,10 +97,16 @@ def select_for_project(proj_dir: pathlib.Path, source_path: str, budget: int) ->
 
     chosen, used = [], 0
     for _score, rel, st in scored:
-        # o primeiro ficheiro entra sempre (gems de ficheiro único ficariam
-        # sem alvos se o ficheiro sozinho excedesse o orçamento)
-        if used >= budget and chosen:
-            break
+        # Teto real: só entra se CABE no orçamento. A versão anterior testava
+        # `used >= budget` antes de adicionar, portanto adicionava sempre o
+        # ficheiro que estourava o limite — com MAX_METHODS=120 e budget=40 um
+        # único projeto podia trazer 3x os alvos previstos (e o custo de LLM com
+        # eles). Continua-se a percorrer a lista: um ficheiro grande é saltado,
+        # mas ficheiros mais pequenos a seguir ainda aproveitam a folga.
+        if chosen and used + st["methods"] > budget:
+            continue
+        # exceção: o primeiro ficheiro entra sempre, mesmo que sozinho exceda o
+        # orçamento — senão gems de ficheiro único ficariam sem alvo nenhum.
         chosen.append({"file": rel, **st})
         used += st["methods"]
     return {"eligible_files": len(scored), "selected_files": len(chosen),

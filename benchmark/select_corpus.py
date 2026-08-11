@@ -1,6 +1,6 @@
 """Seleção estratificada do corpus a partir da população diagnosticada.
 
-Entrada: benchmark/results/population_diagnose.json (110 gems incluídas, com
+Entrada: benchmark/results/population_diagnose.json (112 gems incluídas, com
 métricas de diversidade). Método: **farthest-first traversal** no espaço de
 características normalizado — escolhe iterativamente a gem mais distante das já
 escolhidas, o que garante que o corpus cobre os EXTREMOS e o centro de cada
