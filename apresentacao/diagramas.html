@@ -28,6 +28,7 @@
   h2 .n{color:var(--muted);font-weight:500;font-variant-numeric:tabular-nums;
         margin-right:9px;}
   h3{font-size:14px;font-weight:650;margin:20px 0 4px;color:var(--ink);}
+  h4{font-size:13.5px;font-weight:650;margin:18px 0 2px;color:var(--rb);}
   p{margin:9px 0;}
   ul,ol{margin:9px 0;padding-left:22px;}
   li{margin:4px 0;}
@@ -228,9 +229,6 @@
     </text>
   </svg>
   </div>
-  <figcaption>Dois ciclos. O interno repara um teste que falha, devolvendo-lhe o erro,
-  até três vezes. O externo, a vermelho, realimenta o Planner com as linhas que ficaram
-  por cobrir.</figcaption>
 </figure>
 
 
@@ -271,14 +269,9 @@ uma ilha.</p>
 
 <h3>Quando corre o parser, e quantas vezes</h3>
 <p>O <code>marta_parse.rb</code> corre <strong>uma vez por ficheiro</strong>, e apenas na
-Fase 1, dentro do <code>discover()</code>. Numa run do <code>formatador</code>, que tem 5
-ficheiros <code>.rb</code>, são 5 execuções. Numa gem grande como a <code>geocoder</code>,
-com cerca de 150 ficheiros, são 150.</p>
-<p>Repare-se que corre sobre <strong>todos</strong> os ficheiros do projeto, mesmo os que
-não foram escolhidos como alvo: um ficheiro que não vamos testar pode na mesma conter o
-método que um alvo chama, e sem ele o grafo teria buracos.</p>
-<p>Depois disso não volta a correr durante a geração. E numa segunda run sobre o mesmo
-código nem sequer corre: o grafo vem da cache.</p>
+Fase 1, dentro do <code>discover()</code>. </p>
+<p>Memso ficheiros que não vão ser testados.</p>
+
 
 <h3>Como o resolver liga uma chamada a um método</h3>
 <p>O problema concreto: o parser viu a linha <code>total = @wallet.balance</code>. Sabemos
@@ -291,17 +284,14 @@ método <code>balance</code>.</p>
   <tr>
     <td><strong>Ordem de procura do Ruby</strong></td>
     <td><code>class Wallet &lt; Account<br>&nbsp;&nbsp;include Loggable</code></td>
-    <td>Se <code>Wallet</code> não define <code>log</code>, o Ruby procura no
-        <code>Loggable</code> e depois na <code>Account</code>. Seguimos a mesma ordem
-        (<code>prepend</code>, a própria classe, <code>include</code>, superclasse) para
-        chegar ao mesmo método a que o Ruby chegaria.</td>
+    <td></code> O Ruby procura no
+        <code>Loggable</code> e depois na <code>Account</code>. 
   </tr>
   <tr>
     <td><strong>Duck typing</strong></td>
     <td><code>def greet(name)<br>&nbsp;&nbsp;name.upcase.strip<br>end</code></td>
     <td>Não sabemos o tipo de <code>name</code>. Mas chamam-lhe <code>upcase</code> e
-        <code>strip</code>: só as classes que tenham esses dois métodos servem. Na
-        prática, é texto.</td>
+        <code>strip</code>:  é string.</td>
   </tr>
   <tr>
     <td><strong>Colaboradores</strong></td>
@@ -309,13 +299,6 @@ método <code>balance</code>.</p>
     <td>Guardámos que <code>@wallet</code> é um <code>Wallet</code>. A partir daí,
         <code>@wallet.balance</code> e <code>wallet.balance</code> (pelo getter) resolvem
         ambos para <code>Wallet#balance</code>.</td>
-  </tr>
-  <tr>
-    <td><strong>Casos próprios do Ruby</strong></td>
-    <td><code>class &lt;&lt; self<br>&nbsp;&nbsp;def build ... end<br>end</code></td>
-    <td>Isto declara um método <strong>de classe</strong>. Sem tratar este bloco, o
-        <code>build</code> ficava registado como método de instância e nenhuma chamada lhe
-        acertava. O mesmo para <code>self.class.new</code>.</td>
   </tr>
 </table>
 
@@ -363,52 +346,64 @@ dela, e <strong>usamos esse grafo só para validar o nosso</strong>. Ele não en
 ferramenta: serve de régua. A comparação diz-nos que percentagem das chamadas reais o
 nosso resolver estático conseguiu prever.</p>
 
-<h3>As correções, e porque cada uma valeu pontos</h3>
-<p>A primeira versão do resolver acertava <strong>35,9%</strong>. A comparação com o grafo
-dinâmico mostrou <em>quais</em> chamadas reais estavam a escapar, e o padrão delas
-apontava para três buracos concretos:</p>
-<table>
-  <tr><th>Correção</th><th>O que estava a falhar</th></tr>
-  <tr>
-    <td><code>class &lt;&lt; self</code></td>
-    <td>Métodos declarados dentro deste bloco são <strong>de classe</strong>, mas estavam
-        a ser registados como de instância. Toda a chamada a um deles falhava, e é uma
-        forma muito comum de escrever métodos de fábrica em Ruby.</td>
-  </tr>
-  <tr>
-    <td>Colaboradores por variável de instância</td>
-    <td>Sabíamos que <code>@wallet = Wallet.new</code> no construtor, mas não usávamos
-        essa informação nas outras chamadas. Como o padrão dominante em Ruby é guardar
-        colaboradores em variáveis de instância, perdia-se a maioria das chamadas entre
-        objetos. Foi a correção que mais rendeu.</td>
-  </tr>
-  <tr>
-    <td><code>self.class.new</code></td>
-    <td>Idioma frequente para criar um objeto do mesmo tipo (usado em objetos de valor,
-        como o <code>Money</code>). Não era reconhecido, e as chamadas ao objeto criado
-        ficavam por resolver.</td>
-  </tr>
-</table>
-<p>Com as três, o resolver passou a <strong>49,6%</strong>.</p>
+<h3>O que o grafo estava a falhar, e o que passámos a fazer</h3>
+<p>Comparámos o nosso grafo com o dinâmico e olhámos para as ligações que nos escapavam.
+Não eram casos isolados: repetiam-se, e cada grupo tinha a mesma explicação por trás. E o
+que se repetia eram <strong>maneiras normais de escrever Ruby</strong>, não peculiaridades
+daquele projeto. É por isso que corrigir cada uma melhora o resolver em qualquer projeto,
+e não só naquele onde as encontrámos.</p>
 
-<h3>Ainda pode ser otimizado?</h3>
-<p>Sim, mas convém separar o que é teto do que é trabalho por fazer.</p>
-<ul>
-  <li><strong>Teto real, que nenhuma análise estática resolve:</strong> despacho
-  verdadeiramente dinâmico (<code>send</code>, <code>method_missing</code>,
-  <code>define_method</code>). O nome do método só existe em tempo de execução. O PyCG
-  tem a mesma limitação em Python, não é fraqueza do nosso.</li>
-  <li><strong>Alcançável com mais trabalho:</strong> blocos e <code>procs</code> passados
-  como argumento, e chamadas que saem para dentro das dependências, já que hoje só
-  indexamos o código do próprio projeto.</li>
-</ul>
-<div class="flag">
-  <p><strong>A dizer antes que perguntem:</strong> os 49,6% foram medidos numa
-  <em>única</em> gem, a <code>money</code>. É um número honesto e obtido com instrumento
-  próprio, mas ainda não é um número geral. Para o paper tem de ser medido em mais
-  projetos do corpus. Comparação de referência: o PyCG publica cerca de 69,9% de
-  <em>recall</em>.</p>
-</div>
+<h4>Métodos que pertencem à classe e não ao objeto</h4>
+<p><strong>O que notámos:</strong> havia um conjunto de ligações que falhava sempre, e
+eram quase todas para métodos que servem para <em>criar</em> coisas.</p>
+<p><strong>Porque acontecia:</strong> em Ruby há duas famílias de métodos. Uns usam-se
+sobre um objeto que já existe (pedir o saldo a uma carteira). Outros usam-se sobre a
+própria classe, tipicamente para fabricar um objeto novo (pedir à classe Carteira que crie
+uma carteira). Existe uma forma abreviada de declarar a segunda família em bloco, e é muito
+usada. Nós estávamos a lê-los como se fossem da primeira família, portanto quando alguém
+os chamava íamos procurar no sítio errado e não encontrávamos nada.</p>
+<p><strong>O que passámos a fazer:</strong> reconhecer esse bloco e registar os métodos na
+família certa.</p>
+
+<h4>Objetos guardados dentro de outros objetos</h4>
+<p><strong>O que notámos:</strong> faltavam-nos quase todas as ligações <em>entre objetos
+diferentes</em>. Dentro do mesmo objeto acertávamos bem; assim que a chamada saltava para
+outro, perdíamos o rasto.</p>
+<p><strong>Porque acontecia:</strong> o padrão normal em programação por objetos é um
+objeto guardar dentro de si os seus colaboradores no momento em que nasce, e usá-los
+depois ao longo da vida. Nós reparávamos nesse momento inicial, mas não guardávamos a
+informação. Mais tarde, quando o objeto usava o colaborador, já não sabíamos o que ele
+era, e a ligação ficava por fazer. Como este padrão é a base da programação por objetos,
+era a maior fatia do que nos escapava.</p>
+<p><strong>O que passámos a fazer:</strong> memorizar o que cada objeto guarda dentro de
+si, e consultar essa memória em todas as chamadas seguintes.</p>
+
+<h4>Objetos que criam outros iguais a si</h4>
+<p><strong>O que notámos:</strong> as falhas concentravam-se em código que faz contas e
+devolve resultados novos, como dinheiro, medidas ou datas.</p>
+<p><strong>Porque acontecia:</strong> esse tipo de código, em vez de se alterar a si
+mesmo, devolve sempre um objeto novo do mesmo tipo (somar dinheiro não muda a nota que
+tens na mão, dá-te outra). Há uma expressão em Ruby para dizer "cria outro igual a mim"
+sem repetir o nome da classe. Não a reconhecíamos, e por isso tudo o que fosse feito ao
+resultado ficava sem destino.</p>
+<p><strong>O que passámos a fazer:</strong> reconhecer essa expressão como criando um
+objeto do mesmo tipo.</p>
+
+<h3>A evolução do <em>recall</em></h3>
+<p><em>Recall</em> é a fatia das ligações que realmente acontecem em execução que o nosso
+grafo estático consegue prever.</p>
+<table>
+  <tr><th>Versão do resolver</th><th>Recall</th></tr>
+  <tr><td>Primeira versão</td><td><strong>35,9%</strong></td></tr>
+  <tr><td>Com as três correções acima</td><td><strong>49,6%</strong></td></tr>
+  <tr><td>Referência: PyCG, em Python (publicado)</td><td>cerca de 69,9%</td></tr>
+</table>
+<p>Medimos o efeito <strong>combinado</strong> das três, não o de cada uma isoladamente.
+Se perguntarem qual pesou mais, a resposta honesta é que pelo padrão das falhas foi a
+segunda, mas não temos esse número medido.</p>
+
+<h3>Ainda pode ser otimizado provavelmente</h3>
+
 
 <h2><span class="n">3</span>Contexto de tipos: anotações e uso</h2>
 <p>Python <strong>pode</strong> ter anotações de tipo
