@@ -264,51 +264,143 @@ e uma conversão lenta, sem ganho nenhum.</p>
 <h2><span class="n">2</span>O grafo de chamadas: a ferramenta que tivemos de construir</h2>
 <p><strong>Para que serve:</strong> saber quem chama quem. Quando geramos testes para o
 método <code>X</code>, o contexto que damos ao modelo inclui o que o <code>X</code> chama
-por dentro, e propaga a intenção (<em>o que falta testar</em>) do chamador para os
-chamados. Sem grafo, cada método é uma ilha.</p>
+por dentro, e propaga a intenção do chamador para os chamados. Sem grafo, cada método é
+uma ilha.</p>
 <p>Em Python isto está resolvido: existe o <strong>PyCG</strong>, uma ferramenta publicada
 (ICSE 2021). Em Ruby <strong>não existe nada equivalente</strong>. Foi preciso construir.</p>
 
-<h3>Como foi feito, por etapas</h3>
-<ol>
-  <li><strong>O parser regista a forma do recetor.</strong> Em cada chamada, o
-  <code>marta_parse.rb</code> não guarda só o nome do método invocado. Guarda também
-  <em>sobre quem</em> foi invocado: nada, <code>self</code>, uma constante, uma variável
-  local, uma variável de instância, <code>self.class</code>, ou um getter. Esta
-  classificação é o que torna a resolução possível.</li>
-  <li><strong>O resolver liga cada chamada a um método concreto</strong>, usando:
-    <ul>
-      <li>a ordem real de procura do Ruby (<code>prepend</code> → a própria classe →
-      <code>include</code> → superclasse);</li>
-      <li><em>duck typing</em>: se dentro do corpo se faz <code>x.upcase</code>,
-      infere-se o que <code>x</code> é pelos métodos que lhe são chamados;</li>
-      <li>colaboradores guardados em variáveis de instância e expostos por
-      <code>attr_reader</code>;</li>
-      <li>casos particulares do Ruby: <code>self.class.new</code> e os métodos de classe
-      declarados dentro de <code>class &lt;&lt; self</code>.</li>
-    </ul>
-  </li>
-  <li><strong>Construímos um segundo grafo para poder medir o primeiro.</strong> Usando
-  <code>TracePoint</code>, que observa as chamadas reais durante a execução, gerámos o
-  grafo <em>dinâmico</em> da gem <code>money</code> a partir da suite de testes dela.
-  Esse grafo nunca entra na ferramenta: serve só de instrumento de medição, como uma
-  régua.</li>
-  <li><strong>Medimos, corrigimos, voltámos a medir.</strong> A primeira versão
-  acertava <strong>35,9%</strong> das chamadas reais. Três correções dirigidas
-  (<code>class &lt;&lt; self</code>, colaboradores por variável de instância, e
-  <code>self.class.new</code>) levaram-na a <strong>49,6%</strong>.</li>
-</ol>
+<h3>Quando corre o parser, e quantas vezes</h3>
+<p>O <code>marta_parse.rb</code> corre <strong>uma vez por ficheiro</strong>, e apenas na
+Fase 1, dentro do <code>discover()</code>. Numa run do <code>formatador</code>, que tem 5
+ficheiros <code>.rb</code>, são 5 execuções. Numa gem grande como a <code>geocoder</code>,
+com cerca de 150 ficheiros, são 150.</p>
+<p>Repare-se que corre sobre <strong>todos</strong> os ficheiros do projeto, mesmo os que
+não foram escolhidos como alvo: um ficheiro que não vamos testar pode na mesma conter o
+método que um alvo chama, e sem ele o grafo teria buracos.</p>
+<p>Depois disso não volta a correr durante a geração. E numa segunda run sobre o mesmo
+código nem sequer corre: o grafo vem da cache.</p>
 
-<h3>Ainda pode ser otimizada?</h3>
+<h3>Como o resolver liga uma chamada a um método</h3>
+<p>O problema concreto: o parser viu a linha <code>total = @wallet.balance</code>. Sabemos
+que foi chamado um método com o nome <code>balance</code>. Falta a pergunta difícil:
+<strong>o <code>balance</code> de quem?</strong> Um projeto pode ter cinco classes com um
+método <code>balance</code>.</p>
+<p>É isso que o resolver faz, e usa quatro pistas:</p>
+<table>
+  <tr><th>Pista</th><th>Exemplo</th><th>O que resolve</th></tr>
+  <tr>
+    <td><strong>Ordem de procura do Ruby</strong></td>
+    <td><code>class Wallet &lt; Account<br>&nbsp;&nbsp;include Loggable</code></td>
+    <td>Se <code>Wallet</code> não define <code>log</code>, o Ruby procura no
+        <code>Loggable</code> e depois na <code>Account</code>. Seguimos a mesma ordem
+        (<code>prepend</code>, a própria classe, <code>include</code>, superclasse) para
+        chegar ao mesmo método a que o Ruby chegaria.</td>
+  </tr>
+  <tr>
+    <td><strong>Duck typing</strong></td>
+    <td><code>def greet(name)<br>&nbsp;&nbsp;name.upcase.strip<br>end</code></td>
+    <td>Não sabemos o tipo de <code>name</code>. Mas chamam-lhe <code>upcase</code> e
+        <code>strip</code>: só as classes que tenham esses dois métodos servem. Na
+        prática, é texto.</td>
+  </tr>
+  <tr>
+    <td><strong>Colaboradores</strong></td>
+    <td><code>def initialize<br>&nbsp;&nbsp;@wallet = Wallet.new<br>end<br>attr_reader :wallet</code></td>
+    <td>Guardámos que <code>@wallet</code> é um <code>Wallet</code>. A partir daí,
+        <code>@wallet.balance</code> e <code>wallet.balance</code> (pelo getter) resolvem
+        ambos para <code>Wallet#balance</code>.</td>
+  </tr>
+  <tr>
+    <td><strong>Casos próprios do Ruby</strong></td>
+    <td><code>class &lt;&lt; self<br>&nbsp;&nbsp;def build ... end<br>end</code></td>
+    <td>Isto declara um método <strong>de classe</strong>. Sem tratar este bloco, o
+        <code>build</code> ficava registado como método de instância e nenhuma chamada lhe
+        acertava. O mesmo para <code>self.class.new</code>.</td>
+  </tr>
+</table>
+
+<figure style="margin:18px 0 8px">
+  <div class="panel">
+  <svg viewBox="0 0 720 250" role="img"
+       aria-label="Exemplo de resolução: a chamada arroba wallet ponto balance dentro de Order cardápio total é ligada ao método balance da classe Wallet, porque o construtor guardou que arroba wallet é um Wallet.">
+    <text class="t-phase" x="20" y="20">O que o parser vê</text>
+    <rect class="fc st" x="20" y="34" width="300" height="150" rx="3"/>
+    <text class="t-val" x="34" y="56">class Order</text>
+    <text class="t-val" x="34" y="74">  def initialize</text>
+    <text class="t-val" x="34" y="92">    @wallet = Wallet.new</text>
+    <text class="t-val" x="34" y="110">  end</text>
+    <text class="t-val" x="34" y="132">  def total</text>
+    <text class="t-val" x="34" y="150" style="fill:var(--f-rb)">    @wallet.balance</text>
+    <text class="t-val" x="34" y="168">  end</text>
+
+    <path class="flow-rb" marker-end="url(#ar-rb)" d="M322,150 L400,150 L400,120 L438,120"/>
+    <text class="t-edge-rb" x="360" y="142" text-anchor="middle">resolve</text>
+
+    <text class="t-phase" x="440" y="20">O que o resolver conclui</text>
+    <rect class="fc2 st-soft" x="440" y="34" width="260" height="52" rx="3"/>
+    <text class="t-sub" x="454" y="54" style="fill:var(--f-ink)">pista: o construtor guardou</text>
+    <text class="t-val" x="454" y="72">@wallet : Wallet</text>
+
+    <rect class="fc st" x="440" y="98" width="260" height="86" rx="3"/>
+    <text class="t-title" x="454" y="120">Aresta do grafo</text>
+    <line class="st-soft" x1="454" y1="130" x2="686" y2="130"/>
+    <text class="t-val" x="454" y="150">Order#total</text>
+    <text class="t-val" x="454" y="168" style="fill:var(--f-rb)">  → Wallet#balance</text>
+
+    <text class="t-edge" x="20" y="212">Sem esta pista, o nome "balance" era ambíguo:</text>
+    <text class="t-edge" x="20" y="230">qualquer classe do projeto com um método balance servia.</text>
+  </svg>
+  </div>
+</figure>
+
+<h3>Como validámos: o TracePoint</h3>
+<p>O <strong>TracePoint</strong> é um mecanismo do próprio Ruby que permite observar o
+programa enquanto ele corre, e ser avisado a cada chamada de método. É verdade: com ele
+constrói-se um grafo de chamadas <strong>dinâmico</strong>, feito das chamadas que
+realmente aconteceram.</p>
+<p>Usámo-lo para gerar esse grafo na gem <code>money</code>, executando a suite de testes
+dela, e <strong>usamos esse grafo só para validar o nosso</strong>. Ele não entra na
+ferramenta: serve de régua. A comparação diz-nos que percentagem das chamadas reais o
+nosso resolver estático conseguiu prever.</p>
+
+<h3>As correções, e porque cada uma valeu pontos</h3>
+<p>A primeira versão do resolver acertava <strong>35,9%</strong>. A comparação com o grafo
+dinâmico mostrou <em>quais</em> chamadas reais estavam a escapar, e o padrão delas
+apontava para três buracos concretos:</p>
+<table>
+  <tr><th>Correção</th><th>O que estava a falhar</th></tr>
+  <tr>
+    <td><code>class &lt;&lt; self</code></td>
+    <td>Métodos declarados dentro deste bloco são <strong>de classe</strong>, mas estavam
+        a ser registados como de instância. Toda a chamada a um deles falhava, e é uma
+        forma muito comum de escrever métodos de fábrica em Ruby.</td>
+  </tr>
+  <tr>
+    <td>Colaboradores por variável de instância</td>
+    <td>Sabíamos que <code>@wallet = Wallet.new</code> no construtor, mas não usávamos
+        essa informação nas outras chamadas. Como o padrão dominante em Ruby é guardar
+        colaboradores em variáveis de instância, perdia-se a maioria das chamadas entre
+        objetos. Foi a correção que mais rendeu.</td>
+  </tr>
+  <tr>
+    <td><code>self.class.new</code></td>
+    <td>Idioma frequente para criar um objeto do mesmo tipo (usado em objetos de valor,
+        como o <code>Money</code>). Não era reconhecido, e as chamadas ao objeto criado
+        ficavam por resolver.</td>
+  </tr>
+</table>
+<p>Com as três, o resolver passou a <strong>49,6%</strong>.</p>
+
+<h3>Ainda pode ser otimizado?</h3>
 <p>Sim, mas convém separar o que é teto do que é trabalho por fazer.</p>
 <ul>
-  <li><strong>Teto real (nenhuma análise estática resolve):</strong> despacho
-  verdadeiramente dinâmico: <code>send</code>, <code>method_missing</code>,
-  <code>define_method</code>. O nome do método só existe em tempo de execução. O PyCG
-  tem exatamente a mesma limitação em Python, não é fraqueza do nosso.</li>
-  <li><strong>Alcançável com mais trabalho:</strong> blocos e <code>procs</code>
-  passados como argumento, e chamadas que saem para dentro das dependências (hoje só
-  indexamos o código do próprio projeto).</li>
+  <li><strong>Teto real, que nenhuma análise estática resolve:</strong> despacho
+  verdadeiramente dinâmico (<code>send</code>, <code>method_missing</code>,
+  <code>define_method</code>). O nome do método só existe em tempo de execução. O PyCG
+  tem a mesma limitação em Python, não é fraqueza do nosso.</li>
+  <li><strong>Alcançável com mais trabalho:</strong> blocos e <code>procs</code> passados
+  como argumento, e chamadas que saem para dentro das dependências, já que hoje só
+  indexamos o código do próprio projeto.</li>
 </ul>
 <div class="flag">
   <p><strong>A dizer antes que perguntem:</strong> os 49,6% foram medidos numa
@@ -327,8 +419,7 @@ apenas com o <strong>uso</strong>: olhamos para o que é feito ao parâmetro den
 método. Se o corpo faz <code>a.strip</code>, então <code>a</code> comporta-se como texto.</p>
 
 <h2><span class="n">4</span>O que é o RSpec</h2>
-<p>É o framework de testes dominante em Ruby, o papel que o pytest tem em Python. Os
-testes escrevem-se em blocos que se leem quase como inglês:</p>
+<p>É o framework de testes dominante em Ruby, como o pytest para python.</p>
 <pre><code>require "calc"
 
 RSpec.describe Calc do
@@ -336,11 +427,7 @@ RSpec.describe Calc do
     expect(Calc.new.add(2, 3)).to eq(5)
   end
 end</code></pre>
-<ul>
-  <li><code>describe</code> e <code>context</code> agrupam;</li>
-  <li><code>it</code> é <strong>um caso de teste</strong>, a unidade que conta;</li>
-  <li><code>expect(...).to eq(...)</code> é a asserção.</li>
-</ul>
+
 
 <h2><span class="n">5</span>O que é pedido nos prompts</h2>
 <h3>Planner, desenha o plano, não escreve código</h3>
@@ -374,86 +461,34 @@ tentativa anterior e exemplos de métodos semanticamente próximos desse erro, p
 no índice RAG.</p>
 
 <h2><span class="n">6</span>O <code>rspec -f json</code></h2>
-<p><code>-f json</code> escolhe o formato da saída. Em vez de pontos e texto colorido
-feitos para humanos, o RSpec devolve os resultados em JSON: um registo por teste, com o
-estado, a mensagem de erro e a linha onde falhou.</p>
+<p><code>-f json</code> escolhe o formato da saída. O RSpec devolve os resultados em JSON.</p>
 <p>Serve para recebermos os dados <strong>no mesmo formato em que já os recebíamos em
 Python</strong> (lá é o <code>pytest --json-report</code>). Assim o resto da ferramenta
 não muda: trata os dois da mesma maneira.</p>
-<p>Juntamos ainda <code>-O /dev/null</code>, que manda ignorar o ficheiro
-<code>.rspec</code> do projeto. Os nossos specs são autossuficientes e não devem herdar
-configuração de quem estamos a medir.</p>
+
 
 <h2><span class="n">7</span><code>coverage.py</code> e o <code>Coverage</code> do Ruby</h2>
 <table>
   <tr><th></th><th>Python</th><th>Ruby</th></tr>
   <tr><td><strong>O que é</strong></td>
-      <td>Biblioteca externa, madura, instalada à parte</td>
+      <td>Biblioteca externa instalada à parte</td>
       <td>Módulo <strong>embutido no interpretador</strong>, nada para instalar</td></tr>
   <tr><td><strong>O que devolve</strong></td>
       <td>Linhas e ramos, com API para consultar regiões</td>
-      <td>Por ficheiro, um array indexado por linha com o número de execuções
-          (vazio se a linha não for executável)</td></tr>
+      <td>Por ficheiro: um array indexado por linha com o número de execuções, e
+          para cada ramo quantas vezes cada lado correu</td></tr>
 </table>
 <p><strong>A diferença que importa:</strong> o Ruby dá-nos a informação
 <em>por ficheiro</em>. Mas o ciclo externo precisa das linhas em falta
 <strong>por método</strong>, para poder dizer ao Planner "cobre as linhas 12 a 15". Por
 isso sintetizamos: cruzamos o intervalo de linhas de cada método, que o parser já nos
 deu, com o array de execuções.</p>
+<p>Os <strong>ramos</strong> são atribuídos ao método da mesma maneira, e isso dá sinal que
+as linhas sozinhas não dão. Em <code>def label(n) = n &gt; 0 ? "pos" : "neg"</code>, testado
+só com <code>n = 5</code>, a linha executou e por linhas o método estaria a 100%, mas o
+lado <code>"neg"</code> nunca correu. Com ramos o método é dado como incompleto e as
+rondas seguintes voltam a tentá-lo. Vão no feedback ao Planner à parte das linhas em
+falta, senão ele leria a linha do <code>if</code> como nunca executada.</p>
 
-<h3>O que é preciso vigiar</h3>
-<p>Essa síntese vale o que valem os intervalos de linhas do parser. Na prática:
-perguntamos "onde começa e onde acaba o método X", recebemos por exemplo "linhas 40 a
-52", e marcamos como em falta as linhas desse intervalo com zero execuções. Isto assume
-que o código do método vive mesmo entre essas duas linhas. Falha quando:</p>
-<ul>
-  <li>o método é <strong>criado por metaprogramação</strong> (<code>define_method</code>):
-  não há corpo literal no ficheiro naquelas linhas;</li>
-  <li>o método é <strong>de uma só linha</strong> (<code>def add(a, b) = a + b</code>):
-  não há como distinguir coberto de parcialmente coberto;</li>
-  <li>o código está dentro de um <strong>bloco</strong> passado a outro método, e pode ser
-  atribuído à linha de fora.</li>
-</ul>
-<p>Nestes casos o número daquele método pode ser otimista ou pessimista. O total do
-projeto não fica errado, porque vem das linhas em bruto, mas o <strong>ciclo externo pode
-ser mal orientado</strong>: dizemos ao Planner "cobre a linha 45" quando não é a linha 45
-que falta.</p>
-
-<h3>Vamos ter cobertura de linhas e de ramos em Ruby?</h3>
-<p>Recolhemos as duas. O <code>Coverage.start(lines: true, branches: true)</code> já pede
-ambas ao interpretador.</p>
-<div class="flag">
-  <p><strong>Lacuna conhecida:</strong> o nosso emissor de JSON só escreve as
-  <em>linhas</em>. Os ramos estão a ser recolhidos e deitados fora. Isto tem consequência
-  direta: os resultados do Python reportam linhas e ramos <strong>combinados</strong>, por
-  isso enquanto o Ruby só usar linhas as duas séries não são comparáveis nessa métrica. A
-  correção é pequena (emitir também os ramos e usá-los na síntese) mas ainda não está
-  feita. É a lacuna mais relevante do lado da medição.</p>
-</div>
-
-<h2><span class="n">8</span>Salvamento e rondas de geração</h2>
-<p>O <strong>salvamento</strong> é funcionamento normal, sem nada de especial: se um
-ficheiro tem 5 testes e 2 falham, em vez de descartar o ficheiro inteiro cortam-se só os
-2 blocos que falharam, limpa-se o que ficou vazio, verifica-se a sintaxe e corre-se outra
-vez.</p>
-
-<h3>Como funcionam as três rondas</h3>
-<p><strong>Ronda 1:</strong> gera para todos os métodos-alvo. No fim, mede a cobertura de
-tudo o que existe em disco.</p>
-<p><strong>Rondas 2 e 3:</strong> por cada método, olha para o resultado da medição.</p>
-<ul>
-  <li>Se o método ficou <strong>totalmente coberto</strong>, é saltado. Não se gasta mais
-  orçamento de LLM nele.</li>
-  <li>Se ficaram linhas por cobrir, gera <strong>um ficheiro novo</strong> para o mesmo
-  método, e o prompt do Planner passa a incluir a lista dessas linhas, com instrução
-  explícita para desenhar os cenários que as executam. O ficheiro novo
-  <strong>acresce</strong> aos anteriores, não os substitui.</li>
-</ul>
-<p><strong>Respondendo ao teu cenário:</strong> se na ronda 1 só passou o caso do caminho
-feliz, o método <em>não</em> está totalmente coberto. Logo nas rondas 2 e 3 ele volta a
-ser tentado, agora com as linhas que faltam indicadas no prompt. Só é saltado quando
-chega aos 100%.</p>
-<p>É por isso que o número de ficheiros por método varia: os métodos fáceis ficam com um,
-os difíceis podem acabar com três.</p>
 
 </div>
