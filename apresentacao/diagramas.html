@@ -21,6 +21,8 @@
   figure{margin:0 0 44px;}
   .panel{background:var(--f-bg);border-radius:4px;padding:18px 14px;overflow-x:auto;}
   svg{display:block;min-width:1010px;width:100%;height:auto;}
+  /* figuras estreitas nao precisam do min-width do diagrama grande */
+  .narrow svg{min-width:560px;}
   figcaption{color:var(--muted);font-size:13.5px;margin-top:10px;}
 
   h2{font-size:17px;font-weight:650;margin:38px 0 2px;padding-top:16px;
@@ -302,7 +304,7 @@ método <code>balance</code>.</p>
   </tr>
 </table>
 
-<figure style="margin:18px 0 8px">
+<figure class="narrow" style="margin:18px 0 8px">
   <div class="panel">
   <svg viewBox="0 0 720 250" role="img"
        aria-label="Exemplo de resolução: a chamada arroba wallet ponto balance dentro de Order cardápio total é ligada ao método balance da classe Wallet, porque o construtor guardou que arroba wallet é um Wallet.">
@@ -485,5 +487,136 @@ lado <code>"neg"</code> nunca correu. Com ramos o método é dado como incomplet
 rondas seguintes voltam a tentá-lo. Vão no feedback ao Planner à parte das linhas em
 falta, senão ele leria a linha do <code>if</code> como nunca executada.</p>
 
+
+<h1 style="margin-top:56px;padding-top:34px;border-top:2px solid var(--ink)">Benchmark / dataset</h1>
+<p class="sub">Como escolhemos os 12 projetos Ruby onde a ferramenta é avaliada.</p>
+
+<figure class="narrow">
+  <div class="panel">
+  <svg viewBox="0 0 900 440" role="img"
+       aria-label="Funil de seleção do dataset: 125 gems na população inicial, 121 analisadas, 112 sem erros de parse, 94 elegíveis depois dos filtros, e 12 no corpus final depois do portão de instalação. Dentro de cada projeto há ainda uma seleção de ficheiros-alvo.">
+    <text class="t-phase" x="20" y="24">O funil, camada a camada</text>
+
+    <text class="t-title" x="190" y="64" text-anchor="end">População inicial</text>
+    <rect class="fc st" x="200" y="46" width="640" height="26" rx="2"/>
+    <text class="t-val" x="848" y="64">125</text>
+    <text class="t-sub" x="204" y="90">RubyGems, cruzado com a lista awesome-ruby, acima de 100M descargas</text>
+
+    <text class="t-title" x="190" y="134" text-anchor="end">Analisadas</text>
+    <rect class="fc st" x="200" y="116" width="620" height="26" rx="2"/>
+    <text class="t-val" x="828" y="134">121</text>
+    <text class="t-sub" x="204" y="160">menos 4: não são bibliotecas a testar (rails, rake, rspec, minitest)</text>
+
+    <text class="t-title" x="190" y="204" text-anchor="end">Sem erros de leitura</text>
+    <rect class="fc st" x="200" y="186" width="573" height="26" rx="2"/>
+    <text class="t-val" x="781" y="204">112</text>
+    <text class="t-sub" x="204" y="230">menos 9 que o nosso parser não conseguiu ler por inteiro</text>
+
+    <text class="t-title" x="190" y="274" text-anchor="end">Elegíveis</text>
+    <rect class="fc st" x="200" y="256" width="481" height="26" rx="2"/>
+    <text class="t-val" x="689" y="274">94</text>
+    <text class="t-sub" x="204" y="300">menos 17 presas ao Rails, menos 1 gigante gerada por máquina</text>
+
+    <text class="t-title" x="190" y="344" text-anchor="end">Corpus final</text>
+    <rect class="st" x="200" y="326" width="61" height="26" rx="2" style="fill:var(--f-rb)"/>
+    <text class="t-val" x="269" y="344" style="fill:var(--f-rb);font-weight:700">12</text>
+    <text class="t-sub" x="204" y="370">escolhidas por diversidade, depois testadas: instalam limpo, sem compilar C</text>
+
+    <line class="st-soft" x1="20" y1="392" x2="880" y2="392"/>
+    <text class="t-phase" x="20" y="414">Dentro de cada projeto</text>
+    <text class="t-sub" x="200" y="414">dos 5876 métodos dos 12 projetos, seleção de ficheiros-alvo por orçamento</text>
+    <text class="t-sub" x="200" y="430">(o mesmo que o benchmark Python faz: 486 módulos, não 27 projetos inteiros)</text>
+  </svg>
+  </div>
+  <figcaption>Cada camada tem um critério objetivo e verificável. O corpus final é
+  pequeno de propósito: 12 projetos variados valem mais que 100 parecidos.</figcaption>
+</figure>
+
+<h2><span class="n">1</span>O que é o RubyGems</h2>
+<p>É o repositório central de bibliotecas de Ruby, o equivalente ao PyPI do Python. Cada
+biblioteca chama-se uma <strong>gem</strong>. Quem escreve código Ruby instala gems de lá,
+e o site publica quantas vezes cada uma foi descarregada.</p>
+<p>Interessa-nos por duas razões: é a lista completa do que existe, e o número de
+descargas dá-nos uma medida objetiva de quais são as bibliotecas que as pessoas realmente
+usam.</p>
+
+<h2><span class="n">2</span>Como escolhemos, camada a camada</h2>
+
+<h4>Partir de uma população definida, não de uma escolha nossa</h4>
+<p>Cruzámos duas fontes: a lista <em>awesome-ruby</em>, mantida pela comunidade, e o
+próprio RubyGems, ficando só com gems acima de 100 milhões de descargas. Deu
+<strong>125</strong> gems em 55 categorias.</p>
+<p>O ponto importante é este: a população não fomos nós que a inventámos. Antes disto a
+escolha era nossa e não tinha fundamento nenhum, o que era uma fraqueza séria para o
+paper. Assim, qualquer pessoa pode refazer o mesmo cruzamento e chegar à mesma lista.</p>
+
+<h4>Diagnosticar cada uma, sem deixar rastro na máquina</h4>
+<p>Por cada gem: clonar, medir estaticamente (sem executar nada), apagar. Ficaram
+<strong>121</strong> analisadas, porque 4 não são bibliotecas a testar mas frameworks e
+ferramentas (o próprio Rails, o Rake, o RSpec, o Minitest). Dessas, <strong>112</strong>
+foram lidas sem erros pelo nosso parser.</p>
+
+<h4>Filtrar o que não serve para medir</h4>
+<p>Caíram <strong>17</strong> gems presas ao Rails: para as testar seria preciso levantar
+meio framework, e o que mediríamos era o Rails, não a nossa ferramenta. Caiu
+<strong>1</strong> gigante gerada por máquina (a <code>twilio-ruby</code>, com 22047
+métodos): milhares de métodos praticamente iguais, feitos por um gerador a partir de uma
+especificação. Cobrir código repetido não demonstra nada. Sobraram
+<strong>94</strong>.</p>
+
+<h4>Escolher por diversidade, não por gosto</h4>
+<p>Aqui está o cuidado principal. Em vez de escolhermos as que nos pareciam interessantes,
+medimos sete características de cada gem (tamanho dos métodos, herança, mistura de
+módulos, metaprogramação, e outras) e deixámos um algoritmo escolher: a cada passo entra a
+gem <strong>mais diferente</strong> de todas as já escolhidas. Assim o conjunto cobre os
+extremos e o meio de cada característica, em vez de doze variações do mesmo tipo de
+código. Com o limite de duas gems por categoria, para não encher o corpus de
+bibliotecas do mesmo domínio.</p>
+<p>Vale a pena saber uma coisa sobre este algoritmo: ele é <em>guloso</em>, decide passo a
+passo. Quando corrigimos um erro que acrescentou 2 gems à população, 7 das 12 escolhidas
+mudaram. Não invalida o método, mas muda o que se pode afirmar: o correto é dizer
+<strong>"um conjunto de 12 que cobre o espaço de diversidade"</strong>, e nunca "os 12
+mais diversos".</p>
+
+<h4>Confirmar que funcionam de verdade</h4>
+<p>A análise estática não vê tudo. A última camada tenta mesmo instalar cada candidata,
+por ordem de diversidade, num ambiente isolado que é apagado logo a seguir. Caem as que
+precisam de compilar código C e bibliotecas do sistema (a <code>mysql2</code> precisa das
+bibliotecas do MySQL), porque não são portáveis para o cluster onde as experiências
+correm. Ficaram <strong>12</strong>, cada uma fixada num commit exato para a experiência
+ser repetível.</p>
+
+<h2><span class="n">3</span>Como medimos a metaprogramação</h2>
+<p>Primeiro, o que é e porque nos interessa. <strong>Metaprogramação</strong> é código que
+escreve código: em vez de o programador escrever um método, o programa cria-o sozinho
+enquanto corre. Ruby é uma linguagem onde isto é comum e idiomático.</p>
+<p>Interessa-nos porque é exatamente onde a análise estática cega. Se um método só passa a
+existir durante a execução, nós, que olhamos apenas para o texto do ficheiro, não o vemos.
+Uma gem com muita metaprogramação é portanto um <strong>teste difícil</strong> para a
+nossa ferramenta, e é isso que a torna valiosa para o corpus.</p>
+<h4>A medição, concretamente</h4>
+<p>Não é uma apreciação nossa: é uma contagem.</p>
+<ol>
+  <li>Temos uma <strong>lista fixa de 22 nomes</strong> que só aparecem quando há
+  metaprogramação. Os principais: <code>define_method</code>,
+  <code>define_singleton_method</code>, <code>method_missing</code>, <code>send</code>,
+  <code>public_send</code>, <code>instance_eval</code>, <code>class_eval</code>,
+  <code>instance_variable_get</code>, <code>const_get</code>, <code>delegate</code>.</li>
+  <li>O parser, ao ler os ficheiros, já registou todas as chamadas de cada método.
+  Percorremos essa lista e contamos quantas caem na lista dos 22.</li>
+  <li>Dividimos pelo número de métodos da gem e multiplicamos por 100, para obter
+  <strong>chamadas de metaprogramação por 100 métodos</strong>. Sem normalizar, uma gem
+  grande parecia sempre mais "difícil" só por ser grande.</li>
+</ol>
+<p>No corpus final o valor vai de <strong>0</strong> (a <code>letter_opener</code>, código
+direto) a <strong>28,4</strong> (a <code>virtus</code>, que constrói os seus métodos em
+tempo de execução). Essa distância é precisamente o que queremos.</p>
+<div class="flag">
+  <p><strong>Limitação a assumir:</strong> é uma contagem de nomes, não uma compreensão do
+  código. Se um projeto tiver um método seu chamado <code>send</code> (numa classe de
+  email, por exemplo), contamos como metaprogramação sem o ser. É uma aproximação
+  deliberada: barata, aplicável às 121 gems sem executar nada, e boa o suficiente para
+  ordenar gems por dificuldade, que é o único uso que lhe damos.</p>
+</div>
 
 </div>
