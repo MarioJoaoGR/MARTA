@@ -527,7 +527,8 @@ class RubyProject:
         for i, t in enumerate(self.targets):
             lines = result.files.get(t.source_rel)
             if lines:
-                by_target[i] = self.backend.synthesize_coverage(t.method, lines)
+                branches = getattr(result, "branches", {}).get(t.source_rel)
+                by_target[i] = self.backend.synthesize_coverage(t.method, lines, branches)
         return by_target
 
     async def generate_rounds(

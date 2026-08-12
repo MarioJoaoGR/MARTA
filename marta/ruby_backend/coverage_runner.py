@@ -28,17 +28,33 @@ class MethodCoverage:
     missing_lines: List[int] = field(default_factory=list)
     covered_lines: int = 0
     executable_lines: int = 0
+    # Ramos não tomados, pela linha onde começam. Uma linha pode aparecer aqui e
+    # NÃO estar em missing_lines: a linha do `if` executou, mas um dos seus lados
+    # nunca correu. É exatamente o caso que a cobertura de linhas não vê.
+    missing_branch_lines: List[int] = field(default_factory=list)
+    covered_branches: int = 0
+    total_branches: int = 0
 
     @property
     def fully_covered(self) -> bool:
-        return not self.missing_lines
+        return not self.missing_lines and not self.missing_branch_lines
 
     def format_missing_lines(self) -> str:
         """Collapse missing lines into ranges, e.g. "5-6, 8" — same format the
-        Python side feeds the Planner as COVERAGE FEEDBACK."""
-        if not self.missing_lines:
+        Python side feeds the Planner as COVERAGE FEEDBACK. Ramos não tomados
+        vão à parte, senão o Planner leria-os como linhas nunca executadas."""
+        base = self._ranges(self.missing_lines)
+        if self.missing_branch_lines:
+            br = self._ranges(sorted(set(self.missing_branch_lines)))
+            tail = f"branches not taken at line(s) {br}"
+            return f"{base}; {tail}" if base else tail
+        return base
+
+    @staticmethod
+    def _ranges(nums: List[int]) -> str:
+        if not nums:
             return ""
-        nums = sorted(self.missing_lines)
+        nums = sorted(nums)
         ranges: List[str] = []
         start = end = nums[0]
         for n in nums[1:]:
@@ -56,6 +72,8 @@ class CoverageResult:
     source_dir: str
     # relative-path -> per-line hit array (int hits, or None for non-executable)
     files: Dict[str, List[Optional[int]]] = field(default_factory=dict)
+    # relative-path -> [[linha, execuções], ...] por ramo (0 = ramo não tomado)
+    branches: Dict[str, List[List[int]]] = field(default_factory=dict)
 
 
 def run_line_coverage(
@@ -117,14 +135,24 @@ def run_line_coverage(
         )
     # Helper wraps each file as {"lines": [...]}; unwrap to the bare hit array.
     files = {rel: entry.get("lines", []) for rel, entry in data.get("files", {}).items()}
-    return CoverageResult(source_dir=data.get("source_dir", abs_source), files=files)
+    branches = {rel: entry.get("branches", []) or []
+                for rel, entry in data.get("files", {}).items()}
+    return CoverageResult(source_dir=data.get("source_dir", abs_source),
+                          files=files, branches=branches)
 
 
-def synthesize(method: MethodInfo, lines: List[Optional[int]]) -> MethodCoverage:
-    """Per-method missing_lines from a file's per-line hit array.
+def synthesize(method: MethodInfo, lines: List[Optional[int]],
+               branches: Optional[List[List[int]]] = None) -> MethodCoverage:
+    """Per-method missing_lines (e ramos) from a file's coverage arrays.
 
     Executable lines are those with a non-null entry within the method's
     ``[start_line, end_line]`` range; missing = executable with 0 hits.
+
+    Os ramos vêm como pares ``[linha, execuções]`` do ficheiro inteiro e são
+    atribuídos ao método pelo mesmo intervalo de linhas. Isto acrescenta sinal
+    real: um ``if`` cuja linha executou conta como linha coberta, mas se o lado
+    ``else`` nunca correu há aqui um ramo por tomar que a cobertura de linhas
+    não mostrava.
     """
     missing: List[int] = []
     covered = 0
@@ -141,4 +169,22 @@ def synthesize(method: MethodInfo, lines: List[Optional[int]]) -> MethodCoverage
             missing.append(line_no)
         else:
             covered += 1
-    return MethodCoverage(missing_lines=missing, covered_lines=covered, executable_lines=executable)
+
+    missing_br: List[int] = []
+    cov_br = tot_br = 0
+    for entry in (branches or []):
+        if not entry or len(entry) < 2:
+            continue
+        b_line, b_hits = entry[0], entry[1]
+        if not (method.start_line <= b_line <= method.end_line):
+            continue
+        tot_br += 1
+        if b_hits:
+            cov_br += 1
+        else:
+            missing_br.append(b_line)
+
+    return MethodCoverage(missing_lines=missing, covered_lines=covered,
+                          executable_lines=executable,
+                          missing_branch_lines=missing_br,
+                          covered_branches=cov_br, total_branches=tot_br)

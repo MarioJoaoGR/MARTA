@@ -58,7 +58,8 @@ class LanguageBackend(ABC):
     def run_coverage(self, source_dir: str, test_paths: List[str], cwd: str) -> CoverageResult: ...
 
     @abstractmethod
-    def synthesize_coverage(self, method: MethodInfo, lines: List[Optional[int]]) -> MethodCoverage: ...
+    def synthesize_coverage(self, method: MethodInfo, lines: List[Optional[int]],
+                            branches: Optional[List[List[int]]] = None) -> MethodCoverage: ...
 
     @abstractmethod
     def salvage(
@@ -126,8 +127,9 @@ class RubyBackend(LanguageBackend):
         # Generated specs are self-contained -> isolate from the project .rspec.
         return coverage_runner.run_line_coverage(source_dir, test_paths, cwd=cwd, isolated=True)
 
-    def synthesize_coverage(self, method: MethodInfo, lines: List[Optional[int]]) -> MethodCoverage:
-        return coverage_runner.synthesize(method, lines)
+    def synthesize_coverage(self, method: MethodInfo, lines: List[Optional[int]],
+                            branches: Optional[List[List[int]]] = None) -> MethodCoverage:
+        return coverage_runner.synthesize(method, lines, branches)
 
     def salvage(
         self,

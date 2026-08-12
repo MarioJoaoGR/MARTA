@@ -60,7 +60,15 @@ def emit_coverage(source_dir)
   prefix = source_dir + File::SEPARATOR
   result.each do |path, data|
     next unless path.start_with?(prefix)
-    files[path[prefix.length..]] = { "lines" => data[:lines] }
+    # Ramos: o Coverage devolve {[:if, id, l, c, el, ec] => {[:then, ...] => n}}.
+    # Chaves de array não sobrevivem a JSON, e para atribuir um ramo a um método
+    # só precisamos da LINHA onde ele começa e de quantas vezes correu. Achatamos
+    # para pares [linha, execuções]; execuções == 0 é ramo não tomado.
+    branches = []
+    (data[:branches] || {}).each_value do |targets|
+      targets.each { |tgt, count| branches << [tgt[2], count] }
+    end
+    files[path[prefix.length..]] = { "lines" => data[:lines], "branches" => branches }
   end
   $stdout.write(JSON.generate({ "source_dir" => source_dir, "files" => files }))
 end
