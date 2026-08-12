@@ -47,6 +47,29 @@
   th{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);}
   .c-py{color:var(--py);font-weight:600} .c-rb{color:var(--rb);font-weight:600}
 
+  .panel-light{background:#ffffff;border:1px solid var(--rule);border-radius:4px;
+               padding:20px 16px;overflow-x:auto;}
+  .panel-light svg{min-width:900px;}
+  /* ---- diagrama principal, paleta do TikZ ---- */
+  .io{fill:#ffffff;stroke:#555;stroke-width:1.4}
+  .p1{fill:#eef3fb;stroke:#3f6ea8;stroke-width:1.4}
+  .p2{fill:#e9f4f3;stroke:#2e7d74;stroke-width:1.4}
+  .gr{fill:#f0f0f0;stroke:#6d6d6d;stroke-width:1.4}
+  .dc{fill:#fdf0e0;stroke:#c8842a;stroke-width:1.4}
+  .dn{fill:#e7f4e7;stroke:#4a8f4a;stroke-width:1.4}
+  .sv{fill:#fdeede;stroke:#d08030;stroke-width:1.4}
+  .cy{fill:#f0f0f0;stroke:#6d6d6d;stroke-width:1.4}
+  .cyb{fill:#f0f0f0;stroke:none}
+  .cyl{stroke:#6d6d6d;stroke-width:1.4;fill:none}
+  .ar{stroke:#4a4a4a;stroke-width:1.5;fill:none}
+  .ar-c{stroke:#4a4a4a;stroke-width:1.5;fill:none;stroke-dasharray:5 3}
+  .nd{font-family:var(--sans);font-size:13.5px;font-weight:600;fill:#1b1b1b}
+  .nm{font-family:var(--mono);font-size:10.5px;fill:#5f5f5f}
+  .lb{font-family:var(--sans);font-size:11px;fill:#5f5f5f}
+  .ph1{font-family:var(--sans);font-size:12.5px;font-weight:700;fill:#2f5d92}
+  .ph2{font-family:var(--sans);font-size:12.5px;font-weight:700;fill:#2e7d74}
+  .ph3{font-family:var(--sans);font-size:12.5px;font-weight:700;fill:#6d6d6d}
+
   /* ---- SVG ---- */
   .fc{fill:var(--f-face)} .fc2{fill:var(--f-face2)}
   .st{stroke:var(--f-ink);stroke-width:1.1;fill:none}
@@ -63,439 +86,297 @@
   .t-same{font-family:var(--sans);font-size:10.5px;fill:var(--f-muted);font-style:italic}
   .t-edge{font-family:var(--sans);font-size:10.5px;fill:var(--f-muted)}
   .t-edge-rb{font-family:var(--sans);font-size:10.5px;fill:var(--f-rb)}
-  .t-phase{font-family:var(--sans);font-size:10.5px;letter-spacing:.13em;
+  .t-phase{font-family:var(--sans);font-size:11px;letter-spacing:.13em;
            text-transform:uppercase;fill:var(--f-muted)}
+  .t-big{font-family:var(--sans);font-size:14px;font-weight:650;fill:var(--f-ink)}
+  .t-tool{font-family:var(--mono);font-size:9.5px;fill:var(--f-muted)}
+  .t-code{font-family:var(--mono);font-size:11px;fill:var(--f-ink)}
+  .t-step{font-family:var(--sans);font-size:15px;font-weight:700;fill:var(--f-rb)}
+  .st-rb{stroke:var(--f-rb);stroke-width:1.4;fill:none}
+  .fc.st-rb,.fc2.st-rb{stroke:var(--f-rb);stroke-width:1.4}
+  .callout{fill:var(--f-face2);opacity:.55;stroke:var(--f-rb);stroke-width:.8;
+           stroke-dasharray:4 4}
+  .dot{r:5;fill:var(--f-rb)}
+  .mini{stroke:var(--f-rb);stroke-width:1.1;fill:none}
 </style>
 
 <div class="wrap">
 
-<h1>Diagrama da ferramenta: Python vs Ruby</h1>
-<p class="sub">O mesmo pipeline nas duas versões. Dentro de cada caixa,
-<span class="c-py">PY</span> é a original, <span class="c-rb">RB</span> o porte.</p>
+<h1>Arquitetura da ferramenta</h1>
+<p class="sub">A versão Ruby da MARTA. Estrutura igual à versão Python; muda o que está
+dentro de cada caixa.</p>
 
 <figure>
-  <div class="panel">
-  <svg viewBox="0 0 1160 700" role="img"
-       aria-label="Pipeline da MARTA em duas fases. Fase 1: ficheiros Ruby, análise sintática, grafo de chamadas, contexto de tipos e sumários com RAG, guardados em cache. Fase 2: o Planner produz cenários, o Dev produz um ficheiro de teste, passa por uma porta de sintaxe e pela execução; se falhar volta ao Dev até três vezes com o erro, e se o orçamento esgotar vai para o salvamento. Os specs guardados são medidos em cobertura e as linhas não cobertas realimentam o Planner.">
+  <div class="panel-light">
+  <svg viewBox="0 0 1160 650" role="img"
+       aria-label="Arquitetura em duas fases. Fase 1, da esquerda para a direita: projeto Ruby, análise estática com Prism e o nosso resolver, sumários por LLM, e a base vetorial ChromaDB. Fase 2, da direita para a esquerda: contexto de tipos, agente Planner, agente de asserções. Terceira linha, da esquerda para a direita: verificação de sintaxe e execução do RSpec, decisão passa ou não, e a suite de testes final. O salvamento fica por baixo da decisão. Um ciclo interno devolve o erro ao agente de asserções; um ciclo externo devolve as linhas por cobrir ao Planner.">
     <defs>
-      <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7"
+      <marker id="a9" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7"
               markerHeight="7" orient="auto-start-reverse">
-        <path class="mk-ink" d="M0,0 L10,5 L0,10 z"/>
-      </marker>
-      <marker id="ar-rb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7"
-              markerHeight="7" orient="auto-start-reverse">
-        <path class="mk-rb" d="M0,0 L10,5 L0,10 z"/>
+        <path d="M0,0 L10,5 L0,10 z" fill="#4a4a4a"/>
       </marker>
     </defs>
 
-    <text class="t-phase" x="45" y="34">Fase 1 · contexto do projeto (em cache)</text>
+    <text class="ph1" x="26" y="38">Fase 1: construção do contexto (offline, em cache)</text>
 
-    <rect class="fc2 st-soft" x="45" y="60" width="175" height="86" rx="3"/>
-    <text class="t-title" x="132" y="108" text-anchor="middle">Ficheiros do projeto</text>
+    <rect class="io"  x="30"  y="60" width="200" height="64" rx="7"/>
+    <text class="nd"  x="130" y="86"  text-anchor="middle">Projeto Ruby</text>
+    <text class="nd"  x="130" y="105" text-anchor="middle">a testar</text>
 
-    <rect class="fc st" x="265" y="60" width="175" height="86" rx="3"/>
-    <text class="t-title" x="277" y="82">Análise sintática</text>
-    <line class="st-soft" x1="277" y1="92" x2="428" y2="92"/>
-    <text class="t-tag tag-py" x="277" y="110">PY</text>
-    <text class="t-val" x="301" y="110">ast, no processo</text>
-    <text class="t-tag tag-rb" x="277" y="128">RB</text>
-    <text class="t-val" x="301" y="128">Prism, subprocesso</text>
+    <rect class="p1"  x="320" y="60" width="200" height="64" rx="7"/>
+    <text class="nd"  x="420" y="86"  text-anchor="middle">Análise estática</text>
+    <text class="nm"  x="420" y="106" text-anchor="middle">Prism + resolver próprio</text>
 
-    <rect class="fc st" x="485" y="60" width="175" height="86" rx="3"/>
-    <text class="t-title" x="497" y="82">Grafo de chamadas</text>
-    <line class="st-soft" x1="497" y1="92" x2="648" y2="92"/>
-    <text class="t-tag tag-py" x="497" y="110">PY</text>
-    <text class="t-val" x="521" y="110">PyCG (publicado)</text>
-    <text class="t-tag tag-rb" x="497" y="128">RB</text>
-    <text class="t-val" x="521" y="128">criado de raiz</text>
+    <rect class="p1"  x="610" y="60" width="200" height="64" rx="7"/>
+    <text class="nd"  x="710" y="86"  text-anchor="middle">Sumários por LLM</text>
+    <text class="nm"  x="710" y="106" text-anchor="middle">método e classe</text>
 
-    <rect class="fc st" x="705" y="60" width="175" height="86" rx="3"/>
-    <text class="t-title" x="717" y="82">Contexto de tipos</text>
-    <line class="st-soft" x1="717" y1="92" x2="868" y2="92"/>
-    <text class="t-tag tag-py" x="717" y="110">PY</text>
-    <text class="t-val" x="741" y="110">anotações + uso</text>
-    <text class="t-tag tag-rb" x="717" y="128">RB</text>
-    <text class="t-val" x="741" y="128">só uso</text>
+    <ellipse class="cy" cx="1000" cy="76" rx="86" ry="10"/>
+    <rect class="cyb" x="914" y="76" width="172" height="42"/>
+    <line class="cyl" x1="914" y1="76" x2="914" y2="118"/>
+    <line class="cyl" x1="1086" y1="76" x2="1086" y2="118"/>
+    <path class="cyl" d="M914,118 A86,10 0 0 0 1086,118"/>
+    <ellipse class="cy" cx="1000" cy="76" rx="86" ry="10"/>
+    <text class="nd" x="1000" y="103" text-anchor="middle">ChromaDB</text>
 
-    <rect class="fc st" x="925" y="60" width="175" height="86" rx="3"/>
-    <text class="t-title" x="937" y="82">Sumários + RAG</text>
-    <line class="st-soft" x1="937" y1="92" x2="1088" y2="92"/>
-    <text class="t-same" x="937" y="112">igual nas duas:</text>
-    <text class="t-same" x="937" y="128">LLM + bge / ChromaDB</text>
+    <line class="ar" marker-end="url(#a9)" x1="232" y1="92" x2="316" y2="92"/>
+    <line class="ar" marker-end="url(#a9)" x1="522" y1="92" x2="606" y2="92"/>
+    <line class="ar" marker-end="url(#a9)" x1="812" y1="92" x2="910" y2="92"/>
+    <text class="lb" x="861" y="84" text-anchor="middle">indexa</text>
 
-    <line class="flow" marker-end="url(#ar)" x1="222" y1="103" x2="261" y2="103"/>
-    <line class="flow" marker-end="url(#ar)" x1="442" y1="103" x2="481" y2="103"/>
-    <line class="flow" marker-end="url(#ar)" x1="662" y1="103" x2="701" y2="103"/>
-    <line class="flow" marker-end="url(#ar)" x1="882" y1="103" x2="921" y2="103"/>
+    <text class="ph2" x="26" y="222">Fase 2: geração multi-agente e refinamento</text>
 
-    <path class="dash" d="M572,148 L572,152 L792,152 L792,161"/>
-    <path class="dash" d="M792,148 L792,152"/>
-    <path class="dash" d="M1012,148 L1012,152 L792,152"/>
-    <ellipse class="fc2 st-soft" cx="792" cy="220" rx="100" ry="11"/>
-    <rect class="fc2" x="692" y="172" width="200" height="48" stroke="none"/>
-    <line class="st-soft" x1="692" y1="172" x2="692" y2="220"/>
-    <line class="st-soft" x1="892" y1="172" x2="892" y2="220"/>
-    <ellipse class="fc2 st-soft" cx="792" cy="172" rx="100" ry="11"/>
-    <text class="t-sub" x="792" y="196" text-anchor="middle"
-          style="font-weight:600;fill:var(--f-ink)">cache de análise</text>
-    <text class="t-sub" x="792" y="211" text-anchor="middle">hash do código + versão do resolver</text>
+    <rect class="p2"  x="900" y="240" width="200" height="64" rx="7"/>
+    <text class="nd"  x="1000" y="266" text-anchor="middle">Contexto de tipos</text>
+    <text class="nm"  x="1000" y="286" text-anchor="middle">inferido pelo uso</text>
 
-    <path class="flow" marker-end="url(#ar)"
-          d="M1102,103 L1140,103 L1140,278 L1012,278 L1012,296"/>
-    <text class="t-edge" x="1132" y="192" text-anchor="end">contexto</text>
+    <rect class="p2"  x="610" y="240" width="200" height="64" rx="7"/>
+    <text class="nd"  x="710" y="266" text-anchor="middle">Agente Planner</text>
+    <text class="nm"  x="710" y="286" text-anchor="middle">desenha os cenários</text>
 
-    <text class="t-phase" x="1100" y="252" text-anchor="end">Fase 2 · geração multi-agente</text>
+    <rect class="p2"  x="320" y="240" width="200" height="64" rx="7"/>
+    <text class="nd"  x="420" y="266" text-anchor="middle">Agente de asserções</text>
+    <text class="nm"  x="420" y="286" text-anchor="middle">escreve o spec</text>
 
-    <rect class="fc st" x="925" y="300" width="175" height="86" rx="3"/>
-    <text class="t-title" x="937" y="322">Planner</text>
-    <line class="st-soft" x1="937" y1="332" x2="1088" y2="332"/>
-    <text class="t-same" x="937" y="352">igual nas duas:</text>
-    <text class="t-same" x="937" y="368">cenários em JSON, sem código</text>
+    <line class="ar" marker-end="url(#a9)" x1="1000" y1="130" x2="1000" y2="236"/>
+    <text class="lb" x="1012" y="188">procura por semelhança</text>
+    <line class="ar" marker-end="url(#a9)" x1="898" y1="272" x2="814" y2="272"/>
+    <line class="ar" marker-end="url(#a9)" x1="608" y1="272" x2="524" y2="272"/>
+    <text class="lb" x="566" y="264" text-anchor="middle">plano em JSON</text>
 
-    <rect class="fc st" x="705" y="300" width="175" height="86" rx="3"/>
-    <text class="t-title" x="717" y="322">Dev / Assertion</text>
-    <line class="st-soft" x1="717" y1="332" x2="868" y2="332"/>
-    <text class="t-tag tag-py" x="717" y="350">PY</text>
-    <text class="t-val" x="741" y="350">1 ficheiro pytest</text>
-    <text class="t-tag tag-rb" x="717" y="368">RB</text>
-    <text class="t-val" x="741" y="368">1 ficheiro RSpec</text>
+    <text class="ph3" x="26" y="402">Validação e retenção</text>
 
-    <rect class="fc st" x="485" y="300" width="175" height="86" rx="3"/>
-    <text class="t-title" x="497" y="322">Porta de sintaxe</text>
-    <line class="st-soft" x1="497" y1="332" x2="648" y2="332"/>
-    <text class="t-tag tag-py" x="497" y="350">PY</text>
-    <text class="t-val" x="521" y="350">ast.parse</text>
-    <text class="t-tag tag-rb" x="497" y="368">RB</text>
-    <text class="t-val" x="521" y="368">ruby -c</text>
+    <rect class="gr"  x="320" y="420" width="200" height="64" rx="7"/>
+    <text class="nd"  x="420" y="446" text-anchor="middle">Sintaxe + execução</text>
+    <text class="nm"  x="420" y="466" text-anchor="middle">ruby -c, depois rspec</text>
 
-    <rect class="fc st" x="265" y="300" width="175" height="86" rx="3"/>
-    <text class="t-title" x="277" y="322">Execução dos testes</text>
-    <line class="st-soft" x1="277" y1="332" x2="428" y2="332"/>
-    <text class="t-tag tag-py" x="277" y="350">PY</text>
-    <text class="t-val" x="301" y="350">pytest --json-report</text>
-    <text class="t-tag tag-rb" x="277" y="368">RB</text>
-    <text class="t-val" x="301" y="368">rspec -f json</text>
+    <path class="dc" d="M710,410 L790,452 L710,494 L630,452 Z"/>
+    <text class="nd" x="710" y="457" text-anchor="middle">Passa?</text>
 
-    <line class="flow" marker-end="url(#ar)" x1="923" y1="343" x2="884" y2="343"/>
-    <line class="flow" marker-end="url(#ar)" x1="703" y1="343" x2="664" y2="343"/>
-    <line class="flow" marker-end="url(#ar)" x1="483" y1="343" x2="444" y2="343"/>
-    <line class="flow" marker-end="url(#ar)" x1="263" y1="343" x2="196" y2="343"/>
+    <rect class="dn"  x="900" y="420" width="200" height="64" rx="7"/>
+    <text class="nd"  x="1000" y="446" text-anchor="middle">Suite de testes</text>
+    <text class="nm"  x="1000" y="466" text-anchor="middle">o que fica</text>
 
-    <path class="fc st" d="M132,295 L190,343 L132,391 L74,343 Z"/>
-    <text class="t-title" x="132" y="348" text-anchor="middle"
-          style="font-size:12px">Passam?</text>
+    <rect class="sv"  x="610" y="550" width="200" height="64" rx="7"/>
+    <text class="nd"  x="710" y="576" text-anchor="middle">Salvamento</text>
+    <text class="nm"  x="710" y="596" text-anchor="middle">guarda o que passa</text>
 
-    <path class="flow" marker-end="url(#ar)" d="M132,295 L132,262 L792,262 L792,296"/>
-    <text class="t-edge" x="462" y="255" text-anchor="middle">
-      não · devolve o erro ao Dev, até 3 tentativas com RAG dirigido ao erro
-    </text>
+    <line class="ar" marker-end="url(#a9)" x1="428" y1="306" x2="428" y2="416"/>
+    <line class="ar" marker-end="url(#a9)" x1="522" y1="452" x2="626" y2="452"/>
+    <line class="ar" marker-end="url(#a9)" x1="792" y1="452" x2="896" y2="452"/>
+    <text class="lb" x="844" y="444" text-anchor="middle">sim</text>
+    <line class="ar" marker-end="url(#a9)" x1="710" y1="496" x2="710" y2="546"/>
+    <text class="lb" x="722" y="526">orçamento = N</text>
+    <path class="ar" marker-end="url(#a9)" d="M812,582 L1000,582 L1000,488"/>
 
-    <text class="t-phase" x="45" y="528">Saída e ciclo de cobertura</text>
+    <path class="ar" marker-end="url(#a9)" d="M710,408 L710,372 L412,372 L412,308"/>
+    <text class="lb" x="560" y="364" text-anchor="middle">não: nova tentativa (&lt; N)</text>
 
-    <rect class="fc st" x="45" y="540" width="175" height="86" rx="3"/>
-    <text class="t-title" x="57" y="562">Salvamento</text>
-    <line class="st-soft" x1="57" y1="572" x2="208" y2="572"/>
-    <text class="t-same" x="57" y="592">igual nas duas:</text>
-    <text class="t-same" x="57" y="608">corta os testes que falham</text>
-
-    <rect class="fc st" x="265" y="540" width="175" height="86" rx="3"/>
-    <text class="t-title" x="277" y="562">Specs guardados</text>
-    <line class="st-soft" x1="277" y1="572" x2="428" y2="572"/>
-    <text class="t-tag tag-py" x="277" y="590">PY</text>
-    <text class="t-val" x="301" y="590">Test4DT_tests/</text>
-    <text class="t-tag tag-rb" x="277" y="608">RB</text>
-    <text class="t-val" x="301" y="608">marta_specs/</text>
-
-    <rect class="fc st" x="485" y="540" width="175" height="86" rx="3"/>
-    <text class="t-title" x="497" y="562">Cobertura por método</text>
-    <line class="st-soft" x1="497" y1="572" x2="648" y2="572"/>
-    <text class="t-tag tag-py" x="497" y="590">PY</text>
-    <text class="t-val" x="521" y="590">coverage.py</text>
-    <text class="t-tag tag-rb" x="497" y="608">RB</text>
-    <text class="t-val" x="521" y="608">Coverage + síntese</text>
-
-    <path class="flow" marker-end="url(#ar)" d="M132,391 L132,470 L352,470 L352,536"/>
-    <text class="t-edge" x="240" y="463" text-anchor="middle">sim · guarda</text>
-
-    <path class="flow" marker-end="url(#ar)" d="M74,343 L28,343 L28,583 L41,583"/>
-    <text class="t-edge" x="46" y="470" transform="rotate(-90 46 470)"
-          text-anchor="middle">não · esgotou as 3</text>
-
-    <line class="flow" marker-end="url(#ar)" x1="222" y1="583" x2="261" y2="583"/>
-    <line class="flow" marker-end="url(#ar)" x1="442" y1="583" x2="481" y2="583"/>
-
-    <path class="flow-rb" marker-end="url(#ar-rb)"
-          d="M662,583 L1128,583 L1128,410 L1012,410 L1012,389"/>
-    <text class="t-edge-rb" x="884" y="575" text-anchor="middle">
-      linhas não cobertas → nova ronda para o Planner
-    </text>
+    <path class="ar-c" marker-end="url(#a9)" d="M1000,418 L1000,392 L760,392 L760,308"/>
+    <text class="lb" x="878" y="384" text-anchor="middle">linhas por cobrir</text>
   </svg>
   </div>
+  <figcaption>A única caixa sem equivalente pronto em Ruby é a análise estática: o Prism dá
+  a árvore do código, mas a resolução de chamadas que produz o grafo foi escrita por nós.</figcaption>
 </figure>
 
 
-<h2><span class="n">1</span>O que o Prism faz, exatamente</h2>
-<p>Sim, é isso: o Prism constrói uma <strong>árvore de sintaxe</strong> do código Ruby,
-tal como o <code>ast</code> faz para Python. Mesma ideia, mesmo papel no pipeline.</p>
-<p>A diferença está em <em>onde</em> essa árvore existe.</p>
-<ul>
-  <li><strong>Python:</strong> o <code>ast</code> é da própria linguagem. Corremos em
-  Python, a árvore fica em memória como objetos Python, e usamo-la diretamente.</li>
-  <li><strong>Ruby:</strong> o Prism é uma biblioteca de Ruby e produz a árvore como
-  objetos <strong>Ruby</strong>, dentro do processo Ruby. A nossa ferramenta é Python.
-  Objetos Ruby em memória não são acessíveis do Python: são dois interpretadores
-  diferentes, com representações de memória diferentes.</li>
-</ul>
-<p>Por isso o <code>marta_parse.rb</code> faz três coisas:</p>
+<h2><span class="n">1</span>Porquê o Prism</h2>
+<p><strong>O que faz:</strong> lê o texto de um ficheiro Ruby e devolve a sua estrutura,
+ou seja, que classes existem, que métodos tem cada uma, onde começam e acabam, e que
+chamadas fazem por dentro.</p>
+<p>Escolhemo-lo porque <strong>é o parser que o próprio Ruby usa para correr o código</strong>
+desde a versão 3.3, vem dentro da linguagem e não pode discordar do interpretador. Não é a
+única opção:</p>
+<table>
+  <tr><th>Opção</th><th>O que é</th><th>Porque não</th></tr>
+  <tr><td><strong>Prism</strong></td><td>Parser oficial, dentro do Ruby desde a 3.3</td>
+      <td class="c-rb">É o escolhido</td></tr>
+  <tr><td>Ripper</td><td>Vem na biblioteca padrão</td>
+      <td>Devolve eventos de baixo nível, não uma árvore utilizável</td></tr>
+  <tr><td><code>parser</code></td><td>Gem madura, era a base do RuboCop</td>
+      <td>Reimplementação da gramática: corre atrás das mudanças da linguagem</td></tr>
+  <tr><td><code>ruby_parser</code></td><td>Gem antiga, ainda usada</td>
+      <td>Mesma questão, e mais atrasada</td></tr>
+  <tr><td><code>RubyVM::AbstractSyntaxTree</code></td><td>Embutido no Ruby</td>
+      <td>A própria documentação diz que é experimental e sem garantia de compatibilidade</td></tr>
+</table>
+
+<h2><span class="n">2</span>Porquê o RSpec</h2>
+<p><strong>O que faz:</strong> é a framework em que os testes gerados são escritos e
+executados. Um ficheiro tem blocos <code>it</code>, cada um é um teste.</p>
+<p>Escolhemo-lo por <strong>devolver os resultados em formato estruturado</strong>
+(<code>-f json</code>): estado de cada teste, mensagem de erro e a linha exata da falha. O
+ciclo que repara um teste falhado depende disso.</p>
+<div class="flag">
+  <p><strong>Não é por ser o mais usado, e não convém dizer que é.</strong> Pelas descargas
+  do RubyGems o Minitest está à frente (1273 contra 1183 milhões), e nas 16 bibliotecas que
+  temos clonadas 8 usam Minitest e 7 usam RSpec.</p>
+</div>
+<table>
+  <tr><th>Opção</th><th>O que é</th><th>Porque não</th></tr>
+  <tr><td><strong>RSpec</strong></td><td>Framework de testes mais expressiva</td>
+      <td class="c-rb">É a escolhida: saída em JSON nativa com a linha da falha</td></tr>
+  <tr><td>Minitest</td><td>Vem dentro do Ruby</td>
+      <td>Sem repórter estruturado embutido; exige um plugin externo</td></tr>
+  <tr><td>test-unit</td><td>Anterior, ainda mantida</td>
+      <td>Pouco usada em projetos novos, e mesma limitação na saída</td></tr>
+</table>
+<p>Geramos <strong>sempre</strong> RSpec, mesmo em projetos cuja suite humana usa outra
+coisa, porque a medição tem de ser uniforme: caso contrário estaríamos a comparar doze
+cadeias de ferramentas em vez de uma ferramenta.</p>
+
+<h2><span class="n">3</span>O grafo de chamadas</h2>
+<p><strong>O que faz:</strong> responde a <em>quem chama quem</em>. Ao gerar testes para um
+método, juntamos ao contexto os métodos que ele usa por dentro. Sem isto, cada método é uma
+ilha e o modelo escreve às cegas sobre metade da história.</p>
+<p><strong>Como faz</strong>, em três passos:</p>
 <ol>
-  <li>pede ao Prism a árvore do ficheiro;</li>
-  <li><strong>percorre</strong> essa árvore e extrai só o que nos interessa: classes,
-  módulos, métodos com os respetivos intervalos de linhas, tipos de parâmetros, chamadas
-  (com a forma do recetor) e atributos;</li>
-  <li>escreve esse resumo em JSON no <code>stdout</code>.</li>
+  <li><strong>Anotar.</strong> De cada chamada guardamos o nome invocado <em>e sobre o quê</em>
+  foi invocado: o próprio objeto, uma constante, uma variável local, ou algo guardado dentro
+  do objeto.</li>
+  <li><strong>Indexar.</strong> Que classes existem, o que herdam, e o que guardam dentro
+  de si.</li>
+  <li><strong>Resolver.</strong> Cruzar os dois. Vimos <code>@carteira.saldo</code>, e do
+  índice sabemos que <code>@carteira</code> é uma <code>Carteira</code>; logo a chamada é
+  <code>Carteira#saldo</code> e não outro <code>saldo</code> qualquer do projeto.</li>
 </ol>
-<p>O JSON é a <strong>ponte</strong>: um formato de texto que as duas linguagens sabem ler
-e que atravessa a fronteira entre processos. Do lado Python só falta convertê-lo nas
-nossas estruturas (<code>MethodInfo</code>, <code>ClassInfo</code>,
-<code>FileParse</code>).</p>
-<p>Nota: não atravessamos a árvore inteira, só o resumo. Enviar tudo daria um JSON enorme
-e uma conversão lenta, sem ganho nenhum.</p>
+<pre><code>Resultado na biblioteca money: 20 ficheiros → 149 métodos, 231 ligações, 0,7 s
 
-<h2><span class="n">2</span>O grafo de chamadas: a ferramenta que tivemos de construir</h2>
-<p><strong>Para que serve:</strong> saber quem chama quem. Quando geramos testes para o
-método <code>X</code>, o contexto que damos ao modelo inclui o que o <code>X</code> chama
-por dentro, e propaga a intenção do chamador para os chamados. Sem grafo, cada método é
-uma ilha.</p>
-<p>Em Python isto está resolvido: existe o <strong>PyCG</strong>, uma ferramenta publicada
-(ICSE 2021). Em Ruby <strong>não existe nada equivalente</strong>. Foi preciso construir.</p>
+Money::Bank::Base#same_currency?  →  Money::Currency.wrap</code></pre>
 
-<h3>Quando corre o parser, e quantas vezes</h3>
-<p>O <code>marta_parse.rb</code> corre <strong>uma vez por ficheiro</strong>, e apenas na
-Fase 1, dentro do <code>discover()</code>. </p>
-<p>Memso ficheiros que não vão ser testados.</p>
-
-
-<h3>Como o resolver liga uma chamada a um método</h3>
-<p>O problema concreto: o parser viu a linha <code>total = @wallet.balance</code>. Sabemos
-que foi chamado um método com o nome <code>balance</code>. Falta a pergunta difícil:
-<strong>o <code>balance</code> de quem?</strong> Um projeto pode ter cinco classes com um
-método <code>balance</code>.</p>
-<p>É isso que o resolver faz, e usa quatro pistas:</p>
+<h4>Existem ferramentas de grafo de chamadas para Ruby?</h4>
+<p><strong>Existem, e é importante dizê-lo.</strong> O que não existe é uma que sirva para
+o que precisamos:</p>
 <table>
-  <tr><th>Pista</th><th>Exemplo</th><th>O que resolve</th></tr>
-  <tr>
-    <td><strong>Ordem de procura do Ruby</strong></td>
-    <td><code>class Wallet &lt; Account<br>&nbsp;&nbsp;include Loggable</code></td>
-    <td></code> O Ruby procura no
-        <code>Loggable</code> e depois na <code>Account</code>. 
-  </tr>
-  <tr>
-    <td><strong>Duck typing</strong></td>
-    <td><code>def greet(name)<br>&nbsp;&nbsp;name.upcase.strip<br>end</code></td>
-    <td>Não sabemos o tipo de <code>name</code>. Mas chamam-lhe <code>upcase</code> e
-        <code>strip</code>:  é string.</td>
-  </tr>
-  <tr>
-    <td><strong>Colaboradores</strong></td>
-    <td><code>def initialize<br>&nbsp;&nbsp;@wallet = Wallet.new<br>end<br>attr_reader :wallet</code></td>
-    <td>Guardámos que <code>@wallet</code> é um <code>Wallet</code>. A partir daí,
-        <code>@wallet.balance</code> e <code>wallet.balance</code> (pelo getter) resolvem
-        ambos para <code>Wallet#balance</code>.</td>
-  </tr>
+  <tr><th>Ferramenta</th><th>Como funciona</th><th>Âmbito</th><th>Estado</th></tr>
+  <tr><td><code>code_mapper</code></td><td>Dinâmica (TracePoint)</td>
+      <td>Só o código que for executado</td><td>Arquivada em 2022</td></tr>
+  <tr><td><code>rubydeps</code></td><td>Dinâmica: corre a suite de testes</td>
+      <td>Projeto, mas ao nível da <strong>classe</strong>, não do método</td><td>Mantida</td></tr>
+  <tr><td><code>visual-call-graph</code></td><td>Dinâmica (TracePoint)</td>
+      <td>Um método de cada vez</td><td>Sem alterações desde 2017</td></tr>
+  <tr><td><code>code-explorer</code></td><td>Estática</td>
+      <td>Um único ficheiro</td><td>Experimental</td></tr>
+  <tr><td class="c-rb"><strong>o nosso</strong></td><td class="c-rb">Estática</td>
+      <td class="c-rb">Projeto inteiro, ao nível do método</td><td class="c-rb">Escrito para este trabalho</td></tr>
 </table>
+<p><strong>Porque nenhuma serve.</strong> Quase todas são dinâmicas, isto é, precisam de
+executar o projeto e tipicamente de correr a suite de testes dele. Isso é circular no nosso
+caso: <em>estamos a gerar testes precisamente porque a suite existente não chega</em>. Uma
+ferramenta que exige testes para funcionar não pode ajudar a criá-los, e seria inútil num
+projeto sem testes nenhuns.</p>
+<p>As estáticas que encontrámos limitam-se a um ficheiro. Precisávamos de âmbito de projeto
+inteiro, porque uma chamada atravessa ficheiros quase sempre.</p>
+<p>Vale a pena notar porque é que o ecossistema foi por aí: os próprios autores dizem-no. O
+<code>rubydeps</code> justifica a opção dinâmica com <em>"os aspetos altamente dinâmicos da
+linguagem"</em>. Fazer isto estaticamente em Ruby é reconhecidamente difícil, e é por isso
+que ninguém tinha feito.</p>
 
-<figure class="narrow" style="margin:18px 0 8px">
-  <div class="panel">
-  <svg viewBox="0 0 720 250" role="img"
-       aria-label="Exemplo de resolução: a chamada arroba wallet ponto balance dentro de Order cardápio total é ligada ao método balance da classe Wallet, porque o construtor guardou que arroba wallet é um Wallet.">
-    <text class="t-phase" x="20" y="20">O que o parser vê</text>
-    <rect class="fc st" x="20" y="34" width="300" height="150" rx="3"/>
-    <text class="t-val" x="34" y="56">class Order</text>
-    <text class="t-val" x="34" y="74">  def initialize</text>
-    <text class="t-val" x="34" y="92">    @wallet = Wallet.new</text>
-    <text class="t-val" x="34" y="110">  end</text>
-    <text class="t-val" x="34" y="132">  def total</text>
-    <text class="t-val" x="34" y="150" style="fill:var(--f-rb)">    @wallet.balance</text>
-    <text class="t-val" x="34" y="168">  end</text>
+<h4>Como sabemos que funciona</h4>
+<p>Construímos um <strong>segundo grafo</strong>, este dinâmico, a partir da execução real
+da suite da biblioteca, e usámo-lo só como régua. O TracePoint <em>não é</em> uma ferramenta
+de grafos: é uma interface do Ruby que avisa quando um método começa e acaba. O grafo são
+cerca de 60 linhas nossas por cima dela.</p>
+<p>Comparando, a nossa análise estática prevê <strong>49,6%</strong> das ligações reais
+(primeira versão: 35,9%). O PyCG, em Python, publica cerca de 69,9%.</p>
+<p>Duas ressalvas: foi medido numa <strong>única</strong> biblioteca, e a própria régua tem
+buracos, porque o TracePoint não vê métodos implementados em C. Isso torna os 49,6% um valor
+conservador.</p>
 
-    <path class="flow-rb" marker-end="url(#ar-rb)" d="M322,150 L400,150 L400,120 L438,120"/>
-    <text class="t-edge-rb" x="360" y="142" text-anchor="middle">resolve</text>
+<h2><span class="n">4</span>Anotações + uso, contra só uso</h2>
+<p>Para escrever um teste é preciso saber que valores pôr em cada parâmetro. Em Python o
+programador <strong>pode</strong> declarar o tipo (<code>def somar(a: int, b: int)</code>),
+embora não seja obrigatório.</p>
+<p>Em Ruby <strong>não existe forma de o declarar</strong>. Resta inferir pelo uso: se o
+método faz <code>a.strip</code>, então <code>a</code> comporta-se como texto. A versão Ruby
+trabalha com menos informação do que a Python no mesmo método.</p>
 
-    <text class="t-phase" x="440" y="20">O que o resolver conclui</text>
-    <rect class="fc2 st-soft" x="440" y="34" width="260" height="52" rx="3"/>
-    <text class="t-sub" x="454" y="54" style="fill:var(--f-ink)">pista: o construtor guardou</text>
-    <text class="t-val" x="454" y="72">@wallet : Wallet</text>
+<h2><span class="n">5</span>Os prompts</h2>
+<h4>Planner</h4>
+<pre><code>Analyze the following Ruby method and generate a comprehensive test plan.
 
-    <rect class="fc st" x="440" y="98" width="260" height="86" rx="3"/>
-    <text class="t-title" x="454" y="120">Aresta do grafo</text>
-    <line class="st-soft" x1="454" y1="130" x2="686" y2="130"/>
-    <text class="t-val" x="454" y="150">Order#total</text>
-    <text class="t-val" x="454" y="168" style="fill:var(--f-rb)">  → Wallet#balance</text>
+TASK: Generate 3 distinct test scenarios covering:
+CRITICAL: If 'MISSING LINES TO COVER' are provided in the context, you MUST
+design these scenarios specifically to execute those missing lines.
+1. Valid inputs (Happy Path)
+2. Edge cases (e.g., nil, empty arrays, boundary values)
+3. Invalid inputs / error handling (e.g. raising an error)
 
-    <text class="t-edge" x="20" y="212">Sem esta pista, o nome "balance" era ambíguo:</text>
-    <text class="t-edge" x="20" y="230">qualquer classe do projeto com um método balance servia.</text>
-  </svg>
-  </div>
-</figure>
+SETUP GUIDANCE: prefer REAL objects with simple concrete values in 'setup';
+only suggest doubles/stubs for true external I/O (network, filesystem, subprocess).
 
-<h3>Como validámos: o TracePoint</h3>
-<p>O <strong>TracePoint</strong> é um mecanismo do próprio Ruby que permite observar o
-programa enquanto ele corre, e ser avisado a cada chamada de método. É verdade: com ele
-constrói-se um grafo de chamadas <strong>dinâmico</strong>, feito das chamadas que
-realmente aconteceram.</p>
-<p>Usámo-lo para gerar esse grafo na gem <code>money</code>, executando a suite de testes
-dela, e <strong>usamos esse grafo só para validar o nosso</strong>. Ele não entra na
-ferramenta: serve de régua. A comparação diz-nos que percentagem das chamadas reais o
-nosso resolver estático conseguiu prever.</p>
+OUTPUT FORMAT: Return ONLY a raw JSON list. No Markdown. No Explanations.</code></pre>
+<h4>Agente de asserções</h4>
+<pre><code>RULES:
+1. Output ONLY Ruby code in a ```ruby``` block (a complete, self-contained spec file).
+2. Start the file with: require "&lt;target&gt;"
+3. Use RSpec: RSpec.describe &lt;Subject&gt; do ... end with one independent
+   it "..." do ... end block per scenario.
+4. Use expect(...).to eq(...) / raise_error(...) matchers.
+5. AVOID MOCKS unless strictly necessary: prefer constructing REAL objects with
+   simple values. NEVER mock the class under test, plain value objects, or
+   anything you can instantiate directly. A wrong double fails the test without
+   testing anything.
+6. IF you must isolate a dependency, use RSpec doubles with allow(...).to receive(...).
+   NEVER redefine global constants or monkey-patch classes directly.
+7. EXPECTATIONS: keep each it block focused, 1 to 2 expect calls per block,
+   asserting CONCRETE expected values you derived from the source code.</code></pre>
+<p>Na reparação, o prompt do segundo agente passa a incluir a mensagem de erro da tentativa
+anterior e exemplos de métodos parecidos com esse erro, procurados no ChromaDB.</p>
 
-<h3>O que o grafo estava a falhar, e o que passámos a fazer</h3>
-<p>Comparámos o nosso grafo com o dinâmico e olhámos para as ligações que nos escapavam.
-Não eram casos isolados: repetiam-se, e cada grupo tinha a mesma explicação por trás. E o
-que se repetia eram <strong>maneiras normais de escrever Ruby</strong>, não peculiaridades
-daquele projeto. É por isso que corrigir cada uma melhora o resolver em qualquer projeto,
-e não só naquele onde as encontrámos.</p>
-
-<h4>Métodos que pertencem à classe e não ao objeto</h4>
-<p><strong>O que notámos:</strong> havia um conjunto de ligações que falhava sempre, e
-eram quase todas para métodos que servem para <em>criar</em> coisas.</p>
-<p><strong>Porque acontecia:</strong> em Ruby há duas famílias de métodos. Uns usam-se
-sobre um objeto que já existe (pedir o saldo a uma carteira). Outros usam-se sobre a
-própria classe, tipicamente para fabricar um objeto novo (pedir à classe Carteira que crie
-uma carteira). Existe uma forma abreviada de declarar a segunda família em bloco, e é muito
-usada. Nós estávamos a lê-los como se fossem da primeira família, portanto quando alguém
-os chamava íamos procurar no sítio errado e não encontrávamos nada.</p>
-<p><strong>O que passámos a fazer:</strong> reconhecer esse bloco e registar os métodos na
-família certa.</p>
-
-<h4>Objetos guardados dentro de outros objetos</h4>
-<p><strong>O que notámos:</strong> faltavam-nos quase todas as ligações <em>entre objetos
-diferentes</em>. Dentro do mesmo objeto acertávamos bem; assim que a chamada saltava para
-outro, perdíamos o rasto.</p>
-<p><strong>Porque acontecia:</strong> o padrão normal em programação por objetos é um
-objeto guardar dentro de si os seus colaboradores no momento em que nasce, e usá-los
-depois ao longo da vida. Nós reparávamos nesse momento inicial, mas não guardávamos a
-informação. Mais tarde, quando o objeto usava o colaborador, já não sabíamos o que ele
-era, e a ligação ficava por fazer. Como este padrão é a base da programação por objetos,
-era a maior fatia do que nos escapava.</p>
-<p><strong>O que passámos a fazer:</strong> memorizar o que cada objeto guarda dentro de
-si, e consultar essa memória em todas as chamadas seguintes.</p>
-
-<h4>Objetos que criam outros iguais a si</h4>
-<p><strong>O que notámos:</strong> as falhas concentravam-se em código que faz contas e
-devolve resultados novos, como dinheiro, medidas ou datas.</p>
-<p><strong>Porque acontecia:</strong> esse tipo de código, em vez de se alterar a si
-mesmo, devolve sempre um objeto novo do mesmo tipo (somar dinheiro não muda a nota que
-tens na mão, dá-te outra). Há uma expressão em Ruby para dizer "cria outro igual a mim"
-sem repetir o nome da classe. Não a reconhecíamos, e por isso tudo o que fosse feito ao
-resultado ficava sem destino.</p>
-<p><strong>O que passámos a fazer:</strong> reconhecer essa expressão como criando um
-objeto do mesmo tipo.</p>
-
-<h3>A evolução do <em>recall</em></h3>
-<p><em>Recall</em> é a fatia das ligações que realmente acontecem em execução que o nosso
-grafo estático consegue prever.</p>
+<h2><span class="n">6</span>Porquê o <code>Coverage</code> embutido</h2>
+<p><strong>O que faz:</strong> conta quantas vezes cada linha foi executada, e quantas vezes
+cada ramo de uma decisão foi tomado.</p>
 <table>
-  <tr><th>Versão do resolver</th><th>Recall</th></tr>
-  <tr><td>Primeira versão</td><td><strong>35,9%</strong></td></tr>
-  <tr><td>Com as três correções acima</td><td><strong>49,6%</strong></td></tr>
-  <tr><td>Referência: PyCG, em Python (publicado)</td><td>cerca de 69,9%</td></tr>
+  <tr><th>Opção</th><th>O que é</th><th>Porque não</th></tr>
+  <tr><td><strong><code>Coverage</code></strong></td><td>Embutido no interpretador Ruby</td>
+      <td class="c-rb">É o escolhido: sem dependências e dá acesso direto aos dados em bruto</td></tr>
+  <tr><td>SimpleCov</td><td>O mais usado; é uma camada por cima do <code>Coverage</code></td>
+      <td>Serve para produzir relatórios para humanos. Nós queremos os números crus por
+          método, e ele acrescentaria uma dependência sem nos dar nada de novo</td></tr>
+  <tr><td>DeepCover</td><td>Alternativa mais rigorosa, reescreve o código para medir melhor</td>
+      <td>Mais preciso, mas altera o código antes de o executar. Isso é risco a mais numa
+          medição que tem de ser fiel ao projeto original</td></tr>
 </table>
-<p>Medimos o efeito <strong>combinado</strong> das três, não o de cada uma isoladamente.
-Se perguntarem qual pesou mais, a resposta honesta é que pelo padrão das falhas foi a
-segunda, mas não temos esse número medido.</p>
-
-<h3>Ainda pode ser otimizado provavelmente</h3>
-
-
-<h2><span class="n">3</span>Contexto de tipos: anotações e uso</h2>
-<p>Python <strong>pode</strong> ter anotações de tipo
-(<code>def add(a: int, b: int)</code>), embora não sejam obrigatórias: quem escreve o
-código decide se as põe. Quando existem, dizem-nos o tipo diretamente.</p>
-<p>Em Ruby <strong>não existem anotações de tipo, de todo</strong>. Por isso trabalhamos
-apenas com o <strong>uso</strong>: olhamos para o que é feito ao parâmetro dentro do
-método. Se o corpo faz <code>a.strip</code>, então <code>a</code> comporta-se como texto.</p>
-
-<h2><span class="n">4</span>O que é o RSpec</h2>
-<p>É o framework de testes dominante em Ruby, como o pytest para python.</p>
-<pre><code>require "calc"
-
-RSpec.describe Calc do
-  it "soma dois números" do
-    expect(Calc.new.add(2, 3)).to eq(5)
-  end
-end</code></pre>
-
-
-<h2><span class="n">5</span>O que é pedido nos prompts</h2>
-<h3>Planner, desenha o plano, não escreve código</h3>
-<p>Recebe o código do método mais o contexto da Fase 1, e devolve <strong>uma lista JSON
-de cenários</strong>, sem uma linha de Ruby. É-lhe pedido:</p>
-<ul>
-  <li><strong>três cenários distintos</strong>: caminho feliz, casos-limite
-  (<code>nil</code>, listas vazias, fronteiras) e entradas inválidas ou erros esperados;</li>
-  <li>se o contexto trouxer <em>linhas por cobrir</em> (vindas do ciclo externo), tem
-  <strong>obrigatoriamente</strong> de desenhar os cenários para executar essas linhas;</li>
-  <li>preferir <strong>objetos reais</strong> com valores simples no <em>setup</em>, e só
-  sugerir <em>doubles</em> para entrada/saída externa verdadeira;</li>
-  <li>devolver <strong>só JSON</strong>, sem Markdown nem explicações.</li>
-</ul>
-<h3>Dev / Assertion, transforma o plano em código executável</h3>
-<p>Recebe os cenários e o código do método. As regras mais importantes:</p>
-<ul>
-  <li>devolver <strong>só</strong> um bloco de Ruby, ficheiro completo e autossuficiente,
-  a começar pelo <code>require</code> certo;</li>
-  <li><strong>um bloco <code>it</code> independente por cenário</strong>;</li>
-  <li><strong>evitar <em>mocks</em></strong>: nunca simular a classe sob teste nem objetos
-  que se possam instanciar; só isolar entrada/saída externa. Um <em>double</em> mal posto
-  faz o teste passar sem testar nada;</li>
-  <li>nunca redefinir constantes globais nem fazer <em>monkey-patching</em>;</li>
-  <li><strong>1 a 2 <code>expect</code> por bloco</strong>, com valores concretos
-  deduzidos do código-fonte. Vários blocos pequenos são preferíveis a um bloco com
-  muitas asserções, porque basta uma errada para matar o exemplo inteiro.</li>
-</ul>
-<p>Na reparação o prompt muda, passando a incluir a <strong>mensagem de erro</strong> da
-tentativa anterior e exemplos de métodos semanticamente próximos desse erro, procurados
-no índice RAG.</p>
-
-<h2><span class="n">6</span>O <code>rspec -f json</code></h2>
-<p><code>-f json</code> escolhe o formato da saída. O RSpec devolve os resultados em JSON.</p>
-<p>Serve para recebermos os dados <strong>no mesmo formato em que já os recebíamos em
-Python</strong> (lá é o <code>pytest --json-report</code>). Assim o resto da ferramenta
-não muda: trata os dois da mesma maneira.</p>
-
-
-<h2><span class="n">7</span><code>coverage.py</code> e o <code>Coverage</code> do Ruby</h2>
-<table>
-  <tr><th></th><th>Python</th><th>Ruby</th></tr>
-  <tr><td><strong>O que é</strong></td>
-      <td>Biblioteca externa instalada à parte</td>
-      <td>Módulo <strong>embutido no interpretador</strong>, nada para instalar</td></tr>
-  <tr><td><strong>O que devolve</strong></td>
-      <td>Linhas e ramos, com API para consultar regiões</td>
-      <td>Por ficheiro: um array indexado por linha com o número de execuções, e
-          para cada ramo quantas vezes cada lado correu</td></tr>
-</table>
-<p><strong>A diferença que importa:</strong> o Ruby dá-nos a informação
-<em>por ficheiro</em>. Mas o ciclo externo precisa das linhas em falta
-<strong>por método</strong>, para poder dizer ao Planner "cobre as linhas 12 a 15". Por
-isso sintetizamos: cruzamos o intervalo de linhas de cada método, que o parser já nos
-deu, com o array de execuções.</p>
-<p>Os <strong>ramos</strong> são atribuídos ao método da mesma maneira, e isso dá sinal que
-as linhas sozinhas não dão. Em <code>def label(n) = n &gt; 0 ? "pos" : "neg"</code>, testado
-só com <code>n = 5</code>, a linha executou e por linhas o método estaria a 100%, mas o
-lado <code>"neg"</code> nunca correu. Com ramos o método é dado como incompleto e as
-rondas seguintes voltam a tentá-lo. Vão no feedback ao Planner à parte das linhas em
-falta, senão ele leria a linha do <code>if</code> como nunca executada.</p>
+<p><strong>O trabalho que dá:</strong> o Ruby responde <em>por ficheiro</em>, e nós
+precisamos de saber <em>por método</em>, para dizer ao Planner quais as linhas em falta.
+Cruzamos o intervalo de linhas de cada método com o registo de execuções.</p>
+<p>Contamos linhas <strong>e ramos</strong>, e a diferença importa:</p>
+<pre><code>def etiqueta(n) = n > 0 ? "positivo" : "negativo"    # testado só com n = 5</code></pre>
+<p>A linha executou, por isso só com linhas o método estaria a 100%. Mas o lado
+<code>"negativo"</code> nunca correu. Com ramos, é corretamente dado como incompleto e as
+rondas seguintes voltam a tentá-lo.</p>
 
 
 <h1 style="margin-top:56px;padding-top:34px;border-top:2px solid var(--ink)">Benchmark / dataset</h1>
-<p class="sub">Como escolhemos os 12 projetos Ruby onde a ferramenta é avaliada.</p>
+
 
 <figure class="narrow">
   <div class="panel">
   <svg viewBox="0 0 900 440" role="img"
        aria-label="Funil de seleção do dataset: 125 gems na população inicial, 121 analisadas, 112 sem erros de parse, 94 elegíveis depois dos filtros, e 12 no corpus final depois do portão de instalação. Dentro de cada projeto há ainda uma seleção de ficheiros-alvo.">
-    <text class="t-phase" x="20" y="24">O funil, camada a camada</text>
+    
 
     <text class="t-title" x="190" y="64" text-anchor="end">População inicial</text>
     <rect class="fc st" x="200" y="46" width="640" height="26" rx="2"/>
@@ -523,9 +404,6 @@ falta, senão ele leria a linha do <code>if</code> como nunca executada.</p>
     <text class="t-sub" x="204" y="370">escolhidas por diversidade, depois testadas: instalam limpo, sem compilar C</text>
 
     <line class="st-soft" x1="20" y1="392" x2="880" y2="392"/>
-    <text class="t-phase" x="20" y="414">Dentro de cada projeto</text>
-    <text class="t-sub" x="200" y="414">dos 5876 métodos dos 12 projetos, seleção de ficheiros-alvo por orçamento</text>
-    <text class="t-sub" x="200" y="430">(o mesmo que o benchmark Python faz: 486 módulos, não 27 projetos inteiros)</text>
   </svg>
   </div>
   <figcaption>Cada camada tem um critério objetivo e verificável. O corpus final é
@@ -533,12 +411,7 @@ falta, senão ele leria a linha do <code>if</code> como nunca executada.</p>
 </figure>
 
 <h2><span class="n">1</span>O que é o RubyGems</h2>
-<p>É o repositório central de bibliotecas de Ruby, o equivalente ao PyPI do Python. Cada
-biblioteca chama-se uma <strong>gem</strong>. Quem escreve código Ruby instala gems de lá,
-e o site publica quantas vezes cada uma foi descarregada.</p>
-<p>Interessa-nos por duas razões: é a lista completa do que existe, e o número de
-descargas dá-nos uma medida objetiva de quais são as bibliotecas que as pessoas realmente
-usam.</p>
+<p>Repositório de bibliotecas Ruby, com numero de downloads associado.</p>
 
 <h2><span class="n">2</span>Como escolhemos, camada a camada</h2>
 
@@ -546,11 +419,9 @@ usam.</p>
 <p>Cruzámos duas fontes: a lista <em>awesome-ruby</em>, mantida pela comunidade, e o
 próprio RubyGems, ficando só com gems acima de 100 milhões de descargas. Deu
 <strong>125</strong> gems em 55 categorias.</p>
-<p>O ponto importante é este: a população não fomos nós que a inventámos. Antes disto a
-escolha era nossa e não tinha fundamento nenhum, o que era uma fraqueza séria para o
-paper. Assim, qualquer pessoa pode refazer o mesmo cruzamento e chegar à mesma lista.</p>
 
-<h4>Diagnosticar cada uma, sem deixar rastro na máquina</h4>
+
+<h4>Diagnosticar cada uma</h4>
 <p>Por cada gem: clonar, medir estaticamente (sem executar nada), apagar. Ficaram
 <strong>121</strong> analisadas, porque 4 não são bibliotecas a testar mas frameworks e
 ferramentas (o próprio Rails, o Rake, o RSpec, o Minitest). Dessas, <strong>112</strong>
@@ -561,22 +432,17 @@ foram lidas sem erros pelo nosso parser.</p>
 meio framework, e o que mediríamos era o Rails, não a nossa ferramenta. Caiu
 <strong>1</strong> gigante gerada por máquina (a <code>twilio-ruby</code>, com 22047
 métodos): milhares de métodos praticamente iguais, feitos por um gerador a partir de uma
-especificação. Cobrir código repetido não demonstra nada. Sobraram
+especificação. Cobrir código repetido não demonstra nada. Precisas bases de dado   Sobraram
 <strong>94</strong>.</p>
 
-<h4>Escolher por diversidade, não por gosto</h4>
+<h4>Escolher por diversidade</h4>
 <p>Aqui está o cuidado principal. Em vez de escolhermos as que nos pareciam interessantes,
-medimos sete características de cada gem (tamanho dos métodos, herança, mistura de
-módulos, metaprogramação, e outras) e deixámos um algoritmo escolher: a cada passo entra a
+medimos sete características de cada gem (tamanho dos métodos,  e outras) e deixámos um algoritmo escolher: a cada passo entra a
 gem <strong>mais diferente</strong> de todas as já escolhidas. Assim o conjunto cobre os
 extremos e o meio de cada característica, em vez de doze variações do mesmo tipo de
 código. Com o limite de duas gems por categoria, para não encher o corpus de
 bibliotecas do mesmo domínio.</p>
-<p>Vale a pena saber uma coisa sobre este algoritmo: ele é <em>guloso</em>, decide passo a
-passo. Quando corrigimos um erro que acrescentou 2 gems à população, 7 das 12 escolhidas
-mudaram. Não invalida o método, mas muda o que se pode afirmar: o correto é dizer
-<strong>"um conjunto de 12 que cobre o espaço de diversidade"</strong>, e nunca "os 12
-mais diversos".</p>
+
 
 <h4>Confirmar que funcionam de verdade</h4>
 <p>A análise estática não vê tudo. A última camada tenta mesmo instalar cada candidata,
