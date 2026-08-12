@@ -71,9 +71,10 @@ class LanguageBackend(ABC):
     ) -> Optional[Tuple[str, int]]: ...
 
     @abstractmethod
-    def build_call_graph(self, files: List[str]) -> Optional[Any]:
+    def build_call_graph(self, files: List[str], methods=None, index=None) -> Optional[Any]:
         """Static call graph over ``files`` (``CallGraph``), or None if the
-        backend has none."""
+        backend has none. ``methods``/``index`` permitem entregar um parse já
+        feito, para não repetir a leitura do projeto."""
 
     @property
     @abstractmethod
@@ -140,16 +141,22 @@ class RubyBackend(LanguageBackend):
     ) -> Optional[Tuple[str, int]]:
         return salvage.salvage_spec(test_source, examples, failed_lines, groups)
 
-    def build_call_graph(self, files: List[str]) -> Optional[Any]:
+    def build_call_graph(self, files: List[str], methods=None, index=None) -> Optional[Any]:
         # Static resolution over the parsed methods (see call_graph.py).
+        #
+        # ``methods``/``index`` deixam quem já parseou o projeto entregar o
+        # trabalho feito. O discover() do RubyProject já lê cada ficheiro e já
+        # constrói o índice de tipos; sem isto, construir o grafo repetia as duas
+        # coisas (subprocesso Prism por ficheiro + segundo índice idêntico).
         from .call_graph import StaticCallGraph
         from .param_types import ProjectTypeIndex
-        methods = []
-        index = ProjectTypeIndex()
-        for f in files:
-            fp = self.parse_file(f)
-            index.add_file(fp)
-            methods.extend(fp.methods)
+        if methods is None or index is None:
+            methods = []
+            index = ProjectTypeIndex()
+            for f in files:
+                fp = self.parse_file(f)
+                index.add_file(fp)
+                methods.extend(fp.methods)
         return StaticCallGraph.build(methods, index)
 
     @property

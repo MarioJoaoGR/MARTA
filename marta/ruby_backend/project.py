@@ -203,11 +203,15 @@ class RubyProject:
         self.files = []
         self.targets = []
         self.type_index = param_types.ProjectTypeIndex()
+        # Métodos de TODOS os ficheiros (não só dos alvos): o grafo precisa do
+        # projeto inteiro, e assim reaproveita-se este parse em vez de o repetir.
+        all_methods: List = []
         for path in self.backend.discover_files(self.abs_source):
             rel = os.path.relpath(path, self.abs_source)
             self.files.append(path)
             fp = self.backend.parse_file(path)
             self.type_index.add_file(fp)  # whole-project index for type inference
+            all_methods.extend(fp.methods)
             classes_by_qn = {c.qualified_name: c for c in fp.classes}
             for c in fp.classes:
                 self.class_files.setdefault(c.qualified_name, path)
@@ -250,7 +254,8 @@ class RubyProject:
             from .call_graph import CallGraph
             self.call_graph = CallGraph.from_json(cached_cg)
         else:
-            self.call_graph = self.backend.build_call_graph(self.files)
+            self.call_graph = self.backend.build_call_graph(
+                self.files, methods=all_methods, index=self.type_index)
             if self.call_graph is not None:
                 cache.save_call_graph(cg_path, src_hash, self.call_graph.to_json())
         return self
