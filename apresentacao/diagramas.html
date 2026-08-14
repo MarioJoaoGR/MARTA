@@ -74,12 +74,19 @@
   .sb{fill:#ffffff;stroke:#9db6d4;stroke-width:1.2}
   .sg{fill:#eef3fb;stroke:#3f6ea8;stroke-width:1.4}
   .phz{font-family:var(--sans);font-size:12px;font-weight:700;fill:#2f5d92}
+  .stp{font-family:var(--sans);font-size:11.5px;font-weight:700;fill:#2f5d92}
   .sn{font-family:var(--sans);font-size:14px;font-weight:700;fill:#3f6ea8}
   .st2{font-family:var(--sans);font-size:13px;font-weight:650;fill:#1b1b1b}
   .cd{font-family:var(--mono);font-size:10.5px;fill:#1b1b1b}
   .cd2{font-family:var(--mono);font-size:10.5px;fill:#2f5d92;font-weight:600}
   .gd{fill:#3f6ea8}
   .gl{stroke:#3f6ea8;stroke-width:1.1;fill:none}
+  .ge{stroke:#8aa6c4;stroke-width:1.1;fill:none}
+  .gn{fill:#ffffff;stroke:#3f6ea8;stroke-width:1.2}
+  .gn-root{fill:#3f6ea8;stroke:#2f5d92;stroke-width:1.2}
+  .gn-leaf{fill:#eef3fb;stroke:#9db6d4;stroke-width:1.2}
+  .gt{font-family:var(--mono);font-size:10px;fill:#1b1b1b}
+  .gn-root + .gt{fill:#ffffff}
 
   /* ---- SVG ---- */
   .fc{fill:var(--f-face)} .fc2{fill:var(--f-face2)}
@@ -160,36 +167,52 @@ dentro de cada caixa.</p>
     <text class="lb" x="861" y="80" text-anchor="middle">indexa</text>
 
     <path class="zoom" d="M320,122 L520,122 L960,158 L150,158 Z"/>
-    <rect class="zp" x="150" y="158" width="810" height="234" rx="7"/>
-    <text class="phz" x="170" y="182">Ampliação: a análise estática</text>
+    <rect class="zp" x="150" y="158" width="810" height="220" rx="7"/>
+    <text class="phz" x="170" y="182">Ampliação: da leitura do ficheiro ao grafo</text>
 
-    <rect class="sb" x="170" y="194" width="250" height="150" rx="5"/>
-    <text class="st2" x="186" y="216">O Prism lê cada ficheiro,</text>
-    <text class="st2" x="186" y="232">uma única vez</text>
-    <text class="lb"  x="186" y="254">e captura:</text>
-    <text class="cd"  x="186" y="276">classes, módulos, heranças</text>
-    <text class="cd"  x="186" y="294">métodos e as linhas que ocupam</text>
-    <text class="cd"  x="186" y="312">parâmetros e o que se lhes faz</text>
-    <text class="cd"  x="186" y="330">chamadas: nome + sobre o quê</text>
+    <rect class="sb" x="170" y="196" width="150" height="152" rx="5"/>
+    <text class="st2" x="180" y="216">carteira.rb</text>
+    <text class="cd" x="180" y="240">class Carteira</text>
+    <text class="cd" x="180" y="256">  def saldo</text>
+    <text class="cd" x="180" y="272">    @mov.total</text>
+    <text class="cd" x="180" y="288">  end</text>
+    <text class="cd" x="180" y="304">end</text>
+    <text class="lb" x="180" y="332">um dos N ficheiros</text>
 
-    <path class="ar" marker-end="url(#a9)" d="M422,240 L470,240 L470,216 L516,216"/>
-    <path class="ar" marker-end="url(#a9)" d="M422,269 L470,269 L470,272 L516,272"/>
-    <path class="ar" marker-end="url(#a9)" d="M422,298 L470,298 L470,328 L516,328"/>
+    <line class="ar" marker-end="url(#a9)" x1="322" y1="272" x2="392" y2="272"/>
+    <text class="stp" x="357" y="258" text-anchor="middle">Prism</text>
+    <text class="lb" x="357" y="292" text-anchor="middle">1× por</text>
+    <text class="lb" x="357" y="306" text-anchor="middle">ficheiro</text>
 
-    <rect class="sg" x="520" y="192" width="420" height="48" rx="5"/>
-    <text class="st2" x="536" y="212">Índice de tipos</text>
-    <text class="lb"  x="536" y="230">que classes respondem a que métodos, contando o que herdam</text>
+    <rect class="sb" x="394" y="196" width="246" height="152" rx="5"/>
+    <text class="st2" x="406" y="216">o que o Prism devolve</text>
+    <text class="lb" x="406" y="234">a estrutura, já sem texto solto</text>
+    <text class="cd" x="406" y="258">classe: Carteira</text>
+    <text class="cd" x="406" y="276">método: saldo (linhas 2 a 4)</text>
+    <text class="cd" x="406" y="294">chamada: total</text>
+    <text class="cd2" x="406" y="312">  sobre: @mov</text>
+    <text class="lb" x="406" y="336">a última linha é a chave</text>
 
-    <rect class="sg" x="520" y="248" width="420" height="48" rx="5"/>
-    <text class="st2" x="536" y="268">Grafo de chamadas</text>
-    <text class="lb"  x="536" y="286">quem chama quem, cruzando o nome com o índice de tipos</text>
+    <line class="ar" marker-end="url(#a9)" x1="642" y1="272" x2="712" y2="272"/>
+    <text class="stp" x="677" y="258" text-anchor="middle">o nosso código</text>
+    <text class="lb" x="677" y="292" text-anchor="middle">junta os N</text>
+    <text class="lb" x="677" y="306" text-anchor="middle">ficheiros</text>
 
-    <rect class="sg" x="520" y="304" width="420" height="48" rx="5"/>
-    <text class="st2" x="536" y="324">Lista de alvos</text>
-    <text class="lb"  x="536" y="342">os métodos para os quais se vão gerar testes</text>
+    <rect class="sg" x="714" y="196" width="226" height="152" rx="5"/>
+    <text class="st2" x="726" y="216">o grafo de chamadas</text>
+    <text class="lb" x="726" y="234">com o índice de todo o projeto,</text>
+    <text class="lb" x="726" y="250">sabemos que @mov é um Movimento</text>
+    <text class="cd" x="726" y="276">Carteira#saldo</text>
+    <text class="cd2" x="726" y="294">  → Movimento#total</text>
+    <circle class="gd" cx="736" cy="322" r="4"/>
+    <circle class="gd" cx="800" cy="322" r="4"/>
+    <circle class="gd" cx="864" cy="322" r="4"/>
+    <line class="gl" marker-end="url(#a9b)" x1="741" y1="322" x2="793" y2="322"/>
+    <line class="gl" marker-end="url(#a9b)" x1="805" y1="322" x2="857" y2="322"/>
+    <text class="lb" x="880" y="326">…</text>
 
-    <text class="lb" x="170" y="374">Corre uma vez por projeto, antes de se gerar teste nenhum, e fica em cache.
-      Nada disto executa o código: só o lê.</text>
+    <text class="lb" x="170" y="368">O mesmo material serve também para inferir os tipos dos parâmetros e para escolher
+      que métodos vão ser testados.</text>
 
     <text class="ph2" x="26" y="432">Fase 2: geração multi-agente e refinamento</text>
 
@@ -312,6 +335,60 @@ ilha e o modelo escreve às cegas sobre metade da história.</p>
 <pre><code>Resultado na biblioteca money: 20 ficheiros → 149 métodos, 231 ligações, 0,7 s
 
 Money::Bank::Base#same_currency?  →  Money::Currency.wrap</code></pre>
+
+<figure class="narrow">
+  <div class="panel-light">
+  <svg viewBox="0 0 1200 330" role="img" aria-label="Excerto real do grafo de chamadas da biblioteca money: o metodo exchange do VariableExchange chama tres metodos to_s, que por sua vez chamam os metodos internos do formatador.">
+<defs><marker id="ge" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8aa6c4"/></marker></defs>
+<path class="ge" marker-end="url(#ge)" d="M263,165 C280,165 280,125 298,125"/>
+<path class="ge" marker-end="url(#ge)" d="M263,165 C280,165 280,165 298,165"/>
+<path class="ge" marker-end="url(#ge)" d="M263,165 C280,165 280,205 298,205"/>
+<path class="ge" marker-end="url(#ge)" d="M563,125 C580,125 580,65 598,65"/>
+<path class="ge" marker-end="url(#ge)" d="M563,125 C580,125 580,25 598,25"/>
+<path class="ge" marker-end="url(#ge)" d="M563,165 C580,165 580,105 598,105"/>
+<path class="ge" marker-end="url(#ge)" d="M563,205 C580,205 580,305 598,305"/>
+<path class="ge" marker-end="url(#ge)" d="M563,205 C580,205 580,265 598,265"/>
+<path class="ge" marker-end="url(#ge)" d="M563,205 C580,205 580,225 598,225"/>
+<path class="ge" marker-end="url(#ge)" d="M563,205 C580,205 580,185 598,185"/>
+<path class="ge" marker-end="url(#ge)" d="M563,205 C580,205 580,145 598,145"/>
+<path class="ge" marker-end="url(#ge)" d="M863,65 C880,65 880,145 898,145"/>
+<path class="ge" marker-end="url(#ge)" d="M863,305 C880,305 880,185 898,185"/>
+<path class="ge" marker-end="url(#ge)" d="M863,185 C880,185 880,185 898,185"/>
+<path class="ge" marker-end="url(#ge)" d="M1163,145 C880,145 880,25 598,25"/>
+<rect class="gn-root" x="1" y="152" width="262" height="26" rx="4"/>
+<text class="gt" x="132" y="169" text-anchor="middle">Bank::VariableExchange#exchange</text>
+<rect class="gn" x="301" y="112" width="262" height="26" rx="4"/>
+<text class="gt" x="432" y="129" text-anchor="middle">Money#to_s</text>
+<rect class="gn" x="301" y="152" width="262" height="26" rx="4"/>
+<text class="gt" x="432" y="169" text-anchor="middle">Currency#to_s</text>
+<rect class="gn" x="301" y="192" width="262" height="26" rx="4"/>
+<text class="gt" x="432" y="209" text-anchor="middle">Formatter#to_s</text>
+<rect class="gn-leaf" x="601" y="12" width="262" height="26" rx="4"/>
+<text class="gt" x="732" y="29" text-anchor="middle">Money#currency</text>
+<rect class="gn" x="601" y="52" width="262" height="26" rx="4"/>
+<text class="gt" x="732" y="69" text-anchor="middle">Money#format</text>
+<rect class="gn-leaf" x="601" y="92" width="262" height="26" rx="4"/>
+<text class="gt" x="732" y="109" text-anchor="middle">Currency#id</text>
+<rect class="gn" x="601" y="132" width="262" height="26" rx="4"/>
+<text class="gt" x="732" y="149" text-anchor="middle">Formatter#append_currency_symbol</text>
+<rect class="gn" x="601" y="172" width="262" height="26" rx="4"/>
+<text class="gt" x="732" y="189" text-anchor="middle">Formatter#append_sign</text>
+<rect class="gn" x="601" y="212" width="262" height="26" rx="4"/>
+<text class="gt" x="732" y="229" text-anchor="middle">Formatter#format_number</text>
+<rect class="gn" x="601" y="252" width="262" height="26" rx="4"/>
+<text class="gt" x="732" y="269" text-anchor="middle">Formatter#free_text</text>
+<rect class="gn" x="601" y="292" width="262" height="26" rx="4"/>
+<text class="gt" x="732" y="309" text-anchor="middle">Formatter#show_free_text?</text>
+<rect class="gn" x="901" y="132" width="262" height="26" rx="4"/>
+<text class="gt" x="1032" y="149" text-anchor="middle">Formatter#initialize</text>
+<rect class="gn-leaf" x="901" y="172" width="262" height="26" rx="4"/>
+<text class="gt" x="1032" y="189" text-anchor="middle">Formatter#money</text>
+</svg>
+  </div>
+  <figcaption>Excerto real do grafo gerado para a biblioteca <code>money</code>:
+  14 dos 149 métodos. A azul-escuro o método de partida, a claro os que não chamam mais
+  nada. O grafo completo tem 231 ligações.</figcaption>
+</figure>
 
 <h4>Existem ferramentas de grafo de chamadas para Ruby?</h4>
 <p><strong>Existem, e é importante dizê-lo.</strong> O que não existe é uma que sirva para
