@@ -127,8 +127,8 @@ dentro de cada caixa.</p>
 
 <figure>
   <div class="panel-light">
-  <svg viewBox="0 0 1160 900" role="img"
-       aria-label="Arquitetura em duas fases. Fase 1: projeto Ruby, análise estática, sumários por LLM, base vetorial ChromaDB. A análise estática está ampliada: o Prism lê cada ficheiro uma vez e captura classes, métodos, parâmetros, chamadas e atributos; desse material saem o índice de tipos, o grafo de chamadas e a lista de alvos. Fase 2, da direita para a esquerda: contexto de tipos, agente Planner, agente de asserções. Terceira linha: sintaxe e execução, decisão, suite de testes, e salvamento por baixo. Dois ciclos de realimentação.">
+  <svg viewBox="0 0 1160 960" role="img"
+       aria-label="Arquitetura em duas fases. Fase 1: projeto Ruby, análise estática, sumários por LLM, base vetorial. A análise estática está ampliada em quatro passos: extrair de cada ficheiro, indexar o projeto inteiro, resolver cada chamada segundo a forma do recetor, e o grafo resultante. Fase 2, da direita para a esquerda: contexto de tipos, agente Planner, agente de asserções. Terceira linha: sintaxe e execução, decisão, suite de testes, salvamento. Dois ciclos de realimentação.">
     <defs>
       <marker id="a9" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7"
               markerHeight="7" orient="auto-start-reverse">
@@ -168,105 +168,112 @@ dentro de cada caixa.</p>
     <text class="lb" x="861" y="80" text-anchor="middle">indexa</text>
 
     <path class="zoom" d="M320,122 L520,122 L960,158 L150,158 Z"/>
-    <rect class="zp" x="150" y="158" width="810" height="238" rx="7"/>
-    <text class="phz" x="170" y="182">Ampliação: da leitura do ficheiro ao grafo</text>
+    <rect class="zp" x="150" y="158" width="810" height="318" rx="7"/>
+    <text class="phz" x="170" y="182">Ampliação: como se constrói o grafo de chamadas</text>
 
-    <rect class="sb" x="170" y="196" width="190" height="170" rx="5"/>
-    <text class="st2" x="182" y="216">carteira.rb</text>
-    <text class="cd" x="182" y="240">class Carteira</text>
-    <text class="cd" x="182" y="256">  def initialize</text>
-    <text class="cd2" x="182" y="272">    @mov = Movimento.new</text>
-    <text class="cd" x="182" y="288">  end</text>
-    <text class="cd" x="182" y="304">  def saldo</text>
-    <text class="cd2" x="182" y="320">    @mov.total</text>
-    <text class="cd" x="182" y="336">  end</text>
-    <text class="cd" x="182" y="352">end</text>
+    <rect class="sb" x="170" y="196" width="290" height="104" rx="5"/>
+    <text class="sn"  x="182" y="217">1</text>
+    <text class="st2" x="200" y="217">Extrair de cada ficheiro</text>
+    <text class="lb"  x="182" y="234">o Prism corre uma vez por ficheiro</text>
+    <text class="cd"  x="182" y="256">classes, heranças e módulos</text>
+    <text class="cd"  x="182" y="274">métodos, e as linhas que ocupam</text>
+    <text class="cd2" x="182" y="292">chamadas: o nome e a forma do recetor</text>
 
-    <line class="ar" marker-end="url(#a9)" x1="362" y1="276" x2="412" y2="276"/>
-    <text class="stp" x="387" y="262" text-anchor="middle">Prism</text>
-    <text class="lb" x="387" y="296" text-anchor="middle">1× por</text>
-    <text class="lb" x="387" y="310" text-anchor="middle">ficheiro</text>
+    <line class="ar" marker-end="url(#a9)" x1="462" y1="248" x2="486" y2="248"/>
 
-    <rect class="sb" x="416" y="196" width="234" height="170" rx="5"/>
-    <text class="st2" x="428" y="216">o que o Prism devolve</text>
-    <text class="lb" x="428" y="234">a estrutura, já sem texto solto</text>
-    <text class="cd" x="428" y="260">classe: Carteira</text>
-    <text class="cd2" x="428" y="278">guarda: @mov = Movimento</text>
-    <text class="cd" x="428" y="300">método: saldo</text>
-    <text class="cd" x="428" y="318">chamada: total</text>
-    <text class="cd2" x="428" y="336">  sobre: @mov</text>
-    <text class="lb" x="428" y="358">reparar no "sobre"</text>
+    <rect class="sb" x="490" y="196" width="450" height="104" rx="5"/>
+    <text class="sn"  x="502" y="217">2</text>
+    <text class="st2" x="520" y="217">Juntar tudo num índice do projeto</text>
+    <text class="lb"  x="502" y="234">só aqui se pode resolver: a classe procurada está quase sempre noutro ficheiro</text>
+    <text class="cd"  x="502" y="256">por classe: a que métodos responde, contando os que herda</text>
+    <text class="cd"  x="502" y="274">por variável de instância: que classe lá foi guardada</text>
+    <text class="cd"  x="502" y="292">por parâmetro: que métodos lhe são chamados</text>
 
-    <line class="ar" marker-end="url(#a9)" x1="652" y1="276" x2="702" y2="276"/>
-    <text class="stp" x="677" y="250" text-anchor="middle">o nosso</text>
-    <text class="stp" x="677" y="264" text-anchor="middle">código</text>
-    <text class="lb" x="677" y="296" text-anchor="middle">junta os N</text>
-    <text class="lb" x="677" y="310" text-anchor="middle">ficheiros</text>
+    <path class="ar" marker-end="url(#a9)" d="M715,302 L715,310 L415,310 L415,318"/>
 
-    <rect class="sg" x="706" y="196" width="234" height="170" rx="5"/>
-    <text class="st2" x="718" y="216">a ligação do grafo</text>
-    <text class="lb" x="718" y="234">com as duas coisas que vimos:</text>
-    <text class="cd" x="718" y="258">@mov é um Movimento</text>
-    <text class="cd" x="718" y="276">total é chamado sobre @mov</text>
-    <line class="sep" x1="718" y1="290" x2="928" y2="290"/>
-    <text class="cd2" x="718" y="312">Carteira#saldo</text>
-    <text class="cd2" x="718" y="330">  → Movimento#total</text>
-    <text class="lb" x="718" y="358">sem o "sobre", o nome "total"</text>
-    <text class="lb" x="718" y="372">seria ambíguo</text>
+    <rect class="sb" x="170" y="322" width="490" height="128" rx="5"/>
+    <text class="sn"  x="182" y="343">3</text>
+    <text class="st2" x="200" y="343">Resolver cada chamada</text>
+    <text class="lb"  x="182" y="360">a forma do recetor decide onde procurar o método:</text>
+    <line class="sep" x1="182" y1="370" x2="648" y2="370"/>
+    <text class="cd2" x="182" y="388">o próprio objeto</text>
+    <text class="cd"  x="356" y="388">na própria classe e nas que herda</text>
+    <text class="cd2" x="182" y="406">uma constante</text>
+    <text class="cd"  x="356" y="406">nessa classe</text>
+    <text class="cd2" x="182" y="424">variável de instância</text>
+    <text class="cd"  x="356" y="424">na classe que o índice registou</text>
+    <text class="cd2" x="182" y="442">parâmetro ou variável local</text>
+    <text class="cd"  x="356" y="442">na classe que responde a tudo o que lhe é feito</text>
 
-    <text class="lb" x="170" y="390">O mesmo material serve também para inferir os tipos dos parâmetros e para escolher
-      que métodos vão ser testados.</text>
+    <line class="ar" marker-end="url(#a9)" x1="662" y1="386" x2="686" y2="386"/>
 
-    <text class="ph2" x="26" y="458">Fase 2: geração multi-agente e refinamento</text>
+    <rect class="sg" x="690" y="322" width="250" height="128" rx="5"/>
+    <text class="sn"  x="702" y="343">4</text>
+    <text class="st2" x="720" y="343">O grafo</text>
+    <text class="cd"  x="702" y="366">um nó por método</text>
+    <text class="cd"  x="702" y="384">uma aresta por chamada resolvida</text>
+    <circle class="gd" cx="712" cy="414" r="4"/>
+    <circle class="gd" cx="784" cy="414" r="4"/>
+    <circle class="gd" cx="856" cy="414" r="4"/>
+    <circle class="gd" cx="748" cy="438" r="4"/>
+    <line class="gl" marker-end="url(#a9b)" x1="717" y1="414" x2="777" y2="414"/>
+    <line class="gl" marker-end="url(#a9b)" x1="789" y1="414" x2="849" y2="414"/>
+    <line class="gl" marker-end="url(#a9b)" x1="715" y1="420" x2="742" y2="432"/>
+    <text class="lb" x="872" y="418">…</text>
 
-    <rect class="p2"  x="900" y="476" width="200" height="64" rx="7"/>
-    <text class="nd"  x="1000" y="502" text-anchor="middle">Contexto de tipos</text>
-    <text class="nm"  x="1000" y="522" text-anchor="middle">inferido pelo uso</text>
+    <text class="lb" x="170" y="468">Os passos 1 e 2 servem também para inferir os tipos dos parâmetros e para escolher
+      os métodos a testar.</text>
 
-    <rect class="p2"  x="610" y="476" width="200" height="64" rx="7"/>
-    <text class="nd"  x="710" y="502" text-anchor="middle">Agente Planner</text>
-    <text class="nm"  x="710" y="522" text-anchor="middle">desenha os cenários</text>
+    <text class="ph2" x="26" y="516">Fase 2: geração multi-agente e refinamento</text>
 
-    <rect class="p2"  x="320" y="476" width="200" height="64" rx="7"/>
-    <text class="nd"  x="420" y="502" text-anchor="middle">Agente de asserções</text>
-    <text class="nm"  x="420" y="522" text-anchor="middle">escreve o spec</text>
+    <rect class="p2"  x="900" y="534" width="200" height="64" rx="7"/>
+    <text class="nd"  x="1000" y="560" text-anchor="middle">Contexto de tipos</text>
+    <text class="nm"  x="1000" y="580" text-anchor="middle">inferido pelo uso</text>
 
-    <line class="ar" marker-end="url(#a9)" x1="1000" y1="126" x2="1000" y2="472"/>
-    <text class="lb" x="1012" y="300">procura por semelhança</text>
-    <line class="ar" marker-end="url(#a9)" x1="898" y1="508" x2="814" y2="508"/>
-    <line class="ar" marker-end="url(#a9)" x1="608" y1="508" x2="524" y2="508"/>
-    <text class="lb" x="566" y="500" text-anchor="middle">plano em JSON</text>
+    <rect class="p2"  x="610" y="534" width="200" height="64" rx="7"/>
+    <text class="nd"  x="710" y="560" text-anchor="middle">Agente Planner</text>
+    <text class="nm"  x="710" y="580" text-anchor="middle">desenha os cenários</text>
 
-    <text class="ph3" x="26" y="638">Validação e retenção</text>
+    <rect class="p2"  x="320" y="534" width="200" height="64" rx="7"/>
+    <text class="nd"  x="420" y="560" text-anchor="middle">Agente de asserções</text>
+    <text class="nm"  x="420" y="580" text-anchor="middle">escreve o spec</text>
 
-    <rect class="gr"  x="320" y="656" width="200" height="64" rx="7"/>
-    <text class="nd"  x="420" y="682" text-anchor="middle">Sintaxe + execução</text>
-    <text class="nm"  x="420" y="702" text-anchor="middle">ruby -c, depois rspec</text>
+    <line class="ar" marker-end="url(#a9)" x1="1000" y1="126" x2="1000" y2="530"/>
+    <text class="lb" x="1012" y="330">procura por semelhança</text>
+    <line class="ar" marker-end="url(#a9)" x1="898" y1="566" x2="814" y2="566"/>
+    <line class="ar" marker-end="url(#a9)" x1="608" y1="566" x2="524" y2="566"/>
+    <text class="lb" x="566" y="558" text-anchor="middle">plano em JSON</text>
 
-    <path class="dc" d="M710,620 L790,662 L710,704 L630,662 Z"/>
-    <text class="nd" x="710" y="693" text-anchor="middle">Passa?</text>
+    <text class="ph3" x="26" y="696">Validação e retenção</text>
 
-    <rect class="dn"  x="900" y="656" width="200" height="64" rx="7"/>
-    <text class="nd"  x="1000" y="682" text-anchor="middle">Suite de testes</text>
-    <text class="nm"  x="1000" y="702" text-anchor="middle">o que fica</text>
+    <rect class="gr"  x="320" y="714" width="200" height="64" rx="7"/>
+    <text class="nd"  x="420" y="740" text-anchor="middle">Sintaxe + execução</text>
+    <text class="nm"  x="420" y="760" text-anchor="middle">ruby -c, depois rspec</text>
 
-    <rect class="sv"  x="610" y="786" width="200" height="64" rx="7"/>
-    <text class="nd"  x="710" y="812" text-anchor="middle">Salvamento</text>
-    <text class="nm"  x="710" y="832" text-anchor="middle">guarda o que passa</text>
+    <path class="dc" d="M710,704 L790,746 L710,788 L630,746 Z"/>
+    <text class="nd" x="710" y="751" text-anchor="middle">Passa?</text>
 
-    <line class="ar" marker-end="url(#a9)" x1="428" y1="542" x2="428" y2="652"/>
-    <line class="ar" marker-end="url(#a9)" x1="522" y1="688" x2="626" y2="688"/>
-    <line class="ar" marker-end="url(#a9)" x1="792" y1="688" x2="896" y2="688"/>
-    <text class="lb" x="844" y="680" text-anchor="middle">sim</text>
-    <line class="ar" marker-end="url(#a9)" x1="710" y1="732" x2="710" y2="782"/>
-    <text class="lb" x="722" y="762">orçamento = N</text>
-    <path class="ar" marker-end="url(#a9)" d="M812,818 L1000,818 L1000,724"/>
+    <rect class="dn"  x="900" y="714" width="200" height="64" rx="7"/>
+    <text class="nd"  x="1000" y="740" text-anchor="middle">Suite de testes</text>
+    <text class="nm"  x="1000" y="760" text-anchor="middle">o que fica</text>
 
-    <path class="ar" marker-end="url(#a9)" d="M710,644 L710,608 L412,608 L412,544"/>
-    <text class="lb" x="560" y="600" text-anchor="middle">não: nova tentativa (&lt; N)</text>
+    <rect class="sv"  x="610" y="844" width="200" height="64" rx="7"/>
+    <text class="nd"  x="710" y="870" text-anchor="middle">Salvamento</text>
+    <text class="nm"  x="710" y="890" text-anchor="middle">guarda o que passa</text>
 
-    <path class="ar-c" marker-end="url(#a9)" d="M1000,654 L1000,628 L760,628 L760,544"/>
-    <text class="lb" x="878" y="620" text-anchor="middle">linhas por cobrir</text>
+    <line class="ar" marker-end="url(#a9)" x1="428" y1="600" x2="428" y2="710"/>
+    <line class="ar" marker-end="url(#a9)" x1="522" y1="746" x2="626" y2="746"/>
+    <line class="ar" marker-end="url(#a9)" x1="792" y1="746" x2="896" y2="746"/>
+    <text class="lb" x="844" y="738" text-anchor="middle">sim</text>
+    <line class="ar" marker-end="url(#a9)" x1="710" y1="790" x2="710" y2="840"/>
+    <text class="lb" x="722" y="820">orçamento = N</text>
+    <path class="ar" marker-end="url(#a9)" d="M812,876 L1000,876 L1000,782"/>
+
+    <path class="ar" marker-end="url(#a9)" d="M710,702 L710,666 L412,666 L412,602"/>
+    <text class="lb" x="560" y="658" text-anchor="middle">não: nova tentativa (&lt; N)</text>
+
+    <path class="ar-c" marker-end="url(#a9)" d="M1000,712 L1000,686 L760,686 L760,602"/>
+    <text class="lb" x="878" y="678" text-anchor="middle">linhas por cobrir</text>
   </svg>
   </div>
   <figcaption>A ampliação mostra a análise estática por dentro. O Prism dá a árvore do
@@ -324,20 +331,34 @@ cadeias de ferramentas em vez de uma ferramenta.</p>
 <p><strong>O que faz:</strong> responde a <em>quem chama quem</em>. Ao gerar testes para um
 método, juntamos ao contexto os métodos que ele usa por dentro. Sem isto, cada método é uma
 ilha e o modelo escreve às cegas sobre metade da história.</p>
-<p><strong>Como faz</strong>, em três passos:</p>
+<p><strong>Como faz</strong>, nos quatro passos do diagrama:</p>
 <ol>
-  <li><strong>Anotar.</strong> De cada chamada guardamos o nome invocado <em>e sobre o quê</em>
-  foi invocado: o próprio objeto, uma constante, uma variável local, ou algo guardado dentro
-  do objeto.</li>
-  <li><strong>Indexar.</strong> Que classes existem, o que herdam, e o que guardam dentro
-  de si.</li>
-  <li><strong>Resolver.</strong> Cruzar os dois. Vimos <code>@carteira.saldo</code>, e do
-  índice sabemos que <code>@carteira</code> é uma <code>Carteira</code>; logo a chamada é
-  <code>Carteira#saldo</code> e não outro <code>saldo</code> qualquer do projeto.</li>
+  <li><strong>Extrair.</strong> O Prism lê cada ficheiro uma vez. Guardamos as classes e o
+  que herdam, os métodos e as linhas que ocupam, e cada chamada com <em>o nome invocado e a
+  forma do recetor</em>: se foi sobre o próprio objeto, sobre uma constante, sobre uma
+  variável de instância, ou sobre um parâmetro. Esta última parte é o que torna tudo o resto
+  possível.</li>
+  <li><strong>Indexar.</strong> Junta-se o que veio de todos os ficheiros numa única tabela
+  do projeto: a que métodos cada classe responde (contando os herdados, pela ordem de procura
+  do Ruby), que classe está guardada em cada variável de instância, e que métodos são
+  chamados em cada parâmetro. Só aqui se pode resolver seja o que for, porque a classe
+  procurada está quase sempre noutro ficheiro.</li>
+  <li><strong>Resolver.</strong> Para cada chamada, a forma do recetor escolhe a regra:
+    <ul>
+      <li>sobre o próprio objeto: procura-se na própria classe e nas que ela herda;</li>
+      <li>sobre uma constante: procura-se nessa classe;</li>
+      <li>sobre uma variável de instância: usa-se a classe que o índice registou;</li>
+      <li>sobre um parâmetro: procura-se a classe que responde a <em>todos</em> os métodos
+      que lhe são chamados. É a inferência por comportamento, e a mesma que dá o contexto de
+      tipos.</li>
+    </ul>
+  </li>
+  <li><strong>Montar o grafo.</strong> Um nó por método, uma aresta por chamada resolvida.
+  Cada aresta guarda também a linha e a regra que a resolveu, o que permite auditar o
+  resultado.</li>
 </ol>
-<pre><code>Resultado na biblioteca money: 20 ficheiros → 149 métodos, 231 ligações, 0,7 s
-
-Money::Bank::Base#same_currency?  →  Money::Currency.wrap</code></pre>
+<p>Quando nenhuma regra decide, a chamada fica por resolver e não gera aresta. Preferimos
+não inventar uma ligação a arriscar uma errada.</p>
 
 <figure class="narrow">
   <div class="panel-light">
