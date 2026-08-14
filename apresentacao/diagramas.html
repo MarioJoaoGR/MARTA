@@ -286,38 +286,49 @@ dentro de cada caixa.</p>
 <p><strong>O que faz:</strong> lê o texto de um ficheiro Ruby e devolve a sua estrutura,
 ou seja, que classes existem, que métodos tem cada uma, onde começam e acabam, e que
 chamadas fazem por dentro.</p>
-<p>Escolhemo-lo porque <strong>é o parser que o próprio Ruby usa para correr o código</strong>
-desde a versão 3.3, vem dentro da linguagem e não pode discordar do interpretador. Não é a
-única opção:</p>
+<p>Escolhemo-lo porque é <strong>o parser do núcleo da linguagem</strong>: entrou como gem
+incluída no Ruby 3.3 e passou a ser <strong>o parser por omissão do interpretador no Ruby
+3.4</strong>. As alternativas são reimplementações da gramática, que têm de correr atrás de
+cada mudança da linguagem.</p>
 <table>
   <tr><th>Opção</th><th>O que é</th><th>Porque não</th></tr>
-  <tr><td><strong>Prism</strong></td><td>Parser oficial, dentro do Ruby desde a 3.3</td>
+  <tr><td><strong>Prism</strong></td>
+      <td>Gem incluída desde o Ruby 3.3; parser por omissão do interpretador desde o 3.4</td>
       <td class="c-rb">É o escolhido</td></tr>
-  <tr><td>Ripper</td><td>Vem na biblioteca padrão</td>
-      <td>Devolve eventos de baixo nível, não uma árvore utilizável</td></tr>
+  <tr><td>Ripper</td><td>Na biblioteca padrão; <code>Ripper.sexp</code> devolve uma árvore</td>
+      <td>A árvore são vetores encaixados sem objetos nem tipos, e só suporta a sintaxe da
+          versão de Ruby que está a correr</td></tr>
   <tr><td><code>parser</code></td><td>Gem madura, era a base do RuboCop</td>
-      <td>Reimplementação da gramática: corre atrás das mudanças da linguagem</td></tr>
+      <td>O próprio autor anunciou que deixa de acompanhar as novas sintaxes por o Prism
+          existir; o RuboCop já usa o Prism quando o alvo é Ruby 3.4 ou superior</td></tr>
   <tr><td><code>ruby_parser</code></td><td>Gem antiga, ainda usada</td>
       <td>Mesma questão, e mais atrasada</td></tr>
   <tr><td><code>RubyVM::AbstractSyntaxTree</code></td><td>Embutido no Ruby</td>
-      <td>A própria documentação diz que é experimental e sem garantia de compatibilidade</td></tr>
+      <td>A documentação diz que é experimental e sem garantia de compatibilidade</td></tr>
 </table>
 
 <h2><span class="n">2</span>Porquê o RSpec</h2>
 <p><strong>O que faz:</strong> é a framework em que os testes gerados são escritos e
 executados. Um ficheiro tem blocos <code>it</code>, cada um é um teste.</p>
-<p>Escolhemo-lo por <strong>devolver os resultados em formato estruturado</strong>
-(<code>-f json</code>): estado de cada teste, mensagem de erro e a linha exata da falha. O
-ciclo que repara um teste falhado depende disso.</p>
+<p>Escolhemo-lo por <strong>devolver os resultados em formato legível por máquina</strong>.
+Verificámos o que o <code>-f json</code> dá, por teste:</p>
+<pre><code>status        : "failed"
+line_number   : 3                       (o bloco it)
+exception     : "expected: 99  got: 5"
+backtrace[0]  : ".../f_spec.rb:4:in ..."  (a linha exata que rebentou)</code></pre>
+<p>O ciclo que repara um teste falhado e o passo que descarta só os testes que falharam
+dependem destes três campos.</p>
 <div class="flag">
-  <p><strong>Não é por ser o mais usado, e não convém dizer que é.</strong> Pelas descargas
-  do RubyGems o Minitest está à frente (1273 contra 1183 milhões), e nas 16 bibliotecas que
-  temos clonadas 8 usam Minitest e 7 usam RSpec.</p>
+  <p><strong>Não é por ser o mais usado.</strong> Nas descargas do RubyGems o Minitest está
+  à frente (1275 contra 1184 milhões para o <code>rspec-core</code>), embora a comparação
+  seja enviesada porque o Minitest vem dentro do Ruby e é dependência de meio ecossistema.
+  Nas 16 bibliotecas que temos clonadas: <strong>7 Minitest, 6 RSpec, 3 indeterminadas</strong>.
+  Não há aqui um vencedor a invocar.</p>
 </div>
 <table>
   <tr><th>Opção</th><th>O que é</th><th>Porque não</th></tr>
   <tr><td><strong>RSpec</strong></td><td>Framework de testes mais expressiva</td>
-      <td class="c-rb">É a escolhida: saída em JSON nativa com a linha da falha</td></tr>
+      <td class="c-rb">É a escolhida: saída JSON nativa com estado, mensagem e linha</td></tr>
   <tr><td>Minitest</td><td>Vem dentro do Ruby</td>
       <td>Sem repórter estruturado embutido; exige um plugin externo</td></tr>
   <tr><td>test-unit</td><td>Anterior, ainda mantida</td>
@@ -415,74 +426,106 @@ não inventar uma ligação a arriscar uma errada.</p>
 </figure>
 
 <h4>Existem ferramentas de grafo de chamadas para Ruby?</h4>
-<p><strong>Existem, e é importante dizê-lo.</strong> O que não existe é uma que sirva para
-o que precisamos:</p>
+<p>Existem, e há também infraestrutura de análise estática séria que resolve chamadas para
+outros fins. Nenhuma entrega o que precisamos:</p>
 <table>
-  <tr><th>Ferramenta</th><th>Como funciona</th><th>Âmbito</th><th>Estado</th></tr>
-  <tr><td><code>code_mapper</code></td><td>Dinâmica (TracePoint)</td>
-      <td>Só o código que for executado</td><td>Arquivada em 2022</td></tr>
+  <tr><th>Ferramenta</th><th>Como funciona</th><th>Porque não serve</th></tr>
   <tr><td><code>rubydeps</code></td><td>Dinâmica: corre a suite de testes</td>
-      <td>Projeto, mas ao nível da <strong>classe</strong>, não do método</td><td>Mantida</td></tr>
-  <tr><td><code>visual-call-graph</code></td><td>Dinâmica (TracePoint)</td>
-      <td>Um método de cada vez</td><td>Sem alterações desde 2017</td></tr>
+      <td>Ao nível da <strong>classe</strong>, não do método, e exige testes</td></tr>
+  <tr><td><code>code_mapper</code>, <code>visual-call-graph</code></td>
+      <td>Dinâmicas (TracePoint)</td>
+      <td>Só veem o código que for executado; âmbito de um bloco ou de um método</td></tr>
   <tr><td><code>code-explorer</code></td><td>Estática</td>
-      <td>Um único ficheiro</td><td>Experimental</td></tr>
+      <td>Um único ficheiro de cada vez</td></tr>
+  <tr><td>Sorbet, Steep, Solargraph,<br>ruby-lsp, TypeProf</td>
+      <td>Estáticas, âmbito de projeto. Resolvem recetores para classes, que é a parte
+          difícil</td>
+      <td>Nenhuma <strong>emite um grafo de chamadas</strong> como artefacto consumível: a
+          resolução é interna, ao serviço de verificação de tipos ou de autocompletar. O
+          Sorbet só rende com anotações que as gems não trazem, e o TypeProf é lento e não
+          produz arestas</td></tr>
   <tr><td class="c-rb"><strong>o nosso</strong></td><td class="c-rb">Estática</td>
-      <td class="c-rb">Projeto inteiro, ao nível do método</td><td class="c-rb">Escrito para este trabalho</td></tr>
+      <td class="c-rb">Projeto inteiro, ao nível do método, sem executar nada</td></tr>
 </table>
-<p><strong>Porque nenhuma serve.</strong> Quase todas são dinâmicas, isto é, precisam de
-executar o projeto e tipicamente de correr a suite de testes dele. Isso é circular no nosso
-caso: <em>estamos a gerar testes precisamente porque a suite existente não chega</em>. Uma
-ferramenta que exige testes para funcionar não pode ajudar a criá-los, e seria inútil num
-projeto sem testes nenhuns.</p>
-<p>As estáticas que encontrámos limitam-se a um ficheiro. Precisávamos de âmbito de projeto
-inteiro, porque uma chamada atravessa ficheiros quase sempre.</p>
-<p>Vale a pena notar porque é que o ecossistema foi por aí: os próprios autores dizem-no. O
-<code>rubydeps</code> justifica a opção dinâmica com <em>"os aspetos altamente dinâmicos da
-linguagem"</em>. Fazer isto estaticamente em Ruby é reconhecidamente difícil, e é por isso
-que ninguém tinha feito.</p>
+<p><strong>O argumento mais forte é a circularidade:</strong> as ferramentas dinâmicas
+precisam de correr a suite de testes do projeto. Nós estamos a gerar testes precisamente
+porque a suite existente não chega. Uma ferramenta que exige testes para funcionar não pode
+ajudar a criá-los, e é inútil num projeto sem testes nenhuns.</p>
+<p>A afirmação defensável é estreita, e chega: <em>não existe ferramenta de Ruby que emita
+um grafo de chamadas de projeto inteiro, ao nível do método, sem executar o código</em>. Que
+seja difícil não é opinião nossa: o artigo do PyCG formaliza-o para linguagens dinâmicas, que
+obrigam a lidar com funções de ordem superior, metaprogramação e módulos.</p>
 
-<h4>Como sabemos que funciona</h4>
-<p>Construímos um <strong>segundo grafo</strong>, este dinâmico, a partir da execução real
-da suite da biblioteca, e usámo-lo só como régua. O TracePoint <em>não é</em> uma ferramenta
-de grafos: é uma interface do Ruby que avisa quando um método começa e acaba. O grafo são
-cerca de 60 linhas nossas por cima dela.</p>
-<p>Comparando, a nossa análise estática prevê <strong>49,6%</strong> das ligações reais
-(primeira versão: 35,9%). O PyCG, em Python, publica cerca de 69,9%.</p>
-<p>Duas ressalvas: foi medido numa <strong>única</strong> biblioteca, e a própria régua tem
-buracos, porque o TracePoint não vê métodos implementados em C. Isso torna os 49,6% um valor
-conservador.</p>
+<h4>Como sabemos que funciona, e o que a medição não diz</h4>
+<p>Construímos um <strong>segundo grafo</strong>, dinâmico, a partir da execução real da
+suite da biblioteca, e usámo-lo só como régua. O <strong>TracePoint</strong> não é uma
+ferramenta de grafos: é uma interface do Ruby que avisa em eventos da máquina virtual. O
+grafo são cerca de 60 linhas nossas por cima dela.</p>
+<table>
+  <tr><th>Medida na <code>money</code></th><th>Valor</th></tr>
+  <tr><td>Arestas que o dinâmico observou</td><td>248</td></tr>
+  <tr><td>Dessas, previstas pelo estático</td><td>123</td></tr>
+  <tr><td><strong>Recall</strong></td><td class="c-rb"><strong>49,6%</strong> (era 35,9% antes das melhorias)</td></tr>
+  <tr><td>Cobertura da suite usada como régua</td><td>99,8% das linhas dos métodos-alvo</td></tr>
+</table>
+<div class="flag">
+  <p><strong>Medimos recall, não precisão, e a razão é metodológica.</strong> As arestas que
+  só o estático tem são <em>inconclusivas</em>: misturam ligações reais que a suite não
+  exercitou, ligações para <code>attr_reader</code> que a régua não vê, e falsos positivos
+  genuínos. Sem separar as três, um número de precisão seria inventado. Separá-las exige
+  auditoria manual de uma amostra, e é trabalho por fazer.</p>
+  <p>A cegueira aos <code>attr_reader</code> é <strong>escolha nossa</strong>, não limitação
+  do TracePoint: ele suporta eventos <code>:c_call</code>, e nós ligámos só
+  <code>:call</code> e <code>:return</code>. Ligar os eventos de C fecharia essa lacuna.</p>
+</div>
+<p><strong>Sobre comparar com o PyCG.</strong> O PyCG publica cerca de 69,9% de recall com
+99,2% de precisão, mas <strong>os números não são comparáveis com os nossos</strong> e não
+devem ser postos lado a lado como se fossem. A verdade de base deles é manual e exaustiva,
+construída à mão em cerca de 10 horas por projeto sobre cinco pacotes; a nossa é um traço de
+execução de uma única biblioteca, que só cobre os caminhos que a suite percorre. Corpus
+diferente, verdade de base diferente, e nós não reportamos precisão. Serve de contexto, não
+de comparação.</p>
+<p>O paralelo que <em>é</em> legítimo: o PyCG também analisa apenas os módulos do próprio
+pacote e, quando não tem a definição de uma função, acrescenta a aresta mas não a segue. A
+nossa fronteira de "só o código do projeto" é a mesma da ferramenta de referência.</p>
+
+<h4>Onde ainda pode melhorar</h4>
+<ul>
+  <li><strong>Limite intransponível:</strong> código que decide em execução qual método
+  chamar, ou que cria métodos enquanto corre. O nome não existe no texto do ficheiro. O PyCG
+  declara a mesma limitação.</li>
+  <li><strong>Alcançável:</strong> ligar os eventos <code>:c_call</code> na régua, para
+  poder reportar precisão; blocos passados como argumento; e chamadas que saem para dentro
+  das bibliotecas de que o projeto depende.</li>
+</ul>
 
 <h2><span class="n">4</span>Contexto de tipos: como é inferido</h2>
-<p><strong>Sim, é o projeto todo de uma vez, antes de se gerar teste nenhum.</strong>
-Acontece na análise estática, não custa nenhuma chamada ao modelo, e fica em cache.</p>
-<p>Em Python o programador <strong>pode</strong> declarar o tipo
-(<code>def somar(a: int, b: int)</code>), embora não seja obrigatório. Em Ruby
-<strong>não existe forma de o declarar</strong>. Resta inferir pelo comportamento, em dois
-tempos:</p>
+<p><strong>É o projeto todo de uma vez, antes de se gerar teste nenhum</strong>, na análise
+estática, sem custar nenhuma chamada ao modelo.</p>
+<p>Em Python o programador pode declarar o tipo na própria assinatura
+(<code>def somar(a: int, b: int)</code>). Em Ruby <strong>não existe sintaxe de anotação na
+linguagem</strong>: há o RBS, oficial e na biblioteca padrão desde o Ruby 3.0, mas as
+assinaturas vivem em ficheiros <code>.rbs</code> à parte, e há o Sorbet, que precisa de uma
+gem e de assinaturas escritas à mão.</p>
+<div class="flag">
+  <p><strong>Verificámos quantas trazem:</strong> das 16 bibliotecas que temos clonadas,
+  <strong>só uma</strong> (a <code>money</code>) traz ficheiros <code>.rbs</code>. Não é que
+  não se possa declarar tipos em Ruby; é que na prática quase ninguém o faz, e uma ferramenta
+  que dependesse disso não funcionava no corpus.</p>
+</div>
+<p>Resta inferir pelo comportamento, em dois tempos:</p>
 <ol>
-  <li><strong>Ao ler cada ficheiro</strong> registamos, para cada parâmetro, os métodos que
-  lhe são chamados dentro do corpo. Se o método faz <code>a.strip</code> e
-  <code>a.upcase</code>, ficamos a saber que <code>a</code> responde a <code>strip</code> e
-  a <code>upcase</code>. Ao mesmo tempo vai-se construindo o índice de todas as classes do
-  projeto e dos métodos a que cada uma responde, contando os que herda.</li>
-  <li><strong>No fim, com o índice completo</strong>, cruzamos as duas coisas: procuramos as
-  classes do projeto que respondem a <em>todos</em> os métodos exigidos por aquele
-  parâmetro. Essas são as candidatas.</li>
+  <li><strong>Ao ler cada ficheiro</strong>, registamos para cada parâmetro os métodos que
+  lhe são chamados no corpo, e vamos construindo o índice das classes do projeto e dos
+  métodos a que cada uma responde, contando os herdados.</li>
+  <li><strong>No fim, com o índice completo</strong>, procuramos as classes que respondem a
+  <em>todos</em> os métodos exigidos por aquele parâmetro. Essas são as candidatas.</li>
 </ol>
-<p>O resultado é uma linha por parâmetro, entregue ao Planner:</p>
 <pre><code>INFERRED PARAMETER TYPES:
 - `moeda` responds to [iso_code, to_s] -> likely: Money::Currency</code></pre>
-<p>Repare-se na ordem: o cruzamento só pode ser feito <strong>depois</strong> de todos os
-ficheiros estarem lidos, porque a classe candidata está quase sempre noutro ficheiro. Por
-isso é uma passagem única sobre o projeto inteiro, e não algo feito método a método.</p>
-<div class="flag">
-  <p><strong>Limites, que são os mesmos do grafo:</strong> só vemos classes definidas no
-  próprio projeto, ou seja, tipos da biblioteca padrão e de outras gems são invisíveis. E
-  quando nenhuma classe corresponde, entregamos ao modelo apenas a lista de métodos
-  exigidos, sem palpite de tipo. É informação útil na mesma, mas mais fraca do que uma
-  anotação teria dado.</p>
-</div>
+<p>O cruzamento só pode ser feito depois de todos os ficheiros lidos, porque a classe
+candidata está quase sempre noutro ficheiro. Quando nenhuma corresponde, entregamos ao
+modelo só a lista de métodos exigidos, sem palpite de tipo.</p>
 
 <h2><span class="n">5</span>Os prompts</h2>
 <h4>Planner</h4>
@@ -531,9 +574,11 @@ cada ramo de uma decisão foi tomado.</p>
       <td>Mais preciso, mas altera o código antes de o executar. Isso é risco a mais numa
           medição que tem de ser fiel ao projeto original</td></tr>
 </table>
-<p><strong>O trabalho que dá:</strong> o Ruby responde <em>por ficheiro</em>, e nós
-precisamos de saber <em>por método</em>, para dizer ao Planner quais as linhas em falta.
-Cruzamos o intervalo de linhas de cada método com o registo de execuções.</p>
+<p><strong>O trabalho que dá:</strong> o <code>Coverage</code> tem um modo
+<code>methods:</code>, mas esse só diz <em>quantas vezes cada método correu</em>, não quais
+as linhas que lá dentro ficaram por executar. E são as linhas em falta que alimentam o
+Planner. Por isso cruzamos o intervalo de linhas de cada método, que o parser já nos deu,
+com o registo de execuções por linha.</p>
 <p>Contamos linhas <strong>e ramos</strong>, e a diferença importa:</p>
 <pre><code>def etiqueta(n) = n > 0 ? "positivo" : "negativo"    # testado só com n = 5</code></pre>
 <p>A linha executou, por isso só com linhas o método estaria a 100%. Mas o lado
