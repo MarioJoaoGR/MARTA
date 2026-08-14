@@ -69,6 +69,17 @@
   .ph1{font-family:var(--sans);font-size:12.5px;font-weight:700;fill:#2f5d92}
   .ph2{font-family:var(--sans);font-size:12.5px;font-weight:700;fill:#2e7d74}
   .ph3{font-family:var(--sans);font-size:12.5px;font-weight:700;fill:#6d6d6d}
+  .zoom{fill:#eef3fb;opacity:.5;stroke:#3f6ea8;stroke-width:.8;stroke-dasharray:4 4}
+  .zp{fill:#f7faff;stroke:#3f6ea8;stroke-width:1.4}
+  .sb{fill:#ffffff;stroke:#9db6d4;stroke-width:1.2}
+  .sg{fill:#eef3fb;stroke:#3f6ea8;stroke-width:1.4}
+  .phz{font-family:var(--sans);font-size:12px;font-weight:700;fill:#2f5d92}
+  .sn{font-family:var(--sans);font-size:14px;font-weight:700;fill:#3f6ea8}
+  .st2{font-family:var(--sans);font-size:13px;font-weight:650;fill:#1b1b1b}
+  .cd{font-family:var(--mono);font-size:10.5px;fill:#1b1b1b}
+  .cd2{font-family:var(--mono);font-size:10.5px;fill:#2f5d92;font-weight:600}
+  .gd{fill:#3f6ea8}
+  .gl{stroke:#3f6ea8;stroke-width:1.1;fill:none}
 
   /* ---- SVG ---- */
   .fc{fill:var(--f-face)} .fc2{fill:var(--f-face2)}
@@ -108,92 +119,146 @@ dentro de cada caixa.</p>
 
 <figure>
   <div class="panel-light">
-  <svg viewBox="0 0 1160 650" role="img"
-       aria-label="Arquitetura em duas fases. Fase 1, da esquerda para a direita: projeto Ruby, análise estática com Prism e o nosso resolver, sumários por LLM, e a base vetorial ChromaDB. Fase 2, da direita para a esquerda: contexto de tipos, agente Planner, agente de asserções. Terceira linha, da esquerda para a direita: verificação de sintaxe e execução do RSpec, decisão passa ou não, e a suite de testes final. O salvamento fica por baixo da decisão. Um ciclo interno devolve o erro ao agente de asserções; um ciclo externo devolve as linhas por cobrir ao Planner.">
+  <svg viewBox="0 0 1160 850" role="img"
+       aria-label="Arquitetura em duas fases. Fase 1, da esquerda para a direita: projeto Ruby, análise estática, sumários por LLM e a base vetorial ChromaDB. A caixa da análise estática está ampliada num painel com quatro partes: anotar cada chamada, indexar o projeto, resolver a chamada para um método concreto, e o grafo resultante. Fase 2, da direita para a esquerda: contexto de tipos, agente Planner, agente de asserções. Terceira linha: verificação de sintaxe e execução, decisão passa ou não, e a suite de testes. O salvamento fica por baixo da decisão. Um ciclo interno devolve o erro ao agente de asserções; um ciclo externo devolve as linhas por cobrir ao Planner.">
     <defs>
       <marker id="a9" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7"
               markerHeight="7" orient="auto-start-reverse">
         <path d="M0,0 L10,5 L0,10 z" fill="#4a4a4a"/>
       </marker>
+      <marker id="a9b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6"
+              markerHeight="6" orient="auto-start-reverse">
+        <path d="M0,0 L10,5 L0,10 z" fill="#3f6ea8"/>
+      </marker>
     </defs>
 
-    <text class="ph1" x="26" y="38">Fase 1: construção do contexto (offline, em cache)</text>
+    <text class="ph1" x="26" y="34">Fase 1: construção do contexto (offline, em cache)</text>
 
-    <rect class="io"  x="30"  y="60" width="200" height="64" rx="7"/>
-    <text class="nd"  x="130" y="86"  text-anchor="middle">Projeto Ruby</text>
-    <text class="nd"  x="130" y="105" text-anchor="middle">a testar</text>
+    <rect class="io"  x="30"  y="56" width="200" height="64" rx="7"/>
+    <text class="nd"  x="130" y="82"  text-anchor="middle">Projeto Ruby</text>
+    <text class="nd"  x="130" y="101" text-anchor="middle">a testar</text>
 
-    <rect class="p1"  x="320" y="60" width="200" height="64" rx="7"/>
-    <text class="nd"  x="420" y="86"  text-anchor="middle">Análise estática</text>
-    <text class="nm"  x="420" y="106" text-anchor="middle">Prism + resolver próprio</text>
+    <rect class="p1"  x="320" y="56" width="200" height="64" rx="7"/>
+    <text class="nd"  x="420" y="82"  text-anchor="middle">Análise estática</text>
+    <text class="nm"  x="420" y="102" text-anchor="middle">Prism + grafo de chamadas</text>
 
-    <rect class="p1"  x="610" y="60" width="200" height="64" rx="7"/>
-    <text class="nd"  x="710" y="86"  text-anchor="middle">Sumários por LLM</text>
-    <text class="nm"  x="710" y="106" text-anchor="middle">método e classe</text>
+    <rect class="p1"  x="610" y="56" width="200" height="64" rx="7"/>
+    <text class="nd"  x="710" y="82"  text-anchor="middle">Sumários por LLM</text>
+    <text class="nm"  x="710" y="102" text-anchor="middle">método e classe</text>
 
-    <ellipse class="cy" cx="1000" cy="76" rx="86" ry="10"/>
-    <rect class="cyb" x="914" y="76" width="172" height="42"/>
-    <line class="cyl" x1="914" y1="76" x2="914" y2="118"/>
-    <line class="cyl" x1="1086" y1="76" x2="1086" y2="118"/>
-    <path class="cyl" d="M914,118 A86,10 0 0 0 1086,118"/>
-    <ellipse class="cy" cx="1000" cy="76" rx="86" ry="10"/>
-    <text class="nd" x="1000" y="103" text-anchor="middle">ChromaDB</text>
+    <ellipse class="cy" cx="1000" cy="72" rx="86" ry="10"/>
+    <rect class="cyb" x="914" y="72" width="172" height="42"/>
+    <line class="cyl" x1="914" y1="72" x2="914" y2="114"/>
+    <line class="cyl" x1="1086" y1="72" x2="1086" y2="114"/>
+    <path class="cyl" d="M914,114 A86,10 0 0 0 1086,114"/>
+    <ellipse class="cy" cx="1000" cy="72" rx="86" ry="10"/>
+    <text class="nd" x="1000" y="99" text-anchor="middle">ChromaDB</text>
 
-    <line class="ar" marker-end="url(#a9)" x1="232" y1="92" x2="316" y2="92"/>
-    <line class="ar" marker-end="url(#a9)" x1="522" y1="92" x2="606" y2="92"/>
-    <line class="ar" marker-end="url(#a9)" x1="812" y1="92" x2="910" y2="92"/>
-    <text class="lb" x="861" y="84" text-anchor="middle">indexa</text>
+    <line class="ar" marker-end="url(#a9)" x1="232" y1="88" x2="316" y2="88"/>
+    <line class="ar" marker-end="url(#a9)" x1="522" y1="88" x2="606" y2="88"/>
+    <line class="ar" marker-end="url(#a9)" x1="812" y1="88" x2="910" y2="88"/>
+    <text class="lb" x="861" y="80" text-anchor="middle">indexa</text>
 
-    <text class="ph2" x="26" y="222">Fase 2: geração multi-agente e refinamento</text>
+    <path class="zoom" d="M320,122 L520,122 L960,158 L150,158 Z"/>
+    <rect class="zp" x="150" y="158" width="810" height="214" rx="7"/>
+    <text class="phz" x="170" y="182">Ampliação: o grafo de chamadas, a peça escrita de raiz</text>
 
-    <rect class="p2"  x="900" y="240" width="200" height="64" rx="7"/>
-    <text class="nd"  x="1000" y="266" text-anchor="middle">Contexto de tipos</text>
-    <text class="nm"  x="1000" y="286" text-anchor="middle">inferido pelo uso</text>
+    <rect class="sb" x="170" y="196" width="175" height="140" rx="5"/>
+    <text class="sn" x="186" y="220">1</text>
+    <text class="st2" x="206" y="220">Anotar</text>
+    <text class="lb" x="186" y="242">De cada chamada: o nome</text>
+    <text class="lb" x="186" y="258">invocado e sobre o quê.</text>
+    <text class="cd" x="186" y="284">@carteira.saldo</text>
+    <text class="lb" x="186" y="304">nome: saldo</text>
+    <text class="lb" x="186" y="320">sobre: algo do objeto</text>
 
-    <rect class="p2"  x="610" y="240" width="200" height="64" rx="7"/>
-    <text class="nd"  x="710" y="266" text-anchor="middle">Agente Planner</text>
-    <text class="nm"  x="710" y="286" text-anchor="middle">desenha os cenários</text>
+    <rect class="sb" x="368" y="196" width="175" height="140" rx="5"/>
+    <text class="sn" x="384" y="220">2</text>
+    <text class="st2" x="404" y="220">Indexar</text>
+    <text class="lb" x="384" y="242">Que classes existem, o</text>
+    <text class="lb" x="384" y="258">que herdam e o que</text>
+    <text class="lb" x="384" y="274">guardam dentro.</text>
+    <text class="cd" x="384" y="300">Encomenda</text>
+    <text class="lb" x="384" y="320">@carteira : Carteira</text>
 
-    <rect class="p2"  x="320" y="240" width="200" height="64" rx="7"/>
-    <text class="nd"  x="420" y="266" text-anchor="middle">Agente de asserções</text>
-    <text class="nm"  x="420" y="286" text-anchor="middle">escreve o spec</text>
+    <rect class="sb" x="566" y="196" width="175" height="140" rx="5"/>
+    <text class="sn" x="582" y="220">3</text>
+    <text class="st2" x="602" y="220">Resolver</text>
+    <text class="lb" x="582" y="242">Cruza os dois: já sabemos</text>
+    <text class="lb" x="582" y="258">de quem é aquele saldo.</text>
+    <text class="cd" x="582" y="288">Encomenda#total</text>
+    <text class="cd2" x="582" y="306">  → Carteira#saldo</text>
+    <text class="lb" x="582" y="324">uma ligação</text>
 
-    <line class="ar" marker-end="url(#a9)" x1="1000" y1="130" x2="1000" y2="236"/>
-    <text class="lb" x="1012" y="188">procura por semelhança</text>
-    <line class="ar" marker-end="url(#a9)" x1="898" y1="272" x2="814" y2="272"/>
-    <line class="ar" marker-end="url(#a9)" x1="608" y1="272" x2="524" y2="272"/>
-    <text class="lb" x="566" y="264" text-anchor="middle">plano em JSON</text>
+    <rect class="sg" x="764" y="196" width="175" height="140" rx="5"/>
+    <text class="st2" x="780" y="220">O grafo</text>
+    <text class="lb" x="780" y="242">Cada método um ponto,</text>
+    <text class="lb" x="780" y="258">cada chamada uma seta.</text>
+    <circle class="gd" cx="794" cy="286" r="4.5"/>
+    <circle class="gd" cx="856" cy="286" r="4.5"/>
+    <circle class="gd" cx="918" cy="286" r="4.5"/>
+    <circle class="gd" cx="825" cy="312" r="4.5"/>
+    <circle class="gd" cx="887" cy="312" r="4.5"/>
+    <line class="gl" marker-end="url(#a9b)" x1="800" y1="286" x2="849" y2="286"/>
+    <line class="gl" marker-end="url(#a9b)" x1="862" y1="286" x2="911" y2="286"/>
+    <line class="gl" marker-end="url(#a9b)" x1="797" y1="292" x2="819" y2="306"/>
+    <line class="gl" marker-end="url(#a9b)" x1="859" y1="292" x2="881" y2="306"/>
+    <text class="lb" x="780" y="332">money: 149 pontos, 231 setas</text>
 
-    <text class="ph3" x="26" y="402">Validação e retenção</text>
+    <line class="ar" marker-end="url(#a9)" x1="347" y1="266" x2="364" y2="266"/>
+    <line class="ar" marker-end="url(#a9)" x1="545" y1="266" x2="562" y2="266"/>
+    <line class="ar" marker-end="url(#a9)" x1="743" y1="266" x2="760" y2="266"/>
 
-    <rect class="gr"  x="320" y="420" width="200" height="64" rx="7"/>
-    <text class="nd"  x="420" y="446" text-anchor="middle">Sintaxe + execução</text>
-    <text class="nm"  x="420" y="466" text-anchor="middle">ruby -c, depois rspec</text>
+    <text class="ph2" x="26" y="412">Fase 2: geração multi-agente e refinamento</text>
 
-    <path class="dc" d="M710,410 L790,452 L710,494 L630,452 Z"/>
-    <text class="nd" x="710" y="457" text-anchor="middle">Passa?</text>
+    <rect class="p2"  x="900" y="430" width="200" height="64" rx="7"/>
+    <text class="nd"  x="1000" y="456" text-anchor="middle">Contexto de tipos</text>
+    <text class="nm"  x="1000" y="476" text-anchor="middle">inferido pelo uso</text>
 
-    <rect class="dn"  x="900" y="420" width="200" height="64" rx="7"/>
-    <text class="nd"  x="1000" y="446" text-anchor="middle">Suite de testes</text>
-    <text class="nm"  x="1000" y="466" text-anchor="middle">o que fica</text>
+    <rect class="p2"  x="610" y="430" width="200" height="64" rx="7"/>
+    <text class="nd"  x="710" y="456" text-anchor="middle">Agente Planner</text>
+    <text class="nm"  x="710" y="476" text-anchor="middle">desenha os cenários</text>
 
-    <rect class="sv"  x="610" y="550" width="200" height="64" rx="7"/>
-    <text class="nd"  x="710" y="576" text-anchor="middle">Salvamento</text>
-    <text class="nm"  x="710" y="596" text-anchor="middle">guarda o que passa</text>
+    <rect class="p2"  x="320" y="430" width="200" height="64" rx="7"/>
+    <text class="nd"  x="420" y="456" text-anchor="middle">Agente de asserções</text>
+    <text class="nm"  x="420" y="476" text-anchor="middle">escreve o spec</text>
 
-    <line class="ar" marker-end="url(#a9)" x1="428" y1="306" x2="428" y2="416"/>
-    <line class="ar" marker-end="url(#a9)" x1="522" y1="452" x2="626" y2="452"/>
-    <line class="ar" marker-end="url(#a9)" x1="792" y1="452" x2="896" y2="452"/>
-    <text class="lb" x="844" y="444" text-anchor="middle">sim</text>
-    <line class="ar" marker-end="url(#a9)" x1="710" y1="496" x2="710" y2="546"/>
-    <text class="lb" x="722" y="526">orçamento = N</text>
-    <path class="ar" marker-end="url(#a9)" d="M812,582 L1000,582 L1000,488"/>
+    <line class="ar" marker-end="url(#a9)" x1="1000" y1="126" x2="1000" y2="426"/>
+    <text class="lb" x="1012" y="290">procura por semelhança</text>
+    <line class="ar" marker-end="url(#a9)" x1="898" y1="462" x2="814" y2="462"/>
+    <line class="ar" marker-end="url(#a9)" x1="608" y1="462" x2="524" y2="462"/>
+    <text class="lb" x="566" y="454" text-anchor="middle">plano em JSON</text>
 
-    <path class="ar" marker-end="url(#a9)" d="M710,408 L710,372 L412,372 L412,308"/>
-    <text class="lb" x="560" y="364" text-anchor="middle">não: nova tentativa (&lt; N)</text>
+    <text class="ph3" x="26" y="592">Validação e retenção</text>
 
-    <path class="ar-c" marker-end="url(#a9)" d="M1000,418 L1000,392 L760,392 L760,308"/>
-    <text class="lb" x="878" y="384" text-anchor="middle">linhas por cobrir</text>
+    <rect class="gr"  x="320" y="610" width="200" height="64" rx="7"/>
+    <text class="nd"  x="420" y="636" text-anchor="middle">Sintaxe + execução</text>
+    <text class="nm"  x="420" y="656" text-anchor="middle">ruby -c, depois rspec</text>
+
+    <path class="dc" d="M710,600 L790,642 L710,684 L630,642 Z"/>
+    <text class="nd" x="710" y="647" text-anchor="middle">Passa?</text>
+
+    <rect class="dn"  x="900" y="610" width="200" height="64" rx="7"/>
+    <text class="nd"  x="1000" y="636" text-anchor="middle">Suite de testes</text>
+    <text class="nm"  x="1000" y="656" text-anchor="middle">o que fica</text>
+
+    <rect class="sv"  x="610" y="740" width="200" height="64" rx="7"/>
+    <text class="nd"  x="710" y="766" text-anchor="middle">Salvamento</text>
+    <text class="nm"  x="710" y="786" text-anchor="middle">guarda o que passa</text>
+
+    <line class="ar" marker-end="url(#a9)" x1="428" y1="496" x2="428" y2="606"/>
+    <line class="ar" marker-end="url(#a9)" x1="522" y1="642" x2="626" y2="642"/>
+    <line class="ar" marker-end="url(#a9)" x1="792" y1="642" x2="896" y2="642"/>
+    <text class="lb" x="844" y="634" text-anchor="middle">sim</text>
+    <line class="ar" marker-end="url(#a9)" x1="710" y1="686" x2="710" y2="736"/>
+    <text class="lb" x="722" y="716">orçamento = N</text>
+    <path class="ar" marker-end="url(#a9)" d="M812,772 L1000,772 L1000,678"/>
+
+    <path class="ar" marker-end="url(#a9)" d="M710,598 L710,562 L412,562 L412,498"/>
+    <text class="lb" x="560" y="554" text-anchor="middle">não: nova tentativa (&lt; N)</text>
+
+    <path class="ar-c" marker-end="url(#a9)" d="M1000,608 L1000,582 L760,582 L760,498"/>
+    <text class="lb" x="878" y="574" text-anchor="middle">linhas por cobrir</text>
   </svg>
   </div>
   <figcaption>A única caixa sem equivalente pronto em Ruby é a análise estática: o Prism dá
