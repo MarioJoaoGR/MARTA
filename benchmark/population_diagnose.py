@@ -31,6 +31,15 @@ EXCLUDE = {"rails", "rake", "rspec", "minitest", "bundler", "rubocop-ast",
            "rubygems-update", "did_you_mean", "power_assert", "test-unit"}
 
 
+def _git(root: str, *args) -> str:
+    try:
+        r = subprocess.run(["git", "-C", root, *args], capture_output=True,
+                           text=True, errors="replace", timeout=20)
+        return r.stdout.strip()
+    except Exception:
+        return ""
+
+
 def clone(url: str, dest: str) -> bool:
     try:
         r = subprocess.run(["git", "clone", "--depth", "1", url, dest],
@@ -59,14 +68,26 @@ def main(limit=None):
             else:
                 try:
                     d = diagnose(dest)  # estático (sem cobertura)
-                    if "files" not in d or d["target_methods"] < MIN_METHODS \
-                            or d["parse_errors"] > 0:
-                        d_status = "excluded"
-                        skipped += 1
+                    # Motivo explícito da exclusão: sem isto o funil tem um passo
+                    # opaco ("9 gems saíram, não sabemos porquê") — e recomputá-lo
+                    # depois só funciona enquanto as métricas estiverem frescas.
+                    motivos = []
+                    if "files" not in d:
+                        motivos.append("sem lib/ nem src/")
                     else:
-                        d_status = "included"
-                        kept += 1
+                        if d["target_methods"] < MIN_METHODS:
+                            motivos.append(f"menos de {MIN_METHODS} metodos")
+                        if d["parse_errors"] > 0:
+                            motivos.append(f"{d['parse_errors']} erros de leitura")
+                    d_status = "excluded" if motivos else "included"
+                    skipped, kept = (skipped + 1, kept) if motivos else (skipped, kept + 1)
                     results.append({**p, "status": d_status,
+                                    "excluded_by": motivos or None,
+                                    # ramo e commit: clonar o ramo por omissão é uma
+                                    # suposição, e o active_model_serializers mostrou
+                                    # que ele pode não trazer código nenhum.
+                                    "branch": _git(dest, "rev-parse", "--abbrev-ref", "HEAD"),
+                                    "commit": _git(dest, "rev-parse", "HEAD")[:12],
                                     "metrics": {k: d.get(k) for k in
                                                 ("files", "loc", "target_methods",
                                                  "classes", "call_graph_edges",
