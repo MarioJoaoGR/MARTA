@@ -62,6 +62,31 @@ class CallGraph:
     def to_json(self) -> dict:
         return {"edges": [[e.caller, e.callee, e.line, e.kind] for e in self.edges]}
 
+    def to_dot(self, name: str = "callgraph", strip_prefix: str = "") -> str:
+        """O grafo em DOT (Graphviz), para poder ser desenhado por ferramenta
+        padrão em vez de à mão. As folhas — métodos que não chamam ninguém —
+        ficam a cinzento, que é o que distingue o fim de um caminho.
+
+            dot -Tpng grafo.dot -o grafo.png
+        """
+        def rot(qn: str) -> str:
+            return qn[len(strip_prefix):] if strip_prefix and qn.startswith(strip_prefix) else qn
+
+        nos = {e.caller for e in self.edges} | {e.callee for e in self.edges}
+        linhas = [f'digraph {name} {{',
+                  '  rankdir=LR;',
+                  '  node [shape=box, style="rounded,filled", fontname="Helvetica",'
+                  ' fontsize=10, fillcolor="#ffffff", color="#3f6ea8"];',
+                  '  edge [color="#8aa6c4", arrowsize=0.7];']
+        for n in sorted(nos):
+            folha = not self.uses.get(n)
+            extra = ' fillcolor="#eef3fb" color="#9db6d4"' if folha else ""
+            linhas.append(f'  "{rot(n)}" [{extra.strip()}];' if extra else f'  "{rot(n)}";')
+        for e in sorted(self.edges, key=lambda x: (x.caller, x.callee)):
+            linhas.append(f'  "{rot(e.caller)}" -> "{rot(e.callee)}";')
+        linhas.append("}")
+        return "\n".join(linhas)
+
     @classmethod
     def from_json(cls, data: dict) -> "CallGraph":
         g = cls(edges=[CallEdge(c, ce, ln, k) for c, ce, ln, k in data.get("edges", [])])
