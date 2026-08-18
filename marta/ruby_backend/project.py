@@ -115,15 +115,25 @@ class MethodTarget:
         port divergia ao enviar a classe toda — na `fpm` (classe de 43k chars)
         o modelo devolvia `prompt is longer than the context length`.
         """
+        alvo = _slice_lines(self.file_path, self.method.start_line, self.method.end_line)
         if self.owner_class is None:
-            return _slice_lines(self.file_path, self.method.start_line, self.method.end_line)
+            return alvo
 
-        parts = [self.class_code]
+        # As três partes vão SEPARADAS. O Python delimita-as com blocos `"""…"""`
+        # (get_source_code em message_react.py) e o porte inicial colou-as com um
+        # join, sem marca nenhuma. Isso custou caro: na `formatador` o stub da
+        # classe são 60 linhas de constantes e metaprogramação antes de 7 linhas
+        # do método, e o modelo — a quem se diz "eis o código de UM método" —
+        # resumiu a classe inteira. O sumário errado propagou-se ao Planner, que
+        # planeou testes para outros métodos.
+        parts = [f"# --- contexto: a classe onde o método vive (sem corpos) ---\n"
+                 f"{self.class_code}"]
         init = next((m for m in self.siblings if m.name == "initialize"), None)
         if init is not None:
-            parts.append(_slice_lines(self.file_path, init.start_line, init.end_line))
-        parts.append(_slice_lines(self.file_path, self.method.start_line, self.method.end_line))
-        out = "\n".join(p for p in parts if p)
+            parts.append("# --- construtor ---\n"
+                         + _slice_lines(self.file_path, init.start_line, init.end_line))
+        parts.append(f"# --- MÉTODO A ANALISAR: {self.method.qualified_name} ---\n{alvo}")
+        out = "\n\n".join(p for p in parts if p)
         if len(out) > MAX_CONTEXT_CHARS:  # rede de segurança: método gigante
             out = out[:MAX_CONTEXT_CHARS] + "\n# ... (truncado)"
         return out
