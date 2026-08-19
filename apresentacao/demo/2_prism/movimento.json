@@ -1,0 +1,104 @@
+{
+    "path": "apresentacao/demo/1_codigo/movimento.rb",
+    "classes": [
+        {
+            "name": "Movimento",
+            "qualified_name": "Movimento",
+            "kind": "class",
+            "superclass": null,
+            "start_line": 1,
+            "end_line": 13,
+            "includes": [],
+            "extends": [],
+            "prepends": [],
+            "attributes": [],
+            "receiver_members": {
+                "@valores": [
+                    "sum",
+                    "+"
+                ]
+            },
+            "body_statements": []
+        }
+    ],
+    "methods": [
+        {
+            "name": "initialize",
+            "owner": "Movimento",
+            "receiver": null,
+            "singleton": false,
+            "start_line": 2,
+            "end_line": 4,
+            "params": [
+                {
+                    "name": "valores",
+                    "kind": "opt"
+                }
+            ],
+            "param_members": {
+                "valores": []
+            },
+            "calls": []
+        },
+        {
+            "name": "total",
+            "owner": "Movimento",
+            "receiver": null,
+            "singleton": false,
+            "start_line": 6,
+            "end_line": 8,
+            "params": [],
+            "param_members": {},
+            "calls": [
+                {
+                    "name": "sum",
+                    "recv": "ivar",
+                    "recv_name": "@valores",
+                    "line": 7
+                }
+            ]
+        },
+        {
+            "name": "juntar",
+            "owner": "Movimento",
+            "receiver": null,
+            "singleton": false,
+            "start_line": 10,
+            "end_line": 12,
+            "params": [
+                {
+                    "name": "outro",
+                    "kind": "req"
+                }
+            ],
+            "param_members": {
+                "outro": [
+                    "total"
+                ]
+            },
+            "calls": [
+                {
+                    "name": "new",
+                    "recv": "const",
+                    "recv_name": "Movimento",
+                    "line": 11
+                },
+                {
+                    "name": "+",
+                    "recv": "ivar",
+                    "recv_name": "@valores",
+                    "line": 11
+                },
+                {
+                    "name": "total",
+                    "recv": "lvar",
+                    "recv_name": "outro",
+                    "line": 11
+                }
+            ]
+        }
+    ],
+    "examples": [],
+    "groups": [],
+    "errors": []
+}

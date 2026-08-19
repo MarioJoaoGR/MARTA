@@ -1,0 +1,82 @@
+{
+    "path": "apresentacao/demo/1_codigo/carteira.rb",
+    "classes": [
+        {
+            "name": "Carteira",
+            "qualified_name": "Carteira",
+            "kind": "class",
+            "superclass": null,
+            "start_line": 3,
+            "end_line": 15,
+            "includes": [],
+            "extends": [],
+            "prepends": [],
+            "attributes": [],
+            "receiver_members": {
+                "@mov": [
+                    "total"
+                ]
+            },
+            "body_statements": []
+        }
+    ],
+    "methods": [
+        {
+            "name": "initialize",
+            "owner": "Carteira",
+            "receiver": null,
+            "singleton": false,
+            "start_line": 4,
+            "end_line": 6,
+            "params": [],
+            "param_members": {},
+            "calls": [
+                {
+                    "name": "new",
+                    "recv": "const",
+                    "recv_name": "Movimento",
+                    "line": 5
+                }
+            ]
+        },
+        {
+            "name": "saldo",
+            "owner": "Carteira",
+            "receiver": null,
+            "singleton": false,
+            "start_line": 8,
+            "end_line": 10,
+            "params": [],
+            "param_members": {},
+            "calls": [
+                {
+                    "name": "total",
+                    "recv": "ivar",
+                    "recv_name": "@mov",
+                    "line": 9
+                }
+            ]
+        },
+        {
+            "name": "resumo",
+            "owner": "Carteira",
+            "receiver": null,
+            "singleton": false,
+            "start_line": 12,
+            "end_line": 14,
+            "params": [],
+            "param_members": {},
+            "calls": [
+                {
+                    "name": "saldo",
+                    "recv": "none",
+                    "recv_name": null,
+                    "line": 13
+                }
+            ]
+        }
+    ],
+    "examples": [],
+    "groups": [],
+    "errors": []
+}

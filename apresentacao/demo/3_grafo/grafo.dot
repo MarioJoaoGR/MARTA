@@ -1,0 +1,16 @@
+digraph demo {
+  rankdir=LR;
+  node [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=10, fillcolor="#ffffff", color="#3f6ea8"];
+  edge [color="#8aa6c4", arrowsize=0.7];
+  "Carteira#initialize";
+  "Carteira#resumo";
+  "Carteira#saldo";
+  "Movimento#initialize" [fillcolor="#eef3fb" color="#9db6d4"];
+  "Movimento#juntar";
+  "Movimento#total" [fillcolor="#eef3fb" color="#9db6d4"];
+  "Carteira#initialize" -> "Movimento#initialize";
+  "Carteira#resumo" -> "Carteira#saldo";
+  "Carteira#saldo" -> "Movimento#total";
+  "Movimento#juntar" -> "Movimento#initialize";
+  "Movimento#juntar" -> "Movimento#total";
+}
