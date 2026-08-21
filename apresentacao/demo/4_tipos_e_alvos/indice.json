@@ -1,0 +1,74 @@
+{
+  "indice_de_classes": {
+    "Carteira": [
+      "initialize",
+      "resumo",
+      "saldo"
+    ],
+    "Movimento": [
+      "initialize",
+      "juntar",
+      "total"
+    ]
+  },
+  "ordem_de_procura": {
+    "Carteira": [
+      "Carteira"
+    ],
+    "Movimento": [
+      "Movimento"
+    ]
+  },
+  "alvos": [
+    {
+      "metodo": "Carteira#saldo",
+      "ficheiro": "carteira.rb",
+      "linhas": [
+        8,
+        10
+      ],
+      "parametros": [],
+      "metodos_chamados_nos_parametros": {},
+      "tipos_inferidos": "(sem pistas)"
+    },
+    {
+      "metodo": "Carteira#resumo",
+      "ficheiro": "carteira.rb",
+      "linhas": [
+        12,
+        14
+      ],
+      "parametros": [],
+      "metodos_chamados_nos_parametros": {},
+      "tipos_inferidos": "(sem pistas)"
+    },
+    {
+      "metodo": "Movimento#total",
+      "ficheiro": "movimento.rb",
+      "linhas": [
+        6,
+        8
+      ],
+      "parametros": [],
+      "metodos_chamados_nos_parametros": {},
+      "tipos_inferidos": "(sem pistas)"
+    },
+    {
+      "metodo": "Movimento#juntar",
+      "ficheiro": "movimento.rb",
+      "linhas": [
+        10,
+        12
+      ],
+      "parametros": [
+        "outro"
+      ],
+      "metodos_chamados_nos_parametros": {
+        "outro": [
+          "total"
+        ]
+      },
+      "tipos_inferidos": "INFERRED PARAMETER TYPES:\n- `outro` responds to [total] -> likely: Movimento"
+    }
+  ]
+}
