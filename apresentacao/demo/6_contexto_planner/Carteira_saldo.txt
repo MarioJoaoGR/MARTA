@@ -1,0 +1,47 @@
+
+Analyze the following Ruby method and generate a comprehensive test plan.
+
+CONTEXT:
+
+        Method Name: Carteira#saldo
+        Require target: carteira
+
+        SOURCE CODE:
+        # --- contexto: a classe onde o método vive (sem corpos) ---
+class Carteira
+
+# --- construtor ---
+  def initialize
+    @mov = Movimento.new
+  end
+
+# --- MÉTODO A ANALISAR: Carteira#saldo ---
+  def saldo
+    @mov.total
+  end
+
+        SUMMARY:
+         The `Carteira#saldo` method is intended to retrieve the total value of a collection of monetary movements stored within an instance of the `Movimento` class. This method does not take any external parameters as input but relies on the internal state of the object, specifically the `@mov` instance variable which should reference an instance of the `Movimento` class. The `saldo` method accesses the `total` method of the `@mov` instance to calculate the sum of all elements in the `@valores` array using Ruby's built-in `.sum` method, returning the total sum of these elements. To use this method effectively, ensure that you have set up an instance of the `Movimento` class with a valid array stored in `@valores`. You can then call the `saldo` method on any instance of the `Carteira` class to get the sum of all monetary movements.
+
+        COVERAGE FEEDBACK:
+        First pass: Try to achieve maximum coverage.
+        
+        
+
+TASK:
+Generate 3 distinct test scenarios covering:
+CRITICAL: If 'MISSING LINES TO COVER' are provided in the context, you MUST design these scenarios specifically to execute those missing lines.
+1. Valid inputs (Happy Path)
+2. Edge cases (e.g., nil, empty arrays, boundary values)
+3. Invalid inputs / error handling (e.g. raising an error)
+
+SETUP GUIDANCE: prefer REAL objects with simple concrete values in 'setup';
+only suggest doubles/stubs for true external I/O (network, filesystem, subprocess).
+
+OUTPUT FORMAT:
+Return ONLY a raw JSON list. No Markdown. No Explanations.
+Example:
+[
+    {"name": "adds two positive numbers", "desc": "Test standard input", "setup": "Real instance with minimal args"},
+    {"name": "raises on nil argument", "desc": "Test ArgumentError", "setup": "None"}
+]

@@ -1,0 +1,54 @@
+{
+  "time": 301.90644907951355,
+  "times": {
+    "collect_message": 119.60122299194336,
+    "round_0": 73.07339191436768,
+    "round_1": 59.75286507606506,
+    "round_2": 49.2242157459259
+  },
+  "syntax_pass": 28,
+  "syntax_error": 0,
+  "syntax_fix_success": 18,
+  "assertion_pass": 1,
+  "assertion_error": 27,
+  "assertion_fix_success": 1,
+  "assertion_error_types": {
+    "expected NoMethodError but nothing was raised": 3,
+    "no implicit conversion of Integer into Array": 6,
+    "expected ArgumentError, got #<NoMethodError: undefined method 'total' for nil> w": 3
+  },
+  "first_syntax_pass": 12,
+  "first_syntax_error": 0,
+  "first_syntax_fix_success": 8,
+  "first_assertion_pass": 0,
+  "first_assertion_error": 12,
+  "first_assertion_fix_success": 1,
+  "first_assertion_error_types": {
+    "expected NoMethodError but nothing was raised": 3
+  },
+  "salvaged": 1,
+  "coverage": [
+    {
+      "Carteira#saldo": 2,
+      "Carteira#resumo": 1,
+      "Movimento#total": 1,
+      "Movimento#juntar": 1
+    },
+    {
+      "Carteira#saldo": 2,
+      "Carteira#resumo": 1,
+      "Movimento#total": 1,
+      "Movimento#juntar": 1
+    },
+    {
+      "Carteira#saldo": 2,
+      "Carteira#resumo": 2,
+      "Movimento#total": 2,
+      "Movimento#juntar": 1
+    }
+  ],
+  "prompt_tokens": 41899,
+  "completion_tokens": 14286,
+  "llm_calls": 55,
+  "total_tokens": 56185
+}

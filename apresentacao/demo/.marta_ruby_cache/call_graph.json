@@ -1,0 +1,37 @@
+{
+  "source_hash": "ecfbb119f46dd2cb6ed5f36ef9ca50ad:r2",
+  "graph": {
+    "edges": [
+      [
+        "Carteira#initialize",
+        "Movimento#initialize",
+        5,
+        "const"
+      ],
+      [
+        "Carteira#saldo",
+        "Movimento#total",
+        9,
+        "ivar"
+      ],
+      [
+        "Carteira#resumo",
+        "Carteira#saldo",
+        13,
+        "none"
+      ],
+      [
+        "Movimento#juntar",
+        "Movimento#initialize",
+        11,
+        "const"
+      ],
+      [
+        "Movimento#juntar",
+        "Movimento#total",
+        11,
+        "lvar"
+      ]
+    ]
+  }
+}
