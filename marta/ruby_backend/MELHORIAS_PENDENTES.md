@@ -30,7 +30,28 @@ o sumarizador da `formatador` descrever a classe em vez do método.
   caracteres ao entrar no contexto de outro método.
 - **Onde:** `project.analyze_summaries` (a lista `called`), `summaries.analyze_done_what`.
 
-### 2. A cache da análise não conhece a versão do contexto
+### 2. A segunda passagem dos sumários pode não compensar sempre
+Hoje, todo o método que chame outros do projeto é resumido **duas vezes**: a
+segunda com os sumários dos chamados. Custa uma chamada ao modelo por método, e
+**nunca foi medido o que rende**.
+
+A alternativa levantada pelo utilizador: em vez de pedir ao modelo que sintetize,
+**anexar** os sumários dos chamados numa fase offline, sem custo nenhum.
+
+Não é equivalente, e por três razões que convém não perder:
+1. A síntese reescreve o sumário do ponto de vista de quem chama; a concatenação
+   deixa dois textos lado a lado, cada um na sua perspetiva.
+2. **O sumário final é indexado no ChromaDB** (`build_rag`) e serve a busca por
+   semelhança. Uma colagem embebe-se mal: o vetor fica uma mistura de assuntos e
+   a busca passa a devolver métodos parecidos com os vizinhos.
+3. Quinze chamados a ~3000 caracteres não cabem num sumário.
+
+**O teste que falta:** correr o mesmo projeto com síntese e com concatenação, e
+comparar os specs gerados e a cobertura. Provavelmente a resposta é mista, e o
+desenho certo é híbrido — anexar quando são poucos e curtos, sintetizar quando
+são muitos. Isso resolveria ao mesmo tempo o problema do travão (ponto 1).
+
+### 3. A cache da análise não conhece a versão do contexto
 A chave é `hash do código + modelo`. Não inclui nada que identifique a forma como
 o contexto é construído, portanto **mexer num prompt não invalida a cache**: um
 projeto já analisado continua a servir sumários antigos.
@@ -44,7 +65,7 @@ separação do contexto ficou invisível na `formatador`.
 - **Contorno atual:** apagar `.marta_ruby_cache/` antes de correr.
 - **Onde:** `project.analyze_summaries`, `cache.py`.
 
-### 3. O `--no_cache` recalcula mas não grava
+### 4. O `--no_cache` recalcula mas não grava
 A gravação está dentro do `if use_cache`, portanto com `--no_cache` os sumários
 são recalculados, usados na geração, e deitados fora. Fica-se sem registo do que
 o modelo produziu naquela execução — foi o que impediu comparar as duas runs da
@@ -54,26 +75,26 @@ o modelo produziu naquela execução — foi o que impediu comparar as duas runs
   ficheiro à parte quando é `--no_cache`.
 - **Onde:** `project.analyze_summaries`, o `if use_cache` final.
 
-### 4. Paralelismo na geração
+### 5. Paralelismo na geração
 O `generate_rounds` é sequencial; a MARTA Python usa `asyncio.gather` sobre as
 funções. Irrelevante localmente, relevante no Deucalion com 150+ métodos por
 projeto.
 - **Esforço:** baixo (gather + semáforo para não afogar o servidor LLM).
 - **Onde:** `project.generate_all` / `generate_rounds`.
 
-### 5. Ponderar as arestas pela certeza da resolução
+### 6. Ponderar as arestas pela certeza da resolução
 Uma chamada sobre uma constante é certa; sobre um parâmetro é palpite; e hoje as
 duas arestas valem o mesmo. A forma que resolveu cada aresta **já fica gravada**
 no campo `kind`, mas nada a consulta.
 - **Esforço:** baixo para gravar o peso, médio para o usar bem.
 
-### 6. Inferência de tipos de retorno no grafo
+### 7. Inferência de tipos de retorno no grafo
 Subiria o recall acima dos 50% (casos como `Money.default_bank.exchange_with`,
 onde é preciso saber o tipo devolvido para resolver a chamada seguinte). São
 também a maior parte das chamadas classificadas como `other`.
 - **Esforço:** alto, é um projeto em si. Retornos decrescentes.
 
-### 7. Apurar a avaliação do grafo (não a ferramenta)
+### 8. Apurar a avaliação do grafo (não a ferramenta)
 - Ligar `:c_call` no `marta_tracegraph.rb` → tira a cegueira do grafo dinâmico
   aos métodos implementados em C (`attr_*`), que hoje inflaciona as `static_only`.
 - Auditar uma amostra (~30 arestas `static_only`) → permite reportar **precisão**
