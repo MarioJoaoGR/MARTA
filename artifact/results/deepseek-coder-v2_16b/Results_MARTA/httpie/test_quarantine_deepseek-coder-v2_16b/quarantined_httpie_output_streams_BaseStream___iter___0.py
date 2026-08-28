@@ -1,0 +1,78 @@
+
+import pytest
+from httpie.output.streams import BaseStream
+from models import HTTPMessage
+
+# Test 1: Default Settings
+def test_default_settings():
+    msg = HTTPMessage()
+    base_stream = BaseStream(msg=msg)
+    iterator = iter(base_stream)
+    with pytest.raises(StopIteration):
+        next(iterator)
+
+# Test 2: Including Only Headers
+def test_include_only_headers():
+    msg = HTTPMessage()
+    base_stream = BaseStream(msg=msg, with_headers=True, with_body=False)
+    iterator = iter(base_stream)
+    headers = next(iterator)
+    assert headers == b'HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n'
+
+# Test 3: Including Only Body with a Callback Function
+def test_include_only_body_with_callback():
+    msg = HTTPMessage()
+    callback_called = False
+    
+    def on_chunk_downloaded(chunk):
+        nonlocal callback_called
+        callback_called = True
+    
+    base_stream = BaseStream(msg=msg, with_headers=False, with_body=True, on_body_chunk_downloaded=on_chunk_downloaded)
+    iterator = iter(base_stream)
+    body_chunk = next(iterator)
+    assert callback_called is True
+
+# Test 4: Including Both Headers and Body
+def test_include_both_headers_and_body():
+    msg = HTTPMessage()
+    base_stream = BaseStream(msg=msg, with_headers=True, with_body=True)
+    iterator = iter(base_stream)
+    headers = next(iterator)
+    body_chunk = next(iterator)
+    assert headers == b'HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n'
+    assert isinstance(body_chunk, bytes)
+
+"""
+[TEST4PY QUARANTINE REPORT]
+Reason: Test failed assertions or crashed.
+Error Log:
+============================= test session starts ==============================
+platform linux -- Python 3.10.20, pytest-8.3.2, pluggy-1.6.0
+rootdir: /opt/marta/baselines/Results_MARTA/httpie/Test4DT_tests_deepseek-coder-v2_16b
+plugins: metadata-3.1.1, json-report-1.5.0, anyio-4.12.1
+collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+_____ ERROR collecting test_httpie_output_streams_BaseStream___iter___0.py _____
+ImportError while importing test module '/opt/marta/baselines/Results_MARTA/httpie/Test4DT_tests_deepseek-coder-v2_16b/test_httpie_output_streams_BaseStream___iter___0.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/conda/envs/test4py_env/lib/python3.10/importlib/__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+/opt/marta/baselines/Results_MARTA/httpie/Test4DT_tests_deepseek-coder-v2_16b/test_httpie_output_streams_BaseStream___iter___0.py:4: in <module>
+    from models import HTTPMessage
+E   ModuleNotFoundError: No module named 'models'
+=============================== warnings summary ===============================
+../../../../../opt/marta/baselines/codamosa/replication/test-apps/httpie/httpie/plugins/manager.py:5
+  /opt/marta/baselines/codamosa/replication/test-apps/httpie/httpie/plugins/manager.py:5: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+    from pkg_resources import iter_entry_points
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+--------------------------------- JSON report ----------------------------------
+report saved to: pytest_report_deepseek-coder-v2_16b.json
+=========================== short test summary info ============================
+ERROR ../../../../../opt/marta/baselines/Results_MARTA/httpie/Test4DT_tests_deepseek-coder-v2_16b/test_httpie_output_streams_BaseStream___iter___0.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+========================= 1 warning, 1 error in 0.52s ==========================
+"""

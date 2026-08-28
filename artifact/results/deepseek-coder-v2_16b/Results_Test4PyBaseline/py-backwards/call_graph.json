@@ -1,0 +1,2324 @@
+{
+  "cg_output": {
+    "py_backwards.messages": [],
+    "py_backwards.messages._format_line": [
+      {
+        "dest": "<builtin>.str",
+        "line_no": 11
+      }
+    ],
+    "<builtin>.str": [],
+    "py_backwards.messages._get_lines_with_highlighted_error": [
+      {
+        "dest": "<builtin>.len",
+        "line_no": 20
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 20
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 20
+      },
+      {
+        "dest": "<builtin>.range",
+        "line_no": 27
+      },
+      {
+        "dest": "py_backwards.messages._format_line",
+        "line_no": 28
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 32
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 42
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 43
+      },
+      {
+        "dest": "<builtin>.range",
+        "line_no": 44
+      },
+      {
+        "dest": "py_backwards.messages._format_line",
+        "line_no": 45
+      }
+    ],
+    "<builtin>.len": [],
+    "<builtin>.range": [],
+    "py_backwards.messages.syntax_error": [
+      {
+        "dest": "py_backwards.messages._get_lines_with_highlighted_error",
+        "line_no": 49
+      }
+    ],
+    "py_backwards.messages.transformation_error": [],
+    "py_backwards.messages.input_doesnt_exists": [],
+    "py_backwards.messages.invalid_output": [],
+    "py_backwards.messages.permission_error": [],
+    "py_backwards.messages.compilation_result": [],
+    "py_backwards.messages.warn": [],
+    "py_backwards.messages.debug": [],
+    "py_backwards": [],
+    "py_backwards.exceptions": [],
+    "py_backwards.exceptions.CompilationError.__init__": [],
+    "py_backwards.exceptions.TransformationError.__init__": [],
+    "py_backwards.transformers.base": [
+      {
+        "dest": "py_backwards.utils.snippet.snippet",
+        "line_no": 33
+      }
+    ],
+    "py_backwards.transformers.base.BaseTransformer": [
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 13
+      }
+    ],
+    "abc.abstractmethod": [],
+    "py_backwards.transformers.base.BaseTransformer.transform": [],
+    "py_backwards.transformers.base.BaseNodeTransformer.__init__": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 21
+      }
+    ],
+    "<builtin>.super": [],
+    "py_backwards.transformers.base.BaseNodeTransformer.transform": [
+      {
+        "dest": "py_backwards.transformers.base.BaseNodeTransformer.__init__",
+        "line_no": 27
+      }
+    ],
+    "py_backwards.utils.snippet.snippet": [],
+    "py_backwards.transformers.base.import_rewrite": [
+      {
+        "dest": "py_backwards.utils.snippet.extend",
+        "line_no": 35
+      },
+      {
+        "dest": "py_backwards.utils.snippet.extend",
+        "line_no": 37
+      }
+    ],
+    "py_backwards.utils.snippet.extend": [],
+    "py_backwards.transformers.base.BaseImportRewrite._get_matched_rewrite": [],
+    "py_backwards.transformers.base.BaseImportRewrite._replace_import": [
+      {
+        "dest": "typed_ast.ast3.alias",
+        "line_no": 62
+      },
+      {
+        "dest": "typed_ast.ast3.Import",
+        "line_no": 61
+      }
+    ],
+    "typed_ast.ast3.alias": [],
+    "typed_ast.ast3.Import": [],
+    "py_backwards.transformers.base.BaseImportRewrite.visit_Import": [
+      {
+        "dest": "py_backwards.transformers.base.BaseImportRewrite._get_matched_rewrite",
+        "line_no": 69
+      },
+      {
+        "dest": "py_backwards.transformers.base.BaseImportRewrite._replace_import",
+        "line_no": 71
+      },
+      {
+        "dest": "typed_ast.ast3.NodeTransformer.generic_visit",
+        "line_no": 73
+      }
+    ],
+    "typed_ast.ast3.NodeTransformer.generic_visit": [],
+    "py_backwards.transformers.base.BaseImportRewrite._replace_import_from_module": [
+      {
+        "dest": "typed_ast.ast3.ImportFrom",
+        "line_no": 80
+      }
+    ],
+    "typed_ast.ast3.ImportFrom": [],
+    "py_backwards.transformers.base.BaseImportRewrite._get_names_to_replace": [
+      {
+        "dest": "py_backwards.transformers.base.BaseImportRewrite._get_matched_rewrite",
+        "line_no": 92
+      }
+    ],
+    "py_backwards.transformers.base.BaseImportRewrite._get_replaced_import_from_part": [
+      {
+        "dest": "typed_ast.ast3.alias",
+        "line_no": 108
+      },
+      {
+        "dest": "typed_ast.ast3.ImportFrom",
+        "line_no": 106
+      }
+    ],
+    "py_backwards.transformers.base.BaseImportRewrite._replace_import_from_names": [
+      {
+        "dest": "py_backwards.transformers.base.BaseImportRewrite._get_replaced_import_from_part",
+        "line_no": 121
+      }
+    ],
+    "py_backwards.transformers.base.BaseImportRewrite.visit_ImportFrom": [
+      {
+        "dest": "py_backwards.transformers.base.BaseImportRewrite._get_matched_rewrite",
+        "line_no": 128
+      },
+      {
+        "dest": "py_backwards.transformers.base.BaseImportRewrite._replace_import_from_module",
+        "line_no": 130
+      },
+      {
+        "dest": "py_backwards.transformers.base.BaseImportRewrite._get_names_to_replace",
+        "line_no": 132
+      },
+      {
+        "dest": "<builtin>.dict",
+        "line_no": 132
+      },
+      {
+        "dest": "py_backwards.transformers.base.BaseImportRewrite._replace_import_from_names",
+        "line_no": 134
+      },
+      {
+        "dest": "typed_ast.ast3.NodeTransformer.generic_visit",
+        "line_no": 136
+      }
+    ],
+    "<builtin>.dict": [],
+    "py_backwards.utils.snippet": [
+      {
+        "dest": "py_backwards.utils.helpers.eager",
+        "line_no": 10
+      },
+      {
+        "dest": "typing.TypeVar",
+        "line_no": 19
+      }
+    ],
+    "py_backwards.utils.helpers.eager": [
+      {
+        "dest": "functools.wraps",
+        "line_no": 13
+      }
+    ],
+    "py_backwards.utils.snippet.find_variables": [
+      {
+        "dest": "py_backwards.utils.tree.find",
+        "line_no": 12
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 13
+      },
+      {
+        "dest": "py_backwards.utils.tree.get_non_exp_parent_and_index",
+        "line_no": 14
+      }
+    ],
+    "py_backwards.utils.tree.find": [
+      {
+        "dest": "typed_ast.ast3.walk",
+        "line_no": 43
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 44
+      }
+    ],
+    "<builtin>.isinstance": [],
+    "py_backwards.utils.tree.get_non_exp_parent_and_index": [
+      {
+        "dest": "py_backwards.utils.tree.get_parent",
+        "line_no": 29
+      },
+      {
+        "dest": "<builtin>.hasattr",
+        "line_no": 31
+      },
+      {
+        "dest": "py_backwards.utils.tree.get_parent",
+        "line_no": 33
+      }
+    ],
+    "typing.TypeVar": [],
+    "py_backwards.utils.snippet.VariablesReplacer.__init__": [],
+    "py_backwards.utils.snippet.VariablesReplacer._replace_field_or_node": [
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 29
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 31
+      },
+      {
+        "dest": "<builtin>.setattr",
+        "line_no": 32
+      },
+      {
+        "dest": "<builtin>.type",
+        "line_no": 33
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 33
+      }
+    ],
+    "<builtin>.getattr": [],
+    "<builtin>.setattr": [],
+    "<builtin>.type": [],
+    "py_backwards.utils.snippet.VariablesReplacer.visit_Name": [
+      {
+        "dest": "py_backwards.utils.snippet.VariablesReplacer._replace_field_or_node",
+        "line_no": 39
+      },
+      {
+        "dest": "typed_ast.ast3.NodeTransformer.generic_visit",
+        "line_no": 40
+      }
+    ],
+    "py_backwards.utils.snippet.VariablesReplacer.visit_FunctionDef": [
+      {
+        "dest": "py_backwards.utils.snippet.VariablesReplacer._replace_field_or_node",
+        "line_no": 43
+      },
+      {
+        "dest": "typed_ast.ast3.NodeTransformer.generic_visit",
+        "line_no": 44
+      }
+    ],
+    "py_backwards.utils.snippet.VariablesReplacer.visit_Attribute": [
+      {
+        "dest": "py_backwards.utils.snippet.VariablesReplacer._replace_field_or_node",
+        "line_no": 47
+      },
+      {
+        "dest": "typed_ast.ast3.NodeTransformer.generic_visit",
+        "line_no": 48
+      }
+    ],
+    "py_backwards.utils.snippet.VariablesReplacer.visit_keyword": [
+      {
+        "dest": "py_backwards.utils.snippet.VariablesReplacer._replace_field_or_node",
+        "line_no": 51
+      },
+      {
+        "dest": "typed_ast.ast3.NodeTransformer.generic_visit",
+        "line_no": 52
+      }
+    ],
+    "py_backwards.utils.snippet.VariablesReplacer.visit_ClassDef": [
+      {
+        "dest": "py_backwards.utils.snippet.VariablesReplacer._replace_field_or_node",
+        "line_no": 55
+      },
+      {
+        "dest": "typed_ast.ast3.NodeTransformer.generic_visit",
+        "line_no": 56
+      }
+    ],
+    "py_backwards.utils.snippet.VariablesReplacer.visit_arg": [
+      {
+        "dest": "py_backwards.utils.snippet.VariablesReplacer._replace_field_or_node",
+        "line_no": 59
+      },
+      {
+        "dest": "typed_ast.ast3.NodeTransformer.generic_visit",
+        "line_no": 60
+      }
+    ],
+    "py_backwards.utils.snippet.VariablesReplacer._replace_module": [
+      {
+        "dest": "py_backwards.utils.snippet.VariablesReplacer._replace_module._replace",
+        "line_no": 70
+      }
+    ],
+    "py_backwards.utils.snippet.VariablesReplacer._replace_module._replace": [
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 65
+      }
+    ],
+    "py_backwards.utils.snippet.VariablesReplacer.visit_ImportFrom": [
+      {
+        "dest": "py_backwards.utils.snippet.VariablesReplacer._replace_module",
+        "line_no": 73
+      },
+      {
+        "dest": "typed_ast.ast3.NodeTransformer.generic_visit",
+        "line_no": 74
+      }
+    ],
+    "py_backwards.utils.snippet.VariablesReplacer.visit_alias": [
+      {
+        "dest": "py_backwards.utils.snippet.VariablesReplacer._replace_module",
+        "line_no": 77
+      },
+      {
+        "dest": "py_backwards.utils.snippet.VariablesReplacer._replace_field_or_node",
+        "line_no": 78
+      },
+      {
+        "dest": "typed_ast.ast3.NodeTransformer.generic_visit",
+        "line_no": 79
+      }
+    ],
+    "py_backwards.utils.snippet.VariablesReplacer.visit_ExceptHandler": [
+      {
+        "dest": "py_backwards.utils.snippet.VariablesReplacer._replace_field_or_node",
+        "line_no": 82
+      },
+      {
+        "dest": "typed_ast.ast3.NodeTransformer.generic_visit",
+        "line_no": 83
+      }
+    ],
+    "py_backwards.utils.snippet.VariablesReplacer.replace": [
+      {
+        "dest": "py_backwards.utils.snippet.VariablesReplacer.__init__",
+        "line_no": 88
+      }
+    ],
+    "py_backwards.utils.snippet.extend_tree": [
+      {
+        "dest": "py_backwards.utils.tree.find",
+        "line_no": 94
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 95
+      },
+      {
+        "dest": "py_backwards.utils.tree.get_non_exp_parent_and_index",
+        "line_no": 96
+      },
+      {
+        "dest": "py_backwards.utils.tree.replace_at",
+        "line_no": 97
+      }
+    ],
+    "py_backwards.utils.tree.replace_at": [
+      {
+        "dest": "py_backwards.utils.tree.insert_at",
+        "line_no": 62
+      }
+    ],
+    "py_backwards.utils.snippet.snippet.__init__": [],
+    "py_backwards.utils.snippet.snippet._get_variables": [
+      {
+        "dest": "py_backwards.utils.snippet.find_variables",
+        "line_no": 110
+      },
+      {
+        "dest": "py_backwards.utils.helpers.VariablesGenerator.generate",
+        "line_no": 111
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 115
+      }
+    ],
+    "py_backwards.utils.helpers.VariablesGenerator.generate": [],
+    "py_backwards.utils.snippet.snippet.get_body": [
+      {
+        "dest": "py_backwards.utils.helpers.get_source",
+        "line_no": 124
+      },
+      {
+        "dest": "typed_ast.ast3.parse",
+        "line_no": 125
+      },
+      {
+        "dest": "py_backwards.utils.snippet.snippet._get_variables",
+        "line_no": 126
+      },
+      {
+        "dest": "py_backwards.utils.snippet.extend_tree",
+        "line_no": 127
+      },
+      {
+        "dest": "py_backwards.utils.snippet.VariablesReplacer.replace",
+        "line_no": 128
+      }
+    ],
+    "py_backwards.utils.helpers.get_source": [
+      {
+        "dest": "inspect.getsource",
+        "line_no": 34
+      },
+      {
+        "dest": "re.findall",
+        "line_no": 35
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 35
+      }
+    ],
+    "typed_ast.ast3.parse": [],
+    "py_backwards.utils.snippet.let": [],
+    "py_backwards.utils.tree": [
+      {
+        "dest": "weakref.WeakKeyDictionary",
+        "line_no": 6
+      },
+      {
+        "dest": "typing.TypeVar",
+        "line_no": 38
+      }
+    ],
+    "weakref.WeakKeyDictionary": [],
+    "py_backwards.utils.tree._build_parents": [
+      {
+        "dest": "typed_ast.ast3.walk",
+        "line_no": 10
+      },
+      {
+        "dest": "typed_ast.ast3.iter_child_nodes",
+        "line_no": 11
+      }
+    ],
+    "typed_ast.ast3.walk": [],
+    "typed_ast.ast3.iter_child_nodes": [],
+    "py_backwards.utils.tree.get_parent": [
+      {
+        "dest": "py_backwards.utils.tree._build_parents",
+        "line_no": 18
+      }
+    ],
+    "<builtin>.hasattr": [],
+    "py_backwards.utils.tree.insert_at": [
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 51
+      }
+    ],
+    "py_backwards.utils.tree.get_closest_parent_of": [
+      {
+        "dest": "py_backwards.utils.tree.get_parent",
+        "line_no": 71
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 73
+      }
+    ],
+    "py_backwards.utils.helpers": [
+      {
+        "dest": "typing.TypeVar",
+        "line_no": 9
+      }
+    ],
+    "functools.wraps": [],
+    "py_backwards.utils.helpers.eager.wrapped": [
+      {
+        "dest": "py_backwards.utils.snippet.find_variables",
+        "line_no": 15
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves._get_rewrites",
+        "line_no": 15
+      },
+      {
+        "dest": "<builtin>.list",
+        "line_no": 15
+      }
+    ],
+    "py_backwards.transformers.six_moves._get_rewrites": [
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 202
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 205
+      }
+    ],
+    "<builtin>.list": [],
+    "inspect.getsource": [],
+    "re.findall": [],
+    "py_backwards.utils.helpers.warn": [
+      {
+        "dest": "<builtin>.print",
+        "line_no": 40
+      }
+    ],
+    "<builtin>.print": [],
+    "py_backwards.utils.helpers.debug": [
+      {
+        "dest": "py_backwards.compiler._transform.<lambda1>",
+        "line_no": 45
+      },
+      {
+        "dest": "py_backwards.compiler._transform.<lambda2>",
+        "line_no": 45
+      },
+      {
+        "dest": "py_backwards.compiler._transform.<lambda5>",
+        "line_no": 45
+      },
+      {
+        "dest": "py_backwards.compiler._transform.<lambda7>",
+        "line_no": 45
+      },
+      {
+        "dest": "py_backwards.compiler._transform.<lambda4>",
+        "line_no": 45
+      },
+      {
+        "dest": "py_backwards.compiler._transform.<lambda3>",
+        "line_no": 45
+      },
+      {
+        "dest": "py_backwards.compiler._transform.<lambda6>",
+        "line_no": 45
+      },
+      {
+        "dest": "<builtin>.print",
+        "line_no": 45
+      }
+    ],
+    "py_backwards.compiler._transform.<lambda1>": [],
+    "py_backwards.compiler._transform.<lambda2>": [
+      {
+        "dest": "astunparse.dump",
+        "line_no": 20
+      }
+    ],
+    "py_backwards.compiler._transform.<lambda5>": [],
+    "py_backwards.compiler._transform.<lambda7>": [],
+    "py_backwards.compiler._transform.<lambda4>": [],
+    "py_backwards.compiler._transform.<lambda3>": [],
+    "py_backwards.compiler._transform.<lambda6>": [
+      {
+        "dest": "astunparse.dump",
+        "line_no": 41
+      }
+    ],
+    "py_backwards.conf": [
+      {
+        "dest": "py_backwards.conf.Settings.__init__",
+        "line_no": 9
+      }
+    ],
+    "py_backwards.conf.Settings.__init__": [],
+    "py_backwards.conf.init_settings": [],
+    "py_backwards.types": [
+      {
+        "dest": "typing.NamedTuple",
+        "line_no": 13
+      },
+      {
+        "dest": "typing.NamedTuple",
+        "line_no": 20
+      },
+      {
+        "dest": "typing.NamedTuple",
+        "line_no": 24
+      }
+    ],
+    "typing.NamedTuple": [],
+    "py_backwards.utils": [],
+    "py_backwards.transformers": [],
+    "py_backwards.transformers.class_without_bases": [],
+    "py_backwards.transformers.class_without_bases.ClassWithoutBasesTransformer.visit_ClassDef": [
+      {
+        "dest": "typed_ast.ast3.Name",
+        "line_no": 17
+      },
+      {
+        "dest": "typed_ast.ast3.NodeTransformer.generic_visit",
+        "line_no": 20
+      }
+    ],
+    "typed_ast.ast3.Name": [],
+    "py_backwards.transformers.yield_from": [
+      {
+        "dest": "py_backwards.utils.snippet.snippet",
+        "line_no": 13
+      },
+      {
+        "dest": "py_backwards.utils.snippet.snippet",
+        "line_no": 19
+      }
+    ],
+    "py_backwards.transformers.yield_from.result_assignment": [
+      {
+        "dest": "<builtin>.hasattr",
+        "line_no": 14
+      }
+    ],
+    "py_backwards.transformers.yield_from.yield_from": [
+      {
+        "dest": "py_backwards.utils.snippet.let",
+        "line_no": 20
+      },
+      {
+        "dest": "<builtin>.iter",
+        "line_no": 21
+      },
+      {
+        "dest": "<builtin>.next",
+        "line_no": 24
+      },
+      {
+        "dest": "py_backwards.utils.snippet.extend",
+        "line_no": 26
+      }
+    ],
+    "<builtin>.iter": [],
+    "<builtin>.next": [],
+    "py_backwards.transformers.yield_from.YieldFromTransformer._get_yield_from_index": [
+      {
+        "dest": "<builtin>.hasattr",
+        "line_no": 36
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 36
+      },
+      {
+        "dest": "<builtin>.enumerate",
+        "line_no": 37
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 38
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 38
+      }
+    ],
+    "<builtin>.enumerate": [],
+    "py_backwards.transformers.yield_from.YieldFromTransformer._emulate_yield_from": [
+      {
+        "dest": "py_backwards.utils.helpers.VariablesGenerator.generate",
+        "line_no": 45
+      }
+    ],
+    "py_backwards.transformers.yield_from.YieldFromTransformer._handle_assignments": [
+      {
+        "dest": "py_backwards.transformers.yield_from.YieldFromTransformer._get_yield_from_index",
+        "line_no": 57
+      },
+      {
+        "dest": "py_backwards.transformers.yield_from.YieldFromTransformer._emulate_yield_from",
+        "line_no": 62
+      },
+      {
+        "dest": "py_backwards.utils.tree.insert_at",
+        "line_no": 64
+      }
+    ],
+    "py_backwards.transformers.yield_from.YieldFromTransformer._handle_expressions": [
+      {
+        "dest": "py_backwards.transformers.yield_from.YieldFromTransformer._get_yield_from_index",
+        "line_no": 69
+      },
+      {
+        "dest": "py_backwards.transformers.yield_from.YieldFromTransformer._emulate_yield_from",
+        "line_no": 74
+      },
+      {
+        "dest": "py_backwards.utils.tree.insert_at",
+        "line_no": 75
+      }
+    ],
+    "py_backwards.transformers.yield_from.YieldFromTransformer.visit": [
+      {
+        "dest": "py_backwards.transformers.yield_from.YieldFromTransformer._handle_assignments",
+        "line_no": 79
+      },
+      {
+        "dest": "py_backwards.transformers.yield_from.YieldFromTransformer._handle_expressions",
+        "line_no": 80
+      },
+      {
+        "dest": "typed_ast.ast3.NodeTransformer.generic_visit",
+        "line_no": 81
+      }
+    ],
+    "py_backwards.transformers.variables_annotations": [],
+    "py_backwards.transformers.variables_annotations.VariablesAnnotationsTransformer.transform": [
+      {
+        "dest": "py_backwards.utils.tree.find",
+        "line_no": 23
+      },
+      {
+        "dest": "py_backwards.utils.tree.get_non_exp_parent_and_index",
+        "line_no": 25
+      },
+      {
+        "dest": "py_backwards.utils.helpers.warn",
+        "line_no": 27
+      },
+      {
+        "dest": "typed_ast.ast3.Assign",
+        "line_no": 35
+      },
+      {
+        "dest": "py_backwards.utils.tree.insert_at",
+        "line_no": 34
+      }
+    ],
+    "typed_ast.ast3.Assign": [],
+    "py_backwards.transformers.super_without_arguments": [],
+    "py_backwards.transformers.super_without_arguments.SuperWithoutArgumentsTransformer._replace_super_args": [
+      {
+        "dest": "py_backwards.utils.tree.get_closest_parent_of",
+        "line_no": 20
+      },
+      {
+        "dest": "py_backwards.utils.helpers.warn",
+        "line_no": 22
+      },
+      {
+        "dest": "py_backwards.utils.tree.get_closest_parent_of",
+        "line_no": 26
+      },
+      {
+        "dest": "py_backwards.utils.helpers.warn",
+        "line_no": 28
+      },
+      {
+        "dest": "typed_ast.ast3.Name",
+        "line_no": 31
+      },
+      {
+        "dest": "typed_ast.ast3.Name",
+        "line_no": 31
+      }
+    ],
+    "py_backwards.transformers.super_without_arguments.SuperWithoutArgumentsTransformer.visit_Call": [
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 34
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 34
+      },
+      {
+        "dest": "py_backwards.transformers.super_without_arguments.SuperWithoutArgumentsTransformer._replace_super_args",
+        "line_no": 35
+      },
+      {
+        "dest": "typed_ast.ast3.NodeTransformer.generic_visit",
+        "line_no": 38
+      }
+    ],
+    "py_backwards.transformers.six_moves": [
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 32
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 33
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 34
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 35
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 36
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 37
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 38
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 39
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 40
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 41
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 42
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 43
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 44
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 45
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 46
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 47
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 48
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 49
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 50
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 51
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 52
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 53
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedModule.__init__",
+        "line_no": 54
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedModule.__init__",
+        "line_no": 55
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedModule.__init__",
+        "line_no": 56
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedModule.__init__",
+        "line_no": 57
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedModule.__init__",
+        "line_no": 58
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedModule.__init__",
+        "line_no": 59
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedModule.__init__",
+        "line_no": 60
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedModule.__init__",
+        "line_no": 61
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedModule.__init__",
+        "line_no": 62
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedModule.__init__",
+        "line_no": 63
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedModule.__init__",
+        "line_no": 64
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedModule.__init__",
+        "line_no": 65
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedModule.__init__",
+        "line_no": 66
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedModule.__init__",
+        "line_no": 67
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedModule.__init__",
+        "line_no": 68
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedModule.__init__",
+        "line_no": 69
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedModule.__init__",
+        "line_no": 70
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedModule.__init__",
+        "line_no": 71
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedModule.__init__",
+        "line_no": 72
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedModule.__init__",
+        "line_no": 73
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedModule.__init__",
+        "line_no": 74
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedModule.__init__",
+        "line_no": 75
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedModule.__init__",
+        "line_no": 76
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedModule.__init__",
+        "line_no": 77
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedModule.__init__",
+        "line_no": 78
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedModule.__init__",
+        "line_no": 79
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedModule.__init__",
+        "line_no": 80
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedModule.__init__",
+        "line_no": 81
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedModule.__init__",
+        "line_no": 82
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedModule.__init__",
+        "line_no": 83
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedModule.__init__",
+        "line_no": 84
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedModule.__init__",
+        "line_no": 85
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedModule.__init__",
+        "line_no": 86
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedModule.__init__",
+        "line_no": 88
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedModule.__init__",
+        "line_no": 90
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedModule.__init__",
+        "line_no": 91
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedModule.__init__",
+        "line_no": 92
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedModule.__init__",
+        "line_no": 93
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedModule.__init__",
+        "line_no": 95
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedModule.__init__",
+        "line_no": 96
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedModule.__init__",
+        "line_no": 97
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedModule.__init__",
+        "line_no": 98
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedModule.__init__",
+        "line_no": 99
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedModule.__init__",
+        "line_no": 100
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedModule.__init__",
+        "line_no": 104
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 108
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 109
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 110
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 111
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 112
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 113
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 114
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 115
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 116
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 117
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 118
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 119
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 120
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 121
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 122
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 123
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 124
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 125
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 126
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 127
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 128
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 129
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 130
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 131
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 132
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 136
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 137
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 138
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 142
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 143
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 144
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 145
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 146
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 147
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 148
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 149
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 150
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 151
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 152
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 153
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 154
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 155
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 156
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 157
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 158
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 159
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 160
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 161
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 162
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 163
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 164
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 165
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 166
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 167
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 168
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 169
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 170
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 171
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 172
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 173
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 174
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 178
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 179
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 180
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 181
+      },
+      {
+        "dest": "py_backwards.transformers.six_moves.MovedAttribute.__init__",
+        "line_no": 185
+      },
+      {
+        "dest": "py_backwards.utils.helpers.eager",
+        "line_no": 199
+      }
+    ],
+    "py_backwards.transformers.six_moves.MovedAttribute.__init__": [],
+    "py_backwards.transformers.six_moves.MovedModule.__init__": [],
+    "py_backwards.transformers.six_moves.SixMovesTransformer": [
+      {
+        "dest": "py_backwards.transformers.six_moves._get_rewrites",
+        "line_no": 212
+      }
+    ],
+    "py_backwards.transformers.starred_unpacking": [],
+    "py_backwards.transformers.starred_unpacking.StarredUnpackingTransformer._has_starred": [
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 22
+      }
+    ],
+    "py_backwards.transformers.starred_unpacking.StarredUnpackingTransformer._split_by_starred": [
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 31
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 35
+      }
+    ],
+    "py_backwards.transformers.starred_unpacking.StarredUnpackingTransformer._prepare_lists": [
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 42
+      },
+      {
+        "dest": "typed_ast.ast3.Name",
+        "line_no": 44
+      },
+      {
+        "dest": "typed_ast.ast3.Call",
+        "line_no": 43
+      },
+      {
+        "dest": "typed_ast.ast3.List",
+        "line_no": 48
+      }
+    ],
+    "typed_ast.ast3.Call": [],
+    "typed_ast.ast3.List": [],
+    "py_backwards.transformers.starred_unpacking.StarredUnpackingTransformer._merge_lists": [
+      {
+        "dest": "<builtin>.len",
+        "line_no": 52
+      },
+      {
+        "dest": "typed_ast.ast3.Add",
+        "line_no": 55
+      },
+      {
+        "dest": "typed_ast.ast3.BinOp",
+        "line_no": 55
+      },
+      {
+        "dest": "typed_ast.ast3.Add",
+        "line_no": 57
+      },
+      {
+        "dest": "typed_ast.ast3.BinOp",
+        "line_no": 57
+      }
+    ],
+    "typed_ast.ast3.Add": [],
+    "typed_ast.ast3.BinOp": [],
+    "py_backwards.transformers.starred_unpacking.StarredUnpackingTransformer._to_sum_of_lists": [
+      {
+        "dest": "py_backwards.transformers.starred_unpacking.StarredUnpackingTransformer._split_by_starred",
+        "line_no": 62
+      },
+      {
+        "dest": "py_backwards.transformers.starred_unpacking.StarredUnpackingTransformer._prepare_lists",
+        "line_no": 63
+      },
+      {
+        "dest": "<builtin>.list",
+        "line_no": 63
+      },
+      {
+        "dest": "py_backwards.transformers.starred_unpacking.StarredUnpackingTransformer._merge_lists",
+        "line_no": 64
+      }
+    ],
+    "py_backwards.transformers.starred_unpacking.StarredUnpackingTransformer.visit_List": [
+      {
+        "dest": "py_backwards.transformers.starred_unpacking.StarredUnpackingTransformer._has_starred",
+        "line_no": 67
+      },
+      {
+        "dest": "typed_ast.ast3.NodeTransformer.generic_visit",
+        "line_no": 68
+      },
+      {
+        "dest": "py_backwards.transformers.starred_unpacking.StarredUnpackingTransformer._to_sum_of_lists",
+        "line_no": 72
+      },
+      {
+        "dest": "typed_ast.ast3.NodeTransformer.generic_visit",
+        "line_no": 72
+      }
+    ],
+    "py_backwards.transformers.starred_unpacking.StarredUnpackingTransformer.visit_Call": [
+      {
+        "dest": "py_backwards.transformers.starred_unpacking.StarredUnpackingTransformer._has_starred",
+        "line_no": 75
+      },
+      {
+        "dest": "typed_ast.ast3.NodeTransformer.generic_visit",
+        "line_no": 76
+      },
+      {
+        "dest": "typed_ast.ast3.NodeTransformer.generic_visit",
+        "line_no": 76
+      },
+      {
+        "dest": "py_backwards.transformers.starred_unpacking.StarredUnpackingTransformer._to_sum_of_lists",
+        "line_no": 80
+      },
+      {
+        "dest": "typed_ast.ast3.Starred",
+        "line_no": 81
+      },
+      {
+        "dest": "typed_ast.ast3.NodeTransformer.generic_visit",
+        "line_no": 82
+      }
+    ],
+    "typed_ast.ast3.Starred": [],
+    "py_backwards.transformers.functions_annotations": [],
+    "py_backwards.transformers.functions_annotations.FunctionsAnnotationsTransformer.visit_arg": [
+      {
+        "dest": "typed_ast.ast3.NodeTransformer.generic_visit",
+        "line_no": 19
+      }
+    ],
+    "py_backwards.transformers.functions_annotations.FunctionsAnnotationsTransformer.visit_FunctionDef": [
+      {
+        "dest": "typed_ast.ast3.NodeTransformer.generic_visit",
+        "line_no": 24
+      }
+    ],
+    "py_backwards.transformers.return_from_generator": [
+      {
+        "dest": "py_backwards.utils.snippet.snippet",
+        "line_no": 8
+      }
+    ],
+    "py_backwards.transformers.return_from_generator.return_from_generator": [
+      {
+        "dest": "py_backwards.utils.snippet.let",
+        "line_no": 9
+      },
+      {
+        "dest": "<builtin>.StopIteration",
+        "line_no": 10
+      }
+    ],
+    "<builtin>.StopIteration": [],
+    "py_backwards.transformers.return_from_generator.ReturnFromGeneratorTransformer._find_generator_returns": [
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 38
+      },
+      {
+        "dest": "<builtin>.hasattr",
+        "line_no": 40
+      },
+      {
+        "dest": "<builtin>.hasattr",
+        "line_no": 42
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 42
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 45
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 45
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 48
+      }
+    ],
+    "py_backwards.transformers.return_from_generator.ReturnFromGeneratorTransformer._replace_return": [],
+    "py_backwards.transformers.return_from_generator.ReturnFromGeneratorTransformer.visit_FunctionDef": [
+      {
+        "dest": "py_backwards.transformers.return_from_generator.ReturnFromGeneratorTransformer._find_generator_returns",
+        "line_no": 65
+      },
+      {
+        "dest": "py_backwards.transformers.return_from_generator.ReturnFromGeneratorTransformer._replace_return",
+        "line_no": 71
+      },
+      {
+        "dest": "typed_ast.ast3.NodeTransformer.generic_visit",
+        "line_no": 73
+      }
+    ],
+    "py_backwards.transformers.python2_future": [
+      {
+        "dest": "py_backwards.utils.snippet.snippet",
+        "line_no": 7
+      }
+    ],
+    "py_backwards.transformers.python2_future.imports": [],
+    "py_backwards.transformers.python2_future.Python2FutureTransformer.visit_Module": [
+      {
+        "dest": "typed_ast.ast3.NodeTransformer.generic_visit",
+        "line_no": 27
+      }
+    ],
+    "py_backwards.transformers.dict_unpacking": [
+      {
+        "dest": "py_backwards.utils.snippet.snippet",
+        "line_no": 9
+      }
+    ],
+    "py_backwards.transformers.dict_unpacking.merge_dicts": [],
+    "py_backwards.transformers.dict_unpacking.merge_dicts._py_backwards_merge_dicts": [],
+    "py_backwards.transformers.dict_unpacking.DictUnpackingTransformer._split_by_None": [
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 41
+      }
+    ],
+    "py_backwards.transformers.dict_unpacking.DictUnpackingTransformer._prepare_splitted": [
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 50
+      },
+      {
+        "dest": "typed_ast.ast3.Name",
+        "line_no": 52
+      },
+      {
+        "dest": "typed_ast.ast3.Call",
+        "line_no": 51
+      },
+      {
+        "dest": "typed_ast.ast3.Dict",
+        "line_no": 56
+      }
+    ],
+    "typed_ast.ast3.Dict": [],
+    "py_backwards.transformers.dict_unpacking.DictUnpackingTransformer._merge_dicts": [
+      {
+        "dest": "typed_ast.ast3.Name",
+        "line_no": 63
+      },
+      {
+        "dest": "<builtin>.list",
+        "line_no": 64
+      },
+      {
+        "dest": "typed_ast.ast3.List",
+        "line_no": 64
+      },
+      {
+        "dest": "typed_ast.ast3.Call",
+        "line_no": 62
+      }
+    ],
+    "py_backwards.transformers.dict_unpacking.DictUnpackingTransformer.visit_Module": [
+      {
+        "dest": "py_backwards.utils.tree.insert_at",
+        "line_no": 68
+      },
+      {
+        "dest": "typed_ast.ast3.NodeTransformer.generic_visit",
+        "line_no": 69
+      }
+    ],
+    "py_backwards.transformers.dict_unpacking.DictUnpackingTransformer.visit_Dict": [
+      {
+        "dest": "typed_ast.ast3.NodeTransformer.generic_visit",
+        "line_no": 73
+      },
+      {
+        "dest": "<builtin>.zip",
+        "line_no": 76
+      },
+      {
+        "dest": "py_backwards.transformers.dict_unpacking.DictUnpackingTransformer._split_by_None",
+        "line_no": 77
+      },
+      {
+        "dest": "py_backwards.transformers.dict_unpacking.DictUnpackingTransformer._prepare_splitted",
+        "line_no": 78
+      },
+      {
+        "dest": "py_backwards.transformers.dict_unpacking.DictUnpackingTransformer._merge_dicts",
+        "line_no": 79
+      }
+    ],
+    "<builtin>.zip": [],
+    "py_backwards.transformers.formatted_values": [],
+    "py_backwards.transformers.formatted_values.FormattedValuesTransformer.visit_FormattedValue": [
+      {
+        "dest": "typed_ast.ast3.Str",
+        "line_no": 23
+      },
+      {
+        "dest": "typed_ast.ast3.Attribute",
+        "line_no": 23
+      },
+      {
+        "dest": "typed_ast.ast3.Call",
+        "line_no": 23
+      },
+      {
+        "dest": "typed_ast.ast3.NodeTransformer.generic_visit",
+        "line_no": 27
+      }
+    ],
+    "typed_ast.ast3.Str": [],
+    "typed_ast.ast3.Attribute": [],
+    "py_backwards.transformers.formatted_values.FormattedValuesTransformer.visit_JoinedStr": [
+      {
+        "dest": "typed_ast.ast3.Str",
+        "line_no": 32
+      },
+      {
+        "dest": "typed_ast.ast3.Attribute",
+        "line_no": 32
+      },
+      {
+        "dest": "typed_ast.ast3.List",
+        "line_no": 34
+      },
+      {
+        "dest": "typed_ast.ast3.Call",
+        "line_no": 32
+      },
+      {
+        "dest": "typed_ast.ast3.NodeTransformer.generic_visit",
+        "line_no": 36
+      }
+    ],
+    "py_backwards.const": [
+      {
+        "dest": "collections.OrderedDict",
+        "line_no": 3
+      }
+    ],
+    "collections.OrderedDict": [],
+    "py_backwards.transformers.metaclass": [
+      {
+        "dest": "py_backwards.utils.snippet.snippet",
+        "line_no": 8
+      },
+      {
+        "dest": "py_backwards.utils.snippet.snippet",
+        "line_no": 13
+      }
+    ],
+    "py_backwards.transformers.metaclass.six_import": [],
+    "py_backwards.transformers.metaclass.class_bases": [],
+    "py_backwards.transformers.metaclass.MetaclassTransformer.visit_Module": [
+      {
+        "dest": "py_backwards.utils.tree.insert_at",
+        "line_no": 29
+      },
+      {
+        "dest": "typed_ast.ast3.NodeTransformer.generic_visit",
+        "line_no": 30
+      }
+    ],
+    "py_backwards.transformers.metaclass.MetaclassTransformer.visit_ClassDef": [
+      {
+        "dest": "typed_ast.ast3.List",
+        "line_no": 36
+      },
+      {
+        "dest": "typed_ast.ast3.NodeTransformer.generic_visit",
+        "line_no": 40
+      }
+    ],
+    "py_backwards.transformers.string_types": [],
+    "py_backwards.transformers.string_types.StringTypesTransformer.transform": [
+      {
+        "dest": "py_backwards.utils.tree.find",
+        "line_no": 17
+      }
+    ],
+    "py_backwards.transformers.import_pathlib": [],
+    "py_backwards.compiler": [],
+    "py_backwards.compiler._transform": [
+      {
+        "dest": "py_backwards.utils.helpers.debug",
+        "line_no": 17
+      },
+      {
+        "dest": "typed_ast.ast3.parse",
+        "line_no": 19
+      },
+      {
+        "dest": "py_backwards.utils.helpers.debug",
+        "line_no": 20
+      },
+      {
+        "dest": "py_backwards.utils.helpers.debug",
+        "line_no": 24
+      },
+      {
+        "dest": "py_backwards.utils.helpers.debug",
+        "line_no": 27
+      },
+      {
+        "dest": "copy.deepcopy",
+        "line_no": 29
+      },
+      {
+        "dest": "astunparse.dump",
+        "line_no": 34
+      },
+      {
+        "dest": "traceback.format_exc",
+        "line_no": 34
+      },
+      {
+        "dest": "py_backwards.exceptions.TransformationError.__init__",
+        "line_no": 33
+      },
+      {
+        "dest": "py_backwards.exceptions.TransformationError.__init__",
+        "line_no": 33
+      },
+      {
+        "dest": "py_backwards.utils.helpers.debug",
+        "line_no": 37
+      },
+      {
+        "dest": "py_backwards.utils.helpers.debug",
+        "line_no": 41
+      },
+      {
+        "dest": "astunparse.unparse",
+        "line_no": 45
+      },
+      {
+        "dest": "py_backwards.utils.helpers.debug",
+        "line_no": 46
+      },
+      {
+        "dest": "astunparse.dump",
+        "line_no": 49
+      },
+      {
+        "dest": "traceback.format_exc",
+        "line_no": 49
+      },
+      {
+        "dest": "py_backwards.exceptions.TransformationError.__init__",
+        "line_no": 48
+      },
+      {
+        "dest": "py_backwards.exceptions.TransformationError.__init__",
+        "line_no": 48
+      },
+      {
+        "dest": "autopep8.fix_code",
+        "line_no": 51
+      }
+    ],
+    "astunparse.dump": [],
+    "copy.deepcopy": [],
+    "traceback.format_exc": [],
+    "astunparse.unparse": [],
+    "autopep8.fix_code": [],
+    "py_backwards.compiler._compile_file": [
+      {
+        "dest": "py_backwards.compiler._transform",
+        "line_no": 60
+      },
+      {
+        "dest": "py_backwards.exceptions.CompilationError.__init__",
+        "line_no": 63
+      },
+      {
+        "dest": "py_backwards.exceptions.CompilationError.__init__",
+        "line_no": 63
+      }
+    ],
+    "py_backwards.compiler.compile_files": [
+      {
+        "dest": "<builtin>.set",
+        "line_no": 80
+      },
+      {
+        "dest": "time.time",
+        "line_no": 81
+      },
+      {
+        "dest": "py_backwards.files.get_input_output_paths",
+        "line_no": 83
+      },
+      {
+        "dest": "py_backwards.compiler._compile_file",
+        "line_no": 85
+      },
+      {
+        "dest": "time.time",
+        "line_no": 86
+      },
+      {
+        "dest": "<builtin>.sorted",
+        "line_no": 87
+      }
+    ],
+    "<builtin>.set": [],
+    "time.time": [],
+    "py_backwards.files.get_input_output_paths": [
+      {
+        "dest": "pathlib.Path",
+        "line_no": 18
+      },
+      {
+        "dest": "pathlib2.Path",
+        "line_no": 18
+      },
+      {
+        "dest": "pathlib.Path",
+        "line_no": 23
+      },
+      {
+        "dest": "pathlib2.Path",
+        "line_no": 23
+      },
+      {
+        "dest": "pathlib.Path",
+        "line_no": 23
+      },
+      {
+        "dest": "pathlib2.Path",
+        "line_no": 23
+      },
+      {
+        "dest": "pathlib.Path",
+        "line_no": 25
+      },
+      {
+        "dest": "pathlib2.Path",
+        "line_no": 25
+      },
+      {
+        "dest": "pathlib.Path",
+        "line_no": 27
+      },
+      {
+        "dest": "pathlib2.Path",
+        "line_no": 27
+      },
+      {
+        "dest": "pathlib.Path",
+        "line_no": 29
+      },
+      {
+        "dest": "pathlib2.Path",
+        "line_no": 29
+      },
+      {
+        "dest": "pathlib.Path",
+        "line_no": 32
+      },
+      {
+        "dest": "pathlib2.Path",
+        "line_no": 32
+      },
+      {
+        "dest": "pathlib.Path",
+        "line_no": 33
+      },
+      {
+        "dest": "pathlib2.Path",
+        "line_no": 33
+      },
+      {
+        "dest": "pathlib.Path",
+        "line_no": 34
+      },
+      {
+        "dest": "pathlib2.Path",
+        "line_no": 34
+      }
+    ],
+    "<builtin>.sorted": [],
+    "py_backwards.files": [],
+    "pathlib.Path": [],
+    "pathlib2.Path": [],
+    "py_backwards.main": [
+      {
+        "dest": "colorama.init",
+        "line_no": 3
+      }
+    ],
+    "colorama.init": [],
+    "py_backwards.main.main": [
+      {
+        "dest": "argparse.ArgumentParser",
+        "line_no": 13
+      },
+      {
+        "dest": "py_backwards.conf.init_settings",
+        "line_no": 29
+      },
+      {
+        "dest": "py_backwards.compiler.compile_files",
+        "line_no": 33
+      },
+      {
+        "dest": "py_backwards.messages.syntax_error",
+        "line_no": 37
+      },
+      {
+        "dest": "<builtin>.print",
+        "line_no": 37
+      },
+      {
+        "dest": "py_backwards.messages.transformation_error",
+        "line_no": 40
+      },
+      {
+        "dest": "<builtin>.print",
+        "line_no": 40
+      },
+      {
+        "dest": "py_backwards.messages.input_doesnt_exists",
+        "line_no": 43
+      },
+      {
+        "dest": "<builtin>.print",
+        "line_no": 43
+      },
+      {
+        "dest": "py_backwards.messages.invalid_output",
+        "line_no": 46
+      },
+      {
+        "dest": "<builtin>.print",
+        "line_no": 46
+      },
+      {
+        "dest": "py_backwards.messages.permission_error",
+        "line_no": 50
+      },
+      {
+        "dest": "<builtin>.print",
+        "line_no": 50
+      },
+      {
+        "dest": "py_backwards.messages.compilation_result",
+        "line_no": 53
+      },
+      {
+        "dest": "<builtin>.print",
+        "line_no": 53
+      }
+    ],
+    "argparse.ArgumentParser": []
+  },
+  "class_mro": {
+    "py_backwards.conf.Settings": [
+      "py_backwards.conf.Settings"
+    ],
+    "py_backwards.utils.helpers.VariablesGenerator": [
+      "py_backwards.utils.helpers.VariablesGenerator"
+    ],
+    "py_backwards.utils.snippet.VariablesReplacer": [
+      "py_backwards.utils.snippet.VariablesReplacer",
+      "typed_ast.ast3.NodeTransformer"
+    ],
+    "py_backwards.utils.snippet.snippet": [
+      "py_backwards.utils.snippet.snippet"
+    ],
+    "py_backwards.transformers.base.BaseTransformer": [
+      "py_backwards.transformers.base.BaseTransformer"
+    ],
+    "py_backwards.transformers.base.BaseNodeTransformer": [
+      "py_backwards.transformers.base.BaseNodeTransformer",
+      "py_backwards.transformers.base.BaseTransformer",
+      "typed_ast.ast3.NodeTransformer"
+    ],
+    "py_backwards.transformers.base.BaseImportRewrite": [
+      "py_backwards.transformers.base.BaseImportRewrite",
+      "py_backwards.transformers.base.BaseNodeTransformer",
+      "py_backwards.transformers.base.BaseTransformer",
+      "typed_ast.ast3.NodeTransformer"
+    ],
+    "py_backwards.transformers.dict_unpacking.DictUnpackingTransformer": [
+      "py_backwards.transformers.dict_unpacking.DictUnpackingTransformer",
+      "py_backwards.transformers.base.BaseNodeTransformer",
+      "py_backwards.transformers.base.BaseTransformer",
+      "typed_ast.ast3.NodeTransformer"
+    ],
+    "py_backwards.transformers.formatted_values.FormattedValuesTransformer": [
+      "py_backwards.transformers.formatted_values.FormattedValuesTransformer",
+      "py_backwards.transformers.base.BaseNodeTransformer",
+      "py_backwards.transformers.base.BaseTransformer",
+      "typed_ast.ast3.NodeTransformer"
+    ],
+    "py_backwards.transformers.functions_annotations.FunctionsAnnotationsTransformer": [
+      "py_backwards.transformers.functions_annotations.FunctionsAnnotationsTransformer",
+      "py_backwards.transformers.base.BaseNodeTransformer",
+      "py_backwards.transformers.base.BaseTransformer",
+      "typed_ast.ast3.NodeTransformer"
+    ],
+    "py_backwards.transformers.starred_unpacking.StarredUnpackingTransformer": [
+      "py_backwards.transformers.starred_unpacking.StarredUnpackingTransformer",
+      "py_backwards.transformers.base.BaseNodeTransformer",
+      "py_backwards.transformers.base.BaseTransformer",
+      "typed_ast.ast3.NodeTransformer"
+    ],
+    "py_backwards.transformers.variables_annotations.VariablesAnnotationsTransformer": [
+      "py_backwards.transformers.variables_annotations.VariablesAnnotationsTransformer",
+      "py_backwards.transformers.base.BaseTransformer"
+    ],
+    "py_backwards.transformers.yield_from.YieldFromTransformer": [
+      "py_backwards.transformers.yield_from.YieldFromTransformer",
+      "py_backwards.transformers.base.BaseNodeTransformer",
+      "py_backwards.transformers.base.BaseTransformer",
+      "typed_ast.ast3.NodeTransformer"
+    ],
+    "py_backwards.transformers.return_from_generator.ReturnFromGeneratorTransformer": [
+      "py_backwards.transformers.return_from_generator.ReturnFromGeneratorTransformer",
+      "py_backwards.transformers.base.BaseNodeTransformer",
+      "py_backwards.transformers.base.BaseTransformer",
+      "typed_ast.ast3.NodeTransformer"
+    ],
+    "py_backwards.transformers.python2_future.Python2FutureTransformer": [
+      "py_backwards.transformers.python2_future.Python2FutureTransformer",
+      "py_backwards.transformers.base.BaseNodeTransformer",
+      "py_backwards.transformers.base.BaseTransformer",
+      "typed_ast.ast3.NodeTransformer"
+    ],
+    "py_backwards.transformers.super_without_arguments.SuperWithoutArgumentsTransformer": [
+      "py_backwards.transformers.super_without_arguments.SuperWithoutArgumentsTransformer",
+      "py_backwards.transformers.base.BaseNodeTransformer",
+      "py_backwards.transformers.base.BaseTransformer",
+      "typed_ast.ast3.NodeTransformer"
+    ],
+    "py_backwards.transformers.class_without_bases.ClassWithoutBasesTransformer": [
+      "py_backwards.transformers.class_without_bases.ClassWithoutBasesTransformer",
+      "py_backwards.transformers.base.BaseNodeTransformer",
+      "py_backwards.transformers.base.BaseTransformer",
+      "typed_ast.ast3.NodeTransformer"
+    ],
+    "py_backwards.transformers.import_pathlib.ImportPathlibTransformer": [
+      "py_backwards.transformers.import_pathlib.ImportPathlibTransformer",
+      "py_backwards.transformers.base.BaseImportRewrite",
+      "py_backwards.transformers.base.BaseNodeTransformer",
+      "py_backwards.transformers.base.BaseTransformer",
+      "typed_ast.ast3.NodeTransformer"
+    ],
+    "py_backwards.transformers.six_moves.MovedAttribute": [
+      "py_backwards.transformers.six_moves.MovedAttribute"
+    ],
+    "py_backwards.transformers.six_moves.MovedModule": [
+      "py_backwards.transformers.six_moves.MovedModule"
+    ],
+    "py_backwards.transformers.six_moves.SixMovesTransformer": [
+      "py_backwards.transformers.six_moves.SixMovesTransformer",
+      "py_backwards.transformers.base.BaseImportRewrite",
+      "py_backwards.transformers.base.BaseNodeTransformer",
+      "py_backwards.transformers.base.BaseTransformer",
+      "typed_ast.ast3.NodeTransformer"
+    ],
+    "py_backwards.transformers.metaclass.MetaclassTransformer": [
+      "py_backwards.transformers.metaclass.MetaclassTransformer",
+      "py_backwards.transformers.base.BaseNodeTransformer",
+      "py_backwards.transformers.base.BaseTransformer",
+      "typed_ast.ast3.NodeTransformer"
+    ],
+    "py_backwards.transformers.string_types.StringTypesTransformer": [
+      "py_backwards.transformers.string_types.StringTypesTransformer",
+      "py_backwards.transformers.base.BaseTransformer"
+    ],
+    "py_backwards.exceptions.CompilationError": [
+      "py_backwards.exceptions.CompilationError"
+    ],
+    "py_backwards.exceptions.TransformationError": [
+      "py_backwards.exceptions.TransformationError"
+    ],
+    "py_backwards.exceptions.InvalidInputOutput": [
+      "py_backwards.exceptions.InvalidInputOutput"
+    ],
+    "py_backwards.exceptions.InputDoesntExists": [
+      "py_backwards.exceptions.InputDoesntExists"
+    ],
+    "py_backwards.exceptions.NodeNotFound": [
+      "py_backwards.exceptions.NodeNotFound"
+    ]
+  },
+  "imports": {
+    "py_backwards.messages": [
+      "typing",
+      "py_backwards",
+      "py_backwards.exceptions",
+      "colorama"
+    ],
+    "py_backwards": [],
+    "py_backwards.exceptions": [
+      "typing",
+      "py_backwards.transformers.base",
+      "py_backwards.transformers"
+    ],
+    "py_backwards.transformers": [
+      "py_backwards.transformers.class_without_bases",
+      "py_backwards.transformers.yield_from",
+      "typing",
+      "py_backwards.transformers.variables_annotations",
+      "py_backwards.transformers.super_without_arguments",
+      "py_backwards.transformers.six_moves",
+      "py_backwards.transformers.starred_unpacking",
+      "py_backwards.transformers.functions_annotations",
+      "py_backwards.transformers.return_from_generator",
+      "py_backwards.transformers.python2_future",
+      "py_backwards.transformers.dict_unpacking",
+      "py_backwards.transformers.formatted_values",
+      "py_backwards.transformers.metaclass",
+      "py_backwards.transformers.string_types",
+      "py_backwards.transformers.import_pathlib"
+    ],
+    "py_backwards.transformers.base": [
+      "py_backwards.utils.snippet",
+      "typing",
+      "py_backwards.types",
+      "typed_ast.ast3",
+      "py_backwards.utils",
+      "abc"
+    ],
+    "py_backwards.types": [
+      "typing",
+      "pathlib",
+      "typed_ast.ast3"
+    ],
+    "py_backwards.utils": [],
+    "py_backwards.utils.snippet": [
+      "typing",
+      "py_backwards.utils.tree",
+      "typed_ast.ast3",
+      "py_backwards.utils.helpers"
+    ],
+    "py_backwards.utils.tree": [
+      "typing",
+      "typed_ast.ast3",
+      "weakref",
+      "py_backwards.exceptions"
+    ],
+    "py_backwards.utils.helpers": [
+      "re",
+      "typing",
+      "functools",
+      "inspect",
+      "sys",
+      "py_backwards.conf"
+    ],
+    "py_backwards.conf": [
+      "argparse"
+    ],
+    "py_backwards.transformers.dict_unpacking": [
+      "typing",
+      "py_backwards.utils.tree",
+      "typed_ast.ast3",
+      "py_backwards.utils.snippet"
+    ],
+    "py_backwards.transformers.formatted_values": [
+      "typed_ast.ast3",
+      "py_backwards.const"
+    ],
+    "py_backwards.const": [
+      "collections"
+    ],
+    "py_backwards.transformers.functions_annotations": [
+      "typed_ast.ast3"
+    ],
+    "py_backwards.transformers.starred_unpacking": [
+      "typing",
+      "typed_ast.ast3"
+    ],
+    "py_backwards.transformers.variables_annotations": [
+      "py_backwards.types",
+      "typed_ast.ast3",
+      "py_backwards.utils.helpers",
+      "py_backwards.exceptions",
+      "py_backwards.utils.tree"
+    ],
+    "py_backwards.transformers.yield_from": [
+      "py_backwards.utils.snippet",
+      "typing",
+      "typed_ast.ast3",
+      "py_backwards.utils.helpers",
+      "py_backwards.utils.tree"
+    ],
+    "py_backwards.transformers.return_from_generator": [
+      "typing",
+      "typed_ast.ast3",
+      "py_backwards.utils.snippet"
+    ],
+    "py_backwards.transformers.python2_future": [
+      "py_backwards.utils.snippet",
+      "typed_ast.ast3"
+    ],
+    "py_backwards.transformers.super_without_arguments": [
+      "py_backwards.exceptions",
+      "py_backwards.utils.tree",
+      "typed_ast.ast3",
+      "py_backwards.utils.helpers"
+    ],
+    "py_backwards.transformers.class_without_bases": [
+      "typed_ast.ast3"
+    ],
+    "py_backwards.transformers.import_pathlib": [],
+    "py_backwards.transformers.six_moves": [
+      "py_backwards.utils.helpers"
+    ],
+    "py_backwards.transformers.metaclass": [
+      "py_backwards.utils.snippet",
+      "py_backwards.utils.tree",
+      "typed_ast.ast3",
+      "six"
+    ],
+    "py_backwards.transformers.string_types": [
+      "py_backwards.utils.tree",
+      "py_backwards.types",
+      "typed_ast.ast3"
+    ],
+    "py_backwards.compiler": [
+      "py_backwards",
+      "typing",
+      "typed_ast.ast3",
+      "py_backwards.files",
+      "py_backwards.utils.helpers",
+      "py_backwards.utils",
+      "astunparse",
+      "autopep8",
+      "traceback",
+      "copy",
+      "time",
+      "py_backwards.transformers"
+    ],
+    "autopep8": [],
+    "py_backwards.files": [
+      "typing",
+      "pathlib",
+      "py_backwards.exceptions",
+      "py_backwards.types"
+    ],
+    "py_backwards.main": [
+      "py_backwards",
+      "py_backwards.compiler",
+      "py_backwards.const",
+      "py_backwards.exceptions",
+      "argparse",
+      "colorama",
+      "sys",
+      "py_backwards.messages",
+      "py_backwards.conf"
+    ]
+  }
+}

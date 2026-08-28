@@ -39,3 +39,8 @@ baselines/codamosa/
 
 # Venv de Ruby (scripts/ruby_env.sh) — recriável com scripts/setup_ruby_env.sh
 .ruby_env/
+
+# Artefacto do paper: os run_results/ aqui SAO dados (sustentam todos os
+# numeros), ao contrario dos run_results/ gerados em runtime na raiz.
+!artifact/**/run_results/
+!artifact/**/run_results/**

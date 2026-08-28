@@ -1,0 +1,1471 @@
+{
+  "cg_output": {
+    "docstring_parser.numpydoc": [
+      {
+        "dest": "re.compile",
+        "line_no": 33
+      },
+      {
+        "dest": "re.compile",
+        "line_no": 35
+      },
+      {
+        "dest": "re.compile",
+        "line_no": 37
+      },
+      {
+        "dest": "re.compile",
+        "line_no": 41
+      },
+      {
+        "dest": "re.compile",
+        "line_no": 45
+      },
+      {
+        "dest": "docstring_parser.numpydoc.Section.__init__",
+        "line_no": 222
+      },
+      {
+        "dest": "docstring_parser.numpydoc.Section.__init__",
+        "line_no": 223
+      },
+      {
+        "dest": "docstring_parser.numpydoc.Section.__init__",
+        "line_no": 224
+      },
+      {
+        "dest": "docstring_parser.numpydoc.Section.__init__",
+        "line_no": 225
+      },
+      {
+        "dest": "docstring_parser.numpydoc.Section.__init__",
+        "line_no": 226
+      },
+      {
+        "dest": "docstring_parser.numpydoc.Section.__init__",
+        "line_no": 227
+      },
+      {
+        "dest": "docstring_parser.numpydoc.Section.__init__",
+        "line_no": 228
+      },
+      {
+        "dest": "docstring_parser.numpydoc.Section.__init__",
+        "line_no": 229
+      },
+      {
+        "dest": "docstring_parser.numpydoc.Section.__init__",
+        "line_no": 230
+      },
+      {
+        "dest": "docstring_parser.numpydoc.Section.__init__",
+        "line_no": 231
+      },
+      {
+        "dest": "docstring_parser.numpydoc.Section.__init__",
+        "line_no": 232
+      },
+      {
+        "dest": "docstring_parser.numpydoc.Section.__init__",
+        "line_no": 233
+      },
+      {
+        "dest": "docstring_parser.numpydoc.Section.__init__",
+        "line_no": 234
+      },
+      {
+        "dest": "docstring_parser.numpydoc.Section.__init__",
+        "line_no": 235
+      },
+      {
+        "dest": "docstring_parser.numpydoc.Section.__init__",
+        "line_no": 236
+      },
+      {
+        "dest": "docstring_parser.numpydoc.Section.__init__",
+        "line_no": 237
+      },
+      {
+        "dest": "docstring_parser.numpydoc.Section.__init__",
+        "line_no": 238
+      },
+      {
+        "dest": "docstring_parser.numpydoc.Section.__init__",
+        "line_no": 239
+      },
+      {
+        "dest": "docstring_parser.numpydoc.Section.__init__",
+        "line_no": 240
+      },
+      {
+        "dest": "docstring_parser.numpydoc.Section.__init__",
+        "line_no": 241
+      },
+      {
+        "dest": "docstring_parser.numpydoc.Section.__init__",
+        "line_no": 242
+      },
+      {
+        "dest": "docstring_parser.numpydoc.Section.__init__",
+        "line_no": 243
+      },
+      {
+        "dest": "docstring_parser.numpydoc.Section.__init__",
+        "line_no": 244
+      },
+      {
+        "dest": "docstring_parser.numpydoc.Section.__init__",
+        "line_no": 245
+      },
+      {
+        "dest": "docstring_parser.numpydoc.Section.__init__",
+        "line_no": 246
+      },
+      {
+        "dest": "docstring_parser.numpydoc.Section.__init__",
+        "line_no": 247
+      },
+      {
+        "dest": "docstring_parser.numpydoc.Section.__init__",
+        "line_no": 248
+      },
+      {
+        "dest": "docstring_parser.numpydoc.Section.__init__",
+        "line_no": 249
+      },
+      {
+        "dest": "docstring_parser.numpydoc.Section.__init__",
+        "line_no": 250
+      },
+      {
+        "dest": "docstring_parser.numpydoc.Section.__init__",
+        "line_no": 251
+      },
+      {
+        "dest": "docstring_parser.numpydoc.Section.__init__",
+        "line_no": 252
+      }
+    ],
+    "docstring_parser.numpydoc._pairwise": [
+      {
+        "dest": "itertools.tee",
+        "line_no": 22
+      },
+      {
+        "dest": "<builtin>.next",
+        "line_no": 23
+      },
+      {
+        "dest": "itertools.zip_longest",
+        "line_no": 24
+      }
+    ],
+    "itertools.tee": [],
+    "<builtin>.next": [],
+    "itertools.zip_longest": [],
+    "docstring_parser.numpydoc._clean_str": [
+      {
+        "dest": "<builtin>.len",
+        "line_no": 29
+      }
+    ],
+    "<builtin>.len": [],
+    "re.compile": [],
+    "docstring_parser.numpydoc.Section.__init__": [],
+    "docstring_parser.numpydoc.Section.title_pattern": [
+      {
+        "dest": "<builtin>.len",
+        "line_no": 69
+      }
+    ],
+    "docstring_parser.numpydoc.Section.parse": [
+      {
+        "dest": "docstring_parser.numpydoc._clean_str",
+        "line_no": 77
+      },
+      {
+        "dest": "docstring_parser.common.DocstringMeta.__init__",
+        "line_no": 77
+      }
+    ],
+    "docstring_parser.common.DocstringMeta.__init__": [],
+    "docstring_parser.numpydoc._KVSection._parse_item": [],
+    "docstring_parser.numpydoc._KVSection.parse": [
+      {
+        "dest": "docstring_parser.numpydoc._pairwise",
+        "line_no": 95
+      },
+      {
+        "dest": "inspect.cleandoc",
+        "line_no": 100
+      },
+      {
+        "dest": "docstring_parser.numpydoc._KVSection._parse_item",
+        "line_no": 99
+      },
+      {
+        "dest": "docstring_parser.numpydoc.RaisesSection._parse_item",
+        "line_no": 99
+      },
+      {
+        "dest": "docstring_parser.numpydoc.ParamSection._parse_item",
+        "line_no": 99
+      },
+      {
+        "dest": "docstring_parser.numpydoc.ReturnsSection._parse_item",
+        "line_no": 99
+      }
+    ],
+    "inspect.cleandoc": [],
+    "docstring_parser.numpydoc.RaisesSection._parse_item": [
+      {
+        "dest": "docstring_parser.numpydoc._clean_str",
+        "line_no": 168
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 169
+      },
+      {
+        "dest": "docstring_parser.common.DocstringRaises.__init__",
+        "line_no": 166
+      }
+    ],
+    "docstring_parser.numpydoc.ParamSection._parse_item": [
+      {
+        "dest": "<builtin>.len",
+        "line_no": 142
+      },
+      {
+        "dest": "docstring_parser.numpydoc._clean_str",
+        "line_no": 149
+      },
+      {
+        "dest": "docstring_parser.common.DocstringParam.__init__",
+        "line_no": 147
+      }
+    ],
+    "docstring_parser.numpydoc.ReturnsSection._parse_item": [
+      {
+        "dest": "docstring_parser.numpydoc._clean_str",
+        "line_no": 194
+      },
+      {
+        "dest": "docstring_parser.common.DocstringReturns.__init__",
+        "line_no": 192
+      }
+    ],
+    "docstring_parser.numpydoc._SphinxSection.title_pattern": [],
+    "docstring_parser.common.DocstringParam.__init__": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 58
+      }
+    ],
+    "docstring_parser.common.DocstringRaises.__init__": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 93
+      }
+    ],
+    "docstring_parser.common.DocstringReturns.__init__": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 77
+      }
+    ],
+    "docstring_parser.numpydoc.DeprecationSection.parse": [
+      {
+        "dest": "inspect.cleandoc",
+        "line_no": 214
+      },
+      {
+        "dest": "docstring_parser.numpydoc._clean_str",
+        "line_no": 214
+      },
+      {
+        "dest": "docstring_parser.numpydoc._clean_str",
+        "line_no": 217
+      },
+      {
+        "dest": "docstring_parser.common.DocstringDeprecated.__init__",
+        "line_no": 216
+      }
+    ],
+    "docstring_parser.common.DocstringDeprecated.__init__": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 108
+      }
+    ],
+    "docstring_parser.numpydoc.NumpydocParser.__init__": [
+      {
+        "dest": "docstring_parser.numpydoc.NumpydocParser._setup",
+        "line_no": 264
+      }
+    ],
+    "docstring_parser.numpydoc.NumpydocParser._setup": [
+      {
+        "dest": "re.compile",
+        "line_no": 267
+      }
+    ],
+    "docstring_parser.numpydoc.NumpydocParser.add_section": [
+      {
+        "dest": "docstring_parser.numpydoc.NumpydocParser._setup",
+        "line_no": 279
+      }
+    ],
+    "docstring_parser.numpydoc.NumpydocParser.parse": [
+      {
+        "dest": "docstring_parser.common.Docstring.__init__",
+        "line_no": 286
+      },
+      {
+        "dest": "inspect.cleandoc",
+        "line_no": 291
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 305
+      },
+      {
+        "dest": "docstring_parser.numpydoc._pairwise",
+        "line_no": 313
+      },
+      {
+        "dest": "<builtin>.next",
+        "line_no": 314
+      }
+    ],
+    "docstring_parser.common.Docstring.__init__": [],
+    "docstring_parser.numpydoc.parse": [
+      {
+        "dest": "docstring_parser.numpydoc.NumpydocParser.__init__",
+        "line_no": 331
+      },
+      {
+        "dest": "docstring_parser.numpydoc.NumpydocParser.parse",
+        "line_no": 331
+      }
+    ],
+    "docstring_parser": [],
+    "docstring_parser.parser": [],
+    "docstring_parser.parser.parse": [
+      {
+        "dest": "<builtin>.sorted",
+        "line_no": 25
+      }
+    ],
+    "docstring_parser.parser.parse.<lambda1>": [
+      {
+        "dest": "<builtin>.len",
+        "line_no": 25
+      }
+    ],
+    "<builtin>.sorted": [],
+    "docstring_parser.common": [],
+    "<builtin>.super": [],
+    "docstring_parser.common.Docstring.params": [
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 126
+      }
+    ],
+    "<builtin>.isinstance": [],
+    "docstring_parser.common.Docstring.raises": [
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 131
+      }
+    ],
+    "docstring_parser.common.Docstring.returns": [
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 137
+      }
+    ],
+    "docstring_parser.common.Docstring.deprecation": [
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 144
+      }
+    ],
+    "docstring_parser.styles": [],
+    "docstring_parser.google": [
+      {
+        "dest": "re.compile",
+        "line_no": 40
+      },
+      {
+        "dest": "re.compile",
+        "line_no": 41
+      },
+      {
+        "dest": "re.compile",
+        "line_no": 42
+      }
+    ],
+    "docstring_parser.google.GoogleParser.__init__": [
+      {
+        "dest": "docstring_parser.google.GoogleParser._setup",
+        "line_no": 73
+      }
+    ],
+    "docstring_parser.google.GoogleParser._setup": [
+      {
+        "dest": "re.compile",
+        "line_no": 80
+      }
+    ],
+    "docstring_parser.google.GoogleParser._build_meta": [
+      {
+        "dest": "docstring_parser.google.GoogleParser._build_single_meta",
+        "line_no": 103
+      },
+      {
+        "dest": "inspect.cleandoc",
+        "line_no": 111
+      },
+      {
+        "dest": "docstring_parser.google.GoogleParser._build_multi_meta",
+        "line_no": 114
+      }
+    ],
+    "docstring_parser.google.GoogleParser._build_single_meta": [
+      {
+        "dest": "docstring_parser.common.DocstringReturns.__init__",
+        "line_no": 118
+      },
+      {
+        "dest": "docstring_parser.common.DocstringRaises.__init__",
+        "line_no": 125
+      },
+      {
+        "dest": "docstring_parser.common.DocstringMeta.__init__",
+        "line_no": 130
+      }
+    ],
+    "docstring_parser.google.GoogleParser._build_multi_meta": [
+      {
+        "dest": "docstring_parser.common.DocstringParam.__init__",
+        "line_no": 154
+      },
+      {
+        "dest": "docstring_parser.common.DocstringReturns.__init__",
+        "line_no": 163
+      },
+      {
+        "dest": "docstring_parser.common.DocstringRaises.__init__",
+        "line_no": 170
+      },
+      {
+        "dest": "docstring_parser.common.DocstringMeta.__init__",
+        "line_no": 173
+      }
+    ],
+    "docstring_parser.google.GoogleParser.add_section": [
+      {
+        "dest": "docstring_parser.google.GoogleParser._setup",
+        "line_no": 182
+      }
+    ],
+    "docstring_parser.google.GoogleParser.parse": [
+      {
+        "dest": "docstring_parser.common.Docstring.__init__",
+        "line_no": 189
+      },
+      {
+        "dest": "inspect.cleandoc",
+        "line_no": 194
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 208
+      },
+      {
+        "dest": "<builtin>.list",
+        "line_no": 217
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 221
+      },
+      {
+        "dest": "<builtin>.range",
+        "line_no": 221
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 223
+      },
+      {
+        "dest": "collections.OrderedDict",
+        "line_no": 225
+      },
+      {
+        "dest": "<builtin>.enumerate",
+        "line_no": 226
+      },
+      {
+        "dest": "re.search",
+        "line_no": 237
+      },
+      {
+        "dest": "inspect.cleandoc",
+        "line_no": 247
+      },
+      {
+        "dest": "docstring_parser.google.GoogleParser._build_meta",
+        "line_no": 248
+      },
+      {
+        "dest": "re.finditer",
+        "line_no": 253
+      },
+      {
+        "dest": "<builtin>.list",
+        "line_no": 253
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 259
+      },
+      {
+        "dest": "<builtin>.range",
+        "line_no": 259
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 261
+      },
+      {
+        "dest": "<builtin>.enumerate",
+        "line_no": 262
+      },
+      {
+        "dest": "docstring_parser.google.GoogleParser._build_meta",
+        "line_no": 264
+      }
+    ],
+    "<builtin>.list": [],
+    "<builtin>.range": [],
+    "collections.OrderedDict": [],
+    "<builtin>.enumerate": [],
+    "re.search": [],
+    "re.finditer": [],
+    "docstring_parser.google.parse": [
+      {
+        "dest": "docstring_parser.google.GoogleParser.__init__",
+        "line_no": 274
+      },
+      {
+        "dest": "docstring_parser.google.GoogleParser.parse",
+        "line_no": 274
+      }
+    ],
+    "docstring_parser.rest": [],
+    "docstring_parser.rest._build_meta": [
+      {
+        "dest": "<builtin>.len",
+        "line_no": 25
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 32
+      },
+      {
+        "dest": "re.match",
+        "line_no": 41
+      },
+      {
+        "dest": "docstring_parser.common.DocstringParam.__init__",
+        "line_no": 44
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 54
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 56
+      },
+      {
+        "dest": "docstring_parser.common.DocstringReturns.__init__",
+        "line_no": 63
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 71
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 73
+      },
+      {
+        "dest": "docstring_parser.common.DocstringRaises.__init__",
+        "line_no": 79
+      },
+      {
+        "dest": "docstring_parser.common.DocstringMeta.__init__",
+        "line_no": 83
+      }
+    ],
+    "re.match": [],
+    "docstring_parser.rest.parse": [
+      {
+        "dest": "docstring_parser.common.Docstring.__init__",
+        "line_no": 91
+      },
+      {
+        "dest": "inspect.cleandoc",
+        "line_no": 95
+      },
+      {
+        "dest": "re.search",
+        "line_no": 96
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 106
+      },
+      {
+        "dest": "re.finditer",
+        "line_no": 112
+      },
+      {
+        "dest": "inspect.cleandoc",
+        "line_no": 128
+      },
+      {
+        "dest": "docstring_parser.rest._build_meta",
+        "line_no": 130
+      }
+    ],
+    "docstring_parser.tests.test_parser": [],
+    "docstring_parser.tests.test_parser.test_rest": [
+      {
+        "dest": "docstring_parser.parser.parse",
+        "line_no": 5
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 28
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 38
+      }
+    ],
+    "docstring_parser.tests.test_parser.test_google": [
+      {
+        "dest": "docstring_parser.parser.parse",
+        "line_no": 47
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 74
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 84
+      }
+    ],
+    "docstring_parser.tests.test_parser.test_numpydoc": [
+      {
+        "dest": "docstring_parser.parser.parse",
+        "line_no": 93
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 142
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 157
+      }
+    ],
+    "docstring_parser.tests": [],
+    "docstring_parser.tests.test_numpydoc": [
+      {
+        "dest": "pytest.mark.parametrize",
+        "line_no": 7
+      },
+      {
+        "dest": "pytest.mark.parametrize",
+        "line_no": 24
+      },
+      {
+        "dest": "pytest.mark.parametrize",
+        "line_no": 100
+      },
+      {
+        "dest": "pytest.mark.parametrize",
+        "line_no": 626
+      }
+    ],
+    "pytest.mark.parametrize": [],
+    "docstring_parser.tests.test_numpydoc.test_short_description": [
+      {
+        "dest": "docstring_parser.numpydoc.parse",
+        "line_no": 18
+      }
+    ],
+    "docstring_parser.tests.test_numpydoc.test_long_description": [
+      {
+        "dest": "docstring_parser.numpydoc.parse",
+        "line_no": 93
+      }
+    ],
+    "docstring_parser.tests.test_numpydoc.test_meta_newlines": [
+      {
+        "dest": "docstring_parser.numpydoc.parse",
+        "line_no": 194
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 199
+      }
+    ],
+    "docstring_parser.tests.test_numpydoc.test_meta_with_multiline_description": [
+      {
+        "dest": "docstring_parser.numpydoc.parse",
+        "line_no": 203
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 217
+      }
+    ],
+    "docstring_parser.tests.test_numpydoc.test_default_args": [
+      {
+        "dest": "docstring_parser.numpydoc.parse",
+        "line_no": 224
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 250
+      }
+    ],
+    "docstring_parser.tests.test_numpydoc.test_multiple_meta": [
+      {
+        "dest": "docstring_parser.numpydoc.parse",
+        "line_no": 261
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 282
+      }
+    ],
+    "docstring_parser.tests.test_numpydoc.test_params": [
+      {
+        "dest": "docstring_parser.numpydoc.parse",
+        "line_no": 295
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 296
+      },
+      {
+        "dest": "docstring_parser.numpydoc.parse",
+        "line_no": 298
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 314
+      },
+      {
+        "dest": "docstring_parser.numpydoc.parse",
+        "line_no": 332
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 345
+      }
+    ],
+    "docstring_parser.tests.test_numpydoc.test_attributes": [
+      {
+        "dest": "docstring_parser.numpydoc.parse",
+        "line_no": 357
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 358
+      },
+      {
+        "dest": "docstring_parser.numpydoc.parse",
+        "line_no": 360
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 376
+      },
+      {
+        "dest": "docstring_parser.numpydoc.parse",
+        "line_no": 394
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 407
+      }
+    ],
+    "docstring_parser.tests.test_numpydoc.test_other_params": [
+      {
+        "dest": "docstring_parser.numpydoc.parse",
+        "line_no": 419
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 430
+      }
+    ],
+    "docstring_parser.tests.test_numpydoc.test_yields": [
+      {
+        "dest": "docstring_parser.numpydoc.parse",
+        "line_no": 447
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 456
+      }
+    ],
+    "docstring_parser.tests.test_numpydoc.test_returns": [
+      {
+        "dest": "docstring_parser.numpydoc.parse",
+        "line_no": 465
+      },
+      {
+        "dest": "docstring_parser.numpydoc.parse",
+        "line_no": 472
+      },
+      {
+        "dest": "docstring_parser.numpydoc.parse",
+        "line_no": 484
+      },
+      {
+        "dest": "docstring_parser.numpydoc.parse",
+        "line_no": 497
+      },
+      {
+        "dest": "docstring_parser.numpydoc.parse",
+        "line_no": 509
+      }
+    ],
+    "docstring_parser.tests.test_numpydoc.test_raises": [
+      {
+        "dest": "docstring_parser.numpydoc.parse",
+        "line_no": 529
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 534
+      },
+      {
+        "dest": "docstring_parser.numpydoc.parse",
+        "line_no": 536
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 545
+      }
+    ],
+    "docstring_parser.tests.test_numpydoc.test_warns": [
+      {
+        "dest": "docstring_parser.numpydoc.parse",
+        "line_no": 551
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 560
+      }
+    ],
+    "docstring_parser.tests.test_numpydoc.test_simple_sections": [
+      {
+        "dest": "docstring_parser.numpydoc.parse",
+        "line_no": 566
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 595
+      }
+    ],
+    "docstring_parser.tests.test_numpydoc.test_examples": [
+      {
+        "dest": "docstring_parser.numpydoc.parse",
+        "line_no": 612
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 622
+      }
+    ],
+    "docstring_parser.tests.test_numpydoc.test_deprecation": [
+      {
+        "dest": "docstring_parser.numpydoc.parse",
+        "line_no": 657
+      }
+    ],
+    "docstring_parser.tests.test_rest": [
+      {
+        "dest": "pytest.mark.parametrize",
+        "line_no": 8
+      },
+      {
+        "dest": "pytest.mark.parametrize",
+        "line_no": 25
+      },
+      {
+        "dest": "pytest.mark.parametrize",
+        "line_no": 101
+      }
+    ],
+    "docstring_parser.tests.test_rest.test_short_description": [
+      {
+        "dest": "docstring_parser.rest.parse",
+        "line_no": 19
+      }
+    ],
+    "docstring_parser.tests.test_rest.test_long_description": [
+      {
+        "dest": "docstring_parser.rest.parse",
+        "line_no": 94
+      }
+    ],
+    "docstring_parser.tests.test_rest.test_meta_newlines": [
+      {
+        "dest": "docstring_parser.rest.parse",
+        "line_no": 183
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 188
+      }
+    ],
+    "docstring_parser.tests.test_rest.test_meta_with_multiline_description": [
+      {
+        "dest": "docstring_parser.rest.parse",
+        "line_no": 192
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 203
+      }
+    ],
+    "docstring_parser.tests.test_rest.test_multiple_meta": [
+      {
+        "dest": "docstring_parser.rest.parse",
+        "line_no": 209
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 222
+      }
+    ],
+    "docstring_parser.tests.test_rest.test_meta_with_args": [
+      {
+        "dest": "docstring_parser.rest.parse",
+        "line_no": 232
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 240
+      }
+    ],
+    "docstring_parser.tests.test_rest.test_params": [
+      {
+        "dest": "docstring_parser.rest.parse",
+        "line_no": 246
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 247
+      },
+      {
+        "dest": "docstring_parser.rest.parse",
+        "line_no": 249
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 261
+      }
+    ],
+    "docstring_parser.tests.test_rest.test_returns": [
+      {
+        "dest": "docstring_parser.rest.parse",
+        "line_no": 295
+      },
+      {
+        "dest": "docstring_parser.rest.parse",
+        "line_no": 302
+      },
+      {
+        "dest": "docstring_parser.rest.parse",
+        "line_no": 313
+      }
+    ],
+    "docstring_parser.tests.test_rest.test_yields": [
+      {
+        "dest": "docstring_parser.rest.parse",
+        "line_no": 326
+      },
+      {
+        "dest": "docstring_parser.rest.parse",
+        "line_no": 333
+      },
+      {
+        "dest": "docstring_parser.rest.parse",
+        "line_no": 344
+      }
+    ],
+    "docstring_parser.tests.test_rest.test_raises": [
+      {
+        "dest": "docstring_parser.rest.parse",
+        "line_no": 357
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 362
+      },
+      {
+        "dest": "docstring_parser.rest.parse",
+        "line_no": 364
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 370
+      },
+      {
+        "dest": "docstring_parser.rest.parse",
+        "line_no": 374
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 380
+      }
+    ],
+    "docstring_parser.tests.test_rest.test_broken_meta": [
+      {
+        "dest": "pytest.raises",
+        "line_no": 386
+      },
+      {
+        "dest": "docstring_parser.rest.parse",
+        "line_no": 387
+      },
+      {
+        "dest": "pytest.raises",
+        "line_no": 389
+      },
+      {
+        "dest": "docstring_parser.rest.parse",
+        "line_no": 390
+      },
+      {
+        "dest": "pytest.raises",
+        "line_no": 392
+      },
+      {
+        "dest": "docstring_parser.rest.parse",
+        "line_no": 393
+      },
+      {
+        "dest": "pytest.raises",
+        "line_no": 395
+      },
+      {
+        "dest": "docstring_parser.rest.parse",
+        "line_no": 396
+      },
+      {
+        "dest": "docstring_parser.rest.parse",
+        "line_no": 399
+      }
+    ],
+    "pytest.raises": [],
+    "docstring_parser.tests.test_google": [
+      {
+        "dest": "pytest.mark.parametrize",
+        "line_no": 99
+      },
+      {
+        "dest": "pytest.mark.parametrize",
+        "line_no": 116
+      },
+      {
+        "dest": "pytest.mark.parametrize",
+        "line_no": 192
+      }
+    ],
+    "docstring_parser.tests.test_google.test_google_parser": [
+      {
+        "dest": "docstring_parser.google.GoogleParser.__init__",
+        "line_no": 9
+      },
+      {
+        "dest": "docstring_parser.google.parse",
+        "line_no": 10
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 18
+      },
+      {
+        "dest": "docstring_parser.google.GoogleParser.__init__",
+        "line_no": 20
+      },
+      {
+        "dest": "docstring_parser.google.GoogleParser.parse",
+        "line_no": 29
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 50
+      },
+      {
+        "dest": "docstring_parser.google.GoogleParser.add_section",
+        "line_no": 64
+      },
+      {
+        "dest": "docstring_parser.google.GoogleParser.parse",
+        "line_no": 65
+      },
+      {
+        "dest": "docstring_parser.google.GoogleParser.parse",
+        "line_no": 76
+      },
+      {
+        "dest": "docstring_parser.google.GoogleParser.parse",
+        "line_no": 86
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 94
+      }
+    ],
+    "docstring_parser.tests.test_google.test_short_description": [
+      {
+        "dest": "docstring_parser.google.parse",
+        "line_no": 110
+      }
+    ],
+    "docstring_parser.tests.test_google.test_long_description": [
+      {
+        "dest": "docstring_parser.google.parse",
+        "line_no": 185
+      }
+    ],
+    "docstring_parser.tests.test_google.test_meta_newlines": [
+      {
+        "dest": "docstring_parser.google.parse",
+        "line_no": 280
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 285
+      }
+    ],
+    "docstring_parser.tests.test_google.test_meta_with_multiline_description": [
+      {
+        "dest": "docstring_parser.google.parse",
+        "line_no": 289
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 301
+      }
+    ],
+    "docstring_parser.tests.test_google.test_default_args": [
+      {
+        "dest": "docstring_parser.google.parse",
+        "line_no": 308
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 325
+      }
+    ],
+    "docstring_parser.tests.test_google.test_multiple_meta": [
+      {
+        "dest": "docstring_parser.google.parse",
+        "line_no": 336
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 352
+      }
+    ],
+    "docstring_parser.tests.test_google.test_params": [
+      {
+        "dest": "docstring_parser.google.parse",
+        "line_no": 365
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 366
+      },
+      {
+        "dest": "docstring_parser.google.parse",
+        "line_no": 368
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 379
+      },
+      {
+        "dest": "docstring_parser.google.parse",
+        "line_no": 397
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 407
+      }
+    ],
+    "docstring_parser.tests.test_google.test_attributes": [
+      {
+        "dest": "docstring_parser.google.parse",
+        "line_no": 419
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 420
+      },
+      {
+        "dest": "docstring_parser.google.parse",
+        "line_no": 422
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 433
+      },
+      {
+        "dest": "docstring_parser.google.parse",
+        "line_no": 451
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 461
+      }
+    ],
+    "docstring_parser.tests.test_google.test_returns": [
+      {
+        "dest": "docstring_parser.google.parse",
+        "line_no": 473
+      },
+      {
+        "dest": "docstring_parser.google.parse",
+        "line_no": 480
+      },
+      {
+        "dest": "docstring_parser.google.parse",
+        "line_no": 491
+      },
+      {
+        "dest": "docstring_parser.google.parse",
+        "line_no": 502
+      },
+      {
+        "dest": "docstring_parser.google.parse",
+        "line_no": 513
+      },
+      {
+        "dest": "docstring_parser.google.parse",
+        "line_no": 523
+      },
+      {
+        "dest": "docstring_parser.google.parse",
+        "line_no": 534
+      }
+    ],
+    "docstring_parser.tests.test_google.test_raises": [
+      {
+        "dest": "docstring_parser.google.parse",
+        "line_no": 552
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 557
+      },
+      {
+        "dest": "docstring_parser.google.parse",
+        "line_no": 559
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 566
+      }
+    ],
+    "docstring_parser.tests.test_google.test_examples": [
+      {
+        "dest": "docstring_parser.google.parse",
+        "line_no": 572
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 583
+      }
+    ],
+    "docstring_parser.tests.test_google.test_broken_meta": [
+      {
+        "dest": "pytest.raises",
+        "line_no": 589
+      },
+      {
+        "dest": "docstring_parser.google.parse",
+        "line_no": 590
+      },
+      {
+        "dest": "pytest.raises",
+        "line_no": 592
+      },
+      {
+        "dest": "docstring_parser.google.parse",
+        "line_no": 593
+      }
+    ]
+  },
+  "class_mro": {
+    "docstring_parser.common.ParseError": [
+      "docstring_parser.common.ParseError"
+    ],
+    "docstring_parser.common.DocstringMeta": [
+      "docstring_parser.common.DocstringMeta"
+    ],
+    "docstring_parser.common.DocstringParam": [
+      "docstring_parser.common.DocstringParam",
+      "docstring_parser.common.DocstringMeta"
+    ],
+    "docstring_parser.common.DocstringReturns": [
+      "docstring_parser.common.DocstringReturns",
+      "docstring_parser.common.DocstringMeta"
+    ],
+    "docstring_parser.common.DocstringRaises": [
+      "docstring_parser.common.DocstringRaises",
+      "docstring_parser.common.DocstringMeta"
+    ],
+    "docstring_parser.common.DocstringDeprecated": [
+      "docstring_parser.common.DocstringDeprecated",
+      "docstring_parser.common.DocstringMeta"
+    ],
+    "docstring_parser.common.Docstring": [
+      "docstring_parser.common.Docstring"
+    ],
+    "docstring_parser.google.SectionType": [
+      "docstring_parser.google.SectionType",
+      "enum.IntEnum"
+    ],
+    "docstring_parser.google.Section": [
+      "docstring_parser.google.Section"
+    ],
+    "docstring_parser.google.GoogleParser": [
+      "docstring_parser.google.GoogleParser"
+    ],
+    "docstring_parser.styles.Style": [
+      "docstring_parser.styles.Style",
+      "enum.Enum"
+    ],
+    "docstring_parser.numpydoc.Section": [
+      "docstring_parser.numpydoc.Section"
+    ],
+    "docstring_parser.numpydoc._KVSection": [
+      "docstring_parser.numpydoc._KVSection",
+      "docstring_parser.numpydoc.Section"
+    ],
+    "docstring_parser.numpydoc._SphinxSection": [
+      "docstring_parser.numpydoc._SphinxSection",
+      "docstring_parser.numpydoc.Section"
+    ],
+    "docstring_parser.numpydoc.ParamSection": [
+      "docstring_parser.numpydoc.ParamSection",
+      "docstring_parser.numpydoc._KVSection",
+      "docstring_parser.numpydoc.Section"
+    ],
+    "docstring_parser.numpydoc.RaisesSection": [
+      "docstring_parser.numpydoc.RaisesSection",
+      "docstring_parser.numpydoc._KVSection",
+      "docstring_parser.numpydoc.Section"
+    ],
+    "docstring_parser.numpydoc.ReturnsSection": [
+      "docstring_parser.numpydoc.ReturnsSection",
+      "docstring_parser.numpydoc._KVSection",
+      "docstring_parser.numpydoc.Section"
+    ],
+    "docstring_parser.numpydoc.YieldsSection": [
+      "docstring_parser.numpydoc.YieldsSection",
+      "docstring_parser.numpydoc.ReturnsSection",
+      "docstring_parser.numpydoc._KVSection",
+      "docstring_parser.numpydoc.Section"
+    ],
+    "docstring_parser.numpydoc.DeprecationSection": [
+      "docstring_parser.numpydoc.DeprecationSection",
+      "docstring_parser.numpydoc._SphinxSection",
+      "docstring_parser.numpydoc.Section"
+    ],
+    "docstring_parser.numpydoc.NumpydocParser": [
+      "docstring_parser.numpydoc.NumpydocParser"
+    ]
+  },
+  "imports": {
+    "docstring_parser.numpydoc": [
+      "docstring_parser",
+      "itertools",
+      "re",
+      "typing",
+      "inspect",
+      "docstring_parser.common"
+    ],
+    "docstring_parser": [
+      "docstring_parser.parser"
+    ],
+    "docstring_parser.common": [
+      "typing"
+    ],
+    "docstring_parser.parser": [
+      "docstring_parser.common",
+      "docstring_parser.styles"
+    ],
+    "docstring_parser.styles": [
+      "docstring_parser.google",
+      "enum",
+      "docstring_parser.numpydoc",
+      "docstring_parser.rest"
+    ],
+    "docstring_parser.google": [
+      "re",
+      "collections",
+      "typing",
+      "inspect",
+      "enum"
+    ],
+    "docstring_parser.rest": [
+      "re",
+      "typing",
+      "inspect"
+    ],
+    "docstring_parser.tests.test_parser": [
+      "docstring_parser.parser",
+      "docstring_parser"
+    ],
+    "docstring_parser.tests": [],
+    "docstring_parser.tests.test_numpydoc": [
+      "docstring_parser.numpydoc",
+      "docstring_parser",
+      "typing",
+      "pytest"
+    ],
+    "pytest": [],
+    "docstring_parser.tests.test_rest": [
+      "docstring_parser",
+      "typing",
+      "docstring_parser.common",
+      "docstring_parser.rest",
+      "pytest"
+    ],
+    "docstring_parser.tests.test_google": [
+      "docstring_parser.google",
+      "docstring_parser",
+      "typing",
+      "docstring_parser.common",
+      "pytest"
+    ]
+  }
+}

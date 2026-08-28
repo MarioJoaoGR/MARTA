@@ -1,0 +1,45 @@
+
+import pytest
+from unittest.mock import patch
+from ansible.galaxy.api import GalaxyAPI
+
+
+"""
+[TEST4PY QUARANTINE REPORT]
+Reason: Test failed assertions or crashed.
+Error Log:
+============================= test session starts ==============================
+platform linux -- Python 3.10.20, pytest-8.3.2, pluggy-1.6.0
+rootdir: /opt/marta/baselines/Results_MARTA/ansible/Test4DT_tests_deepseek-coder-v2_16b
+plugins: metadata-3.1.1, json-report-1.5.0, anyio-4.12.1
+collected 2 items
+
+../../../../../opt/marta/baselines/Results_MARTA/ansible/Test4DT_tests_deepseek-coder-v2_16b/test_lib_ansible_galaxy_api_GalaxyAPI_available_api_versions_0.py F [ 50%]
+F                                                                        [100%]
+
+=================================== FAILURES ===================================
+______________________________ test_valid_inputs _______________________________
+
+    def test_valid_inputs():
+        with patch('ansible.galaxy.api.GalaxyAPI.__init__', return_value=None):
+            api_client = GalaxyAPI('default_galaxy', 'default_name', 'https://api.ansiblegalaxy.com')
+>           assert api_client.galaxy == 'default_galaxy'
+E           AttributeError: 'GalaxyAPI' object has no attribute 'galaxy'
+
+/opt/marta/baselines/Results_MARTA/ansible/Test4DT_tests_deepseek-coder-v2_16b/test_lib_ansible_galaxy_api_GalaxyAPI_available_api_versions_0.py:9: AttributeError
+_______________________________ test_edge_cases ________________________________
+
+    def test_edge_cases():
+        with patch('ansible.galaxy.api.GalaxyAPI.__init__', return_value=None):
+            api_client = GalaxyAPI(None, None, 'https://example.com', validate_certs=False)
+>           assert api_client.api_server == 'https://example.com'
+E           AttributeError: 'GalaxyAPI' object has no attribute 'api_server'
+
+/opt/marta/baselines/Results_MARTA/ansible/Test4DT_tests_deepseek-coder-v2_16b/test_lib_ansible_galaxy_api_GalaxyAPI_available_api_versions_0.py:14: AttributeError
+--------------------------------- JSON report ----------------------------------
+report saved to: pytest_report_deepseek-coder-v2_16b.json
+=========================== short test summary info ============================
+FAILED ../../../../../opt/marta/baselines/Results_MARTA/ansible/Test4DT_tests_deepseek-coder-v2_16b/test_lib_ansible_galaxy_api_GalaxyAPI_available_api_versions_0.py::test_valid_inputs
+FAILED ../../../../../opt/marta/baselines/Results_MARTA/ansible/Test4DT_tests_deepseek-coder-v2_16b/test_lib_ansible_galaxy_api_GalaxyAPI_available_api_versions_0.py::test_edge_cases
+============================== 2 failed in 0.46s ===============================
+"""

@@ -1,0 +1,113 @@
+
+import pytest
+from httpie.cli.argparser import HTTPieArgumentParser
+import io
+
+
+
+"""
+[TEST4PY QUARANTINE REPORT]
+Reason: Test failed assertions or crashed.
+Error Log:
+============================= test session starts ==============================
+platform linux -- Python 3.10.20, pytest-8.3.2, pluggy-1.6.0
+rootdir: /opt/marta/baselines/Results_MARTA/httpie/Test4DT_tests_deepseek-coder-v2_16b
+plugins: metadata-3.1.1, json-report-1.5.0, anyio-4.12.1
+collected 3 items
+
+../../../../../opt/marta/baselines/Results_MARTA/httpie/Test4DT_tests_deepseek-coder-v2_16b/test_httpie_cli_argparser_HTTPieArgumentParser__body_from_file_0.py F [ 33%]
+FF                                                                       [100%]
+
+=================================== FAILURES ===================================
+_______________________________ test_valid_input _______________________________
+
+    def test_valid_input():
+        valid_data = "valid content"
+        fake_file = io.StringIO(valid_data)
+    
+        parser = HTTPieArgumentParser()
+        with pytest.raises(SystemExit):
+>           parser._body_from_file(fake_file)
+
+/opt/marta/baselines/Results_MARTA/httpie/Test4DT_tests_deepseek-coder-v2_16b/test_httpie_cli_argparser_HTTPieArgumentParser__body_from_file_0.py:12: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = HTTPieArgumentParser(prog='__main__.py', usage=None, description=None, formatter_class=<class 'httpie.cli.argparser.HTTPieHelpFormatter'>, conflict_handler='error', add_help=False)
+fd = <_io.StringIO object at 0x7f25c0ab1f30>
+
+    def _body_from_file(self, fd):
+        """There can only be one source of request data.
+    
+        Bytes are always read.
+    
+        """
+>       if self.args.data or self.args.files:
+E       AttributeError: 'NoneType' object has no attribute 'data'
+
+/opt/marta/baselines/codamosa/replication/test-apps/httpie/httpie/cli/argparser.py:291: AttributeError
+______________________________ test_missing_lines ______________________________
+
+    def test_missing_lines():
+        invalid_data = ""  # No content, should trigger an error
+        fake_file = io.StringIO(invalid_data)
+    
+        parser = HTTPieArgumentParser()
+        with pytest.raises(SystemExit):
+>           parser._body_from_file(fake_file)
+
+/opt/marta/baselines/Results_MARTA/httpie/Test4DT_tests_deepseek-coder-v2_16b/test_httpie_cli_argparser_HTTPieArgumentParser__body_from_file_0.py:20: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = HTTPieArgumentParser(prog='__main__.py', usage=None, description=None, formatter_class=<class 'httpie.cli.argparser.HTTPieHelpFormatter'>, conflict_handler='error', add_help=False)
+fd = <_io.StringIO object at 0x7f25c0273eb0>
+
+    def _body_from_file(self, fd):
+        """There can only be one source of request data.
+    
+        Bytes are always read.
+    
+        """
+>       if self.args.data or self.args.files:
+E       AttributeError: 'NoneType' object has no attribute 'data'
+
+/opt/marta/baselines/codamosa/replication/test-apps/httpie/httpie/cli/argparser.py:291: AttributeError
+_____________________________ test_error_handling ______________________________
+
+    def test_error_handling():
+        mixed_data = "key=value"  # Mixed key-value and file content, should trigger an error
+        fake_file = io.StringIO(mixed_data)
+    
+        parser = HTTPieArgumentParser()
+        with pytest.raises(SystemExit):
+>           parser._body_from_file(fake_file)
+
+/opt/marta/baselines/Results_MARTA/httpie/Test4DT_tests_deepseek-coder-v2_16b/test_httpie_cli_argparser_HTTPieArgumentParser__body_from_file_0.py:28: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = HTTPieArgumentParser(prog='__main__.py', usage=None, description=None, formatter_class=<class 'httpie.cli.argparser.HTTPieHelpFormatter'>, conflict_handler='error', add_help=False)
+fd = <_io.StringIO object at 0x7f25c0273be0>
+
+    def _body_from_file(self, fd):
+        """There can only be one source of request data.
+    
+        Bytes are always read.
+    
+        """
+>       if self.args.data or self.args.files:
+E       AttributeError: 'NoneType' object has no attribute 'data'
+
+/opt/marta/baselines/codamosa/replication/test-apps/httpie/httpie/cli/argparser.py:291: AttributeError
+=============================== warnings summary ===============================
+../../../../../opt/marta/baselines/codamosa/replication/test-apps/httpie/httpie/plugins/manager.py:5
+  /opt/marta/baselines/codamosa/replication/test-apps/httpie/httpie/plugins/manager.py:5: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+    from pkg_resources import iter_entry_points
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+--------------------------------- JSON report ----------------------------------
+report saved to: pytest_report_deepseek-coder-v2_16b.json
+=========================== short test summary info ============================
+FAILED ../../../../../opt/marta/baselines/Results_MARTA/httpie/Test4DT_tests_deepseek-coder-v2_16b/test_httpie_cli_argparser_HTTPieArgumentParser__body_from_file_0.py::test_valid_input
+FAILED ../../../../../opt/marta/baselines/Results_MARTA/httpie/Test4DT_tests_deepseek-coder-v2_16b/test_httpie_cli_argparser_HTTPieArgumentParser__body_from_file_0.py::test_missing_lines
+FAILED ../../../../../opt/marta/baselines/Results_MARTA/httpie/Test4DT_tests_deepseek-coder-v2_16b/test_httpie_cli_argparser_HTTPieArgumentParser__body_from_file_0.py::test_error_handling
+========================= 3 failed, 1 warning in 0.46s =========================
+"""

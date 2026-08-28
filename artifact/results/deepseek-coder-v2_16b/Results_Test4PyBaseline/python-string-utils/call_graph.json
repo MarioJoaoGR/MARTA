@@ -1,0 +1,1047 @@
+{
+  "cg_output": {
+    "string_utils._regex": [
+      {
+        "dest": "re.compile",
+        "line_no": 7
+      },
+      {
+        "dest": "re.compile",
+        "line_no": 21
+      },
+      {
+        "dest": "re.compile",
+        "line_no": 23
+      },
+      {
+        "dest": "re.compile",
+        "line_no": 25
+      },
+      {
+        "dest": "re.compile",
+        "line_no": 29
+      },
+      {
+        "dest": "re.compile",
+        "line_no": 31
+      },
+      {
+        "dest": "re.compile",
+        "line_no": 33
+      },
+      {
+        "dest": "re.compile",
+        "line_no": 35
+      },
+      {
+        "dest": "re.compile",
+        "line_no": 37
+      },
+      {
+        "dest": "re.compile",
+        "line_no": 39
+      },
+      {
+        "dest": "re.compile",
+        "line_no": 41
+      },
+      {
+        "dest": "re.compile",
+        "line_no": 43
+      },
+      {
+        "dest": "re.compile",
+        "line_no": 46
+      },
+      {
+        "dest": "re.compile",
+        "line_no": 47
+      },
+      {
+        "dest": "re.compile",
+        "line_no": 48
+      },
+      {
+        "dest": "re.compile",
+        "line_no": 49
+      },
+      {
+        "dest": "re.compile",
+        "line_no": 50
+      },
+      {
+        "dest": "re.compile",
+        "line_no": 51
+      },
+      {
+        "dest": "re.compile",
+        "line_no": 54
+      },
+      {
+        "dest": "re.compile",
+        "line_no": 56
+      },
+      {
+        "dest": "re.compile",
+        "line_no": 58
+      },
+      {
+        "dest": "re.compile",
+        "line_no": 60
+      },
+      {
+        "dest": "re.compile",
+        "line_no": 62
+      },
+      {
+        "dest": "re.compile",
+        "line_no": 64
+      },
+      {
+        "dest": "re.compile",
+        "line_no": 66
+      },
+      {
+        "dest": "re.compile",
+        "line_no": 71
+      },
+      {
+        "dest": "re.compile",
+        "line_no": 76
+      },
+      {
+        "dest": "re.compile",
+        "line_no": 80
+      },
+      {
+        "dest": "re.compile",
+        "line_no": 87
+      },
+      {
+        "dest": "re.compile",
+        "line_no": 100
+      },
+      {
+        "dest": "re.compile",
+        "line_no": 114
+      },
+      {
+        "dest": "re.compile",
+        "line_no": 117
+      },
+      {
+        "dest": "re.compile",
+        "line_no": 119
+      },
+      {
+        "dest": "re.compile",
+        "line_no": 137
+      },
+      {
+        "dest": "re.compile",
+        "line_no": 145
+      },
+      {
+        "dest": "re.compile",
+        "line_no": 153
+      },
+      {
+        "dest": "re.compile",
+        "line_no": 155
+      },
+      {
+        "dest": "re.compile",
+        "line_no": 157
+      },
+      {
+        "dest": "re.compile",
+        "line_no": 159
+      }
+    ],
+    "re.compile": [],
+    "string_utils": [],
+    "string_utils.manipulation": [],
+    "string_utils.manipulation.__RomanNumbers.__encode_digit": [],
+    "string_utils.manipulation.__RomanNumbers.encode": [
+      {
+        "dest": "<builtin>.str",
+        "line_no": 81
+      },
+      {
+        "dest": "string_utils.validation.is_integer",
+        "line_no": 83
+      },
+      {
+        "dest": "<builtin>.ValueError",
+        "line_no": 84
+      },
+      {
+        "dest": "<builtin>.int",
+        "line_no": 86
+      },
+      {
+        "dest": "<builtin>.ValueError",
+        "line_no": 89
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 91
+      },
+      {
+        "dest": "<builtin>.range",
+        "line_no": 95
+      },
+      {
+        "dest": "<builtin>.int",
+        "line_no": 97
+      },
+      {
+        "dest": "string_utils.manipulation.__RomanNumbers.__encode_digit",
+        "line_no": 100
+      }
+    ],
+    "<builtin>.str": [],
+    "string_utils.validation.is_integer": [
+      {
+        "dest": "string_utils.validation.is_number",
+        "line_no": 156
+      }
+    ],
+    "<builtin>.ValueError": [],
+    "<builtin>.int": [],
+    "<builtin>.len": [],
+    "<builtin>.range": [],
+    "string_utils.manipulation.__RomanNumbers.__index_for_sign": [
+      {
+        "dest": "<builtin>.enumerate",
+        "line_no": 110
+      },
+      {
+        "dest": "<builtin>.ValueError",
+        "line_no": 114
+      }
+    ],
+    "<builtin>.enumerate": [],
+    "string_utils.manipulation.__RomanNumbers.decode": [
+      {
+        "dest": "string_utils.validation.is_full_string",
+        "line_no": 118
+      },
+      {
+        "dest": "<builtin>.ValueError",
+        "line_no": 119
+      },
+      {
+        "dest": "string_utils.manipulation.reverse",
+        "line_no": 122
+      },
+      {
+        "dest": "string_utils.manipulation.__RomanNumbers.__index_for_sign",
+        "line_no": 133
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 142
+      },
+      {
+        "dest": "<builtin>.int",
+        "line_no": 142
+      }
+    ],
+    "string_utils.validation.is_full_string": [
+      {
+        "dest": "string_utils.validation.is_string",
+        "line_no": 113
+      }
+    ],
+    "string_utils.manipulation.reverse": [
+      {
+        "dest": "string_utils.validation.is_string",
+        "line_no": 294
+      },
+      {
+        "dest": "string_utils.errors.InvalidInputError.__init__",
+        "line_no": 295
+      },
+      {
+        "dest": "string_utils.errors.InvalidInputError.__init__",
+        "line_no": 295
+      }
+    ],
+    "string_utils.manipulation.__StringCompressor.__require_valid_input_and_encoding": [
+      {
+        "dest": "string_utils.validation.is_string",
+        "line_no": 163
+      },
+      {
+        "dest": "string_utils.errors.InvalidInputError.__init__",
+        "line_no": 164
+      },
+      {
+        "dest": "string_utils.errors.InvalidInputError.__init__",
+        "line_no": 164
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 166
+      },
+      {
+        "dest": "<builtin>.ValueError",
+        "line_no": 167
+      },
+      {
+        "dest": "string_utils.validation.is_string",
+        "line_no": 169
+      },
+      {
+        "dest": "<builtin>.ValueError",
+        "line_no": 170
+      }
+    ],
+    "string_utils.validation.is_string": [
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 95
+      }
+    ],
+    "string_utils.errors.InvalidInputError.__init__": [
+      {
+        "dest": "<builtin>.type",
+        "line_no": 15
+      },
+      {
+        "dest": "<builtin>.super",
+        "line_no": 17
+      }
+    ],
+    "string_utils.manipulation.__StringCompressor.compress": [
+      {
+        "dest": "string_utils.manipulation.__StringCompressor.__require_valid_input_and_encoding",
+        "line_no": 174
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 176
+      },
+      {
+        "dest": "<builtin>.ValueError",
+        "line_no": 177
+      },
+      {
+        "dest": "zlib.compress",
+        "line_no": 183
+      },
+      {
+        "dest": "base64.urlsafe_b64encode",
+        "line_no": 188
+      }
+    ],
+    "<builtin>.isinstance": [],
+    "zlib.compress": [],
+    "base64.urlsafe_b64encode": [],
+    "string_utils.manipulation.__StringCompressor.decompress": [
+      {
+        "dest": "string_utils.manipulation.__StringCompressor.__require_valid_input_and_encoding",
+        "line_no": 197
+      },
+      {
+        "dest": "base64.urlsafe_b64decode",
+        "line_no": 201
+      },
+      {
+        "dest": "zlib.decompress",
+        "line_no": 204
+      }
+    ],
+    "base64.urlsafe_b64decode": [],
+    "zlib.decompress": [],
+    "string_utils.manipulation.__StringFormatter.__init__": [
+      {
+        "dest": "string_utils.validation.is_string",
+        "line_no": 214
+      },
+      {
+        "dest": "string_utils.errors.InvalidInputError.__init__",
+        "line_no": 215
+      },
+      {
+        "dest": "string_utils.errors.InvalidInputError.__init__",
+        "line_no": 215
+      }
+    ],
+    "string_utils.manipulation.__StringFormatter.__uppercase_first_char": [],
+    "string_utils.manipulation.__StringFormatter.__remove_duplicates": [],
+    "string_utils.manipulation.__StringFormatter.__uppercase_first_letter_after_sign": [],
+    "string_utils.manipulation.__StringFormatter.__ensure_right_space_only": [],
+    "string_utils.manipulation.__StringFormatter.__ensure_left_space_only": [],
+    "string_utils.manipulation.__StringFormatter.__ensure_spaces_around": [],
+    "string_utils.manipulation.__StringFormatter.__remove_internal_spaces": [],
+    "string_utils.manipulation.__StringFormatter.__fix_saxon_genitive": [],
+    "string_utils.manipulation.__StringFormatter.__placeholder_key": [
+      {
+        "dest": "uuid.uuid4",
+        "line_no": 248
+      }
+    ],
+    "uuid.uuid4": [],
+    "string_utils.manipulation.__StringFormatter.format": [
+      {
+        "dest": "string_utils.manipulation.__StringFormatter.__placeholder_key",
+        "line_no": 256
+      },
+      {
+        "dest": "string_utils.manipulation.__StringFormatter.__placeholder_key",
+        "line_no": 257
+      }
+    ],
+    "string_utils.manipulation.camel_case_to_snake": [
+      {
+        "dest": "string_utils.validation.is_string",
+        "line_no": 315
+      },
+      {
+        "dest": "string_utils.errors.InvalidInputError.__init__",
+        "line_no": 316
+      },
+      {
+        "dest": "string_utils.errors.InvalidInputError.__init__",
+        "line_no": 316
+      },
+      {
+        "dest": "string_utils.validation.is_camel_case",
+        "line_no": 318
+      }
+    ],
+    "string_utils.validation.is_camel_case": [
+      {
+        "dest": "string_utils.validation.is_full_string",
+        "line_no": 305
+      }
+    ],
+    "string_utils.manipulation.camel_case_to_snake.<lambda1>": [],
+    "string_utils.manipulation.snake_case_to_camel": [
+      {
+        "dest": "string_utils.validation.is_string",
+        "line_no": 341
+      },
+      {
+        "dest": "string_utils.errors.InvalidInputError.__init__",
+        "line_no": 342
+      },
+      {
+        "dest": "string_utils.errors.InvalidInputError.__init__",
+        "line_no": 342
+      },
+      {
+        "dest": "string_utils.validation.is_snake_case",
+        "line_no": 344
+      },
+      {
+        "dest": "string_utils.validation.is_full_string",
+        "line_no": 347
+      }
+    ],
+    "string_utils.validation.is_snake_case": [
+      {
+        "dest": "string_utils.validation.is_full_string",
+        "line_no": 329
+      },
+      {
+        "dest": "re.escape",
+        "line_no": 337
+      },
+      {
+        "dest": "re.compile",
+        "line_no": 337
+      }
+    ],
+    "string_utils.manipulation.shuffle": [
+      {
+        "dest": "string_utils.validation.is_string",
+        "line_no": 369
+      },
+      {
+        "dest": "string_utils.errors.InvalidInputError.__init__",
+        "line_no": 370
+      },
+      {
+        "dest": "string_utils.errors.InvalidInputError.__init__",
+        "line_no": 370
+      },
+      {
+        "dest": "<builtin>.list",
+        "line_no": 373
+      },
+      {
+        "dest": "random.shuffle",
+        "line_no": 376
+      }
+    ],
+    "<builtin>.list": [],
+    "random.shuffle": [],
+    "string_utils.manipulation.strip_html": [
+      {
+        "dest": "string_utils.validation.is_string",
+        "line_no": 397
+      },
+      {
+        "dest": "string_utils.errors.InvalidInputError.__init__",
+        "line_no": 398
+      },
+      {
+        "dest": "string_utils.errors.InvalidInputError.__init__",
+        "line_no": 398
+      }
+    ],
+    "string_utils.manipulation.prettify": [
+      {
+        "dest": "string_utils.manipulation.__StringFormatter.__init__",
+        "line_no": 429
+      },
+      {
+        "dest": "string_utils.manipulation.__StringFormatter.format",
+        "line_no": 429
+      }
+    ],
+    "string_utils.manipulation.asciify": [
+      {
+        "dest": "string_utils.validation.is_string",
+        "line_no": 447
+      },
+      {
+        "dest": "string_utils.errors.InvalidInputError.__init__",
+        "line_no": 448
+      },
+      {
+        "dest": "string_utils.errors.InvalidInputError.__init__",
+        "line_no": 448
+      },
+      {
+        "dest": "unicodedata.normalize",
+        "line_no": 451
+      }
+    ],
+    "unicodedata.normalize": [],
+    "string_utils.manipulation.slugify": [
+      {
+        "dest": "string_utils.validation.is_string",
+        "line_no": 485
+      },
+      {
+        "dest": "string_utils.errors.InvalidInputError.__init__",
+        "line_no": 486
+      },
+      {
+        "dest": "string_utils.errors.InvalidInputError.__init__",
+        "line_no": 486
+      },
+      {
+        "dest": "re.escape",
+        "line_no": 495
+      },
+      {
+        "dest": "re.sub",
+        "line_no": 495
+      },
+      {
+        "dest": "string_utils.manipulation.asciify",
+        "line_no": 497
+      }
+    ],
+    "re.escape": [],
+    "re.sub": [],
+    "string_utils.manipulation.booleanize": [
+      {
+        "dest": "string_utils.validation.is_string",
+        "line_no": 523
+      },
+      {
+        "dest": "string_utils.errors.InvalidInputError.__init__",
+        "line_no": 524
+      },
+      {
+        "dest": "string_utils.errors.InvalidInputError.__init__",
+        "line_no": 524
+      }
+    ],
+    "string_utils.manipulation.strip_margin": [
+      {
+        "dest": "string_utils.validation.is_string",
+        "line_no": 551
+      },
+      {
+        "dest": "string_utils.errors.InvalidInputError.__init__",
+        "line_no": 552
+      },
+      {
+        "dest": "string_utils.errors.InvalidInputError.__init__",
+        "line_no": 552
+      }
+    ],
+    "string_utils.manipulation.compress": [
+      {
+        "dest": "string_utils.manipulation.__StringCompressor.compress",
+        "line_no": 595
+      }
+    ],
+    "string_utils.manipulation.decompress": [
+      {
+        "dest": "string_utils.manipulation.__StringCompressor.decompress",
+        "line_no": 608
+      }
+    ],
+    "string_utils.manipulation.roman_encode": [
+      {
+        "dest": "string_utils.manipulation.__RomanNumbers.encode",
+        "line_no": 634
+      }
+    ],
+    "string_utils.manipulation.roman_decode": [
+      {
+        "dest": "string_utils.manipulation.__RomanNumbers.decode",
+        "line_no": 649
+      }
+    ],
+    "string_utils.validation": [],
+    "string_utils.validation.__ISBNChecker.__init__": [
+      {
+        "dest": "string_utils.validation.is_string",
+        "line_no": 44
+      },
+      {
+        "dest": "string_utils.errors.InvalidInputError.__init__",
+        "line_no": 45
+      },
+      {
+        "dest": "string_utils.errors.InvalidInputError.__init__",
+        "line_no": 45
+      }
+    ],
+    "string_utils.validation.__ISBNChecker.is_isbn_13": [
+      {
+        "dest": "<builtin>.len",
+        "line_no": 50
+      },
+      {
+        "dest": "<builtin>.enumerate",
+        "line_no": 54
+      },
+      {
+        "dest": "<builtin>.int",
+        "line_no": 56
+      }
+    ],
+    "string_utils.validation.__ISBNChecker.is_isbn_10": [
+      {
+        "dest": "<builtin>.len",
+        "line_no": 66
+      },
+      {
+        "dest": "<builtin>.enumerate",
+        "line_no": 70
+      },
+      {
+        "dest": "<builtin>.int",
+        "line_no": 71
+      }
+    ],
+    "string_utils.validation.is_number": [
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 135
+      },
+      {
+        "dest": "string_utils.errors.InvalidInputError.__init__",
+        "line_no": 136
+      },
+      {
+        "dest": "string_utils.errors.InvalidInputError.__init__",
+        "line_no": 136
+      }
+    ],
+    "string_utils.validation.is_decimal": [
+      {
+        "dest": "string_utils.validation.is_number",
+        "line_no": 172
+      }
+    ],
+    "string_utils.validation.is_url": [
+      {
+        "dest": "string_utils.validation.is_full_string",
+        "line_no": 193
+      },
+      {
+        "dest": "<builtin>.any",
+        "line_no": 199
+      }
+    ],
+    "<builtin>.any": [],
+    "string_utils.validation.is_email": [
+      {
+        "dest": "string_utils.validation.is_full_string",
+        "line_no": 220
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 220
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 228
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 228
+      },
+      {
+        "dest": "string_utils.validation.is_email",
+        "line_no": 242
+      }
+    ],
+    "string_utils.validation.is_credit_card": [
+      {
+        "dest": "string_utils.validation.is_full_string",
+        "line_no": 269
+      },
+      {
+        "dest": "<builtin>.KeyError",
+        "line_no": 274
+      }
+    ],
+    "<builtin>.KeyError": [],
+    "string_utils.validation.is_json": [
+      {
+        "dest": "string_utils.validation.is_full_string",
+        "line_no": 359
+      },
+      {
+        "dest": "json.loads",
+        "line_no": 361
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 361
+      }
+    ],
+    "json.loads": [],
+    "string_utils.validation.is_uuid": [
+      {
+        "dest": "<builtin>.str",
+        "line_no": 385
+      }
+    ],
+    "string_utils.validation.is_ip_v4": [
+      {
+        "dest": "string_utils.validation.is_full_string",
+        "line_no": 407
+      },
+      {
+        "dest": "<builtin>.int",
+        "line_no": 412
+      }
+    ],
+    "string_utils.validation.is_ip_v6": [
+      {
+        "dest": "string_utils.validation.is_full_string",
+        "line_no": 431
+      }
+    ],
+    "string_utils.validation.is_ip": [
+      {
+        "dest": "string_utils.validation.is_ip_v6",
+        "line_no": 448
+      },
+      {
+        "dest": "string_utils.validation.is_ip_v4",
+        "line_no": 448
+      }
+    ],
+    "string_utils.validation.is_palindrome": [
+      {
+        "dest": "string_utils.validation.is_full_string",
+        "line_no": 471
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 477
+      },
+      {
+        "dest": "<builtin>.range",
+        "line_no": 483
+      }
+    ],
+    "string_utils.validation.is_pangram": [
+      {
+        "dest": "string_utils.validation.is_full_string",
+        "line_no": 510
+      },
+      {
+        "dest": "<builtin>.set",
+        "line_no": 513
+      },
+      {
+        "dest": "<builtin>.set",
+        "line_no": 513
+      }
+    ],
+    "<builtin>.set": [],
+    "string_utils.validation.is_isogram": [
+      {
+        "dest": "string_utils.validation.is_full_string",
+        "line_no": 529
+      },
+      {
+        "dest": "<builtin>.set",
+        "line_no": 529
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 529
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 529
+      }
+    ],
+    "string_utils.validation.is_slug": [
+      {
+        "dest": "string_utils.validation.is_full_string",
+        "line_no": 547
+      },
+      {
+        "dest": "re.escape",
+        "line_no": 550
+      },
+      {
+        "dest": "re.match",
+        "line_no": 552
+      }
+    ],
+    "re.match": [],
+    "string_utils.validation.contains_html": [
+      {
+        "dest": "string_utils.validation.is_string",
+        "line_no": 571
+      },
+      {
+        "dest": "string_utils.errors.InvalidInputError.__init__",
+        "line_no": 572
+      },
+      {
+        "dest": "string_utils.errors.InvalidInputError.__init__",
+        "line_no": 572
+      }
+    ],
+    "string_utils.validation.words_count": [
+      {
+        "dest": "string_utils.validation.is_string",
+        "line_no": 595
+      },
+      {
+        "dest": "string_utils.errors.InvalidInputError.__init__",
+        "line_no": 596
+      },
+      {
+        "dest": "string_utils.errors.InvalidInputError.__init__",
+        "line_no": 596
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 598
+      }
+    ],
+    "string_utils.validation.is_isbn_10": [
+      {
+        "dest": "string_utils.validation.__ISBNChecker.__init__",
+        "line_no": 617
+      },
+      {
+        "dest": "string_utils.validation.__ISBNChecker.is_isbn_10",
+        "line_no": 618
+      }
+    ],
+    "string_utils.validation.is_isbn_13": [
+      {
+        "dest": "string_utils.validation.__ISBNChecker.__init__",
+        "line_no": 637
+      },
+      {
+        "dest": "string_utils.validation.__ISBNChecker.is_isbn_13",
+        "line_no": 638
+      }
+    ],
+    "string_utils.validation.is_isbn": [
+      {
+        "dest": "string_utils.validation.__ISBNChecker.__init__",
+        "line_no": 656
+      },
+      {
+        "dest": "string_utils.validation.__ISBNChecker.is_isbn_13",
+        "line_no": 657
+      },
+      {
+        "dest": "string_utils.validation.__ISBNChecker.is_isbn_10",
+        "line_no": 657
+      }
+    ],
+    "string_utils.errors": [],
+    "<builtin>.type": [],
+    "<builtin>.super": [],
+    "string_utils.generation": [],
+    "string_utils.generation.uuid": [
+      {
+        "dest": "uuid.uuid4",
+        "line_no": 33
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 38
+      }
+    ],
+    "string_utils.generation.random_string": [
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 53
+      },
+      {
+        "dest": "<builtin>.ValueError",
+        "line_no": 54
+      },
+      {
+        "dest": "random.choice",
+        "line_no": 57
+      },
+      {
+        "dest": "<builtin>.range",
+        "line_no": 57
+      }
+    ],
+    "random.choice": [],
+    "string_utils.generation.secure_random_hex": [
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 78
+      },
+      {
+        "dest": "<builtin>.ValueError",
+        "line_no": 79
+      },
+      {
+        "dest": "os.urandom",
+        "line_no": 81
+      },
+      {
+        "dest": "binascii.hexlify",
+        "line_no": 82
+      }
+    ],
+    "os.urandom": [],
+    "binascii.hexlify": [],
+    "string_utils.generation.roman_range": [
+      {
+        "dest": "string_utils.generation.roman_range.validate",
+        "line_no": 130
+      },
+      {
+        "dest": "string_utils.generation.roman_range.validate",
+        "line_no": 131
+      },
+      {
+        "dest": "string_utils.generation.roman_range.validate",
+        "line_no": 132
+      },
+      {
+        "dest": "<builtin>.OverflowError",
+        "line_no": 138
+      },
+      {
+        "dest": "string_utils.generation.roman_range.generate",
+        "line_no": 140
+      }
+    ],
+    "string_utils.generation.roman_range.validate": [
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 109
+      },
+      {
+        "dest": "<builtin>.ValueError",
+        "line_no": 110
+      },
+      {
+        "dest": "<builtin>.abs",
+        "line_no": 113
+      },
+      {
+        "dest": "<builtin>.ValueError",
+        "line_no": 116
+      }
+    ],
+    "<builtin>.abs": [],
+    "string_utils.generation.roman_range.generate": [
+      {
+        "dest": "string_utils.manipulation.roman_encode",
+        "line_no": 123
+      },
+      {
+        "dest": "string_utils.manipulation.roman_encode",
+        "line_no": 127
+      }
+    ],
+    "<builtin>.OverflowError": []
+  },
+  "class_mro": {
+    "string_utils.errors.InvalidInputError": [
+      "string_utils.errors.InvalidInputError"
+    ],
+    "string_utils.validation.__ISBNChecker": [
+      "string_utils.validation.__ISBNChecker"
+    ],
+    "string_utils.manipulation.__RomanNumbers": [
+      "string_utils.manipulation.__RomanNumbers"
+    ],
+    "string_utils.manipulation.__StringCompressor": [
+      "string_utils.manipulation.__StringCompressor"
+    ],
+    "string_utils.manipulation.__StringFormatter": [
+      "string_utils.manipulation.__StringFormatter"
+    ]
+  },
+  "imports": {
+    "string_utils._regex": [
+      "re"
+    ],
+    "string_utils": [
+      "string_utils.manipulation",
+      "string_utils",
+      "string_utils.validation",
+      "string_utils.generation"
+    ],
+    "string_utils.validation": [
+      "string",
+      "typing",
+      "string_utils.errors",
+      "json",
+      "string_utils._regex"
+    ],
+    "string_utils.errors": [
+      "typing"
+    ],
+    "string_utils.manipulation": [
+      "typing",
+      "random",
+      "zlib",
+      "uuid",
+      "unicodedata",
+      "base64"
+    ],
+    "string_utils.generation": [
+      "string",
+      "typing",
+      "random",
+      "os",
+      "uuid",
+      "binascii"
+    ]
+  }
+}

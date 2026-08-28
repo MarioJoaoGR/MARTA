@@ -1,0 +1,1802 @@
+{
+  "cg_output": {
+    "cookiecutter.find": [
+      {
+        "dest": "logging.getLogger",
+        "line_no": 7
+      }
+    ],
+    "logging.getLogger": [],
+    "cookiecutter.find.find_template": [
+      {
+        "dest": "os.listdir",
+        "line_no": 18
+      },
+      {
+        "dest": "os.path.join",
+        "line_no": 27
+      }
+    ],
+    "os.listdir": [],
+    "os.path.join": [],
+    "cookiecutter.exceptions": [],
+    "cookiecutter.exceptions.UndefinedVariableInTemplate.__init__": [],
+    "cookiecutter.exceptions.UndefinedVariableInTemplate.__str__": [
+      {
+        "dest": "<builtin>.locals",
+        "line_no": 130
+      }
+    ],
+    "<builtin>.locals": [],
+    "cookiecutter": [],
+    "cookiecutter.hooks": [
+      {
+        "dest": "logging.getLogger",
+        "line_no": 13
+      }
+    ],
+    "cookiecutter.hooks.valid_hook": [
+      {
+        "dest": "os.path.basename",
+        "line_no": 29
+      },
+      {
+        "dest": "os.path.splitext",
+        "line_no": 30
+      }
+    ],
+    "os.path.basename": [],
+    "os.path.splitext": [],
+    "cookiecutter.hooks.find_hook": [
+      {
+        "dest": "os.path.abspath",
+        "line_no": 51
+      },
+      {
+        "dest": "os.path.isdir",
+        "line_no": 53
+      },
+      {
+        "dest": "os.listdir",
+        "line_no": 58
+      },
+      {
+        "dest": "cookiecutter.hooks.valid_hook",
+        "line_no": 59
+      },
+      {
+        "dest": "os.path.join",
+        "line_no": 60
+      },
+      {
+        "dest": "os.path.abspath",
+        "line_no": 60
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 62
+      }
+    ],
+    "os.path.abspath": [],
+    "os.path.isdir": [],
+    "<builtin>.len": [],
+    "cookiecutter.hooks.run_script": [
+      {
+        "dest": "sys.platform.startswith",
+        "line_no": 73
+      },
+      {
+        "dest": "cookiecutter.utils.make_executable",
+        "line_no": 79
+      },
+      {
+        "dest": "subprocess.Popen",
+        "line_no": 82
+      }
+    ],
+    "sys.platform.startswith": [],
+    "cookiecutter.utils.make_executable": [
+      {
+        "dest": "os.stat",
+        "line_no": 68
+      },
+      {
+        "dest": "os.chmod",
+        "line_no": 69
+      }
+    ],
+    "subprocess.Popen": [],
+    "cookiecutter.hooks.run_script_with_context": [
+      {
+        "dest": "os.path.splitext",
+        "line_no": 103
+      },
+      {
+        "dest": "<builtin>.open",
+        "line_no": 105
+      },
+      {
+        "dest": "tempfile.NamedTemporaryFile",
+        "line_no": 108
+      },
+      {
+        "dest": "cookiecutter.environment.StrictEnvironment.__init__",
+        "line_no": 109
+      },
+      {
+        "dest": "jinja2.Environment.from_string",
+        "line_no": 110
+      },
+      {
+        "dest": "cookiecutter.hooks.run_script",
+        "line_no": 114
+      }
+    ],
+    "<builtin>.open": [],
+    "tempfile.NamedTemporaryFile": [],
+    "cookiecutter.environment.StrictEnvironment.__init__": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 65
+      }
+    ],
+    "jinja2.Environment.from_string": [],
+    "cookiecutter.hooks.run_hook": [
+      {
+        "dest": "cookiecutter.hooks.find_hook",
+        "line_no": 125
+      },
+      {
+        "dest": "cookiecutter.hooks.run_script_with_context",
+        "line_no": 131
+      }
+    ],
+    "cookiecutter.utils": [
+      {
+        "dest": "logging.getLogger",
+        "line_no": 12
+      },
+      {
+        "dest": "contextlib.contextmanager",
+        "line_no": 49
+      }
+    ],
+    "cookiecutter.utils.force_delete": [
+      {
+        "dest": "os.chmod",
+        "line_no": 21
+      }
+    ],
+    "os.chmod": [],
+    "cookiecutter.utils.rmtree": [
+      {
+        "dest": "shutil.rmtree",
+        "line_no": 30
+      }
+    ],
+    "shutil.rmtree": [],
+    "cookiecutter.utils.make_sure_path_exists": [
+      {
+        "dest": "os.makedirs",
+        "line_no": 40
+      }
+    ],
+    "os.makedirs": [],
+    "contextlib.contextmanager": [],
+    "cookiecutter.utils.work_in": [
+      {
+        "dest": "os.getcwd",
+        "line_no": 54
+      },
+      {
+        "dest": "os.chdir",
+        "line_no": 57
+      },
+      {
+        "dest": "os.chdir",
+        "line_no": 60
+      }
+    ],
+    "os.getcwd": [],
+    "os.chdir": [],
+    "os.stat": [],
+    "cookiecutter.utils.prompt_and_delete": [
+      {
+        "dest": "cookiecutter.prompt.read_user_yes_no",
+        "line_no": 91
+      },
+      {
+        "dest": "os.path.isdir",
+        "line_no": 94
+      },
+      {
+        "dest": "cookiecutter.utils.rmtree",
+        "line_no": 95
+      },
+      {
+        "dest": "os.remove",
+        "line_no": 97
+      },
+      {
+        "dest": "cookiecutter.prompt.read_user_yes_no",
+        "line_no": 100
+      },
+      {
+        "dest": "sys.exit",
+        "line_no": 107
+      }
+    ],
+    "cookiecutter.prompt.read_user_yes_no": [
+      {
+        "dest": "click.prompt",
+        "line_no": 32
+      }
+    ],
+    "os.remove": [],
+    "sys.exit": [],
+    "cookiecutter.prompt": [],
+    "cookiecutter.prompt.read_user_variable": [
+      {
+        "dest": "click.prompt",
+        "line_no": 19
+      }
+    ],
+    "click.prompt": [],
+    "cookiecutter.prompt.read_repo_password": [
+      {
+        "dest": "click.prompt",
+        "line_no": 41
+      }
+    ],
+    "cookiecutter.prompt.read_user_choice": [
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 54
+      },
+      {
+        "dest": "<builtin>.enumerate",
+        "line_no": 61
+      },
+      {
+        "dest": "collections.OrderedDict",
+        "line_no": 60
+      },
+      {
+        "dest": "click.Choice",
+        "line_no": 76
+      },
+      {
+        "dest": "click.prompt",
+        "line_no": 75
+      }
+    ],
+    "<builtin>.isinstance": [],
+    "<builtin>.enumerate": [],
+    "collections.OrderedDict": [],
+    "click.Choice": [],
+    "cookiecutter.prompt.process_json": [
+      {
+        "dest": "json.loads",
+        "line_no": 87
+      },
+      {
+        "dest": "click.UsageError",
+        "line_no": 90
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 92
+      },
+      {
+        "dest": "click.UsageError",
+        "line_no": 94
+      }
+    ],
+    "json.loads": [],
+    "click.UsageError": [],
+    "cookiecutter.prompt.read_user_dict": [
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 107
+      },
+      {
+        "dest": "click.prompt",
+        "line_no": 112
+      }
+    ],
+    "cookiecutter.prompt.render_variable": [
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 141
+      },
+      {
+        "dest": "cookiecutter.prompt.render_variable",
+        "line_no": 143
+      },
+      {
+        "dest": "cookiecutter.prompt.render_variable",
+        "line_no": 143
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 148
+      },
+      {
+        "dest": "cookiecutter.prompt.render_variable",
+        "line_no": 149
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 150
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 151
+      },
+      {
+        "dest": "jinja2.Environment.from_string",
+        "line_no": 153
+      }
+    ],
+    "<builtin>.str": [],
+    "cookiecutter.prompt.prompt_choice_for_config": [
+      {
+        "dest": "cookiecutter.prompt.render_variable",
+        "line_no": 164
+      },
+      {
+        "dest": "cookiecutter.prompt.read_user_choice",
+        "line_no": 168
+      }
+    ],
+    "cookiecutter.prompt.prompt_for_config": [
+      {
+        "dest": "collections.OrderedDict",
+        "line_no": 177
+      },
+      {
+        "dest": "cookiecutter.environment.StrictEnvironment.__init__",
+        "line_no": 178
+      },
+      {
+        "dest": "cookiecutter.prompt.render_variable",
+        "line_no": 188
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 192
+      },
+      {
+        "dest": "cookiecutter.prompt.prompt_choice_for_config",
+        "line_no": 194
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 198
+      },
+      {
+        "dest": "cookiecutter.prompt.render_variable",
+        "line_no": 200
+      },
+      {
+        "dest": "cookiecutter.prompt.read_user_variable",
+        "line_no": 203
+      },
+      {
+        "dest": "cookiecutter.exceptions.UndefinedVariableInTemplate.__init__",
+        "line_no": 208
+      },
+      {
+        "dest": "cookiecutter.exceptions.UndefinedVariableInTemplate.__init__",
+        "line_no": 208
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 217
+      },
+      {
+        "dest": "cookiecutter.prompt.render_variable",
+        "line_no": 219
+      },
+      {
+        "dest": "cookiecutter.prompt.read_user_dict",
+        "line_no": 222
+      },
+      {
+        "dest": "cookiecutter.exceptions.UndefinedVariableInTemplate.__init__",
+        "line_no": 227
+      },
+      {
+        "dest": "cookiecutter.exceptions.UndefinedVariableInTemplate.__init__",
+        "line_no": 227
+      }
+    ],
+    "cookiecutter.environment": [],
+    "cookiecutter.environment.ExtensionLoaderMixin.__init__": [
+      {
+        "dest": "cookiecutter.environment.ExtensionLoaderMixin._read_extensions",
+        "line_no": 32
+      },
+      {
+        "dest": "<builtin>.super",
+        "line_no": 35
+      }
+    ],
+    "cookiecutter.environment.ExtensionLoaderMixin._read_extensions": [
+      {
+        "dest": "<builtin>.str",
+        "line_no": 50
+      }
+    ],
+    "<builtin>.super": [],
+    "cookiecutter.log": [],
+    "cookiecutter.log.configure_logger": [
+      {
+        "dest": "logging.getLogger",
+        "line_no": 26
+      },
+      {
+        "dest": "logging.Formatter",
+        "line_no": 35
+      },
+      {
+        "dest": "logging.FileHandler",
+        "line_no": 36
+      },
+      {
+        "dest": "logging.Formatter",
+        "line_no": 42
+      },
+      {
+        "dest": "logging.StreamHandler",
+        "line_no": 46
+      }
+    ],
+    "logging.Formatter": [],
+    "logging.FileHandler": [],
+    "logging.StreamHandler": [],
+    "cookiecutter.main": [
+      {
+        "dest": "logging.getLogger",
+        "line_no": 18
+      }
+    ],
+    "cookiecutter.main.cookiecutter": [
+      {
+        "dest": "cookiecutter.config.get_user_config",
+        "line_no": 62
+      },
+      {
+        "dest": "cookiecutter.repository.determine_repo_dir",
+        "line_no": 66
+      },
+      {
+        "dest": "os.path.abspath",
+        "line_no": 76
+      },
+      {
+        "dest": "os.path.basename",
+        "line_no": 76
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 79
+      },
+      {
+        "dest": "cookiecutter.replay.load",
+        "line_no": 80
+      },
+      {
+        "dest": "os.path.splitext",
+        "line_no": 82
+      },
+      {
+        "dest": "os.path.split",
+        "line_no": 82
+      },
+      {
+        "dest": "cookiecutter.replay.load",
+        "line_no": 83
+      },
+      {
+        "dest": "os.path.join",
+        "line_no": 85
+      },
+      {
+        "dest": "cookiecutter.generate.generate_context",
+        "line_no": 88
+      },
+      {
+        "dest": "cookiecutter.prompt.prompt_for_config",
+        "line_no": 96
+      },
+      {
+        "dest": "os.path.abspath",
+        "line_no": 102
+      },
+      {
+        "dest": "cookiecutter.replay.dump",
+        "line_no": 104
+      },
+      {
+        "dest": "cookiecutter.generate.generate_files",
+        "line_no": 107
+      },
+      {
+        "dest": "cookiecutter.utils.rmtree",
+        "line_no": 118
+      }
+    ],
+    "cookiecutter.config.get_user_config": [
+      {
+        "dest": "copy.copy",
+        "line_no": 101
+      },
+      {
+        "dest": "cookiecutter.config.get_config",
+        "line_no": 106
+      },
+      {
+        "dest": "os.path.exists",
+        "line_no": 114
+      },
+      {
+        "dest": "cookiecutter.config.get_config",
+        "line_no": 116
+      },
+      {
+        "dest": "copy.copy",
+        "line_no": 119
+      },
+      {
+        "dest": "cookiecutter.config.get_config",
+        "line_no": 124
+      }
+    ],
+    "cookiecutter.repository.determine_repo_dir": [
+      {
+        "dest": "cookiecutter.repository.expand_abbreviations",
+        "line_no": 93
+      },
+      {
+        "dest": "cookiecutter.repository.is_zip_file",
+        "line_no": 95
+      },
+      {
+        "dest": "cookiecutter.repository.is_repo_url",
+        "line_no": 98
+      },
+      {
+        "dest": "cookiecutter.zipfile.unzip",
+        "line_no": 96
+      },
+      {
+        "dest": "cookiecutter.repository.is_repo_url",
+        "line_no": 105
+      },
+      {
+        "dest": "cookiecutter.vcs.clone",
+        "line_no": 106
+      },
+      {
+        "dest": "os.path.join",
+        "line_no": 115
+      },
+      {
+        "dest": "os.path.join",
+        "line_no": 120
+      },
+      {
+        "dest": "cookiecutter.repository.repository_has_cookiecutter_json",
+        "line_no": 124
+      }
+    ],
+    "cookiecutter.replay.load": [
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 41
+      },
+      {
+        "dest": "<builtin>.TypeError",
+        "line_no": 42
+      },
+      {
+        "dest": "cookiecutter.replay.get_file_name",
+        "line_no": 44
+      },
+      {
+        "dest": "<builtin>.open",
+        "line_no": 46
+      },
+      {
+        "dest": "json.load",
+        "line_no": 47
+      },
+      {
+        "dest": "<builtin>.ValueError",
+        "line_no": 50
+      }
+    ],
+    "os.path.split": [],
+    "cookiecutter.generate.generate_context": [
+      {
+        "dest": "collections.OrderedDict",
+        "line_no": 88
+      },
+      {
+        "dest": "<builtin>.open",
+        "line_no": 91
+      },
+      {
+        "dest": "json.load",
+        "line_no": 92
+      },
+      {
+        "dest": "os.path.abspath",
+        "line_no": 96
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 97
+      },
+      {
+        "dest": "os.path.split",
+        "line_no": 105
+      },
+      {
+        "dest": "cookiecutter.generate.apply_overwrites_to_context",
+        "line_no": 113
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 115
+      },
+      {
+        "dest": "warnings.warn",
+        "line_no": 115
+      },
+      {
+        "dest": "cookiecutter.generate.apply_overwrites_to_context",
+        "line_no": 117
+      }
+    ],
+    "cookiecutter.replay.dump": [
+      {
+        "dest": "cookiecutter.utils.make_sure_path_exists",
+        "line_no": 21
+      },
+      {
+        "dest": "<builtin>.IOError",
+        "line_no": 22
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 24
+      },
+      {
+        "dest": "<builtin>.TypeError",
+        "line_no": 25
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 27
+      },
+      {
+        "dest": "<builtin>.TypeError",
+        "line_no": 28
+      },
+      {
+        "dest": "<builtin>.ValueError",
+        "line_no": 31
+      },
+      {
+        "dest": "cookiecutter.replay.get_file_name",
+        "line_no": 33
+      },
+      {
+        "dest": "<builtin>.open",
+        "line_no": 35
+      },
+      {
+        "dest": "json.dump",
+        "line_no": 36
+      }
+    ],
+    "cookiecutter.generate.generate_files": [
+      {
+        "dest": "cookiecutter.find.find_template",
+        "line_no": 281
+      },
+      {
+        "dest": "collections.OrderedDict",
+        "line_no": 283
+      },
+      {
+        "dest": "os.path.split",
+        "line_no": 287
+      },
+      {
+        "dest": "cookiecutter.generate.ensure_dir_is_templated",
+        "line_no": 288
+      },
+      {
+        "dest": "cookiecutter.environment.StrictEnvironment.__init__",
+        "line_no": 289
+      },
+      {
+        "dest": "cookiecutter.generate.render_and_create_dir",
+        "line_no": 291
+      },
+      {
+        "dest": "cookiecutter.exceptions.UndefinedVariableInTemplate.__init__",
+        "line_no": 296
+      },
+      {
+        "dest": "cookiecutter.exceptions.UndefinedVariableInTemplate.__init__",
+        "line_no": 296
+      },
+      {
+        "dest": "os.path.abspath",
+        "line_no": 305
+      },
+      {
+        "dest": "cookiecutter.generate._run_hook_from_repo_dir",
+        "line_no": 313
+      },
+      {
+        "dest": "cookiecutter.utils.work_in",
+        "line_no": 317
+      },
+      {
+        "dest": "jinja2.FileSystemLoader",
+        "line_no": 318
+      },
+      {
+        "dest": "os.walk",
+        "line_no": 320
+      },
+      {
+        "dest": "os.path.join",
+        "line_no": 328
+      },
+      {
+        "dest": "os.path.normpath",
+        "line_no": 328
+      },
+      {
+        "dest": "cookiecutter.generate.is_copy_only_path",
+        "line_no": 332
+      },
+      {
+        "dest": "os.path.join",
+        "line_no": 338
+      },
+      {
+        "dest": "os.path.normpath",
+        "line_no": 338
+      },
+      {
+        "dest": "os.path.join",
+        "line_no": 339
+      },
+      {
+        "dest": "os.path.normpath",
+        "line_no": 339
+      },
+      {
+        "dest": "jinja2.Environment.from_string",
+        "line_no": 340
+      },
+      {
+        "dest": "shutil.copytree",
+        "line_no": 342
+      },
+      {
+        "dest": "os.path.join",
+        "line_no": 348
+      },
+      {
+        "dest": "cookiecutter.generate.render_and_create_dir",
+        "line_no": 350
+      },
+      {
+        "dest": "cookiecutter.utils.rmtree",
+        "line_no": 355
+      },
+      {
+        "dest": "os.path.relpath",
+        "line_no": 356
+      },
+      {
+        "dest": "cookiecutter.exceptions.UndefinedVariableInTemplate.__init__",
+        "line_no": 358
+      },
+      {
+        "dest": "cookiecutter.exceptions.UndefinedVariableInTemplate.__init__",
+        "line_no": 358
+      },
+      {
+        "dest": "os.path.join",
+        "line_no": 361
+      },
+      {
+        "dest": "os.path.normpath",
+        "line_no": 361
+      },
+      {
+        "dest": "cookiecutter.generate.is_copy_only_path",
+        "line_no": 362
+      },
+      {
+        "dest": "jinja2.Environment.from_string",
+        "line_no": 363
+      },
+      {
+        "dest": "os.path.join",
+        "line_no": 365
+      },
+      {
+        "dest": "shutil.copyfile",
+        "line_no": 369
+      },
+      {
+        "dest": "shutil.copymode",
+        "line_no": 370
+      },
+      {
+        "dest": "cookiecutter.generate.generate_file",
+        "line_no": 373
+      },
+      {
+        "dest": "cookiecutter.utils.rmtree",
+        "line_no": 378
+      },
+      {
+        "dest": "cookiecutter.exceptions.UndefinedVariableInTemplate.__init__",
+        "line_no": 380
+      },
+      {
+        "dest": "cookiecutter.exceptions.UndefinedVariableInTemplate.__init__",
+        "line_no": 380
+      },
+      {
+        "dest": "cookiecutter.generate._run_hook_from_repo_dir",
+        "line_no": 383
+      }
+    ],
+    "cookiecutter.config": [
+      {
+        "dest": "logging.getLogger",
+        "line_no": 11
+      },
+      {
+        "dest": "os.path.expanduser",
+        "line_no": 13
+      },
+      {
+        "dest": "os.path.expanduser",
+        "line_no": 22
+      },
+      {
+        "dest": "os.path.expanduser",
+        "line_no": 23
+      },
+      {
+        "dest": "collections.OrderedDict",
+        "line_no": 24
+      }
+    ],
+    "os.path.expanduser": [],
+    "cookiecutter.config._expand_path": [
+      {
+        "dest": "os.path.expandvars",
+        "line_no": 31
+      },
+      {
+        "dest": "os.path.expanduser",
+        "line_no": 32
+      }
+    ],
+    "os.path.expandvars": [],
+    "cookiecutter.config.merge_configs": [
+      {
+        "dest": "copy.deepcopy",
+        "line_no": 42
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 47
+      },
+      {
+        "dest": "cookiecutter.config.merge_configs",
+        "line_no": 48
+      }
+    ],
+    "copy.deepcopy": [],
+    "cookiecutter.config.get_config": [
+      {
+        "dest": "os.path.exists",
+        "line_no": 57
+      },
+      {
+        "dest": "<builtin>.open",
+        "line_no": 63
+      },
+      {
+        "dest": "yaml.safe_load",
+        "line_no": 65
+      },
+      {
+        "dest": "cookiecutter.config.merge_configs",
+        "line_no": 71
+      },
+      {
+        "dest": "cookiecutter.config._expand_path",
+        "line_no": 74
+      },
+      {
+        "dest": "cookiecutter.config._expand_path",
+        "line_no": 77
+      }
+    ],
+    "os.path.exists": [],
+    "yaml.safe_load": [],
+    "copy.copy": [],
+    "cookiecutter.replay": [],
+    "cookiecutter.replay.get_file_name": [
+      {
+        "dest": "os.path.join",
+        "line_no": 16
+      }
+    ],
+    "<builtin>.IOError": [],
+    "<builtin>.TypeError": [],
+    "<builtin>.ValueError": [],
+    "json.dump": [],
+    "json.load": [],
+    "cookiecutter.repository": [
+      {
+        "dest": "re.compile",
+        "line_no": 9
+      }
+    ],
+    "re.compile": [],
+    "cookiecutter.repository.is_repo_url": [
+      {
+        "dest": "<builtin>.bool",
+        "line_no": 23
+      }
+    ],
+    "<builtin>.bool": [],
+    "cookiecutter.repository.is_zip_file": [],
+    "cookiecutter.repository.expand_abbreviations": [],
+    "cookiecutter.repository.repository_has_cookiecutter_json": [
+      {
+        "dest": "os.path.isdir",
+        "line_no": 55
+      },
+      {
+        "dest": "os.path.join",
+        "line_no": 58
+      },
+      {
+        "dest": "os.path.isfile",
+        "line_no": 57
+      }
+    ],
+    "os.path.isfile": [],
+    "cookiecutter.zipfile.unzip": [
+      {
+        "dest": "os.path.expanduser",
+        "line_no": 27
+      },
+      {
+        "dest": "cookiecutter.utils.make_sure_path_exists",
+        "line_no": 28
+      },
+      {
+        "dest": "os.path.join",
+        "line_no": 34
+      },
+      {
+        "dest": "os.path.exists",
+        "line_no": 36
+      },
+      {
+        "dest": "cookiecutter.utils.prompt_and_delete",
+        "line_no": 37
+      },
+      {
+        "dest": "requests.get",
+        "line_no": 43
+      },
+      {
+        "dest": "<builtin>.open",
+        "line_no": 44
+      },
+      {
+        "dest": "os.path.abspath",
+        "line_no": 50
+      },
+      {
+        "dest": "zipfile.ZipFile",
+        "line_no": 55
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 57
+      },
+      {
+        "dest": "tempfile.mkdtemp",
+        "line_no": 71
+      },
+      {
+        "dest": "os.path.join",
+        "line_no": 72
+      },
+      {
+        "dest": "cookiecutter.prompt.read_repo_password",
+        "line_no": 95
+      }
+    ],
+    "cookiecutter.vcs.clone": [
+      {
+        "dest": "os.path.expanduser",
+        "line_no": 68
+      },
+      {
+        "dest": "cookiecutter.utils.make_sure_path_exists",
+        "line_no": 69
+      },
+      {
+        "dest": "cookiecutter.vcs.identify_repo",
+        "line_no": 72
+      },
+      {
+        "dest": "cookiecutter.vcs.is_vcs_installed",
+        "line_no": 75
+      },
+      {
+        "dest": "os.path.split",
+        "line_no": 80
+      },
+      {
+        "dest": "os.path.join",
+        "line_no": 83
+      },
+      {
+        "dest": "os.path.normpath",
+        "line_no": 83
+      },
+      {
+        "dest": "os.path.join",
+        "line_no": 85
+      },
+      {
+        "dest": "os.path.normpath",
+        "line_no": 85
+      },
+      {
+        "dest": "os.path.isdir",
+        "line_no": 88
+      },
+      {
+        "dest": "cookiecutter.utils.prompt_and_delete",
+        "line_no": 89
+      },
+      {
+        "dest": "subprocess.check_output",
+        "line_no": 95
+      },
+      {
+        "dest": "subprocess.check_output",
+        "line_no": 101
+      },
+      {
+        "dest": "<builtin>.any",
+        "line_no": 113
+      }
+    ],
+    "cookiecutter.vcs": [
+      {
+        "dest": "logging.getLogger",
+        "line_no": 15
+      }
+    ],
+    "cookiecutter.vcs.identify_repo": [
+      {
+        "dest": "<builtin>.len",
+        "line_no": 33
+      }
+    ],
+    "cookiecutter.vcs.is_vcs_installed": [
+      {
+        "dest": "shutil.which",
+        "line_no": 54
+      },
+      {
+        "dest": "<builtin>.bool",
+        "line_no": 54
+      }
+    ],
+    "shutil.which": [],
+    "os.path.normpath": [],
+    "subprocess.check_output": [],
+    "<builtin>.any": [],
+    "cookiecutter.zipfile": [],
+    "requests.get": [],
+    "zipfile.ZipFile": [],
+    "tempfile.mkdtemp": [],
+    "cookiecutter.generate": [
+      {
+        "dest": "logging.getLogger",
+        "line_no": 26
+      }
+    ],
+    "cookiecutter.generate.is_copy_only_path": [
+      {
+        "dest": "fnmatch.fnmatch",
+        "line_no": 41
+      }
+    ],
+    "fnmatch.fnmatch": [],
+    "cookiecutter.generate.apply_overwrites_to_context": [
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 58
+      },
+      {
+        "dest": "<builtin>.ValueError",
+        "line_no": 67
+      }
+    ],
+    "warnings.warn": [],
+    "cookiecutter.generate.generate_file": [
+      {
+        "dest": "jinja2.Environment.from_string",
+        "line_no": 147
+      },
+      {
+        "dest": "os.path.join",
+        "line_no": 149
+      },
+      {
+        "dest": "os.path.isdir",
+        "line_no": 150
+      },
+      {
+        "dest": "os.path.exists",
+        "line_no": 155
+      },
+      {
+        "dest": "binaryornot.check.is_binary",
+        "line_no": 163
+      },
+      {
+        "dest": "shutil.copyfile",
+        "line_no": 165
+      },
+      {
+        "dest": "jinja2.Environment.get_template",
+        "line_no": 173
+      },
+      {
+        "dest": "<builtin>.open",
+        "line_no": 183
+      },
+      {
+        "dest": "<builtin>.open",
+        "line_no": 194
+      },
+      {
+        "dest": "shutil.copymode",
+        "line_no": 198
+      }
+    ],
+    "binaryornot.check.is_binary": [],
+    "shutil.copyfile": [],
+    "jinja2.Environment.get_template": [],
+    "shutil.copymode": [],
+    "cookiecutter.generate.render_and_create_dir": [
+      {
+        "dest": "jinja2.Environment.from_string",
+        "line_no": 205
+      },
+      {
+        "dest": "os.path.join",
+        "line_no": 208
+      },
+      {
+        "dest": "os.path.normpath",
+        "line_no": 208
+      },
+      {
+        "dest": "os.path.exists",
+        "line_no": 214
+      },
+      {
+        "dest": "cookiecutter.utils.make_sure_path_exists",
+        "line_no": 225
+      }
+    ],
+    "cookiecutter.generate.ensure_dir_is_templated": [],
+    "cookiecutter.generate._run_hook_from_repo_dir": [
+      {
+        "dest": "cookiecutter.utils.work_in",
+        "line_no": 250
+      },
+      {
+        "dest": "cookiecutter.hooks.run_hook",
+        "line_no": 252
+      },
+      {
+        "dest": "cookiecutter.utils.rmtree",
+        "line_no": 255
+      }
+    ],
+    "jinja2.FileSystemLoader": [],
+    "os.walk": [],
+    "shutil.copytree": [],
+    "os.path.relpath": [],
+    "cookiecutter.extensions": [],
+    "cookiecutter.extensions.JsonifyExtension.__init__": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 16
+      }
+    ],
+    "cookiecutter.extensions.JsonifyExtension.__init__.jsonify": [
+      {
+        "dest": "json.dumps",
+        "line_no": 19
+      }
+    ],
+    "json.dumps": [],
+    "cookiecutter.extensions.RandomStringExtension.__init__": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 29
+      }
+    ],
+    "cookiecutter.extensions.RandomStringExtension.__init__.random_ascii_string": [
+      {
+        "dest": "secrets.choice",
+        "line_no": 36
+      },
+      {
+        "dest": "<builtin>.range",
+        "line_no": 36
+      }
+    ],
+    "secrets.choice": [],
+    "<builtin>.range": [],
+    "cookiecutter.extensions.SlugifyExtension.__init__": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 46
+      }
+    ],
+    "cookiecutter.extensions.SlugifyExtension.__init__.slugify": [
+      {
+        "dest": "slugify.slugify",
+        "line_no": 50
+      }
+    ],
+    "slugify.slugify": [],
+    "cookiecutter.extensions.UUIDExtension.__init__": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 60
+      }
+    ],
+    "cookiecutter.extensions.UUIDExtension.__init__.uuid4": [
+      {
+        "dest": "uuid.uuid4",
+        "line_no": 64
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 64
+      }
+    ],
+    "uuid.uuid4": [],
+    "cookiecutter.__main__": [
+      {
+        "dest": "cookiecutter.cli.main",
+        "line_no": 6
+      }
+    ],
+    "cookiecutter.cli.main": [
+      {
+        "dest": "cookiecutter.cli.list_installed_templates",
+        "line_no": 171
+      },
+      {
+        "dest": "sys.exit",
+        "line_no": 172
+      },
+      {
+        "dest": "click.get_current_context",
+        "line_no": 176
+      },
+      {
+        "dest": "click.echo",
+        "line_no": 176
+      },
+      {
+        "dest": "sys.exit",
+        "line_no": 177
+      },
+      {
+        "dest": "cookiecutter.log.configure_logger",
+        "line_no": 179
+      },
+      {
+        "dest": "click.confirm",
+        "line_no": 184
+      },
+      {
+        "dest": "os.environ.get",
+        "line_no": 202
+      },
+      {
+        "dest": "cookiecutter.main.cookiecutter",
+        "line_no": 192
+      },
+      {
+        "dest": "click.echo",
+        "line_no": 217
+      },
+      {
+        "dest": "sys.exit",
+        "line_no": 218
+      },
+      {
+        "dest": "click.echo",
+        "line_no": 220
+      },
+      {
+        "dest": "click.echo",
+        "line_no": 221
+      },
+      {
+        "dest": "json.dumps",
+        "line_no": 223
+      },
+      {
+        "dest": "click.echo",
+        "line_no": 224
+      },
+      {
+        "dest": "sys.exit",
+        "line_no": 225
+      }
+    ],
+    "cookiecutter.cli": [
+      {
+        "dest": "<builtin>.dict",
+        "line_no": 71
+      },
+      {
+        "dest": "click.command",
+        "line_no": 71
+      },
+      {
+        "dest": "cookiecutter.cli.version_msg",
+        "line_no": 72
+      },
+      {
+        "dest": "click.version_option",
+        "line_no": 72
+      },
+      {
+        "dest": "click.argument",
+        "line_no": 73
+      },
+      {
+        "dest": "click.argument",
+        "line_no": 74
+      },
+      {
+        "dest": "click.option",
+        "line_no": 75
+      },
+      {
+        "dest": "click.option",
+        "line_no": 80
+      },
+      {
+        "dest": "click.option",
+        "line_no": 83
+      },
+      {
+        "dest": "click.option",
+        "line_no": 88
+      },
+      {
+        "dest": "click.option",
+        "line_no": 91
+      },
+      {
+        "dest": "click.Path",
+        "line_no": 98
+      },
+      {
+        "dest": "click.option",
+        "line_no": 96
+      },
+      {
+        "dest": "click.option",
+        "line_no": 102
+      },
+      {
+        "dest": "click.option",
+        "line_no": 108
+      },
+      {
+        "dest": "click.Path",
+        "line_no": 119
+      },
+      {
+        "dest": "click.option",
+        "line_no": 115
+      },
+      {
+        "dest": "click.Path",
+        "line_no": 123
+      },
+      {
+        "dest": "click.option",
+        "line_no": 122
+      },
+      {
+        "dest": "click.option",
+        "line_no": 125
+      },
+      {
+        "dest": "click.Path",
+        "line_no": 132
+      },
+      {
+        "dest": "click.option",
+        "line_no": 130
+      },
+      {
+        "dest": "click.Choice",
+        "line_no": 138
+      },
+      {
+        "dest": "click.option",
+        "line_no": 136
+      },
+      {
+        "dest": "click.option",
+        "line_no": 142
+      },
+      {
+        "dest": "cookiecutter.cli.main",
+        "line_no": 229
+      }
+    ],
+    "cookiecutter.cli.version_msg": [
+      {
+        "dest": "os.path.abspath",
+        "line_no": 29
+      },
+      {
+        "dest": "os.path.dirname",
+        "line_no": 29
+      },
+      {
+        "dest": "os.path.dirname",
+        "line_no": 29
+      }
+    ],
+    "os.path.dirname": [],
+    "cookiecutter.cli.validate_extra_context": [
+      {
+        "dest": "click.BadParameter",
+        "line_no": 38
+      },
+      {
+        "dest": "collections.OrderedDict",
+        "line_no": 45
+      }
+    ],
+    "click.BadParameter": [],
+    "cookiecutter.cli.list_installed_templates": [
+      {
+        "dest": "cookiecutter.config.get_user_config",
+        "line_no": 50
+      },
+      {
+        "dest": "os.path.exists",
+        "line_no": 52
+      },
+      {
+        "dest": "click.echo",
+        "line_no": 53
+      },
+      {
+        "dest": "sys.exit",
+        "line_no": 57
+      },
+      {
+        "dest": "os.listdir",
+        "line_no": 61
+      },
+      {
+        "dest": "os.path.join",
+        "line_no": 63
+      },
+      {
+        "dest": "os.path.exists",
+        "line_no": 62
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 66
+      },
+      {
+        "dest": "click.echo",
+        "line_no": 66
+      },
+      {
+        "dest": "click.echo",
+        "line_no": 68
+      }
+    ],
+    "click.echo": [],
+    "<builtin>.dict": [],
+    "click.command": [],
+    "click.version_option": [],
+    "click.argument": [],
+    "click.option": [],
+    "click.Path": [],
+    "click.get_current_context": [],
+    "click.confirm": [],
+    "os.environ.get": []
+  },
+  "class_mro": {
+    "cookiecutter.exceptions.CookiecutterException": [
+      "cookiecutter.exceptions.CookiecutterException"
+    ],
+    "cookiecutter.exceptions.NonTemplatedInputDirException": [
+      "cookiecutter.exceptions.NonTemplatedInputDirException",
+      "cookiecutter.exceptions.CookiecutterException"
+    ],
+    "cookiecutter.exceptions.UnknownTemplateDirException": [
+      "cookiecutter.exceptions.UnknownTemplateDirException",
+      "cookiecutter.exceptions.CookiecutterException"
+    ],
+    "cookiecutter.exceptions.MissingProjectDir": [
+      "cookiecutter.exceptions.MissingProjectDir",
+      "cookiecutter.exceptions.CookiecutterException"
+    ],
+    "cookiecutter.exceptions.ConfigDoesNotExistException": [
+      "cookiecutter.exceptions.ConfigDoesNotExistException",
+      "cookiecutter.exceptions.CookiecutterException"
+    ],
+    "cookiecutter.exceptions.InvalidConfiguration": [
+      "cookiecutter.exceptions.InvalidConfiguration",
+      "cookiecutter.exceptions.CookiecutterException"
+    ],
+    "cookiecutter.exceptions.UnknownRepoType": [
+      "cookiecutter.exceptions.UnknownRepoType",
+      "cookiecutter.exceptions.CookiecutterException"
+    ],
+    "cookiecutter.exceptions.VCSNotInstalled": [
+      "cookiecutter.exceptions.VCSNotInstalled",
+      "cookiecutter.exceptions.CookiecutterException"
+    ],
+    "cookiecutter.exceptions.ContextDecodingException": [
+      "cookiecutter.exceptions.ContextDecodingException",
+      "cookiecutter.exceptions.CookiecutterException"
+    ],
+    "cookiecutter.exceptions.OutputDirExistsException": [
+      "cookiecutter.exceptions.OutputDirExistsException",
+      "cookiecutter.exceptions.CookiecutterException"
+    ],
+    "cookiecutter.exceptions.InvalidModeException": [
+      "cookiecutter.exceptions.InvalidModeException",
+      "cookiecutter.exceptions.CookiecutterException"
+    ],
+    "cookiecutter.exceptions.FailedHookException": [
+      "cookiecutter.exceptions.FailedHookException",
+      "cookiecutter.exceptions.CookiecutterException"
+    ],
+    "cookiecutter.exceptions.UndefinedVariableInTemplate": [
+      "cookiecutter.exceptions.UndefinedVariableInTemplate",
+      "cookiecutter.exceptions.CookiecutterException"
+    ],
+    "cookiecutter.exceptions.UnknownExtension": [
+      "cookiecutter.exceptions.UnknownExtension",
+      "cookiecutter.exceptions.CookiecutterException"
+    ],
+    "cookiecutter.exceptions.RepositoryNotFound": [
+      "cookiecutter.exceptions.RepositoryNotFound",
+      "cookiecutter.exceptions.CookiecutterException"
+    ],
+    "cookiecutter.exceptions.RepositoryCloneFailed": [
+      "cookiecutter.exceptions.RepositoryCloneFailed",
+      "cookiecutter.exceptions.CookiecutterException"
+    ],
+    "cookiecutter.exceptions.InvalidZipRepository": [
+      "cookiecutter.exceptions.InvalidZipRepository",
+      "cookiecutter.exceptions.CookiecutterException"
+    ],
+    "cookiecutter.environment.ExtensionLoaderMixin": [
+      "cookiecutter.environment.ExtensionLoaderMixin"
+    ],
+    "cookiecutter.environment.StrictEnvironment": [
+      "cookiecutter.environment.StrictEnvironment",
+      "cookiecutter.environment.ExtensionLoaderMixin",
+      "jinja2.Environment"
+    ],
+    "cookiecutter.extensions.JsonifyExtension": [
+      "cookiecutter.extensions.JsonifyExtension",
+      "jinja2.ext.Extension"
+    ],
+    "cookiecutter.extensions.RandomStringExtension": [
+      "cookiecutter.extensions.RandomStringExtension",
+      "jinja2.ext.Extension"
+    ],
+    "cookiecutter.extensions.SlugifyExtension": [
+      "cookiecutter.extensions.SlugifyExtension",
+      "jinja2.ext.Extension"
+    ],
+    "cookiecutter.extensions.UUIDExtension": [
+      "cookiecutter.extensions.UUIDExtension",
+      "jinja2.ext.Extension"
+    ]
+  },
+  "imports": {
+    "cookiecutter.find": [
+      "cookiecutter.exceptions",
+      "logging",
+      "cookiecutter",
+      "os"
+    ],
+    "cookiecutter": [],
+    "cookiecutter.exceptions": [],
+    "cookiecutter.hooks": [
+      "subprocess",
+      "tempfile",
+      "cookiecutter.utils",
+      "cookiecutter.exceptions",
+      "logging",
+      "sys",
+      "cookiecutter",
+      "os",
+      "cookiecutter.environment",
+      "errno"
+    ],
+    "cookiecutter.utils": [
+      "logging",
+      "stat",
+      "cookiecutter.prompt",
+      "sys",
+      "contextlib",
+      "os",
+      "shutil",
+      "errno"
+    ],
+    "cookiecutter.prompt": [
+      "jinja2.exceptions",
+      "cookiecutter.exceptions",
+      "jinja2",
+      "collections",
+      "json",
+      "cookiecutter.environment",
+      "click"
+    ],
+    "jinja2": [],
+    "jinja2.exceptions": [],
+    "cookiecutter.environment": [
+      "cookiecutter.exceptions",
+      "jinja2"
+    ],
+    "cookiecutter.log": [
+      "sys",
+      "logging"
+    ],
+    "cookiecutter.main": [
+      "cookiecutter.utils",
+      "cookiecutter.exceptions",
+      "logging",
+      "cookiecutter.prompt",
+      "cookiecutter.config",
+      "cookiecutter.replay",
+      "cookiecutter",
+      "os",
+      "cookiecutter.repository",
+      "cookiecutter.generate"
+    ],
+    "cookiecutter.config": [
+      "copy",
+      "cookiecutter.exceptions",
+      "logging",
+      "collections",
+      "yaml",
+      "os"
+    ],
+    "cookiecutter.generate": [
+      "cookiecutter.utils",
+      "jinja2.exceptions",
+      "cookiecutter.find",
+      "cookiecutter.exceptions",
+      "logging",
+      "cookiecutter.hooks",
+      "jinja2",
+      "collections",
+      "fnmatch",
+      "binaryornot.check",
+      "warnings",
+      "json",
+      "os",
+      "cookiecutter.environment",
+      "shutil",
+      "binaryornot"
+    ],
+    "binaryornot": [],
+    "binaryornot.check": [],
+    "cookiecutter.replay": [
+      "cookiecutter.utils",
+      "json",
+      "os"
+    ],
+    "cookiecutter.repository": [
+      "cookiecutter.vcs",
+      "re",
+      "cookiecutter.exceptions",
+      "os",
+      "cookiecutter.zipfile"
+    ],
+    "cookiecutter.vcs": [
+      "subprocess",
+      "cookiecutter.utils",
+      "cookiecutter.exceptions",
+      "logging",
+      "os",
+      "shutil"
+    ],
+    "cookiecutter.zipfile": [
+      "requests",
+      "cookiecutter.utils",
+      "tempfile",
+      "cookiecutter.exceptions",
+      "cookiecutter.prompt",
+      "os",
+      "zipfile"
+    ],
+    "cookiecutter.extensions": [
+      "slugify",
+      "secrets",
+      "jinja2",
+      "slugify.slugify",
+      "json",
+      "jinja2.ext",
+      "uuid",
+      "string"
+    ],
+    "jinja2.ext": [],
+    "slugify": [],
+    "slugify.slugify": [],
+    "cookiecutter.__main__": [
+      "cookiecutter.cli",
+      "cookiecutter"
+    ],
+    "cookiecutter.cli": [
+      "cookiecutter.exceptions",
+      "cookiecutter.main",
+      "cookiecutter.log",
+      "cookiecutter.config",
+      "collections",
+      "sys",
+      "cookiecutter",
+      "json",
+      "os",
+      "click"
+    ]
+  }
+}

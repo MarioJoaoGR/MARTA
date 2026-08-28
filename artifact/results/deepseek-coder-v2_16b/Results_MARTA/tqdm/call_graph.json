@@ -1,0 +1,4311 @@
+{
+  "cg_output": {
+    "tqdm.notebook": [
+      {
+        "dest": "warnings.catch_warnings",
+        "line_no": 32
+      },
+      {
+        "dest": "warnings.filterwarnings",
+        "line_no": 33
+      }
+    ],
+    "warnings.catch_warnings": [],
+    "warnings.filterwarnings": [],
+    "tqdm.notebook.TqdmHBox._repr_json_": [
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 79
+      }
+    ],
+    "<builtin>.getattr": [],
+    "tqdm.notebook.TqdmHBox.__repr__": [
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 88
+      },
+      {
+        "dest": "<builtin>.super",
+        "line_no": 90
+      },
+      {
+        "dest": "tqdm.notebook.TqdmHBox._repr_json_",
+        "line_no": 91
+      }
+    ],
+    "<builtin>.super": [],
+    "tqdm.notebook.TqdmHBox._repr_pretty_": [
+      {
+        "dest": "tqdm.notebook.TqdmHBox.__repr__",
+        "line_no": 94
+      }
+    ],
+    "tqdm.notebook.tqdm_notebook.status_printer": [
+      {
+        "dest": "<builtin>.ImportError",
+        "line_no": 115
+      },
+      {
+        "dest": "ipywidgets.FloatProgress",
+        "line_no": 120
+      },
+      {
+        "dest": "IPython.html.widgets.FloatProgress",
+        "line_no": 120
+      },
+      {
+        "dest": "IPython.html.widgets.FloatProgressWidget",
+        "line_no": 120
+      },
+      {
+        "dest": "ipywidgets.FloatProgress",
+        "line_no": 122
+      },
+      {
+        "dest": "IPython.html.widgets.FloatProgress",
+        "line_no": 122
+      },
+      {
+        "dest": "IPython.html.widgets.FloatProgressWidget",
+        "line_no": 122
+      },
+      {
+        "dest": "ipywidgets.HTML",
+        "line_no": 128
+      },
+      {
+        "dest": "IPython.html.widgets.HTML",
+        "line_no": 128
+      },
+      {
+        "dest": "ipywidgets.HTML",
+        "line_no": 129
+      },
+      {
+        "dest": "IPython.html.widgets.HTML",
+        "line_no": 129
+      },
+      {
+        "dest": "ipywidgets.HBox.__init__",
+        "line_no": 132
+      },
+      {
+        "dest": "IPython.html.widgets.HBox.__init__",
+        "line_no": 132
+      },
+      {
+        "dest": "IPython.html.widgets.ContainerWidget.__init__",
+        "line_no": 132
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 136
+      },
+      {
+        "dest": "<builtin>.int",
+        "line_no": 138
+      }
+    ],
+    "<builtin>.ImportError": [],
+    "ipywidgets.FloatProgress": [],
+    "IPython.html.widgets.FloatProgress": [],
+    "IPython.html.widgets.FloatProgressWidget": [],
+    "ipywidgets.HTML": [],
+    "IPython.html.widgets.HTML": [],
+    "ipywidgets.HBox.__init__": [],
+    "IPython.html.widgets.HBox.__init__": [],
+    "IPython.html.widgets.ContainerWidget.__init__": [],
+    "<builtin>.str": [],
+    "<builtin>.int": [],
+    "tqdm.notebook.tqdm_notebook.display": [
+      {
+        "dest": "std.tqdm.format_meter",
+        "line_no": 164
+      },
+      {
+        "dest": "re.split",
+        "line_no": 172
+      },
+      {
+        "dest": "<builtin>.map",
+        "line_no": 172
+      },
+      {
+        "dest": "html.escape",
+        "line_no": 174
+      },
+      {
+        "dest": "cgi.escape",
+        "line_no": 174
+      },
+      {
+        "dest": "IPython.html.widgets.HBox.close",
+        "line_no": 192
+      },
+      {
+        "dest": "tqdm.notebook.tqdm_notebook.display",
+        "line_no": 197
+      }
+    ],
+    "std.tqdm.format_meter": [],
+    "re.split": [],
+    "<builtin>.map": [],
+    "html.escape": [],
+    "cgi.escape": [],
+    "IPython.html.widgets.HBox.close": [],
+    "tqdm.notebook.tqdm_notebook.colour": [
+      {
+        "dest": "<builtin>.hasattr",
+        "line_no": 202
+      },
+      {
+        "dest": "<builtin>.hasattr",
+        "line_no": 207
+      }
+    ],
+    "<builtin>.hasattr": [],
+    "tqdm.notebook.tqdm_notebook.__init__": [
+      {
+        "dest": "<builtin>.bool",
+        "line_no": 228
+      },
+      {
+        "dest": "<builtin>.super",
+        "line_no": 231
+      },
+      {
+        "dest": "tqdm.notebook.tqdm_notebook.status_printer",
+        "line_no": 242
+      },
+      {
+        "dest": "weakref.proxy",
+        "line_no": 243
+      },
+      {
+        "dest": "tqdm.notebook.tqdm_notebook.display",
+        "line_no": 246
+      },
+      {
+        "dest": "tqdm.notebook.tqdm_notebook.display",
+        "line_no": 253
+      }
+    ],
+    "<builtin>.bool": [],
+    "tqdm.notebook.tqdm_notebook.__init__.<lambda1>": [],
+    "weakref.proxy": [],
+    "tqdm.notebook.tqdm_notebook.__iter__": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 257
+      },
+      {
+        "dest": "tqdm.notebook.tqdm_notebook.display",
+        "line_no": 262
+      },
+      {
+        "dest": "tqdm.notebook.tqdm_notebook.__init__.<lambda1>",
+        "line_no": 262
+      }
+    ],
+    "tqdm.notebook.tqdm_notebook.update": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 269
+      },
+      {
+        "dest": "tqdm.notebook.tqdm_notebook.display",
+        "line_no": 274
+      },
+      {
+        "dest": "tqdm.notebook.tqdm_notebook.__init__.<lambda1>",
+        "line_no": 274
+      }
+    ],
+    "tqdm.notebook.tqdm_notebook.close": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 282
+      },
+      {
+        "dest": "tqdm.notebook.tqdm_notebook.display",
+        "line_no": 286
+      },
+      {
+        "dest": "tqdm.notebook.tqdm_notebook.__init__.<lambda1>",
+        "line_no": 286
+      },
+      {
+        "dest": "tqdm.notebook.tqdm_notebook.display",
+        "line_no": 289
+      },
+      {
+        "dest": "tqdm.notebook.tqdm_notebook.__init__.<lambda1>",
+        "line_no": 289
+      },
+      {
+        "dest": "tqdm.notebook.tqdm_notebook.display",
+        "line_no": 291
+      },
+      {
+        "dest": "tqdm.notebook.tqdm_notebook.__init__.<lambda1>",
+        "line_no": 291
+      }
+    ],
+    "tqdm.notebook.tqdm_notebook.clear": [],
+    "tqdm.notebook.tqdm_notebook.reset": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 307
+      },
+      {
+        "dest": "<builtin>.super",
+        "line_no": 314
+      }
+    ],
+    "tqdm.notebook.tnrange": [
+      {
+        "dest": "utils._range",
+        "line_no": 322
+      },
+      {
+        "dest": "tqdm.notebook.tqdm_notebook.__init__",
+        "line_no": 322
+      }
+    ],
+    "utils._range": [],
+    "tqdm.dask": [],
+    "tqdm.dask.TqdmCallback.__init__": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 25
+      },
+      {
+        "dest": "functools.partial",
+        "line_no": 27
+      }
+    ],
+    "functools.partial": [],
+    "tqdm.dask.TqdmCallback._start_state": [
+      {
+        "dest": "<builtin>.len",
+        "line_no": 32
+      },
+      {
+        "dest": "<builtin>.sum",
+        "line_no": 31
+      },
+      {
+        "dest": "autonotebook.tqdm",
+        "line_no": 31
+      },
+      {
+        "dest": "auto.tqdm",
+        "line_no": 31
+      },
+      {
+        "dest": "tqdm.asyncio.tqdm_asyncio.__init__",
+        "line_no": 31
+      }
+    ],
+    "<builtin>.len": [],
+    "<builtin>.sum": [],
+    "autonotebook.tqdm": [],
+    "auto.tqdm": [],
+    "tqdm.asyncio.tqdm_asyncio.__init__": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 24
+      },
+      {
+        "dest": "<builtin>.hasattr",
+        "line_no": 27
+      },
+      {
+        "dest": "<builtin>.hasattr",
+        "line_no": 30
+      },
+      {
+        "dest": "<builtin>.iter",
+        "line_no": 33
+      }
+    ],
+    "tqdm.dask.TqdmCallback._posttask": [
+      {
+        "dest": "std.tqdm.update",
+        "line_no": 35
+      }
+    ],
+    "std.tqdm.update": [],
+    "tqdm.dask.TqdmCallback._finish": [
+      {
+        "dest": "tqdm.contrib.telegram.tqdm_telegram.close",
+        "line_no": 38
+      },
+      {
+        "dest": "std.tqdm.close",
+        "line_no": 38
+      }
+    ],
+    "tqdm.contrib.telegram.tqdm_telegram.close": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 144
+      },
+      {
+        "dest": "tqdm.contrib.telegram.TelegramIO.delete",
+        "line_no": 146
+      }
+    ],
+    "std.tqdm.close": [],
+    "tqdm.dask.TqdmCallback.display": [
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 42
+      },
+      {
+        "dest": "notebook.display",
+        "line_no": 46
+      }
+    ],
+    "notebook.display": [],
+    "tqdm.asyncio": [],
+    "<builtin>.iter": [],
+    "tqdm.asyncio.tqdm_asyncio.__aiter__": [],
+    "tqdm.asyncio.tqdm_asyncio.__anext__": [
+      {
+        "dest": "std.tqdm.update",
+        "line_no": 45
+      },
+      {
+        "dest": "tqdm.contrib.telegram.tqdm_telegram.close",
+        "line_no": 48
+      },
+      {
+        "dest": "std.tqdm.close",
+        "line_no": 48
+      },
+      {
+        "dest": "tqdm.contrib.telegram.tqdm_telegram.close",
+        "line_no": 51
+      },
+      {
+        "dest": "std.tqdm.close",
+        "line_no": 51
+      }
+    ],
+    "tqdm.asyncio.tqdm_asyncio.send": [
+      {
+        "dest": "std.tqdm.iterable.send",
+        "line_no": 55
+      }
+    ],
+    "std.tqdm.iterable.send": [],
+    "tqdm.asyncio.tqdm_asyncio.as_completed": [
+      {
+        "dest": "<builtin>.len",
+        "line_no": 63
+      },
+      {
+        "dest": "asyncio.as_completed",
+        "line_no": 67
+      },
+      {
+        "dest": "tqdm.asyncio.tqdm_asyncio.__init__",
+        "line_no": 67
+      }
+    ],
+    "asyncio.as_completed": [],
+    "tqdm.asyncio.tqdm_asyncio.gather": [
+      {
+        "dest": "tqdm.asyncio.tqdm_asyncio.gather.wrap_awaitable",
+        "line_no": 78
+      },
+      {
+        "dest": "<builtin>.enumerate",
+        "line_no": 78
+      },
+      {
+        "dest": "tqdm.asyncio.tqdm_asyncio.as_completed",
+        "line_no": 79
+      },
+      {
+        "dest": "<builtin>.sorted",
+        "line_no": 81
+      }
+    ],
+    "tqdm.asyncio.tqdm_asyncio.gather.wrap_awaitable": [],
+    "<builtin>.enumerate": [],
+    "<builtin>.sorted": [],
+    "tqdm.asyncio.tarange": [
+      {
+        "dest": "<builtin>.range",
+        "line_no": 88
+      },
+      {
+        "dest": "tqdm.asyncio.tqdm_asyncio.__init__",
+        "line_no": 88
+      }
+    ],
+    "<builtin>.range": [],
+    "tqdm.version": [
+      {
+        "dest": "setuptools_scm.get_version",
+        "line_no": 7
+      }
+    ],
+    "setuptools_scm.get_version": [],
+    "tqdm.std": [],
+    "tqdm.std.TqdmWarning.__init__": [
+      {
+        "dest": "<builtin>.str",
+        "line_no": 49
+      },
+      {
+        "dest": "<builtin>.super",
+        "line_no": 51
+      }
+    ],
+    "tqdm.std.TRLock": [
+      {
+        "dest": "threading.RLock",
+        "line_no": 73
+      }
+    ],
+    "threading.RLock": [],
+    "tqdm.std.TqdmDefaultWriteLock": [
+      {
+        "dest": "tqdm.std.TRLock",
+        "line_no": 90
+      }
+    ],
+    "tqdm.std.TqdmDefaultWriteLock.__init__": [
+      {
+        "dest": "<builtin>.type",
+        "line_no": 95
+      }
+    ],
+    "<builtin>.type": [],
+    "tqdm.std.TqdmDefaultWriteLock.acquire": [],
+    "tqdm.std.TqdmDefaultWriteLock.release": [],
+    "tqdm.std.TqdmDefaultWriteLock.__enter__": [
+      {
+        "dest": "tqdm.std.TqdmDefaultWriteLock.acquire",
+        "line_no": 113
+      }
+    ],
+    "tqdm.std.TqdmDefaultWriteLock.__exit__": [
+      {
+        "dest": "tqdm.std.TqdmDefaultWriteLock.release",
+        "line_no": 116
+      }
+    ],
+    "tqdm.std.TqdmDefaultWriteLock.create_mp_lock": [
+      {
+        "dest": "<builtin>.hasattr",
+        "line_no": 120
+      },
+      {
+        "dest": "multiprocessing.RLock",
+        "line_no": 123
+      }
+    ],
+    "multiprocessing.RLock": [],
+    "tqdm.std.TqdmDefaultWriteLock.create_th_lock": [
+      {
+        "dest": "<builtin>.hasattr",
+        "line_no": 129
+      },
+      {
+        "dest": "warnings.warn",
+        "line_no": 130
+      }
+    ],
+    "warnings.warn": [],
+    "tqdm.std.Bar": [
+      {
+        "dest": "<builtin>.range",
+        "line_no": 147
+      },
+      {
+        "dest": "<builtin>.map",
+        "line_no": 147
+      }
+    ],
+    "tqdm.std.Bar.__init__": [
+      {
+        "dest": "warnings.warn",
+        "line_no": 157
+      },
+      {
+        "dest": "<builtin>.min",
+        "line_no": 158
+      },
+      {
+        "dest": "<builtin>.max",
+        "line_no": 158
+      }
+    ],
+    "<builtin>.min": [],
+    "<builtin>.max": [],
+    "tqdm.std.Bar.colour": [
+      {
+        "dest": "<builtin>.len",
+        "line_no": 177
+      },
+      {
+        "dest": "<builtin>.int",
+        "line_no": 179
+      },
+      {
+        "dest": "<builtin>.tuple",
+        "line_no": 178
+      },
+      {
+        "dest": "warnings.warn",
+        "line_no": 183
+      }
+    ],
+    "<builtin>.tuple": [],
+    "tqdm.std.Bar.__format__": [
+      {
+        "dest": "<builtin>.int",
+        "line_no": 198
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 207
+      },
+      {
+        "dest": "<builtin>.int",
+        "line_no": 208
+      },
+      {
+        "dest": "<builtin>.divmod",
+        "line_no": 208
+      }
+    ],
+    "<builtin>.divmod": [],
+    "tqdm.std.EMA.__init__": [],
+    "tqdm.std.EMA.__call__": [],
+    "weakref.WeakSet": [],
+    "tqdm.std.tqdm": [
+      {
+        "dest": "weakref.WeakSet",
+        "line_no": 256
+      },
+      {
+        "dest": "contextlib.contextmanager",
+        "line_no": 624
+      },
+      {
+        "dest": "contextlib.contextmanager",
+        "line_no": 1501
+      }
+    ],
+    "tqdm.std.tqdm.format_sizeof": [
+      {
+        "dest": "<builtin>.abs",
+        "line_no": 279
+      },
+      {
+        "dest": "<builtin>.abs",
+        "line_no": 280
+      },
+      {
+        "dest": "<builtin>.abs",
+        "line_no": 281
+      }
+    ],
+    "<builtin>.abs": [],
+    "tqdm.std.tqdm.format_interval": [
+      {
+        "dest": "<builtin>.int",
+        "line_no": 303
+      },
+      {
+        "dest": "<builtin>.divmod",
+        "line_no": 303
+      },
+      {
+        "dest": "<builtin>.divmod",
+        "line_no": 304
+      }
+    ],
+    "tqdm.std.tqdm.format_num": [
+      {
+        "dest": "<builtin>.str",
+        "line_no": 326
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 327
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 327
+      }
+    ],
+    "tqdm.std.tqdm.status_printer": [
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 337
+      },
+      {
+        "dest": "sys.stderr.flush",
+        "line_no": 339
+      },
+      {
+        "dest": "sys.stdout.flush",
+        "line_no": 340
+      }
+    ],
+    "tqdm.std.tqdm.status_printer.<lambda1>": [],
+    "sys.stderr.flush": [],
+    "sys.stdout.flush": [],
+    "tqdm.std.tqdm.status_printer.fp_write": [
+      {
+        "dest": "utils._unicode",
+        "line_no": 343
+      },
+      {
+        "dest": "sys.stderr.write",
+        "line_no": 343
+      }
+    ],
+    "utils._unicode": [],
+    "sys.stderr.write": [],
+    "tqdm.std.tqdm.status_printer.print_status": [
+      {
+        "dest": "utils.disp_len",
+        "line_no": 349
+      },
+      {
+        "dest": "<builtin>.max",
+        "line_no": 350
+      },
+      {
+        "dest": "tqdm.std.tqdm.status_printer.fp_write",
+        "line_no": 350
+      }
+    ],
+    "utils.disp_len": [],
+    "tqdm.std.tqdm.format_meter": [
+      {
+        "dest": "tqdm.std.tqdm.format_interval",
+        "line_no": 437
+      },
+      {
+        "dest": "tqdm.std.tqdm.format_sizeof",
+        "line_no": 445
+      },
+      {
+        "dest": "tqdm.std.tqdm.format_sizeof",
+        "line_no": 448
+      },
+      {
+        "dest": "tqdm.std.tqdm.format_sizeof",
+        "line_no": 453
+      },
+      {
+        "dest": "tqdm.std.tqdm.format_sizeof",
+        "line_no": 454
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 456
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 457
+      },
+      {
+        "dest": "tqdm.std.tqdm.format_interval",
+        "line_no": 465
+      },
+      {
+        "dest": "datetime.datetime.now",
+        "line_no": 467
+      },
+      {
+        "dest": "datetime.timedelta",
+        "line_no": 467
+      },
+      {
+        "dest": "datetime.datetime.utcfromtimestamp",
+        "line_no": 468
+      },
+      {
+        "dest": "<builtin>.dict",
+        "line_no": 485
+      },
+      {
+        "dest": "utils.FormatReplace",
+        "line_no": 522
+      },
+      {
+        "dest": "utils._unicode",
+        "line_no": 526
+      },
+      {
+        "dest": "utils.disp_len",
+        "line_no": 534
+      },
+      {
+        "dest": "<builtin>.max",
+        "line_no": 534
+      },
+      {
+        "dest": "tqdm.std.Bar.__init__",
+        "line_no": 533
+      },
+      {
+        "dest": "utils._is_ascii",
+        "line_no": 537
+      },
+      {
+        "dest": "utils._is_ascii",
+        "line_no": 537
+      },
+      {
+        "dest": "utils._unicode",
+        "line_no": 538
+      },
+      {
+        "dest": "utils.disp_trim",
+        "line_no": 540
+      },
+      {
+        "dest": "utils.FormatReplace",
+        "line_no": 546
+      },
+      {
+        "dest": "utils.disp_len",
+        "line_no": 551
+      },
+      {
+        "dest": "<builtin>.max",
+        "line_no": 551
+      },
+      {
+        "dest": "tqdm.std.Bar.__init__",
+        "line_no": 550
+      },
+      {
+        "dest": "utils.disp_trim",
+        "line_no": 554
+      }
+    ],
+    "datetime.datetime.now": [],
+    "datetime.timedelta": [],
+    "datetime.datetime.utcfromtimestamp": [],
+    "<builtin>.dict": [],
+    "utils.FormatReplace": [],
+    "utils._is_ascii": [],
+    "utils.disp_trim": [],
+    "tqdm.std.tqdm.__new__": [
+      {
+        "dest": "tqdm.std.tqdm.get_lock",
+        "line_no": 562
+      },
+      {
+        "dest": "_monitor.TMonitor",
+        "line_no": 568
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 571
+      },
+      {
+        "dest": "warnings.warn",
+        "line_no": 570
+      }
+    ],
+    "tqdm.std.tqdm.get_lock": [
+      {
+        "dest": "<builtin>.hasattr",
+        "line_no": 660
+      },
+      {
+        "dest": "tqdm.std.TqdmDefaultWriteLock.__init__",
+        "line_no": 661
+      }
+    ],
+    "_monitor.TMonitor": [],
+    "tqdm.std.tqdm._get_free_pos": [
+      {
+        "dest": "<builtin>.abs",
+        "line_no": 579
+      },
+      {
+        "dest": "<builtin>.hasattr",
+        "line_no": 580
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 581
+      },
+      {
+        "dest": "<builtin>.range",
+        "line_no": 581
+      },
+      {
+        "dest": "<builtin>.set",
+        "line_no": 581
+      },
+      {
+        "dest": "<builtin>.min",
+        "line_no": 581
+      }
+    ],
+    "<builtin>.set": [],
+    "tqdm.std.tqdm._decr_instances": [
+      {
+        "dest": "<builtin>.filter",
+        "line_no": 604
+      },
+      {
+        "dest": "<builtin>.list",
+        "line_no": 604
+      },
+      {
+        "dest": "<builtin>.min",
+        "line_no": 609
+      },
+      {
+        "dest": "<builtin>.abs",
+        "line_no": 611
+      }
+    ],
+    "tqdm.std.tqdm._decr_instances.<lambda1>": [
+      {
+        "dest": "<builtin>.hasattr",
+        "line_no": 605
+      }
+    ],
+    "<builtin>.filter": [],
+    "<builtin>.list": [],
+    "tqdm.std.tqdm._decr_instances.<lambda2>": [],
+    "tqdm.std.tqdm.write": [
+      {
+        "dest": "tqdm.std.tqdm.external_write_mode",
+        "line_no": 617
+      }
+    ],
+    "tqdm.std.tqdm.external_write_mode": [
+      {
+        "dest": "tqdm.std.tqdm.get_lock",
+        "line_no": 633
+      },
+      {
+        "dest": "tqdm.std.TqdmDefaultWriteLock.acquire",
+        "line_no": 633
+      },
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 636
+      },
+      {
+        "dest": "<builtin>.hasattr",
+        "line_no": 640
+      },
+      {
+        "dest": "<builtin>.all",
+        "line_no": 640
+      },
+      {
+        "dest": "tqdm.std.TqdmDefaultWriteLock.release",
+        "line_no": 650
+      }
+    ],
+    "contextlib.contextmanager": [],
+    "<builtin>.all": [],
+    "tqdm.std.tqdm.set_lock": [],
+    "tqdm.std.tqdm.pandas": [
+      {
+        "dest": "warnings.catch_warnings",
+        "line_no": 704
+      },
+      {
+        "dest": "warnings.simplefilter",
+        "line_no": 705
+      },
+      {
+        "dest": "tqdm.std.tqdm.pandas.inner_generator",
+        "line_no": 822
+      },
+      {
+        "dest": "tqdm.std.tqdm.pandas.inner_generator",
+        "line_no": 823
+      },
+      {
+        "dest": "tqdm.std.tqdm.pandas.inner_generator",
+        "line_no": 824
+      },
+      {
+        "dest": "tqdm.std.tqdm.pandas.inner_generator",
+        "line_no": 825
+      },
+      {
+        "dest": "tqdm.std.tqdm.pandas.inner_generator",
+        "line_no": 827
+      },
+      {
+        "dest": "tqdm.std.tqdm.pandas.inner_generator",
+        "line_no": 828
+      },
+      {
+        "dest": "tqdm.std.tqdm.pandas.inner_generator",
+        "line_no": 829
+      },
+      {
+        "dest": "tqdm.std.tqdm.pandas.inner_generator",
+        "line_no": 832
+      },
+      {
+        "dest": "tqdm.std.tqdm.pandas.inner_generator",
+        "line_no": 834
+      },
+      {
+        "dest": "tqdm.std.tqdm.pandas.inner_generator",
+        "line_no": 836
+      },
+      {
+        "dest": "tqdm.std.tqdm.pandas.inner_generator",
+        "line_no": 837
+      },
+      {
+        "dest": "tqdm.std.tqdm.pandas.inner_generator",
+        "line_no": 838
+      },
+      {
+        "dest": "tqdm.std.tqdm.pandas.inner_generator",
+        "line_no": 841
+      },
+      {
+        "dest": "tqdm.std.tqdm.pandas.inner_generator",
+        "line_no": 842
+      },
+      {
+        "dest": "tqdm.std.tqdm.pandas.inner_generator",
+        "line_no": 844
+      }
+    ],
+    "warnings.simplefilter": [],
+    "tqdm.std.tqdm.pandas.inner_generator": [],
+    "tqdm.std.tqdm.pandas.inner_generator.inner": [
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 760
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 764
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 765
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 767
+      },
+      {
+        "dest": "tqdm.std.tqdm.__init__",
+        "line_no": 782
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 784
+      },
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 791
+      },
+      {
+        "dest": "tqdm.TqdmDeprecationWarning.__init__",
+        "line_no": 786
+      },
+      {
+        "dest": "tqdm._utils.TqdmDeprecationWarning.__init__",
+        "line_no": 786
+      },
+      {
+        "dest": "tqdm._tqdm.TqdmDeprecationWarning.__init__",
+        "line_no": 786
+      },
+      {
+        "dest": "tqdm.std.TqdmWarning.__init__",
+        "line_no": 786
+      },
+      {
+        "dest": "tqdm._utils.TqdmDeprecationWarning.__init__",
+        "line_no": 786
+      },
+      {
+        "dest": "tqdm._utils.TqdmDeprecationWarning.__init__",
+        "line_no": 786
+      },
+      {
+        "dest": "std.TqdmDeprecationWarning",
+        "line_no": 786
+      },
+      {
+        "dest": "pandas.core.common.is_builtin_func",
+        "line_no": 798
+      },
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 814
+      }
+    ],
+    "<builtin>.isinstance": [],
+    "tqdm.std.tqdm.__init__": [
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 980
+      },
+      {
+        "dest": "utils.SimpleTextIOWrapper",
+        "line_no": 979
+      },
+      {
+        "dest": "utils.DisableOnWriteError",
+        "line_no": 982
+      },
+      {
+        "dest": "<builtin>.hasattr",
+        "line_no": 984
+      },
+      {
+        "dest": "sys.stderr.isatty",
+        "line_no": 984
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 989
+      },
+      {
+        "dest": "<builtin>.float",
+        "line_no": 992
+      },
+      {
+        "dest": "tqdm.std.tqdm._get_free_pos",
+        "line_no": 1000
+      },
+      {
+        "dest": "tqdm.std.tqdm._get_free_pos",
+        "line_no": 1010
+      },
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 1016
+      },
+      {
+        "dest": "tqdm._utils.TqdmDeprecationWarning.__init__",
+        "line_no": 1013
+      },
+      {
+        "dest": "tqdm.std.TqdmWarning.__init__",
+        "line_no": 1013
+      },
+      {
+        "dest": "tqdm._utils.TqdmDeprecationWarning.__init__",
+        "line_no": 1013
+      },
+      {
+        "dest": "tqdm._utils.TqdmDeprecationWarning.__init__",
+        "line_no": 1013
+      },
+      {
+        "dest": "std.TqdmDeprecationWarning",
+        "line_no": 1013
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 1018
+      },
+      {
+        "dest": "utils._screen_shape_wrapper",
+        "line_no": 1025
+      },
+      {
+        "dest": "utils._screen_shape_wrapper",
+        "line_no": 1029
+      },
+      {
+        "dest": "utils._supports_unicode",
+        "line_no": 1050
+      },
+      {
+        "dest": "utils._is_ascii",
+        "line_no": 1052
+      },
+      {
+        "dest": "utils._unicode",
+        "line_no": 1054
+      },
+      {
+        "dest": "tqdm.std.EMA.__init__",
+        "line_no": 1082
+      },
+      {
+        "dest": "tqdm.std.EMA.__init__",
+        "line_no": 1083
+      },
+      {
+        "dest": "tqdm.std.EMA.__init__",
+        "line_no": 1084
+      },
+      {
+        "dest": "tqdm.std.tqdm.set_postfix",
+        "line_no": 1091
+      },
+      {
+        "dest": "tqdm.std.tqdm._get_free_pos",
+        "line_no": 1103
+      },
+      {
+        "dest": "tqdm.std.tqdm.status_printer",
+        "line_no": 1107
+      },
+      {
+        "dest": "tqdm.std.tqdm.refresh",
+        "line_no": 1109
+      },
+      {
+        "dest": "time.time",
+        "line_no": 1112
+      }
+    ],
+    "tqdm.TqdmDeprecationWarning.__init__": [],
+    "tqdm._utils.TqdmDeprecationWarning.__init__": [],
+    "tqdm._tqdm.TqdmDeprecationWarning.__init__": [],
+    "std.TqdmDeprecationWarning": [],
+    "pandas.core.common.is_builtin_func": [],
+    "tqdm.std.tqdm.pandas.inner_generator.inner.wrapper": [],
+    "utils.SimpleTextIOWrapper": [],
+    "utils.DisableOnWriteError": [],
+    "sys.stderr.isatty": [],
+    "<builtin>.float": [],
+    "utils._screen_shape_wrapper": [],
+    "utils._supports_unicode": [],
+    "tqdm.std.tqdm.set_postfix": [
+      {
+        "dest": "collections.OrderedDict",
+        "line_no": 1414
+      },
+      {
+        "dest": "<builtin>.sorted",
+        "line_no": 1415
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 1420
+      },
+      {
+        "dest": "tqdm.std.tqdm.format_num",
+        "line_no": 1421
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 1423
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 1424
+      },
+      {
+        "dest": "tqdm.std.tqdm.refresh",
+        "line_no": 1430
+      }
+    ],
+    "tqdm.std.tqdm.refresh": [
+      {
+        "dest": "tqdm.std.TqdmDefaultWriteLock.acquire",
+        "line_no": 1342
+      },
+      {
+        "dest": "tqdm.std.TqdmDefaultWriteLock.acquire",
+        "line_no": 1345
+      },
+      {
+        "dest": "tqdm.std.tqdm.display",
+        "line_no": 1346
+      },
+      {
+        "dest": "tqdm.rich.tqdm_rich.display",
+        "line_no": 1346
+      },
+      {
+        "dest": "tqdm.tk.tqdm_tk.display",
+        "line_no": 1346
+      },
+      {
+        "dest": "tqdm.gui.tqdm_gui.display",
+        "line_no": 1346
+      },
+      {
+        "dest": "tqdm.std.TqdmDefaultWriteLock.release",
+        "line_no": 1348
+      }
+    ],
+    "time.time": [],
+    "tqdm.std.tqdm.__bool__": [
+      {
+        "dest": "<builtin>.TypeError",
+        "line_no": 1120
+      },
+      {
+        "dest": "<builtin>.bool",
+        "line_no": 1121
+      }
+    ],
+    "<builtin>.TypeError": [],
+    "tqdm.std.tqdm.__nonzero__": [
+      {
+        "dest": "tqdm.std.tqdm.__bool__",
+        "line_no": 1124
+      }
+    ],
+    "tqdm.std.tqdm.__len__": [
+      {
+        "dest": "<builtin>.hasattr",
+        "line_no": 1129
+      },
+      {
+        "dest": "<builtin>.hasattr",
+        "line_no": 1130
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 1130
+      },
+      {
+        "dest": "<builtin>.hasattr",
+        "line_no": 1131
+      },
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 1132
+      }
+    ],
+    "tqdm.std.tqdm.__enter__": [],
+    "tqdm.std.tqdm.__exit__": [
+      {
+        "dest": "tqdm.gui.tqdm_gui.close",
+        "line_no": 1139
+      },
+      {
+        "dest": "tqdm.std.tqdm.close",
+        "line_no": 1139
+      },
+      {
+        "dest": "tqdm.rich.tqdm_rich.close",
+        "line_no": 1139
+      },
+      {
+        "dest": "tqdm.tk.tqdm_tk.close",
+        "line_no": 1139
+      },
+      {
+        "dest": "warnings.warn",
+        "line_no": 1144
+      }
+    ],
+    "tqdm.gui.tqdm_gui.close": [
+      {
+        "dest": "tqdm.std.tqdm.get_lock",
+        "line_no": 96
+      },
+      {
+        "dest": "matplotlib.pyplot.ioff",
+        "line_no": 103
+      },
+      {
+        "dest": "tqdm.gui.tqdm_gui.display",
+        "line_no": 105
+      },
+      {
+        "dest": "matplotlib.pyplot.close",
+        "line_no": 107
+      }
+    ],
+    "tqdm.std.tqdm.close": [
+      {
+        "dest": "<builtin>.abs",
+        "line_no": 1273
+      },
+      {
+        "dest": "tqdm.std.tqdm._decr_instances",
+        "line_no": 1274
+      },
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 1281
+      },
+      {
+        "dest": "tqdm.std.tqdm.close.fp_write",
+        "line_no": 1289
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 1291
+      },
+      {
+        "dest": "tqdm.std.tqdm.display",
+        "line_no": 1301
+      },
+      {
+        "dest": "tqdm.rich.tqdm_rich.display",
+        "line_no": 1301
+      },
+      {
+        "dest": "tqdm.tk.tqdm_tk.display",
+        "line_no": 1301
+      },
+      {
+        "dest": "tqdm.gui.tqdm_gui.display",
+        "line_no": 1301
+      },
+      {
+        "dest": "tqdm.std.tqdm.close.fp_write",
+        "line_no": 1302
+      },
+      {
+        "dest": "tqdm.std.tqdm.display",
+        "line_no": 1305
+      },
+      {
+        "dest": "tqdm.rich.tqdm_rich.display",
+        "line_no": 1305
+      },
+      {
+        "dest": "tqdm.tk.tqdm_tk.display",
+        "line_no": 1305
+      },
+      {
+        "dest": "tqdm.gui.tqdm_gui.display",
+        "line_no": 1305
+      },
+      {
+        "dest": "tqdm.std.tqdm.close.fp_write",
+        "line_no": 1306
+      }
+    ],
+    "tqdm.rich.tqdm_rich.close": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 118
+      }
+    ],
+    "tqdm.tk.tqdm_tk.close": [
+      {
+        "dest": "tqdm.std.tqdm.get_lock",
+        "line_no": 115
+      },
+      {
+        "dest": "tqdm.tk.tqdm_tk.close._close",
+        "line_no": 128
+      },
+      {
+        "dest": "warnings.warn",
+        "line_no": 131
+      },
+      {
+        "dest": "tqdm.tk.tqdm_tk.close._close",
+        "line_no": 133
+      }
+    ],
+    "tqdm.std.tqdm.__del__": [
+      {
+        "dest": "tqdm.gui.tqdm_gui.close",
+        "line_no": 1147
+      },
+      {
+        "dest": "tqdm.std.tqdm.close",
+        "line_no": 1147
+      },
+      {
+        "dest": "tqdm.rich.tqdm_rich.close",
+        "line_no": 1147
+      },
+      {
+        "dest": "tqdm.tk.tqdm_tk.close",
+        "line_no": 1147
+      }
+    ],
+    "tqdm.std.tqdm.__str__": [
+      {
+        "dest": "tqdm.std.tqdm.format_meter",
+        "line_no": 1150
+      }
+    ],
+    "tqdm.std.tqdm._comparable": [
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 1154
+      },
+      {
+        "dest": "<builtin>.abs",
+        "line_no": 1154
+      }
+    ],
+    "tqdm.std.tqdm.__hash__": [
+      {
+        "dest": "<builtin>.id",
+        "line_no": 1157
+      }
+    ],
+    "<builtin>.id": [],
+    "tqdm.std.tqdm.__iter__": [
+      {
+        "dest": "time.time",
+        "line_no": 1187
+      },
+      {
+        "dest": "tqdm.std.tqdm.update",
+        "line_no": 1190
+      },
+      {
+        "dest": "tqdm.gui.tqdm_gui.close",
+        "line_no": 1195
+      },
+      {
+        "dest": "tqdm.std.tqdm.close",
+        "line_no": 1195
+      },
+      {
+        "dest": "tqdm.rich.tqdm_rich.close",
+        "line_no": 1195
+      },
+      {
+        "dest": "tqdm.tk.tqdm_tk.close",
+        "line_no": 1195
+      }
+    ],
+    "tqdm.std.tqdm.update": [
+      {
+        "dest": "time.time",
+        "line_no": 1232
+      },
+      {
+        "dest": "time.time",
+        "line_no": 1235
+      },
+      {
+        "dest": "tqdm.std.EMA.__init__",
+        "line_no": 1239
+      },
+      {
+        "dest": "tqdm.std.tqdm.close.<lambda1>",
+        "line_no": 1240
+      },
+      {
+        "dest": "tqdm.std.EMA.__init__",
+        "line_no": 1240
+      },
+      {
+        "dest": "tqdm.std.tqdm.refresh",
+        "line_no": 1241
+      },
+      {
+        "dest": "tqdm.std.EMA.__init__",
+        "line_no": 1252
+      },
+      {
+        "dest": "<builtin>.max",
+        "line_no": 1257
+      }
+    ],
+    "tqdm.std.tqdm.close.<lambda1>": [],
+    "tqdm.std.tqdm.close.fp_write": [
+      {
+        "dest": "utils._unicode",
+        "line_no": 1286
+      },
+      {
+        "dest": "sys.stderr.write",
+        "line_no": 1286
+      }
+    ],
+    "tqdm.std.tqdm.display": [
+      {
+        "dest": "<builtin>.abs",
+        "line_no": 1477
+      },
+      {
+        "dest": "<builtin>.hasattr",
+        "line_no": 1486
+      },
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 1490
+      },
+      {
+        "dest": "tqdm._utils.TqdmDeprecationWarning.__init__",
+        "line_no": 1487
+      },
+      {
+        "dest": "tqdm.std.TqdmWarning.__init__",
+        "line_no": 1487
+      },
+      {
+        "dest": "tqdm._utils.TqdmDeprecationWarning.__init__",
+        "line_no": 1487
+      },
+      {
+        "dest": "tqdm._utils.TqdmDeprecationWarning.__init__",
+        "line_no": 1487
+      },
+      {
+        "dest": "std.TqdmDeprecationWarning",
+        "line_no": 1487
+      },
+      {
+        "dest": "tqdm._utils.TqdmDeprecationWarning.__init__",
+        "line_no": 1487
+      },
+      {
+        "dest": "tqdm.std.TqdmWarning.__init__",
+        "line_no": 1487
+      },
+      {
+        "dest": "tqdm._utils.TqdmDeprecationWarning.__init__",
+        "line_no": 1487
+      },
+      {
+        "dest": "tqdm._utils.TqdmDeprecationWarning.__init__",
+        "line_no": 1487
+      },
+      {
+        "dest": "std.TqdmDeprecationWarning",
+        "line_no": 1487
+      },
+      {
+        "dest": "tqdm.std.tqdm.moveto",
+        "line_no": 1493
+      },
+      {
+        "dest": "tqdm.std.tqdm.__str__",
+        "line_no": 1494
+      },
+      {
+        "dest": "tqdm.std.tqdm.status_printer.print_status",
+        "line_no": 1494
+      },
+      {
+        "dest": "tqdm.std.tqdm.moveto",
+        "line_no": 1496
+      }
+    ],
+    "tqdm.rich.tqdm_rich.display": [
+      {
+        "dest": "<builtin>.hasattr",
+        "line_no": 125
+      }
+    ],
+    "tqdm.tk.tqdm_tk.display": [
+      {
+        "dest": "tqdm.std.tqdm.format_meter",
+        "line_no": 144
+      },
+      {
+        "dest": "re.split",
+        "line_no": 146
+      }
+    ],
+    "tqdm.gui.tqdm_gui.display": [
+      {
+        "dest": "time.time",
+        "line_no": 114
+      },
+      {
+        "dest": "utils.Comparable.line1.set_data",
+        "line_no": 151
+      },
+      {
+        "dest": "utils.Comparable.line2.set_data",
+        "line_no": 152
+      },
+      {
+        "dest": "matplotlib.pyplot.axhspan",
+        "line_no": 156
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 162
+      },
+      {
+        "dest": "utils.Comparable.line1.set_data",
+        "line_no": 167
+      },
+      {
+        "dest": "utils.Comparable.line2.set_data",
+        "line_no": 168
+      },
+      {
+        "dest": "tqdm.std.tqdm.format_meter",
+        "line_no": 174
+      },
+      {
+        "dest": "re.split",
+        "line_no": 176
+      },
+      {
+        "dest": "matplotlib.pyplot.pause",
+        "line_no": 178
+      }
+    ],
+    "tqdm.std.tqdm.clear": [
+      {
+        "dest": "tqdm.std.TqdmDefaultWriteLock.acquire",
+        "line_no": 1314
+      },
+      {
+        "dest": "<builtin>.abs",
+        "line_no": 1315
+      },
+      {
+        "dest": "tqdm.std.tqdm.moveto",
+        "line_no": 1317
+      },
+      {
+        "dest": "tqdm.std.tqdm.status_printer.print_status",
+        "line_no": 1318
+      },
+      {
+        "dest": "sys.stderr.write",
+        "line_no": 1319
+      },
+      {
+        "dest": "tqdm.std.tqdm.moveto",
+        "line_no": 1320
+      },
+      {
+        "dest": "tqdm.std.TqdmDefaultWriteLock.release",
+        "line_no": 1322
+      }
+    ],
+    "tqdm.std.tqdm.moveto": [
+      {
+        "dest": "utils._term_move_up",
+        "line_no": 1442
+      },
+      {
+        "dest": "utils._unicode",
+        "line_no": 1442
+      },
+      {
+        "dest": "sys.stderr.write",
+        "line_no": 1442
+      },
+      {
+        "dest": "sys.stderr.flush",
+        "line_no": 1443
+      }
+    ],
+    "tqdm.std.tqdm.unpause": [
+      {
+        "dest": "time.time",
+        "line_no": 1355
+      }
+    ],
+    "tqdm.std.tqdm.reset": [
+      {
+        "dest": "time.time",
+        "line_no": 1375
+      },
+      {
+        "dest": "tqdm.std.EMA.__init__",
+        "line_no": 1376
+      },
+      {
+        "dest": "tqdm.std.EMA.__init__",
+        "line_no": 1377
+      },
+      {
+        "dest": "tqdm.std.EMA.__init__",
+        "line_no": 1378
+      },
+      {
+        "dest": "tqdm.std.tqdm.refresh",
+        "line_no": 1379
+      }
+    ],
+    "tqdm.std.tqdm.set_description": [
+      {
+        "dest": "tqdm.std.tqdm.refresh",
+        "line_no": 1393
+      }
+    ],
+    "tqdm.std.tqdm.set_description_str": [
+      {
+        "dest": "tqdm.std.tqdm.refresh",
+        "line_no": 1399
+      }
+    ],
+    "collections.OrderedDict": [],
+    "tqdm.std.tqdm.set_postfix_str": [
+      {
+        "dest": "<builtin>.str",
+        "line_no": 1436
+      },
+      {
+        "dest": "tqdm.std.tqdm.refresh",
+        "line_no": 1438
+      }
+    ],
+    "utils._term_move_up": [],
+    "tqdm.std.tqdm.format_dict": [
+      {
+        "dest": "<builtin>.hasattr",
+        "line_no": 1448
+      },
+      {
+        "dest": "collections.defaultdict",
+        "line_no": 1449
+      },
+      {
+        "dest": "<builtin>.hasattr",
+        "line_no": 1455
+      },
+      {
+        "dest": "time.time",
+        "line_no": 1455
+      },
+      {
+        "dest": "tqdm.std.tqdm.close.<lambda1>",
+        "line_no": 1458
+      },
+      {
+        "dest": "tqdm.std.EMA.__init__",
+        "line_no": 1458
+      },
+      {
+        "dest": "tqdm.std.EMA.__init__",
+        "line_no": 1458
+      },
+      {
+        "dest": "tqdm.std.tqdm.close.<lambda1>",
+        "line_no": 1458
+      },
+      {
+        "dest": "tqdm.std.EMA.__init__",
+        "line_no": 1458
+      }
+    ],
+    "tqdm.std.tqdm.format_dict.<lambda1>": [],
+    "collections.defaultdict": [],
+    "tqdm.std.tqdm.wrapattr": [
+      {
+        "dest": "tqdm.std.tqdm.__init__",
+        "line_no": 1513
+      },
+      {
+        "dest": "utils.CallbackIOWrapper",
+        "line_no": 1518
+      }
+    ],
+    "utils.CallbackIOWrapper": [],
+    "tqdm.std.trange": [
+      {
+        "dest": "utils._range",
+        "line_no": 1526
+      },
+      {
+        "dest": "tqdm.std.tqdm.__init__",
+        "line_no": 1526
+      }
+    ],
+    "tqdm._utils": [
+      {
+        "dest": "warnings.warn",
+        "line_no": 10
+      }
+    ],
+    "tqdm._tqdm": [
+      {
+        "dest": "warnings.warn",
+        "line_no": 7
+      }
+    ],
+    "tqdm": [],
+    "tqdm.tqdm_notebook": [
+      {
+        "dest": "warnings.warn",
+        "line_no": 25
+      },
+      {
+        "dest": "notebook.tqdm",
+        "line_no": 28
+      }
+    ],
+    "notebook.tqdm": [],
+    "tqdm.tnrange": [
+      {
+        "dest": "warnings.warn",
+        "line_no": 39
+      },
+      {
+        "dest": "notebook.trange",
+        "line_no": 41
+      }
+    ],
+    "notebook.trange": [],
+    "tqdm.rich": [],
+    "tqdm.rich.FractionColumn.__init__": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 29
+      }
+    ],
+    "tqdm.rich.FractionColumn.render": [
+      {
+        "dest": "<builtin>.int",
+        "line_no": 33
+      },
+      {
+        "dest": "<builtin>.int",
+        "line_no": 34
+      },
+      {
+        "dest": "rich.progress.filesize.pick_unit_and_suffix",
+        "line_no": 36
+      },
+      {
+        "dest": "rich.progress.filesize.pick_unit_and_suffix",
+        "line_no": 42
+      },
+      {
+        "dest": "rich.progress.Text",
+        "line_no": 44
+      }
+    ],
+    "rich.progress.filesize.pick_unit_and_suffix": [],
+    "rich.progress.Text": [],
+    "tqdm.rich.RateColumn.__init__": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 55
+      }
+    ],
+    "tqdm.rich.RateColumn.render": [
+      {
+        "dest": "rich.progress.Text",
+        "line_no": 61
+      },
+      {
+        "dest": "rich.progress.filesize.pick_unit_and_suffix",
+        "line_no": 63
+      },
+      {
+        "dest": "rich.progress.filesize.pick_unit_and_suffix",
+        "line_no": 69
+      },
+      {
+        "dest": "rich.progress.Text",
+        "line_no": 71
+      }
+    ],
+    "tqdm.rich.tqdm_rich.__init__": [
+      {
+        "dest": "<builtin>.bool",
+        "line_no": 91
+      },
+      {
+        "dest": "<builtin>.super",
+        "line_no": 93
+      },
+      {
+        "dest": "warnings.warn",
+        "line_no": 98
+      },
+      {
+        "dest": "rich.progress.BarColumn",
+        "line_no": 104
+      },
+      {
+        "dest": "tqdm.rich.FractionColumn.__init__",
+        "line_no": 105
+      },
+      {
+        "dest": "rich.progress.TimeElapsedColumn",
+        "line_no": 107
+      },
+      {
+        "dest": "rich.progress.TimeRemainingColumn",
+        "line_no": 107
+      },
+      {
+        "dest": "tqdm.rich.RateColumn.__init__",
+        "line_no": 108
+      },
+      {
+        "dest": "rich.progress.Progress",
+        "line_no": 111
+      }
+    ],
+    "rich.progress.BarColumn": [],
+    "rich.progress.TimeElapsedColumn": [],
+    "rich.progress.TimeRemainingColumn": [],
+    "rich.progress.Progress": [],
+    "tqdm.rich.tqdm_rich.clear": [],
+    "tqdm.rich.tqdm_rich.reset": [
+      {
+        "dest": "<builtin>.hasattr",
+        "line_no": 137
+      },
+      {
+        "dest": "<builtin>.super",
+        "line_no": 139
+      }
+    ],
+    "tqdm.rich.trrange": [
+      {
+        "dest": "utils._range",
+        "line_no": 147
+      },
+      {
+        "dest": "tqdm.rich.tqdm_rich.__init__",
+        "line_no": 147
+      }
+    ],
+    "tqdm.auto": [
+      {
+        "dest": "warnings.catch_warnings",
+        "line_no": 20
+      },
+      {
+        "dest": "warnings.simplefilter",
+        "line_no": 21
+      }
+    ],
+    "tqdm.auto.trange": [
+      {
+        "dest": "<builtin>.range",
+        "line_no": 42
+      },
+      {
+        "dest": "autonotebook.tqdm",
+        "line_no": 42
+      },
+      {
+        "dest": "tqdm.asyncio.tqdm_asyncio.__init__",
+        "line_no": 42
+      }
+    ],
+    "tqdm._main": [
+      {
+        "dest": "warnings.warn",
+        "line_no": 7
+      }
+    ],
+    "tqdm._tqdm_gui": [
+      {
+        "dest": "warnings.warn",
+        "line_no": 7
+      }
+    ],
+    "tqdm.tk": [],
+    "tqdm.tk.tqdm_tk.__init__": [
+      {
+        "dest": "<builtin>.bool",
+        "line_no": 59
+      },
+      {
+        "dest": "<builtin>.super",
+        "line_no": 64
+      },
+      {
+        "dest": "<builtin>.AttributeError",
+        "line_no": 73
+      },
+      {
+        "dest": "tkinter.Tk",
+        "line_no": 76
+      },
+      {
+        "dest": "Tkinter.Toplevel",
+        "line_no": 78
+      },
+      {
+        "dest": "tkinter.Toplevel",
+        "line_no": 78
+      },
+      {
+        "dest": "Tkinter.Toplevel",
+        "line_no": 80
+      },
+      {
+        "dest": "tkinter.Toplevel",
+        "line_no": 80
+      },
+      {
+        "dest": "warnings.warn",
+        "line_no": 82
+      },
+      {
+        "dest": "tqdm.tk.tqdm_tk._tk_dispatching_helper",
+        "line_no": 83
+      },
+      {
+        "dest": "tkinter.DoubleVar",
+        "line_no": 89
+      },
+      {
+        "dest": "Tkinter.DoubleVar",
+        "line_no": 89
+      },
+      {
+        "dest": "tkinter.StringVar",
+        "line_no": 90
+      },
+      {
+        "dest": "Tkinter.StringVar",
+        "line_no": 90
+      },
+      {
+        "dest": "ttk.Frame",
+        "line_no": 91
+      },
+      {
+        "dest": "tkinter.ttk.Frame",
+        "line_no": 91
+      },
+      {
+        "dest": "ttk.Label",
+        "line_no": 93
+      },
+      {
+        "dest": "tkinter.ttk.Label",
+        "line_no": 93
+      },
+      {
+        "dest": "ttk.Progressbar",
+        "line_no": 96
+      },
+      {
+        "dest": "tkinter.ttk.Progressbar",
+        "line_no": 96
+      },
+      {
+        "dest": "tkinter.ttk.Button",
+        "line_no": 104
+      },
+      {
+        "dest": "ttk.Button",
+        "line_no": 104
+      }
+    ],
+    "<builtin>.AttributeError": [],
+    "tkinter.Tk": [],
+    "Tkinter.Toplevel": [],
+    "tkinter.Toplevel": [],
+    "tqdm.tk.tqdm_tk._tk_dispatching_helper": [
+      {
+        "dest": "sys._current_frames",
+        "line_no": 189
+      }
+    ],
+    "tqdm.tk.tqdm_tk.__init__.<lambda1>": [],
+    "tkinter.DoubleVar": [],
+    "Tkinter.DoubleVar": [],
+    "tkinter.StringVar": [],
+    "Tkinter.StringVar": [],
+    "ttk.Frame": [],
+    "tkinter.ttk.Frame": [],
+    "ttk.Label": [],
+    "tkinter.ttk.Label": [],
+    "ttk.Progressbar": [],
+    "tkinter.ttk.Progressbar": [],
+    "tkinter.ttk.Button": [],
+    "ttk.Button": [],
+    "tqdm.tk.tqdm_tk.close._close": [],
+    "tqdm.tk.tqdm_tk.clear": [],
+    "tqdm.tk.tqdm_tk.set_description": [
+      {
+        "dest": "tqdm.tk.tqdm_tk.set_description_str",
+        "line_no": 152
+      }
+    ],
+    "tqdm.tk.tqdm_tk.set_description_str": [],
+    "tqdm.tk.tqdm_tk.cancel": [
+      {
+        "dest": "tqdm.tk.tqdm_tk.close",
+        "line_no": 168
+      }
+    ],
+    "tqdm.tk.tqdm_tk.reset": [
+      {
+        "dest": "<builtin>.hasattr",
+        "line_no": 178
+      },
+      {
+        "dest": "<builtin>.super",
+        "line_no": 183
+      }
+    ],
+    "sys._current_frames": [],
+    "tqdm.tk.ttkrange": [
+      {
+        "dest": "utils._range",
+        "line_no": 202
+      },
+      {
+        "dest": "tqdm.tk.tqdm_tk.__init__",
+        "line_no": 202
+      }
+    ],
+    "tqdm._tqdm_notebook": [
+      {
+        "dest": "warnings.warn",
+        "line_no": 7
+      }
+    ],
+    "tqdm._monitor": [],
+    "tqdm._monitor.TMonitor.__init__": [
+      {
+        "dest": "threading.Thread.__init__",
+        "line_no": 31
+      },
+      {
+        "dest": "atexit.register",
+        "line_no": 38
+      },
+      {
+        "dest": "threading.Thread.start",
+        "line_no": 39
+      }
+    ],
+    "threading.Thread.__init__": [],
+    "atexit.register": [],
+    "threading.Thread.start": [],
+    "tqdm._monitor.TMonitor.exit": [
+      {
+        "dest": "threading.current_thread",
+        "line_no": 43
+      },
+      {
+        "dest": "threading.Thread.join",
+        "line_no": 44
+      },
+      {
+        "dest": "tqdm._monitor.TMonitor.report",
+        "line_no": 45
+      }
+    ],
+    "threading.current_thread": [],
+    "threading.Thread.join": [],
+    "tqdm._monitor.TMonitor.report": [],
+    "tqdm._monitor.TMonitor.get_instances": [
+      {
+        "dest": "<builtin>.hasattr",
+        "line_no": 51
+      }
+    ],
+    "tqdm._monitor.TMonitor.run": [
+      {
+        "dest": "tqdm._monitor.TMonitor.get_instances",
+        "line_no": 69
+      },
+      {
+        "dest": "tqdm._monitor.TMonitor.get_instances",
+        "line_no": 87
+      },
+      {
+        "dest": "warnings.warn",
+        "line_no": 88
+      }
+    ],
+    "tqdm._tqdm_pandas": [],
+    "tqdm._tqdm_pandas.tqdm_pandas": [
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 14
+      },
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 14
+      },
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 18
+      },
+      {
+        "dest": "tqdm._utils.TqdmDeprecationWarning.__init__",
+        "line_no": 16
+      },
+      {
+        "dest": "tqdm.std.TqdmWarning.__init__",
+        "line_no": 16
+      },
+      {
+        "dest": "tqdm._utils.TqdmDeprecationWarning.__init__",
+        "line_no": 16
+      },
+      {
+        "dest": "std.TqdmDeprecationWarning",
+        "line_no": 16
+      },
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 23
+      },
+      {
+        "dest": "tqdm._utils.TqdmDeprecationWarning.__init__",
+        "line_no": 21
+      },
+      {
+        "dest": "tqdm.std.TqdmWarning.__init__",
+        "line_no": 21
+      },
+      {
+        "dest": "tqdm._utils.TqdmDeprecationWarning.__init__",
+        "line_no": 21
+      },
+      {
+        "dest": "std.TqdmDeprecationWarning",
+        "line_no": 21
+      },
+      {
+        "dest": "<builtin>.type",
+        "line_no": 24
+      }
+    ],
+    "tqdm.autonotebook": [
+      {
+        "dest": "<builtin>.ImportError",
+        "line_no": 15
+      },
+      {
+        "dest": "<builtin>.ImportError",
+        "line_no": 17
+      },
+      {
+        "dest": "warnings.warn",
+        "line_no": 25
+      }
+    ],
+    "tqdm.__main__": [
+      {
+        "dest": "cli.main",
+        "line_no": 3
+      }
+    ],
+    "cli.main": [],
+    "tqdm.gui": [],
+    "tqdm.gui.tqdm_gui.__init__": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 37
+      },
+      {
+        "dest": "warnings.warn",
+        "line_no": 42
+      },
+      {
+        "dest": "<builtin>.max",
+        "line_no": 50
+      },
+      {
+        "dest": "matplotlib.pyplot.subplots",
+        "line_no": 51
+      },
+      {
+        "dest": "tqdm.std.tqdm.__len__",
+        "line_no": 53
+      },
+      {
+        "dest": "collections.deque",
+        "line_no": 59
+      },
+      {
+        "dest": "collections.deque",
+        "line_no": 60
+      },
+      {
+        "dest": "collections.deque",
+        "line_no": 61
+      },
+      {
+        "dest": "utils.Comparable.fig.legend",
+        "line_no": 68
+      },
+      {
+        "dest": "matplotlib.pyplot.axhspan",
+        "line_no": 71
+      },
+      {
+        "dest": "matplotlib.pyplot.ticklabel_format",
+        "line_no": 82
+      },
+      {
+        "dest": "matplotlib.pyplot.isinteractive",
+        "line_no": 86
+      },
+      {
+        "dest": "matplotlib.pyplot.ion",
+        "line_no": 87
+      }
+    ],
+    "matplotlib.pyplot.subplots": [],
+    "collections.deque": [],
+    "utils.Comparable.fig.legend": [],
+    "matplotlib.pyplot.axhspan": [],
+    "matplotlib.pyplot.ticklabel_format": [],
+    "matplotlib.pyplot.isinteractive": [],
+    "matplotlib.pyplot.ion": [],
+    "matplotlib.pyplot.ioff": [],
+    "matplotlib.pyplot.close": [],
+    "tqdm.gui.tqdm_gui.clear": [],
+    "utils.Comparable.line1.set_data": [],
+    "utils.Comparable.line2.set_data": [],
+    "matplotlib.pyplot.pause": [],
+    "tqdm.gui.tgrange": [
+      {
+        "dest": "utils._range",
+        "line_no": 186
+      },
+      {
+        "dest": "tqdm.gui.tqdm_gui.__init__",
+        "line_no": 186
+      }
+    ],
+    "tqdm.keras": [],
+    "tqdm.keras.TqdmCallback.bar2callback": [],
+    "tqdm.keras.TqdmCallback.bar2callback.callback": [
+      {
+        "dest": "tqdm.keras.TqdmCallback.<lambda1>",
+        "line_no": 24
+      },
+      {
+        "dest": "copy.copy",
+        "line_no": 27
+      },
+      {
+        "dest": "std.tqdm.set_postfix",
+        "line_no": 29
+      },
+      {
+        "dest": "std.tqdm.update",
+        "line_no": 30
+      }
+    ],
+    "tqdm.keras.TqdmCallback.<lambda1>": [],
+    "copy.copy": [],
+    "std.tqdm.set_postfix": [],
+    "tqdm.keras.TqdmCallback.__init__": [
+      {
+        "dest": "functools.partial",
+        "line_no": 54
+      },
+      {
+        "dest": "autonotebook.tqdm",
+        "line_no": 56
+      },
+      {
+        "dest": "tqdm.asyncio.tqdm_asyncio.__init__",
+        "line_no": 56
+      },
+      {
+        "dest": "tqdm.keras.TqdmCallback.bar2callback",
+        "line_no": 57
+      },
+      {
+        "dest": "autonotebook.tqdm",
+        "line_no": 64
+      },
+      {
+        "dest": "tqdm.asyncio.tqdm_asyncio.__init__",
+        "line_no": 64
+      },
+      {
+        "dest": "tqdm.keras.TqdmCallback.bar2callback",
+        "line_no": 65
+      }
+    ],
+    "tqdm.keras.TqdmCallback.__init__.<lambda1>": [],
+    "tqdm.keras.TqdmCallback.on_train_begin": [
+      {
+        "dest": "keras.callbacks.Callback.params.get",
+        "line_no": 71
+      },
+      {
+        "dest": "keras.callbacks.Callback.params.get",
+        "line_no": 71
+      }
+    ],
+    "keras.callbacks.Callback.params.get": [],
+    "tqdm.keras.TqdmCallback.on_epoch_begin": [
+      {
+        "dest": "keras.callbacks.Callback.params.get",
+        "line_no": 82
+      },
+      {
+        "dest": "keras.callbacks.Callback.params.get",
+        "line_no": 81
+      },
+      {
+        "dest": "keras.callbacks.Callback.params.get",
+        "line_no": 81
+      },
+      {
+        "dest": "<builtin>.hasattr",
+        "line_no": 84
+      },
+      {
+        "dest": "tqdm.contrib.telegram.tqdm_telegram.close",
+        "line_no": 85
+      },
+      {
+        "dest": "std.tqdm.close",
+        "line_no": 85
+      },
+      {
+        "dest": "keras.callbacks.Callback.params.get",
+        "line_no": 88
+      },
+      {
+        "dest": "autonotebook.tqdm",
+        "line_no": 86
+      },
+      {
+        "dest": "tqdm.asyncio.tqdm_asyncio.__init__",
+        "line_no": 86
+      },
+      {
+        "dest": "tqdm.keras.TqdmCallback.bar2callback",
+        "line_no": 89
+      },
+      {
+        "dest": "keras.callbacks.Callback.params.get",
+        "line_no": 93
+      },
+      {
+        "dest": "std.tqdm.reset",
+        "line_no": 94
+      },
+      {
+        "dest": "<builtin>.KeyError",
+        "line_no": 96
+      }
+    ],
+    "tqdm.keras.TqdmCallback.on_epoch_begin.<lambda1>": [],
+    "std.tqdm.reset": [],
+    "<builtin>.KeyError": [],
+    "tqdm.keras.TqdmCallback.on_train_end": [
+      {
+        "dest": "tqdm.contrib.telegram.tqdm_telegram.close",
+        "line_no": 100
+      },
+      {
+        "dest": "std.tqdm.close",
+        "line_no": 100
+      }
+    ],
+    "tqdm.keras.TqdmCallback.display": [
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 105
+      },
+      {
+        "dest": "IPython.display.display",
+        "line_no": 109
+      },
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 110
+      },
+      {
+        "dest": "IPython.display.display",
+        "line_no": 112
+      }
+    ],
+    "IPython.display.display": [],
+    "tqdm.keras.TqdmCallback._implements_train_batch_hooks": [],
+    "tqdm.keras.TqdmCallback._implements_test_batch_hooks": [],
+    "tqdm.keras.TqdmCallback._implements_predict_batch_hooks": [],
+    "tqdm.utils": [
+      {
+        "dest": "sys.platform.startswith",
+        "line_no": 33
+      },
+      {
+        "dest": "<builtin>.any",
+        "line_no": 33
+      },
+      {
+        "dest": "sys.platform.startswith",
+        "line_no": 34
+      },
+      {
+        "dest": "<builtin>.any",
+        "line_no": 34
+      },
+      {
+        "dest": "re.compile",
+        "line_no": 35
+      },
+      {
+        "dest": "colorama.init",
+        "line_no": 46
+      },
+      {
+        "dest": "colorama.init",
+        "line_no": 48
+      }
+    ],
+    "sys.platform.startswith": [],
+    "<builtin>.any": [],
+    "re.compile": [],
+    "colorama.init": [],
+    "tqdm.utils.FormatReplace.__init__": [],
+    "tqdm.utils.FormatReplace.__format__": [],
+    "tqdm.utils.Comparable.__lt__": [],
+    "tqdm.utils.Comparable.__le__": [],
+    "tqdm.utils.Comparable.__eq__": [],
+    "tqdm.utils.Comparable.__ne__": [],
+    "tqdm.utils.Comparable.__gt__": [],
+    "tqdm.utils.Comparable.__ge__": [],
+    "tqdm.utils.ObjectWrapper.__getattr__": [
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 89
+      }
+    ],
+    "tqdm.utils.ObjectWrapper.__setattr__": [
+      {
+        "dest": "<builtin>.setattr",
+        "line_no": 92
+      }
+    ],
+    "<builtin>.setattr": [],
+    "tqdm.utils.ObjectWrapper.wrapper_getattr": [
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 99
+      }
+    ],
+    "tqdm.utils.ObjectWrapper.wrapper_setattr": [],
+    "tqdm.utils.ObjectWrapper.__init__": [
+      {
+        "dest": "tqdm.utils.ObjectWrapper.wrapper_setattr",
+        "line_no": 109
+      }
+    ],
+    "tqdm.utils.SimpleTextIOWrapper.__init__": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 119
+      },
+      {
+        "dest": "tqdm.utils.ObjectWrapper.wrapper_setattr",
+        "line_no": 120
+      }
+    ],
+    "tqdm.utils.SimpleTextIOWrapper.write": [
+      {
+        "dest": "tqdm.utils.ObjectWrapper.wrapper_getattr",
+        "line_no": 126
+      }
+    ],
+    "tqdm.utils.SimpleTextIOWrapper.__eq__": [
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 129
+      }
+    ],
+    "tqdm.utils.DisableOnWriteError.disable_on_exception": [
+      {
+        "dest": "weakref.proxy",
+        "line_no": 141
+      }
+    ],
+    "tqdm.utils.DisableOnWriteError.disable_on_exception.inner": [
+      {
+        "dest": "<builtin>.float",
+        "line_no": 150
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 154
+      },
+      {
+        "dest": "<builtin>.float",
+        "line_no": 157
+      }
+    ],
+    "tqdm.utils.DisableOnWriteError.__init__": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 163
+      },
+      {
+        "dest": "<builtin>.hasattr",
+        "line_no": 164
+      },
+      {
+        "dest": "tqdm.utils.DisableOnWriteError.disable_on_exception",
+        "line_no": 166
+      },
+      {
+        "dest": "tqdm.utils.ObjectWrapper.wrapper_setattr",
+        "line_no": 165
+      },
+      {
+        "dest": "<builtin>.hasattr",
+        "line_no": 167
+      },
+      {
+        "dest": "tqdm.utils.DisableOnWriteError.disable_on_exception",
+        "line_no": 169
+      },
+      {
+        "dest": "tqdm.utils.ObjectWrapper.wrapper_setattr",
+        "line_no": 168
+      }
+    ],
+    "tqdm.utils.DisableOnWriteError.__eq__": [
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 172
+      }
+    ],
+    "tqdm.utils.CallbackIOWrapper.__init__": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 181
+      },
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 182
+      },
+      {
+        "dest": "functools.wraps",
+        "line_no": 184
+      },
+      {
+        "dest": "tqdm.utils.ObjectWrapper.wrapper_setattr",
+        "line_no": 189
+      },
+      {
+        "dest": "functools.wraps",
+        "line_no": 191
+      },
+      {
+        "dest": "tqdm.utils.ObjectWrapper.wrapper_setattr",
+        "line_no": 196
+      },
+      {
+        "dest": "<builtin>.KeyError",
+        "line_no": 198
+      }
+    ],
+    "functools.wraps": [],
+    "tqdm.utils.CallbackIOWrapper.__init__.write": [
+      {
+        "dest": "<builtin>.len",
+        "line_no": 187
+      }
+    ],
+    "tqdm.utils.CallbackIOWrapper.__init__.read": [
+      {
+        "dest": "<builtin>.len",
+        "line_no": 194
+      }
+    ],
+    "tqdm.utils._is_utf": [],
+    "tqdm.utils._supports_unicode": [
+      {
+        "dest": "tqdm.utils._is_utf",
+        "line_no": 217
+      }
+    ],
+    "tqdm.utils._is_ascii": [
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 223
+      },
+      {
+        "dest": "<builtin>.ord",
+        "line_no": 225
+      },
+      {
+        "dest": "tqdm.utils._supports_unicode",
+        "line_no": 228
+      }
+    ],
+    "<builtin>.ord": [],
+    "tqdm.utils._screen_shape_wrapper": [],
+    "tqdm.utils._screen_shape_windows": [
+      {
+        "dest": "ctypes.windll.kernel32.GetStdHandle",
+        "line_no": 258
+      },
+      {
+        "dest": "ctypes.create_string_buffer",
+        "line_no": 259
+      },
+      {
+        "dest": "ctypes.windll.kernel32.GetConsoleScreenBufferInfo",
+        "line_no": 260
+      },
+      {
+        "dest": "struct.unpack",
+        "line_no": 263
+      }
+    ],
+    "ctypes.windll.kernel32.GetStdHandle": [],
+    "ctypes.create_string_buffer": [],
+    "ctypes.windll.kernel32.GetConsoleScreenBufferInfo": [],
+    "struct.unpack": [],
+    "tqdm.utils._screen_shape_tput": [
+      {
+        "dest": "shlex.split",
+        "line_no": 275
+      },
+      {
+        "dest": "subprocess.check_call",
+        "line_no": 275
+      },
+      {
+        "dest": "<builtin>.int",
+        "line_no": 275
+      }
+    ],
+    "shlex.split": [],
+    "subprocess.check_call": [],
+    "tqdm.utils._screen_shape_linux": [
+      {
+        "dest": "fcntl.ioctl",
+        "line_no": 292
+      },
+      {
+        "dest": "array.array",
+        "line_no": 292
+      },
+      {
+        "dest": "<builtin>.int",
+        "line_no": 296
+      }
+    ],
+    "fcntl.ioctl": [],
+    "array.array": [],
+    "tqdm.utils._environ_cols_wrapper": [
+      {
+        "dest": "warnings.warn",
+        "line_no": 306
+      },
+      {
+        "dest": "tqdm.utils._screen_shape_wrapper",
+        "line_no": 308
+      },
+      {
+        "dest": "functools.wraps",
+        "line_no": 312
+      }
+    ],
+    "tqdm.utils._environ_cols_wrapper.inner": [
+      {
+        "dest": "tqdm.utils._screen_shape_tput",
+        "line_no": 314
+      },
+      {
+        "dest": "tqdm.utils._screen_shape_linux",
+        "line_no": 314
+      },
+      {
+        "dest": "tqdm.utils._screen_shape_windows",
+        "line_no": 314
+      }
+    ],
+    "tqdm.utils._term_move_up": [],
+    "tqdm.utils._text_width": [
+      {
+        "dest": "unicodedata.east_asian_width",
+        "line_no": 330
+      },
+      {
+        "dest": "<builtin>.sum",
+        "line_no": 330
+      }
+    ],
+    "unicodedata.east_asian_width": [],
+    "tqdm.utils.disp_len": [
+      {
+        "dest": "tqdm.utils._text_width",
+        "line_no": 338
+      }
+    ],
+    "tqdm.utils.disp_trim": [
+      {
+        "dest": "<builtin>.len",
+        "line_no": 345
+      },
+      {
+        "dest": "tqdm.utils.disp_len",
+        "line_no": 345
+      },
+      {
+        "dest": "<builtin>.bool",
+        "line_no": 348
+      },
+      {
+        "dest": "tqdm.utils.disp_len",
+        "line_no": 349
+      },
+      {
+        "dest": "<builtin>.bool",
+        "line_no": 351
+      }
+    ],
+    "tqdm.cli": [
+      {
+        "dest": "logging.getLogger",
+        "line_no": 13
+      },
+      {
+        "dest": "re.compile",
+        "line_no": 102
+      },
+      {
+        "dest": "re.compile",
+        "line_no": 104
+      }
+    ],
+    "logging.getLogger": [],
+    "tqdm.cli.cast": [
+      {
+        "dest": "tqdm.cli.cast",
+        "line_no": 21
+      },
+      {
+        "dest": "<builtin>.eval",
+        "line_no": 35
+      },
+      {
+        "dest": "<builtin>.eval",
+        "line_no": 38
+      },
+      {
+        "dest": "<builtin>.ord",
+        "line_no": 38
+      },
+      {
+        "dest": "<builtin>.chr",
+        "line_no": 38
+      }
+    ],
+    "<builtin>.eval": [],
+    "<builtin>.chr": [],
+    "tqdm.cli.posix_pipe": [
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 62
+      },
+      {
+        "dest": "tqdm.cli.main.stdout.write",
+        "line_no": 65
+      },
+      {
+        "dest": "sys.stdout.write",
+        "line_no": 65
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 66
+      },
+      {
+        "dest": "tqdm.cli.main.callback",
+        "line_no": 66
+      },
+      {
+        "dest": "tqdm.cli.<lambda1>",
+        "line_no": 66
+      },
+      {
+        "dest": "tqdm.cli.main.stdout.write",
+        "line_no": 77
+      },
+      {
+        "dest": "sys.stdout.write",
+        "line_no": 77
+      },
+      {
+        "dest": "utils.Comparable.count",
+        "line_no": 80
+      },
+      {
+        "dest": "sys.stdin.count",
+        "line_no": 80
+      },
+      {
+        "dest": "tqdm.cli.main.callback",
+        "line_no": 80
+      },
+      {
+        "dest": "tqdm.cli.<lambda1>",
+        "line_no": 80
+      },
+      {
+        "dest": "utils.Comparable.split",
+        "line_no": 82
+      },
+      {
+        "dest": "sys.stdin.split",
+        "line_no": 82
+      },
+      {
+        "dest": "tqdm.cli.main.callback",
+        "line_no": 83
+      },
+      {
+        "dest": "tqdm.cli.<lambda1>",
+        "line_no": 83
+      },
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 84
+      },
+      {
+        "dest": "sys.stdin.index",
+        "line_no": 89
+      },
+      {
+        "dest": "utils.Comparable.index",
+        "line_no": 89
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 94
+      },
+      {
+        "dest": "tqdm.cli.main.stdout.write",
+        "line_no": 94
+      },
+      {
+        "dest": "sys.stdout.write",
+        "line_no": 94
+      },
+      {
+        "dest": "tqdm.cli.main.callback",
+        "line_no": 96
+      },
+      {
+        "dest": "tqdm.cli.<lambda1>",
+        "line_no": 96
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 98
+      }
+    ],
+    "tqdm.cli.posix_pipe.<lambda1>": [],
+    "tqdm.cli.main.stdout.write": [
+      {
+        "dest": "tqdm.std.tqdm.external_write_mode",
+        "line_no": 269
+      },
+      {
+        "dest": "tqdm.cli.main.stdout.write",
+        "line_no": 271
+      },
+      {
+        "dest": "sys.stdout.write",
+        "line_no": 271
+      }
+    ],
+    "sys.stdout.write": [],
+    "tqdm.cli.main.callback": [
+      {
+        "dest": "utils.Comparable.decode",
+        "line_no": 285
+      },
+      {
+        "dest": "sys.stdin.decode",
+        "line_no": 285
+      },
+      {
+        "dest": "ast.literal_eval",
+        "line_no": 285
+      },
+      {
+        "dest": "utils.Comparable.decode",
+        "line_no": 288
+      },
+      {
+        "dest": "sys.stdin.decode",
+        "line_no": 288
+      },
+      {
+        "dest": "ast.literal_eval",
+        "line_no": 288
+      },
+      {
+        "dest": "utils.Comparable.decode",
+        "line_no": 301
+      },
+      {
+        "dest": "sys.stdin.decode",
+        "line_no": 301
+      },
+      {
+        "dest": "ast.literal_eval",
+        "line_no": 301
+      },
+      {
+        "dest": "utils.Comparable.decode",
+        "line_no": 304
+      },
+      {
+        "dest": "sys.stdin.decode",
+        "line_no": 304
+      },
+      {
+        "dest": "ast.literal_eval",
+        "line_no": 304
+      }
+    ],
+    "tqdm.cli.<lambda1>": [],
+    "utils.Comparable.count": [],
+    "sys.stdin.count": [],
+    "utils.Comparable.split": [],
+    "sys.stdin.split": [],
+    "tqdm.cli.posix_pipe.<lambda2>": [],
+    "sys.stdin.index": [],
+    "utils.Comparable.index": [],
+    "tqdm.cli.main": [
+      {
+        "dest": "utils.Comparable.startswith",
+        "line_no": 158
+      },
+      {
+        "dest": "sys.stdin.startswith",
+        "line_no": 158
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 159
+      },
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 167
+      },
+      {
+        "dest": "logging.basicConfig",
+        "line_no": 167
+      },
+      {
+        "dest": "<builtin>.dict",
+        "line_no": 172
+      },
+      {
+        "dest": "<builtin>.sorted",
+        "line_no": 178
+      },
+      {
+        "dest": "<builtin>.zip",
+        "line_no": 182
+      },
+      {
+        "dest": "sys.stdin.strip",
+        "line_no": 194
+      },
+      {
+        "dest": "utils.Comparable.strip",
+        "line_no": 194
+      },
+      {
+        "dest": "<builtin>.any",
+        "line_no": 197
+      },
+      {
+        "dest": "sys.stdout.write",
+        "line_no": 198
+      },
+      {
+        "dest": "sys.exit",
+        "line_no": 199
+      },
+      {
+        "dest": "<builtin>.any",
+        "line_no": 200
+      },
+      {
+        "dest": "sys.stdout.write",
+        "line_no": 201
+      },
+      {
+        "dest": "sys.exit",
+        "line_no": 202
+      },
+      {
+        "dest": "<builtin>.zip",
+        "line_no": 205
+      },
+      {
+        "dest": "<builtin>.dict",
+        "line_no": 205
+      },
+      {
+        "dest": "tqdm.cli.cast",
+        "line_no": 215
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 217
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 218
+      },
+      {
+        "dest": "<builtin>.sum",
+        "line_no": 223
+      },
+      {
+        "dest": "sys.stdout.write",
+        "line_no": 228
+      },
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 243
+      },
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 244
+      },
+      {
+        "dest": "pkg_resources.Requirement.parse",
+        "line_no": 256
+      },
+      {
+        "dest": "pkg_resources.resource_filename",
+        "line_no": 256
+      },
+      {
+        "dest": "os.path.join",
+        "line_no": 257
+      },
+      {
+        "dest": "tqdm.cli.main.cp",
+        "line_no": 256
+      },
+      {
+        "dest": "pkg_resources.Requirement.parse",
+        "line_no": 259
+      },
+      {
+        "dest": "pkg_resources.resource_filename",
+        "line_no": 259
+      },
+      {
+        "dest": "os.path.join",
+        "line_no": 260
+      },
+      {
+        "dest": "tqdm.cli.main.cp",
+        "line_no": 259
+      },
+      {
+        "dest": "sys.exit",
+        "line_no": 261
+      },
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 264
+      },
+      {
+        "dest": "tqdm.std.tqdm.__init__",
+        "line_no": 277
+      },
+      {
+        "dest": "tqdm.cli.posix_pipe",
+        "line_no": 278
+      },
+      {
+        "dest": "tqdm.std.tqdm.__init__",
+        "line_no": 282
+      },
+      {
+        "dest": "sys.stdout.write",
+        "line_no": 290
+      },
+      {
+        "dest": "tqdm.cli.main.callback",
+        "line_no": 291
+      },
+      {
+        "dest": "tqdm.std.tqdm.__init__",
+        "line_no": 293
+      },
+      {
+        "dest": "tqdm.std.tqdm.__iter__",
+        "line_no": 293
+      },
+      {
+        "dest": "sys.stdout.write",
+        "line_no": 294
+      },
+      {
+        "dest": "tqdm.std.tqdm.__init__",
+        "line_no": 297
+      },
+      {
+        "dest": "tqdm.cli.posix_pipe",
+        "line_no": 308
+      }
+    ],
+    "utils.Comparable.startswith": [],
+    "sys.stdin.startswith": [],
+    "logging.basicConfig": [],
+    "<builtin>.zip": [],
+    "sys.stdin.strip": [],
+    "utils.Comparable.strip": [],
+    "sys.exit": [],
+    "tqdm.cli.main.cp": [
+      {
+        "dest": "shutil.copyfile",
+        "line_no": 253
+      }
+    ],
+    "shutil.copyfile": [],
+    "pkg_resources.Requirement.parse": [],
+    "pkg_resources.resource_filename": [],
+    "os.path.join": [],
+    "utils.Comparable.decode": [],
+    "sys.stdin.decode": [],
+    "ast.literal_eval": [],
+    "tqdm.contrib.bells": [
+      {
+        "dest": "os.getenv",
+        "line_no": 15
+      },
+      {
+        "dest": "os.getenv",
+        "line_no": 15
+      },
+      {
+        "dest": "os.getenv",
+        "line_no": 17
+      },
+      {
+        "dest": "os.getenv",
+        "line_no": 17
+      },
+      {
+        "dest": "warnings.catch_warnings",
+        "line_no": 22
+      },
+      {
+        "dest": "warnings.simplefilter",
+        "line_no": 23
+      },
+      {
+        "dest": "autonotebook.tqdm.pandas",
+        "line_no": 24
+      },
+      {
+        "dest": "discord.tqdm.pandas",
+        "line_no": 24
+      },
+      {
+        "dest": "std.tqdm.pandas",
+        "line_no": 24
+      },
+      {
+        "dest": "telegram.tqdm.pandas",
+        "line_no": 24
+      }
+    ],
+    "os.getenv": [],
+    "autonotebook.tqdm.pandas": [],
+    "discord.tqdm.pandas": [],
+    "std.tqdm.pandas": [],
+    "telegram.tqdm.pandas": [],
+    "tqdm.contrib.itertools": [],
+    "tqdm.contrib.itertools.product": [
+      {
+        "dest": "<builtin>.map",
+        "line_no": 25
+      },
+      {
+        "dest": "<builtin>.list",
+        "line_no": 25
+      },
+      {
+        "dest": "itertools.product",
+        "line_no": 34
+      }
+    ],
+    "itertools.product": [],
+    "tqdm.contrib.telegram": [],
+    "tqdm.contrib.telegram.TelegramIO.__init__": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 33
+      },
+      {
+        "dest": "requests.Session",
+        "line_no": 36
+      }
+    ],
+    "requests.Session": [],
+    "tqdm.contrib.telegram.TelegramIO.message_id": [
+      {
+        "dest": "<builtin>.hasattr",
+        "line_no": 42
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 50
+      },
+      {
+        "dest": "std.tqdm.write",
+        "line_no": 50
+      },
+      {
+        "dest": "autonotebook.tqdm.write",
+        "line_no": 50
+      },
+      {
+        "dest": "warnings.warn",
+        "line_no": 53
+      }
+    ],
+    "std.tqdm.write": [],
+    "autonotebook.tqdm.write": [],
+    "tqdm.contrib.telegram.TelegramIO.write": [
+      {
+        "dest": "utils_worker.MonoWorker.submit",
+        "line_no": 71
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 76
+      },
+      {
+        "dest": "std.tqdm.write",
+        "line_no": 76
+      },
+      {
+        "dest": "autonotebook.tqdm.write",
+        "line_no": 76
+      }
+    ],
+    "utils_worker.MonoWorker.submit": [],
+    "tqdm.contrib.telegram.TelegramIO.delete": [
+      {
+        "dest": "utils_worker.MonoWorker.submit",
+        "line_no": 83
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 87
+      },
+      {
+        "dest": "std.tqdm.write",
+        "line_no": 87
+      },
+      {
+        "dest": "autonotebook.tqdm.write",
+        "line_no": 87
+      }
+    ],
+    "tqdm.contrib.telegram.tqdm_telegram.__init__": [
+      {
+        "dest": "os.getenv",
+        "line_no": 122
+      },
+      {
+        "dest": "os.getenv",
+        "line_no": 123
+      },
+      {
+        "dest": "tqdm.contrib.telegram.TelegramIO.__init__",
+        "line_no": 121
+      },
+      {
+        "dest": "<builtin>.super",
+        "line_no": 124
+      }
+    ],
+    "tqdm.contrib.telegram.tqdm_telegram.display": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 127
+      },
+      {
+        "dest": "std.tqdm.format_dict.get",
+        "line_no": 129
+      },
+      {
+        "dest": "std.tqdm.format_meter",
+        "line_no": 134
+      },
+      {
+        "dest": "tqdm.contrib.telegram.TelegramIO.write",
+        "line_no": 134
+      }
+    ],
+    "std.tqdm.format_dict.get": [],
+    "tqdm.contrib.telegram.tqdm_telegram.clear": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 137
+      },
+      {
+        "dest": "tqdm.contrib.telegram.TelegramIO.write",
+        "line_no": 139
+      }
+    ],
+    "tqdm.contrib.telegram.ttgrange": [
+      {
+        "dest": "tqdm.contrib.telegram.tqdm_telegram.__init__",
+        "line_no": 154
+      }
+    ],
+    "tqdm.contrib.logging": [
+      {
+        "dest": "contextlib.contextmanager",
+        "line_no": 49
+      },
+      {
+        "dest": "contextlib.contextmanager",
+        "line_no": 102
+      }
+    ],
+    "tqdm.contrib.logging._TqdmLoggingHandler.__init__": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 23
+      }
+    ],
+    "tqdm.contrib.logging._TqdmLoggingHandler.emit": [
+      {
+        "dest": "logging.StreamHandler.format",
+        "line_no": 28
+      },
+      {
+        "dest": "tqdm.std.tqdm.write",
+        "line_no": 29
+      },
+      {
+        "dest": "logging.StreamHandler.flush",
+        "line_no": 30
+      },
+      {
+        "dest": "logging.StreamHandler.handleError",
+        "line_no": 34
+      }
+    ],
+    "logging.StreamHandler.format": [],
+    "logging.StreamHandler.flush": [],
+    "logging.StreamHandler.handleError": [],
+    "tqdm.contrib.logging._is_console_logging_handler": [
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 38
+      }
+    ],
+    "tqdm.contrib.logging._get_first_found_console_logging_handler": [
+      {
+        "dest": "tqdm.contrib.logging._is_console_logging_handler",
+        "line_no": 44
+      }
+    ],
+    "tqdm.contrib.logging.logging_redirect_tqdm": [
+      {
+        "dest": "tqdm.contrib.logging._TqdmLoggingHandler.__init__",
+        "line_no": 87
+      },
+      {
+        "dest": "tqdm.contrib.logging._get_first_found_console_logging_handler",
+        "line_no": 88
+      },
+      {
+        "dest": "logging.StreamHandler.setFormatter",
+        "line_no": 90
+      },
+      {
+        "dest": "tqdm.contrib.logging._is_console_logging_handler",
+        "line_no": 94
+      },
+      {
+        "dest": "<builtin>.zip",
+        "line_no": 97
+      }
+    ],
+    "logging.StreamHandler.setFormatter": [],
+    "tqdm.contrib.logging.tqdm_logging_redirect": [
+      {
+        "dest": "tqdm.contrib.logging.logging_redirect_tqdm",
+        "line_no": 127
+      }
+    ],
+    "tqdm.contrib": [
+      {
+        "dest": "tqdm.contrib.builtin_iterable",
+        "line_no": 74
+      },
+      {
+        "dest": "tqdm.contrib.builtin_iterable",
+        "line_no": 89
+      }
+    ],
+    "tqdm.contrib.DummyTqdmFile.__init__": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 21
+      }
+    ],
+    "tqdm.contrib.DummyTqdmFile.write": [
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 25
+      },
+      {
+        "dest": "<builtin>.type",
+        "line_no": 28
+      },
+      {
+        "dest": "tqdm.std.tqdm.write",
+        "line_no": 29
+      }
+    ],
+    "tqdm.contrib.DummyTqdmFile.__del__": [
+      {
+        "dest": "<builtin>.type",
+        "line_no": 37
+      },
+      {
+        "dest": "tqdm.std.tqdm.write",
+        "line_no": 39
+      }
+    ],
+    "tqdm.contrib.builtin_iterable": [
+      {
+        "dest": "functools.wraps",
+        "line_no": 47
+      }
+    ],
+    "tqdm.contrib.builtin_iterable.inner": [
+      {
+        "dest": "tqdm.contrib.tmap",
+        "line_no": 49
+      },
+      {
+        "dest": "tqdm.contrib.tzip",
+        "line_no": 49
+      },
+      {
+        "dest": "<builtin>.list",
+        "line_no": 49
+      }
+    ],
+    "tqdm.contrib.tmap": [
+      {
+        "dest": "tqdm.contrib.tzip",
+        "line_no": 97
+      }
+    ],
+    "tqdm.contrib.tzip": [
+      {
+        "dest": "<builtin>.zip",
+        "line_no": 84
+      }
+    ],
+    "tqdm.contrib.tenumerate": [
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 67
+      },
+      {
+        "dest": "numpy.ndenumerate",
+        "line_no": 68
+      },
+      {
+        "dest": "autonotebook.tqdm",
+        "line_no": 68
+      },
+      {
+        "dest": "tqdm.asyncio.tqdm_asyncio.__init__",
+        "line_no": 68
+      },
+      {
+        "dest": "autonotebook.tqdm",
+        "line_no": 70
+      },
+      {
+        "dest": "tqdm.asyncio.tqdm_asyncio.__init__",
+        "line_no": 70
+      },
+      {
+        "dest": "<builtin>.enumerate",
+        "line_no": 70
+      }
+    ],
+    "numpy.ndenumerate": [],
+    "tqdm.contrib.utils_worker": [],
+    "tqdm.contrib.utils_worker.MonoWorker.__init__": [
+      {
+        "dest": "concurrent.futures.ThreadPoolExecutor",
+        "line_no": 21
+      },
+      {
+        "dest": "collections.deque",
+        "line_no": 22
+      }
+    ],
+    "concurrent.futures.ThreadPoolExecutor": [],
+    "tqdm.contrib.utils_worker.MonoWorker.submit": [
+      {
+        "dest": "<builtin>.len",
+        "line_no": 27
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 30
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 37
+      },
+      {
+        "dest": "std.tqdm.write",
+        "line_no": 37
+      },
+      {
+        "dest": "autonotebook.tqdm.write",
+        "line_no": 37
+      }
+    ],
+    "tqdm.contrib.concurrent": [
+      {
+        "dest": "contextlib.contextmanager",
+        "line_no": 35
+      }
+    ],
+    "tqdm.contrib.concurrent.length_hint": [
+      {
+        "dest": "<builtin>.len",
+        "line_no": 17
+      }
+    ],
+    "tqdm.contrib.concurrent.cpu_count": [],
+    "tqdm.contrib.concurrent.ensure_lock": [
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 37
+      },
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 39
+      }
+    ],
+    "tqdm.contrib.concurrent._executor_map": [
+      {
+        "dest": "operator.length_hint",
+        "line_no": 61
+      },
+      {
+        "dest": "multiprocessing.cpu_count",
+        "line_no": 63
+      },
+      {
+        "dest": "os.cpu_count",
+        "line_no": 63
+      },
+      {
+        "dest": "<builtin>.min",
+        "line_no": 63
+      },
+      {
+        "dest": "tqdm.contrib.concurrent.ensure_lock",
+        "line_no": 66
+      },
+      {
+        "dest": "concurrent.futures.ProcessPoolExecutor",
+        "line_no": 75
+      },
+      {
+        "dest": "concurrent.futures.ThreadPoolExecutor",
+        "line_no": 75
+      },
+      {
+        "dest": "<builtin>.list",
+        "line_no": 76
+      }
+    ],
+    "operator.length_hint": [],
+    "multiprocessing.cpu_count": [],
+    "os.cpu_count": [],
+    "concurrent.futures.ProcessPoolExecutor": [],
+    "tqdm.contrib.concurrent.thread_map": [
+      {
+        "dest": "tqdm.contrib.concurrent._executor_map",
+        "line_no": 94
+      }
+    ],
+    "tqdm.contrib.concurrent.process_map": [
+      {
+        "dest": "<builtin>.map",
+        "line_no": 120
+      },
+      {
+        "dest": "<builtin>.max",
+        "line_no": 120
+      },
+      {
+        "dest": "warnings.warn",
+        "line_no": 123
+      },
+      {
+        "dest": "tqdm.contrib.concurrent._executor_map",
+        "line_no": 130
+      }
+    ],
+    "tqdm.contrib.discord": [
+      {
+        "dest": "<builtin>.ImportError",
+        "line_no": 19
+      }
+    ],
+    "tqdm.contrib.discord.DiscordIO.__init__": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 33
+      },
+      {
+        "dest": "disco.client.ClientConfig",
+        "line_no": 34
+      },
+      {
+        "dest": "disco.client.Client",
+        "line_no": 36
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 41
+      },
+      {
+        "dest": "std.tqdm.write",
+        "line_no": 41
+      },
+      {
+        "dest": "autonotebook.tqdm.write",
+        "line_no": 41
+      }
+    ],
+    "disco.client.ClientConfig": [],
+    "disco.client.Client": [],
+    "tqdm.contrib.discord.DiscordIO.write": [
+      {
+        "dest": "utils_worker.MonoWorker.submit",
+        "line_no": 52
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 54
+      },
+      {
+        "dest": "std.tqdm.write",
+        "line_no": 54
+      },
+      {
+        "dest": "autonotebook.tqdm.write",
+        "line_no": 54
+      }
+    ],
+    "tqdm.contrib.discord.tqdm_discord.__init__": [
+      {
+        "dest": "logging.getLogger",
+        "line_no": 88
+      },
+      {
+        "dest": "os.getenv",
+        "line_no": 90
+      },
+      {
+        "dest": "os.getenv",
+        "line_no": 91
+      },
+      {
+        "dest": "tqdm.contrib.discord.DiscordIO.__init__",
+        "line_no": 89
+      },
+      {
+        "dest": "<builtin>.max",
+        "line_no": 92
+      },
+      {
+        "dest": "<builtin>.super",
+        "line_no": 93
+      }
+    ],
+    "tqdm.contrib.discord.tqdm_discord.display": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 96
+      },
+      {
+        "dest": "std.tqdm.format_dict.get",
+        "line_no": 98
+      },
+      {
+        "dest": "std.tqdm.format_meter",
+        "line_no": 103
+      },
+      {
+        "dest": "tqdm.contrib.discord.DiscordIO.write",
+        "line_no": 103
+      }
+    ],
+    "tqdm.contrib.discord.tqdm_discord.clear": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 106
+      },
+      {
+        "dest": "tqdm.contrib.discord.DiscordIO.write",
+        "line_no": 108
+      }
+    ],
+    "tqdm.contrib.discord.tdrange": [
+      {
+        "dest": "tqdm.contrib.discord.tqdm_discord.__init__",
+        "line_no": 116
+      }
+    ]
+  },
+  "class_mro": {
+    "tqdm.notebook.TqdmHBox": [
+      "tqdm.notebook.TqdmHBox",
+      "IPython.html.widgets.HBox",
+      "ipywidgets.HBox",
+      "IPython.html.widgets.ContainerWidget"
+    ],
+    "tqdm.notebook.tqdm_notebook": [
+      "tqdm.notebook.tqdm_notebook",
+      "std.tqdm"
+    ],
+    "tqdm.dask.TqdmCallback": [
+      "tqdm.dask.TqdmCallback",
+      "dask.callbacks.Callback"
+    ],
+    "tqdm.asyncio.tqdm_asyncio": [
+      "tqdm.asyncio.tqdm_asyncio",
+      "std.tqdm"
+    ],
+    "tqdm.std.TqdmTypeError": [
+      "tqdm.std.TqdmTypeError"
+    ],
+    "tqdm.std.TqdmKeyError": [
+      "tqdm.std.TqdmKeyError"
+    ],
+    "tqdm.std.TqdmWarning": [
+      "tqdm.std.TqdmWarning"
+    ],
+    "tqdm.std.TqdmExperimentalWarning": [
+      "tqdm.std.TqdmExperimentalWarning",
+      "tqdm.gui.TqdmExperimentalWarning",
+      "tqdm._monitor.TqdmSynchronisationWarning",
+      "tqdm._utils.TqdmDeprecationWarning",
+      "tqdm.contrib.concurrent.TqdmWarning",
+      "tqdm._main.TqdmDeprecationWarning",
+      "tqdm.TqdmDeprecationWarning",
+      "tqdm.tk.TqdmExperimentalWarning",
+      "tqdm._tqdm_notebook.TqdmDeprecationWarning",
+      "tqdm.autonotebook.TqdmExperimentalWarning",
+      "tqdm.rich.TqdmExperimentalWarning",
+      "tqdm._tqdm.TqdmDeprecationWarning",
+      "tqdm._tqdm_gui.TqdmDeprecationWarning",
+      "tqdm.contrib.telegram.TqdmWarning",
+      "tqdm.tk.TqdmWarning"
+    ],
+    "tqdm.std.TqdmDeprecationWarning": [
+      "tqdm.std.TqdmDeprecationWarning",
+      "tqdm.gui.TqdmExperimentalWarning",
+      "tqdm._monitor.TqdmSynchronisationWarning",
+      "tqdm._utils.TqdmDeprecationWarning",
+      "tqdm.contrib.concurrent.TqdmWarning",
+      "tqdm._main.TqdmDeprecationWarning",
+      "tqdm.TqdmDeprecationWarning",
+      "tqdm.tk.TqdmExperimentalWarning",
+      "tqdm._tqdm_notebook.TqdmDeprecationWarning",
+      "tqdm.autonotebook.TqdmExperimentalWarning",
+      "tqdm.rich.TqdmExperimentalWarning",
+      "tqdm._tqdm.TqdmDeprecationWarning",
+      "tqdm._tqdm_gui.TqdmDeprecationWarning",
+      "tqdm.contrib.telegram.TqdmWarning",
+      "tqdm.tk.TqdmWarning"
+    ],
+    "tqdm.std.TqdmMonitorWarning": [
+      "tqdm.std.TqdmMonitorWarning",
+      "tqdm.gui.TqdmExperimentalWarning",
+      "tqdm._monitor.TqdmSynchronisationWarning",
+      "tqdm._utils.TqdmDeprecationWarning",
+      "tqdm.contrib.concurrent.TqdmWarning",
+      "tqdm._main.TqdmDeprecationWarning",
+      "tqdm.TqdmDeprecationWarning",
+      "tqdm.tk.TqdmExperimentalWarning",
+      "tqdm._tqdm_notebook.TqdmDeprecationWarning",
+      "tqdm.autonotebook.TqdmExperimentalWarning",
+      "tqdm.rich.TqdmExperimentalWarning",
+      "tqdm._tqdm.TqdmDeprecationWarning",
+      "tqdm._tqdm_gui.TqdmDeprecationWarning",
+      "tqdm.contrib.telegram.TqdmWarning",
+      "tqdm.tk.TqdmWarning"
+    ],
+    "tqdm.std.TqdmDefaultWriteLock": [
+      "tqdm.std.TqdmDefaultWriteLock"
+    ],
+    "tqdm.std.Bar": [
+      "tqdm.std.Bar"
+    ],
+    "tqdm.std.EMA": [
+      "tqdm.std.EMA"
+    ],
+    "tqdm.std.tqdm": [
+      "tqdm.std.tqdm",
+      "utils.Comparable"
+    ],
+    "tqdm.rich.FractionColumn": [
+      "tqdm.rich.FractionColumn",
+      "rich.progress.ProgressColumn"
+    ],
+    "tqdm.rich.RateColumn": [
+      "tqdm.rich.RateColumn",
+      "rich.progress.ProgressColumn"
+    ],
+    "tqdm.rich.tqdm_rich": [
+      "tqdm.rich.tqdm_rich",
+      "tqdm.std.tqdm",
+      "utils.Comparable"
+    ],
+    "tqdm.auto.tqdm": [
+      "tqdm.auto.tqdm",
+      "autonotebook.tqdm",
+      "tqdm.asyncio.tqdm",
+      "tqdm.asyncio.tqdm_asyncio",
+      "std.tqdm"
+    ],
+    "tqdm.tk.tqdm_tk": [
+      "tqdm.tk.tqdm_tk",
+      "tqdm.std.tqdm",
+      "utils.Comparable"
+    ],
+    "tqdm._monitor.TqdmSynchronisationWarning": [
+      "tqdm._monitor.TqdmSynchronisationWarning"
+    ],
+    "tqdm._monitor.TMonitor": [
+      "tqdm._monitor.TMonitor",
+      "threading.Thread"
+    ],
+    "tqdm.gui.tqdm_gui": [
+      "tqdm.gui.tqdm_gui",
+      "tqdm.std.tqdm",
+      "utils.Comparable"
+    ],
+    "tqdm.keras.TqdmCallback": [
+      "tqdm.keras.TqdmCallback",
+      "keras.callbacks.Callback",
+      "tensorflow.keras.callbacks.Callback"
+    ],
+    "tqdm.utils.FormatReplace": [
+      "tqdm.utils.FormatReplace"
+    ],
+    "tqdm.utils.Comparable": [
+      "tqdm.utils.Comparable"
+    ],
+    "tqdm.utils.ObjectWrapper": [
+      "tqdm.utils.ObjectWrapper"
+    ],
+    "tqdm.utils.SimpleTextIOWrapper": [
+      "tqdm.utils.SimpleTextIOWrapper",
+      "tqdm.utils.ObjectWrapper"
+    ],
+    "tqdm.utils.DisableOnWriteError": [
+      "tqdm.utils.DisableOnWriteError",
+      "tqdm.utils.ObjectWrapper"
+    ],
+    "tqdm.utils.CallbackIOWrapper": [
+      "tqdm.utils.CallbackIOWrapper",
+      "tqdm.utils.ObjectWrapper"
+    ],
+    "tqdm.cli.main.stdout": [
+      "tqdm.cli.main.stdout"
+    ],
+    "tqdm.contrib.telegram.TelegramIO": [
+      "tqdm.contrib.telegram.TelegramIO",
+      "utils_worker.MonoWorker"
+    ],
+    "tqdm.contrib.telegram.tqdm_telegram": [
+      "tqdm.contrib.telegram.tqdm_telegram",
+      "tqdm.auto.notebook_tqdm",
+      "tqdm.auto.tqdm",
+      "autonotebook.tqdm",
+      "tqdm.asyncio.tqdm",
+      "tqdm.asyncio.tqdm_asyncio",
+      "std.tqdm",
+      "tqdm.auto.asyncio_tqdm"
+    ],
+    "tqdm.contrib.logging._TqdmLoggingHandler": [
+      "tqdm.contrib.logging._TqdmLoggingHandler",
+      "logging.StreamHandler"
+    ],
+    "tqdm.contrib.DummyTqdmFile": [
+      "tqdm.contrib.DummyTqdmFile",
+      "tqdm.utils.ObjectWrapper"
+    ],
+    "tqdm.contrib.utils_worker.MonoWorker": [
+      "tqdm.contrib.utils_worker.MonoWorker"
+    ],
+    "tqdm.contrib.discord.DiscordIO": [
+      "tqdm.contrib.discord.DiscordIO",
+      "utils_worker.MonoWorker"
+    ],
+    "tqdm.contrib.discord.tqdm_discord": [
+      "tqdm.contrib.discord.tqdm_discord",
+      "tqdm.auto.notebook_tqdm",
+      "tqdm.auto.tqdm",
+      "autonotebook.tqdm",
+      "tqdm.asyncio.tqdm",
+      "tqdm.asyncio.tqdm_asyncio",
+      "std.tqdm",
+      "tqdm.auto.asyncio_tqdm"
+    ]
+  },
+  "imports": {
+    "tqdm.notebook": [
+      "html",
+      "cgi",
+      "__future__",
+      "sys",
+      "IPython.display",
+      "weakref",
+      "re",
+      "IPython",
+      "warnings"
+    ],
+    "IPython": [],
+    "IPython.display": [],
+    "cgi": [],
+    "tqdm.dask": [
+      "tqdm.notebook",
+      "functools",
+      "__future__"
+    ],
+    "tqdm.asyncio": [
+      "sys",
+      "asyncio"
+    ],
+    "tqdm.version": [],
+    "tqdm.std": [
+      "threading",
+      "warnings",
+      "numbers",
+      "collections",
+      "contextlib",
+      "multiprocessing",
+      "__future__",
+      "sys",
+      "datetime",
+      "weakref",
+      "time"
+    ],
+    "tqdm._utils": [
+      "tqdm.std",
+      "warnings"
+    ],
+    "tqdm._tqdm": [
+      "tqdm.std",
+      "warnings"
+    ],
+    "tqdm": [
+      "tqdm.version",
+      "tqdm.notebook",
+      "tqdm.std",
+      "warnings"
+    ],
+    "tqdm.rich": [
+      "tqdm.std",
+      "__future__",
+      "warnings",
+      "rich.progress",
+      "tqdm"
+    ],
+    "tqdm.auto": [
+      "tqdm.std",
+      "tqdm.asyncio",
+      "sys",
+      "warnings",
+      "tqdm"
+    ],
+    "tqdm._main": [
+      "tqdm",
+      "tqdm.std",
+      "warnings"
+    ],
+    "tqdm._tqdm_gui": [
+      "tqdm",
+      "tqdm.std",
+      "warnings"
+    ],
+    "tqdm.tk": [
+      "tkinter",
+      "tqdm.std",
+      "tqdm",
+      "__future__",
+      "tkinter.ttk",
+      "sys",
+      "re",
+      "warnings"
+    ],
+    "tkinter": [],
+    "tkinter.ttk": [],
+    "tqdm._tqdm_notebook": [
+      "tqdm",
+      "tqdm.notebook",
+      "tqdm.std",
+      "warnings"
+    ],
+    "tqdm._monitor": [
+      "time",
+      "atexit",
+      "warnings",
+      "threading"
+    ],
+    "tqdm._tqdm_pandas": [
+      "sys",
+      "tqdm"
+    ],
+    "tqdm.autonotebook": [
+      "tqdm.notebook",
+      "tqdm.std",
+      "tqdm",
+      "sys",
+      "os",
+      "warnings"
+    ],
+    "tqdm.__main__": [],
+    "tqdm.gui": [
+      "tqdm.std",
+      "collections",
+      "__future__",
+      "warnings",
+      "re",
+      "tqdm"
+    ],
+    "tqdm.keras": [
+      "tqdm.notebook",
+      "copy",
+      "tqdm.auto",
+      "__future__",
+      "functools",
+      "tqdm"
+    ],
+    "tqdm.utils": [
+      "colorama",
+      "termios",
+      "array",
+      "unicodedata",
+      "struct",
+      "fcntl",
+      "functools",
+      "sys",
+      "subprocess",
+      "shlex",
+      "weakref",
+      "re",
+      "ctypes",
+      "os",
+      "warnings"
+    ],
+    "tqdm.cli": [
+      "logging",
+      "tqdm.std",
+      "pkg_resources",
+      "tqdm.version",
+      "shutil",
+      "sys",
+      "ast",
+      "os.path",
+      "re",
+      "tqdm"
+    ],
+    "tqdm.contrib.bells": [
+      "tqdm.auto",
+      "warnings",
+      "os",
+      "tqdm.contrib.telegram",
+      "tqdm.contrib.discord",
+      "tqdm"
+    ],
+    "tqdm.contrib.telegram": [
+      "requests",
+      "tqdm.utils",
+      "tqdm.std",
+      "tqdm.auto",
+      "__future__",
+      "tqdm.contrib.utils_worker",
+      "warnings",
+      "os",
+      "tqdm"
+    ],
+    "tqdm.contrib.discord": [
+      "logging",
+      "tqdm.utils",
+      "tqdm.auto",
+      "__future__",
+      "tqdm.contrib.utils_worker",
+      "tqdm.contrib",
+      "os",
+      "tqdm"
+    ],
+    "tqdm.contrib.itertools": [
+      "tqdm",
+      "tqdm.auto",
+      "__future__",
+      "itertools"
+    ],
+    "tqdm.contrib.utils_worker": [
+      "concurrent.futures",
+      "tqdm.auto",
+      "collections",
+      "__future__",
+      "tqdm"
+    ],
+    "tqdm.contrib.logging": [
+      "typing",
+      "logging",
+      "tqdm.std",
+      "contextlib",
+      "__future__",
+      "sys",
+      "tqdm"
+    ],
+    "tqdm.contrib": [
+      "tqdm.utils",
+      "tqdm.std",
+      "tqdm.auto",
+      "numpy",
+      "functools",
+      "sys",
+      "tqdm"
+    ],
+    "tqdm.contrib.concurrent": [
+      "concurrent.futures",
+      "operator",
+      "tqdm.std",
+      "tqdm.auto",
+      "multiprocessing",
+      "contextlib",
+      "__future__",
+      "sys",
+      "warnings",
+      "os",
+      "tqdm"
+    ]
+  }
+}

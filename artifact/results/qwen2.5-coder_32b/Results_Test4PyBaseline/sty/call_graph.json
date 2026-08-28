@@ -1,0 +1,726 @@
+{
+  "cg_output": {
+    "sty.lib": [],
+    "sty.lib.mute": [
+      {
+        "dest": "<builtin>.ValueError",
+        "line_no": 10
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 15
+      }
+    ],
+    "<builtin>.ValueError": [],
+    "<builtin>.isinstance": [],
+    "sty.lib.unmute": [
+      {
+        "dest": "<builtin>.ValueError",
+        "line_no": 26
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 31
+      }
+    ],
+    "sty.primitive": [],
+    "sty.primitive.Style.__new__": [
+      {
+        "dest": "<builtin>.setattr",
+        "line_no": 36
+      }
+    ],
+    "<builtin>.setattr": [],
+    "sty.primitive._render_rules": [
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 50
+      },
+      {
+        "dest": "<builtin>.type",
+        "line_no": 51
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 55
+      },
+      {
+        "dest": "sty.primitive._render_rules",
+        "line_no": 56
+      },
+      {
+        "dest": "<builtin>.ValueError",
+        "line_no": 61
+      }
+    ],
+    "<builtin>.type": [],
+    "sty.primitive.Register.__init__": [],
+    "sty.primitive.Register.__init__.<lambda1>": [],
+    "sty.primitive.Register.__init__.<lambda2>": [],
+    "sty.primitive.Register.__setattr__": [
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 80
+      },
+      {
+        "dest": "sty.primitive._render_rules",
+        "line_no": 85
+      },
+      {
+        "dest": "<builtin>.super",
+        "line_no": 88
+      },
+      {
+        "dest": "<builtin>.super",
+        "line_no": 91
+      }
+    ],
+    "<builtin>.super": [],
+    "sty.primitive.Register.__call__": [
+      {
+        "dest": "<builtin>.len",
+        "line_no": 102
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 107
+      },
+      {
+        "dest": "sty.primitive.Register.__init__.<lambda1>",
+        "line_no": 108
+      },
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 113
+      },
+      {
+        "dest": "sty.primitive.Register.__init__.<lambda2>",
+        "line_no": 117
+      }
+    ],
+    "<builtin>.len": [],
+    "<builtin>.getattr": [],
+    "sty.primitive.Register.set_eightbit_call": [],
+    "sty.primitive.Register.set_rgb_call": [],
+    "sty.primitive.Register.set_renderfunc": [
+      {
+        "dest": "<builtin>.dir",
+        "line_no": 153
+      },
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 154
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 155
+      },
+      {
+        "dest": "<builtin>.setattr",
+        "line_no": 156
+      }
+    ],
+    "<builtin>.dir": [],
+    "sty.primitive.Register.mute": [
+      {
+        "dest": "<builtin>.dir",
+        "line_no": 165
+      },
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 166
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 167
+      },
+      {
+        "dest": "<builtin>.setattr",
+        "line_no": 168
+      }
+    ],
+    "sty.primitive.Register.unmute": [
+      {
+        "dest": "<builtin>.dir",
+        "line_no": 176
+      },
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 177
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 178
+      },
+      {
+        "dest": "<builtin>.setattr",
+        "line_no": 179
+      }
+    ],
+    "sty.primitive.Register.as_dict": [
+      {
+        "dest": "<builtin>.dir",
+        "line_no": 187
+      },
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 189
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 189
+      }
+    ],
+    "sty.primitive.Register.as_namedtuple": [
+      {
+        "dest": "sty.primitive.Register.as_dict",
+        "line_no": 199
+      },
+      {
+        "dest": "collections.namedtuple",
+        "line_no": 200
+      }
+    ],
+    "collections.namedtuple": [],
+    "sty.primitive.Register.copy": [
+      {
+        "dest": "copy.deepcopy",
+        "line_no": 206
+      }
+    ],
+    "copy.deepcopy": [],
+    "sty.rendertype": [],
+    "sty.rendertype.Sgr.__init__": [],
+    "sty.rendertype.EightbitFg.__init__": [],
+    "sty.rendertype.EightbitBg.__init__": [],
+    "sty.rendertype.RgbFg.__init__": [],
+    "sty.rendertype.RgbBg.__init__": [],
+    "sty": [],
+    "sty.register": [
+      {
+        "dest": "sty.register.EfRegister.__init__",
+        "line_no": 149
+      },
+      {
+        "dest": "sty.register.FgRegister.__init__",
+        "line_no": 150
+      },
+      {
+        "dest": "sty.register.BgRegister.__init__",
+        "line_no": 151
+      },
+      {
+        "dest": "sty.register.RsRegister.__init__",
+        "line_no": 152
+      }
+    ],
+    "sty.register.EfRegister.__init__": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 12
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 16
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 17
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 18
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 19
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 20
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 21
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 22
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 23
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 24
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 25
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 26
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 29
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 29
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 29
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 29
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 29
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 29
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 29
+      }
+    ],
+    "sty.register.FgRegister.__init__": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 35
+      },
+      {
+        "dest": "sty.primitive.Register.set_eightbit_call",
+        "line_no": 41
+      },
+      {
+        "dest": "sty.primitive.Register.set_rgb_call",
+        "line_no": 42
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 46
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 47
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 48
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 49
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 50
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 51
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 52
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 53
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 55
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 58
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 59
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 60
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 61
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 62
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 63
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 64
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 65
+      },
+      {
+        "dest": "sty.rendertype.EightbitFg.__init__",
+        "line_no": 68
+      },
+      {
+        "dest": "sty.rendertype.EightbitFg.__init__",
+        "line_no": 69
+      },
+      {
+        "dest": "sty.rendertype.EightbitFg.__init__",
+        "line_no": 70
+      },
+      {
+        "dest": "sty.rendertype.EightbitFg.__init__",
+        "line_no": 71
+      },
+      {
+        "dest": "sty.rendertype.EightbitFg.__init__",
+        "line_no": 72
+      },
+      {
+        "dest": "sty.rendertype.EightbitFg.__init__",
+        "line_no": 73
+      },
+      {
+        "dest": "sty.rendertype.EightbitFg.__init__",
+        "line_no": 74
+      },
+      {
+        "dest": "sty.rendertype.EightbitFg.__init__",
+        "line_no": 75
+      }
+    ],
+    "sty.register.BgRegister.__init__": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 81
+      },
+      {
+        "dest": "sty.primitive.Register.set_eightbit_call",
+        "line_no": 87
+      },
+      {
+        "dest": "sty.primitive.Register.set_rgb_call",
+        "line_no": 88
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 92
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 93
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 94
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 95
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 96
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 97
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 98
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 99
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 101
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 104
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 105
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 106
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 107
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 108
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 109
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 110
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 111
+      },
+      {
+        "dest": "sty.rendertype.EightbitBg.__init__",
+        "line_no": 114
+      },
+      {
+        "dest": "sty.rendertype.EightbitBg.__init__",
+        "line_no": 115
+      },
+      {
+        "dest": "sty.rendertype.EightbitBg.__init__",
+        "line_no": 116
+      },
+      {
+        "dest": "sty.rendertype.EightbitBg.__init__",
+        "line_no": 117
+      },
+      {
+        "dest": "sty.rendertype.EightbitBg.__init__",
+        "line_no": 118
+      },
+      {
+        "dest": "sty.rendertype.EightbitBg.__init__",
+        "line_no": 119
+      },
+      {
+        "dest": "sty.rendertype.EightbitBg.__init__",
+        "line_no": 120
+      },
+      {
+        "dest": "sty.rendertype.EightbitBg.__init__",
+        "line_no": 121
+      }
+    ],
+    "sty.register.RsRegister.__init__": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 127
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 131
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 132
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 133
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 135
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 135
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 135
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 135
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 135
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 135
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 135
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 137
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 138
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 139
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 140
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 141
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 142
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 143
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 144
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 145
+      },
+      {
+        "dest": "sty.rendertype.Sgr.__init__",
+        "line_no": 146
+      }
+    ],
+    "sty.renderfunc": [],
+    "sty.renderfunc.sgr": [
+      {
+        "dest": "<builtin>.str",
+        "line_no": 10
+      }
+    ],
+    "<builtin>.str": [],
+    "sty.renderfunc.eightbit_fg": [
+      {
+        "dest": "<builtin>.str",
+        "line_no": 14
+      }
+    ],
+    "sty.renderfunc.eightbit_bg": [
+      {
+        "dest": "<builtin>.str",
+        "line_no": 18
+      }
+    ],
+    "sty.renderfunc.rgb_fg": [
+      {
+        "dest": "<builtin>.str",
+        "line_no": 22
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 22
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 22
+      }
+    ],
+    "sty.renderfunc.rgb_bg": [
+      {
+        "dest": "<builtin>.str",
+        "line_no": 26
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 26
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 26
+      }
+    ]
+  },
+  "class_mro": {
+    "sty.rendertype.RenderType": [
+      "sty.rendertype.RenderType"
+    ],
+    "sty.rendertype.Sgr": [
+      "sty.rendertype.Sgr",
+      "sty.rendertype.RenderType"
+    ],
+    "sty.rendertype.EightbitFg": [
+      "sty.rendertype.EightbitFg",
+      "sty.rendertype.RenderType"
+    ],
+    "sty.rendertype.EightbitBg": [
+      "sty.rendertype.EightbitBg",
+      "sty.rendertype.RenderType"
+    ],
+    "sty.rendertype.RgbFg": [
+      "sty.rendertype.RgbFg",
+      "sty.rendertype.RenderType"
+    ],
+    "sty.rendertype.RgbBg": [
+      "sty.rendertype.RgbBg",
+      "sty.rendertype.RenderType"
+    ],
+    "sty.primitive.Style": [
+      "sty.primitive.Style"
+    ],
+    "sty.primitive.Register": [
+      "sty.primitive.Register"
+    ],
+    "sty.register.EfRegister": [
+      "sty.register.EfRegister",
+      "sty.primitive.Register"
+    ],
+    "sty.register.FgRegister": [
+      "sty.register.FgRegister",
+      "sty.primitive.Register"
+    ],
+    "sty.register.BgRegister": [
+      "sty.register.BgRegister",
+      "sty.primitive.Register"
+    ],
+    "sty.register.RsRegister": [
+      "sty.register.RsRegister",
+      "sty.primitive.Register"
+    ]
+  },
+  "imports": {
+    "sty.lib": [
+      "sty.primitive",
+      "sty"
+    ],
+    "sty": [
+      "sty.register",
+      "sty.lib"
+    ],
+    "sty.primitive": [
+      "collections",
+      "copy",
+      "sty.rendertype",
+      "typing"
+    ],
+    "sty.rendertype": [],
+    "sty.register": [
+      "sty.renderfunc"
+    ],
+    "sty.renderfunc": []
+  }
+}

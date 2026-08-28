@@ -1,0 +1,2741 @@
+{
+  "cg_output": {
+    "pypara": [],
+    "pypara.currencies": [
+      {
+        "dest": "pypara.currencies.CurrencyRegistry.__init__",
+        "line_no": 342
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 347
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 348
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 349
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 350
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 351
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 352
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 353
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 354
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 355
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 356
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 357
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 358
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 359
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 360
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 361
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 362
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 363
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 364
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 365
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 366
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 367
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 368
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 369
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 370
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 371
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 372
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 373
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 374
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 375
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 376
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 377
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 378
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 379
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 380
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 381
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 382
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 383
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 384
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 385
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 386
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 387
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 388
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 389
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 390
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 391
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 392
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 393
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 394
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 395
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 396
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 397
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 398
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 399
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 400
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 401
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 402
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 403
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 404
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 405
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 406
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 407
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 408
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 409
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 410
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 411
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 412
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 413
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 414
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 415
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 416
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 417
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 418
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 419
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 420
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 421
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 422
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 423
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 424
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 425
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 426
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 427
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 428
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 429
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 430
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 431
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 432
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 433
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 434
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 435
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 436
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 437
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 438
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 439
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 440
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 441
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 442
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 443
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 444
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 445
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 446
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 447
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 448
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 449
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 450
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 451
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 452
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 453
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 454
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 455
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 456
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 457
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 458
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 459
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 460
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 461
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 462
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 463
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 464
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 465
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 466
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 467
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 468
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 469
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 470
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 471
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 472
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 473
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 474
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 475
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 476
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 477
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 478
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 479
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 480
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 481
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 482
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 483
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 484
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 485
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 486
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 487
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 488
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 489
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 490
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 491
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 492
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 493
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 494
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 495
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 496
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 497
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 498
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 499
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 500
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 501
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 502
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 503
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 504
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 505
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 506
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 507
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 508
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 509
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 510
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 511
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 512
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 513
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 514
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 515
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 516
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 517
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 518
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 519
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 520
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 521
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 522
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 523
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 524
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 525
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 526
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 527
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 528
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 529
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 530
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 531
+      },
+      {
+        "dest": "pypara.currencies.Currency.of",
+        "line_no": 532
+      }
+    ],
+    "pypara.currencies.CurrencyLookupError.__init__": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 30
+      }
+    ],
+    "<builtin>.super": [],
+    "pypara.currencies.Currency.__eq__": [
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 120
+      }
+    ],
+    "<builtin>.isinstance": [],
+    "pypara.currencies.Currency.__hash__": [],
+    "pypara.currencies.Currency.quantize": [],
+    "pypara.currencies.Currency.of": [
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 146
+      },
+      {
+        "dest": "pypara.commons.errors.ProgrammingError.passert",
+        "line_no": 146
+      },
+      {
+        "dest": "pypara.commons.errors.ProgrammingError.passert",
+        "line_no": 147
+      },
+      {
+        "dest": "pypara.commons.errors.ProgrammingError.passert",
+        "line_no": 148
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 151
+      },
+      {
+        "dest": "pypara.commons.errors.ProgrammingError.passert",
+        "line_no": 151
+      },
+      {
+        "dest": "pypara.commons.errors.ProgrammingError.passert",
+        "line_no": 152
+      },
+      {
+        "dest": "pypara.commons.errors.ProgrammingError.passert",
+        "line_no": 153
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 156
+      },
+      {
+        "dest": "pypara.commons.errors.ProgrammingError.passert",
+        "line_no": 156
+      },
+      {
+        "dest": "pypara.commons.errors.ProgrammingError.passert",
+        "line_no": 157
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 160
+      },
+      {
+        "dest": "pypara.commons.errors.ProgrammingError.passert",
+        "line_no": 160
+      },
+      {
+        "dest": "pypara.commons.numbers.make_quantizer",
+        "line_no": 164
+      },
+      {
+        "dest": "<builtin>.hash",
+        "line_no": 171
+      }
+    ],
+    "pypara.commons.errors.ProgrammingError.passert": [],
+    "pypara.commons.numbers.make_quantizer": [
+      {
+        "dest": "decimal.Decimal",
+        "line_no": 57
+      }
+    ],
+    "<builtin>.hash": [],
+    "pypara.currencies.CurrencyRegistry.__new__": [],
+    "pypara.currencies.CurrencyRegistry.__init__": [
+      {
+        "dest": "collections.OrderedDict",
+        "line_no": 225
+      }
+    ],
+    "collections.OrderedDict": [],
+    "pypara.currencies.CurrencyRegistry.__enter__": [],
+    "pypara.currencies.CurrencyRegistry.__exit__": [
+      {
+        "dest": "<builtin>.sorted",
+        "line_no": 254
+      },
+      {
+        "dest": "collections.OrderedDict",
+        "line_no": 254
+      }
+    ],
+    "pypara.currencies.CurrencyRegistry.__exit__.<lambda1>": [],
+    "<builtin>.sorted": [],
+    "pypara.currencies.CurrencyRegistry.__register": [
+      {
+        "dest": "<builtin>.ValueError",
+        "line_no": 279
+      }
+    ],
+    "<builtin>.ValueError": [],
+    "pypara.currencies.CurrencyRegistry.__len__": [
+      {
+        "dest": "<builtin>.len",
+        "line_no": 288
+      }
+    ],
+    "<builtin>.len": [],
+    "pypara.currencies.CurrencyRegistry.__contains__": [],
+    "pypara.currencies.CurrencyRegistry.__getitem__": [
+      {
+        "dest": "pypara.currencies.CurrencyLookupError.__init__",
+        "line_no": 303
+      },
+      {
+        "dest": "pypara.currencies.CurrencyLookupError.__init__",
+        "line_no": 303
+      }
+    ],
+    "pypara.currencies.CurrencyRegistry.has": [],
+    "pypara.currencies.CurrencyRegistry.get": [],
+    "pypara.currencies.CurrencyRegistry.all": [],
+    "pypara.currencies.CurrencyRegistry.codes": [],
+    "pypara.currencies.CurrencyRegistry.codenames": [],
+    "pypara.commons": [],
+    "pypara.commons.errors": [],
+    "pypara.commons.numbers": [
+      {
+        "dest": "typing.NewType",
+        "line_no": 26
+      },
+      {
+        "dest": "typing.NewType",
+        "line_no": 31
+      },
+      {
+        "dest": "typing.TypeVar",
+        "line_no": 34
+      },
+      {
+        "dest": "typing.TypeVar",
+        "line_no": 38
+      },
+      {
+        "dest": "decimal.Decimal",
+        "line_no": 41
+      },
+      {
+        "dest": "decimal.Decimal",
+        "line_no": 44
+      },
+      {
+        "dest": "decimal.Decimal",
+        "line_no": 47
+      },
+      {
+        "dest": "decimal.Decimal",
+        "line_no": 50
+      },
+      {
+        "dest": "pypara.commons.numbers.make_quantizer",
+        "line_no": 64
+      }
+    ],
+    "typing.NewType": [],
+    "typing.TypeVar": [],
+    "decimal.Decimal": [],
+    "pypara.commons.numbers.isum": [
+      {
+        "dest": "typing.cast",
+        "line_no": 88
+      },
+      {
+        "dest": "<builtin>.sum",
+        "line_no": 88
+      }
+    ],
+    "typing.cast": [],
+    "<builtin>.sum": [],
+    "pypara.exchange": [],
+    "pypara.exchange.FXRateLookupError.__init__": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 31
+      }
+    ],
+    "pypara.exchange.FXRate.__invert__": [
+      {
+        "dest": "typing.NamedTuple.__init__",
+        "line_no": 93
+      }
+    ],
+    "typing.NamedTuple.__init__": [],
+    "pypara.exchange.FXRate.of": [
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 109
+      },
+      {
+        "dest": "<builtin>.ValueError",
+        "line_no": 110
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 111
+      },
+      {
+        "dest": "<builtin>.ValueError",
+        "line_no": 112
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 113
+      },
+      {
+        "dest": "<builtin>.ValueError",
+        "line_no": 114
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 115
+      },
+      {
+        "dest": "<builtin>.ValueError",
+        "line_no": 116
+      },
+      {
+        "dest": "<builtin>.ValueError",
+        "line_no": 120
+      },
+      {
+        "dest": "<builtin>.ValueError",
+        "line_no": 124
+      },
+      {
+        "dest": "typing.NamedTuple.__init__",
+        "line_no": 127
+      }
+    ],
+    "pypara.exchange.FXRateService": [
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 142
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 155
+      }
+    ],
+    "abc.abstractmethod": [],
+    "pypara.exchange.FXRateService.query": [],
+    "pypara.exchange.FXRateService.queries": [],
+    "pypara.commons.zeitgeist": [],
+    "pypara.monetary": [],
+    "pypara.monetary.IncompatibleCurrencyError.__init__": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 45
+      }
+    ],
+    "pypara.monetary.Money": [
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 89
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 101
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 113
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 120
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 127
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 134
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 141
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 148
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 156
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 169
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 178
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 191
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 200
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 209
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 218
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 228
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 241
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 254
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 268
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 282
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 289
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 296
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 303
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 324
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 331
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 335
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 339
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 343
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 347
+      },
+      {
+        "dest": "typing.overload",
+        "line_no": 351
+      },
+      {
+        "dest": "typing.overload",
+        "line_no": 355
+      },
+      {
+        "dest": "typing.overload",
+        "line_no": 359
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 366
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 370
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 374
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 378
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 382
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 386
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 390
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 394
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 398
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 402
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 406
+      }
+    ],
+    "pypara.monetary.Money.is_equal": [],
+    "pypara.monetary.Money.as_boolean": [],
+    "pypara.monetary.Money.as_float": [],
+    "pypara.monetary.Money.as_integer": [],
+    "pypara.monetary.Money.abs": [],
+    "pypara.monetary.Money.negative": [],
+    "pypara.monetary.Money.positive": [],
+    "pypara.monetary.Money.round": [],
+    "pypara.monetary.Money.add": [],
+    "pypara.monetary.Money.scalar_add": [],
+    "pypara.monetary.Money.subtract": [],
+    "pypara.monetary.Money.scalar_subtract": [],
+    "pypara.monetary.Money.multiply": [],
+    "pypara.monetary.Money.divide": [],
+    "pypara.monetary.Money.floor_divide": [],
+    "pypara.monetary.Money.lt": [],
+    "pypara.monetary.Money.lte": [],
+    "pypara.monetary.Money.gt": [],
+    "pypara.monetary.Money.gte": [],
+    "pypara.monetary.Money.with_ccy": [],
+    "pypara.monetary.Money.with_qty": [],
+    "pypara.monetary.Money.with_dov": [],
+    "pypara.monetary.Money.convert": [],
+    "pypara.monetary.Money.of": [],
+    "pypara.monetary.Money.price": [],
+    "pypara.monetary.Money.__bool__": [],
+    "pypara.monetary.Money.__eq__": [],
+    "pypara.monetary.Money.__abs__": [],
+    "pypara.monetary.Money.__float__": [],
+    "pypara.monetary.Money.__int__": [],
+    "typing.overload": [],
+    "pypara.monetary.Money.__round__": [
+      {
+        "dest": "pypara.monetary.NoneMoney.round",
+        "line_no": 363
+      },
+      {
+        "dest": "pypara.monetary.SomeMoney.round",
+        "line_no": 363
+      },
+      {
+        "dest": "pypara.monetary.Money.round",
+        "line_no": 363
+      }
+    ],
+    "pypara.monetary.NoneMoney.round": [],
+    "pypara.monetary.SomeMoney.round": [],
+    "pypara.monetary.Money.__neg__": [],
+    "pypara.monetary.Money.__pos__": [],
+    "pypara.monetary.Money.__add__": [],
+    "pypara.monetary.Money.__sub__": [],
+    "pypara.monetary.Money.__mul__": [],
+    "pypara.monetary.Money.__truediv__": [],
+    "pypara.monetary.Money.__floordiv__": [],
+    "pypara.monetary.Money.__lt__": [],
+    "pypara.monetary.Money.__le__": [],
+    "pypara.monetary.Money.__gt__": [],
+    "pypara.monetary.Money.__ge__": [],
+    "pypara.monetary.SomeMoney.is_equal": [
+      {
+        "dest": "<builtin>.tuple",
+        "line_no": 422
+      },
+      {
+        "dest": "<builtin>.tuple",
+        "line_no": 422
+      }
+    ],
+    "<builtin>.tuple": [],
+    "pypara.monetary.SomeMoney.as_boolean": [],
+    "pypara.monetary.SomeMoney.as_float": [],
+    "pypara.monetary.SomeMoney.as_integer": [],
+    "pypara.monetary.SomeMoney.abs": [],
+    "pypara.monetary.SomeMoney.negative": [],
+    "pypara.monetary.SomeMoney.positive": [],
+    "pypara.monetary.SomeMoney.add": [
+      {
+        "dest": "pypara.monetary.IncompatibleCurrencyError.__init__",
+        "line_no": 464
+      },
+      {
+        "dest": "pypara.monetary.IncompatibleCurrencyError.__init__",
+        "line_no": 464
+      }
+    ],
+    "pypara.monetary.SomeMoney.scalar_add": [
+      {
+        "dest": "decimal.Decimal",
+        "line_no": 471
+      }
+    ],
+    "pypara.monetary.SomeMoney.subtract": [
+      {
+        "dest": "pypara.monetary.IncompatibleCurrencyError.__init__",
+        "line_no": 487
+      },
+      {
+        "dest": "pypara.monetary.IncompatibleCurrencyError.__init__",
+        "line_no": 487
+      }
+    ],
+    "pypara.monetary.SomeMoney.scalar_subtract": [
+      {
+        "dest": "decimal.Decimal",
+        "line_no": 494
+      }
+    ],
+    "pypara.monetary.SomeMoney.multiply": [
+      {
+        "dest": "decimal.Decimal",
+        "line_no": 499
+      }
+    ],
+    "pypara.monetary.SomeMoney.divide": [
+      {
+        "dest": "decimal.Decimal",
+        "line_no": 505
+      }
+    ],
+    "pypara.monetary.SomeMoney.floor_divide": [
+      {
+        "dest": "decimal.Decimal",
+        "line_no": 513
+      }
+    ],
+    "pypara.monetary.SomeMoney.lt": [
+      {
+        "dest": "pypara.monetary.IncompatibleCurrencyError.__init__",
+        "line_no": 521
+      },
+      {
+        "dest": "pypara.monetary.IncompatibleCurrencyError.__init__",
+        "line_no": 521
+      }
+    ],
+    "pypara.monetary.SomeMoney.lte": [
+      {
+        "dest": "pypara.monetary.IncompatibleCurrencyError.__init__",
+        "line_no": 528
+      },
+      {
+        "dest": "pypara.monetary.IncompatibleCurrencyError.__init__",
+        "line_no": 528
+      }
+    ],
+    "pypara.monetary.SomeMoney.gt": [
+      {
+        "dest": "pypara.monetary.IncompatibleCurrencyError.__init__",
+        "line_no": 535
+      },
+      {
+        "dest": "pypara.monetary.IncompatibleCurrencyError.__init__",
+        "line_no": 535
+      }
+    ],
+    "pypara.monetary.SomeMoney.gte": [
+      {
+        "dest": "pypara.monetary.IncompatibleCurrencyError.__init__",
+        "line_no": 542
+      },
+      {
+        "dest": "pypara.monetary.IncompatibleCurrencyError.__init__",
+        "line_no": 542
+      }
+    ],
+    "pypara.monetary.SomeMoney.with_ccy": [],
+    "pypara.monetary.SomeMoney.with_qty": [],
+    "pypara.monetary.SomeMoney.with_dov": [],
+    "pypara.monetary.SomeMoney.convert": [
+      {
+        "dest": "pypara.exchange.FXRateLookupError.__init__",
+        "line_no": 576
+      },
+      {
+        "dest": "pypara.exchange.FXRateLookupError.__init__",
+        "line_no": 576
+      }
+    ],
+    "pypara.monetary.SomeMoney.price": [],
+    "pypara.monetary.NoneMoney.as_boolean": [],
+    "pypara.monetary.NoneMoney.is_equal": [],
+    "pypara.monetary.NoneMoney.abs": [],
+    "pypara.monetary.NoneMoney.as_float": [
+      {
+        "dest": "<builtin>.TypeError",
+        "line_no": 639
+      }
+    ],
+    "<builtin>.TypeError": [],
+    "pypara.monetary.NoneMoney.as_integer": [
+      {
+        "dest": "<builtin>.TypeError",
+        "line_no": 642
+      }
+    ],
+    "pypara.monetary.NoneMoney.negative": [],
+    "pypara.monetary.NoneMoney.positive": [],
+    "pypara.monetary.NoneMoney.add": [],
+    "pypara.monetary.NoneMoney.scalar_add": [],
+    "pypara.monetary.NoneMoney.subtract": [],
+    "pypara.monetary.NoneMoney.scalar_subtract": [],
+    "pypara.monetary.NoneMoney.multiply": [],
+    "pypara.monetary.NoneMoney.divide": [],
+    "pypara.monetary.NoneMoney.floor_divide": [],
+    "pypara.monetary.NoneMoney.lt": [],
+    "pypara.monetary.NoneMoney.lte": [],
+    "pypara.monetary.NoneMoney.gt": [],
+    "pypara.monetary.NoneMoney.gte": [],
+    "pypara.monetary.NoneMoney.with_ccy": [],
+    "pypara.monetary.NoneMoney.with_qty": [],
+    "pypara.monetary.NoneMoney.with_dov": [],
+    "pypara.monetary.NoneMoney.convert": [],
+    "pypara.monetary.NoneMoney.price": [],
+    "pypara.monetary.Price": [
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 772
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 784
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 796
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 803
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 810
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 817
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 824
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 831
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 839
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 852
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 861
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 874
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 883
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 892
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 901
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 910
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 920
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 933
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 946
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 960
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 974
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 981
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 988
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 995
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 1007
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 1023
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 1027
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 1031
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 1035
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 1039
+      },
+      {
+        "dest": "typing.overload",
+        "line_no": 1043
+      },
+      {
+        "dest": "typing.overload",
+        "line_no": 1047
+      },
+      {
+        "dest": "typing.overload",
+        "line_no": 1051
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 1058
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 1062
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 1066
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 1070
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 1074
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 1078
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 1082
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 1086
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 1090
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 1094
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 1098
+      }
+    ],
+    "pypara.monetary.Price.is_equal": [],
+    "pypara.monetary.Price.as_boolean": [],
+    "pypara.monetary.Price.as_float": [],
+    "pypara.monetary.Price.as_integer": [],
+    "pypara.monetary.Price.abs": [],
+    "pypara.monetary.Price.negative": [],
+    "pypara.monetary.Price.positive": [],
+    "pypara.monetary.Price.round": [],
+    "pypara.monetary.Price.add": [],
+    "pypara.monetary.Price.scalar_add": [],
+    "pypara.monetary.Price.subtract": [],
+    "pypara.monetary.Price.scalar_subtract": [],
+    "pypara.monetary.Price.multiply": [],
+    "pypara.monetary.Price.times": [],
+    "pypara.monetary.Price.divide": [],
+    "pypara.monetary.Price.floor_divide": [],
+    "pypara.monetary.Price.lt": [],
+    "pypara.monetary.Price.lte": [],
+    "pypara.monetary.Price.gt": [],
+    "pypara.monetary.Price.gte": [],
+    "pypara.monetary.Price.with_ccy": [],
+    "pypara.monetary.Price.with_qty": [],
+    "pypara.monetary.Price.with_dov": [],
+    "pypara.monetary.Price.convert": [],
+    "pypara.monetary.Price.money": [],
+    "pypara.monetary.Price.of": [],
+    "pypara.monetary.Price.__bool__": [],
+    "pypara.monetary.Price.__eq__": [],
+    "pypara.monetary.Price.__abs__": [],
+    "pypara.monetary.Price.__float__": [],
+    "pypara.monetary.Price.__int__": [],
+    "pypara.monetary.Price.__round__": [
+      {
+        "dest": "pypara.monetary.Price.round",
+        "line_no": 1055
+      },
+      {
+        "dest": "pypara.monetary.SomePrice.round",
+        "line_no": 1055
+      },
+      {
+        "dest": "pypara.monetary.NonePrice.round",
+        "line_no": 1055
+      }
+    ],
+    "pypara.monetary.SomePrice.round": [],
+    "pypara.monetary.NonePrice.round": [],
+    "pypara.monetary.Price.__neg__": [],
+    "pypara.monetary.Price.__pos__": [],
+    "pypara.monetary.Price.__add__": [],
+    "pypara.monetary.Price.__sub__": [],
+    "pypara.monetary.Price.__mul__": [],
+    "pypara.monetary.Price.__truediv__": [],
+    "pypara.monetary.Price.__floordiv__": [],
+    "pypara.monetary.Price.__lt__": [],
+    "pypara.monetary.Price.__le__": [],
+    "pypara.monetary.Price.__gt__": [],
+    "pypara.monetary.Price.__ge__": [],
+    "pypara.monetary.SomePrice.is_equal": [
+      {
+        "dest": "<builtin>.tuple",
+        "line_no": 1114
+      },
+      {
+        "dest": "<builtin>.tuple",
+        "line_no": 1114
+      }
+    ],
+    "pypara.monetary.SomePrice.as_boolean": [],
+    "pypara.monetary.SomePrice.as_float": [],
+    "pypara.monetary.SomePrice.as_integer": [],
+    "pypara.monetary.SomePrice.abs": [],
+    "pypara.monetary.SomePrice.negative": [],
+    "pypara.monetary.SomePrice.positive": [],
+    "pypara.monetary.SomePrice.add": [
+      {
+        "dest": "pypara.monetary.IncompatibleCurrencyError.__init__",
+        "line_no": 1155
+      },
+      {
+        "dest": "pypara.monetary.IncompatibleCurrencyError.__init__",
+        "line_no": 1155
+      }
+    ],
+    "pypara.monetary.SomePrice.scalar_add": [
+      {
+        "dest": "decimal.Decimal",
+        "line_no": 1162
+      }
+    ],
+    "pypara.monetary.SomePrice.subtract": [
+      {
+        "dest": "pypara.monetary.IncompatibleCurrencyError.__init__",
+        "line_no": 1178
+      },
+      {
+        "dest": "pypara.monetary.IncompatibleCurrencyError.__init__",
+        "line_no": 1178
+      }
+    ],
+    "pypara.monetary.SomePrice.scalar_subtract": [
+      {
+        "dest": "decimal.Decimal",
+        "line_no": 1185
+      }
+    ],
+    "pypara.monetary.SomePrice.multiply": [
+      {
+        "dest": "decimal.Decimal",
+        "line_no": 1190
+      }
+    ],
+    "pypara.monetary.SomePrice.times": [
+      {
+        "dest": "decimal.Decimal",
+        "line_no": 1194
+      }
+    ],
+    "pypara.monetary.SomePrice.divide": [
+      {
+        "dest": "decimal.Decimal",
+        "line_no": 1200
+      }
+    ],
+    "pypara.monetary.SomePrice.floor_divide": [
+      {
+        "dest": "decimal.Decimal",
+        "line_no": 1208
+      }
+    ],
+    "pypara.monetary.SomePrice.lt": [
+      {
+        "dest": "pypara.monetary.IncompatibleCurrencyError.__init__",
+        "line_no": 1216
+      },
+      {
+        "dest": "pypara.monetary.IncompatibleCurrencyError.__init__",
+        "line_no": 1216
+      }
+    ],
+    "pypara.monetary.SomePrice.lte": [
+      {
+        "dest": "pypara.monetary.IncompatibleCurrencyError.__init__",
+        "line_no": 1223
+      },
+      {
+        "dest": "pypara.monetary.IncompatibleCurrencyError.__init__",
+        "line_no": 1223
+      }
+    ],
+    "pypara.monetary.SomePrice.gt": [
+      {
+        "dest": "pypara.monetary.IncompatibleCurrencyError.__init__",
+        "line_no": 1230
+      },
+      {
+        "dest": "pypara.monetary.IncompatibleCurrencyError.__init__",
+        "line_no": 1230
+      }
+    ],
+    "pypara.monetary.SomePrice.gte": [
+      {
+        "dest": "pypara.monetary.IncompatibleCurrencyError.__init__",
+        "line_no": 1237
+      },
+      {
+        "dest": "pypara.monetary.IncompatibleCurrencyError.__init__",
+        "line_no": 1237
+      }
+    ],
+    "pypara.monetary.SomePrice.with_ccy": [],
+    "pypara.monetary.SomePrice.with_qty": [],
+    "pypara.monetary.SomePrice.with_dov": [],
+    "pypara.monetary.SomePrice.convert": [
+      {
+        "dest": "pypara.exchange.FXRateLookupError.__init__",
+        "line_no": 1270
+      },
+      {
+        "dest": "pypara.exchange.FXRateLookupError.__init__",
+        "line_no": 1270
+      }
+    ],
+    "pypara.monetary.SomePrice.money": [],
+    "pypara.monetary.NonePrice.as_boolean": [],
+    "pypara.monetary.NonePrice.is_equal": [],
+    "pypara.monetary.NonePrice.abs": [],
+    "pypara.monetary.NonePrice.as_float": [
+      {
+        "dest": "<builtin>.TypeError",
+        "line_no": 1334
+      }
+    ],
+    "pypara.monetary.NonePrice.as_integer": [
+      {
+        "dest": "<builtin>.TypeError",
+        "line_no": 1337
+      }
+    ],
+    "pypara.monetary.NonePrice.negative": [],
+    "pypara.monetary.NonePrice.positive": [],
+    "pypara.monetary.NonePrice.add": [],
+    "pypara.monetary.NonePrice.scalar_add": [],
+    "pypara.monetary.NonePrice.subtract": [],
+    "pypara.monetary.NonePrice.scalar_subtract": [],
+    "pypara.monetary.NonePrice.multiply": [],
+    "pypara.monetary.NonePrice.times": [],
+    "pypara.monetary.NonePrice.divide": [],
+    "pypara.monetary.NonePrice.floor_divide": [],
+    "pypara.monetary.NonePrice.lt": [],
+    "pypara.monetary.NonePrice.lte": [],
+    "pypara.monetary.NonePrice.gt": [],
+    "pypara.monetary.NonePrice.gte": [],
+    "pypara.monetary.NonePrice.with_ccy": [],
+    "pypara.monetary.NonePrice.with_qty": [],
+    "pypara.monetary.NonePrice.with_dov": [],
+    "pypara.monetary.NonePrice.convert": [],
+    "pypara.dcc": [
+      {
+        "dest": "pypara.dcc.DCCRegistryMachinery.__init__",
+        "line_no": 364
+      },
+      {
+        "dest": "pypara.dcc.dcc",
+        "line_no": 399
+      },
+      {
+        "dest": "pypara.dcc.dcc.register_and_return_dcfc",
+        "line_no": 400
+      },
+      {
+        "dest": "pypara.dcc.dcc",
+        "line_no": 443
+      },
+      {
+        "dest": "pypara.dcc.dcc.register_and_return_dcfc",
+        "line_no": 444
+      },
+      {
+        "dest": "pypara.dcc._as_ccys",
+        "line_no": 470
+      },
+      {
+        "dest": "pypara.dcc.dcc",
+        "line_no": 467
+      },
+      {
+        "dest": "pypara.dcc.dcc.register_and_return_dcfc",
+        "line_no": 472
+      },
+      {
+        "dest": "pypara.dcc._as_ccys",
+        "line_no": 496
+      },
+      {
+        "dest": "pypara.dcc.dcc",
+        "line_no": 496
+      },
+      {
+        "dest": "pypara.dcc.dcc.register_and_return_dcfc",
+        "line_no": 497
+      },
+      {
+        "dest": "pypara.dcc.dcc",
+        "line_no": 522
+      },
+      {
+        "dest": "pypara.dcc.dcc.register_and_return_dcfc",
+        "line_no": 523
+      },
+      {
+        "dest": "pypara.dcc.dcc",
+        "line_no": 548
+      },
+      {
+        "dest": "pypara.dcc.dcc.register_and_return_dcfc",
+        "line_no": 549
+      },
+      {
+        "dest": "pypara.dcc.dcc",
+        "line_no": 574
+      },
+      {
+        "dest": "pypara.dcc.dcc.register_and_return_dcfc",
+        "line_no": 575
+      },
+      {
+        "dest": "pypara.dcc.dcc",
+        "line_no": 600
+      },
+      {
+        "dest": "pypara.dcc.dcc.register_and_return_dcfc",
+        "line_no": 601
+      },
+      {
+        "dest": "pypara.dcc.dcc",
+        "line_no": 638
+      },
+      {
+        "dest": "pypara.dcc.dcc.register_and_return_dcfc",
+        "line_no": 639
+      },
+      {
+        "dest": "pypara.dcc.dcc",
+        "line_no": 676
+      },
+      {
+        "dest": "pypara.dcc.dcc.register_and_return_dcfc",
+        "line_no": 677
+      },
+      {
+        "dest": "pypara.dcc.dcc",
+        "line_no": 715
+      },
+      {
+        "dest": "pypara.dcc.dcc.register_and_return_dcfc",
+        "line_no": 716
+      },
+      {
+        "dest": "pypara.dcc.dcc",
+        "line_no": 757
+      },
+      {
+        "dest": "pypara.dcc.dcc.register_and_return_dcfc",
+        "line_no": 758
+      }
+    ],
+    "pypara.dcc._as_ccys": [],
+    "pypara.dcc._get_date_range": [
+      {
+        "dest": "<builtin>.range",
+        "line_no": 38
+      },
+      {
+        "dest": "datetime.timedelta",
+        "line_no": 39
+      }
+    ],
+    "<builtin>.range": [],
+    "datetime.timedelta": [],
+    "pypara.dcc._get_actual_day_count": [],
+    "pypara.dcc._has_leap_day": [
+      {
+        "dest": "<builtin>.range",
+        "line_no": 63
+      },
+      {
+        "dest": "calendar.isleap",
+        "line_no": 63
+      },
+      {
+        "dest": "datetime.date",
+        "line_no": 68
+      }
+    ],
+    "calendar.isleap": [],
+    "datetime.date": [],
+    "pypara.dcc._is_last_day_of_month": [
+      {
+        "dest": "calendar.monthrange",
+        "line_no": 83
+      }
+    ],
+    "calendar.monthrange": [],
+    "pypara.dcc._last_payment_date": [
+      {
+        "dest": "<builtin>.int",
+        "line_no": 127
+      },
+      {
+        "dest": "<builtin>.range",
+        "line_no": 133
+      },
+      {
+        "dest": "<builtin>.sorted",
+        "line_no": 133
+      },
+      {
+        "dest": "<builtin>.sorted",
+        "line_no": 133
+      },
+      {
+        "dest": "pypara.dcc._construct_date",
+        "line_no": 146
+      }
+    ],
+    "<builtin>.int": [],
+    "pypara.dcc._construct_date": [
+      {
+        "dest": "<builtin>.ValueError",
+        "line_no": 181
+      },
+      {
+        "dest": "datetime.date",
+        "line_no": 183
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 185
+      },
+      {
+        "dest": "pypara.dcc._construct_date",
+        "line_no": 186
+      }
+    ],
+    "pypara.dcc._next_payment_date": [
+      {
+        "dest": "<builtin>.int",
+        "line_no": 160
+      },
+      {
+        "dest": "dateutil.relativedelta.relativedelta",
+        "line_no": 163
+      }
+    ],
+    "dateutil.relativedelta.relativedelta": [],
+    "<builtin>.str": [],
+    "pypara.dcc.DCC.calculate_fraction": [],
+    "pypara.dcc.DCC.calculate_daily_fraction": [
+      {
+        "dest": "datetime.timedelta",
+        "line_no": 225
+      },
+      {
+        "dest": "typing.NamedTuple.calculate_fraction_method",
+        "line_no": 231
+      },
+      {
+        "dest": "typing.NamedTuple.calculate_fraction_method",
+        "line_no": 234
+      }
+    ],
+    "typing.NamedTuple.calculate_fraction_method": [],
+    "pypara.dcc.DCC.interest": [
+      {
+        "dest": "pypara.dcc.DCC.calculate_fraction",
+        "line_no": 251
+      }
+    ],
+    "pypara.dcc.DCC.coupon": [
+      {
+        "dest": "pypara.dcc._last_payment_date",
+        "line_no": 270
+      },
+      {
+        "dest": "pypara.dcc._next_payment_date",
+        "line_no": 271
+      },
+      {
+        "dest": "decimal.Decimal",
+        "line_no": 274
+      },
+      {
+        "dest": "pypara.dcc.DCC.interest",
+        "line_no": 274
+      }
+    ],
+    "pypara.dcc.DCCRegistryMachinery.__init__": [],
+    "pypara.dcc.DCCRegistryMachinery._is_registered": [],
+    "pypara.dcc.DCCRegistryMachinery.register": [
+      {
+        "dest": "pypara.dcc.DCCRegistryMachinery._is_registered",
+        "line_no": 315
+      },
+      {
+        "dest": "<builtin>.TypeError",
+        "line_no": 317
+      },
+      {
+        "dest": "pypara.dcc.DCCRegistryMachinery._is_registered",
+        "line_no": 325
+      },
+      {
+        "dest": "<builtin>.TypeError",
+        "line_no": 327
+      }
+    ],
+    "pypara.dcc.DCCRegistryMachinery._find_strict": [],
+    "pypara.dcc.DCCRegistryMachinery.find": [
+      {
+        "dest": "pypara.dcc.DCCRegistryMachinery._find_strict",
+        "line_no": 346
+      },
+      {
+        "dest": "pypara.dcc.DCCRegistryMachinery._find_strict",
+        "line_no": 346
+      }
+    ],
+    "pypara.dcc.DCCRegistryMachinery.registry": [
+      {
+        "dest": "<builtin>.list",
+        "line_no": 353
+      }
+    ],
+    "<builtin>.list": [],
+    "pypara.dcc.DCCRegistryMachinery.table": [],
+    "pypara.dcc.dcc": [],
+    "pypara.dcc.dcc.register_and_return_dcfc": [
+      {
+        "dest": "<builtin>.set",
+        "line_no": 385
+      },
+      {
+        "dest": "<builtin>.set",
+        "line_no": 385
+      },
+      {
+        "dest": "typing.NamedTuple.__init__",
+        "line_no": 385
+      },
+      {
+        "dest": "pypara.dcc.DCCRegistryMachinery.register",
+        "line_no": 388
+      },
+      {
+        "dest": "<builtin>.setattr",
+        "line_no": 391
+      }
+    ],
+    "<builtin>.set": [],
+    "<builtin>.setattr": [],
+    "pypara.dcc.dcfc_act_act": [
+      {
+        "dest": "calendar.isleap",
+        "line_no": 424
+      },
+      {
+        "dest": "<builtin>.range",
+        "line_no": 424
+      },
+      {
+        "dest": "pypara.dcc._get_date_range",
+        "line_no": 430
+      },
+      {
+        "dest": "decimal.Decimal",
+        "line_no": 440
+      },
+      {
+        "dest": "decimal.Decimal",
+        "line_no": 440
+      },
+      {
+        "dest": "decimal.Decimal",
+        "line_no": 440
+      },
+      {
+        "dest": "decimal.Decimal",
+        "line_no": 440
+      }
+    ],
+    "pypara.dcc.dcfc_act_act_icma": [
+      {
+        "dest": "pypara.dcc._get_actual_day_count",
+        "line_no": 458
+      },
+      {
+        "dest": "decimal.Decimal",
+        "line_no": 458
+      },
+      {
+        "dest": "pypara.dcc._get_actual_day_count",
+        "line_no": 461
+      },
+      {
+        "dest": "decimal.Decimal",
+        "line_no": 461
+      },
+      {
+        "dest": "decimal.Decimal",
+        "line_no": 464
+      }
+    ],
+    "pypara.dcc.dcfc_act_360": [
+      {
+        "dest": "pypara.dcc._get_actual_day_count",
+        "line_no": 493
+      },
+      {
+        "dest": "decimal.Decimal",
+        "line_no": 493
+      }
+    ],
+    "pypara.dcc.dcfc_act_365_f": [
+      {
+        "dest": "pypara.dcc._get_actual_day_count",
+        "line_no": 519
+      },
+      {
+        "dest": "decimal.Decimal",
+        "line_no": 519
+      }
+    ],
+    "pypara.dcc.dcfc_act_365_a": [
+      {
+        "dest": "pypara.dcc._get_actual_day_count",
+        "line_no": 545
+      },
+      {
+        "dest": "pypara.dcc._has_leap_day",
+        "line_no": 545
+      },
+      {
+        "dest": "decimal.Decimal",
+        "line_no": 545
+      }
+    ],
+    "pypara.dcc.dcfc_act_365_l": [
+      {
+        "dest": "pypara.dcc._get_actual_day_count",
+        "line_no": 571
+      },
+      {
+        "dest": "calendar.isleap",
+        "line_no": 571
+      },
+      {
+        "dest": "decimal.Decimal",
+        "line_no": 571
+      }
+    ],
+    "pypara.dcc.dcfc_nl_365": [
+      {
+        "dest": "pypara.dcc._get_actual_day_count",
+        "line_no": 597
+      },
+      {
+        "dest": "pypara.dcc._has_leap_day",
+        "line_no": 597
+      },
+      {
+        "dest": "decimal.Decimal",
+        "line_no": 597
+      }
+    ],
+    "pypara.dcc.dcfc_30_360_isda": [
+      {
+        "dest": "datetime.date",
+        "line_no": 625
+      },
+      {
+        "dest": "datetime.date",
+        "line_no": 629
+      },
+      {
+        "dest": "decimal.Decimal",
+        "line_no": 635
+      }
+    ],
+    "pypara.dcc.dcfc_30_e_360": [
+      {
+        "dest": "datetime.date",
+        "line_no": 663
+      },
+      {
+        "dest": "datetime.date",
+        "line_no": 667
+      },
+      {
+        "dest": "decimal.Decimal",
+        "line_no": 673
+      }
+    ],
+    "pypara.dcc.dcfc_30_e_plus_360": [
+      {
+        "dest": "datetime.date",
+        "line_no": 702
+      },
+      {
+        "dest": "datetime.timedelta",
+        "line_no": 706
+      },
+      {
+        "dest": "decimal.Decimal",
+        "line_no": 712
+      }
+    ],
+    "pypara.dcc.dcfc_30_360_german": [
+      {
+        "dest": "pypara.dcc._is_last_day_of_month",
+        "line_no": 739
+      },
+      {
+        "dest": "pypara.dcc._is_last_day_of_month",
+        "line_no": 745
+      },
+      {
+        "dest": "decimal.Decimal",
+        "line_no": 754
+      }
+    ],
+    "pypara.dcc.dcfc_30_360_us": [
+      {
+        "dest": "pypara.dcc._is_last_day_of_month",
+        "line_no": 785
+      },
+      {
+        "dest": "pypara.dcc._is_last_day_of_month",
+        "line_no": 790
+      },
+      {
+        "dest": "decimal.Decimal",
+        "line_no": 805
+      }
+    ],
+    "pypara.accounting": [],
+    "pypara.accounting.ledger": [
+      {
+        "dest": "typing.TypeVar",
+        "line_no": 28
+      }
+    ],
+    "pypara.accounting.ledger.LedgerEntry.date": [],
+    "pypara.accounting.ledger.LedgerEntry.description": [],
+    "pypara.accounting.ledger.LedgerEntry.amount": [],
+    "pypara.accounting.ledger.LedgerEntry.cntraccts": [],
+    "pypara.accounting.ledger.LedgerEntry.is_debit": [],
+    "pypara.accounting.ledger.LedgerEntry.is_credit": [],
+    "pypara.accounting.ledger.LedgerEntry.debit": [],
+    "pypara.accounting.ledger.LedgerEntry.credit": [],
+    "dataclasses.field": [],
+    "pypara.accounting.ledger.Ledger": [
+      {
+        "dest": "dataclasses.field",
+        "line_no": 120
+      }
+    ],
+    "pypara.accounting.ledger.Ledger._last_balance": [],
+    "pypara.accounting.ledger.Ledger.add": [],
+    "pypara.accounting.ledger.build_general_ledger": [
+      {
+        "dest": "decimal.Decimal",
+        "line_no": 180
+      }
+    ],
+    "pypara.accounting.ledger.ReadInitialBalances.__call__": [],
+    "pypara.accounting.ledger.GeneralLedgerProgram.__call__": [],
+    "pypara.accounting.ledger.compile_general_ledger_program": [],
+    "pypara.accounting.ledger.compile_general_ledger_program._program": [
+      {
+        "dest": "pypara.accounting.ledger.build_general_ledger",
+        "line_no": 234
+      }
+    ],
+    "pypara.accounting.journaling": [
+      {
+        "dest": "typing.TypeVar",
+        "line_no": 23
+      }
+    ],
+    "pypara.accounting.journaling.Direction.of": [],
+    "pypara.accounting.journaling.Posting.is_debit": [],
+    "pypara.accounting.journaling.Posting.is_credit": [],
+    "pypara.accounting.journaling.JournalEntry": [
+      {
+        "dest": "dataclasses.field",
+        "line_no": 112
+      },
+      {
+        "dest": "dataclasses.field",
+        "line_no": 115
+      }
+    ],
+    "pypara.accounting.journaling.JournalEntry.increments": [],
+    "pypara.accounting.journaling.JournalEntry.decrements": [],
+    "pypara.accounting.journaling.JournalEntry.debits": [],
+    "pypara.accounting.journaling.JournalEntry.credits": [],
+    "pypara.accounting.journaling.JournalEntry.post": [
+      {
+        "dest": "pypara.accounting.journaling.Direction.of",
+        "line_no": 157
+      },
+      {
+        "dest": "<builtin>.abs",
+        "line_no": 157
+      }
+    ],
+    "<builtin>.abs": [],
+    "pypara.accounting.journaling.JournalEntry.validate": [
+      {
+        "dest": "pypara.commons.numbers.isum",
+        "line_no": 167
+      },
+      {
+        "dest": "pypara.commons.numbers.isum",
+        "line_no": 168
+      }
+    ],
+    "pypara.accounting.journaling.ReadJournalEntries.__call__": [],
+    "pypara.commons.others": [
+      {
+        "dest": "typing.NewType",
+        "line_no": 11
+      },
+      {
+        "dest": "typing.TypeVar",
+        "line_no": 24
+      }
+    ],
+    "pypara.commons.others.makeguid": [
+      {
+        "dest": "uuid.uuid4",
+        "line_no": 20
+      }
+    ],
+    "uuid.uuid4": [],
+    "pypara.commons.others.identity": [],
+    "pypara.accounting.accounts": [
+      {
+        "dest": "typing.NewType",
+        "line_no": 85
+      }
+    ],
+    "pypara.accounting.accounts.AccountType.__lt__": [],
+    "pypara.accounting.accounts.Account": [
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 133
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 141
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 149
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 157
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 165
+      }
+    ],
+    "pypara.accounting.accounts.Account.code": [],
+    "pypara.accounting.accounts.Account.name": [],
+    "pypara.accounting.accounts.Account.type": [],
+    "pypara.accounting.accounts.Account.coa": [],
+    "pypara.accounting.accounts.Account.parent": [],
+    "pypara.accounting.accounts.RootAccount.parent": [],
+    "pypara.accounting.accounts.SubAccount.type": [],
+    "pypara.accounting.accounts.SubAccount.coa": [],
+    "pypara.accounting.accounts.COA": [
+      {
+        "dest": "dataclasses.field",
+        "line_no": 248
+      },
+      {
+        "dest": "dataclasses.field",
+        "line_no": 251
+      }
+    ],
+    "pypara.accounting.accounts.COA.__post_init__": [
+      {
+        "dest": "<builtin>.enumerate",
+        "line_no": 264
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 266
+      }
+    ],
+    "<builtin>.enumerate": [],
+    "pypara.accounting.accounts.COA.__iter__": [],
+    "pypara.accounting.accounts.COA.accounts": [
+      {
+        "dest": "<builtin>.iter",
+        "line_no": 282
+      }
+    ],
+    "<builtin>.iter": [],
+    "pypara.accounting.accounts.COA.toplevel": [],
+    "pypara.accounting.accounts.COA.structure": [
+      {
+        "dest": "<builtin>.map",
+        "line_no": 296
+      }
+    ],
+    "<builtin>.map": [],
+    "pypara.accounting.accounts.COA.find": [],
+    "pypara.accounting.accounts.COA.subaccounts": [],
+    "pypara.accounting.accounts.COA.nodify": [
+      {
+        "dest": "pypara.accounting.accounts.COA.nodify",
+        "line_no": 323
+      },
+      {
+        "dest": "pypara.accounting.accounts.COA.subaccounts",
+        "line_no": 323
+      }
+    ],
+    "pypara.accounting.accounts.COA.add": [
+      {
+        "dest": "<builtin>.ValueError",
+        "line_no": 336
+      },
+      {
+        "dest": "<builtin>.ValueError",
+        "line_no": 343
+      },
+      {
+        "dest": "<builtin>.ValueError",
+        "line_no": 354
+      }
+    ],
+    "pypara.accounting.accounts.COA.print": [
+      {
+        "dest": "pypara.accounting.accounts.COA._print_node",
+        "line_no": 377
+      }
+    ],
+    "pypara.accounting.accounts.COA._print_node": [
+      {
+        "dest": "pypara.accounting.accounts.COA.print",
+        "line_no": 389
+      },
+      {
+        "dest": "pypara.accounting.accounts.COA._print_node",
+        "line_no": 391
+      }
+    ],
+    "pypara.accounting.accounts.ReadChartOfAccounts.__call__": [],
+    "pypara.accounting.generic": []
+  },
+  "class_mro": {
+    "pypara.commons.errors.ProgrammingError": [
+      "pypara.commons.errors.ProgrammingError"
+    ],
+    "pypara.currencies.CurrencyLookupError": [
+      "pypara.currencies.CurrencyLookupError"
+    ],
+    "pypara.currencies.CurrencyType": [
+      "pypara.currencies.CurrencyType",
+      "enum.Enum"
+    ],
+    "pypara.currencies.Currency": [
+      "pypara.currencies.Currency"
+    ],
+    "pypara.currencies.CurrencyRegistry": [
+      "pypara.currencies.CurrencyRegistry"
+    ],
+    "pypara.commons.zeitgeist.DateRange": [
+      "pypara.commons.zeitgeist.DateRange"
+    ],
+    "pypara.exchange.FXRateLookupError": [
+      "pypara.exchange.FXRateLookupError"
+    ],
+    "pypara.exchange.FXRate": [
+      "pypara.exchange.FXRate",
+      "typing.NamedTuple"
+    ],
+    "pypara.exchange.FXRateService": [
+      "pypara.exchange.FXRateService"
+    ],
+    "pypara.monetary.IncompatibleCurrencyError": [
+      "pypara.monetary.IncompatibleCurrencyError"
+    ],
+    "pypara.monetary.MonetaryOperationException": [
+      "pypara.monetary.MonetaryOperationException"
+    ],
+    "pypara.monetary.Money": [
+      "pypara.monetary.Money"
+    ],
+    "pypara.monetary.SomeMoney": [
+      "pypara.monetary.SomeMoney",
+      "pypara.monetary.Money"
+    ],
+    "pypara.monetary.NoneMoney": [
+      "pypara.monetary.NoneMoney",
+      "pypara.monetary.Money"
+    ],
+    "pypara.monetary.Price": [
+      "pypara.monetary.Price"
+    ],
+    "pypara.monetary.SomePrice": [
+      "pypara.monetary.SomePrice",
+      "pypara.monetary.Price"
+    ],
+    "pypara.monetary.NonePrice": [
+      "pypara.monetary.NonePrice",
+      "pypara.monetary.Price"
+    ],
+    "pypara.dcc.DCC": [
+      "pypara.dcc.DCC",
+      "typing.NamedTuple"
+    ],
+    "pypara.dcc.DCCRegistryMachinery": [
+      "pypara.dcc.DCCRegistryMachinery"
+    ],
+    "pypara.accounting.accounts.AccountType": [
+      "pypara.accounting.accounts.AccountType",
+      "enum.Enum"
+    ],
+    "pypara.accounting.accounts.Account": [
+      "pypara.accounting.accounts.Account",
+      "typing.Protocol"
+    ],
+    "pypara.accounting.accounts.RootAccount": [
+      "pypara.accounting.accounts.RootAccount"
+    ],
+    "pypara.accounting.accounts.SubAccount": [
+      "pypara.accounting.accounts.SubAccount"
+    ],
+    "pypara.accounting.accounts.COA": [
+      "pypara.accounting.accounts.COA"
+    ],
+    "pypara.accounting.accounts.COA.Node": [
+      "pypara.accounting.accounts.COA.Node"
+    ],
+    "pypara.accounting.accounts.ReadChartOfAccounts": [
+      "pypara.accounting.accounts.ReadChartOfAccounts",
+      "typing.Protocol"
+    ],
+    "pypara.accounting.generic.Balance": [
+      "pypara.accounting.generic.Balance"
+    ],
+    "pypara.accounting.journaling.Direction": [
+      "pypara.accounting.journaling.Direction",
+      "enum.Enum"
+    ],
+    "pypara.accounting.journaling.Posting": [
+      "pypara.accounting.journaling.Posting"
+    ],
+    "pypara.accounting.journaling.JournalEntry": [
+      "pypara.accounting.journaling.JournalEntry"
+    ],
+    "pypara.accounting.journaling.ReadJournalEntries": [
+      "pypara.accounting.journaling.ReadJournalEntries"
+    ],
+    "pypara.accounting.ledger.LedgerEntry": [
+      "pypara.accounting.ledger.LedgerEntry"
+    ],
+    "pypara.accounting.ledger.Ledger": [
+      "pypara.accounting.ledger.Ledger"
+    ],
+    "pypara.accounting.ledger.GeneralLedger": [
+      "pypara.accounting.ledger.GeneralLedger"
+    ],
+    "pypara.accounting.ledger.ReadInitialBalances": [
+      "pypara.accounting.ledger.ReadInitialBalances",
+      "typing.Protocol"
+    ],
+    "pypara.accounting.ledger.GeneralLedgerProgram": [
+      "pypara.accounting.ledger.GeneralLedgerProgram"
+    ]
+  },
+  "imports": {
+    "pypara": [],
+    "pypara.currencies": [
+      "pypara",
+      "pypara.commons",
+      "pypara.commons.errors",
+      "pypara.commons.numbers",
+      "enum",
+      "decimal",
+      "dataclasses",
+      "collections",
+      "typing"
+    ],
+    "pypara.commons": [],
+    "pypara.commons.errors": [
+      "typing"
+    ],
+    "pypara.commons.numbers": [
+      "decimal",
+      "typing"
+    ],
+    "pypara.exchange": [
+      "pypara",
+      "pypara.commons",
+      "pypara.commons.numbers",
+      "abc",
+      "pypara.currencies",
+      "decimal",
+      "pypara.commons.zeitgeist",
+      "typing"
+    ],
+    "pypara.commons.zeitgeist": [
+      "dataclasses",
+      "datetime"
+    ],
+    "pypara.monetary": [
+      "pypara",
+      "pypara.commons",
+      "pypara.commons.errors",
+      "pypara.commons.numbers",
+      "abc",
+      "pypara.currencies",
+      "decimal",
+      "pypara.exchange",
+      "pypara.commons.zeitgeist",
+      "typing"
+    ],
+    "pypara.dcc": [
+      "pypara",
+      "pypara.commons",
+      "pypara.commons.numbers",
+      "typing",
+      "pypara.currencies",
+      "calendar",
+      "decimal",
+      "pypara.monetary",
+      "pypara.commons.zeitgeist",
+      "datetime",
+      "dateutil.relativedelta"
+    ],
+    "pypara.accounting": [],
+    "pypara.accounting.ledger": [
+      "pypara",
+      "pypara.commons",
+      "pypara.commons.numbers",
+      "pypara.accounting.journaling",
+      "decimal",
+      "pypara.accounting.accounts",
+      "pypara.accounting.generic",
+      "dataclasses",
+      "pypara.accounting",
+      "pypara.commons.zeitgeist",
+      "datetime",
+      "typing"
+    ],
+    "pypara.accounting.accounts": [
+      "abc",
+      "enum",
+      "dataclasses",
+      "collections",
+      "typing"
+    ],
+    "pypara.accounting.generic": [
+      "dataclasses",
+      "datetime",
+      "pypara.commons.numbers"
+    ],
+    "pypara.accounting.journaling": [
+      "pypara.commons.numbers",
+      "enum",
+      "dataclasses",
+      "pypara.commons.others",
+      "pypara.commons.zeitgeist",
+      "datetime",
+      "typing"
+    ],
+    "pypara.commons.others": [
+      "uuid",
+      "typing"
+    ]
+  }
+}

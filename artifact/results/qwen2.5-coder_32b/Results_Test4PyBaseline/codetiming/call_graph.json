@@ -1,0 +1,229 @@
+{
+  "cg_output": {
+    "codetiming": [],
+    "codetiming._timer": [],
+    "codetiming._timer.Timer": [
+      {
+        "dest": "codetiming._timers.Timers.__init__",
+        "line_no": 26
+      },
+      {
+        "dest": "dataclasses.field",
+        "line_no": 27
+      },
+      {
+        "dest": "dataclasses.field",
+        "line_no": 31
+      }
+    ],
+    "codetiming._timers.Timers.__init__": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 21
+      },
+      {
+        "dest": "collections.defaultdict",
+        "line_no": 22
+      }
+    ],
+    "dataclasses.field": [],
+    "codetiming._timer.Timer.start": [
+      {
+        "dest": "time.perf_counter",
+        "line_no": 38
+      }
+    ],
+    "time.perf_counter": [],
+    "codetiming._timer.Timer.stop": [
+      {
+        "dest": "time.perf_counter",
+        "line_no": 46
+      },
+      {
+        "dest": "<builtin>.callable",
+        "line_no": 51
+      },
+      {
+        "dest": "contextlib.ContextDecorator.text",
+        "line_no": 52
+      },
+      {
+        "dest": "contextlib.ContextDecorator.text.format",
+        "line_no": 60
+      },
+      {
+        "dest": "contextlib.ContextDecorator.logger",
+        "line_no": 61
+      },
+      {
+        "dest": "contextlib.ContextDecorator.timers.add",
+        "line_no": 63
+      }
+    ],
+    "<builtin>.callable": [],
+    "contextlib.ContextDecorator.text": [],
+    "contextlib.ContextDecorator.text.format": [],
+    "contextlib.ContextDecorator.logger": [],
+    "contextlib.ContextDecorator.timers.add": [],
+    "codetiming._timer.Timer.__enter__": [
+      {
+        "dest": "codetiming._timer.Timer.start",
+        "line_no": 69
+      }
+    ],
+    "codetiming._timer.Timer.__exit__": [
+      {
+        "dest": "codetiming._timer.Timer.stop",
+        "line_no": 74
+      }
+    ],
+    "codetiming._timers": [],
+    "<builtin>.super": [],
+    "collections.defaultdict": [],
+    "codetiming._timers.Timers.add": [
+      {
+        "dest": "collections.UserDict.data.setdefault",
+        "line_no": 27
+      }
+    ],
+    "collections.UserDict.data.setdefault": [],
+    "codetiming._timers.Timers.clear": [
+      {
+        "dest": "collections.UserDict.data.clear",
+        "line_no": 32
+      },
+      {
+        "dest": "collections.UserDict._timings.clear",
+        "line_no": 33
+      }
+    ],
+    "collections.UserDict.data.clear": [],
+    "collections.UserDict._timings.clear": [],
+    "codetiming._timers.Timers.__setitem__": [
+      {
+        "dest": "<builtin>.TypeError",
+        "line_no": 37
+      }
+    ],
+    "<builtin>.TypeError": [],
+    "codetiming._timers.Timers.apply": [
+      {
+        "dest": "<builtin>.KeyError",
+        "line_no": 46
+      }
+    ],
+    "<builtin>.KeyError": [],
+    "codetiming._timers.Timers.count": [
+      {
+        "dest": "codetiming._timers.Timers.apply",
+        "line_no": 50
+      }
+    ],
+    "codetiming._timers.Timers.total": [
+      {
+        "dest": "codetiming._timers.Timers.apply",
+        "line_no": 54
+      }
+    ],
+    "codetiming._timers.Timers.min": [
+      {
+        "dest": "codetiming._timers.Timers.apply",
+        "line_no": 58
+      }
+    ],
+    "codetiming._timers.Timers.min.<lambda1>": [
+      {
+        "dest": "codetiming._timers.Timers.min",
+        "line_no": 58
+      }
+    ],
+    "codetiming._timers.Timers.max": [
+      {
+        "dest": "codetiming._timers.Timers.apply",
+        "line_no": 62
+      }
+    ],
+    "codetiming._timers.Timers.max.<lambda1>": [
+      {
+        "dest": "codetiming._timers.Timers.max",
+        "line_no": 62
+      }
+    ],
+    "codetiming._timers.Timers.mean": [
+      {
+        "dest": "codetiming._timers.Timers.apply",
+        "line_no": 66
+      }
+    ],
+    "codetiming._timers.Timers.mean.<lambda1>": [
+      {
+        "dest": "statistics.mean",
+        "line_no": 66
+      }
+    ],
+    "statistics.mean": [],
+    "codetiming._timers.Timers.median": [
+      {
+        "dest": "codetiming._timers.Timers.apply",
+        "line_no": 70
+      }
+    ],
+    "codetiming._timers.Timers.median.<lambda1>": [
+      {
+        "dest": "statistics.median",
+        "line_no": 70
+      }
+    ],
+    "statistics.median": [],
+    "codetiming._timers.Timers.stdev": [
+      {
+        "dest": "<builtin>.len",
+        "line_no": 76
+      },
+      {
+        "dest": "statistics.stdev",
+        "line_no": 76
+      },
+      {
+        "dest": "<builtin>.KeyError",
+        "line_no": 77
+      }
+    ],
+    "<builtin>.len": [],
+    "statistics.stdev": []
+  },
+  "class_mro": {
+    "codetiming._timers.Timers": [
+      "codetiming._timers.Timers",
+      "collections.UserDict"
+    ],
+    "codetiming._timer.TimerError": [
+      "codetiming._timer.TimerError"
+    ],
+    "codetiming._timer.Timer": [
+      "codetiming._timer.Timer",
+      "contextlib.ContextDecorator"
+    ]
+  },
+  "imports": {
+    "codetiming": [
+      "codetiming._timer",
+      "codetiming"
+    ],
+    "codetiming._timer": [
+      "typing",
+      "math",
+      "codetiming._timers",
+      "contextlib",
+      "dataclasses",
+      "time"
+    ],
+    "codetiming._timers": [
+      "typing",
+      "collections",
+      "statistics",
+      "math"
+    ],
+    "statistics": []
+  }
+}

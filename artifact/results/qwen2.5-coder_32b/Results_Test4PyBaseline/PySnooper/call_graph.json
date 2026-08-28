@@ -1,0 +1,916 @@
+{
+  "cg_output": {
+    "pysnooper.variables": [],
+    "pysnooper.variables.needs_parentheses": [
+      {
+        "dest": "pysnooper.variables.needs_parentheses.code",
+        "line_no": 17
+      },
+      {
+        "dest": "pysnooper.variables.needs_parentheses.code",
+        "line_no": 17
+      }
+    ],
+    "pysnooper.variables.needs_parentheses.code": [
+      {
+        "dest": "<builtin>.compile",
+        "line_no": 15
+      }
+    ],
+    "<builtin>.compile": [],
+    "pysnooper.variables.BaseVariable.__init__": [
+      {
+        "dest": "pysnooper.utils.ensure_tuple",
+        "line_no": 23
+      },
+      {
+        "dest": "<builtin>.compile",
+        "line_no": 24
+      },
+      {
+        "dest": "pysnooper.variables.needs_parentheses",
+        "line_no": 25
+      }
+    ],
+    "pysnooper.utils.ensure_tuple": [
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 91
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 92
+      },
+      {
+        "dest": "<builtin>.tuple",
+        "line_no": 93
+      }
+    ],
+    "pysnooper.variables.BaseVariable.items": [
+      {
+        "dest": "<builtin>.eval",
+        "line_no": 32
+      },
+      {
+        "dest": "pysnooper.variables.Exploding._items",
+        "line_no": 35
+      },
+      {
+        "dest": "pysnooper.variables.BaseVariable._items",
+        "line_no": 35
+      },
+      {
+        "dest": "pysnooper.variables.CommonVariable._items",
+        "line_no": 35
+      }
+    ],
+    "<builtin>.eval": [],
+    "pysnooper.variables.Exploding._items": [
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 126
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 128
+      },
+      {
+        "dest": "pysnooper.variables.BaseVariable.__init__",
+        "line_no": 133
+      },
+      {
+        "dest": "pysnooper.variables.BaseVariable.__init__",
+        "line_no": 133
+      },
+      {
+        "dest": "pysnooper.variables.BaseVariable.__init__",
+        "line_no": 133
+      }
+    ],
+    "pysnooper.variables.BaseVariable._items": [],
+    "pysnooper.variables.CommonVariable._items": [
+      {
+        "dest": "pysnooper.utils.get_shortish_repr",
+        "line_no": 55
+      },
+      {
+        "dest": "pysnooper.variables.CommonVariable._safe_keys",
+        "line_no": 56
+      },
+      {
+        "dest": "pysnooper.variables.Keys._get_value",
+        "line_no": 60
+      },
+      {
+        "dest": "pysnooper.variables.CommonVariable._get_value",
+        "line_no": 60
+      },
+      {
+        "dest": "pysnooper.variables.Attrs._get_value",
+        "line_no": 60
+      },
+      {
+        "dest": "pysnooper.variables.CommonVariable._format_key",
+        "line_no": 64
+      },
+      {
+        "dest": "pysnooper.variables.Keys._format_key",
+        "line_no": 64
+      },
+      {
+        "dest": "pysnooper.variables.Attrs._format_key",
+        "line_no": 64
+      },
+      {
+        "dest": "pysnooper.utils.get_shortish_repr",
+        "line_no": 65
+      }
+    ],
+    "pysnooper.variables.BaseVariable": [
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 38
+      }
+    ],
+    "abc.abstractmethod": [],
+    "pysnooper.variables.BaseVariable._fingerprint": [
+      {
+        "dest": "<builtin>.type",
+        "line_no": 43
+      }
+    ],
+    "<builtin>.type": [],
+    "pysnooper.variables.BaseVariable.__hash__": [
+      {
+        "dest": "<builtin>.hash",
+        "line_no": 46
+      }
+    ],
+    "<builtin>.hash": [],
+    "pysnooper.variables.BaseVariable.__eq__": [
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 49
+      }
+    ],
+    "<builtin>.isinstance": [],
+    "pysnooper.utils.get_shortish_repr": [
+      {
+        "dest": "pysnooper.utils.get_repr_function",
+        "line_no": 68
+      },
+      {
+        "dest": "pysnooper.utils.normalize_repr",
+        "line_no": 75
+      },
+      {
+        "dest": "pysnooper.utils.truncate",
+        "line_no": 77
+      }
+    ],
+    "pysnooper.variables.CommonVariable._safe_keys": [
+      {
+        "dest": "pysnooper.variables.CommonVariable._keys",
+        "line_no": 71
+      },
+      {
+        "dest": "pysnooper.variables.Attrs._keys",
+        "line_no": 71
+      },
+      {
+        "dest": "pysnooper.variables.Keys._keys",
+        "line_no": 71
+      },
+      {
+        "dest": "pysnooper.variables.Indices._keys",
+        "line_no": 71
+      }
+    ],
+    "pysnooper.variables.Keys._get_value": [],
+    "pysnooper.variables.CommonVariable._get_value": [],
+    "pysnooper.variables.Attrs._get_value": [
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 97
+      }
+    ],
+    "pysnooper.variables.CommonVariable._format_key": [],
+    "pysnooper.variables.Keys._format_key": [
+      {
+        "dest": "pysnooper.utils.get_shortish_repr",
+        "line_no": 105
+      }
+    ],
+    "pysnooper.variables.Attrs._format_key": [],
+    "pysnooper.variables.CommonVariable._keys": [],
+    "pysnooper.variables.Attrs._keys": [
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 89
+      },
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 90
+      },
+      {
+        "dest": "itertools.chain",
+        "line_no": 88
+      }
+    ],
+    "pysnooper.variables.Keys._keys": [],
+    "pysnooper.variables.Indices._keys": [
+      {
+        "dest": "<builtin>.len",
+        "line_no": 115
+      },
+      {
+        "dest": "<builtin>.range",
+        "line_no": 115
+      }
+    ],
+    "<builtin>.getattr": [],
+    "itertools.chain": [],
+    "<builtin>.slice": [],
+    "pysnooper.variables.Indices": [
+      {
+        "dest": "<builtin>.slice",
+        "line_no": 112
+      }
+    ],
+    "<builtin>.len": [],
+    "<builtin>.range": [],
+    "pysnooper.variables.Indices.__getitem__": [
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 118
+      },
+      {
+        "dest": "copy.deepcopy",
+        "line_no": 119
+      }
+    ],
+    "copy.deepcopy": [],
+    "pysnooper.utils": [
+      {
+        "dest": "re.compile",
+        "line_no": 59
+      }
+    ],
+    "pysnooper.utils._check_methods": [],
+    "pysnooper.utils.WritableStream": [
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 25
+      }
+    ],
+    "pysnooper.utils.WritableStream.write": [],
+    "pysnooper.utils.WritableStream.__subclasshook__": [
+      {
+        "dest": "pysnooper.utils._check_methods",
+        "line_no": 31
+      }
+    ],
+    "pysnooper.utils.shitcode": [
+      {
+        "dest": "<builtin>.ord",
+        "line_no": 46
+      }
+    ],
+    "<builtin>.ord": [],
+    "pysnooper.utils.get_repr_function": [
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 52
+      },
+      {
+        "dest": "pysnooper.utils.get_repr_function.<lambda1>",
+        "line_no": 54
+      }
+    ],
+    "pysnooper.utils.get_repr_function.<lambda1>": [
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 53
+      }
+    ],
+    "re.compile": [],
+    "pysnooper.utils.normalize_repr": [],
+    "pysnooper.utils.truncate": [
+      {
+        "dest": "<builtin>.len",
+        "line_no": 82
+      }
+    ],
+    "<builtin>.tuple": [],
+    "pysnooper.pycompat": [
+      {
+        "dest": "<builtin>.hasattr",
+        "line_no": 14
+      },
+      {
+        "dest": "<builtin>.hasattr",
+        "line_no": 25
+      }
+    ],
+    "<builtin>.hasattr": [],
+    "pysnooper.pycompat.PathLike": [
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 32
+      }
+    ],
+    "pysnooper.pycompat.PathLike.__fspath__": [],
+    "pysnooper.pycompat.PathLike.__subclasshook__": [
+      {
+        "dest": "<builtin>.hasattr",
+        "line_no": 39
+      },
+      {
+        "dest": "<builtin>.hasattr",
+        "line_no": 41
+      }
+    ],
+    "pysnooper.pycompat.<lambda1>": [],
+    "pysnooper.pycompat.<lambda2>": [],
+    "pysnooper.pycompat.time_isoformat": [
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 76
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 82
+      }
+    ],
+    "pysnooper.pycompat.timedelta_format": [
+      {
+        "dest": "pysnooper.pycompat.time_isoformat",
+        "line_no": 88
+      }
+    ],
+    "pysnooper.pycompat.timedelta_parse": [
+      {
+        "dest": "<builtin>.map",
+        "line_no": 91
+      },
+      {
+        "dest": "datetime.timedelta",
+        "line_no": 95
+      }
+    ],
+    "<builtin>.map": [],
+    "datetime.timedelta": [],
+    "pysnooper": [
+      {
+        "dest": "collections.namedtuple",
+        "line_no": 24
+      },
+      {
+        "dest": "<builtin>.map",
+        "line_no": 28
+      }
+    ],
+    "collections.namedtuple": [],
+    "pysnooper.tracer": [
+      {
+        "dest": "re.compile",
+        "line_no": 22
+      },
+      {
+        "dest": "threading.local",
+        "line_no": 148
+      },
+      {
+        "dest": "os.getenv",
+        "line_no": 149
+      },
+      {
+        "dest": "<builtin>.bool",
+        "line_no": 149
+      }
+    ],
+    "pysnooper.tracer.get_local_reprs": [
+      {
+        "dest": "<builtin>.tuple",
+        "line_no": 28
+      },
+      {
+        "dest": "pysnooper.utils.get_shortish_repr",
+        "line_no": 30
+      },
+      {
+        "dest": "collections.OrderedDict",
+        "line_no": 34
+      },
+      {
+        "dest": "<builtin>.sorted",
+        "line_no": 37
+      }
+    ],
+    "pysnooper.tracer.get_local_reprs.<lambda1>": [],
+    "collections.OrderedDict": [],
+    "<builtin>.sorted": [],
+    "pysnooper.tracer.UnavailableSource.__getitem__": [],
+    "pysnooper.tracer.get_path_and_source_from_frame": [
+      {
+        "dest": "<builtin>.hasattr",
+        "line_no": 61
+      },
+      {
+        "dest": "<builtin>.int",
+        "line_no": 71
+      },
+      {
+        "dest": "IPython.get_ipython",
+        "line_no": 74
+      },
+      {
+        "dest": "io.open",
+        "line_no": 82
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 94
+      },
+      {
+        "dest": "re.search",
+        "line_no": 99
+      }
+    ],
+    "<builtin>.int": [],
+    "IPython.get_ipython": [],
+    "io.open": [],
+    "re.search": [],
+    "pysnooper.tracer.get_write_function": [
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 112
+      },
+      {
+        "dest": "<builtin>.Exception",
+        "line_no": 114
+      },
+      {
+        "dest": "pysnooper.tracer.FileWriter.__init__",
+        "line_no": 125
+      },
+      {
+        "dest": "<builtin>.callable",
+        "line_no": 126
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 129
+      }
+    ],
+    "<builtin>.Exception": [],
+    "pysnooper.tracer.get_write_function.write": [
+      {
+        "dest": "sys.stderr.write",
+        "line_no": 120
+      },
+      {
+        "dest": "pysnooper.utils.shitcode",
+        "line_no": 123
+      },
+      {
+        "dest": "sys.stderr.write",
+        "line_no": 123
+      }
+    ],
+    "sys.stderr.write": [],
+    "pysnooper.tracer.FileWriter.__init__": [],
+    "<builtin>.callable": [],
+    "pysnooper.tracer.FileWriter.write": [
+      {
+        "dest": "io.open",
+        "line_no": 142
+      }
+    ],
+    "threading.local": [],
+    "os.getenv": [],
+    "<builtin>.bool": [],
+    "pysnooper.tracer.Tracer.__init__": [
+      {
+        "dest": "pysnooper.tracer.get_write_function",
+        "line_no": 209
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 212
+      },
+      {
+        "dest": "pysnooper.variables.BaseVariable.__init__",
+        "line_no": 212
+      },
+      {
+        "dest": "pysnooper.utils.ensure_tuple",
+        "line_no": 213
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 215
+      },
+      {
+        "dest": "pysnooper.variables.BaseVariable.__init__",
+        "line_no": 215
+      },
+      {
+        "dest": "pysnooper.utils.ensure_tuple",
+        "line_no": 216
+      },
+      {
+        "dest": "<builtin>.set",
+        "line_no": 225
+      },
+      {
+        "dest": "<builtin>.set",
+        "line_no": 226
+      },
+      {
+        "dest": "threading.local",
+        "line_no": 227
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 228
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 228
+      },
+      {
+        "dest": "<builtin>.all",
+        "line_no": 228
+      }
+    ],
+    "<builtin>.set": [],
+    "<builtin>.all": [],
+    "pysnooper.tracer.Tracer.__call__": [
+      {
+        "dest": "inspect.isclass",
+        "line_no": 241
+      },
+      {
+        "dest": "pysnooper.tracer.Tracer._wrap_class",
+        "line_no": 242
+      },
+      {
+        "dest": "pysnooper.tracer.Tracer._wrap_function",
+        "line_no": 244
+      }
+    ],
+    "inspect.isclass": [],
+    "pysnooper.tracer.Tracer._wrap_class": [
+      {
+        "dest": "inspect.isfunction",
+        "line_no": 253
+      },
+      {
+        "dest": "pysnooper.tracer.Tracer._wrap_function",
+        "line_no": 254
+      },
+      {
+        "dest": "<builtin>.setattr",
+        "line_no": 254
+      }
+    ],
+    "pysnooper.tracer.Tracer._wrap_function": [
+      {
+        "dest": "functools.wraps",
+        "line_no": 260
+      },
+      {
+        "dest": "functools.wraps",
+        "line_no": 265
+      },
+      {
+        "dest": "inspect.isgeneratorfunction",
+        "line_no": 284
+      }
+    ],
+    "inspect.isfunction": [],
+    "<builtin>.setattr": [],
+    "functools.wraps": [],
+    "pysnooper.tracer.Tracer._wrap_function.simple_wrapper": [],
+    "pysnooper.tracer.Tracer._wrap_function.generator_wrapper": [],
+    "inspect.isgeneratorfunction": [],
+    "pysnooper.tracer.Tracer.write": [
+      {
+        "dest": "<builtin>.locals",
+        "line_no": 290
+      },
+      {
+        "dest": "pysnooper.tracer.FileWriter.write",
+        "line_no": 291
+      }
+    ],
+    "<builtin>.locals": [],
+    "pysnooper.tracer.Tracer.__enter__": [
+      {
+        "dest": "inspect.currentframe",
+        "line_no": 297
+      },
+      {
+        "dest": "pysnooper.tracer.Tracer._is_internal_frame",
+        "line_no": 298
+      },
+      {
+        "dest": "sys.gettrace",
+        "line_no": 305
+      },
+      {
+        "dest": "datetime.datetime.now",
+        "line_no": 306
+      },
+      {
+        "dest": "sys.settrace",
+        "line_no": 307
+      }
+    ],
+    "inspect.currentframe": [],
+    "pysnooper.tracer.Tracer._is_internal_frame": [],
+    "sys.gettrace": [],
+    "datetime.datetime.now": [],
+    "sys.settrace": [],
+    "pysnooper.tracer.Tracer.__exit__": [
+      {
+        "dest": "sys.settrace",
+        "line_no": 313
+      },
+      {
+        "dest": "inspect.currentframe",
+        "line_no": 314
+      },
+      {
+        "dest": "datetime.datetime.now",
+        "line_no": 321
+      },
+      {
+        "dest": "pysnooper.pycompat.timedelta_format",
+        "line_no": 322
+      },
+      {
+        "dest": "<builtin>.locals",
+        "line_no": 325
+      },
+      {
+        "dest": "pysnooper.tracer.Tracer.write",
+        "line_no": 324
+      }
+    ],
+    "pysnooper.tracer.Tracer.set_thread_info_padding": [
+      {
+        "dest": "<builtin>.len",
+        "line_no": 334
+      },
+      {
+        "dest": "<builtin>.max",
+        "line_no": 335
+      }
+    ],
+    "<builtin>.max": [],
+    "pysnooper.tracer.Tracer.trace": [
+      {
+        "dest": "pysnooper.tracer.Tracer._is_internal_frame",
+        "line_no": 353
+      },
+      {
+        "dest": "<builtin>.range",
+        "line_no": 357
+      },
+      {
+        "dest": "datetime.datetime.now",
+        "line_no": 382
+      },
+      {
+        "dest": "datetime.datetime.now",
+        "line_no": 383
+      },
+      {
+        "dest": "pysnooper.pycompat.timedelta_format",
+        "line_no": 384
+      },
+      {
+        "dest": "datetime.datetime.now",
+        "line_no": 387
+      },
+      {
+        "dest": "pysnooper.pycompat.time_isoformat",
+        "line_no": 386
+      },
+      {
+        "dest": "pysnooper.tracer.get_path_and_source_from_frame",
+        "line_no": 394
+      },
+      {
+        "dest": "os.path.basename",
+        "line_no": 395
+      },
+      {
+        "dest": "<builtin>.locals",
+        "line_no": 398
+      },
+      {
+        "dest": "pysnooper.tracer.Tracer.write",
+        "line_no": 397
+      },
+      {
+        "dest": "<builtin>.NotImplementedError",
+        "line_no": 404
+      },
+      {
+        "dest": "threading.current_thread",
+        "line_no": 406
+      },
+      {
+        "dest": "pysnooper.tracer.Tracer.set_thread_info_padding",
+        "line_no": 409
+      },
+      {
+        "dest": "pysnooper.tracer.get_local_reprs",
+        "line_no": 415
+      },
+      {
+        "dest": "<builtin>.locals",
+        "line_no": 427
+      },
+      {
+        "dest": "pysnooper.tracer.Tracer.write",
+        "line_no": 426
+      },
+      {
+        "dest": "<builtin>.locals",
+        "line_no": 430
+      },
+      {
+        "dest": "pysnooper.tracer.Tracer.write",
+        "line_no": 429
+      },
+      {
+        "dest": "itertools.count",
+        "line_no": 441
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 461
+      },
+      {
+        "dest": "<builtin>.ord",
+        "line_no": 462
+      },
+      {
+        "dest": "<builtin>.locals",
+        "line_no": 472
+      },
+      {
+        "dest": "pysnooper.tracer.Tracer.write",
+        "line_no": 471
+      },
+      {
+        "dest": "<builtin>.locals",
+        "line_no": 475
+      },
+      {
+        "dest": "pysnooper.tracer.Tracer.write",
+        "line_no": 474
+      },
+      {
+        "dest": "pysnooper.utils.get_shortish_repr",
+        "line_no": 483
+      },
+      {
+        "dest": "<builtin>.locals",
+        "line_no": 489
+      },
+      {
+        "dest": "pysnooper.tracer.Tracer.write",
+        "line_no": 488
+      },
+      {
+        "dest": "traceback.format_exception_only",
+        "line_no": 492
+      },
+      {
+        "dest": "pysnooper.utils.truncate",
+        "line_no": 494
+      },
+      {
+        "dest": "<builtin>.locals",
+        "line_no": 496
+      },
+      {
+        "dest": "pysnooper.tracer.Tracer.write",
+        "line_no": 495
+      }
+    ],
+    "os.path.basename": [],
+    "<builtin>.NotImplementedError": [],
+    "threading.current_thread": [],
+    "itertools.count": [],
+    "traceback.format_exception_only": []
+  },
+  "class_mro": {
+    "pysnooper.pycompat.ABC": [
+      "pysnooper.pycompat.ABC"
+    ],
+    "pysnooper.pycompat.PathLike": [
+      "pysnooper.pycompat.PathLike",
+      "abc.ABC"
+    ],
+    "pysnooper.utils.WritableStream": [
+      "pysnooper.utils.WritableStream",
+      "pysnooper.pycompat.ABC"
+    ],
+    "pysnooper.tracer.UnavailableSource": [
+      "pysnooper.tracer.UnavailableSource"
+    ],
+    "pysnooper.tracer.FileWriter": [
+      "pysnooper.tracer.FileWriter"
+    ],
+    "pysnooper.tracer.Tracer": [
+      "pysnooper.tracer.Tracer"
+    ],
+    "pysnooper.variables.BaseVariable": [
+      "pysnooper.variables.BaseVariable",
+      "abc.ABC"
+    ],
+    "pysnooper.variables.CommonVariable": [
+      "pysnooper.variables.CommonVariable",
+      "pysnooper.variables.BaseVariable",
+      "abc.ABC"
+    ],
+    "pysnooper.variables.Attrs": [
+      "pysnooper.variables.Attrs",
+      "pysnooper.variables.CommonVariable",
+      "pysnooper.variables.BaseVariable",
+      "abc.ABC"
+    ],
+    "pysnooper.variables.Keys": [
+      "pysnooper.variables.Keys",
+      "pysnooper.variables.CommonVariable",
+      "pysnooper.variables.BaseVariable",
+      "abc.ABC"
+    ],
+    "pysnooper.variables.Indices": [
+      "pysnooper.variables.Indices",
+      "pysnooper.variables.Keys",
+      "pysnooper.variables.CommonVariable",
+      "pysnooper.variables.BaseVariable",
+      "abc.ABC"
+    ],
+    "pysnooper.variables.Exploding": [
+      "pysnooper.variables.Exploding",
+      "pysnooper.variables.BaseVariable",
+      "abc.ABC"
+    ]
+  },
+  "imports": {
+    "pysnooper.variables": [
+      "pysnooper.utils",
+      "collections",
+      "itertools",
+      "copy",
+      "pysnooper",
+      "abc",
+      "collections.abc"
+    ],
+    "pysnooper": [
+      "collections",
+      "pysnooper.tracer"
+    ],
+    "pysnooper.utils": [
+      "re",
+      "sys",
+      "pysnooper.pycompat",
+      "abc"
+    ],
+    "pysnooper.pycompat": [
+      "os",
+      "sys",
+      "collections",
+      "abc",
+      "collections.abc",
+      "inspect",
+      "datetime"
+    ],
+    "pysnooper.tracer": [
+      "pysnooper.variables",
+      "os",
+      "re",
+      "sys",
+      "collections",
+      "threading",
+      "itertools",
+      "pysnooper.utils",
+      "io",
+      "IPython",
+      "traceback",
+      "inspect",
+      "datetime",
+      "opcode",
+      "functools"
+    ],
+    "IPython": []
+  }
+}

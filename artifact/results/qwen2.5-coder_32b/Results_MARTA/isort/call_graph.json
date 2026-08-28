@@ -1,0 +1,6183 @@
+{
+  "cg_output": {
+    "isort.output": [],
+    "isort.output.sorted_imports": [
+      {
+        "dest": "isort.output._output_as_string",
+        "line_no": 26
+      },
+      {
+        "dest": "typing.NamedTuple.lines_without_imports.copy",
+        "line_no": 28
+      },
+      {
+        "dest": "isort.format.format_simplified",
+        "line_no": 29
+      },
+      {
+        "dest": "itertools.chain",
+        "line_no": 31
+      },
+      {
+        "dest": "<builtin>.set",
+        "line_no": 47
+      },
+      {
+        "dest": "isort.sorting.naturally",
+        "line_no": 52
+      },
+      {
+        "dest": "isort.sorting.naturally",
+        "line_no": 62
+      },
+      {
+        "dest": "isort.output._with_straight_imports",
+        "line_no": 78
+      },
+      {
+        "dest": "isort.output._with_from_imports",
+        "line_no": 81
+      },
+      {
+        "dest": "functools.partial",
+        "line_no": 110
+      },
+      {
+        "dest": "isort.sorting.naturally",
+        "line_no": 108
+      },
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 116
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 119
+      },
+      {
+        "dest": "isort.output._ensure_newline_before_comment",
+        "line_no": 147
+      },
+      {
+        "dest": "typing.NamedTuple.line_separator.join",
+        "line_no": 156
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 165
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 171
+      },
+      {
+        "dest": "<builtin>.enumerate",
+        "line_no": 175
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 179
+      },
+      {
+        "dest": "isort.parse.skip_line",
+        "line_no": 176
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 186
+      },
+      {
+        "dest": "<builtin>.range",
+        "line_no": 198
+      },
+      {
+        "dest": "<builtin>.enumerate",
+        "line_no": 207
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 212
+      },
+      {
+        "dest": "isort.output._output_as_string",
+        "line_no": 218
+      }
+    ],
+    "isort.output._output_as_string": [
+      {
+        "dest": "isort.output._normalize_empty_lines",
+        "line_no": 598
+      },
+      {
+        "dest": "typing.NamedTuple.line_separator.join",
+        "line_no": 598
+      }
+    ],
+    "typing.NamedTuple.lines_without_imports.copy": [],
+    "isort.format.format_simplified": [],
+    "itertools.chain": [],
+    "<builtin>.set": [],
+    "isort.output.sorted_imports.<lambda1>": [
+      {
+        "dest": "isort.sorting.module_key",
+        "line_no": 54
+      }
+    ],
+    "isort.sorting.module_key": [
+      {
+        "dest": "re.match",
+        "line_no": 18
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 25
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 27
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 36
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 48
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 50
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 50
+      }
+    ],
+    "isort.sorting.naturally": [
+      {
+        "dest": "<builtin>.sorted",
+        "line_no": 110
+      }
+    ],
+    "isort.output.sorted_imports.<lambda2>": [
+      {
+        "dest": "isort.sorting.module_key",
+        "line_no": 64
+      }
+    ],
+    "isort.output._with_straight_imports": [
+      {
+        "dest": "<builtin>.any",
+        "line_no": 533
+      },
+      {
+        "dest": "isort.comments.add_to_line",
+        "line_no": 585
+      }
+    ],
+    "isort.output._with_from_imports": [
+      {
+        "dest": "<builtin>.list",
+        "line_no": 235
+      },
+      {
+        "dest": "isort.sorting.naturally",
+        "line_no": 240
+      },
+      {
+        "dest": "<builtin>.zip",
+        "line_no": 261
+      },
+      {
+        "dest": "isort.sorting.naturally",
+        "line_no": 268
+      },
+      {
+        "dest": "copy.copy",
+        "line_no": 269
+      },
+      {
+        "dest": "<builtin>.list",
+        "line_no": 288
+      },
+      {
+        "dest": "isort.output._with_star_comments",
+        "line_no": 288
+      },
+      {
+        "dest": "isort.comments.add_to_line",
+        "line_no": 287
+      },
+      {
+        "dest": "isort.wrap.line",
+        "line_no": 286
+      },
+      {
+        "dest": "isort.comments.add_to_line",
+        "line_no": 304
+      },
+      {
+        "dest": "isort.wrap.line",
+        "line_no": 323
+      },
+      {
+        "dest": "isort.wrap.line",
+        "line_no": 333
+      },
+      {
+        "dest": "isort.comments.add_to_line",
+        "line_no": 331
+      },
+      {
+        "dest": "isort.sorting.naturally",
+        "line_no": 339
+      },
+      {
+        "dest": "isort.wrap.line",
+        "line_no": 346
+      },
+      {
+        "dest": "isort.comments.add_to_line",
+        "line_no": 344
+      },
+      {
+        "dest": "isort.wrap.line",
+        "line_no": 355
+      },
+      {
+        "dest": "isort.sorting.naturally",
+        "line_no": 362
+      },
+      {
+        "dest": "isort.comments.add_to_line",
+        "line_no": 379
+      },
+      {
+        "dest": "isort.wrap.line",
+        "line_no": 378
+      },
+      {
+        "dest": "isort.comments.add_to_line",
+        "line_no": 402
+      },
+      {
+        "dest": "isort.wrap.line",
+        "line_no": 401
+      },
+      {
+        "dest": "<builtin>.list",
+        "line_no": 418
+      },
+      {
+        "dest": "isort.output._with_star_comments",
+        "line_no": 418
+      },
+      {
+        "dest": "isort.comments.add_to_line",
+        "line_no": 417
+      },
+      {
+        "dest": "copy.copy",
+        "line_no": 427
+      },
+      {
+        "dest": "isort.comments.add_to_line",
+        "line_no": 438
+      },
+      {
+        "dest": "isort.wrap.line",
+        "line_no": 447
+      },
+      {
+        "dest": "<builtin>.list",
+        "line_no": 459
+      },
+      {
+        "dest": "isort.comments.add_to_line",
+        "line_no": 462
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 474
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 477
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 477
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 483
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 484
+      },
+      {
+        "dest": "isort.wrap.import_statement",
+        "line_no": 491
+      },
+      {
+        "dest": "isort.wrap.import_statement",
+        "line_no": 499
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 509
+      },
+      {
+        "dest": "<builtin>.max",
+        "line_no": 508
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 515
+      },
+      {
+        "dest": "isort.wrap.line",
+        "line_no": 516
+      }
+    ],
+    "functools.partial": [],
+    "<builtin>.getattr": [],
+    "<builtin>.str": [],
+    "isort.output._ensure_newline_before_comment": [
+      {
+        "dest": "<builtin>.zip",
+        "line_no": 622
+      },
+      {
+        "dest": "isort.output._ensure_newline_before_comment.is_comment",
+        "line_no": 623
+      },
+      {
+        "dest": "isort.output._ensure_newline_before_comment.is_comment",
+        "line_no": 623
+      }
+    ],
+    "typing.NamedTuple.line_separator.join": [],
+    "<builtin>.len": [],
+    "<builtin>.enumerate": [],
+    "isort.parse.skip_line": [
+      {
+        "dest": "<builtin>.bool",
+        "line_no": 96
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 99
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 103
+      },
+      {
+        "dest": "<builtin>.bool",
+        "line_no": 125
+      }
+    ],
+    "<builtin>.range": [],
+    "<builtin>.list": [],
+    "isort.output._with_from_imports.<lambda1>": [
+      {
+        "dest": "isort.sorting.module_key",
+        "line_no": 242
+      }
+    ],
+    "<builtin>.zip": [],
+    "copy.copy": [],
+    "isort.output._with_star_comments": [],
+    "isort.comments.add_to_line": [
+      {
+        "dest": "isort.comments.parse",
+        "line_no": 23
+      },
+      {
+        "dest": "isort.comments.parse",
+        "line_no": 32
+      }
+    ],
+    "isort.wrap.line": [
+      {
+        "dest": "<builtin>.len",
+        "line_no": 67
+      },
+      {
+        "dest": "re.escape",
+        "line_no": 73
+      },
+      {
+        "dest": "re.search",
+        "line_no": 74
+      },
+      {
+        "dest": "re.split",
+        "line_no": 77
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 92
+      },
+      {
+        "dest": "isort.wrap.line",
+        "line_no": 100
+      },
+      {
+        "dest": "typing.NamedTuple.line_separator.join",
+        "line_no": 131
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 133
+      }
+    ],
+    "isort.wrap.import_statement": [
+      {
+        "dest": "isort.wrap_modes.formatter_from_string",
+        "line_no": 19
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 20
+      },
+      {
+        "dest": "copy.copy",
+        "line_no": 25
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 37
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 38
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 39
+      },
+      {
+        "dest": "<builtin>.min",
+        "line_no": 39
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 43
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 43
+      },
+      {
+        "dest": "copy.copy",
+        "line_no": 48
+      },
+      {
+        "dest": "isort.wrap.line",
+        "line_no": 60
+      }
+    ],
+    "<builtin>.max": [],
+    "<builtin>.any": [],
+    "isort.output._normalize_empty_lines": [
+      {
+        "dest": "typing.NamedTuple.lines_without_imports.pop",
+        "line_no": 603
+      },
+      {
+        "dest": "typing.NamedTuple.lines_without_imports.append",
+        "line_no": 605
+      }
+    ],
+    "typing.NamedTuple.lines_without_imports.pop": [],
+    "typing.NamedTuple.lines_without_imports.append": [],
+    "isort.output._LineWithComments.__new__": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 611
+      }
+    ],
+    "<builtin>.super": [],
+    "isort.output._ensure_newline_before_comment.is_comment": [],
+    "isort.format": [
+      {
+        "dest": "colorama.init",
+        "line_no": 14
+      },
+      {
+        "dest": "re.compile",
+        "line_no": 17
+      },
+      {
+        "dest": "re.compile",
+        "line_no": 18
+      }
+    ],
+    "colorama.init": [],
+    "re.compile": [],
+    "isort.format.format_natural": [],
+    "isort.format.show_unified_diff": [
+      {
+        "dest": "isort.format.create_terminal_printer",
+        "line_no": 60
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 61
+      },
+      {
+        "dest": "datetime.datetime.now",
+        "line_no": 63
+      },
+      {
+        "dest": "datetime.datetime.fromtimestamp",
+        "line_no": 63
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 62
+      },
+      {
+        "dest": "datetime.datetime.now",
+        "line_no": 71
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 71
+      },
+      {
+        "dest": "difflib.unified_diff",
+        "line_no": 65
+      }
+    ],
+    "isort.format.create_terminal_printer": [
+      {
+        "dest": "<builtin>.print",
+        "line_no": 147
+      },
+      {
+        "dest": "sys.exit",
+        "line_no": 148
+      },
+      {
+        "dest": "isort.format.ColoramaPrinter.__init__",
+        "line_no": 150
+      },
+      {
+        "dest": "isort.format.BasicPrinter.__init__",
+        "line_no": 150
+      }
+    ],
+    "datetime.datetime.now": [],
+    "datetime.datetime.fromtimestamp": [],
+    "difflib.unified_diff": [],
+    "isort.format.ask_whether_to_apply_changes_to_file": [
+      {
+        "dest": "<builtin>.input",
+        "line_no": 80
+      },
+      {
+        "dest": "sys.exit",
+        "line_no": 85
+      }
+    ],
+    "<builtin>.input": [],
+    "sys.exit": [],
+    "isort.format.remove_whitespace": [],
+    "isort.format.BasicPrinter.__init__": [],
+    "isort.format.BasicPrinter.success": [
+      {
+        "dest": "<builtin>.print",
+        "line_no": 102
+      }
+    ],
+    "<builtin>.print": [],
+    "isort.format.BasicPrinter.error": [
+      {
+        "dest": "<builtin>.print",
+        "line_no": 105
+      }
+    ],
+    "isort.format.BasicPrinter.diff_line": [],
+    "isort.format.ColoramaPrinter.__init__": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 113
+      },
+      {
+        "dest": "isort.format.ColoramaPrinter.style_text",
+        "line_no": 117
+      },
+      {
+        "dest": "isort.format.ColoramaPrinter.style_text",
+        "line_no": 118
+      }
+    ],
+    "isort.format.ColoramaPrinter.style_text": [],
+    "isort.format.ColoramaPrinter.diff_line": [
+      {
+        "dest": "re.match",
+        "line_no": 130
+      },
+      {
+        "dest": "re.match",
+        "line_no": 132
+      },
+      {
+        "dest": "isort.format.ColoramaPrinter.style_text",
+        "line_no": 134
+      }
+    ],
+    "re.match": [],
+    "isort.sorting": [
+      {
+        "dest": "re.compile",
+        "line_no": 6
+      },
+      {
+        "dest": "re.compile",
+        "line_no": 7
+      }
+    ],
+    "isort.sorting.section_key": [
+      {
+        "dest": "re.match",
+        "line_no": 62
+      },
+      {
+        "dest": "re.sub",
+        "line_no": 71
+      },
+      {
+        "dest": "re.sub",
+        "line_no": 72
+      },
+      {
+        "dest": "re.sub",
+        "line_no": 75
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 84
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 96
+      }
+    ],
+    "re.sub": [],
+    "isort.sorting.naturally.key_callback": [
+      {
+        "dest": "isort.sorting._natural_keys",
+        "line_no": 108
+      }
+    ],
+    "isort.sorting._natural_keys": [
+      {
+        "dest": "isort.sorting._atoi",
+        "line_no": 118
+      },
+      {
+        "dest": "re.split",
+        "line_no": 118
+      }
+    ],
+    "<builtin>.sorted": [],
+    "isort.sorting._atoi": [
+      {
+        "dest": "<builtin>.int",
+        "line_no": 114
+      }
+    ],
+    "<builtin>.int": [],
+    "re.split": [],
+    "isort.wrap": [],
+    "isort.wrap_modes.formatter_from_string": [],
+    "<builtin>.min": [],
+    "re.escape": [],
+    "re.search": [],
+    "isort.identify": [],
+    "isort.identify.Import.statement": [],
+    "isort.identify.Import.__str__": [
+      {
+        "dest": "isort.identify.Import.statement",
+        "line_no": 38
+      }
+    ],
+    "isort.identify.imports": [
+      {
+        "dest": "<builtin>.enumerate",
+        "line_no": 51
+      },
+      {
+        "dest": "isort.parse.skip_line",
+        "line_no": 53
+      },
+      {
+        "dest": "<builtin>.next",
+        "line_no": 67
+      },
+      {
+        "dest": "<builtin>.next",
+        "line_no": 74
+      },
+      {
+        "dest": "isort.parse._normalize_line",
+        "line_no": 87
+      },
+      {
+        "dest": "isort.comments.parse",
+        "line_no": 95
+      },
+      {
+        "dest": "functools.partial",
+        "line_no": 103
+      },
+      {
+        "dest": "<builtin>.next",
+        "line_no": 114
+      },
+      {
+        "dest": "isort.comments.parse",
+        "line_no": 118
+      },
+      {
+        "dest": "<builtin>.next",
+        "line_no": 123
+      },
+      {
+        "dest": "isort.comments.parse",
+        "line_no": 127
+      },
+      {
+        "dest": "<builtin>.next",
+        "line_no": 135
+      },
+      {
+        "dest": "isort.comments.parse",
+        "line_no": 138
+      },
+      {
+        "dest": "isort.parse._strip_syntax",
+        "line_no": 165
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 170
+      }
+    ],
+    "<builtin>.next": [],
+    "isort.parse._normalize_line": [],
+    "isort.comments.parse": [],
+    "isort.parse._strip_syntax": [],
+    "isort.parse": [
+      {
+        "dest": "mypy_extensions.TypedDict",
+        "line_no": 17
+      },
+      {
+        "dest": "mypy_extensions.TypedDict",
+        "line_no": 21
+      }
+    ],
+    "mypy_extensions.TypedDict": [],
+    "isort.parse._infer_line_separator": [],
+    "isort.parse.import_type": [],
+    "<builtin>.bool": [],
+    "isort.parse.file_contents": [
+      {
+        "dest": "isort.parse._infer_line_separator",
+        "line_no": 146
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 152
+      },
+      {
+        "dest": "isort.deprecated.finders.FindersManager.__init__",
+        "line_no": 154
+      },
+      {
+        "dest": "functools.partial",
+        "line_no": 156
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 158
+      },
+      {
+        "dest": "collections.defaultdict",
+        "line_no": 163
+      },
+      {
+        "dest": "collections.defaultdict",
+        "line_no": 164
+      },
+      {
+        "dest": "collections.OrderedDict",
+        "line_no": 166
+      },
+      {
+        "dest": "itertools.chain",
+        "line_no": 169
+      },
+      {
+        "dest": "collections.OrderedDict",
+        "line_no": 170
+      },
+      {
+        "dest": "collections.OrderedDict",
+        "line_no": 170
+      },
+      {
+        "dest": "isort.parse.skip_line",
+        "line_no": 185
+      },
+      {
+        "dest": "isort.parse._normalize_line",
+        "line_no": 261
+      },
+      {
+        "dest": "isort.parse.import_type",
+        "line_no": 262
+      },
+      {
+        "dest": "isort.comments.parse",
+        "line_no": 271
+      },
+      {
+        "dest": "isort.parse._strip_syntax",
+        "line_no": 273
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 274
+      },
+      {
+        "dest": "isort.comments.parse",
+        "line_no": 279
+      },
+      {
+        "dest": "isort.parse._strip_syntax",
+        "line_no": 283
+      },
+      {
+        "dest": "isort.comments.parse",
+        "line_no": 295
+      },
+      {
+        "dest": "isort.parse._strip_syntax",
+        "line_no": 306
+      },
+      {
+        "dest": "isort.comments.parse",
+        "line_no": 318
+      },
+      {
+        "dest": "isort.parse._strip_syntax",
+        "line_no": 322
+      },
+      {
+        "dest": "isort.parse._strip_syntax",
+        "line_no": 333
+      },
+      {
+        "dest": "isort.parse._strip_syntax",
+        "line_no": 374
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 381
+      },
+      {
+        "dest": "isort.deprecated.finders.FindersManager.find",
+        "line_no": 435
+      },
+      {
+        "dest": "<builtin>.print",
+        "line_no": 437
+      },
+      {
+        "dest": "warnings.warn",
+        "line_no": 444
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 461
+      },
+      {
+        "dest": "<builtin>.max",
+        "line_no": 461
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 480
+      },
+      {
+        "dest": "collections.OrderedDict",
+        "line_no": 485
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 506
+      },
+      {
+        "dest": "<builtin>.max",
+        "line_no": 506
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 526
+      },
+      {
+        "dest": "isort.deprecated.finders.FindersManager.find",
+        "line_no": 529
+      },
+      {
+        "dest": "<builtin>.print",
+        "line_no": 531
+      },
+      {
+        "dest": "warnings.warn",
+        "line_no": 538
+      },
+      {
+        "dest": "isort.exceptions.MissingSection.__init__",
+        "line_no": 545
+      },
+      {
+        "dest": "isort.exceptions.MissingSection.__init__",
+        "line_no": 545
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 552
+      },
+      {
+        "dest": "typing.NamedTuple.__init__",
+        "line_no": 554
+      }
+    ],
+    "isort.deprecated.finders.FindersManager.__init__": [
+      {
+        "dest": "<builtin>.print",
+        "line_no": 393
+      },
+      {
+        "dest": "<builtin>.tuple",
+        "line_no": 399
+      }
+    ],
+    "collections.defaultdict": [],
+    "collections.OrderedDict": [],
+    "isort.deprecated.finders.FindersManager.find": [
+      {
+        "dest": "<builtin>.print",
+        "line_no": 411
+      }
+    ],
+    "warnings.warn": [],
+    "isort.exceptions.MissingSection.__init__": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 175
+      }
+    ],
+    "typing.NamedTuple.__init__": [],
+    "isort.place": [
+      {
+        "dest": "functools.lru_cache",
+        "line_no": 20
+      }
+    ],
+    "isort.place.module": [
+      {
+        "dest": "isort.place.module_with_reason",
+        "line_no": 17
+      }
+    ],
+    "isort.place.module_with_reason": [
+      {
+        "dest": "isort.place._forced_separate",
+        "line_no": 24
+      },
+      {
+        "dest": "isort.place._local",
+        "line_no": 25
+      },
+      {
+        "dest": "isort.place._known_pattern",
+        "line_no": 26
+      },
+      {
+        "dest": "isort.place._src_path",
+        "line_no": 27
+      }
+    ],
+    "functools.lru_cache": [],
+    "isort.place._forced_separate": [
+      {
+        "dest": "fnmatch.fnmatch",
+        "line_no": 39
+      },
+      {
+        "dest": "fnmatch.fnmatch",
+        "line_no": 39
+      }
+    ],
+    "isort.place._local": [],
+    "isort.place._known_pattern": [
+      {
+        "dest": "<builtin>.len",
+        "line_no": 54
+      },
+      {
+        "dest": "<builtin>.range",
+        "line_no": 54
+      }
+    ],
+    "isort.place._src_path": [
+      {
+        "dest": "isort.place._is_namespace_package",
+        "line_no": 84
+      },
+      {
+        "dest": "isort.place._src_path",
+        "line_no": 87
+      },
+      {
+        "dest": "isort.place._is_module",
+        "line_no": 89
+      },
+      {
+        "dest": "isort.place._is_package",
+        "line_no": 90
+      },
+      {
+        "dest": "isort.place._src_path_is_module",
+        "line_no": 91
+      }
+    ],
+    "fnmatch.fnmatch": [],
+    "isort.place._is_namespace_package": [
+      {
+        "dest": "isort.place._is_package",
+        "line_no": 114
+      }
+    ],
+    "isort.place._is_module": [
+      {
+        "dest": "<builtin>.str",
+        "line_no": 100
+      },
+      {
+        "dest": "isort.utils.exists_case_sensitive",
+        "line_no": 100
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 102
+      },
+      {
+        "dest": "isort.utils.exists_case_sensitive",
+        "line_no": 102
+      },
+      {
+        "dest": "<builtin>.any",
+        "line_no": 101
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 105
+      },
+      {
+        "dest": "isort.utils.exists_case_sensitive",
+        "line_no": 105
+      }
+    ],
+    "isort.place._is_package": [
+      {
+        "dest": "<builtin>.str",
+        "line_no": 110
+      },
+      {
+        "dest": "isort.utils.exists_case_sensitive",
+        "line_no": 110
+      }
+    ],
+    "isort.place._src_path_is_module": [
+      {
+        "dest": "<builtin>.str",
+        "line_no": 144
+      },
+      {
+        "dest": "isort.utils.exists_case_sensitive",
+        "line_no": 144
+      }
+    ],
+    "isort.utils.exists_case_sensitive": [
+      {
+        "dest": "os.path.exists",
+        "line_no": 12
+      },
+      {
+        "dest": "sys.platform.startswith",
+        "line_no": 13
+      },
+      {
+        "dest": "os.path.split",
+        "line_no": 14
+      },
+      {
+        "dest": "os.listdir",
+        "line_no": 15
+      }
+    ],
+    "isort.settings": [
+      {
+        "dest": "re.compile",
+        "line_no": 33
+      },
+      {
+        "dest": "<builtin>.frozenset",
+        "line_no": 34
+      },
+      {
+        "dest": "<builtin>.frozenset",
+        "line_no": 35
+      },
+      {
+        "dest": "<builtin>.dir",
+        "line_no": 43
+      },
+      {
+        "dest": "<builtin>.tuple",
+        "line_no": 42
+      },
+      {
+        "dest": "<builtin>.frozenset",
+        "line_no": 52
+      },
+      {
+        "dest": "<builtin>.vars",
+        "line_no": 262
+      },
+      {
+        "dest": "functools.lru_cache",
+        "line_no": 640
+      },
+      {
+        "dest": "functools.lru_cache",
+        "line_no": 673
+      },
+      {
+        "dest": "isort.settings.Config.__init__",
+        "line_no": 778
+      }
+    ],
+    "<builtin>.frozenset": [],
+    "<builtin>.dir": [],
+    "<builtin>.tuple": [],
+    "isort.settings._Config": [
+      {
+        "dest": "<builtin>.frozenset",
+        "line_no": 122
+      },
+      {
+        "dest": "<builtin>.frozenset",
+        "line_no": 124
+      },
+      {
+        "dest": "<builtin>.frozenset",
+        "line_no": 125
+      },
+      {
+        "dest": "<builtin>.frozenset",
+        "line_no": 126
+      },
+      {
+        "dest": "<builtin>.frozenset",
+        "line_no": 133
+      },
+      {
+        "dest": "<builtin>.frozenset",
+        "line_no": 134
+      },
+      {
+        "dest": "<builtin>.frozenset",
+        "line_no": 135
+      },
+      {
+        "dest": "<builtin>.frozenset",
+        "line_no": 136
+      },
+      {
+        "dest": "<builtin>.frozenset",
+        "line_no": 137
+      },
+      {
+        "dest": "<builtin>.frozenset",
+        "line_no": 138
+      },
+      {
+        "dest": "dataclasses.field",
+        "line_no": 139
+      },
+      {
+        "dest": "isort._future._dataclasses.field",
+        "line_no": 139
+      },
+      {
+        "dest": "<builtin>.frozenset",
+        "line_no": 146
+      },
+      {
+        "dest": "<builtin>.frozenset",
+        "line_no": 147
+      },
+      {
+        "dest": "<builtin>.frozenset",
+        "line_no": 148
+      },
+      {
+        "dest": "dataclasses.field",
+        "line_no": 154
+      },
+      {
+        "dest": "isort._future._dataclasses.field",
+        "line_no": 154
+      },
+      {
+        "dest": "<builtin>.frozenset",
+        "line_no": 176
+      },
+      {
+        "dest": "<builtin>.frozenset",
+        "line_no": 195
+      },
+      {
+        "dest": "<builtin>.frozenset",
+        "line_no": 199
+      },
+      {
+        "dest": "<builtin>.frozenset",
+        "line_no": 200
+      },
+      {
+        "dest": "<builtin>.frozenset",
+        "line_no": 201
+      },
+      {
+        "dest": "<builtin>.frozenset",
+        "line_no": 207
+      }
+    ],
+    "dataclasses.field": [],
+    "isort._future._dataclasses.field": [
+      {
+        "dest": "<builtin>.ValueError",
+        "line_no": 351
+      },
+      {
+        "dest": "isort._future._dataclasses.Field.__init__",
+        "line_no": 352
+      }
+    ],
+    "isort.settings._Config.__post_init__": [
+      {
+        "dest": "<builtin>.ValueError",
+        "line_no": 230
+      },
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 241
+      },
+      {
+        "dest": "<builtin>.frozenset",
+        "line_no": 241
+      },
+      {
+        "dest": "<builtin>.ValueError",
+        "line_no": 253
+      }
+    ],
+    "<builtin>.ValueError": [],
+    "isort.settings._Config.__hash__": [
+      {
+        "dest": "<builtin>.id",
+        "line_no": 259
+      }
+    ],
+    "<builtin>.id": [],
+    "<builtin>.vars": [],
+    "isort.settings.Config.__init__": [
+      {
+        "dest": "<builtin>.vars",
+        "line_no": 279
+      },
+      {
+        "dest": "<builtin>.super",
+        "line_no": 286
+      },
+      {
+        "dest": "os.path.basename",
+        "line_no": 301
+      },
+      {
+        "dest": "isort.settings._get_config_data",
+        "line_no": 299
+      },
+      {
+        "dest": "os.path.dirname",
+        "line_no": 303
+      },
+      {
+        "dest": "warnings.warn",
+        "line_no": 305
+      },
+      {
+        "dest": "os.path.exists",
+        "line_no": 313
+      },
+      {
+        "dest": "isort.exceptions.InvalidSettingsPath.__init__",
+        "line_no": 314
+      },
+      {
+        "dest": "isort.exceptions.InvalidSettingsPath.__init__",
+        "line_no": 314
+      },
+      {
+        "dest": "os.path.abspath",
+        "line_no": 316
+      },
+      {
+        "dest": "isort.settings._find_config",
+        "line_no": 317
+      },
+      {
+        "dest": "os.getcwd",
+        "line_no": 320
+      },
+      {
+        "dest": "pkg_resources.iter_entry_points",
+        "line_no": 328
+      },
+      {
+        "dest": "isort.exceptions.ProfileDoesNotExist.__init__",
+        "line_no": 332
+      },
+      {
+        "dest": "isort.exceptions.ProfileDoesNotExist.__init__",
+        "line_no": 332
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 346
+      },
+      {
+        "dest": "<builtin>.int",
+        "line_no": 348
+      },
+      {
+        "dest": "<builtin>.tuple",
+        "line_no": 357
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 366
+      },
+      {
+        "dest": "warnings.warn",
+        "line_no": 372
+      },
+      {
+        "dest": "<builtin>.frozenset",
+        "line_no": 380
+      },
+      {
+        "dest": "<builtin>.frozenset",
+        "line_no": 382
+      },
+      {
+        "dest": "warnings.warn",
+        "line_no": 384
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 392
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 392
+      },
+      {
+        "dest": "<builtin>.type",
+        "line_no": 399
+      },
+      {
+        "dest": "warnings.warn",
+        "line_no": 407
+      },
+      {
+        "dest": "os.path.dirname",
+        "line_no": 415
+      },
+      {
+        "dest": "os.getcwd",
+        "line_no": 417
+      },
+      {
+        "dest": "pathlib.Path",
+        "line_no": 420
+      },
+      {
+        "dest": "<builtin>.tuple",
+        "line_no": 431
+      },
+      {
+        "dest": "pkg_resources.iter_entry_points",
+        "line_no": 436
+      },
+      {
+        "dest": "warnings.warn",
+        "line_no": 456
+      },
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 471
+      },
+      {
+        "dest": "<builtin>.set",
+        "line_no": 470
+      },
+      {
+        "dest": "<builtin>.reversed",
+        "line_no": 473
+      },
+      {
+        "dest": "isort.exceptions.UnsupportedSettings.__init__",
+        "line_no": 480
+      },
+      {
+        "dest": "isort.exceptions.UnsupportedSettings.__init__",
+        "line_no": 480
+      },
+      {
+        "dest": "<builtin>.tuple",
+        "line_no": 482
+      },
+      {
+        "dest": "<builtin>.super",
+        "line_no": 482
+      }
+    ],
+    "os.path.basename": [],
+    "isort.settings._get_config_data": [
+      {
+        "dest": "<builtin>.open",
+        "line_no": 677
+      },
+      {
+        "dest": "configparser.ConfigParser",
+        "line_no": 696
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 700
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 707
+      },
+      {
+        "dest": "<builtin>.map",
+        "line_no": 706
+      },
+      {
+        "dest": "<builtin>.int",
+        "line_no": 725
+      },
+      {
+        "dest": "<builtin>.int",
+        "line_no": 728
+      },
+      {
+        "dest": "<builtin>.float",
+        "line_no": 733
+      },
+      {
+        "dest": "<builtin>.int",
+        "line_no": 733
+      },
+      {
+        "dest": "isort.settings._get_str_to_type_converter",
+        "line_no": 742
+      },
+      {
+        "dest": "isort.settings._as_list",
+        "line_no": 744
+      },
+      {
+        "dest": "<builtin>.tuple",
+        "line_no": 744
+      },
+      {
+        "dest": "isort.settings._as_list",
+        "line_no": 746
+      },
+      {
+        "dest": "<builtin>.frozenset",
+        "line_no": 746
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 749
+      },
+      {
+        "dest": "isort.settings._as_bool",
+        "line_no": 750
+      },
+      {
+        "dest": "os.path.dirname",
+        "line_no": 753
+      },
+      {
+        "dest": "isort.settings._as_list",
+        "line_no": 753
+      },
+      {
+        "dest": "isort.settings._abspaths",
+        "line_no": 753
+      },
+      {
+        "dest": "isort.wrap_modes.from_string",
+        "line_no": 756
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 761
+      },
+      {
+        "dest": "isort.wrap_modes.from_string",
+        "line_no": 763
+      }
+    ],
+    "os.path.dirname": [],
+    "os.path.exists": [],
+    "isort.exceptions.InvalidSettingsPath.__init__": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 16
+      }
+    ],
+    "os.path.abspath": [],
+    "isort.settings._find_config": [
+      {
+        "dest": "os.path.join",
+        "line_no": 646
+      },
+      {
+        "dest": "os.path.isfile",
+        "line_no": 647
+      },
+      {
+        "dest": "isort.settings._get_config_data",
+        "line_no": 650
+      },
+      {
+        "dest": "warnings.warn",
+        "line_no": 654
+      },
+      {
+        "dest": "os.path.join",
+        "line_no": 660
+      },
+      {
+        "dest": "os.path.isdir",
+        "line_no": 660
+      },
+      {
+        "dest": "os.path.split",
+        "line_no": 663
+      }
+    ],
+    "os.getcwd": [],
+    "pkg_resources.iter_entry_points": [],
+    "isort.exceptions.ProfileDoesNotExist.__init__": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 78
+      }
+    ],
+    "<builtin>.type": [],
+    "pathlib.Path": [],
+    "<builtin>.reversed": [],
+    "isort.exceptions.UnsupportedSettings.__init__": [
+      {
+        "dest": "isort.exceptions.UnsupportedSettings._format_option",
+        "line_no": 151
+      },
+      {
+        "dest": "<builtin>.super",
+        "line_no": 154
+      }
+    ],
+    "isort.settings.Config.is_supported_filetype": [
+      {
+        "dest": "os.path.splitext",
+        "line_no": 485
+      },
+      {
+        "dest": "os.stat",
+        "line_no": 497
+      },
+      {
+        "dest": "stat.S_ISFIFO",
+        "line_no": 497
+      },
+      {
+        "dest": "<builtin>.open",
+        "line_no": 503
+      },
+      {
+        "dest": "<builtin>.bool",
+        "line_no": 508
+      }
+    ],
+    "os.path.splitext": [],
+    "os.stat": [],
+    "stat.S_ISFIFO": [],
+    "<builtin>.open": [],
+    "isort.settings.Config.is_skipped": [
+      {
+        "dest": "pathlib.Path",
+        "line_no": 512
+      },
+      {
+        "dest": "os.path.relpath",
+        "line_no": 513
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 515
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 517
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 524
+      },
+      {
+        "dest": "subprocess.run",
+        "line_no": 523
+      },
+      {
+        "dest": "posixpath.abspath",
+        "line_no": 534
+      },
+      {
+        "dest": "posixpath.abspath",
+        "line_no": 534
+      },
+      {
+        "dest": "os.path.split",
+        "line_no": 539
+      },
+      {
+        "dest": "os.path.split",
+        "line_no": 543
+      },
+      {
+        "dest": "fnmatch.fnmatch",
+        "line_no": 546
+      },
+      {
+        "dest": "fnmatch.fnmatch",
+        "line_no": 546
+      },
+      {
+        "dest": "os.path.isfile",
+        "line_no": 549
+      },
+      {
+        "dest": "os.path.isdir",
+        "line_no": 549
+      },
+      {
+        "dest": "os.path.islink",
+        "line_no": 549
+      }
+    ],
+    "os.path.relpath": [],
+    "subprocess.run": [],
+    "posixpath.abspath": [],
+    "os.path.split": [],
+    "os.path.isfile": [],
+    "os.path.isdir": [],
+    "os.path.islink": [],
+    "isort.settings.Config.known_patterns": [
+      {
+        "dest": "<builtin>.reversed",
+        "line_no": 561
+      },
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 564
+      },
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 565
+      },
+      {
+        "dest": "<builtin>.set",
+        "line_no": 566
+      },
+      {
+        "dest": "isort.settings.Config._parse_known_pattern",
+        "line_no": 570
+      },
+      {
+        "dest": "re.compile",
+        "line_no": 574
+      }
+    ],
+    "isort.settings.Config._parse_known_pattern": [
+      {
+        "dest": "os.path.join",
+        "line_no": 607
+      },
+      {
+        "dest": "os.listdir",
+        "line_no": 607
+      },
+      {
+        "dest": "os.path.join",
+        "line_no": 608
+      },
+      {
+        "dest": "os.path.isdir",
+        "line_no": 608
+      }
+    ],
+    "isort.settings.Config.section_comments": [
+      {
+        "dest": "<builtin>.tuple",
+        "line_no": 583
+      }
+    ],
+    "isort.settings.Config.skips": [],
+    "isort.settings.Config.skip_globs": [],
+    "os.path.join": [],
+    "os.listdir": [],
+    "isort.settings._get_str_to_type_converter": [
+      {
+        "dest": "<builtin>.type",
+        "line_no": 617
+      }
+    ],
+    "isort.settings._as_list": [
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 624
+      }
+    ],
+    "<builtin>.isinstance": [],
+    "isort.settings._abspaths": [
+      {
+        "dest": "os.path.join",
+        "line_no": 632
+      }
+    ],
+    "configparser.ConfigParser": [],
+    "isort.settings._get_config_data.<lambda1>": [],
+    "<builtin>.map": [],
+    "<builtin>.float": [],
+    "isort.settings._as_bool": [
+      {
+        "dest": "<builtin>.ValueError",
+        "line_no": 775
+      }
+    ],
+    "isort.wrap_modes.from_string": [
+      {
+        "dest": "<builtin>.str",
+        "line_no": 12
+      },
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 12
+      },
+      {
+        "dest": "<builtin>.int",
+        "line_no": 12
+      }
+    ],
+    "isort.sections": [],
+    "isort.wrap_modes": [
+      {
+        "dest": "isort.wrap_modes._wrap_mode",
+        "line_no": 46
+      },
+      {
+        "dest": "isort.wrap_modes._wrap_mode",
+        "line_no": 87
+      },
+      {
+        "dest": "isort.wrap_modes._wrap_mode",
+        "line_no": 165
+      },
+      {
+        "dest": "isort.wrap_modes._wrap_mode",
+        "line_no": 170
+      },
+      {
+        "dest": "isort.wrap_modes._wrap_mode",
+        "line_no": 222
+      },
+      {
+        "dest": "isort.wrap_modes._wrap_mode",
+        "line_no": 227
+      },
+      {
+        "dest": "isort.wrap_modes._wrap_mode",
+        "line_no": 236
+      },
+      {
+        "dest": "isort.wrap_modes._wrap_mode",
+        "line_no": 243
+      },
+      {
+        "dest": "isort.wrap_modes._wrap_mode",
+        "line_no": 263
+      },
+      {
+        "dest": "isort.wrap_modes._wrap_mode",
+        "line_no": 271
+      },
+      {
+        "dest": "isort.wrap_modes._wrap_mode",
+        "line_no": 311
+      },
+      {
+        "dest": "isort.wrap_modes._wrap_mode",
+        "line_no": 316
+      },
+      {
+        "dest": "<builtin>.enumerate",
+        "line_no": 322
+      },
+      {
+        "dest": "enum.Enum",
+        "line_no": 321
+      }
+    ],
+    "isort.wrap_modes._wrap_mode_interface": [],
+    "isort.wrap_modes._wrap_mode": [
+      {
+        "dest": "inspect.signature",
+        "line_no": 40
+      }
+    ],
+    "inspect.signature": [],
+    "isort.wrap_modes.grid": [
+      {
+        "dest": "<builtin>.len",
+        "line_no": 60
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 66
+      }
+    ],
+    "isort.wrap_modes.vertical": [],
+    "isort.wrap_modes._hanging_indent_common": [
+      {
+        "dest": "<builtin>.len",
+        "line_no": 126
+      },
+      {
+        "dest": "isort.wrap_modes._hanging_indent_common.end_line",
+        "line_no": 130
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 147
+      },
+      {
+        "dest": "isort.wrap_modes._hanging_indent_common.end_line",
+        "line_no": 151
+      }
+    ],
+    "isort.wrap_modes._hanging_indent_common.end_line": [],
+    "isort.wrap_modes.hanging_indent": [
+      {
+        "dest": "isort.wrap_modes._hanging_indent_common",
+        "line_no": 166
+      }
+    ],
+    "isort.wrap_modes.vertical_hanging_indent": [],
+    "isort.wrap_modes._vertical_grid_common": [
+      {
+        "dest": "<builtin>.len",
+        "line_no": 203
+      }
+    ],
+    "isort.wrap_modes.vertical_grid": [
+      {
+        "dest": "isort.wrap_modes._vertical_grid_common",
+        "line_no": 223
+      }
+    ],
+    "isort.wrap_modes.vertical_grid_grouped": [
+      {
+        "dest": "isort.wrap_modes._vertical_grid_common",
+        "line_no": 229
+      }
+    ],
+    "isort.wrap_modes.vertical_grid_grouped_no_comma": [],
+    "isort.wrap_modes.noqa": [
+      {
+        "dest": "<builtin>.len",
+        "line_no": 249
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 249
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 249
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 257
+      }
+    ],
+    "isort.wrap_modes.vertical_hanging_indent_bracket": [
+      {
+        "dest": "isort.wrap_modes.vertical_hanging_indent",
+        "line_no": 266
+      }
+    ],
+    "isort.wrap_modes.vertical_prefix_from_module_import": [
+      {
+        "dest": "<builtin>.len",
+        "line_no": 290
+      }
+    ],
+    "isort.wrap_modes.hanging_indent_with_parentheses": [
+      {
+        "dest": "isort.wrap_modes._hanging_indent_common",
+        "line_no": 312
+      }
+    ],
+    "isort.wrap_modes.backslash_grid": [
+      {
+        "dest": "isort.wrap_modes._hanging_indent_common",
+        "line_no": 318
+      }
+    ],
+    "enum.Enum": [],
+    "isort.comments": [],
+    "isort._future": [],
+    "isort._future._dataclasses": [
+      {
+        "dest": "types.MappingProxyType",
+        "line_no": 187
+      },
+      {
+        "dest": "isort._future._dataclasses._FIELD_BASE.__init__",
+        "line_no": 198
+      },
+      {
+        "dest": "isort._future._dataclasses._FIELD_BASE.__init__",
+        "line_no": 199
+      },
+      {
+        "dest": "isort._future._dataclasses._FIELD_BASE.__init__",
+        "line_no": 200
+      },
+      {
+        "dest": "re.compile",
+        "line_no": 217
+      }
+    ],
+    "isort._future._dataclasses._HAS_DEFAULT_FACTORY_CLASS.__repr__": [],
+    "types.MappingProxyType": [],
+    "isort._future._dataclasses._FIELD_BASE.__init__": [],
+    "isort._future._dataclasses._FIELD_BASE.__repr__": [],
+    "isort._future._dataclasses._InitVarMeta.__getitem__": [],
+    "isort._future._dataclasses.Field.__init__": [
+      {
+        "dest": "<builtin>.len",
+        "line_no": 264
+      },
+      {
+        "dest": "types.MappingProxyType",
+        "line_no": 265
+      }
+    ],
+    "isort._future._dataclasses.Field.__repr__": [],
+    "isort._future._dataclasses.Field.__set_name__": [
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 294
+      }
+    ],
+    "isort._future._dataclasses._DataclassParams.__init__": [],
+    "isort._future._dataclasses._DataclassParams.__repr__": [],
+    "isort._future._dataclasses._tuple_str": [],
+    "isort._future._dataclasses._create_fn": [
+      {
+        "dest": "<builtin>.exec",
+        "line_no": 383
+      }
+    ],
+    "<builtin>.exec": [],
+    "isort._future._dataclasses._field_assign": [],
+    "isort._future._dataclasses._field_init": [
+      {
+        "dest": "isort._future._dataclasses._field_assign",
+        "line_no": 448
+      }
+    ],
+    "isort._future._dataclasses._init_param": [],
+    "isort._future._dataclasses._init_fn": [
+      {
+        "dest": "<builtin>.TypeError",
+        "line_no": 485
+      },
+      {
+        "dest": "isort._future._dataclasses._field_init",
+        "line_no": 491
+      },
+      {
+        "dest": "isort._future._dataclasses._init_param",
+        "line_no": 509
+      },
+      {
+        "dest": "isort._future._dataclasses._create_fn",
+        "line_no": 507
+      }
+    ],
+    "<builtin>.TypeError": [],
+    "isort._future._dataclasses._repr_fn": [
+      {
+        "dest": "isort._future._dataclasses._create_fn",
+        "line_no": 518
+      }
+    ],
+    "isort._future._dataclasses._frozen_get_del_attr": [
+      {
+        "dest": "<builtin>.repr",
+        "line_no": 534
+      },
+      {
+        "dest": "isort._future._dataclasses._create_fn",
+        "line_no": 539
+      },
+      {
+        "dest": "isort._future._dataclasses._create_fn",
+        "line_no": 549
+      }
+    ],
+    "<builtin>.repr": [],
+    "isort._future._dataclasses._cmp_fn": [
+      {
+        "dest": "isort._future._dataclasses._create_fn",
+        "line_no": 568
+      }
+    ],
+    "isort._future._dataclasses._hash_fn": [
+      {
+        "dest": "isort._future._dataclasses._tuple_str",
+        "line_no": 580
+      },
+      {
+        "dest": "isort._future._dataclasses._create_fn",
+        "line_no": 581
+      }
+    ],
+    "isort._future._dataclasses._is_classvar": [
+      {
+        "dest": "<builtin>.type",
+        "line_no": 587
+      }
+    ],
+    "isort._future._dataclasses._is_initvar": [],
+    "isort._future._dataclasses._is_type": [
+      {
+        "dest": "sys.modules.get",
+        "line_no": 644
+      },
+      {
+        "dest": "sys.modules.get",
+        "line_no": 647
+      },
+      {
+        "dest": "sys.modules.get",
+        "line_no": 649
+      },
+      {
+        "dest": "isort._future._dataclasses._is_initvar",
+        "line_no": 650
+      },
+      {
+        "dest": "isort._future._dataclasses._is_classvar",
+        "line_no": 650
+      }
+    ],
+    "sys.modules.get": [],
+    "isort._future._dataclasses._get_field": [
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 662
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 663
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 666
+      },
+      {
+        "dest": "isort._future._dataclasses.field",
+        "line_no": 669
+      },
+      {
+        "dest": "sys.modules.get",
+        "line_no": 694
+      },
+      {
+        "dest": "isort._future._dataclasses._is_classvar",
+        "line_no": 696
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 697
+      },
+      {
+        "dest": "isort._future._dataclasses._is_type",
+        "line_no": 697
+      },
+      {
+        "dest": "isort._future._dataclasses._is_initvar",
+        "line_no": 707
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 708
+      },
+      {
+        "dest": "isort._future._dataclasses._is_type",
+        "line_no": 709
+      },
+      {
+        "dest": "<builtin>.TypeError",
+        "line_no": 720
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 728
+      },
+      {
+        "dest": "<builtin>.type",
+        "line_no": 730
+      },
+      {
+        "dest": "<builtin>.ValueError",
+        "line_no": 729
+      }
+    ],
+    "isort._future._dataclasses._set_new_attribute": [
+      {
+        "dest": "<builtin>.setattr",
+        "line_no": 742
+      }
+    ],
+    "<builtin>.setattr": [],
+    "isort._future._dataclasses._hash_set_none": [],
+    "isort._future._dataclasses._hash_add": [
+      {
+        "dest": "isort._future._dataclasses._hash_fn",
+        "line_no": 758
+      }
+    ],
+    "isort._future._dataclasses._hash_exception": [
+      {
+        "dest": "<builtin>.TypeError",
+        "line_no": 763
+      }
+    ],
+    "isort._future._dataclasses._process_class": [
+      {
+        "dest": "isort._future._dataclasses._DataclassParams.__init__",
+        "line_no": 804
+      },
+      {
+        "dest": "<builtin>.setattr",
+        "line_no": 804
+      },
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 815
+      },
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 820
+      },
+      {
+        "dest": "isort._future._dataclasses._get_field",
+        "line_no": 840
+      },
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 848
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 848
+      },
+      {
+        "dest": "<builtin>.delattr",
+        "line_no": 856
+      },
+      {
+        "dest": "<builtin>.setattr",
+        "line_no": 858
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 862
+      },
+      {
+        "dest": "<builtin>.TypeError",
+        "line_no": 863
+      },
+      {
+        "dest": "<builtin>.TypeError",
+        "line_no": 869
+      },
+      {
+        "dest": "<builtin>.TypeError",
+        "line_no": 873
+      },
+      {
+        "dest": "<builtin>.setattr",
+        "line_no": 877
+      },
+      {
+        "dest": "<builtin>.ValueError",
+        "line_no": 892
+      },
+      {
+        "dest": "<builtin>.hasattr",
+        "line_no": 896
+      },
+      {
+        "dest": "isort._future._dataclasses._init_fn",
+        "line_no": 903
+      },
+      {
+        "dest": "isort._future._dataclasses._set_new_attribute",
+        "line_no": 900
+      },
+      {
+        "dest": "isort._future._dataclasses._repr_fn",
+        "line_no": 920
+      },
+      {
+        "dest": "isort._future._dataclasses._set_new_attribute",
+        "line_no": 920
+      },
+      {
+        "dest": "isort._future._dataclasses._tuple_str",
+        "line_no": 926
+      },
+      {
+        "dest": "isort._future._dataclasses._tuple_str",
+        "line_no": 927
+      },
+      {
+        "dest": "isort._future._dataclasses._cmp_fn",
+        "line_no": 928
+      },
+      {
+        "dest": "isort._future._dataclasses._set_new_attribute",
+        "line_no": 928
+      },
+      {
+        "dest": "isort._future._dataclasses._tuple_str",
+        "line_no": 933
+      },
+      {
+        "dest": "isort._future._dataclasses._tuple_str",
+        "line_no": 934
+      },
+      {
+        "dest": "isort._future._dataclasses._cmp_fn",
+        "line_no": 936
+      },
+      {
+        "dest": "isort._future._dataclasses._set_new_attribute",
+        "line_no": 936
+      },
+      {
+        "dest": "<builtin>.TypeError",
+        "line_no": 937
+      },
+      {
+        "dest": "isort._future._dataclasses._frozen_get_del_attr",
+        "line_no": 944
+      },
+      {
+        "dest": "isort._future._dataclasses._set_new_attribute",
+        "line_no": 945
+      },
+      {
+        "dest": "<builtin>.TypeError",
+        "line_no": 946
+      },
+      {
+        "dest": "<builtin>.bool",
+        "line_no": 951
+      },
+      {
+        "dest": "<builtin>.bool",
+        "line_no": 951
+      },
+      {
+        "dest": "<builtin>.bool",
+        "line_no": 951
+      },
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 957
+      },
+      {
+        "dest": "inspect.signature",
+        "line_no": 959
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 959
+      }
+    ],
+    "<builtin>.delattr": [],
+    "<builtin>.hasattr": [],
+    "isort._future._dataclasses.dataclass": [
+      {
+        "dest": "isort._future._dataclasses.dataclass.wrap",
+        "line_no": 989
+      }
+    ],
+    "isort._future._dataclasses.dataclass.wrap": [
+      {
+        "dest": "isort._future._dataclasses._process_class",
+        "line_no": 981
+      }
+    ],
+    "isort._future._dataclasses.fields": [
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 1000
+      },
+      {
+        "dest": "<builtin>.TypeError",
+        "line_no": 1002
+      },
+      {
+        "dest": "<builtin>.tuple",
+        "line_no": 1006
+      }
+    ],
+    "isort._future._dataclasses._is_dataclass_instance": [
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 1011
+      },
+      {
+        "dest": "<builtin>.hasattr",
+        "line_no": 1011
+      }
+    ],
+    "isort._future._dataclasses.is_dataclass": [
+      {
+        "dest": "<builtin>.hasattr",
+        "line_no": 1017
+      }
+    ],
+    "isort._future._dataclasses.asdict": [
+      {
+        "dest": "isort._future._dataclasses._is_dataclass_instance",
+        "line_no": 1035
+      },
+      {
+        "dest": "<builtin>.TypeError",
+        "line_no": 1036
+      },
+      {
+        "dest": "isort._future._dataclasses._asdict_inner",
+        "line_no": 1037
+      }
+    ],
+    "isort._future._dataclasses._asdict_inner": [
+      {
+        "dest": "isort._future._dataclasses._is_dataclass_instance",
+        "line_no": 1041
+      },
+      {
+        "dest": "isort._future._dataclasses.fields",
+        "line_no": 1043
+      },
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 1044
+      },
+      {
+        "dest": "isort._future._dataclasses._asdict_inner",
+        "line_no": 1044
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 1047
+      },
+      {
+        "dest": "isort._future._dataclasses._asdict_inner",
+        "line_no": 1048
+      },
+      {
+        "dest": "<builtin>.type",
+        "line_no": 1048
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 1049
+      },
+      {
+        "dest": "isort._future._dataclasses._asdict_inner",
+        "line_no": 1051
+      },
+      {
+        "dest": "isort._future._dataclasses._asdict_inner",
+        "line_no": 1051
+      },
+      {
+        "dest": "<builtin>.type",
+        "line_no": 1050
+      },
+      {
+        "dest": "copy.deepcopy",
+        "line_no": 1054
+      }
+    ],
+    "copy.deepcopy": [],
+    "isort._future._dataclasses.astuple": [
+      {
+        "dest": "isort._future._dataclasses._is_dataclass_instance",
+        "line_no": 1072
+      },
+      {
+        "dest": "<builtin>.TypeError",
+        "line_no": 1073
+      },
+      {
+        "dest": "isort._future._dataclasses._astuple_inner",
+        "line_no": 1074
+      }
+    ],
+    "isort._future._dataclasses._astuple_inner": [
+      {
+        "dest": "isort._future._dataclasses._is_dataclass_instance",
+        "line_no": 1078
+      },
+      {
+        "dest": "isort._future._dataclasses.fields",
+        "line_no": 1080
+      },
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 1081
+      },
+      {
+        "dest": "isort._future._dataclasses._astuple_inner",
+        "line_no": 1081
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 1084
+      },
+      {
+        "dest": "isort._future._dataclasses._astuple_inner",
+        "line_no": 1085
+      },
+      {
+        "dest": "<builtin>.type",
+        "line_no": 1085
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 1086
+      },
+      {
+        "dest": "isort._future._dataclasses._astuple_inner",
+        "line_no": 1088
+      },
+      {
+        "dest": "isort._future._dataclasses._astuple_inner",
+        "line_no": 1088
+      },
+      {
+        "dest": "<builtin>.type",
+        "line_no": 1087
+      },
+      {
+        "dest": "copy.deepcopy",
+        "line_no": 1092
+      }
+    ],
+    "isort._future._dataclasses.make_dataclass": [
+      {
+        "dest": "<builtin>.set",
+        "line_no": 1133
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 1136
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 1139
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 1144
+      },
+      {
+        "dest": "<builtin>.TypeError",
+        "line_no": 1148
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 1150
+      },
+      {
+        "dest": "<builtin>.TypeError",
+        "line_no": 1151
+      },
+      {
+        "dest": "keyword.iskeyword",
+        "line_no": 1152
+      },
+      {
+        "dest": "<builtin>.TypeError",
+        "line_no": 1153
+      },
+      {
+        "dest": "<builtin>.TypeError",
+        "line_no": 1155
+      },
+      {
+        "dest": "types.new_class",
+        "line_no": 1163
+      },
+      {
+        "dest": "isort._future._dataclasses.dataclass",
+        "line_no": 1164
+      }
+    ],
+    "keyword.iskeyword": [],
+    "isort._future._dataclasses.make_dataclass.<lambda1>": [],
+    "types.new_class": [],
+    "isort._future._dataclasses.replace": [
+      {
+        "dest": "isort._future._dataclasses._is_dataclass_instance",
+        "line_no": 1184
+      },
+      {
+        "dest": "<builtin>.TypeError",
+        "line_no": 1185
+      },
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 1190
+      },
+      {
+        "dest": "<builtin>.ValueError",
+        "line_no": 1194
+      },
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 1202
+      }
+    ],
+    "isort.exceptions": [],
+    "isort.exceptions.ExistingSyntaxErrors.__init__": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 28
+      }
+    ],
+    "isort.exceptions.IntroducedSyntaxErrors.__init__": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 39
+      }
+    ],
+    "isort.exceptions.FileSkipped.__init__": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 50
+      }
+    ],
+    "isort.exceptions.FileSkipComment.__init__": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 58
+      }
+    ],
+    "isort.exceptions.FileSkipSetting.__init__": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 67
+      }
+    ],
+    "isort.exceptions.FormattingPluginDoesNotExist.__init__": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 89
+      }
+    ],
+    "isort.exceptions.LiteralParsingFailure.__init__": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 99
+      }
+    ],
+    "isort.exceptions.LiteralSortTypeMismatch.__init__": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 114
+      }
+    ],
+    "isort.exceptions.AssignmentsFormatMismatch.__init__": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 128
+      }
+    ],
+    "isort.exceptions.UnsupportedSettings._format_option": [],
+    "isort.exceptions.UnsupportedEncoding.__init__": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 167
+      }
+    ],
+    "isort.profiles": [],
+    "isort._vendored.toml": [],
+    "isort._vendored.toml.encoder": [],
+    "isort._vendored.toml.encoder.dump": [
+      {
+        "dest": "<builtin>.TypeError",
+        "line_no": 28
+      },
+      {
+        "dest": "isort._vendored.toml.encoder.dumps",
+        "line_no": 29
+      }
+    ],
+    "isort._vendored.toml.encoder.dumps": [
+      {
+        "dest": "isort._vendored.toml.encoder.TomlEncoder.__init__",
+        "line_no": 59
+      },
+      {
+        "dest": "isort._vendored.toml.encoder.TomlEncoder.dump_sections",
+        "line_no": 60
+      },
+      {
+        "dest": "<builtin>.id",
+        "line_no": 62
+      },
+      {
+        "dest": "<builtin>.id",
+        "line_no": 64
+      },
+      {
+        "dest": "<builtin>.ValueError",
+        "line_no": 67
+      },
+      {
+        "dest": "isort._vendored.toml.encoder.TomlEncoder.get_empty_table",
+        "line_no": 69
+      },
+      {
+        "dest": "isort._vendored.toml.encoder.TomlEncoder.dump_sections",
+        "line_no": 71
+      }
+    ],
+    "isort._vendored.toml.encoder.TomlEncoder.__init__": [],
+    "isort._vendored.toml.encoder.TomlEncoder.dump_sections": [
+      {
+        "dest": "re.match",
+        "line_no": 189
+      },
+      {
+        "dest": "isort._vendored.toml.encoder._dump_str",
+        "line_no": 190
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 191
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 193
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 195
+      },
+      {
+        "dest": "isort._vendored.toml.encoder.TomlEncoder.dump_sections",
+        "line_no": 201
+      },
+      {
+        "dest": "isort._vendored.toml.encoder.TomlEncoder.dump_sections",
+        "line_no": 210
+      },
+      {
+        "dest": "isort._vendored.toml.encoder.TomlEncoder.dump_value",
+        "line_no": 220
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 221
+      },
+      {
+        "dest": "isort._vendored.toml.encoder.TomlEncoder.dump_inline_table",
+        "line_no": 222
+      }
+    ],
+    "isort._vendored.toml.encoder.TomlEncoder.get_empty_table": [],
+    "isort._vendored.toml.encoder._dump_str": [
+      {
+        "dest": "<builtin>.hasattr",
+        "line_no": 86
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 86
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 98
+      }
+    ],
+    "isort._vendored.toml.encoder._dump_float": [],
+    "isort._vendored.toml.encoder._dump_time": [],
+    "isort._vendored.toml.encoder.TomlEncoder.__init__.<dict1>.<lambda1>": [],
+    "isort._vendored.toml.encoder.TomlEncoder.__init__.<dict1>.<lambda2>": [],
+    "isort._vendored.toml.encoder.TomlEncoder.__init__.<dict1>.<lambda3>": [],
+    "isort._vendored.toml.encoder.TomlEncoder.__init__.<dict1>.<lambda4>": [],
+    "isort._vendored.toml.encoder.TomlEncoder.dump_list": [
+      {
+        "dest": "isort._vendored.toml.encoder.TomlEncoder.dump_value",
+        "line_no": 151
+      }
+    ],
+    "isort._vendored.toml.encoder.TomlEncoder.dump_value": [
+      {
+        "dest": "<builtin>.type",
+        "line_no": 174
+      },
+      {
+        "dest": "<builtin>.hasattr",
+        "line_no": 175
+      }
+    ],
+    "isort._vendored.toml.encoder.TomlEncoder.dump_inline_table": [
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 162
+      },
+      {
+        "dest": "isort._vendored.toml.encoder.TomlEncoder.dump_inline_table",
+        "line_no": 165
+      },
+      {
+        "dest": "isort._vendored.toml.encoder.TomlEncoder.dump_value",
+        "line_no": 170
+      }
+    ],
+    "isort._vendored.toml.encoder.TomlPreserveInlineDictEncoder.__init__": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 231
+      }
+    ],
+    "isort._vendored.toml.encoder.TomlArraySeparatorEncoder.__init__": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 236
+      },
+      {
+        "dest": "<builtin>.ValueError",
+        "line_no": 240
+      }
+    ],
+    "isort._vendored.toml.encoder.TomlArraySeparatorEncoder.dump_list": [
+      {
+        "dest": "isort._vendored.toml.encoder.TomlEncoder.dump_value",
+        "line_no": 247
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 251
+      }
+    ],
+    "isort._vendored.toml.encoder.TomlNumpyEncoder.__init__": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 265
+      }
+    ],
+    "isort._vendored.toml.encoder.TomlNumpyEncoder._dump_int": [
+      {
+        "dest": "<builtin>.int",
+        "line_no": 274
+      }
+    ],
+    "isort._vendored.toml.encoder.TomlPreserveCommentEncoder.__init__": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 281
+      }
+    ],
+    "isort._vendored.toml.encoder.TomlPreserveCommentEncoder.__init__.<lambda1>": [],
+    "isort._vendored.toml.encoder.TomlPathlibEncoder._dump_pathlib_path": [
+      {
+        "dest": "<builtin>.str",
+        "line_no": 287
+      },
+      {
+        "dest": "isort._vendored.toml.encoder._dump_str",
+        "line_no": 287
+      }
+    ],
+    "isort._vendored.toml.encoder.TomlPathlibEncoder.dump_value": [
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 293
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 294
+      },
+      {
+        "dest": "<builtin>.super",
+        "line_no": 295
+      }
+    ],
+    "isort._vendored.toml.decoder": [
+      {
+        "dest": "re.compile",
+        "line_no": 49
+      },
+      {
+        "dest": "re.compile",
+        "line_no": 68
+      },
+      {
+        "dest": "re.compile",
+        "line_no": 162
+      },
+      {
+        "dest": "<builtin>.zip",
+        "line_no": 617
+      },
+      {
+        "dest": "<builtin>.dict",
+        "line_no": 617
+      }
+    ],
+    "isort._vendored.toml.decoder._detect_pathlib_path": [
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 22
+      }
+    ],
+    "isort._vendored.toml.decoder._ispath": [
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 28
+      },
+      {
+        "dest": "isort._vendored.toml.decoder._detect_pathlib_path",
+        "line_no": 30
+      }
+    ],
+    "isort._vendored.toml.decoder._getpath": [
+      {
+        "dest": "os.fspath",
+        "line_no": 37
+      },
+      {
+        "dest": "isort._vendored.toml.decoder._detect_pathlib_path",
+        "line_no": 38
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 39
+      }
+    ],
+    "os.fspath": [],
+    "isort._vendored.toml.decoder.TomlDecodeError.__init__": [],
+    "isort._vendored.toml.decoder.CommentValue.__init__": [],
+    "isort._vendored.toml.decoder.CommentValue.__getitem__": [],
+    "isort._vendored.toml.decoder.CommentValue.__setitem__": [],
+    "isort._vendored.toml.decoder.CommentValue.dump": [
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 86
+      }
+    ],
+    "isort._vendored.toml.decoder._strictly_valid_num": [
+      {
+        "dest": "<builtin>.len",
+        "line_no": 102
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 108
+      }
+    ],
+    "isort._vendored.toml.decoder.load": [
+      {
+        "dest": "isort._vendored.toml.decoder._ispath",
+        "line_no": 134
+      },
+      {
+        "dest": "isort._vendored.toml.decoder._getpath",
+        "line_no": 135
+      },
+      {
+        "dest": "io.open",
+        "line_no": 135
+      },
+      {
+        "dest": "isort._vendored.toml.decoder.loads",
+        "line_no": 136
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 137
+      },
+      {
+        "dest": "os.path.exists",
+        "line_no": 141
+      },
+      {
+        "dest": "isort._vendored.toml.decoder.TomlDecoder.__init__",
+        "line_no": 147
+      },
+      {
+        "dest": "isort._vendored.toml.decoder.TomlDecoder.get_empty_table",
+        "line_no": 148
+      },
+      {
+        "dest": "os.path.exists",
+        "line_no": 150
+      },
+      {
+        "dest": "isort._vendored.toml.decoder.load",
+        "line_no": 151
+      },
+      {
+        "dest": "warnings.warn",
+        "line_no": 153
+      },
+      {
+        "dest": "isort._vendored.toml.decoder.loads",
+        "line_no": 157
+      },
+      {
+        "dest": "<builtin>.TypeError",
+        "line_no": 159
+      }
+    ],
+    "io.open": [],
+    "isort._vendored.toml.decoder.loads": [
+      {
+        "dest": "isort._vendored.toml.decoder.TomlDecoder.__init__",
+        "line_no": 182
+      },
+      {
+        "dest": "isort._vendored.toml.decoder.TomlDecoder.get_empty_table",
+        "line_no": 183
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 185
+      },
+      {
+        "dest": "<builtin>.TypeError",
+        "line_no": 186
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 188
+      },
+      {
+        "dest": "<builtin>.list",
+        "line_no": 192
+      },
+      {
+        "dest": "<builtin>.enumerate",
+        "line_no": 206
+      },
+      {
+        "dest": "isort._vendored.toml.decoder.TomlDecodeError.__init__",
+        "line_no": 213
+      },
+      {
+        "dest": "isort._vendored.toml.decoder.TomlDecodeError.__init__",
+        "line_no": 213
+      },
+      {
+        "dest": "isort._vendored.toml.decoder.TomlDecodeError.__init__",
+        "line_no": 260
+      },
+      {
+        "dest": "isort._vendored.toml.decoder.TomlDecodeError.__init__",
+        "line_no": 260
+      },
+      {
+        "dest": "isort._vendored.toml.decoder.TomlDecoder.preserve_comment",
+        "line_no": 322
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 325
+      },
+      {
+        "dest": "isort._vendored.toml.decoder.TomlDecodeError.__init__",
+        "line_no": 342
+      },
+      {
+        "dest": "isort._vendored.toml.decoder.TomlDecodeError.__init__",
+        "line_no": 342
+      },
+      {
+        "dest": "isort._vendored.toml.decoder.TomlDecodeError.__init__",
+        "line_no": 356
+      },
+      {
+        "dest": "isort._vendored.toml.decoder.TomlDecodeError.__init__",
+        "line_no": 356
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 361
+      },
+      {
+        "dest": "isort._vendored.toml.decoder.TomlDecodeError.__init__",
+        "line_no": 360
+      },
+      {
+        "dest": "isort._vendored.toml.decoder.TomlDecodeError.__init__",
+        "line_no": 360
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 365
+      },
+      {
+        "dest": "isort._vendored.toml.decoder.TomlDecodeError.__init__",
+        "line_no": 364
+      },
+      {
+        "dest": "isort._vendored.toml.decoder.TomlDecodeError.__init__",
+        "line_no": 364
+      },
+      {
+        "dest": "<builtin>.enumerate",
+        "line_no": 373
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 375
+      },
+      {
+        "dest": "isort._vendored.toml.decoder.TomlDecoder.embed_comments",
+        "line_no": 377
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 392
+      },
+      {
+        "dest": "isort._vendored.toml.decoder.TomlDecoder.load_value",
+        "line_no": 400
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 402
+      },
+      {
+        "dest": "isort._vendored.toml.decoder.TomlDecodeError.__init__",
+        "line_no": 402
+      },
+      {
+        "dest": "isort._vendored.toml.decoder.TomlDecodeError.__init__",
+        "line_no": 402
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 407
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 418
+      },
+      {
+        "dest": "isort._vendored.toml.decoder.TomlDecodeError.__init__",
+        "line_no": 419
+      },
+      {
+        "dest": "isort._vendored.toml.decoder.TomlDecodeError.__init__",
+        "line_no": 419
+      },
+      {
+        "dest": "isort._vendored.toml.decoder.TomlDecoder._get_split_on_quotes",
+        "line_no": 430
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 438
+      },
+      {
+        "dest": "isort._vendored.toml.decoder.TomlDecodeError.__init__",
+        "line_no": 439
+      },
+      {
+        "dest": "isort._vendored.toml.decoder.TomlDecodeError.__init__",
+        "line_no": 439
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 442
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 444
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 449
+      },
+      {
+        "dest": "isort._vendored.toml.decoder.TomlDecodeError.__init__",
+        "line_no": 450
+      },
+      {
+        "dest": "isort._vendored.toml.decoder.TomlDecodeError.__init__",
+        "line_no": 450
+      },
+      {
+        "dest": "isort._vendored.toml.decoder.TomlDecodeError.__init__",
+        "line_no": 460
+      },
+      {
+        "dest": "isort._vendored.toml.decoder.TomlDecodeError.__init__",
+        "line_no": 460
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 465
+      },
+      {
+        "dest": "isort._vendored.toml.decoder.TomlDecodeError.__init__",
+        "line_no": 468
+      },
+      {
+        "dest": "isort._vendored.toml.decoder.TomlDecodeError.__init__",
+        "line_no": 468
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 473
+      },
+      {
+        "dest": "isort._vendored.toml.decoder.TomlDecodeError.__init__",
+        "line_no": 477
+      },
+      {
+        "dest": "isort._vendored.toml.decoder.TomlDecodeError.__init__",
+        "line_no": 477
+      },
+      {
+        "dest": "isort._vendored.toml.decoder.TomlDecoder.get_empty_table",
+        "line_no": 483
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 486
+      },
+      {
+        "dest": "isort._vendored.toml.decoder.TomlDecodeError.__init__",
+        "line_no": 485
+      },
+      {
+        "dest": "isort._vendored.toml.decoder.TomlDecodeError.__init__",
+        "line_no": 485
+      },
+      {
+        "dest": "isort._vendored.toml.decoder.TomlDecoder.get_empty_table",
+        "line_no": 493
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 494
+      },
+      {
+        "dest": "isort._vendored.toml.decoder.TomlDecoder.get_empty_table",
+        "line_no": 495
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 497
+      },
+      {
+        "dest": "isort._vendored.toml.decoder.TomlDecoder.get_empty_table",
+        "line_no": 499
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 500
+      },
+      {
+        "dest": "isort._vendored.toml.decoder.TomlDecoder.get_empty_table",
+        "line_no": 501
+      },
+      {
+        "dest": "isort._vendored.toml.decoder.TomlDecodeError.__init__",
+        "line_no": 510
+      },
+      {
+        "dest": "isort._vendored.toml.decoder.TomlDecodeError.__init__",
+        "line_no": 510
+      },
+      {
+        "dest": "isort._vendored.toml.decoder.TomlDecoder.load_inline_object",
+        "line_no": 514
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 516
+      },
+      {
+        "dest": "isort._vendored.toml.decoder.TomlDecodeError.__init__",
+        "line_no": 516
+      },
+      {
+        "dest": "isort._vendored.toml.decoder.TomlDecodeError.__init__",
+        "line_no": 516
+      },
+      {
+        "dest": "isort._vendored.toml.decoder.TomlDecoder.load_line",
+        "line_no": 519
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 521
+      },
+      {
+        "dest": "isort._vendored.toml.decoder.TomlDecodeError.__init__",
+        "line_no": 521
+      },
+      {
+        "dest": "isort._vendored.toml.decoder.TomlDecodeError.__init__",
+        "line_no": 521
+      }
+    ],
+    "isort._vendored.toml.decoder.TomlDecoder.__init__": [],
+    "isort._vendored.toml.decoder.TomlDecoder.get_empty_table": [],
+    "isort._vendored.toml.decoder.TomlDecoder.preserve_comment": [],
+    "isort._vendored.toml.decoder.TomlDecoder.embed_comments": [],
+    "isort._vendored.toml.decoder.TomlDecoder.load_value": [
+      {
+        "dest": "<builtin>.ValueError",
+        "line_no": 821
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 831
+      },
+      {
+        "dest": "<builtin>.ValueError",
+        "line_no": 854
+      },
+      {
+        "dest": "<builtin>.ValueError",
+        "line_no": 870
+      },
+      {
+        "dest": "isort._vendored.toml.decoder._load_unicode_escapes",
+        "line_no": 876
+      },
+      {
+        "dest": "isort._vendored.toml.decoder._unescape",
+        "line_no": 877
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 878
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 878
+      },
+      {
+        "dest": "isort._vendored.toml.decoder.TomlDecoder.load_array",
+        "line_no": 882
+      },
+      {
+        "dest": "isort._vendored.toml.decoder.TomlDecoder.get_empty_inline_table",
+        "line_no": 884
+      },
+      {
+        "dest": "isort._vendored.toml.decoder.TomlDecoder.load_inline_object",
+        "line_no": 885
+      },
+      {
+        "dest": "<builtin>.int",
+        "line_no": 889
+      },
+      {
+        "dest": "<builtin>.int",
+        "line_no": 889
+      },
+      {
+        "dest": "<builtin>.int",
+        "line_no": 889
+      },
+      {
+        "dest": "<builtin>.int",
+        "line_no": 889
+      },
+      {
+        "dest": "datetime.time",
+        "line_no": 889
+      },
+      {
+        "dest": "isort._vendored.toml.decoder._load_date",
+        "line_no": 892
+      },
+      {
+        "dest": "<builtin>.ValueError",
+        "line_no": 896
+      },
+      {
+        "dest": "<builtin>.ValueError",
+        "line_no": 908
+      },
+      {
+        "dest": "<builtin>.ValueError",
+        "line_no": 910
+      },
+      {
+        "dest": "<builtin>.float",
+        "line_no": 911
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 913
+      },
+      {
+        "dest": "<builtin>.float",
+        "line_no": 914
+      },
+      {
+        "dest": "<builtin>.int",
+        "line_no": 917
+      }
+    ],
+    "isort._vendored.toml.decoder.TomlDecoder._get_split_on_quotes": [
+      {
+        "dest": "<builtin>.len",
+        "line_no": 696
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 699
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 699
+      }
+    ],
+    "isort._vendored.toml.decoder.TomlDecoder.load_inline_object": [
+      {
+        "dest": "<builtin>.len",
+        "line_no": 667
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 669
+      },
+      {
+        "dest": "<builtin>.ValueError",
+        "line_no": 674
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 683
+      },
+      {
+        "dest": "<builtin>.ValueError",
+        "line_no": 686
+      },
+      {
+        "dest": "isort._vendored.toml.decoder.TomlDecoder.load_line",
+        "line_no": 688
+      }
+    ],
+    "isort._vendored.toml.decoder.TomlDecoder.load_line": [
+      {
+        "dest": "isort._vendored.toml.decoder.TomlDecoder._get_split_on_quotes",
+        "line_no": 715
+      },
+      {
+        "dest": "isort._vendored.toml.decoder._strictly_valid_num",
+        "line_no": 723
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 726
+      },
+      {
+        "dest": "<builtin>.float",
+        "line_no": 737
+      },
+      {
+        "dest": "isort._vendored.toml.decoder._load_date",
+        "line_no": 741
+      },
+      {
+        "dest": "<builtin>.ValueError",
+        "line_no": 749
+      },
+      {
+        "dest": "isort._vendored.toml.decoder._strictly_valid_num",
+        "line_no": 751
+      },
+      {
+        "dest": "isort._vendored.toml.decoder.TomlDecoder._get_split_on_quotes",
+        "line_no": 755
+      },
+      {
+        "dest": "isort._vendored.toml.decoder.TomlDecoder.get_empty_table",
+        "line_no": 772
+      },
+      {
+        "dest": "isort._vendored.toml.decoder._unescape",
+        "line_no": 776
+      },
+      {
+        "dest": "isort._vendored.toml.decoder.TomlDecoder._load_line_multiline_str",
+        "line_no": 777
+      },
+      {
+        "dest": "isort._vendored.toml.decoder.TomlDecoder.load_value",
+        "line_no": 788
+      },
+      {
+        "dest": "<builtin>.ValueError",
+        "line_no": 791
+      },
+      {
+        "dest": "<builtin>.ValueError",
+        "line_no": 793
+      }
+    ],
+    "isort._vendored.toml.decoder._load_date": [
+      {
+        "dest": "<builtin>.len",
+        "line_no": 531
+      },
+      {
+        "dest": "isort._vendored.toml.tz.TomlTz.__init__",
+        "line_no": 550
+      },
+      {
+        "dest": "<builtin>.int",
+        "line_no": 551
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 551
+      },
+      {
+        "dest": "<builtin>.int",
+        "line_no": 551
+      },
+      {
+        "dest": "isort._vendored.toml.tz.TomlTz.__init__",
+        "line_no": 553
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 559
+      },
+      {
+        "dest": "<builtin>.int",
+        "line_no": 560
+      },
+      {
+        "dest": "<builtin>.int",
+        "line_no": 560
+      },
+      {
+        "dest": "<builtin>.int",
+        "line_no": 560
+      },
+      {
+        "dest": "datetime.date",
+        "line_no": 560
+      },
+      {
+        "dest": "<builtin>.int",
+        "line_no": 563
+      },
+      {
+        "dest": "<builtin>.int",
+        "line_no": 564
+      },
+      {
+        "dest": "<builtin>.int",
+        "line_no": 565
+      },
+      {
+        "dest": "<builtin>.int",
+        "line_no": 566
+      },
+      {
+        "dest": "<builtin>.int",
+        "line_no": 567
+      },
+      {
+        "dest": "<builtin>.int",
+        "line_no": 568
+      },
+      {
+        "dest": "datetime.datetime",
+        "line_no": 562
+      }
+    ],
+    "isort._vendored.toml.tz.TomlTz.__init__": [
+      {
+        "dest": "<builtin>.int",
+        "line_no": 11
+      },
+      {
+        "dest": "<builtin>.int",
+        "line_no": 12
+      }
+    ],
+    "datetime.date": [],
+    "datetime.datetime": [],
+    "isort._vendored.toml.decoder._load_unicode_escapes": [
+      {
+        "dest": "<builtin>.len",
+        "line_no": 579
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 586
+      },
+      {
+        "dest": "<builtin>.ValueError",
+        "line_no": 600
+      },
+      {
+        "dest": "<builtin>.ValueError",
+        "line_no": 602
+      },
+      {
+        "dest": "<builtin>.int",
+        "line_no": 605
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 606
+      }
+    ],
+    "<builtin>.dict": [],
+    "isort._vendored.toml.decoder._unescape": [
+      {
+        "dest": "<builtin>.len",
+        "line_no": 624
+      },
+      {
+        "dest": "<builtin>.ValueError",
+        "line_no": 634
+      }
+    ],
+    "isort._vendored.toml.decoder.TomlDecoder.get_empty_inline_table": [],
+    "isort._vendored.toml.decoder.TomlDecoder._load_line_multiline_str": [
+      {
+        "dest": "<builtin>.len",
+        "line_no": 802
+      },
+      {
+        "dest": "isort._vendored.toml.decoder.TomlDecoder._load_array_isstrarray",
+        "line_no": 804
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 806
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 809
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 809
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 815
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 817
+      }
+    ],
+    "isort._vendored.toml.decoder.TomlDecoder._load_array_isstrarray": [],
+    "isort._vendored.toml.decoder.TomlDecoder.load_array": [
+      {
+        "dest": "isort._vendored.toml.decoder.TomlDecoder._load_array_isstrarray",
+        "line_no": 948
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 959
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 986
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 992
+      },
+      {
+        "dest": "isort._vendored.toml.decoder.TomlDecoder.bounded_string",
+        "line_no": 994
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 995
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 1002
+      },
+      {
+        "dest": "<builtin>.list",
+        "line_no": 1008
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 1012
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 1021
+      },
+      {
+        "dest": "isort._vendored.toml.decoder.TomlDecoder.load_value",
+        "line_no": 1024
+      },
+      {
+        "dest": "<builtin>.ValueError",
+        "line_no": 1027
+      }
+    ],
+    "datetime.time": [],
+    "isort._vendored.toml.decoder.TomlDecoder.bounded_string": [
+      {
+        "dest": "<builtin>.len",
+        "line_no": 923
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 929
+      }
+    ],
+    "isort._vendored.toml.decoder.TomlPreserveCommentDecoder.__init__": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 1043
+      }
+    ],
+    "isort._vendored.toml.decoder.TomlPreserveCommentDecoder.preserve_comment": [],
+    "isort._vendored.toml.decoder.TomlPreserveCommentDecoder.embed_comments": [
+      {
+        "dest": "isort._vendored.toml.decoder.CommentValue.__init__",
+        "line_no": 1053
+      }
+    ],
+    "isort._vendored.toml.tz": [],
+    "isort._vendored.toml.tz.TomlTz.tzname": [],
+    "isort._vendored.toml.tz.TomlTz.utcoffset": [
+      {
+        "dest": "datetime.timedelta",
+        "line_no": 18
+      }
+    ],
+    "datetime.timedelta": [],
+    "isort._vendored.toml.tz.TomlTz.dst": [
+      {
+        "dest": "datetime.timedelta",
+        "line_no": 21
+      }
+    ],
+    "isort.stdlibs": [],
+    "isort.stdlibs.py27": [],
+    "isort.stdlibs.py35": [],
+    "isort.stdlibs.py38": [],
+    "isort.stdlibs.py3": [],
+    "isort.stdlibs.py39": [],
+    "isort.stdlibs.py36": [],
+    "isort.stdlibs.py37": [],
+    "isort.stdlibs.py2": [],
+    "isort.stdlibs.all": [],
+    "isort.utils": [],
+    "sys.platform.startswith": [],
+    "isort.deprecated.finders": [
+      {
+        "dest": "contextlib.contextmanager",
+        "line_no": 41
+      }
+    ],
+    "contextlib.contextmanager": [],
+    "isort.deprecated.finders.chdir": [
+      {
+        "dest": "os.getcwd",
+        "line_no": 43
+      },
+      {
+        "dest": "os.chdir",
+        "line_no": 44
+      },
+      {
+        "dest": "os.chdir",
+        "line_no": 48
+      }
+    ],
+    "os.chdir": [],
+    "isort.deprecated.finders.BaseFinder.__init__": [],
+    "isort.deprecated.finders.BaseFinder": [
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 56
+      }
+    ],
+    "abc.abstractmethod": [],
+    "isort.deprecated.finders.BaseFinder.find": [],
+    "isort.deprecated.finders.ForcedSeparateFinder.find": [
+      {
+        "dest": "fnmatch.fnmatch",
+        "line_no": 68
+      },
+      {
+        "dest": "fnmatch.fnmatch",
+        "line_no": 68
+      }
+    ],
+    "isort.deprecated.finders.LocalFinder.find": [],
+    "isort.deprecated.finders.KnownPatternFinder.__init__": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 82
+      },
+      {
+        "dest": "<builtin>.reversed",
+        "line_no": 85
+      },
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 89
+      },
+      {
+        "dest": "<builtin>.list",
+        "line_no": 88
+      },
+      {
+        "dest": "isort.deprecated.finders.KnownPatternFinder._parse_known_pattern",
+        "line_no": 94
+      },
+      {
+        "dest": "re.compile",
+        "line_no": 98
+      }
+    ],
+    "isort.deprecated.finders.KnownPatternFinder._parse_known_pattern": [
+      {
+        "dest": "os.path.join",
+        "line_no": 105
+      },
+      {
+        "dest": "os.listdir",
+        "line_no": 105
+      },
+      {
+        "dest": "os.path.join",
+        "line_no": 106
+      },
+      {
+        "dest": "os.path.isdir",
+        "line_no": 106
+      }
+    ],
+    "isort.deprecated.finders.KnownPatternFinder.find": [
+      {
+        "dest": "<builtin>.len",
+        "line_no": 116
+      },
+      {
+        "dest": "<builtin>.range",
+        "line_no": 116
+      }
+    ],
+    "isort.deprecated.finders.PathFinder.__init__": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 126
+      },
+      {
+        "dest": "os.path.abspath",
+        "line_no": 129
+      },
+      {
+        "dest": "os.environ.get",
+        "line_no": 134
+      },
+      {
+        "dest": "os.path.realpath",
+        "line_no": 136
+      },
+      {
+        "dest": "glob.glob",
+        "line_no": 140
+      },
+      {
+        "dest": "glob.glob",
+        "line_no": 143
+      },
+      {
+        "dest": "glob.glob",
+        "line_no": 146
+      },
+      {
+        "dest": "os.path.isdir",
+        "line_no": 147
+      },
+      {
+        "dest": "os.environ.get",
+        "line_no": 151
+      },
+      {
+        "dest": "os.path.realpath",
+        "line_no": 153
+      },
+      {
+        "dest": "glob.glob",
+        "line_no": 154
+      },
+      {
+        "dest": "glob.glob",
+        "line_no": 157
+      },
+      {
+        "dest": "sysconfig.get_paths",
+        "line_no": 162
+      },
+      {
+        "dest": "os.path.normcase",
+        "line_no": 162
+      }
+    ],
+    "os.environ.get": [],
+    "os.path.realpath": [],
+    "glob.glob": [],
+    "sysconfig.get_paths": [],
+    "os.path.normcase": [],
+    "isort.deprecated.finders.PathFinder.find": [
+      {
+        "dest": "pathlib.Path",
+        "line_no": 174
+      },
+      {
+        "dest": "isort.utils.exists_case_sensitive",
+        "line_no": 176
+      },
+      {
+        "dest": "isort.utils.exists_case_sensitive",
+        "line_no": 178
+      },
+      {
+        "dest": "<builtin>.any",
+        "line_no": 177
+      },
+      {
+        "dest": "isort.utils.exists_case_sensitive",
+        "line_no": 181
+      },
+      {
+        "dest": "isort.utils.exists_case_sensitive",
+        "line_no": 183
+      },
+      {
+        "dest": "os.path.isdir",
+        "line_no": 183
+      },
+      {
+        "dest": "os.path.normcase",
+        "line_no": 191
+      },
+      {
+        "dest": "os.path.normcase",
+        "line_no": 199
+      }
+    ],
+    "isort.deprecated.finders.ReqsBaseFinder.__init__": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 210
+      },
+      {
+        "dest": "isort.deprecated.finders.ReqsBaseFinder._load_mapping",
+        "line_no": 213
+      },
+      {
+        "dest": "isort.deprecated.finders.ReqsBaseFinder._load_names",
+        "line_no": 214
+      }
+    ],
+    "isort.deprecated.finders.ReqsBaseFinder._load_mapping": [
+      {
+        "dest": "inspect.getfile",
+        "line_no": 233
+      },
+      {
+        "dest": "os.path.dirname",
+        "line_no": 233
+      },
+      {
+        "dest": "os.path.join",
+        "line_no": 234
+      },
+      {
+        "dest": "<builtin>.open",
+        "line_no": 235
+      }
+    ],
+    "isort.deprecated.finders.ReqsBaseFinder._load_names": [
+      {
+        "dest": "isort.deprecated.finders.ReqsBaseFinder._get_files",
+        "line_no": 246
+      },
+      {
+        "dest": "isort.deprecated.finders.ReqsBaseFinder._get_names",
+        "line_no": 247
+      },
+      {
+        "dest": "isort.deprecated.finders.ReqsBaseFinder._normalize_name",
+        "line_no": 248
+      }
+    ],
+    "isort.deprecated.finders.ReqsBaseFinder": [
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 217
+      },
+      {
+        "dest": "abc.abstractmethod",
+        "line_no": 221
+      }
+    ],
+    "isort.deprecated.finders.ReqsBaseFinder._get_names": [],
+    "isort.deprecated.finders.ReqsBaseFinder._get_files_from_dir": [],
+    "inspect.getfile": [],
+    "isort.deprecated.finders.ReqsBaseFinder._get_files": [
+      {
+        "dest": "os.path.abspath",
+        "line_no": 261
+      },
+      {
+        "dest": "os.path.isfile",
+        "line_no": 262
+      },
+      {
+        "dest": "os.path.dirname",
+        "line_no": 263
+      },
+      {
+        "dest": "isort.deprecated.finders.ReqsBaseFinder._get_parents",
+        "line_no": 265
+      },
+      {
+        "dest": "isort.deprecated.finders.ReqsBaseFinder._get_files_from_dir",
+        "line_no": 266
+      }
+    ],
+    "isort.deprecated.finders.ReqsBaseFinder._normalize_name": [],
+    "isort.deprecated.finders.ReqsBaseFinder._get_parents": [
+      {
+        "dest": "os.path.dirname",
+        "line_no": 257
+      }
+    ],
+    "isort.deprecated.finders.ReqsBaseFinder.find": [],
+    "isort.deprecated.finders.RequirementsFinder": [
+      {
+        "dest": "<builtin>.bool",
+        "line_no": 298
+      },
+      {
+        "dest": "functools.lru_cache",
+        "line_no": 305
+      },
+      {
+        "dest": "functools.lru_cache",
+        "line_no": 336
+      }
+    ],
+    "isort.deprecated.finders.RequirementsFinder._get_files_from_dir": [
+      {
+        "dest": "isort.deprecated.finders.RequirementsFinder._get_files_from_dir_cached",
+        "line_no": 302
+      }
+    ],
+    "isort.deprecated.finders.RequirementsFinder._get_files_from_dir_cached": [
+      {
+        "dest": "os.listdir",
+        "line_no": 309
+      },
+      {
+        "dest": "os.path.join",
+        "line_no": 312
+      },
+      {
+        "dest": "os.path.isdir",
+        "line_no": 315
+      },
+      {
+        "dest": "os.listdir",
+        "line_no": 316
+      },
+      {
+        "dest": "os.path.join",
+        "line_no": 319
+      },
+      {
+        "dest": "os.path.isfile",
+        "line_no": 323
+      }
+    ],
+    "isort.deprecated.finders.RequirementsFinder._get_names": [
+      {
+        "dest": "isort.deprecated.finders.RequirementsFinder._get_names_cached",
+        "line_no": 333
+      }
+    ],
+    "isort.deprecated.finders.RequirementsFinder._get_names_cached": [
+      {
+        "dest": "os.path.dirname",
+        "line_no": 340
+      },
+      {
+        "dest": "isort.deprecated.finders.chdir",
+        "line_no": 340
+      },
+      {
+        "dest": "pip_api.parse_requirements",
+        "line_no": 341
+      }
+    ],
+    "pip_api.parse_requirements": [],
+    "isort.deprecated.finders.PipfileFinder": [
+      {
+        "dest": "<builtin>.bool",
+        "line_no": 350
+      }
+    ],
+    "isort.deprecated.finders.PipfileFinder._get_names": [
+      {
+        "dest": "isort.deprecated.finders.chdir",
+        "line_no": 353
+      },
+      {
+        "dest": "requirementslib.Pipfile.load",
+        "line_no": 354
+      }
+    ],
+    "requirementslib.Pipfile.load": [],
+    "isort.deprecated.finders.PipfileFinder._get_files_from_dir": [
+      {
+        "dest": "os.listdir",
+        "line_no": 359
+      }
+    ],
+    "isort.deprecated.finders.DefaultFinder.find": [],
+    "isort.deprecated": [],
+    "isort": [],
+    "isort._version": [],
+    "isort.api": [],
+    "isort.api.sort_code_string": [
+      {
+        "dest": "io.StringIO",
+        "line_no": 72
+      },
+      {
+        "dest": "io.StringIO",
+        "line_no": 73
+      },
+      {
+        "dest": "isort.api._config",
+        "line_no": 74
+      },
+      {
+        "dest": "isort.api.sort_stream",
+        "line_no": 75
+      }
+    ],
+    "io.StringIO": [],
+    "isort.api._config": [
+      {
+        "dest": "<builtin>.ValueError",
+        "line_no": 566
+      },
+      {
+        "dest": "isort.settings.Config.__init__",
+        "line_no": 571
+      }
+    ],
+    "isort.api.sort_stream": [
+      {
+        "dest": "io.StringIO",
+        "line_no": 144
+      },
+      {
+        "dest": "io.StringIO",
+        "line_no": 145
+      },
+      {
+        "dest": "isort.api.sort_stream",
+        "line_no": 146
+      },
+      {
+        "dest": "typing.cast",
+        "line_no": 161
+      },
+      {
+        "dest": "isort.format.show_unified_diff",
+        "line_no": 157
+      },
+      {
+        "dest": "isort.api._config",
+        "line_no": 166
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 167
+      },
+      {
+        "dest": "isort.settings.Config.is_skipped",
+        "line_no": 168
+      },
+      {
+        "dest": "isort.exceptions.FileSkipSetting.__init__",
+        "line_no": 169
+      },
+      {
+        "dest": "isort.exceptions.FileSkipSetting.__init__",
+        "line_no": 169
+      },
+      {
+        "dest": "<builtin>.compile",
+        "line_no": 176
+      },
+      {
+        "dest": "io.StringIO",
+        "line_no": 177
+      },
+      {
+        "dest": "isort.exceptions.ExistingSyntaxErrors.__init__",
+        "line_no": 179
+      },
+      {
+        "dest": "isort.exceptions.ExistingSyntaxErrors.__init__",
+        "line_no": 179
+      },
+      {
+        "dest": "sys.stdout.readable",
+        "line_no": 181
+      },
+      {
+        "dest": "io.StringIO.readable",
+        "line_no": 181
+      },
+      {
+        "dest": "io.StringIO",
+        "line_no": 182
+      },
+      {
+        "dest": "isort.core.process",
+        "line_no": 185
+      },
+      {
+        "dest": "isort.exceptions.FileSkipComment.__init__",
+        "line_no": 192
+      },
+      {
+        "dest": "isort.exceptions.FileSkipComment.__init__",
+        "line_no": 192
+      },
+      {
+        "dest": "sys.stdout.seek",
+        "line_no": 195
+      },
+      {
+        "dest": "io.StringIO.seek",
+        "line_no": 195
+      },
+      {
+        "dest": "io.StringIO.read",
+        "line_no": 197
+      },
+      {
+        "dest": "sys.stdout.read",
+        "line_no": 197
+      },
+      {
+        "dest": "<builtin>.compile",
+        "line_no": 197
+      },
+      {
+        "dest": "sys.stdout.seek",
+        "line_no": 198
+      },
+      {
+        "dest": "io.StringIO.seek",
+        "line_no": 198
+      },
+      {
+        "dest": "io.StringIO.read",
+        "line_no": 200
+      },
+      {
+        "dest": "sys.stdout.read",
+        "line_no": 200
+      },
+      {
+        "dest": "isort.io._EmptyIO.write",
+        "line_no": 200
+      },
+      {
+        "dest": "sys.stdout.write",
+        "line_no": 200
+      },
+      {
+        "dest": "isort.exceptions.IntroducedSyntaxErrors.__init__",
+        "line_no": 202
+      },
+      {
+        "dest": "isort.exceptions.IntroducedSyntaxErrors.__init__",
+        "line_no": 202
+      }
+    ],
+    "isort.api.check_code_string": [
+      {
+        "dest": "isort.api._config",
+        "line_no": 109
+      },
+      {
+        "dest": "io.StringIO",
+        "line_no": 111
+      },
+      {
+        "dest": "isort.api.check_stream",
+        "line_no": 110
+      }
+    ],
+    "isort.api.check_stream": [
+      {
+        "dest": "isort.api._config",
+        "line_no": 228
+      },
+      {
+        "dest": "io.StringIO",
+        "line_no": 231
+      },
+      {
+        "dest": "isort.api.sort_stream",
+        "line_no": 233
+      },
+      {
+        "dest": "isort.format.create_terminal_printer",
+        "line_no": 241
+      },
+      {
+        "dest": "io.StringIO",
+        "line_no": 249
+      },
+      {
+        "dest": "io.StringIO",
+        "line_no": 253
+      },
+      {
+        "dest": "isort.api.sort_stream",
+        "line_no": 252
+      },
+      {
+        "dest": "typing.cast",
+        "line_no": 266
+      },
+      {
+        "dest": "isort.format.show_unified_diff",
+        "line_no": 262
+      }
+    ],
+    "typing.cast": [],
+    "<builtin>.compile": [],
+    "sys.stdout.readable": [],
+    "io.StringIO.readable": [],
+    "isort.core.process": [
+      {
+        "dest": "isort.format.format_natural",
+        "line_no": 51
+      },
+      {
+        "dest": "itertools.chain",
+        "line_no": 76
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 81
+      },
+      {
+        "dest": "isort.parse.file_contents",
+        "line_no": 91
+      },
+      {
+        "dest": "isort.output.sorted_imports",
+        "line_no": 98
+      },
+      {
+        "dest": "isort.core._has_changed",
+        "line_no": 101
+      },
+      {
+        "dest": "io.StringIO",
+        "line_no": 114
+      },
+      {
+        "dest": "itertools.chain",
+        "line_no": 116
+      },
+      {
+        "dest": "<builtin>.enumerate",
+        "line_no": 116
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 131
+      },
+      {
+        "dest": "isort.core._indented_config",
+        "line_no": 133
+      },
+      {
+        "dest": "textwrap.indent",
+        "line_no": 128
+      },
+      {
+        "dest": "isort.core._has_changed",
+        "line_no": 137
+      },
+      {
+        "dest": "isort.io._EmptyIO.write",
+        "line_no": 143
+      },
+      {
+        "dest": "sys.stdout.write",
+        "line_no": 143
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 147
+      },
+      {
+        "dest": "isort.exceptions.FileSkipComment.__init__",
+        "line_no": 151
+      },
+      {
+        "dest": "isort.exceptions.FileSkipComment.__init__",
+        "line_no": 151
+      },
+      {
+        "dest": "<builtin>.bool",
+        "line_no": 168
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 175
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 179
+      },
+      {
+        "dest": "<builtin>.bool",
+        "line_no": 194
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 203
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 210
+      },
+      {
+        "dest": "isort.core._indented_config",
+        "line_no": 212
+      },
+      {
+        "dest": "textwrap.indent",
+        "line_no": 207
+      },
+      {
+        "dest": "isort.core._has_changed",
+        "line_no": 216
+      },
+      {
+        "dest": "isort.io._EmptyIO.write",
+        "line_no": 222
+      },
+      {
+        "dest": "sys.stdout.write",
+        "line_no": 222
+      },
+      {
+        "dest": "isort.io._EmptyIO.write",
+        "line_no": 232
+      },
+      {
+        "dest": "sys.stdout.write",
+        "line_no": 232
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 237
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 249
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 289
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 289
+      },
+      {
+        "dest": "isort.io._EmptyIO.write",
+        "line_no": 323
+      },
+      {
+        "dest": "sys.stdout.write",
+        "line_no": 323
+      },
+      {
+        "dest": "isort.io._EmptyIO.write",
+        "line_no": 343
+      },
+      {
+        "dest": "sys.stdout.write",
+        "line_no": 343
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 346
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 347
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 357
+      },
+      {
+        "dest": "isort.parse.file_contents",
+        "line_no": 360
+      },
+      {
+        "dest": "isort.core._indented_config",
+        "line_no": 365
+      },
+      {
+        "dest": "isort.output.sorted_imports",
+        "line_no": 363
+      },
+      {
+        "dest": "textwrap.indent",
+        "line_no": 373
+      },
+      {
+        "dest": "isort.core._has_changed",
+        "line_no": 377
+      },
+      {
+        "dest": "isort.io._EmptyIO.write",
+        "line_no": 383
+      },
+      {
+        "dest": "sys.stdout.write",
+        "line_no": 383
+      },
+      {
+        "dest": "isort.io._EmptyIO.write",
+        "line_no": 385
+      },
+      {
+        "dest": "sys.stdout.write",
+        "line_no": 385
+      },
+      {
+        "dest": "isort.io._EmptyIO.write",
+        "line_no": 388
+      },
+      {
+        "dest": "sys.stdout.write",
+        "line_no": 388
+      },
+      {
+        "dest": "isort.io._EmptyIO.write",
+        "line_no": 400
+      },
+      {
+        "dest": "sys.stdout.write",
+        "line_no": 400
+      },
+      {
+        "dest": "isort.io._EmptyIO.write",
+        "line_no": 410
+      },
+      {
+        "dest": "sys.stdout.write",
+        "line_no": 410
+      },
+      {
+        "dest": "isort.io._EmptyIO.write",
+        "line_no": 419
+      },
+      {
+        "dest": "sys.stdout.write",
+        "line_no": 419
+      },
+      {
+        "dest": "<builtin>.print",
+        "line_no": 424
+      }
+    ],
+    "sys.stdout.seek": [],
+    "io.StringIO.seek": [],
+    "io.StringIO.read": [],
+    "sys.stdout.read": [],
+    "isort.io._EmptyIO.write": [],
+    "sys.stdout.write": [],
+    "isort.api.check_file": [
+      {
+        "dest": "isort.io.File.read",
+        "line_no": 293
+      },
+      {
+        "dest": "isort.api.check_stream",
+        "line_no": 294
+      }
+    ],
+    "isort.io.File.read": [
+      {
+        "dest": "pathlib.Path",
+        "line_no": 58
+      },
+      {
+        "dest": "isort.io.File._open",
+        "line_no": 61
+      }
+    ],
+    "isort.api.sort_file": [
+      {
+        "dest": "isort.io.File.read",
+        "line_no": 333
+      },
+      {
+        "dest": "isort.api._config",
+        "line_no": 335
+      },
+      {
+        "dest": "isort.api.sort_stream",
+        "line_no": 339
+      },
+      {
+        "dest": "shutil.copymode",
+        "line_no": 354
+      },
+      {
+        "dest": "isort.api.sort_stream",
+        "line_no": 355
+      },
+      {
+        "dest": "typing.cast",
+        "line_no": 375
+      },
+      {
+        "dest": "isort.format.show_unified_diff",
+        "line_no": 369
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 381
+      },
+      {
+        "dest": "isort.format.ask_whether_to_apply_changes_to_file",
+        "line_no": 380
+      },
+      {
+        "dest": "<builtin>.print",
+        "line_no": 391
+      },
+      {
+        "dest": "isort.api.sort_stream",
+        "line_no": 398
+      },
+      {
+        "dest": "typing.cast",
+        "line_no": 413
+      },
+      {
+        "dest": "isort.format.show_unified_diff",
+        "line_no": 409
+      },
+      {
+        "dest": "warnings.warn",
+        "line_no": 419
+      },
+      {
+        "dest": "warnings.warn",
+        "line_no": 421
+      }
+    ],
+    "shutil.copymode": [],
+    "isort.api.find_imports_in_code": [
+      {
+        "dest": "io.StringIO",
+        "line_no": 444
+      },
+      {
+        "dest": "isort.api.find_imports_in_stream",
+        "line_no": 443
+      }
+    ],
+    "isort.api.find_imports_in_stream": [
+      {
+        "dest": "isort.api._config",
+        "line_no": 472
+      },
+      {
+        "dest": "isort.identify.imports",
+        "line_no": 473
+      },
+      {
+        "dest": "<builtin>.set",
+        "line_no": 479
+      }
+    ],
+    "isort.api.find_imports_in_file": [
+      {
+        "dest": "isort.io.File.read",
+        "line_no": 513
+      },
+      {
+        "dest": "isort.api.find_imports_in_stream",
+        "line_no": 514
+      }
+    ],
+    "isort.api.find_imports_in_paths": [
+      {
+        "dest": "isort.api._config",
+        "line_no": 542
+      },
+      {
+        "dest": "<builtin>.set",
+        "line_no": 543
+      },
+      {
+        "dest": "isort.api.find_imports_in_file",
+        "line_no": 546
+      },
+      {
+        "dest": "<builtin>.map",
+        "line_no": 549
+      },
+      {
+        "dest": "isort.files.find",
+        "line_no": 549
+      },
+      {
+        "dest": "itertools.chain",
+        "line_no": 544
+      }
+    ],
+    "isort.files.find": [
+      {
+        "dest": "<builtin>.set",
+        "line_no": 13
+      },
+      {
+        "dest": "os.path.isdir",
+        "line_no": 16
+      },
+      {
+        "dest": "os.walk",
+        "line_no": 17
+      },
+      {
+        "dest": "pathlib.Path",
+        "line_no": 20
+      },
+      {
+        "dest": "<builtin>.list",
+        "line_no": 21
+      },
+      {
+        "dest": "isort.settings.Config.is_skipped",
+        "line_no": 24
+      },
+      {
+        "dest": "warnings.warn",
+        "line_no": 30
+      },
+      {
+        "dest": "os.path.join",
+        "line_no": 35
+      },
+      {
+        "dest": "isort.settings.Config.is_supported_filetype",
+        "line_no": 36
+      },
+      {
+        "dest": "pathlib.Path",
+        "line_no": 37
+      },
+      {
+        "dest": "isort.settings.Config.is_skipped",
+        "line_no": 37
+      },
+      {
+        "dest": "os.path.exists",
+        "line_no": 41
+      }
+    ],
+    "isort.core": [],
+    "isort.core._has_changed": [
+      {
+        "dest": "isort.format.remove_whitespace",
+        "line_no": 445
+      },
+      {
+        "dest": "isort.format.remove_whitespace",
+        "line_no": 446
+      }
+    ],
+    "isort.core._indented_config": [
+      {
+        "dest": "<builtin>.len",
+        "line_no": 435
+      },
+      {
+        "dest": "<builtin>.max",
+        "line_no": 435
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 436
+      },
+      {
+        "dest": "<builtin>.max",
+        "line_no": 436
+      },
+      {
+        "dest": "isort.settings.Config.__init__",
+        "line_no": 433
+      }
+    ],
+    "textwrap.indent": [],
+    "isort.literal": [
+      {
+        "dest": "isort.literal.register_type",
+        "line_no": 82
+      },
+      {
+        "dest": "isort.literal.register_type.wrap",
+        "line_no": 83
+      },
+      {
+        "dest": "isort.literal.register_type",
+        "line_no": 87
+      },
+      {
+        "dest": "isort.literal.register_type.wrap",
+        "line_no": 88
+      },
+      {
+        "dest": "isort.literal.register_type",
+        "line_no": 92
+      },
+      {
+        "dest": "isort.literal.register_type.wrap",
+        "line_no": 93
+      },
+      {
+        "dest": "isort.literal.register_type",
+        "line_no": 97
+      },
+      {
+        "dest": "isort.literal.register_type.wrap",
+        "line_no": 98
+      },
+      {
+        "dest": "isort.literal.register_type",
+        "line_no": 102
+      },
+      {
+        "dest": "isort.literal.register_type.wrap",
+        "line_no": 103
+      },
+      {
+        "dest": "isort.literal.register_type",
+        "line_no": 107
+      },
+      {
+        "dest": "isort.literal.register_type.wrap",
+        "line_no": 108
+      }
+    ],
+    "isort.literal.ISortPrettyPrinter.__init__": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 17
+      }
+    ],
+    "isort.literal.assignments": [
+      {
+        "dest": "isort.exceptions.AssignmentsFormatMismatch.__init__",
+        "line_no": 29
+      },
+      {
+        "dest": "isort.exceptions.AssignmentsFormatMismatch.__init__",
+        "line_no": 29
+      },
+      {
+        "dest": "<builtin>.sorted",
+        "line_no": 34
+      }
+    ],
+    "isort.literal.assignment": [
+      {
+        "dest": "isort.literal.assignments",
+        "line_no": 43
+      },
+      {
+        "dest": "<builtin>.ValueError",
+        "line_no": 45
+      },
+      {
+        "dest": "ast.literal_eval",
+        "line_no": 53
+      },
+      {
+        "dest": "isort.exceptions.LiteralParsingFailure.__init__",
+        "line_no": 55
+      },
+      {
+        "dest": "isort.exceptions.LiteralParsingFailure.__init__",
+        "line_no": 55
+      },
+      {
+        "dest": "<builtin>.type",
+        "line_no": 58
+      },
+      {
+        "dest": "<builtin>.type",
+        "line_no": 59
+      },
+      {
+        "dest": "isort.exceptions.LiteralSortTypeMismatch.__init__",
+        "line_no": 59
+      },
+      {
+        "dest": "isort.exceptions.LiteralSortTypeMismatch.__init__",
+        "line_no": 59
+      },
+      {
+        "dest": "isort.literal.ISortPrettyPrinter.__init__",
+        "line_no": 61
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 68
+      }
+    ],
+    "ast.literal_eval": [],
+    "isort.literal.register_type": [],
+    "isort.literal.register_type.wrap": [],
+    "isort.literal._dict": [
+      {
+        "dest": "<builtin>.sorted",
+        "line_no": 84
+      },
+      {
+        "dest": "<builtin>.dict",
+        "line_no": 84
+      }
+    ],
+    "isort.literal._dict.<lambda1>": [],
+    "isort.literal._list": [
+      {
+        "dest": "<builtin>.sorted",
+        "line_no": 89
+      }
+    ],
+    "isort.literal._unique_list": [
+      {
+        "dest": "<builtin>.set",
+        "line_no": 94
+      },
+      {
+        "dest": "<builtin>.sorted",
+        "line_no": 94
+      },
+      {
+        "dest": "<builtin>.list",
+        "line_no": 94
+      }
+    ],
+    "isort.literal._set": [
+      {
+        "dest": "<builtin>.sorted",
+        "line_no": 99
+      },
+      {
+        "dest": "<builtin>.tuple",
+        "line_no": 99
+      }
+    ],
+    "isort.literal._tuple": [
+      {
+        "dest": "<builtin>.sorted",
+        "line_no": 104
+      },
+      {
+        "dest": "<builtin>.tuple",
+        "line_no": 104
+      }
+    ],
+    "isort.literal._unique_tuple": [
+      {
+        "dest": "<builtin>.set",
+        "line_no": 109
+      },
+      {
+        "dest": "<builtin>.sorted",
+        "line_no": 109
+      },
+      {
+        "dest": "<builtin>.tuple",
+        "line_no": 109
+      }
+    ],
+    "isort.files": [],
+    "os.walk": [],
+    "isort.io": [
+      {
+        "dest": "re.compile",
+        "line_no": 12
+      },
+      {
+        "dest": "io.StringIO.__init__",
+        "line_no": 73
+      }
+    ],
+    "isort.io.File.detect_encoding": [
+      {
+        "dest": "tokenize.detect_encoding",
+        "line_no": 24
+      },
+      {
+        "dest": "isort.exceptions.UnsupportedEncoding.__init__",
+        "line_no": 26
+      },
+      {
+        "dest": "isort.exceptions.UnsupportedEncoding.__init__",
+        "line_no": 26
+      }
+    ],
+    "tokenize.detect_encoding": [],
+    "isort.io.File.from_contents": [
+      {
+        "dest": "io.BytesIO",
+        "line_no": 30
+      },
+      {
+        "dest": "isort.io.File.detect_encoding",
+        "line_no": 30
+      },
+      {
+        "dest": "io.StringIO",
+        "line_no": 32
+      },
+      {
+        "dest": "pathlib.Path",
+        "line_no": 32
+      }
+    ],
+    "io.BytesIO": [],
+    "isort.io.File.extension": [],
+    "isort.io.File._open": [
+      {
+        "dest": "<builtin>.open",
+        "line_no": 44
+      },
+      {
+        "dest": "isort.io.File.detect_encoding",
+        "line_no": 46
+      },
+      {
+        "dest": "io.TextIOWrapper",
+        "line_no": 48
+      }
+    ],
+    "io.TextIOWrapper": [],
+    "isort.io.File": [
+      {
+        "dest": "contextlib.contextmanager",
+        "line_no": 57
+      }
+    ],
+    "io.StringIO.__init__": [],
+    "isort.hooks": [],
+    "isort.hooks.get_output": [
+      {
+        "dest": "subprocess.run",
+        "line_no": 20
+      }
+    ],
+    "isort.hooks.get_lines": [
+      {
+        "dest": "isort.hooks.get_output",
+        "line_no": 30
+      }
+    ],
+    "isort.hooks.git_hook": [
+      {
+        "dest": "isort.hooks.get_lines",
+        "line_no": 62
+      },
+      {
+        "dest": "os.path.abspath",
+        "line_no": 69
+      },
+      {
+        "dest": "os.path.dirname",
+        "line_no": 69
+      },
+      {
+        "dest": "isort.settings.Config.__init__",
+        "line_no": 67
+      },
+      {
+        "dest": "isort.hooks.get_output",
+        "line_no": 75
+      },
+      {
+        "dest": "pathlib.Path",
+        "line_no": 79
+      },
+      {
+        "dest": "isort.api.check_code_string",
+        "line_no": 78
+      },
+      {
+        "dest": "isort.api.sort_file",
+        "line_no": 83
+      }
+    ],
+    "isort.logo": [],
+    "isort.main": [
+      {
+        "dest": "isort.main.main",
+        "line_no": 1228
+      }
+    ],
+    "isort.main.SortAttempt.__init__": [],
+    "isort.main.sort_imports": [
+      {
+        "dest": "isort.api.check_file",
+        "line_no": 90
+      },
+      {
+        "dest": "isort.main.SortAttempt.__init__",
+        "line_no": 93
+      },
+      {
+        "dest": "isort.api.sort_file",
+        "line_no": 96
+      },
+      {
+        "dest": "isort.main.SortAttempt.__init__",
+        "line_no": 105
+      },
+      {
+        "dest": "warnings.warn",
+        "line_no": 107
+      },
+      {
+        "dest": "warnings.warn",
+        "line_no": 111
+      },
+      {
+        "dest": "isort.main.SortAttempt.__init__",
+        "line_no": 112
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 114
+      },
+      {
+        "dest": "isort.main._print_hard_fail",
+        "line_no": 114
+      },
+      {
+        "dest": "sys.exit",
+        "line_no": 115
+      },
+      {
+        "dest": "isort.main._print_hard_fail",
+        "line_no": 117
+      }
+    ],
+    "isort.main._print_hard_fail": [
+      {
+        "dest": "isort.format.create_terminal_printer",
+        "line_no": 130
+      }
+    ],
+    "isort.main._build_arg_parser": [
+      {
+        "dest": "argparse.ArgumentParser",
+        "line_no": 135
+      },
+      {
+        "dest": "gettext.gettext",
+        "line_no": 159
+      },
+      {
+        "dest": "<builtin>.list",
+        "line_no": 509
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 510
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 680
+      },
+      {
+        "dest": "<builtin>.tuple",
+        "line_no": 827
+      }
+    ],
+    "argparse.ArgumentParser": [],
+    "gettext.gettext": [],
+    "isort.main.parse_args": [
+      {
+        "dest": "<builtin>.list",
+        "line_no": 876
+      },
+      {
+        "dest": "<builtin>.enumerate",
+        "line_no": 878
+      },
+      {
+        "dest": "isort.main._build_arg_parser",
+        "line_no": 883
+      },
+      {
+        "dest": "<builtin>.vars",
+        "line_no": 884
+      },
+      {
+        "dest": "sys.exit",
+        "line_no": 896
+      },
+      {
+        "dest": "<builtin>.int",
+        "line_no": 902
+      }
+    ],
+    "isort.main._preconvert": [
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 911
+      },
+      {
+        "dest": "<builtin>.list",
+        "line_no": 912
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 913
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 915
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 916
+      },
+      {
+        "dest": "<builtin>.callable",
+        "line_no": 917
+      },
+      {
+        "dest": "<builtin>.hasattr",
+        "line_no": 917
+      },
+      {
+        "dest": "<builtin>.type",
+        "line_no": 919
+      },
+      {
+        "dest": "<builtin>.TypeError",
+        "line_no": 919
+      }
+    ],
+    "<builtin>.callable": [],
+    "isort.main.identify_imports_main": [
+      {
+        "dest": "argparse.ArgumentParser",
+        "line_no": 925
+      },
+      {
+        "dest": "isort.api.find_imports_in_stream",
+        "line_no": 983
+      },
+      {
+        "dest": "isort.api.find_imports_in_paths",
+        "line_no": 990
+      },
+      {
+        "dest": "<builtin>.print",
+        "line_no": 999
+      },
+      {
+        "dest": "<builtin>.print",
+        "line_no": 1001
+      },
+      {
+        "dest": "<builtin>.print",
+        "line_no": 1003
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 1005
+      },
+      {
+        "dest": "<builtin>.print",
+        "line_no": 1005
+      }
+    ],
+    "isort.main.main": [
+      {
+        "dest": "isort.main.parse_args",
+        "line_no": 1009
+      },
+      {
+        "dest": "<builtin>.print",
+        "line_no": 1011
+      },
+      {
+        "dest": "sys.exit",
+        "line_no": 1017
+      },
+      {
+        "dest": "os.path.isfile",
+        "line_no": 1020
+      },
+      {
+        "dest": "os.path.abspath",
+        "line_no": 1021
+      },
+      {
+        "dest": "os.path.dirname",
+        "line_no": 1022
+      },
+      {
+        "dest": "os.path.abspath",
+        "line_no": 1024
+      },
+      {
+        "dest": "os.path.abspath",
+        "line_no": 1028
+      },
+      {
+        "dest": "os.path.isdir",
+        "line_no": 1029
+      },
+      {
+        "dest": "warnings.warn",
+        "line_no": 1030
+      },
+      {
+        "dest": "<builtin>.print",
+        "line_no": 1034
+      },
+      {
+        "dest": "sys.exit",
+        "line_no": 1036
+      },
+      {
+        "dest": "os.path.abspath",
+        "line_no": 1040
+      },
+      {
+        "dest": "os.getcwd",
+        "line_no": 1040
+      },
+      {
+        "dest": "os.path.isdir",
+        "line_no": 1042
+      },
+      {
+        "dest": "os.path.dirname",
+        "line_no": 1043
+      },
+      {
+        "dest": "pathlib.Path",
+        "line_no": 1062
+      },
+      {
+        "dest": "isort.settings.Config.__init__",
+        "line_no": 1065
+      },
+      {
+        "dest": "json.dumps",
+        "line_no": 1067
+      },
+      {
+        "dest": "<builtin>.print",
+        "line_no": 1067
+      },
+      {
+        "dest": "pathlib.Path",
+        "line_no": 1070
+      },
+      {
+        "dest": "sys.exit",
+        "line_no": 1072
+      },
+      {
+        "dest": "isort.api.check_stream",
+        "line_no": 1075
+      },
+      {
+        "dest": "isort.api.sort_stream",
+        "line_no": 1085
+      },
+      {
+        "dest": "isort.format.create_terminal_printer",
+        "line_no": 1094
+      },
+      {
+        "dest": "sys.exit",
+        "line_no": 1097
+      },
+      {
+        "dest": "isort.format.create_terminal_printer",
+        "line_no": 1100
+      },
+      {
+        "dest": "sys.exit",
+        "line_no": 1102
+      },
+      {
+        "dest": "pathlib.Path",
+        "line_no": 1109
+      },
+      {
+        "dest": "isort.settings.Config.is_skipped",
+        "line_no": 1109
+      },
+      {
+        "dest": "isort.files.find",
+        "line_no": 1115
+      },
+      {
+        "dest": "<builtin>.print",
+        "line_no": 1118
+      },
+      {
+        "dest": "<builtin>.print",
+        "line_no": 1124
+      },
+      {
+        "dest": "multiprocessing.cpu_count",
+        "line_no": 1129
+      },
+      {
+        "dest": "multiprocessing.Pool",
+        "line_no": 1129
+      },
+      {
+        "dest": "functools.partial",
+        "line_no": 1131
+      },
+      {
+        "dest": "isort.main.sort_imports",
+        "line_no": 1144
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 1177
+      },
+      {
+        "dest": "warnings.warn",
+        "line_no": 1181
+      },
+      {
+        "dest": "<builtin>.print",
+        "line_no": 1185
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 1187
+      },
+      {
+        "dest": "warnings.warn",
+        "line_no": 1191
+      },
+      {
+        "dest": "<builtin>.print",
+        "line_no": 1192
+      },
+      {
+        "dest": "warnings.warn",
+        "line_no": 1201
+      },
+      {
+        "dest": "warnings.warn",
+        "line_no": 1206
+      },
+      {
+        "dest": "warnings.warn",
+        "line_no": 1210
+      },
+      {
+        "dest": "sys.exit",
+        "line_no": 1216
+      },
+      {
+        "dest": "sys.exit",
+        "line_no": 1219
+      },
+      {
+        "dest": "isort.format.create_terminal_printer",
+        "line_no": 1222
+      },
+      {
+        "dest": "sys.exit",
+        "line_no": 1224
+      }
+    ],
+    "json.dumps": [],
+    "multiprocessing.cpu_count": [],
+    "multiprocessing.Pool": [],
+    "isort.setuptools_commands": [],
+    "isort.setuptools_commands.ISortCommand.initialize_options": [
+      {
+        "dest": "<builtin>.vars",
+        "line_no": 22
+      },
+      {
+        "dest": "<builtin>.setattr",
+        "line_no": 24
+      }
+    ],
+    "isort.setuptools_commands.ISortCommand.finalize_options": [
+      {
+        "dest": "os.getcwd",
+        "line_no": 29
+      }
+    ],
+    "isort.setuptools_commands.ISortCommand.distribution_files": [
+      {
+        "dest": "setuptools.Command.distribution.packages.replace",
+        "line_no": 42
+      }
+    ],
+    "setuptools.Command.distribution.packages.replace": [],
+    "isort.setuptools_commands.ISortCommand.run": [
+      {
+        "dest": "isort.setuptools_commands.ISortCommand.distribution_files",
+        "line_no": 53
+      },
+      {
+        "dest": "os.path.join",
+        "line_no": 54
+      },
+      {
+        "dest": "glob.iglob",
+        "line_no": 54
+      },
+      {
+        "dest": "isort.api.check_file",
+        "line_no": 56
+      },
+      {
+        "dest": "warnings.warn",
+        "line_no": 59
+      },
+      {
+        "dest": "sys.exit",
+        "line_no": 61
+      }
+    ],
+    "glob.iglob": [],
+    "isort.pylama_isort": [
+      {
+        "dest": "contextlib.contextmanager",
+        "line_no": 14
+      }
+    ],
+    "isort.pylama_isort.supress_stdout": [
+      {
+        "dest": "<builtin>.open",
+        "line_no": 16
+      }
+    ],
+    "isort.pylama_isort.Linter.allow": [],
+    "isort.pylama_isort.Linter.run": [
+      {
+        "dest": "isort.pylama_isort.supress_stdout",
+        "line_no": 29
+      },
+      {
+        "dest": "isort.api.check_file",
+        "line_no": 31
+      }
+    ],
+    "isort.__main__": [
+      {
+        "dest": "isort.main.main",
+        "line_no": 3
+      }
+    ],
+    "isort._vendored.toml.ordered": [],
+    "isort._vendored.toml.ordered.TomlOrderedDecoder.__init__": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 8
+      }
+    ],
+    "isort._vendored.toml.ordered.TomlOrderedEncoder.__init__": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 13
+      }
+    ]
+  },
+  "class_mro": {
+    "isort.format.BasicPrinter": [
+      "isort.format.BasicPrinter"
+    ],
+    "isort.format.ColoramaPrinter": [
+      "isort.format.ColoramaPrinter",
+      "isort.format.BasicPrinter"
+    ],
+    "isort._future._dataclasses.FrozenInstanceError": [
+      "isort._future._dataclasses.FrozenInstanceError"
+    ],
+    "isort._future._dataclasses._HAS_DEFAULT_FACTORY_CLASS": [
+      "isort._future._dataclasses._HAS_DEFAULT_FACTORY_CLASS"
+    ],
+    "isort._future._dataclasses._MISSING_TYPE": [
+      "isort._future._dataclasses._MISSING_TYPE"
+    ],
+    "isort._future._dataclasses._FIELD_BASE": [
+      "isort._future._dataclasses._FIELD_BASE"
+    ],
+    "isort._future._dataclasses._InitVarMeta": [
+      "isort._future._dataclasses._InitVarMeta"
+    ],
+    "isort._future._dataclasses.InitVar": [
+      "isort._future._dataclasses.InitVar"
+    ],
+    "isort._future._dataclasses.Field": [
+      "isort._future._dataclasses.Field"
+    ],
+    "isort._future._dataclasses._DataclassParams": [
+      "isort._future._dataclasses._DataclassParams"
+    ],
+    "isort._vendored.toml.tz.TomlTz": [
+      "isort._vendored.toml.tz.TomlTz",
+      "datetime.tzinfo"
+    ],
+    "isort._vendored.toml.decoder.TomlDecodeError": [
+      "isort._vendored.toml.decoder.TomlDecodeError"
+    ],
+    "isort._vendored.toml.decoder.CommentValue": [
+      "isort._vendored.toml.decoder.CommentValue"
+    ],
+    "isort._vendored.toml.decoder.InlineTableDict": [
+      "isort._vendored.toml.decoder.InlineTableDict"
+    ],
+    "isort._vendored.toml.decoder.TomlDecoder": [
+      "isort._vendored.toml.decoder.TomlDecoder"
+    ],
+    "isort._vendored.toml.decoder.TomlDecoder.get_empty_inline_table.DynamicInlineTableDict": [
+      "isort._vendored.toml.decoder.TomlDecoder.get_empty_inline_table.DynamicInlineTableDict",
+      "isort._vendored.toml.decoder.TomlDecoder._dict",
+      "isort._vendored.toml.decoder.TomlDecoder.__init__._dict",
+      "isort._vendored.toml.decoder.load._dict",
+      "isort._vendored.toml.decoder.InlineTableDict"
+    ],
+    "isort._vendored.toml.decoder.TomlPreserveCommentDecoder": [
+      "isort._vendored.toml.decoder.TomlPreserveCommentDecoder",
+      "isort._vendored.toml.decoder.TomlDecoder"
+    ],
+    "isort._vendored.toml.encoder.TomlEncoder": [
+      "isort._vendored.toml.encoder.TomlEncoder"
+    ],
+    "isort._vendored.toml.encoder.TomlPreserveInlineDictEncoder": [
+      "isort._vendored.toml.encoder.TomlPreserveInlineDictEncoder",
+      "isort._vendored.toml.encoder.TomlEncoder"
+    ],
+    "isort._vendored.toml.encoder.TomlArraySeparatorEncoder": [
+      "isort._vendored.toml.encoder.TomlArraySeparatorEncoder",
+      "isort._vendored.toml.encoder.TomlEncoder"
+    ],
+    "isort._vendored.toml.encoder.TomlNumpyEncoder": [
+      "isort._vendored.toml.encoder.TomlNumpyEncoder",
+      "isort._vendored.toml.encoder.TomlEncoder"
+    ],
+    "isort._vendored.toml.encoder.TomlPreserveCommentEncoder": [
+      "isort._vendored.toml.encoder.TomlPreserveCommentEncoder",
+      "isort._vendored.toml.encoder.TomlEncoder"
+    ],
+    "isort._vendored.toml.encoder.TomlPathlibEncoder": [
+      "isort._vendored.toml.encoder.TomlPathlibEncoder",
+      "isort._vendored.toml.encoder.TomlEncoder"
+    ],
+    "isort.exceptions.ISortError": [
+      "isort.exceptions.ISortError"
+    ],
+    "isort.exceptions.InvalidSettingsPath": [
+      "isort.exceptions.InvalidSettingsPath",
+      "isort.exceptions.ISortError"
+    ],
+    "isort.exceptions.ExistingSyntaxErrors": [
+      "isort.exceptions.ExistingSyntaxErrors",
+      "isort.exceptions.ISortError"
+    ],
+    "isort.exceptions.IntroducedSyntaxErrors": [
+      "isort.exceptions.IntroducedSyntaxErrors",
+      "isort.exceptions.ISortError"
+    ],
+    "isort.exceptions.FileSkipped": [
+      "isort.exceptions.FileSkipped",
+      "isort.exceptions.ISortError"
+    ],
+    "isort.exceptions.FileSkipComment": [
+      "isort.exceptions.FileSkipComment",
+      "isort.exceptions.FileSkipped",
+      "isort.exceptions.ISortError"
+    ],
+    "isort.exceptions.FileSkipSetting": [
+      "isort.exceptions.FileSkipSetting",
+      "isort.exceptions.FileSkipped",
+      "isort.exceptions.ISortError"
+    ],
+    "isort.exceptions.ProfileDoesNotExist": [
+      "isort.exceptions.ProfileDoesNotExist",
+      "isort.exceptions.ISortError"
+    ],
+    "isort.exceptions.FormattingPluginDoesNotExist": [
+      "isort.exceptions.FormattingPluginDoesNotExist",
+      "isort.exceptions.ISortError"
+    ],
+    "isort.exceptions.LiteralParsingFailure": [
+      "isort.exceptions.LiteralParsingFailure",
+      "isort.exceptions.ISortError"
+    ],
+    "isort.exceptions.LiteralSortTypeMismatch": [
+      "isort.exceptions.LiteralSortTypeMismatch",
+      "isort.exceptions.ISortError"
+    ],
+    "isort.exceptions.AssignmentsFormatMismatch": [
+      "isort.exceptions.AssignmentsFormatMismatch",
+      "isort.exceptions.ISortError"
+    ],
+    "isort.exceptions.UnsupportedSettings": [
+      "isort.exceptions.UnsupportedSettings",
+      "isort.exceptions.ISortError"
+    ],
+    "isort.exceptions.UnsupportedEncoding": [
+      "isort.exceptions.UnsupportedEncoding",
+      "isort.exceptions.ISortError"
+    ],
+    "isort.exceptions.MissingSection": [
+      "isort.exceptions.MissingSection",
+      "isort.exceptions.ISortError"
+    ],
+    "isort.settings._Config": [
+      "isort.settings._Config"
+    ],
+    "isort.settings.Config": [
+      "isort.settings.Config",
+      "isort.settings._Config"
+    ],
+    "isort.literal.ISortPrettyPrinter": [
+      "isort.literal.ISortPrettyPrinter",
+      "pprint.PrettyPrinter"
+    ],
+    "isort.deprecated.finders.BaseFinder": [
+      "isort.deprecated.finders.BaseFinder"
+    ],
+    "isort.deprecated.finders.ForcedSeparateFinder": [
+      "isort.deprecated.finders.ForcedSeparateFinder",
+      "isort.deprecated.finders.BaseFinder"
+    ],
+    "isort.deprecated.finders.LocalFinder": [
+      "isort.deprecated.finders.LocalFinder",
+      "isort.deprecated.finders.BaseFinder"
+    ],
+    "isort.deprecated.finders.KnownPatternFinder": [
+      "isort.deprecated.finders.KnownPatternFinder",
+      "isort.deprecated.finders.BaseFinder"
+    ],
+    "isort.deprecated.finders.PathFinder": [
+      "isort.deprecated.finders.PathFinder",
+      "isort.deprecated.finders.BaseFinder"
+    ],
+    "isort.deprecated.finders.ReqsBaseFinder": [
+      "isort.deprecated.finders.ReqsBaseFinder",
+      "isort.deprecated.finders.BaseFinder"
+    ],
+    "isort.deprecated.finders.RequirementsFinder": [
+      "isort.deprecated.finders.RequirementsFinder",
+      "isort.deprecated.finders.ReqsBaseFinder",
+      "isort.deprecated.finders.BaseFinder"
+    ],
+    "isort.deprecated.finders.PipfileFinder": [
+      "isort.deprecated.finders.PipfileFinder",
+      "isort.deprecated.finders.ReqsBaseFinder",
+      "isort.deprecated.finders.BaseFinder"
+    ],
+    "isort.deprecated.finders.DefaultFinder": [
+      "isort.deprecated.finders.DefaultFinder",
+      "isort.deprecated.finders.BaseFinder"
+    ],
+    "isort.deprecated.finders.FindersManager": [
+      "isort.deprecated.finders.FindersManager"
+    ],
+    "isort.parse.ParsedContent": [
+      "isort.parse.ParsedContent",
+      "typing.NamedTuple"
+    ],
+    "isort.identify.Import": [
+      "isort.identify.Import",
+      "typing.NamedTuple"
+    ],
+    "isort.io.File": [
+      "isort.io.File"
+    ],
+    "isort.io._EmptyIO": [
+      "isort.io._EmptyIO",
+      "io.StringIO"
+    ],
+    "isort.api.ImportKey": [
+      "isort.api.ImportKey",
+      "enum.Enum"
+    ],
+    "isort.output._LineWithComments": [
+      "isort.output._LineWithComments"
+    ],
+    "isort.setuptools_commands.ISortCommand": [
+      "isort.setuptools_commands.ISortCommand",
+      "setuptools.Command"
+    ],
+    "isort.main.SortAttempt": [
+      "isort.main.SortAttempt"
+    ],
+    "isort.pylama_isort.Linter": [
+      "isort.pylama_isort.Linter",
+      "pylama.lint.Linter"
+    ],
+    "isort._vendored.toml.ordered.TomlOrderedDecoder": [
+      "isort._vendored.toml.ordered.TomlOrderedDecoder",
+      "TomlDecoder"
+    ],
+    "isort._vendored.toml.ordered.TomlOrderedEncoder": [
+      "isort._vendored.toml.ordered.TomlOrderedEncoder",
+      "TomlEncoder"
+    ]
+  },
+  "imports": {
+    "isort.output": [
+      "isort.format",
+      "typing",
+      "isort.sorting",
+      "isort.wrap",
+      "isort.identify",
+      "copy",
+      "itertools",
+      "functools",
+      "isort"
+    ],
+    "isort": [
+      "isort.settings",
+      "isort._version",
+      "isort.api"
+    ],
+    "isort.format": [
+      "sys",
+      "typing",
+      "colorama",
+      "pathlib",
+      "re",
+      "difflib",
+      "datetime"
+    ],
+    "isort.settings": [
+      "sys",
+      "isort.sections",
+      "isort.wrap_modes",
+      "pathlib",
+      "re",
+      "isort._future",
+      "isort.exceptions",
+      "subprocess",
+      "isort._vendored.toml",
+      "warnings",
+      "isort.stdlibs",
+      "stat",
+      "os",
+      "fnmatch",
+      "configparser",
+      "typing",
+      "posixpath",
+      "pkg_resources",
+      "functools"
+    ],
+    "isort.stdlibs": [
+      "isort.stdlibs.py27",
+      "isort.stdlibs.py35",
+      "isort.stdlibs.py38",
+      "isort.stdlibs.py3",
+      "isort.stdlibs.py39",
+      "isort.stdlibs.py2",
+      "isort.stdlibs.py36",
+      "isort.stdlibs.py37",
+      "isort.stdlibs",
+      "isort.stdlibs.all"
+    ],
+    "isort.stdlibs.all": [
+      "isort.stdlibs.py3",
+      "isort.stdlibs.py2"
+    ],
+    "isort.stdlibs.py2": [
+      "isort.stdlibs.py27"
+    ],
+    "isort.stdlibs.py27": [],
+    "isort.stdlibs.py3": [
+      "isort.stdlibs.py38",
+      "isort.stdlibs.py35",
+      "isort.stdlibs.py39",
+      "isort.stdlibs.py36",
+      "isort.stdlibs.py37"
+    ],
+    "isort.stdlibs.py35": [],
+    "isort.stdlibs.py36": [],
+    "isort.stdlibs.py37": [],
+    "isort.stdlibs.py38": [],
+    "isort.stdlibs.py39": [],
+    "isort._future": [
+      "dataclasses",
+      "sys",
+      "isort._future._dataclasses"
+    ],
+    "isort._future._dataclasses": [
+      "sys",
+      "types",
+      "keyword",
+      "copy",
+      "inspect",
+      "re"
+    ],
+    "isort._vendored.toml": [
+      "isort._vendored.toml.encoder",
+      "isort._vendored.toml",
+      "isort._vendored.toml.decoder"
+    ],
+    "isort._vendored.toml.decoder": [
+      "datetime",
+      "sys",
+      "io",
+      "os.path",
+      "pathlib",
+      "warnings",
+      "re",
+      "isort._vendored.toml.tz",
+      "os"
+    ],
+    "isort._vendored.toml.tz": [
+      "datetime"
+    ],
+    "isort._vendored.toml.encoder": [
+      "sys",
+      "isort._vendored.toml.decoder",
+      "numpy",
+      "toml",
+      "pathlib",
+      "re",
+      "decimal",
+      "toml.decoder",
+      "datetime"
+    ],
+    "toml": [],
+    "toml.decoder": [],
+    "isort.exceptions": [
+      "isort.profiles",
+      "typing",
+      "pathlib"
+    ],
+    "isort.profiles": [
+      "typing"
+    ],
+    "isort.sections": [
+      "typing"
+    ],
+    "isort.wrap_modes": [
+      "inspect",
+      "typing",
+      "enum",
+      "isort.comments"
+    ],
+    "isort.comments": [
+      "typing"
+    ],
+    "isort._version": [],
+    "isort.api": [
+      "sys",
+      "isort.core",
+      "typing",
+      "isort.files",
+      "isort.place",
+      "io",
+      "isort.identify",
+      "itertools",
+      "pathlib",
+      "warnings",
+      "isort.io",
+      "enum",
+      "shutil"
+    ],
+    "isort.core": [
+      "isort.literal",
+      "isort.settings",
+      "typing",
+      "isort.output",
+      "isort.parse",
+      "io",
+      "itertools",
+      "textwrap"
+    ],
+    "isort.literal": [
+      "isort.settings",
+      "typing",
+      "ast",
+      "pprint",
+      "isort.exceptions"
+    ],
+    "isort.parse": [
+      "mypy_extensions",
+      "typing",
+      "isort.place",
+      "isort.deprecated.finders",
+      "isort.deprecated",
+      "itertools",
+      "isort.comments",
+      "warnings",
+      "collections",
+      "functools"
+    ],
+    "isort.place": [
+      "isort.settings",
+      "typing",
+      "functools",
+      "isort.sections",
+      "isort.utils",
+      "pathlib",
+      "fnmatch",
+      "importlib"
+    ],
+    "isort.utils": [
+      "sys",
+      "os"
+    ],
+    "isort.deprecated": [],
+    "isort.deprecated.finders": [
+      "isort.settings",
+      "sys",
+      "typing",
+      "importlib.machinery",
+      "abc",
+      "glob",
+      "functools",
+      "isort.sections",
+      "isort.utils",
+      "sysconfig",
+      "os.path",
+      "contextlib",
+      "inspect",
+      "pathlib",
+      "re",
+      "fnmatch",
+      "os"
+    ],
+    "mypy_extensions": [],
+    "isort.files": [
+      "isort.settings",
+      "typing",
+      "pathlib",
+      "warnings",
+      "os"
+    ],
+    "isort.identify": [
+      "functools",
+      "isort.parse",
+      "typing",
+      "pathlib"
+    ],
+    "isort.io": [
+      "typing",
+      "tokenize",
+      "isort._future",
+      "io",
+      "isort.exceptions",
+      "contextlib",
+      "pathlib",
+      "re"
+    ],
+    "isort.sorting": [
+      "re",
+      "typing"
+    ],
+    "isort.wrap": [
+      "re",
+      "copy",
+      "typing"
+    ],
+    "isort.hooks": [
+      "typing",
+      "isort.exceptions",
+      "subprocess",
+      "os",
+      "pathlib",
+      "isort.api",
+      "isort"
+    ],
+    "isort.logo": [
+      "isort._version",
+      "isort"
+    ],
+    "isort.main": [
+      "sys",
+      "gettext",
+      "isort.format",
+      "isort.sections",
+      "pathlib",
+      "isort.setuptools_commands",
+      "isort.logo",
+      "isort.files",
+      "isort.exceptions",
+      "argparse",
+      "multiprocessing",
+      "warnings",
+      "os",
+      "isort.settings",
+      "isort.profiles",
+      "typing",
+      "json",
+      "isort",
+      "io",
+      "isort.api",
+      "functools"
+    ],
+    "isort.setuptools_commands": [
+      "sys",
+      "typing",
+      "glob",
+      "setuptools",
+      "isort.api",
+      "warnings",
+      "os"
+    ],
+    "setuptools": [],
+    "isort.pylama_isort": [
+      "sys",
+      "typing",
+      "isort.exceptions",
+      "contextlib",
+      "os",
+      "isort.api",
+      "isort"
+    ],
+    "isort.__main__": [
+      "isort.main",
+      "isort"
+    ],
+    "isort._vendored.toml.ordered": [
+      "collections"
+    ]
+  }
+}

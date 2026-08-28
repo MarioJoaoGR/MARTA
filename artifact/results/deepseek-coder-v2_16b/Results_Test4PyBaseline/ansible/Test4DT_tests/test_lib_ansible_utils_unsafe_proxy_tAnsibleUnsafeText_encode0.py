@@ -1,0 +1,15 @@
+# Module: ansible.utils.unsafe_proxy
+import pytest
+from ansible.utils.unsafe_proxy import AnsibleUnsafeText, AnsibleUnsafeBytes
+
+# Assuming the class definition and method implementation are correct as per the provided documentation
+
+def test_ansibleunsafetext_encode():
+    # Instantiating an instance of AnsibleUnsafeText (assuming it's part of a larger class definition)
+    unsafe_text_instance = AnsibleUnsafeText()
+    
+    # Calling the encode method on the assumed instance
+    encoded_data = unsafe_text_instance.encode()
+    
+    # Asserting that the returned value is an instance of AnsibleUnsafeBytes
+    assert isinstance(encoded_data, AnsibleUnsafeBytes), "Expected return type does not match"

@@ -1,0 +1,65 @@
+
+import pytest
+from unittest.mock import patch, MagicMock
+from lib.ansible.module_utils.compat.version import Version, StrictVersion, LooseVersion, SemanticVersion
+
+# Test for StrictVersion class with valid version string
+def test_strict_version_valid():
+    with patch('lib.ansible.module_utils.compat.version.StrictVersion', autospec=True) as mock_strict:
+        mock_strict.side_effect = lambda vstring: Version(vstring)
+        v1 = StrictVersion('0.5a1')
+        assert str(v1) == '0.5a1'
+
+# Test for StrictVersion class with invalid version string
+def test_strict_version_invalid():
+    with pytest.raises(ValueError):
+        StrictVersion('invalid-version')
+
+# Test for LooseVersion class with valid version string
+def test_loose_version_valid():
+    with patch('lib.ansible.module_utils.compat.version.LooseVersion', autospec=True) as mock_loose:
+        mock_loose.side_effect = lambda vstring: Version(vstring)
+        v1 = LooseVersion("1.5.2b2")
+        assert str(v1) == '1.5.2b2'
+
+# Test for SemanticVersion class with valid version string
+def test_semantic_version_valid():
+    with patch('lib.ansible.module_utils.compat.version.SemanticVersion', autospec=True) as mock_semver:
+        mock_semver.side_effect = lambda vstring: Version(vstring)
+        v1 = SemanticVersion('2.0.0-alpha')
+        assert str(v1) == '2.0.0-alpha'
+
+# Test for SemanticVersion class with individual components
+def test_semantic_version_components():
+    with patch('lib.ansible.module_utils.compat.version.SemanticVersion', autospec=True) as mock_semver:
+        mock_semver.side_effect = lambda major, minor, patch, prerelease, buildmetadata: Version(f"{major}.{minor}.{patch}-{prerelease}+{buildmetadata}")
+        v1 = SemanticVersion(major=2, minor=0, patch=0, prerelease=('alpha',), buildmetadata=('meta',))
+        assert str(v1) == '2.0.0-alpha+meta'
+
+"""
+[TEST4PY QUARANTINE REPORT]
+Reason: Test failed assertions or crashed.
+Error Log:
+============================= test session starts ==============================
+platform linux -- Python 3.10.20, pytest-8.3.2, pluggy-1.6.0
+rootdir: /opt/marta/baselines/Results_MARTA/ansible/Test4DT_tests_deepseek-coder-v2_16b
+plugins: metadata-3.1.1, json-report-1.5.0, anyio-4.12.1
+collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+_ ERROR collecting test_lib_ansible_module_utils_compat_version_Version___ge___0.py _
+ImportError while importing test module '/opt/marta/baselines/Results_MARTA/ansible/Test4DT_tests_deepseek-coder-v2_16b/test_lib_ansible_module_utils_compat_version_Version___ge___0.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/conda/envs/test4py_env/lib/python3.10/importlib/__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+/opt/marta/baselines/Results_MARTA/ansible/Test4DT_tests_deepseek-coder-v2_16b/test_lib_ansible_module_utils_compat_version_Version___ge___0.py:4: in <module>
+    from lib.ansible.module_utils.compat.version import Version, StrictVersion, LooseVersion, SemanticVersion
+E   ImportError: cannot import name 'SemanticVersion' from 'lib.ansible.module_utils.compat.version' (/opt/marta/baselines/codamosa/replication/test-apps/ansible/lib/ansible/module_utils/compat/version.py)
+--------------------------------- JSON report ----------------------------------
+report saved to: pytest_report_deepseek-coder-v2_16b.json
+=========================== short test summary info ============================
+ERROR ../../../../../opt/marta/baselines/Results_MARTA/ansible/Test4DT_tests_deepseek-coder-v2_16b/test_lib_ansible_module_utils_compat_version_Version___ge___0.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 0.37s ===============================
+"""

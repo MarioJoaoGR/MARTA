@@ -1,0 +1,1842 @@
+{
+  "cg_output": {
+    "pytutils.files": [],
+    "pytutils.files.islurp": [
+      {
+        "dest": "os.path.expanduser",
+        "line_no": 32
+      },
+      {
+        "dest": "os.path.expandvars",
+        "line_no": 34
+      },
+      {
+        "dest": "<builtin>.open",
+        "line_no": 36
+      },
+      {
+        "dest": "functools.partial",
+        "line_no": 37
+      },
+      {
+        "dest": "sys.stdin.close",
+        "line_no": 46
+      }
+    ],
+    "os.path.expanduser": [],
+    "os.path.expandvars": [],
+    "<builtin>.open": [],
+    "functools.partial": [],
+    "sys.stdin.close": [],
+    "pytutils.files.burp": [
+      {
+        "dest": "sys.stdout.write",
+        "line_no": 60
+      },
+      {
+        "dest": "os.path.expanduser",
+        "line_no": 63
+      },
+      {
+        "dest": "os.path.expandvars",
+        "line_no": 65
+      },
+      {
+        "dest": "<builtin>.open",
+        "line_no": 67
+      }
+    ],
+    "sys.stdout.write": [],
+    "pytutils.props": [],
+    "pytutils.props.roclassproperty.__init__": [],
+    "pytutils.props.roclassproperty.__get__": [],
+    "pytutils.props.setterproperty.__init__": [],
+    "pytutils.props.setterproperty.__set__": [],
+    "pytutils.props.lazyperclassproperty": [
+      {
+        "dest": "pytutils.props.roclassproperty",
+        "line_no": 31
+      }
+    ],
+    "pytutils.props.roclassproperty": [],
+    "pytutils.props.lazyperclassproperty._lazyclassprop": [
+      {
+        "dest": "<builtin>.hasattr",
+        "line_no": 33
+      },
+      {
+        "dest": "<builtin>.setattr",
+        "line_no": 34
+      },
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 35
+      }
+    ],
+    "<builtin>.hasattr": [],
+    "<builtin>.setattr": [],
+    "<builtin>.getattr": [],
+    "pytutils.props.lazyclassproperty": [
+      {
+        "dest": "pytutils.props.roclassproperty",
+        "line_no": 47
+      }
+    ],
+    "pytutils.props.lazyclassproperty._lazyclassprop": [
+      {
+        "dest": "<builtin>.hasattr",
+        "line_no": 48
+      },
+      {
+        "dest": "<builtin>.setattr",
+        "line_no": 49
+      },
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 50
+      }
+    ],
+    "pytutils": [],
+    "pytutils.timers": [
+      {
+        "dest": "logging.getLogger",
+        "line_no": 4
+      }
+    ],
+    "logging.getLogger": [],
+    "pytutils.timers.Timer.__init__": [],
+    "pytutils.timers.Timer.__repr__": [],
+    "pytutils.timers.Timer.__enter__": [
+      {
+        "dest": "time.time",
+        "line_no": 20
+      }
+    ],
+    "time.time": [],
+    "pytutils.timers.Timer.__exit__": [
+      {
+        "dest": "time.time",
+        "line_no": 24
+      }
+    ],
+    "pytutils.memo": [],
+    "pytutils.memo.CachedException.__init__": [],
+    "pytutils.memo.CachedException.throw": [],
+    "pytutils.memo.cachedmethod": [
+      {
+        "dest": "<builtin>.callable",
+        "line_no": 28
+      }
+    ],
+    "<builtin>.callable": [],
+    "pytutils.memo.cachedmethod.decorator": [
+      {
+        "dest": "functools.partial",
+        "line_no": 39
+      }
+    ],
+    "pytutils.memo.cachedmethod.decorator.wrapper": [
+      {
+        "dest": "pytutils.memo.CachedException.__init__",
+        "line_no": 63
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 75
+      },
+      {
+        "dest": "pytutils.memo.CachedException.__init__",
+        "line_no": 76
+      }
+    ],
+    "<builtin>.isinstance": [],
+    "pytutils.memo.cachedmethod.decorator.getter": [],
+    "pytutils.memo.lazyproperty": [],
+    "pytutils.memo.lazyproperty._lazyprop": [
+      {
+        "dest": "<builtin>.hasattr",
+        "line_no": 99
+      },
+      {
+        "dest": "<builtin>.setattr",
+        "line_no": 100
+      },
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 101
+      }
+    ],
+    "pytutils.log": [
+      {
+        "dest": "<builtin>.dict",
+        "line_no": 74
+      },
+      {
+        "dest": "<builtin>.dict",
+        "line_no": 37
+      },
+      {
+        "dest": "contextlib.contextmanager",
+        "line_no": 163
+      }
+    ],
+    "pytutils.log._namespace_from_calling_context": [
+      {
+        "dest": "inspect.stack",
+        "line_no": 34
+      }
+    ],
+    "inspect.stack": [],
+    "<builtin>.dict": [],
+    "pytutils.log.configure": [
+      {
+        "dest": "pytutils.log.get_config",
+        "line_no": 89
+      },
+      {
+        "dest": "logging.config.dictConfig",
+        "line_no": 92
+      },
+      {
+        "dest": "logging.basicConfig",
+        "line_no": 95
+      }
+    ],
+    "pytutils.log.get_config": [
+      {
+        "dest": "os.environ.get",
+        "line_no": 104
+      },
+      {
+        "dest": "<builtin>.ValueError",
+        "line_no": 110
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 112
+      },
+      {
+        "dest": "json.loads",
+        "line_no": 116
+      },
+      {
+        "dest": "yaml.load",
+        "line_no": 121
+      },
+      {
+        "dest": "<builtin>.ValueError",
+        "line_no": 123
+      }
+    ],
+    "logging.config.dictConfig": [],
+    "logging.basicConfig": [],
+    "os.environ.get": [],
+    "<builtin>.ValueError": [],
+    "json.loads": [],
+    "yaml.load": [],
+    "pytutils.log._ensure_configured": [
+      {
+        "dest": "pytutils.log.configure",
+        "line_no": 138
+      }
+    ],
+    "pytutils.log.get_logger": [
+      {
+        "dest": "pytutils.log._ensure_configured",
+        "line_no": 150
+      },
+      {
+        "dest": "pytutils.log._namespace_from_calling_context",
+        "line_no": 153
+      },
+      {
+        "dest": "logging.getLogger",
+        "line_no": 155
+      }
+    ],
+    "contextlib.contextmanager": [],
+    "pytutils.log.logger_level": [],
+    "pytutils.sets": [],
+    "pytutils.sets.MetaSet.<lambda1>": [
+      {
+        "dest": "random.randint",
+        "line_no": 22
+      }
+    ],
+    "random.randint": [],
+    "attr.ib": [],
+    "pytutils.sets.MetaSet": [
+      {
+        "dest": "attr.ib",
+        "line_no": 22
+      },
+      {
+        "dest": "attr.ib",
+        "line_no": 24
+      },
+      {
+        "dest": "attr.ib",
+        "line_no": 25
+      },
+      {
+        "dest": "attr.ib",
+        "line_no": 27
+      }
+    ],
+    "pytutils.sets.MetaSet.__attrs_post_init__": [
+      {
+        "dest": "pytutils.sets.MetaSet.update",
+        "line_no": 31
+      },
+      {
+        "dest": "<builtin>.delattr",
+        "line_no": 32
+      }
+    ],
+    "pytutils.sets.MetaSet.update": [
+      {
+        "dest": "<builtin>.map",
+        "line_no": 54
+      },
+      {
+        "dest": "pytutils.iters.consume",
+        "line_no": 54
+      }
+    ],
+    "<builtin>.delattr": [],
+    "pytutils.sets.MetaSet.__contains__": [],
+    "pytutils.sets.MetaSet.__iter__": [
+      {
+        "dest": "<builtin>.iter",
+        "line_no": 38
+      }
+    ],
+    "<builtin>.iter": [],
+    "pytutils.sets.MetaSet.__len__": [
+      {
+        "dest": "<builtin>.len",
+        "line_no": 41
+      }
+    ],
+    "<builtin>.len": [],
+    "pytutils.sets.MetaSet.add": [],
+    "pytutils.sets.MetaSet.discard": [],
+    "<builtin>.map": [],
+    "pytutils.iters.consume": [
+      {
+        "dest": "collections.deque",
+        "line_no": 39
+      },
+      {
+        "dest": "itertools.islice",
+        "line_no": 42
+      },
+      {
+        "dest": "<builtin>.next",
+        "line_no": 42
+      }
+    ],
+    "pytutils.sets.MetaSet._asdict": [
+      {
+        "dest": "copy.copy",
+        "line_no": 57
+      }
+    ],
+    "copy.copy": [],
+    "pytutils.sets.TimedValueSet.<lambda1>": [
+      {
+        "dest": "time.time",
+        "line_no": 62
+      }
+    ],
+    "pytutils.sets.TimedValueSet": [
+      {
+        "dest": "attr.ib",
+        "line_no": 62
+      }
+    ],
+    "pytutils.sets.TimedValueSet.added_at": [],
+    "pytutils.iters": [
+      {
+        "dest": "wrapt.decorator",
+        "line_no": 65
+      }
+    ],
+    "pytutils.iters.accumulate": [
+      {
+        "dest": "<builtin>.iter",
+        "line_no": 21
+      },
+      {
+        "dest": "<builtin>.next",
+        "line_no": 23
+      }
+    ],
+    "<builtin>.next": [],
+    "collections.deque": [],
+    "itertools.islice": [],
+    "pytutils.iters.dedupe_iter": [
+      {
+        "dest": "<builtin>.set",
+        "line_no": 53
+      }
+    ],
+    "<builtin>.set": [],
+    "wrapt.decorator": [],
+    "pytutils.iters.dedupe": [
+      {
+        "dest": "pytutils.iters.dedupe_iter",
+        "line_no": 76
+      }
+    ],
+    "pytutils.debug": [],
+    "pytutils.debug.interact": [
+      {
+        "dest": "inspect.currentframe",
+        "line_no": 7
+      },
+      {
+        "dest": "code.interact",
+        "line_no": 18
+      }
+    ],
+    "inspect.currentframe": [],
+    "code.interact": [],
+    "pytutils.queues": [],
+    "pytutils.queues.multiplex": [
+      {
+        "dest": "pytutils.queues.<lambda1>",
+        "line_no": 11
+      },
+      {
+        "dest": "<builtin>.range",
+        "line_no": 11
+      },
+      {
+        "dest": "threading.Thread",
+        "line_no": 19
+      }
+    ],
+    "pytutils.queues.<lambda1>": [],
+    "<builtin>.range": [],
+    "pytutils.queues.multiplex.f": [],
+    "threading.Thread": [],
+    "pytutils.queues.push": [],
+    "pytutils.queues.merge": [
+      {
+        "dest": "six.moves.queue.Queue",
+        "line_no": 37
+      },
+      {
+        "dest": "threading.Thread",
+        "line_no": 38
+      }
+    ],
+    "six.moves.queue.Queue": [],
+    "pytutils.excs": [
+      {
+        "dest": "contextlib.contextmanager",
+        "line_no": 5
+      }
+    ],
+    "pytutils.excs.ok": [
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 12
+      }
+    ],
+    "pytutils.rand": [],
+    "pytutils.rand.rand_hex": [
+      {
+        "dest": "random.randrange",
+        "line_no": 11
+      }
+    ],
+    "random.randrange": [],
+    "pytutils.mappings": [],
+    "pytutils.mappings.AttrDict.__init__": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 16
+      }
+    ],
+    "<builtin>.super": [],
+    "pytutils.mappings.ProxyMutableMapping.__init__": [
+      {
+        "dest": "pytutils.mappings.ProxyMutableMapping._set_mapping",
+        "line_no": 58
+      }
+    ],
+    "pytutils.mappings.ProxyMutableMapping._set_mapping": [],
+    "pytutils.mappings.ProxyMutableMapping.__repr__": [
+      {
+        "dest": "<builtin>.dict",
+        "line_no": 62
+      },
+      {
+        "dest": "<builtin>.dict",
+        "line_no": 66
+      }
+    ],
+    "pytutils.mappings.ProxyMutableMapping.__contains__": [],
+    "pytutils.mappings.ProxyMutableMapping.__getitem__": [],
+    "pytutils.mappings.ProxyMutableMapping.__setitem__": [],
+    "pytutils.mappings.ProxyMutableMapping.__delitem__": [],
+    "pytutils.mappings.ProxyMutableMapping.__iter__": [
+      {
+        "dest": "<builtin>.iter",
+        "line_no": 86
+      }
+    ],
+    "pytutils.mappings.ProxyMutableMapping.__len__": [
+      {
+        "dest": "<builtin>.len",
+        "line_no": 89
+      }
+    ],
+    "pytutils.mappings.HookableProxyMutableMapping.__init__": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 96
+      }
+    ],
+    "pytutils.mappings.HookableProxyMutableMapping.__key_trans__": [],
+    "pytutils.mappings.HookableProxyMutableMapping.__key_allowed__": [],
+    "pytutils.mappings.HookableProxyMutableMapping.__iter__": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 105
+      },
+      {
+        "dest": "collections.MutableMapping.__key_remove_prefix__",
+        "line_no": 106
+      },
+      {
+        "dest": "pytutils.mappings.HookableProxyMutableMapping.__key_allowed__",
+        "line_no": 106
+      }
+    ],
+    "collections.MutableMapping.__key_remove_prefix__": [],
+    "pytutils.mappings.HookableProxyMutableMapping.__contains__": [
+      {
+        "dest": "pytutils.mappings.HookableProxyMutableMapping.__key_trans__",
+        "line_no": 109
+      },
+      {
+        "dest": "<builtin>.super",
+        "line_no": 110
+      }
+    ],
+    "pytutils.mappings.HookableProxyMutableMapping.__getitem__": [
+      {
+        "dest": "pytutils.mappings.HookableProxyMutableMapping.__key_trans__",
+        "line_no": 113
+      },
+      {
+        "dest": "<builtin>.super",
+        "line_no": 114
+      }
+    ],
+    "pytutils.mappings.HookableProxyMutableMapping.__setitem__": [
+      {
+        "dest": "pytutils.mappings.HookableProxyMutableMapping.__key_trans__",
+        "line_no": 117
+      },
+      {
+        "dest": "<builtin>.super",
+        "line_no": 118
+      }
+    ],
+    "pytutils.mappings.HookableProxyMutableMapping.__delitem__": [
+      {
+        "dest": "pytutils.mappings.HookableProxyMutableMapping.__key_trans__",
+        "line_no": 121
+      },
+      {
+        "dest": "<builtin>.super",
+        "line_no": 122
+      }
+    ],
+    "pytutils.mappings.PrefixedProxyMutableMapping.__init__": [
+      {
+        "dest": "<builtin>.len",
+        "line_no": 134
+      },
+      {
+        "dest": "<builtin>.super",
+        "line_no": 137
+      }
+    ],
+    "pytutils.mappings.PrefixedProxyMutableMapping.__key_trans__": [
+      {
+        "dest": "pytutils.mappings.PrefixedProxyMutableMapping.__key_remove_prefix__",
+        "line_no": 145
+      },
+      {
+        "dest": "pytutils.mappings.PrefixedProxyMutableMapping.__key_add_prefix__",
+        "line_no": 146
+      }
+    ],
+    "pytutils.mappings.PrefixedProxyMutableMapping.__key_remove_prefix__": [],
+    "pytutils.mappings.PrefixedProxyMutableMapping.__key_add_prefix__": [],
+    "pytutils.mappings.PrefixedProxyMutableMapping.__key_allowed__": [
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 150
+      }
+    ],
+    "pytutils.mappings.MultiDict.__setitem__": [
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 169
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 171
+      }
+    ],
+    "<builtin>.str": [],
+    "pytutils.mappings.format_dict_recursively": [
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 224
+      },
+      {
+        "dest": "re.findall",
+        "line_no": 227
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 231
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 231
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 232
+      },
+      {
+        "dest": "<builtin>.set",
+        "line_no": 233
+      },
+      {
+        "dest": "<builtin>.set",
+        "line_no": 234
+      },
+      {
+        "dest": "<builtin>.any",
+        "line_no": 238
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 247
+      },
+      {
+        "dest": "<builtin>.ValueError",
+        "line_no": 255
+      }
+    ],
+    "re.findall": [],
+    "<builtin>.any": [],
+    "pytutils.mappings.ProxyMutableAttrDict.__init__": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 307
+      }
+    ],
+    "pytutils.mappings.ProxyMutableAttrDict": [
+      {
+        "dest": "pytutils.props.roclassproperty",
+        "line_no": 310
+      }
+    ],
+    "pytutils.mappings.ProxyMutableAttrDict._wrap_as": [],
+    "pytutils.mappings.ProxyMutableAttrDict.__getattr__": [
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 318
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 318
+      },
+      {
+        "dest": "collections.MutableMapping.__class__",
+        "line_no": 319
+      },
+      {
+        "dest": "<builtin>.AttributeError",
+        "line_no": 324
+      }
+    ],
+    "collections.MutableMapping.__class__": [],
+    "<builtin>.AttributeError": [],
+    "pytutils.mappings.ProxyMutableAttrDict.__setattr__": [
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 328
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 328
+      },
+      {
+        "dest": "collections.MutableMapping.__class__",
+        "line_no": 329
+      },
+      {
+        "dest": "<builtin>.AttributeError",
+        "line_no": 335
+      },
+      {
+        "dest": "<builtin>.super",
+        "line_no": 337
+      }
+    ],
+    "pytutils.mappings.ProcessLocal.__init__": [
+      {
+        "dest": "pytutils.mappings.ProcessLocal._handle_pid",
+        "line_no": 366
+      },
+      {
+        "dest": "<builtin>.super",
+        "line_no": 368
+      }
+    ],
+    "pytutils.mappings.ProcessLocal._handle_pid": [
+      {
+        "dest": "<builtin>.callable",
+        "line_no": 379
+      },
+      {
+        "dest": "pytutils.mappings.ProxyMutableMapping._set_mapping",
+        "line_no": 384
+      }
+    ],
+    "pytutils.mappings.ProcessLocal.__key_trans__": [
+      {
+        "dest": "pytutils.mappings.ProcessLocal._handle_pid",
+        "line_no": 375
+      }
+    ],
+    "pytutils.mappings.LastUpdatedOrderedDict.__setitem__": [
+      {
+        "dest": "collections.OrderedDict.__setitem__",
+        "line_no": 398
+      }
+    ],
+    "collections.OrderedDict.__setitem__": [],
+    "pytutils.mappings.OrderedCounter.__repr__": [
+      {
+        "dest": "collections.OrderedDict",
+        "line_no": 410
+      }
+    ],
+    "collections.OrderedDict": [],
+    "pytutils.mappings.OrderedCounter.__reduce__": [
+      {
+        "dest": "collections.OrderedDict",
+        "line_no": 413
+      }
+    ],
+    "pytutils.meth": [],
+    "pytutils.meth.bind": [
+      {
+        "dest": "<builtin>.setattr",
+        "line_no": 20
+      }
+    ],
+    "pytutils.pretty": [
+      {
+        "dest": "pygments.styles.get_style_by_name",
+        "line_no": 16
+      },
+      {
+        "dest": "pygments.formatters.get_formatter_by_name",
+        "line_no": 17
+      },
+      {
+        "dest": "pygments.lexers.get_lexer_by_name",
+        "line_no": 18
+      },
+      {
+        "dest": "warnings.warn",
+        "line_no": 21
+      }
+    ],
+    "pygments.styles.get_style_by_name": [],
+    "pygments.formatters.get_formatter_by_name": [],
+    "pygments.lexers.get_lexer_by_name": [],
+    "warnings.warn": [],
+    "pytutils.pretty.pf": [
+      {
+        "dest": "pprint.pformat",
+        "line_no": 34
+      },
+      {
+        "dest": "pygments.highlight",
+        "line_no": 38
+      }
+    ],
+    "pprint.pformat": [],
+    "pygments.highlight": [],
+    "pytutils.pretty.pp": [
+      {
+        "dest": "pprint.pformat",
+        "line_no": 50
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 54
+      },
+      {
+        "dest": "<builtin>.open",
+        "line_no": 56
+      },
+      {
+        "dest": "pygments.highlight",
+        "line_no": 62
+      }
+    ],
+    "pytutils.path": [],
+    "pytutils.path.join_each": [
+      {
+        "dest": "os.path.join",
+        "line_no": 6
+      }
+    ],
+    "os.path.join": [],
+    "pytutils.python": [],
+    "sys.platform.startswith": [],
+    "pytutils.python.PyInfo": [
+      {
+        "dest": "sys.platform.startswith",
+        "line_no": 24
+      },
+      {
+        "dest": "<builtin>.int",
+        "line_no": 26
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 35
+      },
+      {
+        "dest": "<builtin>.int",
+        "line_no": 38
+      },
+      {
+        "dest": "<builtin>.int",
+        "line_no": 41
+      }
+    ],
+    "<builtin>.int": [],
+    "pytutils.python.PyInfo.X.__len__": [],
+    "pytutils.tlds": [
+      {
+        "dest": "cachetools.cachedmethod",
+        "line_no": 10
+      }
+    ],
+    "pytutils.tlds.<lambda1>": [
+      {
+        "dest": "cachetools.TTLCache",
+        "line_no": 6
+      }
+    ],
+    "cachetools.TTLCache": [],
+    "cachetools.cachedmethod": [],
+    "pytutils.tlds.split_domain_into_subdomains": [
+      {
+        "dest": "pytutils.pythree.ensure_decoded_text",
+        "line_no": 22
+      },
+      {
+        "dest": "tldextract.TLDExtract",
+        "line_no": 27
+      },
+      {
+        "dest": "pytutils.iters.accumulate",
+        "line_no": 53
+      },
+      {
+        "dest": "<builtin>.list",
+        "line_no": 53
+      }
+    ],
+    "pytutils.pythree.ensure_decoded_text": [
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 31
+      }
+    ],
+    "tldextract.TLDExtract": [],
+    "pytutils.tlds.split_domain_into_subdomains.join_dom": [],
+    "<builtin>.list": [],
+    "pytutils.pythree": [],
+    "pytutils.pythree.ensure_encoded_bytes": [
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 13
+      }
+    ],
+    "pytutils.urls": [],
+    "pytutils.urls.update_query_params": [
+      {
+        "dest": "urllib.parse.urlsplit",
+        "line_no": 23
+      },
+      {
+        "dest": "urlparse.urlsplit",
+        "line_no": 23
+      },
+      {
+        "dest": "urllib.parse.parse_qs",
+        "line_no": 25
+      },
+      {
+        "dest": "urlparse.parse_qs",
+        "line_no": 25
+      },
+      {
+        "dest": "urllib.urlencode",
+        "line_no": 28
+      },
+      {
+        "dest": "urlparse.urlencode",
+        "line_no": 28
+      },
+      {
+        "dest": "urllib.parse.urlencode",
+        "line_no": 28
+      },
+      {
+        "dest": "urllib.parse.urlunsplit",
+        "line_no": 30
+      },
+      {
+        "dest": "urlparse.urlunsplit",
+        "line_no": 30
+      }
+    ],
+    "urllib.parse.urlsplit": [],
+    "urlparse.urlsplit": [],
+    "urllib.parse.parse_qs": [],
+    "urlparse.parse_qs": [],
+    "urllib.urlencode": [],
+    "urlparse.urlencode": [],
+    "urllib.parse.urlencode": [],
+    "urllib.parse.urlunsplit": [],
+    "urlparse.urlunsplit": [],
+    "pytutils.env": [],
+    "pytutils.env.expand": [
+      {
+        "dest": "os.path.expandvars",
+        "line_no": 8
+      },
+      {
+        "dest": "os.path.expanduser",
+        "line_no": 9
+      }
+    ],
+    "pytutils.env.parse_env_file_contents": [
+      {
+        "dest": "re.match",
+        "line_no": 28
+      },
+      {
+        "dest": "re.match",
+        "line_no": 33
+      },
+      {
+        "dest": "re.match",
+        "line_no": 37
+      },
+      {
+        "dest": "re.sub",
+        "line_no": 39
+      }
+    ],
+    "re.match": [],
+    "re.sub": [],
+    "pytutils.env.load_env_file": [
+      {
+        "dest": "pytutils.env.parse_env_file_contents",
+        "line_no": 55
+      },
+      {
+        "dest": "collections.OrderedDict",
+        "line_no": 57
+      },
+      {
+        "dest": "pytutils.env.expand",
+        "line_no": 60
+      }
+    ],
+    "pytutils.trees": [
+      {
+        "dest": "<builtin>.object",
+        "line_no": 3
+      }
+    ],
+    "<builtin>.object": [],
+    "pytutils.trees.get_tree_node": [],
+    "pytutils.trees.set_tree_node": [
+      {
+        "dest": "pytutils.trees.get_tree_node",
+        "line_no": 54
+      }
+    ],
+    "pytutils.trees.tree": [
+      {
+        "dest": "collections.defaultdict",
+        "line_no": 61
+      }
+    ],
+    "collections.defaultdict": [],
+    "pytutils.trees.Tree.__init__": [
+      {
+        "dest": "<builtin>.super",
+        "line_no": 76
+      },
+      {
+        "dest": "collections.defaultdict.update",
+        "line_no": 78
+      }
+    ],
+    "collections.defaultdict.update": [],
+    "pytutils.trees.Tree._namespace_key": [],
+    "pytutils.trees.Tree.__setitem__": [
+      {
+        "dest": "pytutils.trees.Tree._namespace_key",
+        "line_no": 88
+      },
+      {
+        "dest": "pytutils.trees.set_tree_node",
+        "line_no": 89
+      }
+    ],
+    "pytutils.trees.Tree.__getitem__": [
+      {
+        "dest": "pytutils.trees.Tree._namespace_key",
+        "line_no": 92
+      },
+      {
+        "dest": "pytutils.trees.get_tree_node",
+        "line_no": 93
+      }
+    ],
+    "pytutils.ext.rwclassproperty": [
+      {
+        "dest": "unittest.main",
+        "line_no": 167
+      }
+    ],
+    "pytutils.ext.rwclassproperty.ClassPropertyMeta.__setattr__": [
+      {
+        "dest": "<builtin>.type",
+        "line_no": 10
+      },
+      {
+        "dest": "<builtin>.super",
+        "line_no": 12
+      }
+    ],
+    "<builtin>.type": [],
+    "pytutils.ext.rwclassproperty.rwclassproperty.__init__": [
+      {
+        "dest": "pytutils.ext.rwclassproperty.rwclassproperty._fix_function",
+        "line_no": 55
+      },
+      {
+        "dest": "pytutils.ext.rwclassproperty.rwclassproperty._fix_function",
+        "line_no": 56
+      }
+    ],
+    "pytutils.ext.rwclassproperty.rwclassproperty._fix_function": [
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 78
+      },
+      {
+        "dest": "<builtin>.TypeError",
+        "line_no": 79
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 82
+      },
+      {
+        "dest": "<builtin>.classmethod",
+        "line_no": 83
+      }
+    ],
+    "pytutils.ext.rwclassproperty.rwclassproperty.__get__": [
+      {
+        "dest": "<builtin>.type",
+        "line_no": 59
+      },
+      {
+        "dest": "<builtin>.issubclass",
+        "line_no": 59
+      },
+      {
+        "dest": "<builtin>.TypeError",
+        "line_no": 60
+      }
+    ],
+    "<builtin>.issubclass": [],
+    "<builtin>.TypeError": [],
+    "pytutils.ext.rwclassproperty.rwclassproperty.__set__": [
+      {
+        "dest": "<builtin>.AttributeError",
+        "line_no": 65
+      },
+      {
+        "dest": "<builtin>.type",
+        "line_no": 66
+      },
+      {
+        "dest": "<builtin>.type",
+        "line_no": 67
+      }
+    ],
+    "pytutils.ext.rwclassproperty.rwclassproperty.setter": [
+      {
+        "dest": "pytutils.ext.rwclassproperty.rwclassproperty._fix_function",
+        "line_no": 71
+      }
+    ],
+    "pytutils.ext.rwclassproperty.rwclassproperty": [
+      {
+        "dest": "<builtin>.type",
+        "line_no": 74
+      }
+    ],
+    "<builtin>.classmethod": [],
+    "pytutils.ext.rwclassproperty.TestClassProperty.test_get_set": [
+      {
+        "dest": "unittest.mock.MagicMock",
+        "line_no": 96
+      },
+      {
+        "dest": "unittest.mock.MagicMock",
+        "line_no": 97
+      },
+      {
+        "dest": "unittest.mock.MagicMock",
+        "line_no": 98
+      },
+      {
+        "dest": "unittest.TestCase.subTest",
+        "line_no": 119
+      },
+      {
+        "dest": "unittest.TestCase.assertEqual",
+        "line_no": 124
+      },
+      {
+        "dest": "unittest.TestCase.assertEqual",
+        "line_no": 129
+      },
+      {
+        "dest": "unittest.TestCase.assertEqual",
+        "line_no": 138
+      }
+    ],
+    "unittest.mock.MagicMock": [],
+    "pytutils.ext.rwclassproperty.TestClassProperty.test_get_set.Z": [
+      {
+        "dest": "pytutils.ext.rwclassproperty.rwclassproperty",
+        "line_no": 104
+      },
+      {
+        "dest": "pytutils.ext.rwclassproperty.rwclassproperty",
+        "line_no": 109
+      }
+    ],
+    "pytutils.ext.rwclassproperty.TestClassProperty.test_get_set.Z.get_only": [],
+    "pytutils.ext.rwclassproperty.TestClassProperty.test_get_set.Z.get_set": [],
+    "unittest.TestCase.subTest": [],
+    "unittest.TestCase.assertEqual": [],
+    "pytutils.ext.rwclassproperty.TestClassProperty.test_read_only": [
+      {
+        "dest": "unittest.TestCase.assertEqual",
+        "line_no": 150
+      },
+      {
+        "dest": "unittest.TestCase.assertRaises",
+        "line_no": 151
+      }
+    ],
+    "pytutils.ext.rwclassproperty.TestClassProperty.test_read_only.Z": [
+      {
+        "dest": "pytutils.ext.rwclassproperty.rwclassproperty",
+        "line_no": 147
+      }
+    ],
+    "pytutils.ext.rwclassproperty.TestClassProperty.test_read_only.Z.get_only": [],
+    "unittest.TestCase.assertRaises": [],
+    "pytutils.ext.rwclassproperty.TestClassProperty.test_proper_metaclass": [
+      {
+        "dest": "unittest.TestCase.assertRaises",
+        "line_no": 162
+      },
+      {
+        "dest": "unittest.TestCase.assertEqual",
+        "line_no": 163
+      }
+    ],
+    "pytutils.ext.rwclassproperty.TestClassProperty.test_proper_metaclass.Z": [
+      {
+        "dest": "pytutils.ext.rwclassproperty.rwclassproperty",
+        "line_no": 159
+      }
+    ],
+    "pytutils.ext.rwclassproperty.TestClassProperty.test_proper_metaclass.Z.get_only": [],
+    "unittest.main": [],
+    "pytutils.lazy": [],
+    "pytutils.lazy.lazy_import": [],
+    "pytutils.lazy.lazy_import.IllegalUseOfScopeReplacer.__init__": [
+      {
+        "dest": "<builtin>.str",
+        "line_no": 56
+      },
+      {
+        "dest": "<builtin>.super",
+        "line_no": 60
+      }
+    ],
+    "pytutils.lazy.lazy_import.IllegalUseOfScopeReplacer._format": [
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 63
+      },
+      {
+        "dest": "pytutils.lazy.lazy_import.IllegalUseOfScopeReplacer._get_format_string",
+        "line_no": 68
+      },
+      {
+        "dest": "<builtin>.dict",
+        "line_no": 70
+      },
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 82
+      }
+    ],
+    "pytutils.lazy.lazy_import.IllegalUseOfScopeReplacer._get_format_string": [
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 110
+      },
+      {
+        "dest": "bzrlib.i18n.gettext",
+        "line_no": 113
+      }
+    ],
+    "pytutils.lazy.lazy_import.IllegalUseOfScopeReplacer.__unicode__": [
+      {
+        "dest": "pytutils.lazy.lazy_import.IllegalUseOfScopeReplacer._format",
+        "line_no": 86
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 87
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 90
+      }
+    ],
+    "pytutils.lazy.lazy_import.IllegalUseOfScopeReplacer.__str__": [
+      {
+        "dest": "pytutils.lazy.lazy_import.IllegalUseOfScopeReplacer._format",
+        "line_no": 97
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 98
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 102
+      }
+    ],
+    "pytutils.lazy.lazy_import.IllegalUseOfScopeReplacer.__repr__": [
+      {
+        "dest": "<builtin>.str",
+        "line_no": 106
+      }
+    ],
+    "bzrlib.i18n.gettext": [],
+    "pytutils.lazy.lazy_import.IllegalUseOfScopeReplacer.__eq__": [],
+    "pytutils.lazy.lazy_import.ScopeReplacer.__init__": [],
+    "pytutils.lazy.lazy_import.ScopeReplacer._resolve": [
+      {
+        "dest": "pytutils.lazy.lazy_import.IllegalUseOfScopeReplacer.__init__",
+        "line_no": 161
+      },
+      {
+        "dest": "pytutils.lazy.lazy_import.IllegalUseOfScopeReplacer.__init__",
+        "line_no": 161
+      },
+      {
+        "dest": "pytutils.lazy.lazy_import.IllegalUseOfScopeReplacer.__init__",
+        "line_no": 176
+      },
+      {
+        "dest": "pytutils.lazy.lazy_import.IllegalUseOfScopeReplacer.__init__",
+        "line_no": 176
+      }
+    ],
+    "pytutils.lazy.lazy_import.ScopeReplacer.__getattribute__": [
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 183
+      }
+    ],
+    "pytutils.lazy.lazy_import.ScopeReplacer.__setattr__": [
+      {
+        "dest": "<builtin>.setattr",
+        "line_no": 187
+      }
+    ],
+    "pytutils.lazy.lazy_import.ScopeReplacer.__call__": [],
+    "pytutils.lazy.lazy_import.disallow_proxying": [],
+    "pytutils.lazy.lazy_import.ImportReplacer.__init__": [
+      {
+        "dest": "<builtin>.ValueError",
+        "line_no": 256
+      },
+      {
+        "dest": "pytutils.lazy.lazy_import.ScopeReplacer.__init__",
+        "line_no": 265
+      }
+    ],
+    "pytutils.lazy.lazy_import.ImportReplacer._import": [
+      {
+        "dest": "<builtin>.__import__",
+        "line_no": 274
+      },
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 275
+      },
+      {
+        "dest": "<builtin>.__import__",
+        "line_no": 277
+      },
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 279
+      }
+    ],
+    "<builtin>.__import__": [],
+    "pytutils.lazy.lazy_import.ImportProcessor.__init__": [],
+    "pytutils.lazy.lazy_import.ImportProcessor.lazy_import": [
+      {
+        "dest": "pytutils.lazy.lazy_import.ImportProcessor._build_map",
+        "line_no": 317
+      },
+      {
+        "dest": "pytutils.lazy.lazy_import.ImportProcessor._convert_imports",
+        "line_no": 318
+      }
+    ],
+    "pytutils.lazy.lazy_import.ImportProcessor._build_map": [
+      {
+        "dest": "pytutils.lazy.lazy_import.ImportProcessor._canonicalize_import_text",
+        "line_no": 328
+      },
+      {
+        "dest": "pytutils.lazy.lazy_import.ImportProcessor._convert_import_str",
+        "line_no": 330
+      },
+      {
+        "dest": "pytutils.lazy.lazy_import.ImportProcessor._convert_from_str",
+        "line_no": 332
+      }
+    ],
+    "pytutils.lazy.lazy_import.ImportProcessor._convert_imports": [
+      {
+        "dest": "pytutils.lazy.lazy_import.ImportReplacer.__init__",
+        "line_no": 323
+      }
+    ],
+    "pytutils.lazy.lazy_import.ImportProcessor._canonicalize_import_text": [],
+    "pytutils.lazy.lazy_import.ImportProcessor._convert_import_str": [
+      {
+        "dest": "<builtin>.ValueError",
+        "line_no": 345
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 346
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 353
+      }
+    ],
+    "pytutils.lazy.lazy_import.ImportProcessor._convert_from_str": [
+      {
+        "dest": "<builtin>.ValueError",
+        "line_no": 391
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 392
+      },
+      {
+        "dest": "<builtin>.len",
+        "line_no": 403
+      }
+    ],
+    "pytutils.lazy.lazy_import.lazy_import": [
+      {
+        "dest": "pytutils.lazy.lazy_import.ImportProcessor.__init__",
+        "line_no": 474
+      },
+      {
+        "dest": "pytutils.lazy.lazy_import.ImportProcessor.lazy_import",
+        "line_no": 475
+      }
+    ],
+    "pytutils.lazy.lazy_regex": [
+      {
+        "dest": "<builtin>.AssertionError",
+        "line_no": 195
+      },
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 201
+      }
+    ],
+    "pytutils.lazy.lazy_regex.InvalidPattern.__init__": [],
+    "pytutils.lazy.lazy_regex.InvalidPattern._format": [
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 40
+      },
+      {
+        "dest": "pytutils.lazy.lazy_regex.InvalidPattern._get_format_string",
+        "line_no": 45
+      },
+      {
+        "dest": "<builtin>.dict",
+        "line_no": 47
+      },
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 59
+      }
+    ],
+    "pytutils.lazy.lazy_regex.InvalidPattern._get_format_string": [
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 87
+      },
+      {
+        "dest": "bzrlib.i18n.gettext",
+        "line_no": 90
+      }
+    ],
+    "pytutils.lazy.lazy_regex.InvalidPattern.__unicode__": [
+      {
+        "dest": "pytutils.lazy.lazy_regex.InvalidPattern._format",
+        "line_no": 63
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 64
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 67
+      }
+    ],
+    "pytutils.lazy.lazy_regex.InvalidPattern.__str__": [
+      {
+        "dest": "pytutils.lazy.lazy_regex.InvalidPattern._format",
+        "line_no": 74
+      },
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 75
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 79
+      }
+    ],
+    "pytutils.lazy.lazy_regex.InvalidPattern.__repr__": [
+      {
+        "dest": "<builtin>.str",
+        "line_no": 83
+      }
+    ],
+    "pytutils.lazy.lazy_regex.InvalidPattern.__eq__": [],
+    "pytutils.lazy.lazy_regex.LazyRegex.__init__": [],
+    "pytutils.lazy.lazy_regex.LazyRegex._compile_and_collapse": [
+      {
+        "dest": "pytutils.lazy.lazy_regex.LazyRegex._real_re_compile",
+        "line_no": 126
+      },
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 129
+      },
+      {
+        "dest": "<builtin>.setattr",
+        "line_no": 129
+      }
+    ],
+    "pytutils.lazy.lazy_regex.LazyRegex._real_re_compile": [
+      {
+        "dest": "pytutils.lazy.lazy_regex.LazyRegex._real_re_compile",
+        "line_no": 134
+      },
+      {
+        "dest": "<builtin>.str",
+        "line_no": 138
+      },
+      {
+        "dest": "pytutils.lazy.lazy_regex.InvalidPattern.__init__",
+        "line_no": 138
+      },
+      {
+        "dest": "pytutils.lazy.lazy_regex.InvalidPattern.__init__",
+        "line_no": 138
+      }
+    ],
+    "pytutils.lazy.lazy_regex.LazyRegex.__getstate__": [],
+    "pytutils.lazy.lazy_regex.LazyRegex.__setstate__": [
+      {
+        "dest": "<builtin>.setattr",
+        "line_no": 150
+      },
+      {
+        "dest": "<builtin>.setattr",
+        "line_no": 151
+      }
+    ],
+    "pytutils.lazy.lazy_regex.LazyRegex.__getattr__": [
+      {
+        "dest": "pytutils.lazy.lazy_regex.LazyRegex._compile_and_collapse",
+        "line_no": 159
+      },
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 162
+      }
+    ],
+    "pytutils.lazy.lazy_regex.lazy_compile": [
+      {
+        "dest": "pytutils.lazy.lazy_regex.LazyRegex.__init__",
+        "line_no": 170
+      }
+    ],
+    "pytutils.lazy.lazy_regex.install_lazy_compile": [],
+    "pytutils.lazy.lazy_regex.reset_compile": [],
+    "<builtin>.AssertionError": [],
+    "pytutils.lazy.lazy_regex.finditer_public": [
+      {
+        "dest": "<builtin>.isinstance",
+        "line_no": 203
+      },
+      {
+        "dest": "re.compile",
+        "line_no": 206
+      }
+    ],
+    "re.compile": [],
+    "pytutils.lazy.simple_import": [],
+    "pytutils.lazy.simple_import.NonLocal.__init__": [],
+    "pytutils.lazy.simple_import.make_lazy": [
+      {
+        "dest": "pytutils.lazy.simple_import.NonLocal.__init__",
+        "line_no": 32
+      }
+    ],
+    "pytutils.lazy.simple_import.make_lazy.LazyModule.__mro__": [],
+    "pytutils.lazy.simple_import.make_lazy.LazyModule.__getattribute__": [
+      {
+        "dest": "<builtin>.__import__",
+        "line_no": 55
+      },
+      {
+        "dest": "<builtin>.__import__",
+        "line_no": 57
+      },
+      {
+        "dest": "<builtin>.getattr",
+        "line_no": 59
+      }
+    ]
+  },
+  "class_mro": {
+    "pytutils.props.roclassproperty": [
+      "pytutils.props.roclassproperty"
+    ],
+    "pytutils.props.setterproperty": [
+      "pytutils.props.setterproperty"
+    ],
+    "pytutils.timers.Timer": [
+      "pytutils.timers.Timer"
+    ],
+    "pytutils.memo.CachedException": [
+      "pytutils.memo.CachedException"
+    ],
+    "pytutils.log._PyInfo": [
+      "pytutils.log._PyInfo"
+    ],
+    "pytutils.sets.MetaSet": [
+      "pytutils.sets.MetaSet",
+      "collections.MutableSet",
+      "collections.abc.MutableSet"
+    ],
+    "pytutils.sets.TimedValueSet": [
+      "pytutils.sets.TimedValueSet",
+      "pytutils.sets.MetaSet",
+      "collections.MutableSet",
+      "collections.abc.MutableSet"
+    ],
+    "pytutils.mappings.AttrDict": [
+      "pytutils.mappings.AttrDict"
+    ],
+    "pytutils.mappings.ProxyMutableMapping": [
+      "pytutils.mappings.ProxyMutableMapping",
+      "collections.MutableMapping"
+    ],
+    "pytutils.mappings.HookableProxyMutableMapping": [
+      "pytutils.mappings.HookableProxyMutableMapping",
+      "pytutils.mappings.ProxyMutableMapping",
+      "collections.MutableMapping"
+    ],
+    "pytutils.mappings.PrefixedProxyMutableMapping": [
+      "pytutils.mappings.PrefixedProxyMutableMapping",
+      "pytutils.mappings.HookableProxyMutableMapping",
+      "pytutils.mappings.ProxyMutableMapping",
+      "collections.MutableMapping"
+    ],
+    "pytutils.mappings.MultiDict": [
+      "pytutils.mappings.MultiDict",
+      "collections.OrderedDict"
+    ],
+    "pytutils.mappings.ProxyMutableAttrDict": [
+      "pytutils.mappings.ProxyMutableAttrDict",
+      "pytutils.mappings.ProxyMutableMapping",
+      "collections.MutableMapping"
+    ],
+    "pytutils.mappings.ProcessLocal": [
+      "pytutils.mappings.ProcessLocal",
+      "pytutils.mappings.HookableProxyMutableMapping",
+      "pytutils.mappings.ProxyMutableMapping",
+      "collections.MutableMapping"
+    ],
+    "pytutils.mappings.LastUpdatedOrderedDict": [
+      "pytutils.mappings.LastUpdatedOrderedDict",
+      "collections.OrderedDict"
+    ],
+    "pytutils.mappings.OrderedCounter": [
+      "pytutils.mappings.OrderedCounter",
+      "collections.Counter",
+      "collections.OrderedDict"
+    ],
+    "pytutils.python.PyInfo": [
+      "pytutils.python.PyInfo"
+    ],
+    "pytutils.python.PyInfo.X": [
+      "pytutils.python.PyInfo.X"
+    ],
+    "pytutils.trees.Tree": [
+      "pytutils.trees.Tree",
+      "collections.defaultdict"
+    ],
+    "pytutils.trees.RegistryTree": [
+      "pytutils.trees.RegistryTree",
+      "pytutils.trees.Tree",
+      "collections.defaultdict"
+    ],
+    "pytutils.ext.rwclassproperty.ClassPropertyMeta": [
+      "pytutils.ext.rwclassproperty.ClassPropertyMeta"
+    ],
+    "pytutils.ext.rwclassproperty.rwclassproperty": [
+      "pytutils.ext.rwclassproperty.rwclassproperty"
+    ],
+    "pytutils.ext.rwclassproperty.TestClassProperty": [
+      "pytutils.ext.rwclassproperty.TestClassProperty",
+      "unittest.TestCase"
+    ],
+    "pytutils.ext.rwclassproperty.TestClassProperty.test_get_set.Z": [
+      "pytutils.ext.rwclassproperty.TestClassProperty.test_get_set.Z"
+    ],
+    "pytutils.ext.rwclassproperty.TestClassProperty.test_read_only.Z": [
+      "pytutils.ext.rwclassproperty.TestClassProperty.test_read_only.Z"
+    ],
+    "pytutils.ext.rwclassproperty.TestClassProperty.test_proper_metaclass.Z": [
+      "pytutils.ext.rwclassproperty.TestClassProperty.test_proper_metaclass.Z"
+    ],
+    "pytutils.lazy.lazy_import.IllegalUseOfScopeReplacer": [
+      "pytutils.lazy.lazy_import.IllegalUseOfScopeReplacer"
+    ],
+    "pytutils.lazy.lazy_import.ScopeReplacer": [
+      "pytutils.lazy.lazy_import.ScopeReplacer"
+    ],
+    "pytutils.lazy.lazy_import.ImportReplacer": [
+      "pytutils.lazy.lazy_import.ImportReplacer",
+      "pytutils.lazy.lazy_import.ScopeReplacer"
+    ],
+    "pytutils.lazy.lazy_import.ImportProcessor": [
+      "pytutils.lazy.lazy_import.ImportProcessor"
+    ],
+    "pytutils.lazy.lazy_regex.InvalidPattern": [
+      "pytutils.lazy.lazy_regex.InvalidPattern"
+    ],
+    "pytutils.lazy.lazy_regex.LazyRegex": [
+      "pytutils.lazy.lazy_regex.LazyRegex"
+    ],
+    "pytutils.lazy.simple_import._LazyModuleMarker": [
+      "pytutils.lazy.simple_import._LazyModuleMarker"
+    ],
+    "pytutils.lazy.simple_import.NonLocal": [
+      "pytutils.lazy.simple_import.NonLocal"
+    ],
+    "pytutils.lazy.simple_import.make_lazy.LazyModule": [
+      "pytutils.lazy.simple_import.make_lazy.LazyModule",
+      "pytutils.lazy.simple_import._LazyModuleMarker"
+    ]
+  },
+  "imports": {
+    "pytutils.files": [
+      "functools",
+      "sys",
+      "os"
+    ],
+    "pytutils.props": [],
+    "pytutils": [],
+    "pytutils.timers": [
+      "logging",
+      "time"
+    ],
+    "pytutils.memo": [
+      "functools",
+      "pytutils",
+      "cachetools",
+      "pytutils.props"
+    ],
+    "cachetools": [],
+    "pytutils.log": [
+      "sys",
+      "logging.config",
+      "contextlib",
+      "os",
+      "yaml",
+      "logging",
+      "inspect",
+      "json"
+    ],
+    "logging.config": [],
+    "pytutils.sets": [
+      "pytutils",
+      "collections.abc",
+      "time",
+      "copy",
+      "collections",
+      "pytutils.iters",
+      "random",
+      "attr"
+    ],
+    "pytutils.iters": [
+      "operator",
+      "collections",
+      "wrapt",
+      "itertools"
+    ],
+    "wrapt": [],
+    "pytutils.debug": [
+      "code",
+      "inspect"
+    ],
+    "pytutils.queues": [
+      "six.moves.queue",
+      "threading"
+    ],
+    "pytutils.excs": [
+      "contextlib"
+    ],
+    "pytutils.rand": [
+      "random"
+    ],
+    "pytutils.mappings": [
+      "pytutils",
+      "pytutils.props",
+      "collections",
+      "os",
+      "six",
+      "re"
+    ],
+    "pytutils.meth": [],
+    "pytutils.pretty": [
+      "sys",
+      "pygments.formatters",
+      "pygments.styles",
+      "pygments.lexers",
+      "pygments",
+      "six",
+      "warnings",
+      "pprint"
+    ],
+    "pygments.formatters": [],
+    "pytutils.path": [
+      "os"
+    ],
+    "pytutils.python": [
+      "types",
+      "sys"
+    ],
+    "pytutils.tlds": [
+      "pytutils",
+      "pytutils.iters",
+      "tldextract",
+      "cachetools",
+      "pytutils.pythree"
+    ],
+    "pytutils.pythree": [
+      "six"
+    ],
+    "tldextract": [],
+    "pytutils.urls": [
+      "urllib.parse",
+      "urllib"
+    ],
+    "pytutils.env": [
+      "re",
+      "typing",
+      "collections",
+      "os"
+    ],
+    "pytutils.trees": [
+      "collections"
+    ],
+    "pytutils.ext.rwclassproperty": [
+      "unittest",
+      "unittest.mock"
+    ],
+    "pytutils.lazy": [],
+    "pytutils.lazy.lazy_import": [
+      "__future__"
+    ],
+    "pytutils.lazy.lazy_regex": [
+      "__future__",
+      "re"
+    ],
+    "pytutils.lazy.simple_import": [
+      "types",
+      "sys"
+    ]
+  }
+}

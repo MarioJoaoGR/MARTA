@@ -1,0 +1,73 @@
+
+import pytest
+from unittest.mock import patch, MagicMock
+from xml.etree.ElementTree import ElementTree
+from F4mFD import F4mFD
+
+# Test scenario 1: Basic usage of _get_unencrypted_media method
+def test_get_unencrypted_media_basic():
+    f4m_fd = F4mFD()
+    xml_doc = ElementTree.fromstring('<root><media>...</media></root>')
+    
+    with patch('F4mFD._add_ns', return_value='media'):
+        media_elements = f4m_fd._get_unencrypted_media(xml_doc)
+        assert isinstance(media_elements, list), "Expected a list of media elements"
+        assert len(media_elements) > 0, "Expected at least one media element"
+
+# Test scenario 2: Handling errors when no media elements are found
+def test_get_unencrypted_media_no_media():
+    f4m_fd = F4mFD()
+    xml_doc = ElementTree.fromstring('<root></root>')
+    
+    with patch('F4mFD._add_ns', return_value='media'):
+        with pytest.raises(Exception) as excinfo:
+            f4m_fd._get_unencrypted_media(xml_doc)
+        assert str(excinfo.value) == 'No media found', "Expected error message about no media"
+
+# Test scenario 3: Handling errors when unsupported DRM is detected
+def test_get_unencrypted_media_unsupported_drm():
+    f4m_fd = F4mFD()
+    xml_doc = ElementTree.fromstring('<root><media>...</media></root>')
+    
+    with patch('F4mFD._add_ns', return_value='media'):
+        with pytest.raises(Exception) as excinfo:
+            f4m_fd._get_unencrypted_media(xml_doc)
+        assert str(excinfo.value) == 'Unsupported DRM', "Expected error message about unsupported DRM"
+
+# Test scenario 4: Handling errors when missing ID in f4m DRM is detected
+def test_get_unencrypted_media_missing_id():
+    f4m_fd = F4mFD()
+    xml_doc = ElementTree.fromstring('<root><drmAdditionalHeader></drmAdditionalHeader></root>')
+    
+    with patch('F4mFD._add_ns', return_value='media'):
+        with pytest.raises(Exception) as excinfo:
+            f4m_fd._get_unencrypted_media(xml_doc)
+        assert str(excinfo.value) == 'Missing ID in f4m DRM', "Expected error message about missing ID"
+
+"""
+[TEST4PY QUARANTINE REPORT]
+Reason: Test failed assertions or crashed.
+Error Log:
+============================= test session starts ==============================
+platform linux -- Python 3.10.20, pytest-8.3.2, pluggy-1.6.0
+rootdir: /opt/marta/baselines/Results_MARTA/youtube-dl/Test4DT_tests_deepseek-coder-v2_16b
+plugins: metadata-3.1.1, json-report-1.5.0, anyio-4.12.1
+collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+_ ERROR collecting test_youtube_dl_downloader_f4m_F4mFD__get_unencrypted_media_0.py _
+ImportError while importing test module '/opt/marta/baselines/Results_MARTA/youtube-dl/Test4DT_tests_deepseek-coder-v2_16b/test_youtube_dl_downloader_f4m_F4mFD__get_unencrypted_media_0.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/conda/envs/test4py_env/lib/python3.10/importlib/__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+/opt/marta/baselines/Results_MARTA/youtube-dl/Test4DT_tests_deepseek-coder-v2_16b/test_youtube_dl_downloader_f4m_F4mFD__get_unencrypted_media_0.py:5: in <module>
+    from F4mFD import F4mFD
+E   ModuleNotFoundError: No module named 'F4mFD'
+--------------------------------- JSON report ----------------------------------
+report saved to: pytest_report_deepseek-coder-v2_16b.json
+=========================== short test summary info ============================
+ERROR ../../../../../opt/marta/baselines/Results_MARTA/youtube-dl/Test4DT_tests_deepseek-coder-v2_16b/test_youtube_dl_downloader_f4m_F4mFD__get_unencrypted_media_0.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 0.22s ===============================
+"""
