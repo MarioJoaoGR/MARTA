@@ -1,0 +1,104 @@
+find_executable: checking for pg_config... -------------------- no
+
+--------------------
+
+not found
+checking for libpq per pkg-config... -------------------- no
+
+checking for pkg-config for libpq... pkg_config: checking for pkg-config for libpq... -------------------- not found
+
+DYLD_LIBRARY_PATH=.:/Users/mario/.rbenv/versions/3.4.10/lib ASAN_OPTIONS=detect_leaks=0 pkg-config --exists libpq
+package configuration for libpq is not found
+--------------------
+
+--------------------
+
+find_header: checking for libpq-fe.h... -------------------- no
+
+DYLD_LIBRARY_PATH=.:/Users/mario/.rbenv/versions/3.4.10/lib ASAN_OPTIONS=detect_leaks=0 "clang -o conftest -I/Users/mario/.rbenv/versions/3.4.10/include/ruby-3.4.0/arm64-darwin25 -I/Users/mario/.rbenv/versions/3.4.10/include/ruby-3.4.0/ruby/backward -I/Users/mario/.rbenv/versions/3.4.10/include/ruby-3.4.0 -I/private/tmp/claude-501/-Users-mario-Desktop-GECAD-Test4Py/592cce6b-a617-4ab1-8345-dc78c4234c61/scratchpad -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT   -fstack-protector-strong -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=2 -fdeclspec  -O3 -fno-fast-math -ggdb3 -Wall -Wextra -Wextra-tokens -Wdeprecated-declarations -Wdivision-by-zero -Wdiv-by-zero -Wimplicit-function-declaration -Wimplicit-int -Wpointer-arith -Wshorten-64-to-32 -Wwrite-strings -Wold-style-definition -Wmissing-noreturn -Wno-cast-function-type -Wno-constant-logical-operand -Wno-long-long -Wno-missing-field-initializers -Wno-overlength-strings -Wno-parentheses-equality -Wno-self-assign -Wno-tautological-compare -Wno-unused-parameter -Wno-unused-value -Wunused-variable -Wmisleading-indentation -Wundef -fno-common -pipe conftest.c -L. -L/Users/mario/.rbenv/versions/3.4.10/lib -L. -fstack-protector-strong -L/opt/homebrew/Cellar/gmp/6.3.0/lib  -arch arm64   -lruby.3.4  -lpthread  "
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: int main(int argc, char **argv)
+4: {
+5:   return !!argv[argc];
+6: }
+/* end */
+
+DYLD_LIBRARY_PATH=.:/Users/mario/.rbenv/versions/3.4.10/lib ASAN_OPTIONS=detect_leaks=0 "clang -I/Users/mario/.rbenv/versions/3.4.10/include/ruby-3.4.0/arm64-darwin25 -I/Users/mario/.rbenv/versions/3.4.10/include/ruby-3.4.0/ruby/backward -I/Users/mario/.rbenv/versions/3.4.10/include/ruby-3.4.0 -I/private/tmp/claude-501/-Users-mario-Desktop-GECAD-Test4Py/592cce6b-a617-4ab1-8345-dc78c4234c61/scratchpad -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT   -fstack-protector-strong -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=2 -fdeclspec  -O3 -fno-fast-math -ggdb3 -Wall -Wextra -Wextra-tokens -Wdeprecated-declarations -Wdivision-by-zero -Wdiv-by-zero -Wimplicit-function-declaration -Wimplicit-int -Wpointer-arith -Wshorten-64-to-32 -Wwrite-strings -Wold-style-definition -Wmissing-noreturn -Wno-cast-function-type -Wno-constant-logical-operand -Wno-long-long -Wno-missing-field-initializers -Wno-overlength-strings -Wno-parentheses-equality -Wno-self-assign -Wno-tautological-compare -Wno-unused-parameter -Wno-unused-value -Wunused-variable -Wmisleading-indentation -Wundef -fno-common -pipe -arch arm64  -c conftest.c"
+conftest.c:3:10: fatal error: 'libpq-fe.h' file not found
+    3 | #include <libpq-fe.h>
+      |          ^~~~~~~~~~~~
+1 error generated.
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <libpq-fe.h>
+/* end */
+
+--------------------
+
+find_executable: checking for pg_config... -------------------- no
+
+--------------------
+
+not found
+checking for libpq per pkg-config... -------------------- no
+
+checking for pkg-config for libpq... pkg_config: checking for pkg-config for libpq... -------------------- not found
+
+DYLD_LIBRARY_PATH=.:/Users/mario/.rbenv/versions/3.4.10/lib ASAN_OPTIONS=detect_leaks=0 pkg-config --exists libpq
+package configuration for libpq is not found
+--------------------
+
+--------------------
+
+find_header: checking for libpq-fe.h... -------------------- no
+
+DYLD_LIBRARY_PATH=.:/Users/mario/.rbenv/versions/3.4.10/lib ASAN_OPTIONS=detect_leaks=0 "clang -I/Users/mario/.rbenv/versions/3.4.10/include/ruby-3.4.0/arm64-darwin25 -I/Users/mario/.rbenv/versions/3.4.10/include/ruby-3.4.0/ruby/backward -I/Users/mario/.rbenv/versions/3.4.10/include/ruby-3.4.0 -I/private/tmp/claude-501/-Users-mario-Desktop-GECAD-Test4Py/592cce6b-a617-4ab1-8345-dc78c4234c61/scratchpad -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT   -fstack-protector-strong -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=2 -fdeclspec  -O3 -fno-fast-math -ggdb3 -Wall -Wextra -Wextra-tokens -Wdeprecated-declarations -Wdivision-by-zero -Wdiv-by-zero -Wimplicit-function-declaration -Wimplicit-int -Wpointer-arith -Wshorten-64-to-32 -Wwrite-strings -Wold-style-definition -Wmissing-noreturn -Wno-cast-function-type -Wno-constant-logical-operand -Wno-long-long -Wno-missing-field-initializers -Wno-overlength-strings -Wno-parentheses-equality -Wno-self-assign -Wno-tautological-compare -Wno-unused-parameter -Wno-unused-value -Wunused-variable -Wmisleading-indentation -Wundef -fno-common -pipe -arch arm64  -c conftest.c"
+conftest.c:3:10: fatal error: 'libpq-fe.h' file not found
+    3 | #include <libpq-fe.h>
+      |          ^~~~~~~~~~~~
+1 error generated.
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <libpq-fe.h>
+/* end */
+
+--------------------
+
+find_executable: checking for pg_config... -------------------- no
+
+--------------------
+
+not found
+checking for libpq per pkg-config... -------------------- no
+
+checking for pkg-config for libpq... pkg_config: checking for pkg-config for libpq... -------------------- not found
+
+DYLD_LIBRARY_PATH=.:/Users/mario/.rbenv/versions/3.4.10/lib ASAN_OPTIONS=detect_leaks=0 pkg-config --exists libpq
+package configuration for libpq is not found
+--------------------
+
+--------------------
+
+find_header: checking for libpq-fe.h... -------------------- no
+
+DYLD_LIBRARY_PATH=.:/Users/mario/.rbenv/versions/3.4.10/lib ASAN_OPTIONS=detect_leaks=0 "clang -I/Users/mario/.rbenv/versions/3.4.10/include/ruby-3.4.0/arm64-darwin25 -I/Users/mario/.rbenv/versions/3.4.10/include/ruby-3.4.0/ruby/backward -I/Users/mario/.rbenv/versions/3.4.10/include/ruby-3.4.0 -I/private/tmp/claude-501/-Users-mario-Desktop-GECAD-Test4Py/592cce6b-a617-4ab1-8345-dc78c4234c61/scratchpad -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT   -fstack-protector-strong -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=2 -fdeclspec  -O3 -fno-fast-math -ggdb3 -Wall -Wextra -Wextra-tokens -Wdeprecated-declarations -Wdivision-by-zero -Wdiv-by-zero -Wimplicit-function-declaration -Wimplicit-int -Wpointer-arith -Wshorten-64-to-32 -Wwrite-strings -Wold-style-definition -Wmissing-noreturn -Wno-cast-function-type -Wno-constant-logical-operand -Wno-long-long -Wno-missing-field-initializers -Wno-overlength-strings -Wno-parentheses-equality -Wno-self-assign -Wno-tautological-compare -Wno-unused-parameter -Wno-unused-value -Wunused-variable -Wmisleading-indentation -Wundef -fno-common -pipe -arch arm64  -c conftest.c"
+conftest.c:3:10: fatal error: 'libpq-fe.h' file not found
+    3 | #include <libpq-fe.h>
+      |          ^~~~~~~~~~~~
+1 error generated.
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <libpq-fe.h>
+/* end */
+
+--------------------
+

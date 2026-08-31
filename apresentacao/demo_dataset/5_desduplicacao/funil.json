@@ -1,0 +1,87 @@
+{
+  "data": "2026-08-23",
+  "limiar": 0.5,
+  "entram": 6343,
+  "representantes": 5672,
+  "duplicados_removidos": 671,
+  "metodos": 67659,
+  "gems": 133,
+  "categorias": 59,
+  "maiores_quedas": [
+    {
+      "gem": "twilio-ruby",
+      "antes": 658,
+      "depois": 135
+    },
+    {
+      "gem": "fastlane",
+      "antes": 543,
+      "depois": 506
+    },
+    {
+      "gem": "rouge",
+      "antes": 85,
+      "depois": 65
+    },
+    {
+      "gem": "gitlab",
+      "antes": 62,
+      "depois": 48
+    },
+    {
+      "gem": "bullet",
+      "antes": 30,
+      "depois": 20
+    },
+    {
+      "gem": "geocoder",
+      "antes": 123,
+      "depois": 115
+    },
+    {
+      "gem": "mongo",
+      "antes": 226,
+      "depois": 218
+    },
+    {
+      "gem": "concurrent-ruby",
+      "antes": 128,
+      "depois": 121
+    },
+    {
+      "gem": "danger",
+      "antes": 91,
+      "depois": 86
+    },
+    {
+      "gem": "doorkeeper",
+      "antes": 72,
+      "depois": 67
+    },
+    {
+      "gem": "activerecord",
+      "antes": 296,
+      "depois": 292
+    },
+    {
+      "gem": "sprockets",
+      "antes": 51,
+      "depois": 47
+    },
+    {
+      "gem": "byebug",
+      "antes": 95,
+      "depois": 91
+    },
+    {
+      "gem": "shoulda-matchers",
+      "antes": 102,
+      "depois": 98
+    },
+    {
+      "gem": "selenium-webdriver",
+      "antes": 120,
+      "depois": 118
+    }
+  ]
+}

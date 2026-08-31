@@ -1,0 +1,18 @@
+gem,modulos,carregam_gemspec,bundle_instalou,carregam_gemfile,ganho,erro_bundle
+fastlane,506,238,True,490,252,
+concurrent-ruby,121,11,True,11,0,
+brakeman,128,22,True,29,7,
+rspec,162,106,False,,,sem Gemfile
+doorkeeper,67,27,True,30,3,
+activerecord,292,257,False,,,sem Gemfile
+eye,65,32,True,35,3,
+byebug,91,66,True,67,1,
+twilio-ruby,135,110,True,111,1,
+activesupport,155,136,False,,,sem Gemfile
+sentry-ruby,92,73,True,73,0,
+devise,41,27,True,28,1,
+rubocop,653,642,True,644,2,
+tilt,18,7,False,,,sem Gemfile
+activerecord-import,11,4,False,,,"Users/mario/.rbenv/versions/3.4.10/lib/ruby/gems/3.4.0/gems/bundler-2.6.9/exe/bundle:20:in '<top (required)>'
+	from /Users/mario/.rbenv/versions/3.4.10/bin/bundle:25:in 'Kernel#load'
+	from /Users/mario/.rbenv/versions/3.4.10/bin/bundle:25:in '<main>'"

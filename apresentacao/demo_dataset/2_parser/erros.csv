@@ -1,0 +1,52 @@
+gem,ficheiro,linha,mensagem,nao_ruby
+simplecov,test_projects/encodings/lib/euc_jp.rb,,Encoding::CompatibilityError: invalid byte sequence in EUC-JP,fixture de teste
+simplecov,test_projects/encodings/lib/euc_jp_not_declared_tracked.rb,8,unexpected character literal; expected a method name,fixture de teste
+simplecov,test_projects/encodings/lib/euc_jp_not_declared_tracked.rb,8,expected a delimiter to close the parameters,fixture de teste
+jbuilder,lib/generators/rails/templates/api_controller.rb,1,"unexpected '<', ignoring it",molde de gerador
+jbuilder,lib/generators/rails/templates/api_controller.rb,1,"unexpected method name, expecting end-of-input",molde de gerador
+jbuilder,lib/generators/rails/templates/api_controller.rb,2,"unexpected string literal, expecting end-of-input",molde de gerador
+jbuilder,lib/generators/rails/templates/controller.rb,1,"unexpected '<', ignoring it",molde de gerador
+jbuilder,lib/generators/rails/templates/controller.rb,1,"unexpected method name, expecting end-of-input",molde de gerador
+jbuilder,lib/generators/rails/templates/controller.rb,2,"unexpected string literal, expecting end-of-input",molde de gerador
+devise,lib/generators/active_record/templates/migration.rb,3,"unexpected `end`, expecting ';' or '\n'",molde de gerador
+devise,lib/generators/active_record/templates/migration.rb,3,unexpected '>'; expected an expression after the operator,molde de gerador
+devise,lib/generators/active_record/templates/migration.rb,5,unexpected local variable or method; expected an expression after the operator,molde de gerador
+devise,lib/generators/active_record/templates/migration_existing.rb,3,"unexpected `end`, expecting ';' or '\n'",molde de gerador
+devise,lib/generators/active_record/templates/migration_existing.rb,3,unexpected '>'; expected an expression after the operator,molde de gerador
+devise,lib/generators/active_record/templates/migration_existing.rb,5,unexpected local variable or method; expected an expression after the operator,molde de gerador
+devise,lib/generators/templates/devise.rb,308,expected an expression after `=`,molde de gerador
+devise,lib/generators/templates/devise.rb,309,"unexpected ':', expecting end-of-input",molde de gerador
+devise,lib/generators/templates/devise.rb,309,"unexpected ':', ignoring it",molde de gerador
+devise,lib/generators/templates/controllers/omniauth_callbacks_controller.rb,3,unexpected constant path after `class`; class/module name must be CONSTANT,molde de gerador
+devise,lib/generators/templates/controllers/omniauth_callbacks_controller.rb,3,unexpected constant path after `class`; class/module name must be CONSTANT,molde de gerador
+devise,lib/generators/templates/controllers/omniauth_callbacks_controller.rb,30,unterminated string meets end of file,molde de gerador
+devise,lib/generators/templates/controllers/passwords_controller.rb,3,unexpected constant path after `class`; class/module name must be CONSTANT,molde de gerador
+devise,lib/generators/templates/controllers/passwords_controller.rb,3,unexpected constant path after `class`; class/module name must be CONSTANT,molde de gerador
+devise,lib/generators/templates/controllers/passwords_controller.rb,14,"unexpected `end`, expecting ';' or '\n'",molde de gerador
+devise,lib/generators/templates/controllers/sessions_controller.rb,3,unexpected constant path after `class`; class/module name must be CONSTANT,molde de gerador
+devise,lib/generators/templates/controllers/sessions_controller.rb,3,unexpected constant path after `class`; class/module name must be CONSTANT,molde de gerador
+devise,lib/generators/templates/controllers/sessions_controller.rb,27,unterminated string meets end of file,molde de gerador
+devise,lib/generators/templates/controllers/unlocks_controller.rb,3,unexpected constant path after `class`; class/module name must be CONSTANT,molde de gerador
+devise,lib/generators/templates/controllers/unlocks_controller.rb,3,unexpected constant path after `class`; class/module name must be CONSTANT,molde de gerador
+devise,lib/generators/templates/controllers/unlocks_controller.rb,14,"unexpected `end`, expecting ';' or '\n'",molde de gerador
+devise,lib/generators/templates/controllers/confirmations_controller.rb,3,unexpected constant path after `class`; class/module name must be CONSTANT,molde de gerador
+devise,lib/generators/templates/controllers/confirmations_controller.rb,3,unexpected constant path after `class`; class/module name must be CONSTANT,molde de gerador
+devise,lib/generators/templates/controllers/confirmations_controller.rb,14,"unexpected `end`, expecting ';' or '\n'",molde de gerador
+devise,lib/generators/templates/controllers/registrations_controller.rb,3,unexpected constant path after `class`; class/module name must be CONSTANT,molde de gerador
+devise,lib/generators/templates/controllers/registrations_controller.rb,3,unexpected constant path after `class`; class/module name must be CONSTANT,molde de gerador
+devise,lib/generators/templates/controllers/registrations_controller.rb,62,unterminated string meets end of file,molde de gerador
+fastlane,fastlane/lib/assets/custom_action_template.rb,4,"unexpected local variable or method, expecting end-of-input",molde de gerador
+fastlane,fastlane/lib/assets/custom_action_template.rb,4,invalid symbol,molde de gerador
+fastlane,fastlane/lib/assets/custom_action_template.rb,4,unexpected '['; expected an argument,molde de gerador
+geocoder,lib/generators/geocoder/maxmind/templates/migration/geolite_country.rb,17,unterminated string meets end of file,molde de gerador
+geocoder,lib/generators/geocoder/maxmind/templates/migration/geolite_country.rb,18,"unexpected `end`, expecting ';' or '\n'",molde de gerador
+geocoder,lib/generators/geocoder/maxmind/templates/migration/geolite_country.rb,18,"unexpected end-of-input, assuming it is closing the parent top level context",molde de gerador
+geocoder,lib/generators/geocoder/maxmind/templates/migration/geolite_city.rb,30,unterminated string meets end of file,molde de gerador
+geocoder,lib/generators/geocoder/maxmind/templates/migration/geolite_city.rb,31,"unexpected `end`, expecting ';' or '\n'",molde de gerador
+geocoder,lib/generators/geocoder/maxmind/templates/migration/geolite_city.rb,31,"unexpected end-of-input, assuming it is closing the parent top level context",molde de gerador
+aasm,lib/generators/active_record/templates/migration.rb,1,"unexpected `end`, expecting ';' or '\n'",molde de gerador
+aasm,lib/generators/active_record/templates/migration.rb,3,"unexpected ')', expecting end-of-input",molde de gerador
+aasm,lib/generators/active_record/templates/migration.rb,3,"unexpected ')', ignoring it",molde de gerador
+aasm,lib/generators/active_record/templates/migration_existing.rb,1,"unexpected `end`, expecting ';' or '\n'",molde de gerador
+aasm,lib/generators/active_record/templates/migration_existing.rb,1,"unexpected ']', expecting end-of-input",molde de gerador
+aasm,lib/generators/active_record/templates/migration_existing.rb,1,"unexpected ']', ignoring it",molde de gerador

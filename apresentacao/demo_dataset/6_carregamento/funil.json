@@ -1,0 +1,18 @@
+{
+  "data": "2026-08-24",
+  "entram": 5672,
+  "carregam": 5217,
+  "falham": 455,
+  "gems_com_porta_aberta": 67,
+  "gems_com_porta_fechada": 1,
+  "ambiente_usado": {
+    "deps do gemspec": 125,
+    "deps + a propria gem": 7,
+    "Gemfile do projeto": 1
+  },
+  "carregam_isolados": 5019,
+  "carregam_so_com_a_biblioteca": 198,
+  "gems_no_fim": 132,
+  "categorias_no_fim": 59,
+  "metodos": 62686
+}

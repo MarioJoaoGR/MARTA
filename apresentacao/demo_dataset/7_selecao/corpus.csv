@@ -1,0 +1,501 @@
+gem,ficheiro,commit,categoria,loc_medio,loc_max,pct_singleton,pct_duck,mixins_por_classe,profundidade_heranca,metaprog_por_100,metodos,classes,formas,razao_formas,modo
+aasm,lib/aasm/core/invokers/literal_invoker.rb,88061ec5104a,state machines,4.8,9,0,92,0.0,1,53.8,13,4,13,1.0,isolado
+aasm,lib/aasm/persistence.rb,88061ec5104a,state machines,8,28,100,60,0.0,0,40.0,5,2,5,1.0,isolado
+aasm,lib/aasm/persistence/orm.rb,88061ec5104a,state machines,5.2,29,0,11,0.0,0,0.0,19,3,15,0.789,isolado
+aasm,lib/aasm/persistence/plain_persistence.rb,88061ec5104a,state machines,4.3,7,0,0,0.0,0,100.0,3,3,3,1.0,isolado
+active_model_serializers,lib/active_model/serializer/field.rb,6934c8bd31f4,api builder and discovery,8.7,16,0,71,0.0,0,71.4,7,2,7,1.0,isolado
+active_model_serializers,lib/active_model_serializers.rb,6934c8bd31f4,api builder and discovery,4.8,7,100,40,1.0,0,0.0,5,1,5,1.0,isolado
+active_model_serializers,lib/active_model_serializers/adapter/base.rb,6934c8bd31f4,api builder and discovery,3.2,4,46,23,0.0,0,7.7,13,3,13,1.0,isolado
+active_model_serializers,lib/active_model_serializers/adapter/json_api/error.rb,6934c8bd31f4,api builder and discovery,9.7,14,100,67,0.0,1,33.3,3,4,3,1.0,isolado
+active_model_serializers,lib/active_model_serializers/adapter/json_api/pagination_links.rb,6934c8bd31f4,api builder and discovery,5.2,11,0,83,0.0,1,0.0,12,4,12,1.0,isolado
+active_model_serializers,lib/active_model_serializers/logging.rb,6934c8bd31f4,api builder and discovery,6.8,11,0,38,0.6,1,37.5,8,5,8,1.0,isolado
+active_model_serializers,lib/active_model_serializers/model.rb,6934c8bd31f4,api builder and discovery,5.4,7,38,100,1.0,0,12.5,8,3,8,1.0,isolado
+activerecord,lib/active_record.rb,3989ebf3473d,orm/odm,7.9,21,100,33,0.86,0,5.6,18,7,18,1.0,isolado
+activerecord,lib/active_record/associations.rb,3989ebf3473d,orm/odm,6.9,37,8,38,0.75,0,15.4,13,4,12,0.923,isolado
+activerecord,lib/active_record/associations/builder/singular_association.rb,3989ebf3473d,orm/odm,15.5,21,100,75,0.0,1,50.0,4,2,4,1.0,isolado
+activerecord,lib/active_record/callbacks.rb,3989ebf3473d,orm/odm,4.3,11,0,0,1.0,0,0.0,6,3,6,1.0,isolado
+activerecord,lib/active_record/connection_adapters/abstract/database_statements.rb,3989ebf3473d,orm/odm,6.3,41,0,32,0.0,0,0.0,71,3,59,0.831,isolado
+activerecord,lib/active_record/connection_adapters/postgresql/oid/hstore.rb,3989ebf3473d,orm/odm,13.5,52,0,50,0.2,2,0.0,6,5,5,0.833,isolado
+activerecord,lib/active_record/errors.rb,3989ebf3473d,orm/odm,7.5,35,14,23,0.03,5,0.0,22,60,17,0.773,isolado
+activerecord,lib/active_record/fixture_set/render_context.rb,3989ebf3473d,orm/odm,5.7,11,33,0,0.0,0,0.0,3,1,3,1.0,isolado
+activerecord,lib/active_record/fixtures.rb,3989ebf3473d,orm/odm,7.4,30,53,78,0.17,2,6.2,32,6,32,1.0,isolado
+activerecord,lib/active_record/migration/default_strategy.rb,3989ebf3473d,orm/odm,3,3,0,100,0.0,1,33.3,3,3,3,1.0,isolado
+activerecord,lib/active_record/model_schema.rb,3989ebf3473d,orm/odm,6.0,19,2,85,0.33,0,4.9,41,3,40,0.976,isolado
+activerecord,lib/active_record/persistence.rb,3989ebf3473d,orm/odm,8.1,33,0,51,0.33,0,27.9,61,3,57,0.934,isolado
+activerecord,lib/active_record/query_cache.rb,3989ebf3473d,orm/odm,7,13,60,100,0.0,0,0.0,5,4,5,1.0,isolado
+activerecord,lib/active_record/query_logs_formatter.rb,3989ebf3473d,orm/odm,3,3,100,50,0.0,0,0.0,4,4,3,0.75,com a biblioteca carregada
+activerecord,lib/active_record/reflection.rb,3989ebf3473d,orm/odm,6.0,43,3,68,0.07,3,4.1,147,14,124,0.844,isolado
+activerecord,lib/active_record/relation.rb,3989ebf3473d,orm/odm,7.3,44,2,76,2.5,0,2.0,100,4,99,0.99,isolado
+activerecord,lib/active_record/relation/batches.rb,3989ebf3473d,orm/odm,18.4,78,0,93,0.0,0,0.0,14,2,13,0.929,isolado
+activerecord,lib/active_record/schema.rb,3989ebf3473d,orm/odm,7,12,33,67,0.75,2,33.3,3,4,3,1.0,isolado
+activerecord,lib/arel/attributes/attribute.rb,3989ebf3473d,orm/odm,3,3,0,100,1.67,1,0.0,4,3,4,1.0,isolado
+activerecord,lib/arel/nodes/unqualified_column.rb,3989ebf3473d,orm/odm,3,3,0,100,0.0,3,0.0,3,3,3,1.0,isolado
+activerecord,lib/arel/visitors/visitor.rb,3989ebf3473d,orm/odm,6,16,20,40,0.0,0,40.0,5,3,5,1.0,isolado
+activerecord-import,benchmarks/lib/cli_parser.rb,8ac907c9bbc5,orm/odm extensions,17.8,68,100,60,0.0,0,0.0,5,1,5,1.0,isolado
+activerecord-import,benchmarks/lib/float.rb,8ac907c9bbc5,orm/odm extensions,3,3,0,0,0.0,0,0.0,3,1,3,1.0,isolado
+activerecord-import,lib/activerecord-import/adapters/mysql_adapter.rb,8ac907c9bbc5,orm/odm extensions,13.1,52,0,100,2.0,0,0.0,9,1,9,1.0,com a biblioteca carregada
+activerecord-import,lib/activerecord-import/import.rb,8ac907c9bbc5,orm/odm extensions,30,202,64,82,0.09,1,114.3,28,11,27,0.964,com a biblioteca carregada
+activesupport,lib/active_support/configurable.rb,3989ebf3473d,core extensions,6.9,18,14,57,0.25,3,100.0,7,4,7,1.0,isolado
+activesupport,lib/active_support/core_ext/date_and_time/calculations.rb,3989ebf3473d,core extensions,3.4,7,0,40,0.0,0,0.0,50,2,42,0.84,isolado
+activesupport,lib/active_support/core_ext/module/attribute_accessors_per_thread.rb,3989ebf3473d,core extensions,22,40,0,67,0.0,0,200.0,3,1,3,1.0,isolado
+activesupport,lib/active_support/core_ext/module/redefine_method.rb,3989ebf3473d,core extensions,6.5,10,0,25,0.0,0,50.0,4,1,4,1.0,isolado
+activesupport,lib/active_support/delegation.rb,3989ebf3473d,core extensions,54,128,100,67,0.0,1,66.7,3,3,3,1.0,isolado
+activesupport,lib/active_support/deprecation/constant_accessor.rb,3989ebf3473d,core extensions,26.3,66,33,100,0.0,0,0.0,3,3,3,1.0,isolado
+activesupport,lib/active_support/error_reporter.rb,3989ebf3473d,core extensions,9.2,43,0,86,0.0,0,7.1,14,3,14,1.0,isolado
+activesupport,lib/active_support/isolated_execution_state.rb,3989ebf3473d,core extensions,6.5,17,100,100,0.0,0,0.0,8,2,8,1.0,isolado
+activesupport,lib/active_support/json/decoding.rb,3989ebf3473d,core extensions,12.7,26,100,33,0.0,0,0.0,3,2,3,1.0,isolado
+activesupport,lib/active_support/test_case.rb,3989ebf3473d,core extensions,4,14,82,9,6.0,1,0.0,11,2,10,0.909,isolado
+activesupport,lib/active_support/testing/isolation.rb,3989ebf3473d,core extensions,19,38,40,80,0.2,0,20.0,5,5,5,1.0,isolado
+activesupport,lib/active_support/time_with_zone.rb,3989ebf3473d,core extensions,4.7,18,0,84,1.0,0,7.1,56,2,53,0.946,isolado
+addressable,lib/addressable/idna/pure.rb,0c3e8589b23d,core extensions,27.7,120,100,100,0.2,1,0.0,12,5,12,1.0,isolado
+addressable,lib/addressable/uri.rb,0c3e8589b23d,core extensions,18.5,93,16,69,0.0,1,3.4,88,6,87,0.989,isolado
+awesome_print,lib/awesome_print/custom_defaults.rb,9ae56ba413b9,cli utilities,4.4,9,100,30,0.0,0,10.0,10,1,9,0.9,isolado
+awesome_print,lib/awesome_print/ext/active_record.rb,9ae56ba413b9,cli utilities,14,20,20,100,0.0,0,80.0,5,2,5,1.0,isolado
+better_errors,lib/better_errors.rb,fde3b7025db1,error handling,5.2,12,100,25,0.0,0,0.0,4,1,3,0.75,isolado
+bootsnap,lib/bootsnap/cli.rb,e099ec707644,optimizations,14.1,62,0,33,0.0,0,6.7,15,3,13,0.867,isolado
+bootsnap,lib/bootsnap/compile_cache.rb,e099ec707644,optimizations,12,28,100,0,0.0,0,0.0,3,2,3,1.0,isolado
+bootsnap,lib/bootsnap/compile_cache/iseq.rb,e099ec707644,optimizations,7,28,50,50,0.17,0,0.0,20,6,19,0.95,isolado
+bootsnap,lib/bootsnap/load_path_cache/change_observer.rb,e099ec707644,optimizations,5,8,25,88,0.0,0,62.5,8,4,7,0.875,isolado
+bootsnap,lib/bootsnap/load_path_cache/loaded_features_index.rb,e099ec707644,optimizations,9.6,23,0,100,0.0,0,0.0,9,3,9,1.0,isolado
+bootsnap,lib/bootsnap/load_path_cache/path_scanner.rb,e099ec707644,optimizations,22.2,39,100,100,0.0,0,0.0,4,3,4,1.0,isolado
+brakeman,lib/brakeman/options.rb,fffc4837becb,code analysis and metrics,105,397,100,50,0.0,0,0.0,4,1,3,0.75,isolado
+brakeman,lib/brakeman/processors/lib/call_conversion_helper.rb,fffc4837becb,code analysis and metrics,13.7,24,0,100,0.0,0,16.7,6,2,6,1.0,isolado
+bullet,lib/bullet.rb,bc55c037d27a,profiler and optimization,6.1,20,100,52,0.5,1,0.0,31,2,26,0.839,isolado
+bullet,lib/bullet/detector/unused_eager_loading.rb,bc55c037d27a,profiler and optimization,14.8,37,100,100,0.67,1,0.0,5,3,5,1.0,isolado
+bullet,lib/bullet/mongoid7x.rb,bc55c037d27a,profiler and optimization,27,68,25,75,0.0,0,100.0,4,2,4,1.0,isolado
+bullet,lib/bullet/notification/n_plus_one_query.rb,bc55c037d27a,profiler and optimization,3.4,5,0,0,0.0,1,0.0,5,3,5,1.0,isolado
+bullet,lib/bullet/registry/base.rb,bc55c037d27a,profiler and optimization,3.6,8,0,88,0.0,0,0.0,8,3,8,1.0,isolado
+bundler-audit,lib/bundler/audit/cli/formats/text.rb,f8b06ebbefdd,security,25,51,0,67,0.0,1,0.0,3,5,3,1.0,com a biblioteca carregada
+bundler-audit,lib/bundler/audit/report.rb,f8b06ebbefdd,security,5.7,12,0,100,0.33,0,0.0,9,3,8,0.889,isolado
+bundler-audit,lib/bundler/audit/task.rb,f8b06ebbefdd,security,8,21,0,0,0.0,1,0.0,5,4,4,0.8,isolado
+byebug,lib/byebug/command.rb,aff644023372,debugging tools,4,7,56,56,1.0,0,0.0,9,2,9,1.0,isolado
+byebug,lib/byebug/command_list.rb,aff644023372,debugging tools,3,3,0,80,0.5,0,0.0,5,2,5,1.0,isolado
+byebug,lib/byebug/commands/save.rb,aff644023372,debugging tools,6.1,14,38,62,0.0,1,0.0,8,2,7,0.875,isolado
+byebug,lib/byebug/commands/thread/current.rb,aff644023372,debugging tools,4,7,75,0,0.33,1,0.0,4,3,3,0.75,com a biblioteca carregada
+byebug,lib/byebug/commands/tracevar.rb,aff644023372,debugging tools,7.4,13,60,40,0.0,1,20.0,5,2,5,1.0,isolado
+byebug,lib/byebug/helpers/var.rb,aff644023372,debugging tools,10.2,23,0,100,0.33,0,20.0,5,3,5,1.0,isolado
+byebug,lib/byebug/interfaces/local_interface.rb,aff644023372,debugging tools,7.2,11,0,0,0.0,1,0.0,4,2,4,1.0,com a biblioteca carregada
+byebug,lib/byebug/remote.rb,aff644023372,debugging tools,4,8,100,70,0.0,0,0.0,10,1,10,1.0,isolado
+capybara,lib/capybara/registration_container.rb,a210c6e57872,testing,3.7,7,0,86,0.0,0,14.3,7,2,7,1.0,isolado
+capybara,lib/capybara/result.rb,a210c6e57872,testing,7.8,25,0,94,1.0,0,0.0,16,2,16,1.0,isolado
+capybara,lib/capybara/rspec/matcher_proxies.rb,a210c6e57872,testing,5.4,7,50,62,0.25,0,25.0,8,8,6,0.75,com a biblioteca carregada
+capybara,lib/capybara/rspec/matchers/match_selector.rb,a210c6e57872,testing,3,3,0,75,0.0,4,0.0,4,4,4,1.0,isolado
+capybara,lib/capybara/selenium/nodes/chrome_node.rb,a210c6e57872,testing,7.1,17,0,79,2.0,2,14.3,14,1,13,0.929,isolado
+carrierwave,lib/carrierwave.rb,5effe4ecaae9,file upload,3,3,100,0,0.0,1,0.0,4,5,4,1.0,isolado
+carrierwave,lib/carrierwave/mounter.rb,5effe4ecaae9,file upload,6.5,28,3,88,0.0,1,0.0,32,4,32,1.0,isolado
+carrierwave,lib/carrierwave/uploader/configuration.rb,5effe4ecaae9,file upload,19,40,0,50,0.25,0,33.3,6,4,6,1.0,isolado
+carrierwave,lib/carrierwave/uploader/store.rb,5effe4ecaae9,file upload,6.5,16,0,36,1.25,0,0.0,11,4,11,1.0,isolado
+childprocess,lib/childprocess.rb,c756730c4ac4,processes,6.6,27,100,53,0.0,0,0.0,17,1,16,0.941,isolado
+childprocess,lib/childprocess/abstract_io.rb,c756730c4ac4,processes,3.8,4,0,0,0.0,0,0.0,5,2,3,0.6,isolado
+childprocess,lib/childprocess/process_spawn_process.rb,c756730c4ac4,processes,15.9,58,0,57,0.0,1,0.0,7,2,6,0.857,isolado
+childprocess,lib/childprocess/windows/io.rb,c756730c4ac4,processes,4,6,0,100,0.0,1,0.0,3,3,3,1.0,isolado
+chronic,lib/chronic/date.rb,7d3d82d38c99,date and time processing,4.8,8,100,100,0.0,0,0.0,5,2,3,0.6,isolado
+chronic,lib/chronic/handler.rb,7d3d82d38c99,date and time processing,14.2,49,0,80,0.0,0,40.0,5,2,5,1.0,isolado
+chronic,lib/chronic/season.rb,7d3d82d38c99,date and time processing,3.8,5,75,25,0.0,0,0.0,4,2,3,0.75,isolado
+chronic,lib/chronic/token.rb,7d3d82d38c99,date and time processing,3.1,4,0,71,0.0,0,0.0,7,2,7,1.0,isolado
+cocoapods,lib/cocoapods/command/install.rb,5493bfd201a3,package management,7.3,9,33,100,0.67,2,0.0,3,3,3,1.0,isolado
+cocoapods,lib/cocoapods/command/outdated.rb,5493bfd201a3,package management,11,39,9,91,0.67,2,27.3,11,3,11,1.0,isolado
+cocoapods,lib/cocoapods/command/repo/lint.rb,5493bfd201a3,package management,17.7,43,33,67,0.0,3,0.0,3,4,3,1.0,isolado
+cocoapods,lib/cocoapods/command/repo/remove.rb,5493bfd201a3,package management,5.3,7,0,33,0.0,3,0.0,3,4,3,1.0,isolado
+cocoapods,lib/cocoapods/downloader.rb,5493bfd201a3,package management,11.1,32,50,62,0.25,0,0.0,8,4,7,0.875,isolado
+cocoapods,lib/cocoapods/downloader/request.rb,5493bfd201a3,package management,8,10,0,100,0.0,0,0.0,3,3,3,1.0,isolado
+cocoapods,lib/cocoapods/executable.rb,5493bfd201a3,package management,13,33,70,80,0.0,1,20.0,10,3,10,1.0,isolado
+cocoapods,lib/cocoapods/external_sources.rb,5493bfd201a3,package management,7,9,100,100,0.0,0,0.0,3,2,3,1.0,isolado
+cocoapods,lib/cocoapods/generator/embed_frameworks_script.rb,5493bfd201a3,package management,29.6,129,0,60,0.0,0,0.0,5,3,5,1.0,isolado
+cocoapods,lib/cocoapods/installer/analyzer.rb,5493bfd201a3,package management,18.9,81,2,100,0.33,0,0.0,40,3,40,1.0,isolado
+cocoapods,lib/cocoapods/installer/analyzer/specs_state.rb,5493bfd201a3,package management,9,19,0,40,0.0,0,40.0,5,4,5,1.0,isolado
+cocoapods,lib/cocoapods/target.rb,5493bfd201a3,package management,3.7,11,5,49,0.0,0,0.0,39,2,29,0.744,isolado
+cocoapods,lib/cocoapods/target/pod_target.rb,5493bfd201a3,package management,6.7,31,0,88,0.0,1,0.0,90,2,70,0.778,isolado
+cocoapods,lib/cocoapods/validator.rb,5493bfd201a3,package management,11.2,48,0,82,0.33,1,13.6,66,3,62,0.939,isolado
+cocoapods,lib/cocoapods/version_metadata.rb,5493bfd201a3,package management,5.7,8,100,33,0.0,0,0.0,3,2,3,1.0,isolado
+coderay,lib/coderay.rb,d30855fe96e3,code highlighting,3.3,5,100,18,0.0,0,0.0,11,1,11,1.0,isolado
+coderay,lib/coderay/encoders/count.rb,d30855fe96e3,code highlighting,3.5,5,0,0,0.0,1,0.0,4,3,4,1.0,isolado
+coderay,lib/coderay/encoders/xml.rb,d30855fe96e3,code highlighting,8.2,19,0,100,0.0,1,0.0,5,3,5,1.0,isolado
+coderay,lib/coderay/helpers/plugin.rb,d30855fe96e3,code highlighting,5.8,7,0,100,0.0,0,25.0,4,2,4,1.0,isolado
+coderay,lib/coderay/scanners/php.rb,d30855fe96e3,code highlighting,98.7,289,0,67,0.0,2,0.0,3,5,3,1.0,isolado
+concurrent-ruby,docs-source/medium-example.init.rb,0b88d5ff75f6,concurrency and parallelism,3,4,67,0,0.0,0,0.0,3,0,3,1.0,isolado
+concurrent-ruby,lib/concurrent-ruby/concurrent/executor/java_thread_pool_executor.rb,0b88d5ff75f6,concurrency and parallelism,5.1,35,0,87,0.5,4,0.0,15,2,15,1.0,com a biblioteca carregada
+concurrent-ruby,lib/concurrent-ruby/concurrent/synchronization/abstract_struct.rb,0b88d5ff75f6,concurrency and parallelism,6.1,28,6,71,0.33,0,41.2,17,3,17,1.0,isolado
+connection_pool,lib/connection_pool/fork.rb,78bc41e2a9ff,database tools,8,14,67,67,0.0,0,0.0,3,2,3,1.0,isolado
+connection_pool,lib/connection_pool/timed_stack.rb,78bc41e2a9ff,database tools,7.1,24,0,83,0.0,0,0.0,18,1,18,1.0,isolado
+countries,lib/countries/configuration.rb,8c026f5b49da,country data,4.5,9,38,25,0.0,0,0.0,8,2,8,1.0,isolado
+countries,lib/countries/country.rb,8c026f5b49da,country data,3.5,7,0,83,2.5,0,4.2,24,2,20,0.833,isolado
+countries,lib/countries/country/country_subdivision_methods.rb,8c026f5b49da,country data,4.3,7,0,100,0.0,0,0.0,10,2,9,0.9,isolado
+countries,lib/countries/data.rb,8c026f5b49da,country data,5.2,11,92,67,1.0,0,0.0,24,2,24,1.0,isolado
+countries,lib/countries/mongoid.rb,8c026f5b49da,country data,3.8,7,80,40,0.0,0,20.0,5,2,5,1.0,isolado
+countries,lib/countries/subdivision.rb,8c026f5b49da,country data,3.8,5,0,50,0.0,0,50.0,4,2,4,1.0,isolado
+dalli,lib/dalli.rb,fc1b590e462a,caching,4,6,100,25,0.0,3,0.0,4,11,4,1.0,isolado
+dalli,lib/dalli/protocol/request_formatter.rb,fc1b590e462a,caching,11.6,21,0,76,0.25,1,0.0,17,4,16,0.941,isolado
+dalli,lib/dalli/protocol/string_marshaller.rb,fc1b590e462a,caching,4,6,0,38,0.0,0,0.0,8,3,5,0.625,isolado
+dalli,lib/dalli/servers_arg_normalizer.rb,fc1b590e462a,caching,5.7,7,100,100,0.0,0,0.0,3,2,3,1.0,isolado
+danger,lib/danger/ci_source/ci_source.rb,c94d38b3ce68,automation,3.1,4,57,29,0.0,0,0.0,7,2,6,0.857,isolado
+danger,lib/danger/ci_source/jenkins.rb,c94d38b3ce68,automation,6.8,22,75,83,0.0,1,0.0,12,3,10,0.833,isolado
+danger,lib/danger/danger_core/dangerfile.rb,c94d38b3ce68,automation,12.5,35,9,77,0.5,0,36.4,22,2,19,0.864,isolado
+danger,lib/danger/danger_core/messages/markdown.rb,c94d38b3ce68,automation,9,14,0,83,0.0,1,0.0,6,2,6,1.0,isolado
+danger,lib/danger/plugin_support/plugin.rb,c94d38b3ce68,automation,3.6,7,57,43,0.0,0,28.6,7,2,7,1.0,isolado
+danger,lib/danger/request_sources/github/github_review_unsupported.rb,c94d38b3ce68,automation,1,1,0,0,0.0,0,0.0,7,4,3,0.429,isolado
+database_cleaner,lib/database_cleaner/cleaner.rb,23fb7a715317,database tools,5.7,12,13,53,0.67,1,20.0,15,3,15,1.0,isolado
+database_cleaner,lib/database_cleaner/null_strategy.rb,23fb7a715317,database tools,3.2,4,0,0,0.0,0,0.0,4,2,3,0.75,isolado
+debug,lib/debug/abbrev_command.rb,bad4d38f8330,developer tooling,6,12,0,80,0.0,0,0.0,10,3,10,1.0,isolado
+debug,lib/debug/config.rb,bad4d38f8330,developer tooling,18.1,177,52,59,0.0,0,11.1,27,2,26,0.963,isolado
+debug,lib/debug/irb_integration.rb,bad4d38f8330,developer tooling,7.7,8,0,33,0.0,0,66.7,3,4,3,1.0,isolado
+debug,lib/debug/server_cdp.rb,bad4d38f8330,developer tooling,27,202,9,83,0.27,1,26.1,46,11,42,0.913,isolado
+debug,lib/debug/session.rb,bad4d38f8330,developer tooling,15.6,675,16,69,0.62,1,3.4,149,24,129,0.866,isolado
+debug,lib/debug/source_repository.rb,bad4d38f8330,developer tooling,8.4,18,0,79,0.5,0,14.3,14,2,14,1.0,isolado
+devise,lib/devise.rb,9ea459de9aec,authentication and oauth,7.7,44,89,42,0.43,0,5.3,19,7,19,1.0,isolado
+devise,lib/devise/models.rb,9ea459de9aec,authentication and oauth,13.5,34,33,67,1.33,1,100.0,6,3,6,1.0,isolado
+devise,lib/devise/strategies/authenticatable.rb,9ea459de9aec,authentication and oauth,4.3,12,0,83,0.0,2,4.3,23,3,23,1.0,isolado
+devise,lib/generators/devise/orm_helpers.rb,9ea459de9aec,authentication and oauth,4.4,10,0,0,0.0,0,0.0,5,3,5,1.0,isolado
+diffy,lib/diffy/diff.rb,72dc29ff5a5b,diff,13.4,35,20,80,0.5,0,10.0,10,2,10,1.0,isolado
+diffy,lib/diffy/format.rb,72dc29ff5a5b,diff,6.2,16,0,75,0.0,0,0.0,4,2,4,1.0,isolado
+doorkeeper,lib/doorkeeper/helpers/controller.rb,75a84fefe686,authentication and oauth,4.8,14,8,46,0.0,0,30.8,13,3,13,1.0,isolado
+doorkeeper,lib/doorkeeper/oauth/authorization/uri_builder.rb,75a84fefe686,authentication and oauth,5,6,100,100,0.0,0,0.0,3,4,3,1.0,isolado
+doorkeeper,lib/doorkeeper/orm/active_record/mixins/access_grant.rb,75a84fefe686,authentication and oauth,5.3,7,0,100,1.0,0,0.0,3,3,3,1.0,com a biblioteca carregada
+doorkeeper,lib/doorkeeper/secret_storing/plain.rb,75a84fefe686,authentication and oauth,3,3,100,33,0.0,1,33.3,3,3,3,1.0,com a biblioteca carregada
+doorkeeper,lib/generators/doorkeeper/enable_polymorphic_resource_owner_generator.rb,75a84fefe686,authentication and oauth,6,12,33,0,0.5,1,0.0,3,2,3,1.0,isolado
+dotenv,lib/dotenv.rb,34156bf400cd,configuration,8.4,19,0,64,1.0,0,0.0,11,1,9,0.818,isolado
+dotenv,lib/dotenv/environment.rb,34156bf400cd,configuration,4,6,0,0,0.0,1,0.0,3,2,3,1.0,isolado
+dotenv,lib/dotenv/parser.rb,34156bf400cd,configuration,8.1,19,14,86,0.0,1,0.0,7,3,7,1.0,isolado
+dry-types,lib/dry/types.rb,1a13fb04926f,type signatures and type checking,7.3,28,100,50,2.0,0,8.3,12,2,10,0.833,isolado
+dry-types,lib/dry/types/array/constructor.rb,1a13fb04926f,type signatures and type checking,1,1,0,67,0.0,2,0.0,3,4,3,1.0,isolado
+dry-types,lib/dry/types/composition.rb,1a13fb04926f,type signatures and type checking,2.9,8,6,38,1.75,0,25.0,16,4,12,0.75,isolado
+dry-types,lib/dry/types/constructor/function.rb,1a13fb04926f,type signatures and type checking,5.8,21,26,79,0.2,3,26.3,19,10,17,0.895,isolado
+dry-types,lib/dry/types/fn_container.rb,1a13fb04926f,type signatures and type checking,4.8,7,100,75,0.0,0,0.0,4,3,4,1.0,isolado
+dry-types,lib/dry/types/module.rb,1a13fb04926f,type signatures and type checking,18.2,28,0,100,0.67,1,140.0,5,3,5,1.0,isolado
+dry-types,lib/dry/types/printer.rb,1a13fb04926f,type signatures and type checking,11.9,38,0,90,0.0,0,4.8,21,3,21,1.0,isolado
+dry-types,lib/dry/types/result.rb,1a13fb04926f,type signatures and type checking,1.7,4,0,14,0.4,1,0.0,7,5,4,0.571,isolado
+dry-types,lib/dry/types/schema/key.rb,1a13fb04926f,type signatures and type checking,4.2,13,0,92,1.5,2,0.0,12,4,12,1.0,isolado
+eventmachine,lib/em/connection.rb,9cb13a8a6236,concurrency and parallelism,4.3,44,2,15,0.0,1,2.2,46,3,40,0.87,isolado
+eventmachine,lib/em/iterator.rb,9cb13a8a6236,concurrency and parallelism,16.2,51,0,78,0.0,0,0.0,9,2,8,0.889,isolado
+eventmachine,lib/em/protocols/header_and_content.rb,9cb13a8a6236,concurrency and parallelism,10.3,35,14,29,0.33,1,0.0,7,3,7,1.0,isolado
+eventmachine,lib/em/protocols/httpclient.rb,9cb13a8a6236,concurrency and parallelism,22.8,88,11,56,0.33,1,11.1,9,3,9,1.0,isolado
+eventmachine,lib/em/timers.rb,9cb13a8a6236,concurrency and parallelism,4.2,7,0,17,0.0,0,16.7,6,3,6,1.0,isolado
+eventmachine,lib/eventmachine.rb,9cb13a8a6236,concurrency and parallelism,12.9,96,100,64,1.0,0,17.0,47,1,46,0.979,isolado
+excon,lib/excon/error.rb,ac022b6417d7,http clients and tools,15.4,45,43,43,0.0,4,14.3,7,63,6,0.857,isolado
+excon,lib/excon/socks5.rb,ac022b6417d7,http clients and tools,23.3,31,0,100,0.0,0,0.0,6,2,6,1.0,isolado
+eye,lib/eye/checker.rb,300aa8793112,process management and monitoring,6.6,36,31,59,0.17,2,6.9,29,6,27,0.931,isolado
+eye,lib/eye/checker/cpu.rb,300aa8793112,process management and monitoring,3,3,0,0,0.0,2,0.0,3,1,3,1.0,isolado
+eye,lib/eye/dsl.rb,300aa8793112,process management and monitoring,6.2,16,100,50,0.0,1,0.0,4,2,4,1.0,isolado
+eye,lib/eye/dsl/application_opts.rb,300aa8793112,process management and monitoring,7,17,0,50,1.0,2,25.0,4,1,3,0.75,isolado
+eye,lib/eye/dsl/process_opts.rb,300aa8793112,process management and monitoring,6.2,12,0,75,0.0,2,25.0,4,1,4,1.0,isolado
+eye,lib/eye/dsl/pure_opts.rb,300aa8793112,process management and monitoring,11.9,39,22,33,0.0,0,122.2,9,1,7,0.778,isolado
+eye,lib/eye/process/commands.rb,300aa8793112,process management and monitoring,26.1,47,0,82,0.0,0,0.0,11,1,11,1.0,com a biblioteca carregada
+eye,lib/eye/process/states_history.rb,300aa8793112,process management and monitoring,4.2,10,0,100,0.0,2,0.0,6,1,5,0.833,com a biblioteca carregada
+eye,lib/eye/utils/alive_array.rb,300aa8793112,process management and monitoring,4.3,10,0,50,2.0,0,0.0,10,1,9,0.9,com a biblioteca carregada
+factory_bot,lib/factory_bot/internal.rb,5d399535578d,testing,4.4,8,100,68,0.0,0,0.0,19,2,19,1.0,isolado
+faker,lib/faker/default/cosmere.rb,e48d35f4fa0d,testing,3,3,100,0,0.0,1,0.0,10,2,10,1.0,isolado
+faker,lib/faker/default/omniauth.rb,e48d35f4fa0d,testing,26.5,72,93,57,0.0,1,0.0,14,2,13,0.929,isolado
+faraday,lib/faraday.rb,f1ace878bae1,http clients and tools,4,7,100,29,0.0,0,14.3,7,1,7,1.0,isolado
+fastimage,lib/fastimage/fastimage.rb,7a0dcf780e6d,image processing,10.8,54,12,56,0.14,2,4.0,25,7,22,0.88,isolado
+fastimage,lib/fastimage/fastimage_parsing/svg.rb,7a0dcf780e6d,image processing,20.3,35,0,100,0.0,1,0.0,3,2,3,1.0,isolado
+fastlane,deliver/lib/deliver/setup.rb,38d0ec404332,mobile development,26.1,89,0,57,0.0,0,142.9,7,2,7,1.0,isolado
+fastlane,fastlane/lib/fastlane/actions/setup_jenkins.rb,38d0ec404332,mobile development,20.1,64,100,12,0.0,1,0.0,8,3,6,0.75,isolado
+fastlane,fastlane/lib/fastlane/setup/setup_android.rb,38d0ec404332,mobile development,21.8,45,0,25,0.0,1,0.0,4,2,4,1.0,isolado
+fastlane,fastlane_core/lib/fastlane_core/helper.rb,38d0ec404332,mobile development,6.7,34,100,23,0.0,0,0.0,53,2,46,0.868,isolado
+fastlane,frameit/lib/frameit/device_types.rb,38d0ec404332,mobile development,4,7,100,25,0.0,0,75.0,4,5,4,1.0,isolado
+fastlane,match/lib/match/generator.rb,38d0ec404332,mobile development,40.7,62,100,100,0.0,0,0.0,3,2,3,1.0,isolado
+fastlane,pilot/lib/pilot/commands_generator.rb,38d0ec404332,mobile development,30.4,121,20,80,0.5,0,20.0,5,2,5,1.0,isolado
+fastlane,precheck/lib/precheck/rules/custom_text_rule.rb,38d0ec404332,mobile development,3,3,57,14,0.0,4,0.0,7,2,3,0.429,isolado
+fastlane,produce/lib/produce/service.rb,38d0ec404332,mobile development,39.6,328,30,50,1.5,0,0.0,10,2,9,0.9,isolado
+fastlane,spaceship/lib/spaceship/base.rb,38d0ec404332,mobile development,7.3,29,35,65,0.67,0,21.7,23,3,23,1.0,isolado
+fastlane,spaceship/lib/spaceship/connect_api/file_uploader.rb,38d0ec404332,mobile development,27.7,35,100,100,0.0,0,33.3,3,3,3,1.0,isolado
+fastlane,spaceship/lib/spaceship/connect_api/models/app_store_version_phased_release.rb,38d0ec404332,mobile development,3.3,5,17,0,0.25,0,0.0,6,4,4,0.667,isolado
+fastlane,spaceship/lib/spaceship/connect_api/models/profile.rb,38d0ec404332,mobile development,6.4,13,43,86,0.2,0,0.0,7,5,7,1.0,isolado
+fastlane,spaceship/lib/spaceship/connect_api/spaceship.rb,38d0ec404332,mobile development,4.6,12,100,43,0.5,0,0.0,7,2,7,1.0,isolado
+fastlane,spaceship/lib/spaceship/portal/app_service.rb,38d0ec404332,mobile development,9,12,33,100,0.0,0,33.3,3,3,3,1.0,isolado
+fastlane,spaceship/lib/spaceship/portal/cloud_container.rb,38d0ec404332,mobile development,4,5,100,100,0.0,2,0.0,3,3,3,1.0,isolado
+fastlane,spaceship/lib/spaceship/tunes/app_image.rb,38d0ec404332,mobile development,6.3,10,0,33,0.0,2,33.3,3,3,3,1.0,isolado
+fastlane,spaceship/lib/spaceship/tunes/app_version_history.rb,38d0ec404332,mobile development,4.2,5,0,75,0.0,2,0.0,4,3,4,1.0,isolado
+fastlane,spaceship/lib/spaceship/tunes/build_train.rb,38d0ec404332,mobile development,30.2,60,25,100,0.0,2,0.0,4,3,4,1.0,isolado
+fastlane,spaceship/lib/spaceship/tunes/tunes_client.rb,38d0ec404332,mobile development,14.8,87,2,73,0.0,1,0.0,93,2,79,0.849,isolado
+foreman,lib/foreman/engine.rb,3530b8e4a1b1,process management and monitoring,7.9,30,0,63,0.0,0,0.0,43,1,40,0.93,isolado
+formatador,lib/formatador.rb,1000476d1648,cli utilities,4.6,7,0,23,0.0,0,0.0,13,1,13,1.0,isolado
+formatador,lib/formatador/table.rb,1000476d1648,cli utilities,23.5,69,0,100,0.0,0,0.0,4,1,4,1.0,isolado
+geocoder,lib/easting_northing.rb,d3515db46c57,geolocation,17.2,84,0,56,0.0,0,0.0,9,2,8,0.889,isolado
+geocoder,lib/geocoder.rb,d3515db46c57,geolocation,4.7,5,100,100,0.0,0,0.0,3,1,3,1.0,isolado
+geocoder,lib/geocoder/configuration.rb,d3515db46c57,geolocation,7.6,35,67,67,0.5,0,11.1,9,2,9,1.0,isolado
+geocoder,lib/geocoder/models/mongo_mapper.rb,d3515db46c57,geolocation,2.5,7,25,50,0.67,0,0.0,4,3,3,0.75,isolado
+geocoder,lib/geocoder/results/ipbase.rb,d3515db46c57,geolocation,3.4,6,0,100,0.0,1,0.0,8,2,4,0.5,isolado
+geocoder,lib/geocoder/results/ipqualityscore.rb,d3515db46c57,geolocation,11,27,33,0,0.0,1,0.0,3,3,3,1.0,isolado
+geocoder,lib/geocoder/stores/active_record.rb,d3515db46c57,geolocation,13.1,62,6,82,0.33,0,41.2,17,3,17,1.0,isolado
+geocoder,lib/geocoder/stores/base.rb,d3515db46c57,geolocation,7.5,30,0,25,0.0,0,25.0,8,3,6,0.75,isolado
+gitlab,lib/gitlab.rb,4818c5712616,third-party apis,4.3,7,100,67,1.0,0,33.3,6,1,6,1.0,isolado
+gitlab,lib/gitlab/cli.rb,4818c5712616,third-party apis,19.7,43,100,67,1.0,0,0.0,3,1,3,1.0,isolado
+gitlab,lib/gitlab/client.rb,4818c5712616,third-party apis,4.2,5,0,75,32.5,2,0.0,4,2,4,1.0,isolado
+gitlab,lib/gitlab/file_response.rb,4818c5712616,third-party apis,3.7,7,0,57,0.0,0,14.3,7,2,6,0.857,isolado
+gitlab,lib/gitlab/request.rb,4818c5712616,third-party apis,10.3,18,29,86,0.5,0,0.0,7,2,7,1.0,isolado
+gli,lib/gli/commands/scaffold.rb,4029b76c888a,cli builder,34.1,109,100,89,0.0,0,0.0,9,3,9,1.0,isolado
+gli,lib/gli/gli_option_parser.rb,4029b76c888a,cli builder,17.9,57,0,73,0.0,2,9.1,11,5,11,1.0,isolado
+gli,lib/gli/option_parser_factory.rb,4029b76c888a,cli builder,9,17,57,71,0.0,0,0.0,7,2,7,1.0,isolado
+gli,lib/gli/options.rb,4029b76c888a,cli builder,3,3,0,100,0.0,1,66.7,3,2,3,1.0,isolado
+gli,lib/gli/terminal.rb,4029b76c888a,cli builder,3.1,10,70,10,0.0,0,0.0,10,2,7,0.7,isolado
+guard,lib/guard.rb,170d63c6ca57,file system listener,11,28,100,89,1.0,0,11.1,9,1,9,1.0,isolado
+guard,lib/guard/deprecated/evaluator.rb,170d63c6ca57,file system listener,4.3,6,33,33,0.0,0,33.3,3,3,3,1.0,isolado
+guard,lib/guard/deprecated/guard.rb,170d63c6ca57,file system listener,6.3,50,4,19,0.25,0,11.1,27,4,26,0.963,isolado
+guard,lib/guard/dsl_describer.rb,170d63c6ca57,file system listener,23.6,50,0,100,0.0,0,0.0,5,2,5,1.0,isolado
+guard,lib/guard/interactor.rb,170d63c6ca57,file system listener,4.8,10,50,50,0.5,0,0.0,4,2,3,0.75,isolado
+guard,lib/guard/internals/debugging.rb,170d63c6ca57,file system listener,5.2,11,100,17,0.0,0,0.0,6,3,6,1.0,isolado
+guard,lib/guard/ui/config.rb,170d63c6ca57,file system listener,7.2,14,0,33,0.0,2,0.0,6,3,5,0.833,isolado
+haml,lib/haml/dynamic_merger.rb,7f51ae709d96,template engine,19,25,0,100,0.0,1,0.0,3,2,3,1.0,isolado
+haml,lib/haml/filters/tilt_base.rb,7f51ae709d96,template engine,7,11,17,83,0.0,1,16.7,6,3,6,1.0,isolado
+haml,lib/haml/parser.rb,7f51ae709d96,template engine,13.7,80,2,83,0.33,0,5.6,54,3,53,0.981,isolado
+hashie,lib/hashie/hash.rb,ce2226269688,core extensions,8,22,0,80,1.0,1,0.0,5,2,5,1.0,isolado
+http,lib/http/redirector.rb,942b1b36cea9,http clients and tools,6.9,16,0,88,0.0,3,0.0,8,4,8,1.0,isolado
+httparty,examples/party_foul_mode.rb,9c89e55ce357,http clients and tools,16.7,34,100,67,1.0,0,0.0,3,1,3,1.0,isolado
+httparty,lib/httparty/decompressor.rb,9c89e55ce357,http clients and tools,6.9,11,0,25,0.0,0,12.5,8,2,8,1.0,isolado
+httparty,lib/httparty/logger/curl_formatter.rb,9c89e55ce357,http clients and tools,5.8,10,0,91,0.0,0,9.1,11,3,11,1.0,isolado
+httparty,lib/httparty/module_inheritable_attributes.rb,9c89e55ce357,http clients and tools,11,16,50,100,0.0,0,100.0,4,3,4,1.0,isolado
+httpclient,lib/httpclient/cookie.rb,5bc7b0d383c4,http clients and tools,6.5,26,9,57,0.4,1,0.0,23,5,23,1.0,isolado
+httpclient,lib/httpclient/http.rb,5bc7b0d383c4,http clients and tools,7.6,37,22,67,0.17,0,0.0,87,6,81,0.931,isolado
+i18n,lib/i18n/backend/chain.rb,8beba7876163,internationalization,6.2,19,0,92,0.5,0,23.1,13,4,13,1.0,isolado
+i18n,lib/i18n/gettext/helpers.rb,8beba7876163,internationalization,5.4,11,0,29,0.0,0,0.0,7,3,7,1.0,isolado
+i18n,lib/i18n/locale/fallbacks.rb,8beba7876163,internationalization,6.7,14,0,100,0.0,1,0.0,7,3,7,1.0,isolado
+i18n,lib/i18n/locale/tag.rb,8beba7876163,internationalization,3,3,100,33,0.0,0,0.0,3,3,3,1.0,isolado
+i18n,lib/i18n/locale/tag/rfc4646.rb,8beba7876163,internationalization,3.6,6,57,71,0.2,1,14.3,7,5,7,1.0,isolado
+image_processing,lib/image_processing/chainable.rb,1611c00ed4eb,image processing,6.2,17,0,45,0.0,0,45.5,11,2,7,0.636,isolado
+image_processing,lib/image_processing/pipeline.rb,1611c00ed4eb,image processing,8.1,13,0,89,0.0,0,11.1,9,2,9,1.0,isolado
+image_processing,lib/image_processing/processor.rb,1611c00ed4eb,image processing,8.6,24,57,43,0.0,0,57.1,7,2,7,1.0,isolado
+jaro_winkler,lib/jaro_winkler/jaro_winkler_pure.rb,9d7b6c110fa8,scientific,17.1,84,100,71,0.0,2,0.0,7,3,7,1.0,isolado
+jwt,lib/jwt/claims.rb,db560b769a07,authentication and oauth,3,3,100,0,0.0,0,0.0,3,2,3,1.0,isolado
+jwt,lib/jwt/jwa/signing_algorithm.rb,db560b769a07,authentication and oauth,3,3,36,55,0.0,0,0.0,11,4,10,0.909,isolado
+kaminari,kaminari-core/lib/kaminari/config.rb,508caf4653b2,pagination,5.2,12,50,25,0.0,0,0.0,4,2,4,1.0,isolado
+kaminari,kaminari-core/lib/kaminari/helpers/paginator.rb,508caf4653b2,pagination,4.3,16,0,78,0.25,1,14.8,27,4,26,0.963,isolado
+kaminari,kaminari-core/lib/kaminari/models/array_extension.rb,508caf4653b2,pagination,5.3,17,17,50,1.0,1,0.0,6,2,5,0.833,isolado
+kramdown,lib/kramdown/converter/html.rb,12b3d2e75279,markdown processors,9.6,45,0,84,0.67,1,4.7,43,3,41,0.953,isolado
+kramdown,lib/kramdown/document.rb,12b3d2e75279,markdown processors,8,12,20,60,0.0,0,40.0,5,2,5,1.0,isolado
+kramdown,lib/kramdown/parser/kramdown/abbreviation.rb,12b3d2e75279,markdown processors,18.3,36,0,100,0.0,1,0.0,3,3,3,1.0,isolado
+kramdown,lib/kramdown/parser/kramdown/html.rb,12b3d2e75279,markdown processors,42,59,0,100,0.67,1,0.0,3,3,3,1.0,com a biblioteca carregada
+kramdown,lib/kramdown/utils.rb,12b3d2e75279,markdown processors,4.3,7,100,67,0.0,0,33.3,3,2,3,1.0,isolado
+kramdown,setup.rb,12b3d2e75279,markdown processors,6.2,111,4,55,0.21,1,2.8,181,19,148,0.818,isolado
+liquid,lib/liquid/expression.rb,7a5e45fc4784,template engine,23,52,100,100,0.0,0,0.0,4,2,4,1.0,isolado
+liquid,lib/liquid/file_system.rb,7a5e45fc4784,template engine,6.5,13,0,25,0.0,0,0.0,4,3,4,1.0,isolado
+liquid,lib/liquid/strainer_template.rb,7a5e45fc4784,template engine,5.6,12,71,71,0.5,0,28.6,7,2,7,1.0,isolado
+liquid,lib/liquid/tag.rb,7a5e45fc4784,template engine,3.7,6,25,42,1.0,0,8.3,12,2,9,0.75,isolado
+liquid,lib/liquid/tags/capture.rb,7a5e45fc4784,template engine,4.8,7,0,50,0.5,2,0.0,6,2,6,1.0,isolado
+liquid,lib/liquid/tags/comment.rb,7a5e45fc4784,template engine,12.6,48,0,40,0.0,2,40.0,5,2,5,1.0,isolado
+liquid,lib/liquid/template.rb,7a5e45fc4784,template engine,7.1,60,52,26,0.0,0,0.0,23,2,20,0.87,isolado
+listen,lib/listen/adapter/darwin.rb,2fa1a742d8c2,file system listener,7.2,11,17,100,0.0,1,0.0,6,3,6,1.0,isolado
+listen,lib/listen/directory.rb,2fa1a742d8c2,file system listener,15.6,45,100,100,0.0,0,0.0,5,2,5,1.0,isolado
+listen,lib/listen/options.rb,2fa1a742d8c2,file system listener,5.3,9,0,100,0.0,0,33.3,3,2,3,1.0,isolado
+logging,lib/logging.rb,aec306300d18,logging,9.8,58,100,56,0.5,0,16.0,25,2,22,0.88,isolado
+logging,lib/logging/appenders.rb,aec306300d18,logging,3,8,0,100,0.5,0,0.0,5,2,5,1.0,isolado
+logging,lib/logging/appenders/buffering.rb,aec306300d18,logging,10.5,27,0,75,0.0,0,0.0,24,3,24,1.0,isolado
+logging,lib/logging/appenders/io.rb,aec306300d18,logging,7.8,12,17,100,0.5,1,16.7,6,2,6,1.0,isolado
+logging,lib/logging/layouts/parseable.rb,aec306300d18,logging,8.7,24,54,69,0.0,1,15.4,13,2,11,0.846,isolado
+logging,lib/logging/rails_compat.rb,aec306300d18,logging,1.7,3,0,0,0.0,0,0.0,3,2,3,1.0,isolado
+mail,lib/mail/encodings.rb,d645d7b5b7d0,email,9.0,21,100,76,0.67,1,0.0,21,3,21,1.0,isolado
+mail,lib/mail/encodings/base64.rb,d645d7b5b7d0,email,3,3,100,0,0.0,5,0.0,5,3,4,0.8,isolado
+mail,lib/mail/field.rb,d645d7b5b7d0,email,5.0,17,12,68,0.14,3,12.0,25,7,24,0.96,isolado
+mail,lib/mail/fields/parameter_hash.rb,d645d7b5b7d0,email,14,28,0,100,0.0,2,0.0,3,2,3,1.0,isolado
+mail,lib/mail/fields/return_path_field.rb,d645d7b5b7d0,email,3.8,7,20,20,0.0,4,0.0,5,2,4,0.8,isolado
+mail,lib/mail/header.rb,d645d7b5b7d0,email,5.3,21,10,70,0.5,0,0.0,20,2,17,0.85,isolado
+mail,lib/mail/mail.rb,d645d7b5b7d0,email,3.5,6,100,50,0.0,0,4.2,24,1,21,0.875,isolado
+mail,lib/mail/message.rb,d645d7b5b7d0,email,5.4,52,2,61,0.0,0,5.6,180,2,115,0.639,isolado
+mail,lib/mail/network/delivery_methods/logger_delivery.rb,d645d7b5b7d0,email,5.5,10,0,75,0.0,0,25.0,4,2,4,1.0,isolado
+mail,lib/mail/network/retriever_methods/test_retriever.rb,d645d7b5b7d0,email,7.8,22,50,25,0.0,1,0.0,4,2,3,0.75,isolado
+mail,lib/mail/utilities.rb,d645d7b5b7d0,email,6.8,59,49,75,0.25,0,1.8,55,4,49,0.891,isolado
+minitest,lib/minitest.rb,f6180b07ea6e,testing,7.1,126,30,39,0.12,3,2.2,92,17,72,0.783,isolado
+minitest,lib/minitest/test.rb,f6180b07ea6e,testing,6.1,19,27,20,2.33,1,33.3,15,3,10,0.667,isolado
+money,lib/money/bank/base.rb,26e2829c34f1,money,2.8,4,20,0,0.0,2,0.0,5,5,5,1.0,isolado
+money,lib/money/bank/variable_exchange.rb,26e2829c34f1,money,7.2,20,0,85,0.0,1,7.7,13,4,13,1.0,isolado
+money,lib/money/money.rb,26e2829c34f1,money,5.9,20,29,51,1.5,1,0.0,41,2,37,0.902,isolado
+mongo,lib/mongo/address/unix.rb,049b718a2d47,database drivers,3,3,33,0,0.0,0,0.0,3,3,3,1.0,isolado
+mongo,lib/mongo/auth.rb,049b718a2d47,database drivers,15,33,0,100,0.6,3,0.0,3,5,3,1.0,isolado
+mongo,lib/mongo/auth/scram_conversation_base.rb,049b718a2d47,database drivers,4.6,23,0,46,0.0,2,0.0,26,3,25,0.962,isolado
+mongo,lib/mongo/cluster/sdam_flow.rb,049b718a2d47,database drivers,25.0,105,0,95,0.5,0,9.5,21,2,21,1.0,isolado
+mongo,lib/mongo/collection/view.rb,049b718a2d47,database drivers,5.9,21,0,91,2.33,0,0.0,11,3,11,1.0,isolado
+mongo,lib/mongo/config/options.rb,049b718a2d47,database drivers,6.8,18,0,50,0.0,0,125.0,4,3,3,0.75,isolado
+mongo,lib/mongo/crypt/kms/azure/credentials_retriever.rb,049b718a2d47,database drivers,12.2,14,100,100,0.0,0,0.0,4,5,4,1.0,isolado
+mongo,lib/mongo/deprecations.rb,049b718a2d47,database drivers,4.7,8,0,29,1.0,0,0.0,7,2,7,1.0,isolado
+mongo,lib/mongo/monitoring/event/command_failed.rb,049b718a2d47,database drivers,12,17,33,67,0.25,1,0.0,3,4,3,1.0,isolado
+mongo,lib/mongo/operation/insert/op_msg.rb,049b718a2d47,database drivers,6.7,8,0,67,1.5,1,33.3,3,4,3,1.0,isolado
+mongo,lib/mongo/query_cache.rb,049b718a2d47,database drivers,8.3,27,87,53,0.0,0,6.7,15,4,14,0.933,isolado
+mongo,lib/mongo/server/app_metadata/truncator.rb,049b718a2d47,database drivers,4.6,12,0,82,0.0,0,9.1,11,4,10,0.909,isolado
+mongo,lib/mongo/server/connection_pool.rb,049b718a2d47,database drivers,17.8,85,2,96,1.0,0,0.0,56,3,55,0.982,isolado
+mongo,profile/driver_bench/multi_doc/grid_fs/download.rb,049b718a2d47,database drivers,4.7,6,0,100,0.0,3,0.0,3,5,3,1.0,isolado
+optimist,lib/optimist.rb,ecd4d8573b46,cli builder,8.3,126,6,54,0.0,2,1.0,100,23,66,0.66,isolado
+paper_trail,lib/paper_trail.rb,0c511ed46c08,orm/odm extensions,3.6,7,100,10,1.0,0,0.0,10,1,9,0.9,isolado
+paper_trail,lib/paper_trail/events/base.rb,0c511ed46c08,orm/odm extensions,6.6,15,0,86,0.0,0,7.1,28,3,26,0.929,isolado
+paper_trail,lib/paper_trail/reifier.rb,0c511ed46c08,orm/odm extensions,9.2,18,100,100,0.0,0,37.5,8,2,8,1.0,isolado
+parallel,lib/parallel.rb,cd5ba09894cd,concurrency and parallelism,11.2,59,71,70,0.0,2,10.7,56,9,55,0.982,isolado
+pastel,lib/pastel/color_parser.rb,afd82952076e,cli utilities,16.2,48,100,75,0.5,0,0.0,4,2,4,1.0,isolado
+pastel,lib/pastel/delegator.rb,afd82952076e,cli utilities,4.2,11,11,67,0.5,0,11.1,9,2,9,1.0,isolado
+pg,lib/pg/connection.rb,d4539c25dcc8,database drivers,15.0,81,32,68,0.5,0,20.6,34,2,34,1.0,isolado
+pg,sample/warehouse_partitions.rb,d4539c25dcc8,database drivers,44.6,81,0,100,0.0,0,0.0,5,1,5,1.0,isolado
+prawn,lib/prawn/document.rb,f82783b1d020,pdf,9.6,54,9,65,5.5,0,8.8,34,2,30,0.882,isolado
+prawn,lib/prawn/fonts/dfont.rb,f82783b1d020,pdf,4.3,5,67,100,0.0,2,0.0,3,3,3,1.0,isolado
+prawn,lib/prawn/images/png.rb,f82783b1d020,pdf,31,118,11,89,0.0,1,0.0,9,3,9,1.0,isolado
+prawn,lib/prawn/measurement_extensions.rb,f82783b1d020,pdf,3,3,0,0,1.0,0,0.0,8,1,8,1.0,isolado
+prawn,lib/prawn/measurements.rb,f82783b1d020,pdf,3,3,0,57,0.0,0,0.0,14,2,9,0.643,isolado
+prawn,lib/prawn/text/formatted/box.rb,f82783b1d020,pdf,14.2,59,6,81,0.5,0,0.0,32,4,29,0.906,isolado
+prawn,lib/prawn/text/formatted/parser.rb,f82783b1d020,pdf,34.7,114,100,100,0.0,0,0.0,6,4,5,0.833,isolado
+prawn,lib/prawn/view.rb,f82783b1d020,pdf,3.4,5,0,60,0.0,0,40.0,5,2,5,1.0,isolado
+premailer-rails,lib/premailer/rails/css_loaders/asset_pipeline_loader.rb,33287e89f7a3,email,8,10,0,0,0.25,0,0.0,3,4,3,1.0,isolado
+pry,lib/pry/cli.rb,5a267df08ad6,irb,16.8,37,100,60,0.0,0,40.0,5,2,5,1.0,isolado
+pry,lib/pry/command_set.rb,5a267df08ad6,irb,7.4,27,0,76,0.5,1,28.0,25,4,25,1.0,isolado
+pry,lib/pry/commands/cat/abstract_formatter.rb,5a267df08ad6,irb,3.5,5,0,100,0.5,2,0.0,4,4,4,1.0,isolado
+pry,lib/pry/commands/ls/formatter.rb,5a267df08ad6,irb,3.9,6,0,38,0.0,2,25.0,8,4,8,1.0,isolado
+pry,lib/pry/commands/ri.rb,5a267df08ad6,irb,16.5,50,0,75,0.0,2,50.0,4,3,4,1.0,isolado
+pry,lib/pry/commands/watch_expression/expression.rb,5a267df08ad6,irb,4,5,0,40,0.0,2,0.0,5,4,5,1.0,isolado
+pry,lib/pry/editor.rb,5a267df08ad6,irb,11.3,27,10,50,0.5,0,0.0,10,2,10,1.0,isolado
+pry,lib/pry/exceptions.rb,5a267df08ad6,irb,10.3,17,100,67,0.0,2,0.0,3,8,3,1.0,isolado
+pry,lib/pry/input_completer.rb,5a267df08ad6,irb,46,171,0,100,0.0,0,40.0,5,2,5,1.0,isolado
+pry,lib/pry/method.rb,5a267df08ad6,irb,7.5,29,29,75,2.5,0,2.0,51,2,46,0.902,isolado
+pry,lib/pry/prompt.rb,5a267df08ad6,irb,8.1,23,43,86,0.0,0,14.3,7,2,7,1.0,isolado
+pry,lib/pry/pry_class.rb,5a267df08ad6,irb,8.4,45,100,31,1.0,0,0.0,26,1,26,1.0,isolado
+pry,lib/pry/syntax_highlighter.rb,5a267df08ad6,irb,3,3,100,0,0.0,0,0.0,4,2,4,1.0,isolado
+pry,lib/pry/testable.rb,5a267df08ad6,irb,8,13,100,33,2.0,0,33.3,3,2,3,1.0,isolado
+puma,examples/generate_chain_test.rb,8085b75e79e3,web servers,13.3,25,100,67,0.0,0,0.0,6,1,6,1.0,isolado
+puma,lib/puma/app/status.rb,8085b75e79e3,web servers,19.8,62,0,75,0.0,0,25.0,4,3,4,1.0,isolado
+puma,lib/puma/cluster/worker.rb,8085b75e79e3,web servers,53.3,125,0,100,0.0,1,0.0,3,3,3,1.0,com a biblioteca carregada
+puma,lib/puma/dsl.rb,8085b75e79e3,web servers,5.8,66,1,80,0.0,0,3.6,84,2,44,0.524,isolado
+pundit,lib/pundit.rb,2d665d67a26f,authorization,5,10,100,33,0.0,0,0.0,6,2,6,1.0,isolado
+pundit,lib/pundit/authorization.rb,2d665d67a26f,authorization,4.1,9,0,47,0.5,0,5.9,17,2,13,0.765,isolado
+rack-attack,lib/rack/attack.rb,65f1ead3bc64,security,8.5,28,67,67,0.17,2,0.0,6,6,6,1.0,isolado
+rack-protection,lib/rack/protection/base.rb,599a007a779d,security,4.5,9,9,73,0.0,0,9.1,22,3,22,1.0,isolado
+rails-i18n,lib/rails_i18n/pluralization.rb,32a4583d2111,internationalization,14.5,21,100,100,0.0,0,0.0,8,10,8,1.0,isolado
+rails-i18n,lib/rails_i18n/railtie.rb,32a4583d2111,internationalization,3.7,4,100,33,0.0,1,33.3,3,2,3,1.0,isolado
+rake,lib/rake/application.rb,503b8ec593c5,cli builder,12.5,217,0,71,1.0,0,0.0,55,2,54,0.982,isolado
+rake,lib/rake/dsl_definition.rb,503b8ec593c5,cli builder,4.8,12,0,33,1.0,0,0.0,9,2,6,0.667,isolado
+rake,lib/rake/name_space.rb,503b8ec593c5,cli builder,3.2,4,0,100,0.0,0,0.0,4,1,4,1.0,isolado
+rake,lib/rake/scope.rb,503b8ec593c5,cli builder,4,8,0,20,0.0,2,0.0,5,3,5,1.0,isolado
+ransack,lib/polyamorous/activerecord/join_dependency.rb,383c5dd9aa8f,search,17.2,25,0,100,0.0,0,0.0,5,3,5,1.0,isolado
+ransack,lib/ransack/adapters/active_record/context.rb,383c5dd9aa8f,search,14.1,39,0,95,0.0,1,59.1,22,4,22,1.0,isolado
+ransack,lib/ransack/naming.rb,383c5dd9aa8f,search,4,12,11,11,0.0,1,0.0,9,4,5,0.556,isolado
+ransack,lib/ransack/nodes/node.rb,383c5dd9aa8f,search,3.8,6,50,75,0.0,0,0.0,4,3,4,1.0,isolado
+ransack,lib/ransack/nodes/sort.rb,383c5dd9aa8f,search,5.8,9,17,83,0.33,1,16.7,6,3,6,1.0,isolado
+rdoc,lib/rdoc.rb,4e303b392092,documentation,12.5,21,100,25,0.0,1,0.0,4,2,4,1.0,isolado
+rdoc,lib/rdoc/code_object/normal_module.rb,4e303b392092,documentation,8.5,33,0,17,0.0,3,0.0,6,1,5,0.833,isolado
+rdoc,lib/rdoc/encoding.rb,4e303b392092,documentation,18.5,56,100,100,0.0,0,0.0,4,1,4,1.0,isolado
+rdoc,lib/rdoc/generator/darkfish.rb,4e303b392092,documentation,18,65,0,97,1.0,0,0.0,31,1,31,1.0,isolado
+rdoc,lib/rdoc/markdown.rb,4e303b392092,documentation,51.6,1405,1,29,0.0,1,2.3,304,4,170,0.559,isolado
+rdoc,lib/rdoc/markdown/literals.rb,4e303b392092,documentation,8.7,33,2,65,0.0,1,12.5,40,4,36,0.9,isolado
+rdoc,lib/rdoc/options.rb,4e303b392092,documentation,38.7,546,4,67,0.0,0,4.2,24,1,23,0.958,isolado
+rdoc,lib/rdoc/rd/inline.rb,4e303b392092,documentation,7,14,20,80,0.0,0,0.0,5,1,5,1.0,isolado
+rdoc,lib/rdoc/ri/driver.rb,4e303b392092,documentation,19.5,273,6,83,0.0,3,3.1,65,3,62,0.954,isolado
+rdoc,lib/rdoc/rubygems_hook.rb,4e303b392092,documentation,9.2,49,33,38,0.67,0,0.0,21,3,20,0.952,isolado
+redcarpet,lib/redcarpet/cli.rb,34c138e3f149,markdown processors,11.4,36,100,80,0.0,0,0.0,5,2,5,1.0,isolado
+redcarpet,lib/redcarpet/render_strip.rb,34c138e3f149,markdown processors,3.1,4,0,71,0.0,1,0.0,7,3,5,0.714,isolado
+responders,lib/action_controller/respond_with.rb,b20fdd24befe,decorators,12.2,20,0,80,0.33,0,0.0,5,3,5,1.0,isolado
+responders,lib/action_controller/responder.rb,b20fdd24befe,decorators,5.5,15,5,65,0.0,0,10.0,20,2,20,1.0,isolado
+rest-client,lib/restclient/exceptions.rb,cf3e5a115bcd,http clients and tools,3.8,8,0,21,0.0,3,0.0,14,11,11,0.786,isolado
+roo,lib/roo/base.rb,20d424f8bf96,spreadsheets and documents,8.9,28,4,73,6.0,0,1.9,52,1,51,0.981,isolado
+roo,lib/roo/excelx/cell.rb,20d424f8bf96,spreadsheets and documents,8.3,16,22,67,0.0,1,0.0,9,4,9,1.0,isolado
+roo,lib/roo/excelx/extractor.rb,20d424f8bf96,spreadsheets and documents,4.7,7,0,0,0.33,1,0.0,3,3,3,1.0,isolado
+roo,lib/roo/formatters/csv.rb,20d424f8bf96,spreadsheets and documents,26.3,45,0,100,0.0,0,0.0,3,3,3,1.0,isolado
+roo,lib/roo/open_office.rb,20d424f8bf96,spreadsheets and documents,16.3,104,0,84,0.5,1,0.0,32,2,32,1.0,isolado
+rouge,lib/rouge.rb,afc3c52c2af0,code highlighting,5.7,9,100,33,0.0,0,33.3,3,1,3,1.0,isolado
+rouge,lib/rouge/cli.rb,afc3c52c2af0,code highlighting,8.8,43,54,44,0.0,2,0.0,50,11,41,0.82,isolado
+rouge,lib/rouge/guessers/glob_mapping.rb,afc3c52c2af0,code highlighting,10,14,33,67,0.33,1,0.0,3,3,3,1.0,isolado
+rouge,lib/rouge/lexers/cython.rb,afc3c52c2af0,code highlighting,4.2,5,75,0,0.67,3,0.0,4,3,4,1.0,isolado
+rouge,lib/rouge/lexers/objective_c/common.rb,afc3c52c2af0,code highlighting,42.5,157,25,25,0.0,0,0.0,4,3,3,0.75,isolado
+rouge,lib/rouge/lexers/sas.rb,afc3c52c2af0,code highlighting,51,188,100,0,0.0,2,0.0,7,3,5,0.714,isolado
+rouge,lib/rouge/lexers/tcl.rb,afc3c52c2af0,code highlighting,18,26,100,100,0.0,2,0.0,3,3,3,1.0,isolado
+rouge,lib/rouge/lexers/twig.rb,afc3c52c2af0,code highlighting,4.2,7,100,0,0.0,4,0.0,4,3,3,0.75,isolado
+rouge,lib/rouge/regex_lexer.rb,afc3c52c2af0,code highlighting,7.3,61,19,66,0.0,1,17.0,47,8,42,0.894,isolado
+rqrcode,lib/rqrcode/export/svg.rb,f0d65004f2b5,qr,49.5,130,0,75,0.0,1,0.0,4,6,4,1.0,isolado
+rspec,rspec-core/lib/rspec/core/configuration.rb,79a280d76e10,testing,7.4,59,4,65,1.0,1,12.5,136,6,128,0.941,isolado
+rspec,rspec-core/lib/rspec/core/example_group.rb,79a280d76e10,testing,7.6,38,87,65,1.0,1,7.9,63,6,56,0.889,isolado
+rspec,rspec-core/lib/rspec/core/option_parser.rb,79a280d76e10,testing,42.7,268,14,57,0.0,0,0.0,7,2,7,1.0,isolado
+rspec,rspec-mocks/lib/rspec/mocks/error_generator.rb,79a280d76e10,testing,5.5,33,2,45,0.0,0,0.0,49,3,45,0.918,isolado
+rspec,rspec-mocks/lib/rspec/mocks/marshal_extension.rb,79a280d76e10,testing,12.7,19,100,33,0.0,0,66.7,3,3,3,1.0,isolado
+rubocop,lib/rubocop/cop/base.rb,65854e6bbfe4,code formatting,5.1,17,23,47,2.33,0,1.5,66,3,58,0.879,isolado
+rubocop,lib/rubocop/cop/correctors/space_corrector.rb,65854e6bbfe4,code formatting,9.7,11,100,100,0.33,0,0.0,3,3,3,1.0,isolado
+rubocop,lib/rubocop/cop/lint/redundant_type_conversion.rb,65854e6bbfe4,code formatting,7.2,15,0,100,0.25,1,12.5,8,4,8,1.0,isolado
+rubocop,lib/rubocop/cop/mixin/method_complexity.rb,65854e6bbfe4,code formatting,9.8,18,0,80,1.67,0,0.0,5,3,5,1.0,isolado
+rubocop,lib/rubocop/cop/registry.rb,65854e6bbfe4,code formatting,6.1,20,10,88,0.25,2,2.0,50,4,50,1.0,isolado
+rubocop,lib/rubocop/cop/style/method_call_with_args_parentheses.rb,65854e6bbfe4,code formatting,4.4,7,20,60,1.5,1,20.0,5,4,5,1.0,isolado
+rubocop,lib/rubocop/formatter/tap_formatter.rb,65854e6bbfe4,code formatting,8.2,15,0,100,0.0,3,0.0,8,3,8,1.0,isolado
+rubocop,lib/rubocop/plugin/loader.rb,65854e6bbfe4,code formatting,11.3,26,100,67,0.0,0,33.3,6,3,6,1.0,isolado
+rubocop,lib/rubocop/server.rb,65854e6bbfe4,code formatting,6,10,100,0,0.0,0,0.0,3,2,3,1.0,isolado
+rubocop,lib/rubocop/server/client_command/start.rb,65854e6bbfe4,code formatting,11,22,0,0,0.0,1,0.0,3,4,3,1.0,com a biblioteca carregada
+rubocop,lib/rubocop/yaml_duplication_checker.rb,65854e6bbfe4,code formatting,7.3,12,33,67,0.0,1,0.0,3,3,3,1.0,isolado
+rubocop-rails,lib/rubocop/rails/plugin.rb,2ccba590ec47,code formatting,8,14,0,50,0.0,1,25.0,4,3,4,1.0,isolado
+rubocop-rspec,lib/rubocop/rspec/concept.rb,2488441eb70a,code formatting,3,3,0,25,0.67,0,0.0,4,3,4,1.0,isolado
+rufus-scheduler,lib/rufus/scheduler.rb,ec048146d12d,scheduling,9.3,74,5,73,0.0,2,1.7,59,5,44,0.746,isolado
+rufus-scheduler,lib/rufus/scheduler/locks.rb,ec048146d12d,scheduling,5.7,25,0,57,0.0,0,0.0,7,2,5,0.714,isolado
+rufus-scheduler,lib/rufus/scheduler/util.rb,ec048146d12d,scheduling,5.6,14,100,62,0.0,0,0.0,16,2,16,1.0,isolado
+savon,lib/savon/block_interface.rb,69ab4149642b,http clients and tools,5.3,8,0,67,0.0,0,100.0,3,2,3,1.0,isolado
+savon,lib/savon/model.rb,69ab4149642b,http clients and tools,6.2,22,8,54,1.0,0,23.1,13,2,13,1.0,isolado
+savon,lib/savon/transport/response.rb,69ab4149642b,http clients and tools,6.2,8,50,75,0.0,0,0.0,4,3,4,1.0,isolado
+selenium-webdriver,lib/selenium/server.rb,9175ed94d83e,testing,9.8,25,33,83,0.0,1,0.0,18,3,18,1.0,isolado
+selenium-webdriver,lib/selenium/webdriver/bidi/protocol/web_extension.rb,9175ed94d83e,testing,2.2,8,27,0,0.0,2,0.0,11,7,5,0.455,com a biblioteca carregada
+selenium-webdriver,lib/selenium/webdriver/bidi/support/bidi_generate.rb,9175ed94d83e,testing,6.2,21,22,78,0.0,0,0.0,138,2,134,0.971,isolado
+sentry-ruby,sentry-rails/lib/sentry/rails/serializer.rb,a940dfdb5a64,error handling,8.3,14,100,100,0.0,0,0.0,3,3,3,1.0,isolado
+sentry-ruby,sentry-rails/lib/sentry/rails/tracing.rb,a940dfdb5a64,error handling,6.8,16,80,30,0.0,0,30.0,10,4,9,0.9,isolado
+sentry-ruby,sentry-ruby/lib/sentry-ruby.rb,a940dfdb5a64,error handling,5.5,28,100,79,1.0,0,6.9,58,1,54,0.931,isolado
+sentry-ruby,sentry-ruby/lib/sentry/configuration.rb,a940dfdb5a64,error handling,7.0,74,14,54,1.0,0,5.1,59,3,50,0.847,isolado
+sentry-ruby,sentry-ruby/lib/sentry/cron/monitor_schedule.rb,a940dfdb5a64,error handling,3.2,4,0,0,0.0,0,0.0,4,5,4,1.0,isolado
+sentry-ruby,sentry-ruby/lib/sentry/interfaces/single_exception.rb,a940dfdb5a64,error handling,15.7,24,33,100,0.5,1,33.3,3,2,3,1.0,isolado
+sentry-ruby,sentry-ruby/lib/sentry/profiler.rb,a940dfdb5a64,error handling,21.6,108,0,25,0.5,0,0.0,8,2,8,1.0,isolado
+sentry-ruby,sentry-ruby/lib/sentry/propagation_context.rb,a940dfdb5a64,error handling,14.4,41,40,80,0.0,0,0.0,10,2,10,1.0,isolado
+sentry-ruby,sentry-ruby/lib/sentry/test_helper.rb,a940dfdb5a64,error handling,9.2,38,0,85,0.0,0,23.1,13,2,12,0.923,isolado
+sentry-ruby,sentry-ruby/lib/sentry/utils/argument_checking_helper.rb,a940dfdb5a64,error handling,5,5,0,100,0.0,0,0.0,3,2,3,1.0,isolado
+shoulda-matchers,lib/shoulda/matchers/error.rb,cf3b3685f2c0,testing,4.8,9,25,25,0.0,1,50.0,4,3,4,1.0,isolado
+simplecov,benchmarks/collate/rss_sampler.rb,76a8e4e0f661,code analysis and metrics,4.8,6,20,20,0.0,0,0.0,5,2,5,1.0,isolado
+simplecov,lib/simplecov/cli/command_helpers.rb,76a8e4e0f661,code analysis and metrics,5,10,0,80,0.0,0,0.0,5,3,5,1.0,isolado
+simplecov,lib/simplecov/cli/dotfile.rb,76a8e4e0f661,code analysis and metrics,12.2,16,0,50,0.0,0,66.7,6,3,6,1.0,isolado
+simplecov,lib/simplecov/file_list.rb,76a8e4e0f661,code analysis and metrics,3.7,11,0,78,1.0,0,0.0,23,2,16,0.696,isolado
+simplecov,lib/simplecov/formatter/html_formatter/viewer_data_validator.rb,76a8e4e0f661,code analysis and metrics,7.8,12,100,100,0.0,1,0.0,8,4,8,1.0,isolado
+simplecov,lib/simplecov/parallel_adapters/generic.rb,76a8e4e0f661,code analysis and metrics,3.7,5,100,0,0.0,1,0.0,3,3,3,1.0,isolado
+simplecov,lib/simplecov/result_merger.rb,76a8e4e0f661,code analysis and metrics,7,17,100,56,0.5,0,0.0,16,2,16,1.0,isolado
+slop,lib/slop.rb,7e720331b78d,cli builder,4,7,100,50,0.0,0,25.0,4,1,4,1.0,isolado
+spring,lib/spring/watcher.rb,b7f3fd04b2ed,testing,4.7,8,100,100,0.0,0,33.3,3,1,3,1.0,isolado
+sprockets,lib/rake/sprocketstask.rb,73c5a5316bd1,assets,9.4,26,0,100,0.0,1,12.5,8,2,7,0.875,isolado
+sprockets,lib/sprockets/base.rb,73c5a5316bd1,assets,7.7,28,0,36,3.67,2,0.0,11,3,11,1.0,isolado
+sprockets,lib/sprockets/bundle.rb,73c5a5316bd1,assets,24,38,100,100,0.0,0,0.0,3,2,3,1.0,isolado
+sprockets,lib/sprockets/cache/null_store.rb,73c5a5316bd1,assets,3,3,0,0,0.0,0,0.0,4,3,3,0.75,isolado
+sprockets,lib/sprockets/configuration.rb,73c5a5316bd1,assets,3.5,5,0,100,4.0,0,0.0,6,2,5,0.833,isolado
+sprockets,lib/sprockets/erb_processor.rb,73c5a5316bd1,assets,5.8,16,40,40,0.0,0,60.0,5,1,5,1.0,isolado
+sprockets,lib/sprockets/jst_processor.rb,73c5a5316bd1,assets,4,8,60,40,0.0,0,0.0,5,2,5,1.0,isolado
+sprockets,lib/sprockets/loader.rb,73c5a5316bd1,assets,29.6,92,0,100,4.0,0,0.0,8,2,8,1.0,isolado
+sprockets,lib/sprockets/server.rb,73c5a5316bd1,assets,15.4,93,0,62,0.0,0,0.0,16,2,13,0.812,isolado
+sprockets,lib/sprockets/utils.rb,73c5a5316bd1,assets,14.8,26,0,75,0.5,0,50.0,8,2,8,1.0,isolado
+stackprof,lib/stackprof/middleware.rb,4367efa4b8bc,profiler and optimization,14.5,19,50,100,0.0,0,0.0,4,2,4,1.0,isolado
+stackprof,lib/stackprof/report.rb,4367efa4b8bc,profiler and optimization,19.2,171,9,85,0.0,0,0.0,34,2,32,0.941,isolado
+stackprof,lib/stackprof/truffleruby.rb,4367efa4b8bc,profiler and optimization,3.1,4,100,0,0.0,0,0.0,8,1,4,0.5,isolado
+state_machines,lib/state_machines/branch.rb,219b43ea588f,state machines,10.9,37,0,75,0.5,0,8.3,12,2,12,1.0,isolado
+state_machines,lib/state_machines/error.rb,219b43ea588f,state machines,4.4,11,0,62,0.0,2,0.0,13,8,11,0.846,isolado
+state_machines,lib/state_machines/eval_helpers.rb,219b43ea588f,state machines,42,65,0,100,0.0,0,133.3,3,2,3,1.0,isolado
+state_machines,lib/state_machines/integrations.rb,219b43ea588f,state machines,4.3,9,100,83,0.0,0,0.0,6,2,6,1.0,isolado
+state_machines,lib/state_machines/machine.rb,219b43ea588f,state machines,4.6,18,0,38,7.5,0,23.1,13,2,12,0.923,isolado
+state_machines,lib/state_machines/machine/configuration.rb,219b43ea588f,state machines,21,55,0,100,1.67,0,100.0,5,3,5,1.0,isolado
+state_machines,lib/state_machines/machine/parsing.rb,219b43ea588f,state machines,14,18,0,100,0.0,0,0.0,4,3,4,1.0,isolado
+terminal-table,lib/terminal-table/row.rb,ba051e6f8aae,cli utilities,4.7,8,0,100,0.0,0,0.0,7,3,7,1.0,isolado
+thin,lib/thin/backends/swiftiply_client.rb,84a5188612d8,web servers,4.6,13,0,56,0.0,2,0.0,9,4,8,0.889,isolado
+thin,lib/thin/backends/unix_server.rb,84a5188612d8,web servers,4.6,12,0,14,0.0,2,14.3,7,4,6,0.857,isolado
+thin,lib/thin/server.rb,84a5188612d8,web servers,11.1,38,8,77,1.5,1,0.0,13,2,13,1.0,isolado
+tilt,lib/tilt.rb,f0d75c60e3a6,template engine,4.3,19,79,79,0.5,0,0.0,14,2,13,0.929,isolado
+twilio-ruby,lib/twilio-ruby/framework/serialize.rb,c58e213a6f04,third-party apis,7.7,12,100,100,0.0,0,0.0,9,1,8,0.889,isolado
+twilio-ruby,lib/twilio-ruby/jwt/access_token.rb,c58e213a6f04,third-party apis,8.1,27,0,44,0.6,1,0.0,18,10,12,0.667,isolado
+twilio-ruby,lib/twilio-ruby/jwt/task_router.rb,c58e213a6f04,third-party apis,4.9,23,80,8,0.0,1,0.0,25,5,13,0.52,isolado
+twilio-ruby,lib/twilio-ruby/rest/api.rb,c58e213a6f04,third-party apis,3.9,4,0,0,0.0,2,0.0,26,3,26,1.0,com a biblioteca carregada
+twilio-ruby,lib/twilio-ruby/rest/api/v2010/account.rb,c58e213a6f04,third-party apis,8.1,34,0,84,0.0,2,0.0,98,12,54,0.551,isolado
+twilio-ruby,lib/twilio-ruby/rest/api/v2010/account/call/stream.rb,c58e213a6f04,third-party apis,28.5,432,0,66,0.0,2,0.0,38,14,19,0.5,isolado
+typhoeus,lib/typhoeus/request.rb,d7aba1bbfa8d,http clients and tools,6.1,11,0,78,6.0,0,0.0,9,2,9,1.0,isolado
+tzinfo,lib/tzinfo/data_sources/constant_offset_data_timezone_info.rb,d5893c99bbcd,date and time processing,3.4,5,0,0,0.0,2,0.0,5,3,4,0.8,isolado
+tzinfo,lib/tzinfo/data_sources/transitions_data_timezone_info.rb,d5893c99bbcd,date and time processing,18.1,39,0,100,0.0,2,0.0,7,3,7,1.0,isolado
+tzinfo,lib/tzinfo/timestamp.rb,d5893c99bbcd,date and time processing,9.3,47,35,81,0.5,0,11.5,26,2,26,1.0,isolado
+tzinfo,lib/tzinfo/timestamp_with_offset.rb,d5893c99bbcd,date and time processing,6.8,8,25,50,0.5,1,0.0,4,2,4,1.0,isolado
+vcr,lib/vcr/cassette/serializers/syck.rb,5dcacdf69bd6,testing,6.5,11,0,0,0.75,0,0.0,4,4,4,1.0,isolado
+vcr,lib/vcr/util/hooks.rb,5dcacdf69bd6,testing,5.6,10,14,100,1.33,0,71.4,7,3,7,1.0,isolado
+vcr,lib/vcr/version.rb,5dcacdf69bd6,testing,7,23,80,100,1.0,0,0.0,5,1,3,0.6,isolado
+virtus,lib/virtus/attribute/accessor.rb,9e4f56fe8259,core extensions,3.4,6,14,100,0.0,0,57.1,7,3,6,0.857,isolado
+virtus,lib/virtus/attribute/boolean.rb,9e4f56fe8259,core extensions,3.3,4,33,67,0.0,1,0.0,3,3,3,1.0,isolado
+virtus,lib/virtus/attribute/default_value.rb,9e4f56fe8259,core extensions,3.3,4,33,33,0.67,0,0.0,3,3,3,1.0,isolado
+virtus,lib/virtus/class_inclusions.rb,9e4f56fe8259,core extensions,4.7,8,33,33,1.33,0,133.3,3,3,3,1.0,isolado
+virtus,lib/virtus/extensions.rb,9e4f56fe8259,core extensions,5.5,8,33,83,1.33,0,16.7,6,3,6,1.0,isolado
+virtus,lib/virtus/model.rb,9e4f56fe8259,core extensions,4.4,6,100,100,0.0,0,71.4,7,5,4,0.571,isolado
+webmock,lib/webmock/util/query_mapper.rb,ee409ac0a5f0,testing,19.2,47,100,100,0.0,0,9.1,11,2,11,1.0,isolado
+webmock,lib/webmock/webmock.rb,ee409ac0a5f0,testing,5.4,19,96,30,2.0,0,4.3,23,1,21,0.913,isolado
+will_paginate,lib/will_paginate/view_helpers/link_renderer_base.rb,50017c3eb071,pagination,11,37,0,80,0.0,0,0.0,5,3,5,1.0,isolado
+wisper,lib/wisper.rb,4569343e353e,business logic,3.9,7,100,14,0.0,0,0.0,7,1,7,1.0,isolado
+wisper,lib/wisper/broadcasters/logger_broadcaster.rb,4569343e353e,business logic,5.4,8,0,80,0.0,0,20.0,5,3,5,1.0,isolado
+wisper,lib/wisper/configuration.rb,4569343e353e,business logic,3.4,4,0,40,0.33,0,0.0,5,3,5,1.0,isolado
+wisper,lib/wisper/global_listeners.rb,4569343e353e,business logic,3.9,8,42,83,0.5,0,0.0,12,2,12,1.0,isolado
+wisper,lib/wisper/registration/object.rb,4569343e353e,business logic,4.7,7,0,83,0.0,1,0.0,6,2,6,1.0,isolado
+zeitwerk,lib/zeitwerk/cref.rb,607973fc0bd8,code loaders,3.4,5,0,89,1.0,0,33.3,9,1,9,1.0,isolado
+zeitwerk,lib/zeitwerk/loader.rb,607973fc0bd8,code loaders,13.4,67,16,81,3.5,0,3.2,31,2,31,1.0,isolado
+zeitwerk,lib/zeitwerk/loader/eager_load.rb,607973fc0bd8,code loaders,32.5,41,0,100,0.0,0,66.7,6,1,6,1.0,isolado
+zeitwerk,lib/zeitwerk/loader/file_system.rb,607973fc0bd8,code loaders,11.3,31,0,67,0.0,0,0.0,12,1,12,1.0,isolado
+zeitwerk,lib/zeitwerk/registry.rb,607973fc0bd8,code loaders,9.7,23,100,67,0.0,0,0.0,3,2,3,1.0,isolado

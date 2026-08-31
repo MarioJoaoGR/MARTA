@@ -1,0 +1,3 @@
+conjunto,modulos,gems,categorias,metodos,mediana_loc_medio,mediana_pct_singleton,mediana_pct_duck,mediana_mixins_por_classe,mediana_profundidade_heranca,mediana_metaprog_por_100,mediana_formas
+populacao,5217,132,59,62686,6.7,0.0,69.0,0.0,1.0,0.0,7.0
+corpus de 500,500,112,59,7767,6.9,9.0,67.0,0.0,0.0,0.0,6.0

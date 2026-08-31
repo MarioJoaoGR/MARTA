@@ -1,0 +1,135 @@
+gem,modulos,deps,instalou,instalou_a_propria,usou_gemfile,ambiente,recuperados_pela_ordem,erro_instalacao,load_paths,entrada,porta_abriu,erro_porta,carregam,falham
+aasm,30,concurrent-ruby,True,,,deps do gemspec,0,,lib,aasm,True,,27,3
+active_model_serializers,30,actionpack activemodel case_transform jsonapi-renderer,True,,,deps do gemspec,0,,lib,active_model_serializers,True,,27,3
+activerecord,292,activemodel activesupport timeout,True,,,deps do gemspec,25,,activerecord/lib,active_record,True,,282,10
+activerecord-import,11,activerecord,True,,,deps do gemspec,7,,lib benchmarks/lib,activerecord-import,True,,11,0
+activesupport,155,base64 bigdecimal concurrent-ruby connection_pool drb i18n json logger minitest securerandom tzinfo uri,True,,,deps do gemspec,7,,activesupport/lib,active_support,True,,143,12
+addressable,4,public_suffix,True,,,deps do gemspec,0,,lib,addressable,True,,3,1
+autoprefixer-rails,3,execjs,True,,,deps do gemspec,0,,lib,autoprefixer-rails,True,,3,0
+awesome_print,17,,True,,,deps do gemspec,0,,lib,awesome_print,True,,17,0
+better_errors,13,erubi rack rouge,True,,,deps do gemspec,0,,lib,better_errors,True,,11,2
+bootsnap,14,msgpack,True,True,,deps + a propria gem,0,,lib,bootsnap,True,,14,0
+brakeman,128,racc,True,,,deps do gemspec,1,,lib,brakeman,True,,23,105
+bullet,20,activesupport uniform_notifier,True,,,deps do gemspec,0,,lib,bullet,True,,19,1
+bundler-audit,11,bundler thor,True,,,deps do gemspec,2,,lib,bundler/audit,True,,11,0
+byebug,91,reline,True,,,deps do gemspec,22,,lib,byebug,True,,88,3
+capybara,72,addressable matrix mini_mime nokogiri rack rack-test regexp_parser xpath,True,,,deps do gemspec,1,,lib,capybara,True,,72,0
+carrierwave,24,activemodel activesupport addressable image_processing marcel ssrf_filter,True,,,deps do gemspec,0,,lib,carrierwave,True,,24,0
+childprocess,5,logger,True,,,deps do gemspec,0,,lib,childprocess,True,,5,0
+chronic,30,,True,,,deps do gemspec,0,,lib,chronic,True,,30,0
+cocoapods,114,addressable claide cocoapods-core cocoapods-deintegrate cocoapods-downloader cocoapods-plugins cocoapods-search cocoapods-trunk cocoapods-try colored2 fourflusher gh_inspector molinillo nap ruby-macho xcodeproj,True,,,deps do gemspec,5,,lib,cocoapods,True,,114,0
+coderay,31,,True,,,deps do gemspec,0,,lib test/lib,coderay,True,,30,1
+colorize,2,,True,,,deps do gemspec,0,,lib,colorize,True,,2,0
+commander,6,highline,True,,,deps do gemspec,0,,lib,commander,True,,6,0
+concurrent-ruby,121,,True,,,deps do gemspec,3,,lib,(sem porta),True,,14,107
+connection_pool,4,,True,,,deps do gemspec,0,,lib,connection_pool,True,,4,0
+countries,13,unaccent,True,,,deps do gemspec,0,,lib,countries,True,,13,0
+dalli,26,logger,True,,,deps do gemspec,0,,lib,dalli,True,,25,1
+danger,86,base64 claide claide-plugins colored2 cork faraday faraday-http-cache git kramdown kramdown-parser-gfm octokit pstore terminal-table,True,,,deps do gemspec,0,,lib spec/lib,danger,True,,86,0
+database_cleaner,7,database_cleaner-active_record,True,,,deps do gemspec,0,,lib examples/lib,database_cleaner,True,,6,1
+debug,17,irb reline,True,,,deps do gemspec,0,,lib,debug,True,,17,0
+devise,41,bcrypt orm_adapter railties responders warden,True,,,deps do gemspec,0,,lib app,devise,True,,27,14
+diffy,4,,True,,,deps do gemspec,0,,lib,diffy,True,,4,0
+docile,1,,True,,,deps do gemspec,0,,lib,docile,True,,1,0
+doorkeeper,67,railties,True,True,True,deps do gemspec,16,,lib app spec/lib,doorkeeper,False,NoMethodError: undefined method 'mattr_reader' for class Doorkeeper::Config,46,21
+dotenv,8,,True,,,deps do gemspec,0,,lib,dotenv,True,,5,3
+dry-types,39,bigdecimal concurrent-ruby dry-core dry-inflector dry-logic zeitwerk,True,,,deps do gemspec,0,,lib,dry-types,True,,38,1
+eventmachine,41,,True,True,,deps + a propria gem,0,,lib,eventmachine,True,,35,6
+excon,13,logger,True,,,deps do gemspec,0,,lib,excon,True,,12,1
+eye,65,celluloid celluloid-io kostya-sigar state_machines thor,True,,,deps do gemspec,22,,lib,eye,True,,54,11
+factory_bot,33,activesupport,True,,,deps do gemspec,0,,lib,factory_bot,True,,33,0
+faker,56,i18n,True,,,deps do gemspec,0,,lib,faker,True,,55,1
+faraday,28,faraday-net_http json logger,True,,,deps do gemspec,0,,lib,faraday,True,,27,1
+fastimage,9,,True,,,deps do gemspec,0,,lib,fastimage,True,,9,0
+fastlane,506,abbrev addressable artifactory aws-sdk-s3 babosa base64 benchmark bundler CFPropertyList colored commander csv dotenv emoji_regex excon faraday faraday-cookie_jar faraday-follow_redirects faraday-multipart faraday-retry fastimage fastlane-sirp gh_inspector google-apis-androidpublisher_v3 google-apis-playcustomapp_v1 google-cloud-env google-cloud-storage highline http-cookie irb json jwt logger mini_magick multi_json multipart-post mutex_m naturally nkf optparse ostruct plist rubyzip security simctl terminal-notifier terminal-table tty-screen tty-spinner word_wrap xcodeproj xcpretty xcpretty-travis-formatter,True,True,True,Gemfile do projeto,0,,cert/lib credentials_manager/lib deliver/lib fastlane/lib fastlane_core/lib frameit/lib gym/lib match/lib pem/lib pilot/lib precheck/lib produce/lib scan/lib screengrab/lib sigh/lib snapshot/lib spaceship/lib supply/lib trainer/lib,fastlane,True,,490,16
+foreman,6,thor,True,,,deps do gemspec,1,,lib,foreman,True,,6,0
+formatador,3,reline,True,,,deps do gemspec,0,,lib,formatador,True,,3,0
+geocoder,115,base64 csv,True,,,deps do gemspec,0,,lib,geocoder,True,,114,1
+gitlab,48,base64 httparty terminal-table,True,,,deps do gemspec,0,,lib,gitlab,True,,48,0
+gli,27,ostruct,True,,,deps do gemspec,0,,lib,gli,True,,27,0
+guard,33,formatador listen logger lumberjack nenv notiffany pry shellany thor,True,,,deps do gemspec,0,,lib spec/lib,guard,True,,33,0
+haml,21,prism temple thor tilt,True,,,deps do gemspec,0,,lib,haml,True,,19,2
+hashie,25,logger,True,,,deps do gemspec,0,,lib,hashie,True,,25,0
+http,37,http-cookie llhttp,True,,,deps do gemspec,0,,lib,http,True,,37,0
+httparty,21,csv mini_mime multi_xml,True,,,deps do gemspec,0,,lib,httparty,True,,19,2
+httpclient,17,mutex_m,True,,,deps do gemspec,0,,lib,httpclient,True,,15,2
+i18n,25,concurrent-ruby,True,,,deps do gemspec,0,,lib,i18n,True,,24,1
+image_processing,6,,True,,,deps do gemspec,0,,lib,image_processing,True,,4,2
+jaro_winkler,1,,True,,,deps do gemspec,0,,lib,jaro_winkler,True,,1,0
+jbuilder,5,actionview activesupport,True,,,deps do gemspec,0,,lib,jbuilder,True,,3,2
+jwt,21,base64,True,,,deps do gemspec,0,,lib,jwt,True,,21,0
+kaminari,9,activesupport kaminari-actionview kaminari-activerecord kaminari-core,True,,,deps do gemspec,0,,lib kaminari-actionview/lib kaminari-activerecord/lib kaminari-core/lib,kaminari,True,,7,2
+knapsack,17,rake,True,,,deps do gemspec,0,,lib,knapsack,True,,16,1
+kramdown,24,rexml,True,,,deps do gemspec,4,,lib,kramdown,True,,24,0
+letter_opener,2,launchy,True,,,deps do gemspec,0,,lib,letter_opener,True,,2,0
+liquid,52,bigdecimal strscan,True,,,deps do gemspec,0,,lib,liquid,True,,49,3
+listen,26,logger rb-fsevent rb-inotify,True,,,deps do gemspec,0,,lib spec/lib,listen,True,,25,1
+logging,20,little-plugger multi_json,True,,,deps do gemspec,0,,lib,logging,True,,20,0
+lograge,10,actionpack activesupport railties request_store,True,,,deps do gemspec,0,,lib,lograge,True,,9,1
+mail,52,logger mini_mime net-imap net-pop net-smtp,True,,,deps do gemspec,0,,lib,mail,True,,52,0
+minitest,17,drb prism,True,,,deps do gemspec,0,,lib,minitest,True,,16,1
+money,8,bigdecimal i18n,True,,,deps do gemspec,0,,lib sig/lib,money,True,,8,0
+mongo,218,base64 bson,True,,,deps do gemspec,0,,lib,mongo,True,,214,4
+mysql2,3,bigdecimal,True,False,True,deps do gemspec,0,"propria: in installed in /private/var/folders/xt/zsl5k3z97rn823l5tt5fhfr40000gn/T/marta_p6_h_gvuyjw/gems_mysql2/gems/mysql2-0.5.7 for inspection.
+Results logged to /private/var/folders/xt/zsl5k3z97rn823l5tt5fhfr40000gn/T/marta_p6_h_gvuyjw/gems_mysql2/extensions/arm64-darwin-25/3.4.0/mysql2-0.5.7/gem_make.out",lib,mysql2,False,LoadError: cannot load such file -- mysql2/mysql2,2,1
+oauth2,8,anonymous_loader auth-sanitizer faraday jwt logger multi_xml rack snaky_hash version_gem,True,,,deps do gemspec,0,,lib,oauth2,True,,8,0
+omniauth,7,hashie logger rack rack-protection,True,,,deps do gemspec,0,,lib,omniauth,True,,7,0
+optimist,2,,True,,,deps do gemspec,0,,lib,optimist,True,,2,0
+paper_trail,27,activerecord request_store,True,,,deps do gemspec,0,,lib,paper_trail,True,,24,3
+parallel,2,,True,,,deps do gemspec,0,,lib,parallel,True,,2,0
+parallel_tests,13,parallel,True,,,deps do gemspec,0,,lib,parallel_tests,True,,10,3
+pastel,5,tty-color,True,,,deps do gemspec,0,,lib,pastel,True,,5,0
+pg,15,,True,True,,deps + a propria gem,0,,lib,pg,True,,14,1
+prawn,45,matrix pdf-core ttfunk,True,,,deps do gemspec,0,,lib,prawn,True,,42,3
+premailer-rails,6,actionmailer net-smtp premailer,True,,,deps do gemspec,0,,lib,premailer/rails,True,,6,0
+pry,87,coderay method_source reline,True,,,deps do gemspec,0,,lib,pry,True,,87,0
+pry-byebug,4,byebug pry,True,,,deps do gemspec,0,,lib,pry-byebug,True,,4,0
+pry-rails,5,pry,True,,,deps do gemspec,0,,lib,pry-rails,True,,1,4
+puma,44,nio4r,True,True,,deps + a propria gem,3,,lib,puma,True,,41,3
+pundit,5,activesupport,True,,,deps do gemspec,0,,lib,pundit,True,,4,1
+rack-attack,11,rack,True,,,deps do gemspec,0,,lib,rack/attack,True,,11,0
+rack-cors,4,logger rack,True,,,deps do gemspec,0,,lib,rack/cors,True,,4,0
+rack-protection,6,base64 logger rack,True,,,deps do gemspec,0,,rack-protection/lib rack-protection/spec/lib,rack-protection,True,,6,0
+rails-i18n,3,i18n railties,True,,,deps do gemspec,0,,lib,rails-i18n,True,,3,0
+rake,25,,True,,,deps do gemspec,0,,lib,rake,True,,25,0
+ransack,21,activerecord activesupport i18n,True,,,deps do gemspec,0,,lib,ransack,True,,18,3
+rdoc,85,erb prism rbs tsort,True,,,deps do gemspec,1,,lib test/lib,rdoc,True,,84,1
+redcarpet,5,,True,True,,deps + a propria gem,0,,lib,redcarpet,True,,5,0
+responders,5,actionpack railties,True,,,deps do gemspec,0,,lib,responders,True,,4,1
+rest-client,12,http-accept http-cookie mime-types netrc,True,,,deps do gemspec,0,,lib,rest-client,True,,11,1
+roo,20,base64 csv logger nokogiri rubyzip,True,,,deps do gemspec,0,,lib spec/lib,roo,True,,20,0
+rouge,65,strscan,True,,,deps do gemspec,0,,lib,rouge,True,,65,0
+rqrcode,2,chunky_png rqrcode_core,True,,,deps do gemspec,0,,lib,rqrcode,True,,1,1
+rspec,162,rspec-core rspec-expectations rspec-mocks,True,,,deps do gemspec,44,,rspec/lib rspec-core/lib rspec-expectations/lib rspec-mocks/lib rspec-support/lib,rspec,True,,150,12
+rubocop,653,json language_server-protocol lint_roller parallel parser rainbow regexp_parser rubocop-ast ruby-progressbar unicode-display_width,True,,,deps do gemspec,5,,lib,rubocop,True,,647,6
+rubocop-performance,33,lint_roller rubocop rubocop-ast,True,,,deps do gemspec,0,,lib,rubocop-performance,True,,33,0
+rubocop-rails,94,activesupport lint_roller rack rubocop rubocop-ast,True,,,deps do gemspec,0,,lib,rubocop-rails,True,,94,0
+rubocop-rspec,84,lint_roller regexp_parser rubocop,True,,,deps do gemspec,0,,lib,rubocop-rspec,True,,84,0
+rufus-scheduler,7,fugit,True,,,deps do gemspec,0,,lib,rufus-scheduler,True,,7,0
+savon,21,akami builder gyoku httpi mail nokogiri nori wasabi,True,,,deps do gemspec,0,,lib,savon,True,,21,0
+sawyer,5,addressable faraday,True,,,deps do gemspec,0,,lib,sawyer,True,,5,0
+selenium-webdriver,118,base64 logger rexml rubyzip websocket,True,,,deps do gemspec,3,,rb/lib rb/sig/lib,selenium-webdriver,True,,117,1
+sentry-ruby,92,bigdecimal concurrent-ruby logger,True,,,deps do gemspec,1,,lib bin/lib sentry-delayed_job/lib sentry-opentelemetry/lib sentry-rails/lib sentry-resque/lib sentry-ruby/lib sentry-sidekiq/lib sentry-yabeda/lib,sentry-ruby,True,,74,18
+shoulda-matchers,98,activesupport,True,,,deps do gemspec,0,,lib,shoulda-matchers,True,,96,2
+simplecov,105,,True,,,deps do gemspec,0,,lib,simplecov,True,,104,1
+slack-notifier,7,,True,,,deps do gemspec,0,,lib spec/lib,slack-notifier,True,,7,0
+slop,6,,True,,,deps do gemspec,0,,lib,slop,True,,6,0
+spring,19,,True,,,deps do gemspec,1,,lib,(sem porta),True,,14,5
+sprockets,47,concurrent-ruby logger rack,True,,,deps do gemspec,0,,lib,sprockets,True,,46,1
+stackprof,4,,True,True,,deps + a propria gem,0,,lib,stackprof,True,,3,1
+state_machines,39,,True,,,deps do gemspec,0,,lib,state_machines,True,,39,0
+terminal-table,5,unicode-display_width,True,,,deps do gemspec,0,,lib,terminal-table,True,,5,0
+thin,23,daemons eventmachine logger rack,True,True,,deps + a propria gem,0,,lib,thin,True,,21,2
+tilt,18,,True,,,deps do gemspec,0,,lib,tilt,True,,7,11
+timecop,3,,True,,,deps do gemspec,0,,lib,timecop,True,,3,0
+twilio-ruby,135,faraday jwt nokogiri,True,,,deps do gemspec,24,,lib,twilio-ruby,True,,134,1
+typhoeus,18,ethon,True,,,deps do gemspec,0,,lib,typhoeus,True,,17,1
+tzinfo,33,concurrent-ruby,True,,,deps do gemspec,0,,lib,tzinfo,True,,33,0
+vcr,32,,True,,,deps do gemspec,0,,lib spec/lib,vcr,True,,27,5
+virtus,25,axiom-types coercible descendants_tracker,True,,,deps do gemspec,0,,lib,virtus,True,,25,0
+warden,9,rack,True,,,deps do gemspec,0,,lib,warden,True,,9,0
+webmock,39,addressable crack hashdiff,True,,,deps do gemspec,0,,lib,webmock,True,,39,0
+will_paginate,15,,True,,,deps do gemspec,0,,lib,will_paginate,True,,8,7
+wisper,8,,True,,,deps do gemspec,0,,lib spec/lib,wisper,True,,8,0
+yajl-ruby,5,,True,,,deps do gemspec,0,,lib,(sem porta),True,,0,5
+zeitwerk,14,,True,,,deps do gemspec,0,,lib test/lib,zeitwerk,True,,14,0

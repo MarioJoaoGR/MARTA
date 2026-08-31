@@ -1,0 +1,1072 @@
+{
+  "fonte": "https://raw.githubusercontent.com/markets/awesome-ruby/master/README.md",
+  "data": "2026-08-25",
+  "min_downloads": 100000000,
+  "total": 133,
+  "gems": [
+    {
+      "gem": "i18n",
+      "repo": "ruby-i18n/i18n",
+      "categoria": "internationalization",
+      "downloads": 1416535738,
+      "versao": "1.15.2",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "activesupport",
+      "repo": "rails/rails/tree/master/master/activesupport",
+      "categoria": "core extensions",
+      "downloads": 1413493331,
+      "versao": "8.1.3.1",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "rake",
+      "repo": "ruby/rake",
+      "categoria": "cli builder",
+      "downloads": 1396264920,
+      "versao": "13.4.2",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "concurrent-ruby",
+      "repo": "ruby-concurrency/concurrent-ruby",
+      "categoria": "concurrency and parallelism",
+      "downloads": 1351817785,
+      "versao": "1.3.8",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "tzinfo",
+      "repo": "tzinfo/tzinfo",
+      "categoria": "date and time processing",
+      "downloads": 1303296972,
+      "versao": "2.0.6",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "minitest",
+      "repo": "minitest/minitest",
+      "categoria": "testing",
+      "downloads": 1282273996,
+      "versao": "6.0.6",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "addressable",
+      "repo": "sporkmonger/addressable",
+      "categoria": "core extensions",
+      "downloads": 1249314571,
+      "versao": "2.9.0",
+      "licenca": "Apache-2.0"
+    },
+    {
+      "gem": "faraday",
+      "repo": "lostisland/faraday",
+      "categoria": "http clients and tools",
+      "downloads": 1242225853,
+      "versao": "2.14.3",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "rspec",
+      "repo": "rspec/rspec",
+      "categoria": "testing",
+      "downloads": 1011554156,
+      "versao": "3.13.2",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "activerecord",
+      "repo": "rails/rails/tree/master/master/activerecord",
+      "categoria": "orm/odm",
+      "downloads": 827953595,
+      "versao": "8.1.3.1",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "parallel",
+      "repo": "grosser/parallel",
+      "categoria": "concurrency and parallelism",
+      "downloads": 812279355,
+      "versao": "2.1.0",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "jwt",
+      "repo": "jwt/ruby-jwt",
+      "categoria": "authentication and oauth",
+      "downloads": 802138915,
+      "versao": "3.2.0",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "tilt",
+      "repo": "rtomayko/tilt",
+      "categoria": "template engine",
+      "downloads": 785376558,
+      "versao": "2.9.0",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "mail",
+      "repo": "mikel/mail",
+      "categoria": "email",
+      "downloads": 755286721,
+      "versao": "2.9.1",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "rubocop",
+      "repo": "rubocop/rubocop",
+      "categoria": "code formatting",
+      "downloads": 735259184,
+      "versao": "1.90.0",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "connection_pool",
+      "repo": "mperham/connection_pool",
+      "categoria": "database tools",
+      "downloads": 714797693,
+      "versao": "3.0.2",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "excon",
+      "repo": "excon/excon",
+      "categoria": "http clients and tools",
+      "downloads": 699999190,
+      "versao": "1.7.0",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "zeitwerk",
+      "repo": "fxn/zeitwerk",
+      "categoria": "code loaders",
+      "downloads": 688179299,
+      "versao": "2.8.3",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "coderay",
+      "repo": "rubychan/coderay",
+      "categoria": "code highlighting",
+      "downloads": 633856048,
+      "versao": "1.1.3",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "pry",
+      "repo": "pry/pry",
+      "categoria": "irb",
+      "downloads": 627459000,
+      "versao": "0.16.0",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "sprockets",
+      "repo": "rails/sprockets",
+      "categoria": "assets",
+      "downloads": 616974660,
+      "versao": "4.4.1",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "puma",
+      "repo": "puma/puma",
+      "categoria": "web servers",
+      "downloads": 596355020,
+      "versao": "8.0.2",
+      "licenca": "BSD-3-Clause"
+    },
+    {
+      "gem": "dotenv",
+      "repo": "bkeepers/dotenv",
+      "categoria": "configuration",
+      "downloads": 538739274,
+      "versao": "3.2.0",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "httpclient",
+      "repo": "nahi/httpclient",
+      "categoria": "http clients and tools",
+      "downloads": 530692170,
+      "versao": "2.9.0",
+      "licenca": "ruby"
+    },
+    {
+      "gem": "rack-protection",
+      "repo": "sinatra/sinatra/tree/master/master/rack-protection",
+      "categoria": "security",
+      "downloads": 512406857,
+      "versao": "4.2.1",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "docile",
+      "repo": "ms-ati/docile",
+      "categoria": "core extensions",
+      "downloads": 496767488,
+      "versao": "1.4.1",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "simplecov",
+      "repo": "simplecov-ruby/simplecov",
+      "categoria": "code analysis and metrics",
+      "downloads": 494202244,
+      "versao": "1.1.1",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "rest-client",
+      "repo": "rest-client/rest-client",
+      "categoria": "http clients and tools",
+      "downloads": 481645596,
+      "versao": "2.1.0",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "hashie",
+      "repo": "hashie/hashie",
+      "categoria": "core extensions",
+      "downloads": 479469860,
+      "versao": "5.1.0",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "httparty",
+      "repo": "jnunemaker/httparty",
+      "categoria": "http clients and tools",
+      "downloads": 476707639,
+      "versao": "0.24.2",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "byebug",
+      "repo": "deivid-rodriguez/byebug",
+      "categoria": "debugging tools",
+      "downloads": 475425784,
+      "versao": "13.0.0",
+      "licenca": "BSD-2-Clause"
+    },
+    {
+      "gem": "pg",
+      "repo": "ged/ruby-pg",
+      "categoria": "database drivers",
+      "downloads": 465403733,
+      "versao": "1.6.3",
+      "licenca": "BSD-2-Clause"
+    },
+    {
+      "gem": "webmock",
+      "repo": "bblimke/webmock",
+      "categoria": "testing",
+      "downloads": 417786674,
+      "versao": "3.26.3",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "terminal-table",
+      "repo": "tj/terminal-table",
+      "categoria": "cli utilities",
+      "downloads": 412717349,
+      "versao": "4.0.0",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "sawyer",
+      "repo": "lostisland/sawyer",
+      "categoria": "http clients and tools",
+      "downloads": 396999344,
+      "versao": "0.9.3",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "listen",
+      "repo": "guard/listen",
+      "categoria": "file system listener",
+      "downloads": 396628201,
+      "versao": "3.10.0",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "knapsack",
+      "repo": "KnapsackPro/knapsack",
+      "categoria": "testing",
+      "downloads": 379938279,
+      "versao": "4.0.0",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "bootsnap",
+      "repo": "rails/bootsnap",
+      "categoria": "optimizations",
+      "downloads": 369759211,
+      "versao": "1.25.0",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "capybara",
+      "repo": "teamcapybara/capybara",
+      "categoria": "testing",
+      "downloads": 354902722,
+      "versao": "3.40.0",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "selenium-webdriver",
+      "repo": "SeleniumHQ/selenium/tree/master/master/rb",
+      "categoria": "testing",
+      "downloads": 353864427,
+      "versao": "4.47.0",
+      "licenca": "Apache-2.0"
+    },
+    {
+      "gem": "factory_bot",
+      "repo": "thoughtbot/factory_bot",
+      "categoria": "testing",
+      "downloads": 349439346,
+      "versao": "6.6.0",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "faker",
+      "repo": "faker-ruby/faker",
+      "categoria": "testing",
+      "downloads": 338609496,
+      "versao": "3.8.0",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "rdoc",
+      "repo": "ruby/rdoc",
+      "categoria": "documentation",
+      "downloads": 337152389,
+      "versao": "8.0.0",
+      "licenca": "Ruby"
+    },
+    {
+      "gem": "responders",
+      "repo": "heartcombo/responders",
+      "categoria": "decorators",
+      "downloads": 331146851,
+      "versao": "3.2.0",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "eventmachine",
+      "repo": "eventmachine/eventmachine",
+      "categoria": "concurrency and parallelism",
+      "downloads": 329603418,
+      "versao": "1.2.7",
+      "licenca": "Ruby"
+    },
+    {
+      "gem": "rubocop-performance",
+      "repo": "rubocop/rubocop-performance",
+      "categoria": "code formatting",
+      "downloads": 321530131,
+      "versao": "1.27.0",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "rouge",
+      "repo": "rouge-ruby/rouge",
+      "categoria": "code highlighting",
+      "downloads": 320002395,
+      "versao": "5.1.0",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "jbuilder",
+      "repo": "rails/jbuilder",
+      "categoria": "api builder and discovery",
+      "downloads": 309062979,
+      "versao": "2.15.1",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "childprocess",
+      "repo": "enkessler/childprocess",
+      "categoria": "processes",
+      "downloads": 306482445,
+      "versao": "5.1.0",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "warden",
+      "repo": "wardencommunity/warden",
+      "categoria": "authentication and oauth",
+      "downloads": 303392385,
+      "versao": "1.2.9",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "rubocop-rails",
+      "repo": "rubocop/rubocop-rails",
+      "categoria": "code formatting",
+      "downloads": 301551492,
+      "versao": "2.37.0",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "devise",
+      "repo": "heartcombo/devise",
+      "categoria": "authentication and oauth",
+      "downloads": 292598634,
+      "versao": "5.0.4",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "rubocop-rspec",
+      "repo": "rubocop/rubocop-rspec",
+      "categoria": "code formatting",
+      "downloads": 290879074,
+      "versao": "3.10.2",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "typhoeus",
+      "repo": "typhoeus/typhoeus",
+      "categoria": "http clients and tools",
+      "downloads": 285795206,
+      "versao": "1.6.0",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "awesome_print",
+      "repo": "awesome-print/awesome_print",
+      "categoria": "cli utilities",
+      "downloads": 285611364,
+      "versao": "1.9.2",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "pry-byebug",
+      "repo": "deivid-rodriguez/pry-byebug",
+      "categoria": "debugging tools",
+      "downloads": 284882437,
+      "versao": "3.12.0",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "formatador",
+      "repo": "geemus/formatador",
+      "categoria": "cli utilities",
+      "downloads": 280656070,
+      "versao": "1.2.3",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "oauth2",
+      "repo": "ruby-oauth/oauth2",
+      "categoria": "authentication and oauth",
+      "downloads": 273609635,
+      "versao": "2.0.25",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "rack-cors",
+      "repo": "cyu/rack-cors",
+      "categoria": "http clients and tools",
+      "downloads": 271479745,
+      "versao": "3.0.0",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "shoulda-matchers",
+      "repo": "thoughtbot/shoulda-matchers",
+      "categoria": "testing",
+      "downloads": 270167567,
+      "versao": "8.0.1",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "timecop",
+      "repo": "travisjeffery/timecop",
+      "categoria": "testing",
+      "downloads": 269990531,
+      "versao": "0.9.11",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "kaminari",
+      "repo": "amatsuda/kaminari",
+      "categoria": "pagination",
+      "downloads": 269324777,
+      "versao": "1.2.2",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "spring",
+      "repo": "rails/spring",
+      "categoria": "testing",
+      "downloads": 257306881,
+      "versao": "4.7.0",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "kramdown",
+      "repo": "gettalong/kramdown",
+      "categoria": "markdown processors",
+      "downloads": 249570695,
+      "versao": "2.5.2",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "mysql2",
+      "repo": "brianmario/mysql2",
+      "categoria": "database drivers",
+      "downloads": 240532194,
+      "versao": "0.5.7",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "brakeman",
+      "repo": "presidentbeef/brakeman",
+      "categoria": "code analysis and metrics",
+      "downloads": 230403965,
+      "versao": "8.0.6",
+      "licenca": "Brakeman Public Use License"
+    },
+    {
+      "gem": "pry-rails",
+      "repo": "pry/pry-rails",
+      "categoria": "debugging tools",
+      "downloads": 227503482,
+      "versao": "0.3.11",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "omniauth",
+      "repo": "omniauth/omniauth",
+      "categoria": "authentication and oauth",
+      "downloads": 221618074,
+      "versao": "2.1.4",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "dry-types",
+      "repo": "dry-rb/dry-types",
+      "categoria": "type signatures and type checking",
+      "downloads": 217336252,
+      "versao": "1.9.1",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "database_cleaner",
+      "repo": "DatabaseCleaner/database_cleaner",
+      "categoria": "database tools",
+      "downloads": 216668656,
+      "versao": "2.1.0",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "http",
+      "repo": "httprb/http",
+      "categoria": "http clients and tools",
+      "downloads": 211684850,
+      "versao": "6.0.4",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "fastlane",
+      "repo": "fastlane/fastlane",
+      "categoria": "mobile development",
+      "downloads": 209381031,
+      "versao": "2.238.0",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "thin",
+      "repo": "macournoyer/thin",
+      "categoria": "web servers",
+      "downloads": 208199531,
+      "versao": "2.0.1",
+      "licenca": "GPL-2.0-or-later"
+    },
+    {
+      "gem": "fastimage",
+      "repo": "sdsykes/fastimage",
+      "categoria": "image processing",
+      "downloads": 207985306,
+      "versao": "2.4.1",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "haml",
+      "repo": "haml/haml",
+      "categoria": "template engine",
+      "downloads": 204281555,
+      "versao": "7.4.1",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "lograge",
+      "repo": "roidrage/lograge",
+      "categoria": "logging",
+      "downloads": 198067726,
+      "versao": "0.15.0",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "state_machines",
+      "repo": "state-machines/state_machines",
+      "categoria": "state machines",
+      "downloads": 182844835,
+      "versao": "0.202.0",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "bullet",
+      "repo": "flyerhzm/bullet",
+      "categoria": "profiler and optimization",
+      "downloads": 182203796,
+      "versao": "8.1.3",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "colorize",
+      "repo": "fazibear/colorize",
+      "categoria": "cli utilities",
+      "downloads": 166560423,
+      "versao": "1.1.0",
+      "licenca": "GPL-2.0"
+    },
+    {
+      "gem": "activerecord-import",
+      "repo": "zdennis/activerecord-import",
+      "categoria": "orm/odm extensions",
+      "downloads": 164815113,
+      "versao": "2.3.0",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "parallel_tests",
+      "repo": "grosser/parallel_tests",
+      "categoria": "testing",
+      "downloads": 164748246,
+      "versao": "5.7.0",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "vcr",
+      "repo": "vcr/vcr",
+      "categoria": "testing",
+      "downloads": 163274479,
+      "versao": "6.4.0",
+      "licenca": "Hippocratic-2.1"
+    },
+    {
+      "gem": "autoprefixer-rails",
+      "repo": "ai/autoprefixer-rails",
+      "categoria": "assets",
+      "downloads": 163216765,
+      "versao": "10.4.21.0",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "slop",
+      "repo": "leejarvis/slop",
+      "categoria": "cli builder",
+      "downloads": 157277077,
+      "versao": "4.10.1",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "stackprof",
+      "repo": "tmm1/stackprof",
+      "categoria": "profiler and optimization",
+      "downloads": 155377647,
+      "versao": "0.2.28",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "guard",
+      "repo": "guard/guard",
+      "categoria": "file system listener",
+      "downloads": 153696327,
+      "versao": "2.20.2",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "rack-attack",
+      "repo": "rack/rack-attack",
+      "categoria": "security",
+      "downloads": 149940901,
+      "versao": "6.8.0",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "sentry-ruby",
+      "repo": "getsentry/sentry-ruby",
+      "categoria": "error handling",
+      "downloads": 147953687,
+      "versao": "6.7.0",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "commander",
+      "repo": "commander-rb/commander",
+      "categoria": "cli builder",
+      "downloads": 146076271,
+      "versao": "6.0.0",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "paper_trail",
+      "repo": "paper-trail-gem/paper_trail",
+      "categoria": "orm/odm extensions",
+      "downloads": 145297702,
+      "versao": "17.0.0",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "bundler-audit",
+      "repo": "rubysec/bundler-audit",
+      "categoria": "security",
+      "downloads": 141719615,
+      "versao": "0.9.3",
+      "licenca": "GPL-3.0-or-later"
+    },
+    {
+      "gem": "carrierwave",
+      "repo": "carrierwaveuploader/carrierwave",
+      "categoria": "file upload",
+      "downloads": 141038336,
+      "versao": "3.1.3",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "rufus-scheduler",
+      "repo": "jmettraux/rufus-scheduler",
+      "categoria": "scheduling",
+      "downloads": 141035730,
+      "versao": "3.9.2",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "slack-notifier",
+      "repo": "slack-notifier/slack-notifier",
+      "categoria": "third-party apis",
+      "downloads": 139495227,
+      "versao": "2.4.0",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "rails-i18n",
+      "repo": "svenfuchs/rails-i18n",
+      "categoria": "internationalization",
+      "downloads": 139133073,
+      "versao": "8.1.0",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "cocoapods",
+      "repo": "CocoaPods/CocoaPods",
+      "categoria": "package management",
+      "downloads": 138453089,
+      "versao": "1.17.0",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "jaro_winkler",
+      "repo": "tonytonyjan/jaro_winkler",
+      "categoria": "scientific",
+      "downloads": 137683433,
+      "versao": "1.7.0",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "liquid",
+      "repo": "Shopify/liquid",
+      "categoria": "template engine",
+      "downloads": 137182287,
+      "versao": "5.13.0",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "active_model_serializers",
+      "repo": "rails-api/active_model_serializers",
+      "categoria": "api builder and discovery",
+      "downloads": 136546230,
+      "versao": "0.10.16",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "chronic",
+      "repo": "mojombo/chronic",
+      "categoria": "date and time processing",
+      "downloads": 133871900,
+      "versao": "0.10.2",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "optimist",
+      "repo": "ManageIQ/optimist",
+      "categoria": "cli builder",
+      "downloads": 133565556,
+      "versao": "3.2.1",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "twilio-ruby",
+      "repo": "twilio/twilio-ruby",
+      "categoria": "third-party apis",
+      "downloads": 132809086,
+      "versao": "7.11.1",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "redcarpet",
+      "repo": "vmg/redcarpet",
+      "categoria": "markdown processors",
+      "downloads": 132340674,
+      "versao": "3.6.1",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "money",
+      "repo": "RubyMoney/money",
+      "categoria": "money",
+      "downloads": 132038806,
+      "versao": "7.1.1",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "foreman",
+      "repo": "ddollar/foreman",
+      "categoria": "process management and monitoring",
+      "downloads": 131867902,
+      "versao": "0.90.0",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "countries",
+      "repo": "countries/countries",
+      "categoria": "country data",
+      "downloads": 130350411,
+      "versao": "8.1.0",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "virtus",
+      "repo": "solnic/virtus",
+      "categoria": "core extensions",
+      "downloads": 130097705,
+      "versao": "2.0.0",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "dalli",
+      "repo": "petergoldstein/dalli",
+      "categoria": "caching",
+      "downloads": 128582127,
+      "versao": "5.1.0",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "rqrcode",
+      "repo": "whomwah/rqrcode",
+      "categoria": "qr",
+      "downloads": 127260787,
+      "versao": "3.2.0",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "danger",
+      "repo": "danger/danger",
+      "categoria": "automation",
+      "downloads": 124379417,
+      "versao": "9.6.1",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "image_processing",
+      "repo": "janko/image_processing",
+      "categoria": "image processing",
+      "downloads": 123038838,
+      "versao": "2.0.3",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "debug",
+      "repo": "ruby/debug",
+      "categoria": "developer tooling",
+      "downloads": 120209890,
+      "versao": "1.11.1",
+      "licenca": "Ruby"
+    },
+    {
+      "gem": "letter_opener",
+      "repo": "ryanb/letter_opener",
+      "categoria": "email",
+      "downloads": 117894707,
+      "versao": "1.10.0",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "ransack",
+      "repo": "activerecord-hackery/ransack",
+      "categoria": "search",
+      "downloads": 116292116,
+      "versao": "4.4.1",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "wisper",
+      "repo": "krisleech/wisper",
+      "categoria": "business logic",
+      "downloads": 114978387,
+      "versao": "3.0.0",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "pastel",
+      "repo": "piotrmurach/pastel",
+      "categoria": "cli utilities",
+      "downloads": 114847609,
+      "versao": "0.8.0",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "gitlab",
+      "repo": "NARKOZ/gitlab",
+      "categoria": "third-party apis",
+      "downloads": 114583065,
+      "versao": "6.1.0",
+      "licenca": "BSD-2-Clause"
+    },
+    {
+      "gem": "eye",
+      "repo": "kostya/eye",
+      "categoria": "process management and monitoring",
+      "downloads": 114491739,
+      "versao": "0.10.0",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "roo",
+      "repo": "roo-rb/roo",
+      "categoria": "spreadsheets and documents",
+      "downloads": 113483339,
+      "versao": "3.0.0",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "doorkeeper",
+      "repo": "doorkeeper-gem/doorkeeper",
+      "categoria": "authentication and oauth",
+      "downloads": 112767757,
+      "versao": "5.9.6",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "gli",
+      "repo": "davetron5000/gli",
+      "categoria": "cli builder",
+      "downloads": 110259961,
+      "versao": "2.22.2",
+      "licenca": "Apache-2.0"
+    },
+    {
+      "gem": "premailer-rails",
+      "repo": "fphilipe/premailer-rails",
+      "categoria": "email",
+      "downloads": 110221727,
+      "versao": "1.12.0",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "better_errors",
+      "repo": "BetterErrors/better_errors",
+      "categoria": "error handling",
+      "downloads": 109045091,
+      "versao": "2.10.1",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "geocoder",
+      "repo": "alexreisner/geocoder",
+      "categoria": "geolocation",
+      "downloads": 108740468,
+      "versao": "1.8.6",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "pundit",
+      "repo": "varvet/pundit",
+      "categoria": "authorization",
+      "downloads": 108405168,
+      "versao": "2.5.2",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "yajl-ruby",
+      "repo": "brianmario/yajl-ruby",
+      "categoria": "optimizations",
+      "downloads": 108396579,
+      "versao": "1.4.3",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "diffy",
+      "repo": "samg/diffy",
+      "categoria": "diff",
+      "downloads": 107469036,
+      "versao": "3.4.4",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "will_paginate",
+      "repo": "mislav/will_paginate",
+      "categoria": "pagination",
+      "downloads": 107168775,
+      "versao": "4.0.1",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "logging",
+      "repo": "TwP/logging",
+      "categoria": "logging",
+      "downloads": 106240925,
+      "versao": "2.4.0",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "aasm",
+      "repo": "aasm/aasm",
+      "categoria": "state machines",
+      "downloads": 104408322,
+      "versao": "6.0.0",
+      "licenca": "MIT"
+    },
+    {
+      "gem": "mongo",
+      "repo": "mongodb/mongo-ruby-driver",
+      "categoria": "database drivers",
+      "downloads": 103629556,
+      "versao": "2.25.0",
+      "licenca": "Apache-2.0"
+    },
+    {
+      "gem": "prawn",
+      "repo": "prawnpdf/prawn",
+      "categoria": "pdf",
+      "downloads": 101807383,
+      "versao": "2.5.0",
+      "licenca": "Nonstandard"
+    },
+    {
+      "gem": "savon",
+      "repo": "savonrb/savon",
+      "categoria": "http clients and tools",
+      "downloads": 100303557,
+      "versao": "2.17.4",
+      "licenca": "MIT"
+    }
+  ]
+}

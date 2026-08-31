@@ -1,0 +1,78 @@
+# Os MethodTarget logo apos o discover(), com TODOS os campos.
+# Os tres campos de texto estao vazios porque a fase dos sumarios
+# ainda nao correu; o judge ja esta preenchido (project.py:252).
+# Despejado da memoria; nao foi escrito a mao.
+
+4 alvos (os dois `initialize` ficam de fora: SKIP_METHODS, project.py:26)
+
+MethodTarget  Carteira#saldo
+    method.name        = 'saldo'
+    method.owner       = 'Carteira'
+    method.singleton   = False
+    method.start/end   = 8-10
+    method.params      = []
+    method.param_members = {}
+    method.calls       = [{'name': 'total', 'recv': 'ivar', 'recv_name': '@mov', 'line': 9}]
+    owner_class        = 'Carteira'
+    file_path          = '1_codigo/carteira.rb'
+    require_target     = 'carteira'
+    spec_dir           = 'marta_specs'
+    siblings           = ['initialize', 'resumo']
+    judge              = ''
+    done_what          = ''
+    what_todo          = ''
+    summary            = ''
+
+MethodTarget  Carteira#resumo
+    method.name        = 'resumo'
+    method.owner       = 'Carteira'
+    method.singleton   = False
+    method.start/end   = 12-14
+    method.params      = []
+    method.param_members = {}
+    method.calls       = [{'name': 'saldo', 'recv': 'none', 'recv_name': None, 'line': 13}]
+    owner_class        = 'Carteira'
+    file_path          = '1_codigo/carteira.rb'
+    require_target     = 'carteira'
+    spec_dir           = 'marta_specs'
+    siblings           = ['initialize', 'saldo']
+    judge              = ''
+    done_what          = ''
+    what_todo          = ''
+    summary            = ''
+
+MethodTarget  Movimento#total
+    method.name        = 'total'
+    method.owner       = 'Movimento'
+    method.singleton   = False
+    method.start/end   = 6-8
+    method.params      = []
+    method.param_members = {}
+    method.calls       = [{'name': 'sum', 'recv': 'ivar', 'recv_name': '@valores', 'line': 7}]
+    owner_class        = 'Movimento'
+    file_path          = '1_codigo/movimento.rb'
+    require_target     = 'movimento'
+    spec_dir           = 'marta_specs'
+    siblings           = ['initialize', 'juntar']
+    judge              = ''
+    done_what          = ''
+    what_todo          = ''
+    summary            = ''
+
+MethodTarget  Movimento#juntar
+    method.name        = 'juntar'
+    method.owner       = 'Movimento'
+    method.singleton   = False
+    method.start/end   = 10-12
+    method.params      = [('outro', 'req')]
+    method.param_members = {'outro': ['total']}
+    method.calls       = [{'name': 'new', 'recv': 'const', 'recv_name': 'Movimento', 'line': 11}, {'name': '+', 'recv': 'ivar', 'recv_name': '@valores', 'line': 11}, {'name': 'total', 'recv': 'lvar', 'recv_name': 'outro', 'line': 11}]
+    owner_class        = 'Movimento'
+    file_path          = '1_codigo/movimento.rb'
+    require_target     = 'movimento'
+    spec_dir           = 'marta_specs'
+    siblings           = ['initialize', 'total']
+    judge              = 'INFERRED PARAMETER TYPES:\n- `outro` responds to [total] -> likely: Movimento'
+    done_what          = ''
+    what_todo          = ''
+    summary            = ''

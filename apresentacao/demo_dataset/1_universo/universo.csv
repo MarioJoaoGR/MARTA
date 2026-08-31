@@ -1,0 +1,134 @@
+gem,repo,categoria,downloads,versao,licenca
+i18n,ruby-i18n/i18n,internationalization,1416535738,1.15.2,MIT
+activesupport,rails/rails/tree/master/master/activesupport,core extensions,1413493331,8.1.3.1,MIT
+rake,ruby/rake,cli builder,1396264920,13.4.2,MIT
+concurrent-ruby,ruby-concurrency/concurrent-ruby,concurrency and parallelism,1351817785,1.3.8,MIT
+tzinfo,tzinfo/tzinfo,date and time processing,1303296972,2.0.6,MIT
+minitest,minitest/minitest,testing,1282273996,6.0.6,MIT
+addressable,sporkmonger/addressable,core extensions,1249314571,2.9.0,Apache-2.0
+faraday,lostisland/faraday,http clients and tools,1242225853,2.14.3,MIT
+rspec,rspec/rspec,testing,1011554156,3.13.2,MIT
+activerecord,rails/rails/tree/master/master/activerecord,orm/odm,827953595,8.1.3.1,MIT
+parallel,grosser/parallel,concurrency and parallelism,812279355,2.1.0,MIT
+jwt,jwt/ruby-jwt,authentication and oauth,802138915,3.2.0,MIT
+tilt,rtomayko/tilt,template engine,785376558,2.9.0,MIT
+mail,mikel/mail,email,755286721,2.9.1,MIT
+rubocop,rubocop/rubocop,code formatting,735259184,1.90.0,MIT
+connection_pool,mperham/connection_pool,database tools,714797693,3.0.2,MIT
+excon,excon/excon,http clients and tools,699999190,1.7.0,MIT
+zeitwerk,fxn/zeitwerk,code loaders,688179299,2.8.3,MIT
+coderay,rubychan/coderay,code highlighting,633856048,1.1.3,MIT
+pry,pry/pry,irb,627459000,0.16.0,MIT
+sprockets,rails/sprockets,assets,616974660,4.4.1,MIT
+puma,puma/puma,web servers,596355020,8.0.2,BSD-3-Clause
+dotenv,bkeepers/dotenv,configuration,538739274,3.2.0,MIT
+httpclient,nahi/httpclient,http clients and tools,530692170,2.9.0,ruby
+rack-protection,sinatra/sinatra/tree/master/master/rack-protection,security,512406857,4.2.1,MIT
+docile,ms-ati/docile,core extensions,496767488,1.4.1,MIT
+simplecov,simplecov-ruby/simplecov,code analysis and metrics,494202244,1.1.1,MIT
+rest-client,rest-client/rest-client,http clients and tools,481645596,2.1.0,MIT
+hashie,hashie/hashie,core extensions,479469860,5.1.0,MIT
+httparty,jnunemaker/httparty,http clients and tools,476707639,0.24.2,MIT
+byebug,deivid-rodriguez/byebug,debugging tools,475425784,13.0.0,BSD-2-Clause
+pg,ged/ruby-pg,database drivers,465403733,1.6.3,BSD-2-Clause
+webmock,bblimke/webmock,testing,417786674,3.26.3,MIT
+terminal-table,tj/terminal-table,cli utilities,412717349,4.0.0,MIT
+sawyer,lostisland/sawyer,http clients and tools,396999344,0.9.3,MIT
+listen,guard/listen,file system listener,396628201,3.10.0,MIT
+knapsack,KnapsackPro/knapsack,testing,379938279,4.0.0,MIT
+bootsnap,rails/bootsnap,optimizations,369759211,1.25.0,MIT
+capybara,teamcapybara/capybara,testing,354902722,3.40.0,MIT
+selenium-webdriver,SeleniumHQ/selenium/tree/master/master/rb,testing,353864427,4.47.0,Apache-2.0
+factory_bot,thoughtbot/factory_bot,testing,349439346,6.6.0,MIT
+faker,faker-ruby/faker,testing,338609496,3.8.0,MIT
+rdoc,ruby/rdoc,documentation,337152389,8.0.0,Ruby
+responders,heartcombo/responders,decorators,331146851,3.2.0,MIT
+eventmachine,eventmachine/eventmachine,concurrency and parallelism,329603418,1.2.7,Ruby
+rubocop-performance,rubocop/rubocop-performance,code formatting,321530131,1.27.0,MIT
+rouge,rouge-ruby/rouge,code highlighting,320002395,5.1.0,MIT
+jbuilder,rails/jbuilder,api builder and discovery,309062979,2.15.1,MIT
+childprocess,enkessler/childprocess,processes,306482445,5.1.0,MIT
+warden,wardencommunity/warden,authentication and oauth,303392385,1.2.9,MIT
+rubocop-rails,rubocop/rubocop-rails,code formatting,301551492,2.37.0,MIT
+devise,heartcombo/devise,authentication and oauth,292598634,5.0.4,MIT
+rubocop-rspec,rubocop/rubocop-rspec,code formatting,290879074,3.10.2,MIT
+typhoeus,typhoeus/typhoeus,http clients and tools,285795206,1.6.0,MIT
+awesome_print,awesome-print/awesome_print,cli utilities,285611364,1.9.2,MIT
+pry-byebug,deivid-rodriguez/pry-byebug,debugging tools,284882437,3.12.0,MIT
+formatador,geemus/formatador,cli utilities,280656070,1.2.3,MIT
+oauth2,ruby-oauth/oauth2,authentication and oauth,273609635,2.0.25,MIT
+rack-cors,cyu/rack-cors,http clients and tools,271479745,3.0.0,MIT
+shoulda-matchers,thoughtbot/shoulda-matchers,testing,270167567,8.0.1,MIT
+timecop,travisjeffery/timecop,testing,269990531,0.9.11,MIT
+kaminari,amatsuda/kaminari,pagination,269324777,1.2.2,MIT
+spring,rails/spring,testing,257306881,4.7.0,MIT
+kramdown,gettalong/kramdown,markdown processors,249570695,2.5.2,MIT
+mysql2,brianmario/mysql2,database drivers,240532194,0.5.7,MIT
+brakeman,presidentbeef/brakeman,code analysis and metrics,230403965,8.0.6,Brakeman Public Use License
+pry-rails,pry/pry-rails,debugging tools,227503482,0.3.11,MIT
+omniauth,omniauth/omniauth,authentication and oauth,221618074,2.1.4,MIT
+dry-types,dry-rb/dry-types,type signatures and type checking,217336252,1.9.1,MIT
+database_cleaner,DatabaseCleaner/database_cleaner,database tools,216668656,2.1.0,MIT
+http,httprb/http,http clients and tools,211684850,6.0.4,MIT
+fastlane,fastlane/fastlane,mobile development,209381031,2.238.0,MIT
+thin,macournoyer/thin,web servers,208199531,2.0.1,GPL-2.0-or-later
+fastimage,sdsykes/fastimage,image processing,207985306,2.4.1,MIT
+haml,haml/haml,template engine,204281555,7.4.1,MIT
+lograge,roidrage/lograge,logging,198067726,0.15.0,MIT
+state_machines,state-machines/state_machines,state machines,182844835,0.202.0,MIT
+bullet,flyerhzm/bullet,profiler and optimization,182203796,8.1.3,MIT
+colorize,fazibear/colorize,cli utilities,166560423,1.1.0,GPL-2.0
+activerecord-import,zdennis/activerecord-import,orm/odm extensions,164815113,2.3.0,MIT
+parallel_tests,grosser/parallel_tests,testing,164748246,5.7.0,MIT
+vcr,vcr/vcr,testing,163274479,6.4.0,Hippocratic-2.1
+autoprefixer-rails,ai/autoprefixer-rails,assets,163216765,10.4.21.0,MIT
+slop,leejarvis/slop,cli builder,157277077,4.10.1,MIT
+stackprof,tmm1/stackprof,profiler and optimization,155377647,0.2.28,MIT
+guard,guard/guard,file system listener,153696327,2.20.2,MIT
+rack-attack,rack/rack-attack,security,149940901,6.8.0,MIT
+sentry-ruby,getsentry/sentry-ruby,error handling,147953687,6.7.0,MIT
+commander,commander-rb/commander,cli builder,146076271,6.0.0,MIT
+paper_trail,paper-trail-gem/paper_trail,orm/odm extensions,145297702,17.0.0,MIT
+bundler-audit,rubysec/bundler-audit,security,141719615,0.9.3,GPL-3.0-or-later
+carrierwave,carrierwaveuploader/carrierwave,file upload,141038336,3.1.3,MIT
+rufus-scheduler,jmettraux/rufus-scheduler,scheduling,141035730,3.9.2,MIT
+slack-notifier,slack-notifier/slack-notifier,third-party apis,139495227,2.4.0,MIT
+rails-i18n,svenfuchs/rails-i18n,internationalization,139133073,8.1.0,MIT
+cocoapods,CocoaPods/CocoaPods,package management,138453089,1.17.0,MIT
+jaro_winkler,tonytonyjan/jaro_winkler,scientific,137683433,1.7.0,MIT
+liquid,Shopify/liquid,template engine,137182287,5.13.0,MIT
+active_model_serializers,rails-api/active_model_serializers,api builder and discovery,136546230,0.10.16,MIT
+chronic,mojombo/chronic,date and time processing,133871900,0.10.2,MIT
+optimist,ManageIQ/optimist,cli builder,133565556,3.2.1,MIT
+twilio-ruby,twilio/twilio-ruby,third-party apis,132809086,7.11.1,MIT
+redcarpet,vmg/redcarpet,markdown processors,132340674,3.6.1,MIT
+money,RubyMoney/money,money,132038806,7.1.1,MIT
+foreman,ddollar/foreman,process management and monitoring,131867902,0.90.0,MIT
+countries,countries/countries,country data,130350411,8.1.0,MIT
+virtus,solnic/virtus,core extensions,130097705,2.0.0,MIT
+dalli,petergoldstein/dalli,caching,128582127,5.1.0,MIT
+rqrcode,whomwah/rqrcode,qr,127260787,3.2.0,MIT
+danger,danger/danger,automation,124379417,9.6.1,MIT
+image_processing,janko/image_processing,image processing,123038838,2.0.3,MIT
+debug,ruby/debug,developer tooling,120209890,1.11.1,Ruby
+letter_opener,ryanb/letter_opener,email,117894707,1.10.0,MIT
+ransack,activerecord-hackery/ransack,search,116292116,4.4.1,MIT
+wisper,krisleech/wisper,business logic,114978387,3.0.0,MIT
+pastel,piotrmurach/pastel,cli utilities,114847609,0.8.0,MIT
+gitlab,NARKOZ/gitlab,third-party apis,114583065,6.1.0,BSD-2-Clause
+eye,kostya/eye,process management and monitoring,114491739,0.10.0,MIT
+roo,roo-rb/roo,spreadsheets and documents,113483339,3.0.0,MIT
+doorkeeper,doorkeeper-gem/doorkeeper,authentication and oauth,112767757,5.9.6,MIT
+gli,davetron5000/gli,cli builder,110259961,2.22.2,Apache-2.0
+premailer-rails,fphilipe/premailer-rails,email,110221727,1.12.0,MIT
+better_errors,BetterErrors/better_errors,error handling,109045091,2.10.1,MIT
+geocoder,alexreisner/geocoder,geolocation,108740468,1.8.6,MIT
+pundit,varvet/pundit,authorization,108405168,2.5.2,MIT
+yajl-ruby,brianmario/yajl-ruby,optimizations,108396579,1.4.3,MIT
+diffy,samg/diffy,diff,107469036,3.4.4,MIT
+will_paginate,mislav/will_paginate,pagination,107168775,4.0.1,MIT
+logging,TwP/logging,logging,106240925,2.4.0,MIT
+aasm,aasm/aasm,state machines,104408322,6.0.0,MIT
+mongo,mongodb/mongo-ruby-driver,database drivers,103629556,2.25.0,Apache-2.0
+prawn,prawnpdf/prawn,pdf,101807383,2.5.0,Nonstandard
+savon,savonrb/savon,http clients and tools,100303557,2.17.4,MIT

@@ -1,0 +1,476 @@
+gem,ficheiro,commit,categoria,loc_medio,loc_max,pct_singleton,pct_duck,mixins_por_classe,profundidade_heranca,metaprog_por_100,metodos,classes,formas,razao_formas,erro
+aasm,lib/aasm/minitest/transition_from.rb,88061ec5104a,state machines,5.7,6,0,100,0.0,0,33.3,3,1,3,1.0,NameError: uninitialized constant Minitest
+aasm,lib/generators/active_record/aasm_generator.rb,88061ec5104a,state machines,7.3,10,0,33,0.33,1,0.0,3,3,3,1.0,LoadError: cannot load such file -- rails/generators/active_record
+aasm,lib/generators/mongoid/aasm_generator.rb,88061ec5104a,state machines,3,3,0,0,0.33,1,0.0,4,3,4,1.0,LoadError: cannot load such file -- rails/generators/named_base
+active_model_serializers,lib/action_controller/serialization.rb,6934c8bd31f4,api builder and discovery,6.3,17,0,33,0.67,0,16.7,6,3,6,1.0,NameError: uninitialized constant ActionController::Renderers
+active_model_serializers,lib/active_model_serializers/register_jsonapi_renderer.rb,6934c8bd31f4,api builder and discovery,10.3,17,67,100,0.0,0,0.0,3,3,3,1.0,NameError: uninitialized constant ActiveModelSerializers::Jsonapi::Mime
+active_model_serializers,lib/generators/rails/serializer_generator.rb,6934c8bd31f4,api builder and discovery,4.5,9,0,75,0.0,1,0.0,4,3,4,1.0,NameError: uninitialized constant Rails::Generators::NamedBase
+activerecord,examples/performance.rb,3989ebf3473d,orm/odm,1.9,3,67,44,0.0,1,0.0,9,4,7,0.778,LoadError: cannot load such file -- benchmark/ips
+activerecord,lib/active_record/connection_adapters/mysql2_adapter.rb,3989ebf3473d,orm/odm,5.9,14,9,68,0.33,2,0.0,22,3,17,0.773,"Gem::MissingSpecError: Could not find 'mysql2' (~> 0.5) among 97 total gem(s)
+Checked in 'GEM_PATH=/private/var/folders/xt/zsl5k3z97rn823l5tt5fhfr40000gn/T/marta_p6_3ync3utc/gems_activerecord:/Users/mario/.rbenv/versions/3.4.10/lib/ruby/gems/3.4.0' , execute `gem env` for more information"
+activerecord,lib/active_record/connection_adapters/postgresql/database_statements.rb,3989ebf3473d,orm/odm,7.2,36,0,62,0.0,0,0.0,24,4,22,0.917,NameError: uninitialized constant ActiveRecord::ConnectionAdapters::PostgreSQL::DatabaseStatements::PG
+activerecord,lib/active_record/connection_adapters/postgresql_adapter.rb,3989ebf3473d,orm/odm,8.4,63,4,56,0.8,1,1.0,100,5,61,0.61,"Gem::MissingSpecError: Could not find 'pg' (~> 1.1) among 97 total gem(s)
+Checked in 'GEM_PATH=/private/var/folders/xt/zsl5k3z97rn823l5tt5fhfr40000gn/T/marta_p6_3ync3utc/gems_activerecord:/Users/mario/.rbenv/versions/3.4.10/lib/ruby/gems/3.4.0' , execute `gem env` for more information"
+activerecord,lib/active_record/connection_adapters/sqlite3_adapter.rb,3989ebf3473d,orm/odm,8.7,51,5,59,0.6,1,1.4,74,5,55,0.743,"Gem::MissingSpecError: Could not find 'sqlite3' (>= 2.1) among 97 total gem(s)
+Checked in 'GEM_PATH=/private/var/folders/xt/zsl5k3z97rn823l5tt5fhfr40000gn/T/marta_p6_3ync3utc/gems_activerecord:/Users/mario/.rbenv/versions/3.4.10/lib/ruby/gems/3.4.0' , execute `gem env` for more information"
+activerecord,lib/active_record/connection_adapters/trilogy_adapter.rb,3989ebf3473d,orm/odm,6.0,17,17,70,0.33,2,0.0,23,3,18,0.783,"Gem::MissingSpecError: Could not find 'trilogy' (~> 2.7) among 97 total gem(s)
+Checked in 'GEM_PATH=/private/var/folders/xt/zsl5k3z97rn823l5tt5fhfr40000gn/T/marta_p6_3ync3utc/gems_activerecord:/Users/mario/.rbenv/versions/3.4.10/lib/ruby/gems/3.4.0' , execute `gem env` for more information"
+activerecord,lib/active_record/encryption/message_pack_message_serializer.rb,3989ebf3473d,orm/odm,5.5,9,0,75,0.0,0,0.0,8,3,8,1.0,"Gem::MissingSpecError: Could not find 'msgpack' (>= 1.7.0) among 97 total gem(s)
+Checked in 'GEM_PATH=/private/var/folders/xt/zsl5k3z97rn823l5tt5fhfr40000gn/T/marta_p6_3ync3utc/gems_activerecord:/Users/mario/.rbenv/versions/3.4.10/lib/ruby/gems/3.4.0' , execute `gem env` for more information"
+activerecord,lib/rails/generators/active_record/migration.rb,3989ebf3473d,orm/odm,5.3,10,0,50,0.5,0,0.0,6,4,5,0.833,LoadError: cannot load such file -- rails/generators/migration
+activerecord,lib/rails/generators/active_record/migration/migration_generator.rb,3989ebf3473d,orm/odm,6.6,18,0,71,0.0,1,0.0,7,3,7,1.0,LoadError: cannot load such file -- rails/generators/named_base
+activerecord,lib/rails/generators/active_record/model/model_generator.rb,3989ebf3473d,orm/odm,4.1,9,0,92,0.0,1,0.0,12,3,10,0.833,LoadError: cannot load such file -- rails/generators/named_base
+activesupport,lib/active_support/cache/mem_cache_store.rb,3989ebf3473d,core extensions,8.3,22,11,78,0.33,1,5.6,18,3,18,1.0,LoadError: cannot load such file -- dalli
+activesupport,lib/active_support/cache/redis_cache_store.rb,3989ebf3473d,core extensions,9.4,26,14,79,0.33,1,3.6,28,3,28,1.0,"Gem::MissingSpecError: Could not find 'redis' (>= 4.0.1) among 95 total gem(s)
+Checked in 'GEM_PATH=/private/var/folders/xt/zsl5k3z97rn823l5tt5fhfr40000gn/T/marta_p6_3ync3utc/gems_activesupport:/Users/mario/.rbenv/versions/3.4.10/lib/ruby/gems/3.4.0' , execute `gem env` for more information"
+activesupport,lib/active_support/cache/strategy/local_cache_middleware.rb,3989ebf3473d,core extensions,7.3,13,0,33,0.0,0,0.0,3,5,3,1.0,LoadError: cannot load such file -- rack/body_proxy
+activesupport,lib/active_support/evented_file_update_checker.rb,3989ebf3473d,core extensions,7.5,26,0,82,0.0,0,0.0,17,3,17,1.0,"Gem::MissingSpecError: Could not find 'listen' (~> 3.5) among 95 total gem(s)
+Checked in 'GEM_PATH=/private/var/folders/xt/zsl5k3z97rn823l5tt5fhfr40000gn/T/marta_p6_3ync3utc/gems_activesupport:/Users/mario/.rbenv/versions/3.4.10/lib/ruby/gems/3.4.0' , execute `gem env` for more information"
+activesupport,lib/active_support/i18n_railtie.rb,3989ebf3473d,core extensions,16.3,47,100,83,0.0,1,16.7,6,2,6,1.0,LoadError: cannot load such file -- rails/railtie
+activesupport,lib/active_support/message_pack/extensions.rb,3989ebf3473d,core extensions,6.7,90,0,92,0.2,1,2.7,37,5,34,0.919,LoadError: cannot load such file -- msgpack/bigint
+activesupport,lib/active_support/message_pack/serializer.rb,3989ebf3473d,core extensions,5,10,0,50,0.0,0,0.0,8,3,8,1.0,LoadError: cannot load such file -- msgpack/bigint
+activesupport,lib/active_support/xml_mini/jdom.rb,3989ebf3473d,core extensions,11,21,0,100,0.5,0,0.0,9,2,9,1.0,RuntimeError: JRuby is required to use the JDOM backend for XmlMini
+activesupport,lib/active_support/xml_mini/libxml.rb,3989ebf3473d,core extensions,14.7,30,0,100,0.17,0,0.0,3,6,3,1.0,LoadError: cannot load such file -- libxml
+activesupport,lib/active_support/xml_mini/libxmlsax.rb,3989ebf3473d,core extensions,7,17,0,86,0.67,0,0.0,7,3,7,1.0,LoadError: cannot load such file -- libxml
+activesupport,lib/active_support/xml_mini/nokogiri.rb,3989ebf3473d,core extensions,15.3,30,0,100,0.2,0,0.0,3,5,3,1.0,LoadError: cannot load such file -- nokogiri
+activesupport,lib/active_support/xml_mini/nokogirisax.rb,3989ebf3473d,core extensions,6,14,0,75,0.33,1,0.0,8,3,8,1.0,LoadError: cannot load such file -- nokogiri
+addressable,lib/addressable/idna/native.rb,0c3e8589b23d,core extensions,6.2,11,100,100,0.5,0,0.0,5,2,5,1.0,LoadError: cannot load such file -- idn
+better_errors,lib/better_errors/rails.rb,fde3b7025db1,error handling,4.3,7,0,67,0.0,1,0.0,3,2,3,1.0,NameError: uninitialized constant BetterErrors::Rails
+better_errors,lib/better_errors/repl/pry.rb,fde3b7025db1,error handling,5.8,12,0,64,0.0,0,45.5,11,5,10,0.909,LoadError: cannot load such file -- pry
+brakeman,lib/brakeman/checks.rb,fffc4837becb,code analysis and metrics,10.6,49,75,88,0.0,0,0.0,16,1,15,0.938,saida abrupta: Please install the appropriate dependency: ruby2ruby.
+brakeman,lib/brakeman/checks/base_check.rb,fffc4837becb,code analysis and metrics,13.1,69,6,75,4.0,1,0.0,32,1,31,0.969,saida abrupta: Please install the appropriate dependency: ruby2ruby.
+brakeman,lib/brakeman/checks/check_basic_auth.rb,fffc4837becb,code analysis and metrics,11.5,22,0,83,0.0,2,0.0,6,1,6,1.0,saida abrupta: Please install the appropriate dependency: ruby2ruby.
+brakeman,lib/brakeman/checks/check_content_tag.rb,fffc4837becb,code analysis and metrics,27.3,59,0,71,0.0,3,0.0,7,1,7,1.0,saida abrupta: Please install the appropriate dependency: ruby2ruby.
+brakeman,lib/brakeman/checks/check_create_with.rb,fffc4837becb,code analysis and metrics,15.8,19,0,75,0.0,2,0.0,4,1,4,1.0,saida abrupta: Please install the appropriate dependency: ruby2ruby.
+brakeman,lib/brakeman/checks/check_cross_site_scripting.rb,fffc4837becb,code analysis and metrics,11.4,68,0,67,0.0,2,0.0,27,1,23,0.852,saida abrupta: Please install the appropriate dependency: ruby2ruby.
+brakeman,lib/brakeman/checks/check_default_routes.rb,fffc4837becb,code analysis and metrics,13,31,0,67,0.0,2,0.0,6,1,6,1.0,saida abrupta: Please install the appropriate dependency: ruby2ruby.
+brakeman,lib/brakeman/checks/check_deserialize.rb,fffc4837becb,code analysis and metrics,11,28,0,70,0.0,2,0.0,10,1,9,0.9,saida abrupta: Please install the appropriate dependency: ruby2ruby.
+brakeman,lib/brakeman/checks/check_detailed_exceptions.rb,fffc4837becb,code analysis and metrics,10.8,25,0,75,0.0,2,0.0,4,1,4,1.0,saida abrupta: Please install the appropriate dependency: ruby2ruby.
+brakeman,lib/brakeman/checks/check_dynamic_finders.rb,fffc4837becb,code analysis and metrics,9.2,21,0,100,0.0,2,0.0,4,1,4,1.0,saida abrupta: Please install the appropriate dependency: ruby2ruby.
+brakeman,lib/brakeman/checks/check_evaluation.rb,fffc4837becb,code analysis and metrics,14.2,28,0,100,0.0,2,0.0,4,1,4,1.0,saida abrupta: Please install the appropriate dependency: ruby2ruby.
+brakeman,lib/brakeman/checks/check_execute.rb,fffc4837becb,code analysis and metrics,19.8,100,0,85,0.0,2,0.0,13,1,13,1.0,saida abrupta: Please install the appropriate dependency: ruby2ruby.
+brakeman,lib/brakeman/checks/check_file_access.rb,fffc4837becb,code analysis and metrics,14.2,38,0,100,0.0,2,0.0,5,1,5,1.0,saida abrupta: Please install the appropriate dependency: ruby2ruby.
+brakeman,lib/brakeman/checks/check_forgery_setting.rb,fffc4837becb,code analysis and metrics,23,38,0,33,0.0,2,0.0,3,1,3,1.0,saida abrupta: Please install the appropriate dependency: ruby2ruby.
+brakeman,lib/brakeman/checks/check_i18n_xss.rb,fffc4837becb,code analysis and metrics,13,22,0,100,0.0,2,0.0,3,1,3,1.0,saida abrupta: Please install the appropriate dependency: ruby2ruby.
+brakeman,lib/brakeman/checks/check_json_entity_escape.rb,fffc4837becb,code analysis and metrics,10,15,0,67,0.0,2,0.0,3,1,3,1.0,saida abrupta: Please install the appropriate dependency: ruby2ruby.
+brakeman,lib/brakeman/checks/check_json_parsing.rb,fffc4837becb,code analysis and metrics,11.8,35,0,62,0.0,2,0.0,8,1,8,1.0,saida abrupta: Please install the appropriate dependency: ruby2ruby.
+brakeman,lib/brakeman/checks/check_link_to.rb,fffc4837becb,code analysis and metrics,12,27,0,56,0.0,3,0.0,9,1,9,1.0,saida abrupta: Please install the appropriate dependency: ruby2ruby.
+brakeman,lib/brakeman/checks/check_link_to_href.rb,fffc4837becb,code analysis and metrics,12.4,46,0,90,0.0,4,0.0,10,1,10,1.0,saida abrupta: Please install the appropriate dependency: ruby2ruby.
+brakeman,lib/brakeman/checks/check_mass_assignment.rb,fffc4837becb,code analysis and metrics,13.8,44,0,79,0.0,2,0.0,14,1,14,1.0,saida abrupta: Please install the appropriate dependency: ruby2ruby.
+brakeman,lib/brakeman/checks/check_model_attr_accessible.rb,fffc4837becb,code analysis and metrics,11.3,22,0,100,0.0,2,0.0,3,1,3,1.0,saida abrupta: Please install the appropriate dependency: ruby2ruby.
+brakeman,lib/brakeman/checks/check_model_attributes.rb,fffc4837becb,code analysis and metrics,23.7,38,0,67,0.0,2,0.0,3,1,3,1.0,saida abrupta: Please install the appropriate dependency: ruby2ruby.
+brakeman,lib/brakeman/checks/check_nested_attributes_bypass.rb,fffc4837becb,code analysis and metrics,7.5,13,0,50,0.0,2,0.0,6,1,6,1.0,saida abrupta: Please install the appropriate dependency: ruby2ruby.
+brakeman,lib/brakeman/checks/check_number_to_currency.rb,fffc4837becb,code analysis and metrics,10.5,17,0,50,0.0,2,0.0,6,1,6,1.0,saida abrupta: Please install the appropriate dependency: ruby2ruby.
+brakeman,lib/brakeman/checks/check_pathname.rb,fffc4837becb,code analysis and metrics,9.2,15,0,75,0.0,2,0.0,4,1,4,1.0,saida abrupta: Please install the appropriate dependency: ruby2ruby.
+brakeman,lib/brakeman/checks/check_permit_attributes.rb,fffc4837becb,code analysis and metrics,9,13,0,100,0.0,2,0.0,3,1,3,1.0,saida abrupta: Please install the appropriate dependency: ruby2ruby.
+brakeman,lib/brakeman/checks/check_ransack.rb,fffc4837becb,code analysis and metrics,14.3,35,0,100,0.0,2,0.0,3,1,3,1.0,saida abrupta: Please install the appropriate dependency: ruby2ruby.
+brakeman,lib/brakeman/checks/check_redirect.rb,fffc4837becb,code analysis and metrics,12.2,41,0,85,0.0,2,0.0,20,1,20,1.0,saida abrupta: Please install the appropriate dependency: ruby2ruby.
+brakeman,lib/brakeman/checks/check_regex_dos.rb,fffc4837becb,code analysis and metrics,16.3,31,0,100,0.0,2,0.0,3,1,3,1.0,saida abrupta: Please install the appropriate dependency: ruby2ruby.
+brakeman,lib/brakeman/checks/check_render.rb,fffc4837becb,code analysis and metrics,13.7,30,0,100,0.0,2,0.0,6,1,6,1.0,saida abrupta: Please install the appropriate dependency: ruby2ruby.
+brakeman,lib/brakeman/checks/check_render_dos.rb,fffc4837becb,code analysis and metrics,9.3,13,0,67,0.0,2,0.0,3,1,3,1.0,saida abrupta: Please install the appropriate dependency: ruby2ruby.
+brakeman,lib/brakeman/checks/check_render_inline.rb,fffc4837becb,code analysis and metrics,15,31,0,100,0.0,3,0.0,3,1,3,1.0,NameError: uninitialized constant Brakeman::CheckCrossSiteScripting
+brakeman,lib/brakeman/checks/check_render_rce.rb,fffc4837becb,code analysis and metrics,11,20,0,100,0.0,3,0.0,3,1,3,1.0,saida abrupta: Please install the appropriate dependency: ruby2ruby.
+brakeman,lib/brakeman/checks/check_sanitize_config_cve.rb,fffc4837becb,code analysis and metrics,10.4,25,0,78,0.0,2,0.0,9,1,9,1.0,saida abrupta: Please install the appropriate dependency: ruby2ruby.
+brakeman,lib/brakeman/checks/check_sanitize_methods.rb,fffc4837becb,code analysis and metrics,12.4,23,0,75,0.0,2,0.0,8,1,7,0.875,saida abrupta: Please install the appropriate dependency: ruby2ruby.
+brakeman,lib/brakeman/checks/check_secrets.rb,fffc4837becb,code analysis and metrics,10.3,24,0,67,0.0,2,0.0,3,1,3,1.0,saida abrupta: Please install the appropriate dependency: ruby2ruby.
+brakeman,lib/brakeman/checks/check_send.rb,fffc4837becb,code analysis and metrics,11.7,17,0,100,0.0,2,0.0,3,1,3,1.0,saida abrupta: Please install the appropriate dependency: ruby2ruby.
+brakeman,lib/brakeman/checks/check_session_settings.rb,fffc4837becb,code analysis and metrics,12.4,23,0,75,0.0,2,0.0,12,1,10,0.833,saida abrupta: Please install the appropriate dependency: ruby2ruby.
+brakeman,lib/brakeman/checks/check_simple_format.rb,fffc4837becb,code analysis and metrics,8.7,14,0,17,0.0,3,0.0,6,1,6,1.0,saida abrupta: Please install the appropriate dependency: ruby2ruby.
+brakeman,lib/brakeman/checks/check_single_quotes.rb,fffc4837becb,code analysis and metrics,10.7,28,0,86,0.0,2,0.0,7,1,7,1.0,saida abrupta: Please install the appropriate dependency: ruby2ruby.
+brakeman,lib/brakeman/checks/check_skip_before_filter.rb,fffc4837becb,code analysis and metrics,15,24,0,100,0.0,2,0.0,3,1,3,1.0,saida abrupta: Please install the appropriate dependency: ruby2ruby.
+brakeman,lib/brakeman/checks/check_sql.rb,fffc4837becb,code analysis and metrics,16.6,102,0,81,0.0,2,0.0,36,1,36,1.0,saida abrupta: Please install the appropriate dependency: ruby2ruby.
+brakeman,lib/brakeman/checks/check_sql_cves.rb,fffc4837becb,code analysis and metrics,19.2,59,0,80,0.0,2,0.0,5,1,5,1.0,saida abrupta: Please install the appropriate dependency: ruby2ruby.
+brakeman,lib/brakeman/checks/check_ssl_verify.rb,fffc4837becb,code analysis and metrics,5.3,10,0,67,0.0,2,0.0,6,1,6,1.0,saida abrupta: Please install the appropriate dependency: ruby2ruby.
+brakeman,lib/brakeman/checks/check_strip_tags.rb,fffc4837becb,code analysis and metrics,14.8,24,0,80,0.0,2,0.0,5,1,5,1.0,saida abrupta: Please install the appropriate dependency: ruby2ruby.
+brakeman,lib/brakeman/checks/check_symbol_dos.rb,fffc4837becb,code analysis and metrics,14.8,33,0,100,0.0,2,0.0,4,1,4,1.0,saida abrupta: Please install the appropriate dependency: ruby2ruby.
+brakeman,lib/brakeman/checks/check_unsafe_reflection_methods.rb,fffc4837becb,code analysis and metrics,11.4,20,0,80,0.0,2,0.0,5,1,5,1.0,saida abrupta: Please install the appropriate dependency: ruby2ruby.
+brakeman,lib/brakeman/checks/check_unscoped_find.rb,fffc4837becb,code analysis and metrics,18.3,26,0,100,0.0,2,0.0,3,1,3,1.0,saida abrupta: Please install the appropriate dependency: ruby2ruby.
+brakeman,lib/brakeman/checks/check_validation_regex.rb,fffc4837becb,code analysis and metrics,11.2,20,0,100,0.0,2,0.0,6,1,6,1.0,saida abrupta: Please install the appropriate dependency: ruby2ruby.
+brakeman,lib/brakeman/checks/check_verb_confusion.rb,fffc4837becb,code analysis and metrics,16,23,0,100,0.0,2,0.0,4,1,4,1.0,saida abrupta: Please install the appropriate dependency: ruby2ruby.
+brakeman,lib/brakeman/checks/check_weak_hash.rb,fffc4837becb,code analysis and metrics,14.7,35,0,100,0.0,2,0.0,9,1,8,0.889,saida abrupta: Please install the appropriate dependency: ruby2ruby.
+brakeman,lib/brakeman/checks/check_weak_rsa_key.rb,fffc4837becb,code analysis and metrics,18.6,27,0,80,0.0,2,0.0,5,1,5,1.0,saida abrupta: Please install the appropriate dependency: ruby2ruby.
+brakeman,lib/brakeman/checks/check_without_protection.rb,fffc4837becb,code analysis and metrics,22,31,0,100,0.0,2,0.0,3,1,3,1.0,saida abrupta: Please install the appropriate dependency: ruby2ruby.
+brakeman,lib/brakeman/checks/check_yaml_parsing.rb,fffc4837becb,code analysis and metrics,25.5,41,0,75,0.0,2,0.0,4,1,4,1.0,saida abrupta: Please install the appropriate dependency: ruby2ruby.
+brakeman,lib/brakeman/checks/eol_check.rb,fffc4837becb,code analysis and metrics,13.7,25,0,100,0.0,2,0.0,3,1,3,1.0,saida abrupta: Please install the appropriate dependency: ruby2ruby.
+brakeman,lib/brakeman/file_parser.rb,fffc4837becb,code analysis and metrics,17.2,36,0,67,0.0,0,0.0,6,2,6,1.0,LoadError: cannot load such file -- parallel
+brakeman,lib/brakeman/parsers/rails_erubi.rb,fffc4837becb,code analysis and metrics,10.5,18,0,67,0.0,1,0.0,6,2,5,0.833,saida abrupta: Please install the appropriate dependency: erubi.
+brakeman,lib/brakeman/processor.rb,fffc4837becb,code analysis and metrics,5.4,25,0,25,0.5,0,0.0,12,2,12,1.0,NameError: uninitialized constant Brakeman::Util::Sexp
+brakeman,lib/brakeman/processors/alias_processor.rb,fffc4837becb,code analysis and metrics,19.5,181,0,94,4.0,1,1.5,68,1,66,0.971,NameError: uninitialized constant Brakeman::Util::Sexp
+brakeman,lib/brakeman/processors/base_processor.rb,fffc4837becb,code analysis and metrics,11.7,68,0,76,3.0,1,0.0,21,1,18,0.857,NameError: uninitialized constant Brakeman::Util::Sexp
+brakeman,lib/brakeman/processors/controller_alias_processor.rb,fffc4837becb,code analysis and metrics,14.4,33,0,86,1.0,2,0.0,14,1,14,1.0,NameError: uninitialized constant Brakeman::Util::Sexp
+brakeman,lib/brakeman/processors/controller_processor.rb,fffc4837becb,code analysis and metrics,21.6,82,0,70,1.0,2,0.0,10,1,10,1.0,NameError: uninitialized constant Brakeman::Util::Sexp
+brakeman,lib/brakeman/processors/erubi_template_procesor.rb,fffc4837becb,code analysis and metrics,15,34,0,100,0.0,3,0.0,5,1,5,1.0,NameError: uninitialized constant Brakeman::Util::Sexp
+brakeman,lib/brakeman/processors/gem_processor.rb,fffc4837becb,code analysis and metrics,13.5,29,0,83,0.0,2,0.0,6,1,6,1.0,NameError: uninitialized constant Brakeman::Util::Sexp
+brakeman,lib/brakeman/processors/haml6_template_processor.rb,fffc4837becb,code analysis and metrics,6.9,17,0,80,0.0,4,0.0,10,1,10,1.0,NameError: uninitialized constant Brakeman::Util::Sexp
+brakeman,lib/brakeman/processors/haml_template_processor.rb,fffc4837becb,code analysis and metrics,10.9,59,0,93,0.0,3,0.0,14,1,12,0.857,NameError: uninitialized constant Brakeman::Util::Sexp
+brakeman,lib/brakeman/processors/lib/basic_processor.rb,fffc4837becb,code analysis and metrics,8.3,17,0,33,3.0,1,0.0,3,1,3,1.0,NameError: uninitialized constant Brakeman::Util::Sexp
+brakeman,lib/brakeman/processors/lib/file_type_detector.rb,fffc4837becb,code analysis and metrics,10.2,20,0,60,0.0,2,0.0,5,2,5,1.0,NameError: uninitialized constant Brakeman::BaseProcessor
+brakeman,lib/brakeman/processors/lib/find_all_calls.rb,fffc4837becb,code analysis and metrics,12.8,47,0,71,0.0,2,0.0,17,1,16,0.941,NameError: uninitialized constant Brakeman::Util::Sexp
+brakeman,lib/brakeman/processors/lib/find_call.rb,fffc4837becb,code analysis and metrics,7.5,14,0,50,0.0,2,0.0,8,1,8,1.0,NameError: uninitialized constant Brakeman::Util::Sexp
+brakeman,lib/brakeman/processors/lib/find_return_value.rb,fffc4837becb,code analysis and metrics,15.4,65,11,67,1.0,0,0.0,9,1,9,1.0,NameError: uninitialized constant Brakeman::Util::Sexp
+brakeman,lib/brakeman/processors/lib/rails2_config_processor.rb,fffc4837becb,code analysis and metrics,11,23,0,75,0.0,2,0.0,8,2,8,1.0,NameError: uninitialized constant Brakeman::Util::Sexp
+brakeman,lib/brakeman/processors/lib/rails2_route_processor.rb,fffc4837becb,code analysis and metrics,13.3,33,0,83,0.5,2,0.0,18,2,18,1.0,NameError: uninitialized constant Brakeman::Util::Sexp
+brakeman,lib/brakeman/processors/lib/rails3_config_processor.rb,fffc4837becb,code analysis and metrics,10.6,19,0,78,0.0,2,0.0,9,1,9,1.0,NameError: uninitialized constant Brakeman::Util::Sexp
+brakeman,lib/brakeman/processors/lib/rails3_route_processor.rb,fffc4837becb,code analysis and metrics,13.8,52,0,80,1.0,2,0.0,20,1,20,1.0,NameError: uninitialized constant Brakeman::Util::Sexp
+brakeman,lib/brakeman/processors/library_processor.rb,fffc4837becb,code analysis and metrics,10.1,26,0,57,1.0,2,0.0,7,1,7,1.0,NameError: uninitialized constant Brakeman::Util::Sexp
+brakeman,lib/brakeman/processors/model_processor.rb,fffc4837becb,code analysis and metrics,17.3,48,0,50,1.0,2,0.0,6,1,6,1.0,NameError: uninitialized constant Brakeman::Util::Sexp
+brakeman,lib/brakeman/processors/output_processor.rb,fffc4837becb,code analysis and metrics,6.9,22,0,47,1.0,1,0.0,17,1,11,0.647,saida abrupta: Please install the appropriate dependency: ruby2ruby.
+brakeman,lib/brakeman/processors/slim_template_processor.rb,fffc4837becb,code analysis and metrics,10.2,34,0,80,1.0,3,0.0,10,1,10,1.0,NameError: uninitialized constant Brakeman::Util::Sexp
+brakeman,lib/brakeman/processors/template_alias_processor.rb,fffc4837becb,code analysis and metrics,14.5,33,0,100,1.0,2,0.0,8,1,8,1.0,NameError: uninitialized constant Brakeman::Util::Sexp
+brakeman,lib/brakeman/processors/template_processor.rb,fffc4837becb,code analysis and metrics,8.8,17,0,75,0.0,2,0.0,8,1,8,1.0,NameError: uninitialized constant Brakeman::Util::Sexp
+brakeman,lib/brakeman/report.rb,fffc4837becb,code analysis and metrics,7.7,44,0,18,0.0,0,0.0,11,1,6,0.545,NameError: uninitialized constant Brakeman::Util::Sexp
+brakeman,lib/brakeman/report/ignore/interactive.rb,fffc4837becb,code analysis and metrics,10.5,33,0,68,0.0,0,0.0,31,2,31,1.0,saida abrupta: Please install the appropriate dependency: highline.
+brakeman,lib/brakeman/report/report_base.rb,fffc4837becb,code analysis and metrics,9.9,36,0,100,1.0,0,0.0,16,1,16,1.0,NameError: uninitialized constant Brakeman::Util::Sexp
+brakeman,lib/brakeman/report/report_codeclimate.rb,fffc4837becb,code analysis and metrics,7.5,23,0,100,0.0,1,0.0,8,1,8,1.0,NameError: uninitialized constant Brakeman::Report
+brakeman,lib/brakeman/report/report_csv.rb,fffc4837becb,code analysis and metrics,15,26,0,67,0.0,1,0.0,3,1,3,1.0,NameError: uninitialized constant Brakeman::Report
+brakeman,lib/brakeman/report/report_github.rb,fffc4837becb,code analysis and metrics,5.5,11,0,100,0.0,1,0.0,4,1,4,1.0,NameError: uninitialized constant Brakeman::Report
+brakeman,lib/brakeman/report/report_html.rb,fffc4837becb,code analysis and metrics,16.2,71,0,92,0.0,2,0.0,12,1,12,1.0,saida abrupta: Please install the appropriate dependency: terminal-table.
+brakeman,lib/brakeman/report/report_markdown.rb,fffc4837becb,code analysis and metrics,10.4,29,0,78,0.0,2,0.0,9,2,9,1.0,saida abrupta: Please install the appropriate dependency: terminal-table.
+brakeman,lib/brakeman/report/report_sarif.rb,fffc4837becb,code analysis and metrics,21.1,108,0,73,0.0,1,0.0,11,1,11,1.0,NameError: uninitialized constant Brakeman::Report
+brakeman,lib/brakeman/report/report_sonar.rb,fffc4837becb,code analysis and metrics,10.7,17,0,100,0.0,1,0.0,3,1,3,1.0,NameError: uninitialized constant Brakeman::Report
+brakeman,lib/brakeman/report/report_table.rb,fffc4837becb,code analysis and metrics,10.6,36,0,67,0.0,1,0.0,24,1,23,0.958,saida abrupta: Please install the appropriate dependency: terminal-table.
+brakeman,lib/brakeman/report/report_text.rb,fffc4837becb,code analysis and metrics,11.6,34,0,84,0.0,1,0.0,19,1,19,1.0,saida abrupta: Please install the appropriate dependency: highline.
+brakeman,lib/brakeman/rescanner.rb,fffc4837becb,code analysis and metrics,7.2,33,0,85,1.0,1,0.0,13,2,12,0.923,saida abrupta: Please install the appropriate dependency: ruby_parser.
+brakeman,lib/brakeman/scanner.rb,fffc4837becb,code analysis and metrics,11.9,72,0,93,0.0,1,0.0,30,3,30,1.0,saida abrupta: Please install the appropriate dependency: ruby_parser.
+brakeman,lib/brakeman/tracker.rb,fffc4837becb,code analysis and metrics,11.4,66,0,80,0.0,0,0.0,30,1,29,0.967,saida abrupta: Please install the appropriate dependency: ruby2ruby.
+brakeman,lib/brakeman/tracker/collection.rb,fffc4837becb,code analysis and metrics,7.4,14,0,94,0.5,0,0.0,17,2,17,1.0,NameError: uninitialized constant Brakeman::Util::Sexp
+brakeman,lib/brakeman/tracker/config.rb,fffc4837becb,code analysis and metrics,12.4,88,0,65,0.5,0,0.0,20,2,19,0.95,NameError: uninitialized constant Brakeman::Util::Sexp
+brakeman,lib/brakeman/tracker/constants.rb,fffc4837becb,code analysis and metrics,11.2,42,14,79,0.67,0,0.0,14,3,14,1.0,saida abrupta: Please install the appropriate dependency: ruby2ruby.
+brakeman,lib/brakeman/tracker/controller.rb,fffc4837becb,code analysis and metrics,9.8,38,0,100,0.33,1,0.0,14,3,11,0.786,NameError: uninitialized constant Brakeman::Util::Sexp
+brakeman,lib/brakeman/tracker/method_info.rb,fffc4837becb,code analysis and metrics,11,21,0,60,0.5,0,20.0,5,2,5,1.0,NameError: uninitialized constant Brakeman::Util::Sexp
+brakeman,lib/brakeman/tracker/model.rb,fffc4837becb,code analysis and metrics,7.4,18,0,78,0.33,1,0.0,9,3,9,1.0,NameError: uninitialized constant Brakeman::Util::Sexp
+brakeman,lib/brakeman/tracker/template.rb,fffc4837becb,code analysis and metrics,5,7,0,75,0.0,1,0.0,4,2,4,1.0,NameError: uninitialized constant Brakeman::Util::Sexp
+brakeman,lib/brakeman/util.rb,fffc4837becb,code analysis and metrics,6.3,23,0,93,0.0,0,0.0,43,1,33,0.767,NameError: uninitialized constant Brakeman::Util::Sexp
+brakeman,lib/ruby_parser/bm_sexp.rb,fffc4837becb,code analysis and metrics,7.7,25,0,20,0.0,1,0.0,59,3,38,0.644,NameError: undefined method 'paren' for class 'Sexp'
+bullet,lib/bullet/rack.rb,bc55c037d27a,profiler and optimization,9.4,34,0,75,0.5,0,0.0,16,2,16,1.0,LoadError: cannot load such file -- rack/request
+byebug,docker/manager.rb,aff644023372,debugging tools,5.5,15,50,19,0.0,0,0.0,26,2,23,0.885,LoadError: cannot load such file -- faraday
+byebug,lib/byebug/core.rb,aff644023372,debugging tools,6.6,10,40,60,1.0,0,20.0,5,2,5,1.0,LoadError: cannot load such file -- byebug/byebug
+byebug,lib/byebug/runner.rb,aff644023372,debugging tools,6,18,0,35,1.5,0,0.0,17,2,17,1.0,LoadError: cannot load such file -- byebug/byebug
+coderay,lib/coderay/for_redcloth.rb,d30855fe96e3,code highlighting,20.2,71,17,67,0.0,0,33.3,6,3,6,1.0,"Gem::MissingSpecError: Could not find 'RedCloth' (>= 4.0.3) among 87 total gem(s)
+Checked in 'GEM_PATH=/var/folders/xt/zsl5k3z97rn823l5tt5fhfr40000gn/T/marta_p6_3ync3utc/gems_coderay:/Users/mario/.rbenv/versions/3.4.10/lib/ruby/gems/3.4.0' , execute `gem env` for more information"
+concurrent-ruby,docs-source/actor/define.out.rb,0b88d5ff75f6,concurrency and parallelism,6.7,12,0,67,0.0,2,0.0,3,1,3,1.0,NameError: uninitialized constant Concurrent
+concurrent-ruby,docs-source/actor/io.out.rb,0b88d5ff75f6,concurrency and parallelism,3.5,5,0,0,0.0,2,0.0,4,2,3,0.75,LoadError: cannot load such file -- concurrent
+concurrent-ruby,docs-source/actor/supervision_tree.out.rb,0b88d5ff75f6,concurrency and parallelism,7.4,11,0,60,0.0,2,0.0,5,2,5,1.0,NameError: uninitialized constant Concurrent
+concurrent-ruby,docs-source/medium-example.out.rb,0b88d5ff75f6,concurrency and parallelism,10.2,33,50,83,0.0,0,0.0,6,2,6,1.0,LoadError: cannot load such file -- concurrent-edge
+concurrent-ruby,docs-source/top-stock-scala/top-stock.rb,0b88d5ff75f6,concurrency and parallelism,10,13,0,67,0.0,0,0.0,3,0,3,1.0,LoadError: cannot load such file -- concurrent
+concurrent-ruby,examples/a-tour-of-go-channels/equivalent-binary-trees.rb,0b88d5ff75f6,concurrency and parallelism,16.7,26,0,100,0.0,0,0.0,3,0,3,1.0,LoadError: cannot load such file -- concurrent-edge
+concurrent-ruby,examples/actor_stress_test.rb,0b88d5ff75f6,concurrency and parallelism,12.7,35,0,83,1.0,2,33.3,6,2,6,1.0,LoadError: cannot load such file -- rspec/expectations
+concurrent-ruby,examples/benchmark_atomic_1.rb,0b88d5ff75f6,concurrency and parallelism,14,36,0,67,0.0,0,0.0,3,0,3,1.0,LoadError: cannot load such file -- concurrent/atomics
+concurrent-ruby,examples/benchmark_read_write_lock.rb,0b88d5ff75f6,concurrency and parallelism,8.6,44,0,56,0.0,0,0.0,9,3,9,1.0,LoadError: cannot load such file -- concurrent/atomic/read_write_lock
+concurrent-ruby,examples/thread_local_memory_usage.rb,0b88d5ff75f6,concurrency and parallelism,7.7,10,0,100,0.0,0,0.0,3,0,3,1.0,LoadError: cannot load such file -- concurrent
+concurrent-ruby,lib/concurrent-ruby-edge/concurrent/actor.rb,0b88d5ff75f6,concurrency and parallelism,5.8,11,100,80,0.0,0,0.0,5,2,5,1.0,LoadError: cannot load such file -- concurrent/configuration
+concurrent-ruby,lib/concurrent-ruby-edge/concurrent/actor/behaviour.rb,0b88d5ff75f6,concurrency and parallelism,4.6,7,100,0,0.0,0,0.0,7,3,6,0.857,LoadError: cannot load such file -- concurrent/actor/behaviour/abstract
+concurrent-ruby,lib/concurrent-ruby-edge/concurrent/actor/behaviour/abstract.rb,0b88d5ff75f6,concurrency and parallelism,3.5,5,0,67,0.5,0,0.0,6,4,6,1.0,LoadError: cannot load such file -- concurrent/concern/logging
+concurrent-ruby,lib/concurrent-ruby-edge/concurrent/actor/behaviour/buffer.rb,0b88d5ff75f6,concurrency and parallelism,6.6,9,0,80,0.0,1,0.0,5,4,5,1.0,LoadError: cannot load such file -- concurrent/actor/behaviour/abstract
+concurrent-ruby,lib/concurrent-ruby-edge/concurrent/actor/behaviour/linking.rb,0b88d5ff75f6,concurrency and parallelism,6.6,14,0,100,0.0,1,0.0,5,4,5,1.0,LoadError: cannot load such file -- concurrent/actor/behaviour/abstract
+concurrent-ruby,lib/concurrent-ruby-edge/concurrent/actor/behaviour/pausing.rb,0b88d5ff75f6,concurrency and parallelism,6.2,21,0,33,0.0,1,0.0,15,4,15,1.0,LoadError: cannot load such file -- concurrent/actor/behaviour/abstract
+concurrent-ruby,lib/concurrent-ruby-edge/concurrent/actor/behaviour/termination.rb,0b88d5ff75f6,concurrency and parallelism,9.7,22,0,83,0.0,1,0.0,6,4,6,1.0,LoadError: cannot load such file -- concurrent/actor/behaviour/abstract
+concurrent-ruby,lib/concurrent-ruby-edge/concurrent/actor/context.rb,0b88d5ff75f6,concurrency and parallelism,3.6,11,18,29,0.4,1,0.0,17,5,15,0.882,LoadError: cannot load such file -- concurrent/concern/logging
+concurrent-ruby,lib/concurrent-ruby-edge/concurrent/actor/core.rb,0b88d5ff75f6,concurrency and parallelism,7.1,42,0,83,0.67,2,16.7,18,3,18,1.0,LoadError: cannot load such file -- concurrent/actor/type_check
+concurrent-ruby,lib/concurrent-ruby-edge/concurrent/actor/envelope.rb,0b88d5ff75f6,concurrency and parallelism,4.8,7,0,75,0.33,0,0.0,4,3,4,1.0,LoadError: cannot load such file -- concurrent/actor/type_check
+concurrent-ruby,lib/concurrent-ruby-edge/concurrent/actor/internal_delegations.rb,0b88d5ff75f6,concurrency and parallelism,3.1,4,0,78,0.67,0,0.0,9,3,9,1.0,LoadError: cannot load such file -- concurrent/concern/logging
+concurrent-ruby,lib/concurrent-ruby-edge/concurrent/actor/reference.rb,0b88d5ff75f6,concurrency and parallelism,3.1,4,0,44,0.67,0,11.1,9,3,9,1.0,LoadError: cannot load such file -- concurrent/actor/type_check
+concurrent-ruby,lib/concurrent-ruby-edge/concurrent/actor/root.rb,0b88d5ff75f6,concurrency and parallelism,6.2,10,0,25,0.0,1,0.0,4,3,4,1.0,LoadError: cannot load such file -- concurrent/actor/context
+concurrent-ruby,lib/concurrent-ruby-edge/concurrent/actor/utils/balancer.rb,0b88d5ff75f6,concurrency and parallelism,9,18,0,67,0.0,2,0.0,3,4,3,1.0,LoadError: cannot load such file -- concurrent/actor/context
+concurrent-ruby,lib/concurrent-ruby-edge/concurrent/actor/utils/broadcast.rb,0b88d5ff75f6,concurrency and parallelism,7.7,17,0,33,0.0,2,0.0,3,4,3,1.0,LoadError: cannot load such file -- concurrent/actor/context
+concurrent-ruby,lib/concurrent-ruby-edge/concurrent/channel.rb,0b88d5ff75f6,concurrency and parallelism,5.7,27,21,56,0.67,1,0.0,34,3,30,0.882,LoadError: cannot load such file -- concurrent/channel/buffer
+concurrent-ruby,lib/concurrent-ruby-edge/concurrent/channel/buffer/base.rb,0b88d5ff75f6,concurrency and parallelism,3.4,10,0,0,0.0,2,0.0,22,4,10,0.455,LoadError: cannot load such file -- concurrent/synchronization/lockable_object
+concurrent-ruby,lib/concurrent-ruby-edge/concurrent/channel/buffer/buffered.rb,0b88d5ff75f6,concurrency and parallelism,6.6,13,0,80,0.0,3,0.0,10,4,10,1.0,LoadError: cannot load such file -- concurrent/constants
+concurrent-ruby,lib/concurrent-ruby-edge/concurrent/channel/buffer/timer.rb,0b88d5ff75f6,concurrency and parallelism,5.4,13,0,10,0.0,3,0.0,10,4,6,0.6,LoadError: cannot load such file -- concurrent/constants
+concurrent-ruby,lib/concurrent-ruby-edge/concurrent/channel/buffer/unbuffered.rb,0b88d5ff75f6,concurrency and parallelism,7.5,20,0,73,0.0,3,0.0,11,4,10,0.909,LoadError: cannot load such file -- concurrent/constants
+concurrent-ruby,lib/concurrent-ruby-edge/concurrent/channel/selector.rb,0b88d5ff75f6,concurrency and parallelism,6.1,17,0,62,0.0,0,0.0,8,3,8,1.0,LoadError: cannot load such file -- concurrent/maybe
+concurrent-ruby,lib/concurrent-ruby-edge/concurrent/channel/tick.rb,0b88d5ff75f6,concurrency and parallelism,4.8,11,0,60,0.33,2,0.0,5,3,5,1.0,LoadError: cannot load such file -- concurrent/synchronization/object
+concurrent-ruby,lib/concurrent-ruby-edge/concurrent/edge/cancellation.rb,0b88d5ff75f6,concurrency and parallelism,3.2,4,12,25,0.0,2,0.0,8,2,7,0.875,LoadError: cannot load such file -- concurrent/concern/deprecation
+concurrent-ruby,lib/concurrent-ruby-edge/concurrent/edge/channel.rb,0b88d5ff75f6,concurrency and parallelism,7.0,44,22,64,0.33,2,0.0,36,3,32,0.889,LoadError: cannot load such file -- concurrent/synchronization/object
+concurrent-ruby,lib/concurrent-ruby-edge/concurrent/edge/erlang_actor.rb,0b88d5ff75f6,concurrency and parallelism,7.3,45,3,63,0.45,3,2.7,111,33,84,0.757,LoadError: cannot load such file -- concurrent/atomic/count_down_latch
+concurrent-ruby,lib/concurrent-ruby-edge/concurrent/edge/lock_free_linked_set.rb,0b88d5ff75f6,concurrency and parallelism,11.7,18,0,83,0.33,0,0.0,6,3,6,1.0,LoadError: cannot load such file -- concurrent/edge/lock_free_linked_set/node
+concurrent-ruby,lib/concurrent-ruby-edge/concurrent/edge/lock_free_linked_set/node.rb,0b88d5ff75f6,concurrency and parallelism,3.3,6,0,36,0.17,2,0.0,11,6,8,0.727,LoadError: cannot load such file -- concurrent/atomic/atomic_markable_reference
+concurrent-ruby,lib/concurrent-ruby-edge/concurrent/edge/lock_free_queue.rb,0b88d5ff75f6,concurrency and parallelism,16,37,0,50,0.0,2,0.0,6,3,6,1.0,LoadError: cannot load such file -- concurrent/synchronization/object
+concurrent-ruby,lib/concurrent-ruby-edge/concurrent/edge/old_channel_integration.rb,0b88d5ff75f6,concurrency and parallelism,6,11,0,67,0.33,3,0.0,3,6,3,1.0,LoadError: cannot load such file -- concurrent/promises
+concurrent-ruby,lib/concurrent-ruby-edge/concurrent/edge/processing_actor.rb,0b88d5ff75f6,concurrency and parallelism,3.5,6,18,55,0.0,2,0.0,11,2,10,0.909,LoadError: cannot load such file -- concurrent/synchronization/object
+concurrent-ruby,lib/concurrent-ruby-edge/concurrent/edge/promises.rb,0b88d5ff75f6,concurrency and parallelism,4.9,20,17,42,0.44,3,0.0,12,9,12,1.0,LoadError: cannot load such file -- concurrent/promises
+concurrent-ruby,lib/concurrent-ruby-edge/concurrent/edge/throttle.rb,0b88d5ff75f6,concurrency and parallelism,8.8,33,0,67,0.67,2,0.0,15,3,15,1.0,LoadError: cannot load such file -- concurrent/edge/lock_free_queue
+concurrent-ruby,lib/concurrent-ruby-edge/concurrent/executor/wrapping_executor.rb,0b88d5ff75f6,concurrency and parallelism,3.8,5,0,75,0.5,2,0.0,4,2,4,1.0,LoadError: cannot load such file -- concurrent/synchronization/object
+concurrent-ruby,lib/concurrent-ruby-edge/concurrent/lazy_register.rb,0b88d5ff75f6,concurrency and parallelism,4,5,0,80,0.0,2,0.0,5,2,5,1.0,LoadError: cannot load such file -- concurrent/atomic/atomic_reference
+concurrent-ruby,lib/concurrent-ruby/concurrent/agent.rb,0b88d5ff75f6,concurrency and parallelism,6.0,26,10,60,0.25,2,3.3,30,4,28,0.933,LoadError: cannot load such file -- concurrent/configuration
+concurrent-ruby,lib/concurrent-ruby/concurrent/async.rb,0b88d5ff75f6,concurrency and parallelism,6.4,17,14,64,0.0,2,28.6,14,5,12,0.857,LoadError: cannot load such file -- concurrent/configuration
+concurrent-ruby,lib/concurrent-ruby/concurrent/atom.rb,0b88d5ff75f6,concurrency and parallelism,8.6,14,0,80,0.5,2,0.0,5,2,5,1.0,LoadError: cannot load such file -- concurrent/atomic/atomic_reference
+concurrent-ruby,lib/concurrent-ruby/concurrent/atomic/atomic_markable_reference.rb,0b88d5ff75f6,concurrency and parallelism,7.5,25,0,40,0.0,2,0.0,10,2,9,0.9,LoadError: cannot load such file -- concurrent/errors
+concurrent-ruby,lib/concurrent-ruby/concurrent/atomic/cyclic_barrier.rb,0b88d5ff75f6,concurrency and parallelism,6.1,22,0,33,0.0,2,0.0,9,2,8,0.889,LoadError: cannot load such file -- concurrent/synchronization/lockable_object
+concurrent-ruby,lib/concurrent-ruby/concurrent/atomic/event.rb,0b88d5ff75f6,concurrency and parallelism,5.4,10,0,12,0.0,2,0.0,8,2,7,0.875,LoadError: cannot load such file -- concurrent/synchronization/lockable_object
+concurrent-ruby,lib/concurrent-ruby/concurrent/atomic/locals.rb,0b88d5ff75f6,concurrency and parallelism,7.7,17,0,53,0.0,1,0.0,15,4,14,0.933,LoadError: cannot load such file -- concurrent/utility/engine
+concurrent-ruby,lib/concurrent-ruby/concurrent/atomic/mutex_atomic_boolean.rb,0b88d5ff75f6,concurrency and parallelism,3.9,7,0,56,0.5,0,0.0,9,2,7,0.778,LoadError: cannot load such file -- concurrent/synchronization/safe_initialization
+concurrent-ruby,lib/concurrent-ruby/concurrent/atomic/mutex_atomic_fixnum.rb,0b88d5ff75f6,concurrency and parallelism,4.8,10,0,44,0.5,0,0.0,9,2,9,1.0,LoadError: cannot load such file -- concurrent/synchronization/safe_initialization
+concurrent-ruby,lib/concurrent-ruby/concurrent/atomic/mutex_count_down_latch.rb,0b88d5ff75f6,concurrency and parallelism,4.4,7,0,40,0.0,2,0.0,5,2,5,1.0,LoadError: cannot load such file -- concurrent/synchronization/lockable_object
+concurrent-ruby,lib/concurrent-ruby/concurrent/atomic/mutex_semaphore.rb,0b88d5ff75f6,concurrency and parallelism,8.2,21,0,40,0.0,2,0.0,10,2,10,1.0,LoadError: cannot load such file -- concurrent/synchronization/lockable_object
+concurrent-ruby,lib/concurrent-ruby/concurrent/atomic/read_write_lock.rb,0b88d5ff75f6,concurrency and parallelism,8.4,33,0,81,0.0,2,0.0,16,2,14,0.875,LoadError: cannot load such file -- concurrent/atomic/atomic_fixnum
+concurrent-ruby,lib/concurrent-ruby/concurrent/atomic/reentrant_read_write_lock.rb,0b88d5ff75f6,concurrency and parallelism,12.8,50,0,81,0.0,2,0.0,16,2,14,0.875,LoadError: cannot load such file -- concurrent/atomic/atomic_reference
+concurrent-ruby,lib/concurrent-ruby/concurrent/atomic/thread_local_var.rb,0b88d5ff75f6,concurrency and parallelism,7.8,15,0,20,0.0,0,0.0,5,2,5,1.0,LoadError: cannot load such file -- concurrent/constants
+concurrent-ruby,lib/concurrent-ruby/concurrent/atomic_reference/atomic_direct_update.rb,0b88d5ff75f6,concurrency and parallelism,8,12,0,0,0.0,0,0.0,3,2,3,1.0,LoadError: cannot load such file -- concurrent/errors
+concurrent-ruby,lib/concurrent-ruby/concurrent/atomic_reference/mutex_atomic.rb,0b88d5ff75f6,concurrency and parallelism,5.8,10,0,33,1.5,0,0.0,6,2,6,1.0,LoadError: cannot load such file -- concurrent/atomic_reference/atomic_direct_update
+concurrent-ruby,lib/concurrent-ruby/concurrent/collection/copy_on_notify_observer_set.rb,0b88d5ff75f6,concurrency and parallelism,6,17,0,64,0.0,2,9.1,11,3,11,1.0,LoadError: cannot load such file -- concurrent/synchronization/lockable_object
+concurrent-ruby,lib/concurrent-ruby/concurrent/collection/copy_on_write_observer_set.rb,0b88d5ff75f6,concurrency and parallelism,5.8,19,0,33,0.0,2,8.3,12,3,12,1.0,LoadError: cannot load such file -- concurrent/synchronization/lockable_object
+concurrent-ruby,lib/concurrent-ruby/concurrent/collection/lock_free_stack.rb,0b88d5ff75f6,concurrency and parallelism,4.4,10,17,39,0.33,2,0.0,18,3,17,0.944,LoadError: cannot load such file -- concurrent/synchronization/object
+concurrent-ruby,lib/concurrent-ruby/concurrent/collection/map/mri_map_backend.rb,0b88d5ff75f6,concurrency and parallelism,3.4,7,0,92,0.0,1,0.0,12,3,6,0.5,LoadError: cannot load such file -- concurrent/collection/map/non_concurrent_map_backend
+concurrent-ruby,lib/concurrent-ruby/concurrent/collection/map/non_concurrent_map_backend.rb,0b88d5ff75f6,concurrency and parallelism,4.9,8,0,91,0.0,0,0.0,22,3,22,1.0,LoadError: cannot load such file -- concurrent/constants
+concurrent-ruby,lib/concurrent-ruby/concurrent/concern/logging.rb,0b88d5ff75f6,concurrency and parallelism,10.6,26,86,43,0.25,0,14.3,7,4,7,1.0,LoadError: cannot load such file -- concurrent/atomic/atomic_reference
+concurrent-ruby,lib/concurrent-ruby/concurrent/concern/obligation.rb,0b88d5ff75f6,concurrency and parallelism,4.4,11,0,50,0.33,0,0.0,22,3,18,0.818,LoadError: cannot load such file -- concurrent/atomic/event
+concurrent-ruby,lib/concurrent-ruby/concurrent/concern/observable.rb,0b88d5ff75f6,concurrency and parallelism,3.4,4,0,80,0.0,0,0.0,5,3,5,1.0,LoadError: cannot load such file -- concurrent/collection/copy_on_notify_observer_set
+concurrent-ruby,lib/concurrent-ruby/concurrent/configuration.rb,0b88d5ff75f6,concurrency and parallelism,4.4,10,100,25,1.0,0,0.0,8,1,6,0.75,LoadError: cannot load such file -- concurrent/delay
+concurrent-ruby,lib/concurrent-ruby/concurrent/dataflow.rb,0b88d5ff75f6,concurrency and parallelism,6.4,24,0,29,0.0,0,14.3,7,2,6,0.857,LoadError: cannot load such file -- concurrent/future
+concurrent-ruby,lib/concurrent-ruby/concurrent/delay.rb,0b88d5ff75f6,concurrency and parallelism,13.3,25,0,43,0.5,2,0.0,7,2,7,1.0,LoadError: cannot load such file -- concurrent/concern/obligation
+concurrent-ruby,lib/concurrent-ruby/concurrent/exchanger.rb,0b88d5ff75f6,concurrency and parallelism,14.6,119,0,25,0.0,3,0.0,12,6,9,0.75,LoadError: cannot load such file -- concurrent/constants
+concurrent-ruby,lib/concurrent-ruby/concurrent/executor/abstract_executor_service.rb,0b88d5ff75f6,concurrency and parallelism,4.5,20,0,7,1.0,2,0.0,15,2,12,0.8,LoadError: cannot load such file -- concurrent/errors
+concurrent-ruby,lib/concurrent-ruby/concurrent/executor/executor_service.rb,0b88d5ff75f6,concurrency and parallelism,3.2,4,0,0,0.5,0,0.0,4,2,3,0.75,LoadError: cannot load such file -- concurrent/concern/logging
+concurrent-ruby,lib/concurrent-ruby/concurrent/executor/immediate_executor.rb,0b88d5ff75f6,concurrency and parallelism,3.6,6,0,62,0.5,3,0.0,8,2,8,1.0,LoadError: cannot load such file -- concurrent/atomic/event
+concurrent-ruby,lib/concurrent-ruby/concurrent/executor/java_executor_service.rb,0b88d5ff75f6,concurrency and parallelism,4.9,8,0,82,0.25,3,0.0,11,4,11,1.0,LoadError: cannot load such file -- concurrent/utility/engine
+concurrent-ruby,lib/concurrent-ruby/concurrent/executor/ruby_executor_service.rb,0b88d5ff75f6,concurrency and parallelism,5.3,15,0,64,0.0,3,0.0,11,2,10,0.909,LoadError: cannot load such file -- concurrent/executor/abstract_executor_service
+concurrent-ruby,lib/concurrent-ruby/concurrent/executor/ruby_thread_pool_executor.rb,0b88d5ff75f6,concurrency and parallelism,7.3,25,0,66,0.67,4,0.0,35,3,31,0.886,LoadError: cannot load such file -- concurrent/atomic/event
+concurrent-ruby,lib/concurrent-ruby/concurrent/executor/serialized_execution.rb,0b88d5ff75f6,concurrency and parallelism,9.6,23,0,57,0.5,2,0.0,7,2,7,1.0,LoadError: cannot load such file -- concurrent/errors
+concurrent-ruby,lib/concurrent-ruby/concurrent/executor/simple_executor_service.rb,0b88d5ff75f6,concurrency and parallelism,5.2,14,18,64,0.0,4,0.0,11,2,10,0.909,LoadError: cannot load such file -- concurrent/atomic/atomic_boolean
+concurrent-ruby,lib/concurrent-ruby/concurrent/executor/timer_set.rb,0b88d5ff75f6,concurrency and parallelism,8.9,32,0,70,0.0,4,0.0,10,2,10,1.0,LoadError: cannot load such file -- concurrent/scheduled_task
+concurrent-ruby,lib/concurrent-ruby/concurrent/future.rb,0b88d5ff75f6,concurrency and parallelism,6.4,11,12,62,0.0,3,0.0,8,2,8,1.0,LoadError: cannot load such file -- concurrent/constants
+concurrent-ruby,lib/concurrent-ruby/concurrent/immutable_struct.rb,0b88d5ff75f6,concurrency and parallelism,3.9,9,14,14,0.5,0,0.0,14,2,14,1.0,LoadError: cannot load such file -- concurrent/synchronization/abstract_struct
+concurrent-ruby,lib/concurrent-ruby/concurrent/ivar.rb,0b88d5ff75f6,concurrency and parallelism,7.5,20,0,50,1.0,2,8.3,12,2,12,1.0,LoadError: cannot load such file -- concurrent/constants
+concurrent-ruby,lib/concurrent-ruby/concurrent/map.rb,0b88d5ff75f6,concurrency and parallelism,5.6,13,0,48,0.0,1,0.0,21,3,18,0.857,LoadError: cannot load such file -- concurrent/constants
+concurrent-ruby,lib/concurrent-ruby/concurrent/maybe.rb,0b88d5ff75f6,concurrency and parallelism,5,9,38,50,0.5,2,0.0,8,2,8,1.0,LoadError: cannot load such file -- concurrent/synchronization/object
+concurrent-ruby,lib/concurrent-ruby/concurrent/mvar.rb,0b88d5ff75f6,concurrency and parallelism,8.5,17,0,82,0.5,2,0.0,17,2,17,1.0,LoadError: cannot load such file -- concurrent/concern/dereferenceable
+concurrent-ruby,lib/concurrent-ruby/concurrent/promise.rb,0b88d5ff75f6,concurrency and parallelism,7.3,28,27,69,0.0,3,11.5,26,2,23,0.885,LoadError: cannot load such file -- concurrent/constants
+concurrent-ruby,lib/concurrent-ruby/concurrent/promises.rb,0b88d5ff75f6,concurrency and parallelism,4.8,27,2,36,0.2,7,0.4,223,46,152,0.682,LoadError: cannot load such file -- concurrent/synchronization/object
+concurrent-ruby,lib/concurrent-ruby/concurrent/scheduled_task.rb,0b88d5ff75f6,concurrency and parallelism,5.1,17,7,43,0.5,3,21.4,14,2,12,0.857,LoadError: cannot load such file -- concurrent/constants
+concurrent-ruby,lib/concurrent-ruby/concurrent/settable_struct.rb,0b88d5ff75f6,concurrency and parallelism,6.1,20,7,21,0.5,0,28.6,14,2,14,1.0,LoadError: cannot load such file -- concurrent/errors
+concurrent-ruby,lib/concurrent-ruby/concurrent/synchronization/abstract_lockable_object.rb,0b88d5ff75f6,concurrency and parallelism,5.2,14,0,20,0.0,2,0.0,5,3,3,0.6,LoadError: cannot load such file -- concurrent/utility/native_extension_loader
+concurrent-ruby,lib/concurrent-ruby/concurrent/synchronization/condition.rb,0b88d5ff75f6,concurrency and parallelism,3.1,4,0,40,0.0,2,0.0,10,4,9,0.9,LoadError: cannot load such file -- concurrent/synchronization/lockable_object
+concurrent-ruby,lib/concurrent-ruby/concurrent/synchronization/full_memory_barrier.rb,0b88d5ff75f6,concurrency and parallelism,3,4,100,0,0.0,0,0.0,4,2,3,0.75,LoadError: cannot load such file -- concurrent/utility/native_extension_loader
+concurrent-ruby,lib/concurrent-ruby/concurrent/synchronization/lock.rb,0b88d5ff75f6,concurrency and parallelism,3,3,0,0,0.0,2,0.0,4,3,4,1.0,LoadError: cannot load such file -- concurrent/synchronization/lockable_object
+concurrent-ruby,lib/concurrent-ruby/concurrent/synchronization/mutex_lockable_object.rb,0b88d5ff75f6,concurrency and parallelism,4.6,7,0,80,0.4,3,0.0,10,5,9,0.9,LoadError: cannot load such file -- concurrent/synchronization/abstract_lockable_object
+concurrent-ruby,lib/concurrent-ruby/concurrent/synchronization/object.rb,0b88d5ff75f6,concurrency and parallelism,8.4,32,80,50,0.67,1,30.0,10,3,10,1.0,LoadError: cannot load such file -- concurrent/utility/native_extension_loader
+concurrent-ruby,lib/concurrent-ruby/concurrent/synchronization/volatile.rb,0b88d5ff75f6,concurrency and parallelism,11.4,19,20,80,0.0,0,60.0,5,4,3,0.6,LoadError: cannot load such file -- concurrent/utility/native_extension_loader
+concurrent-ruby,lib/concurrent-ruby/concurrent/thread_safe/util/adder.rb,0b88d5ff75f6,concurrency and parallelism,5.4,9,0,40,0.0,1,0.0,5,4,4,0.8,LoadError: cannot load such file -- concurrent/thread_safe/util
+concurrent-ruby,lib/concurrent-ruby/concurrent/thread_safe/util/data_structures.rb,0b88d5ff75f6,concurrency and parallelism,9,24,60,40,0.0,0,60.0,5,4,5,1.0,LoadError: cannot load such file -- concurrent/thread_safe/util
+concurrent-ruby,lib/concurrent-ruby/concurrent/thread_safe/util/power_of_two_tuple.rb,0b88d5ff75f6,concurrency and parallelism,3.2,4,0,60,0.0,1,0.0,5,4,5,1.0,LoadError: cannot load such file -- concurrent/thread_safe/util
+concurrent-ruby,lib/concurrent-ruby/concurrent/thread_safe/util/striped64.rb,0b88d5ff75f6,concurrency and parallelism,8.2,35,8,46,0.2,2,0.0,13,5,13,1.0,LoadError: cannot load such file -- concurrent/thread_safe/util
+concurrent-ruby,lib/concurrent-ruby/concurrent/timer_task.rb,0b88d5ff75f6,concurrency and parallelism,6.7,21,7,64,1.0,4,0.0,14,2,13,0.929,LoadError: cannot load such file -- concurrent/collection/copy_on_notify_observer_set
+concurrent-ruby,lib/concurrent-ruby/concurrent/tuple.rb,0b88d5ff75f6,concurrency and parallelism,4.8,9,0,100,0.5,0,0.0,5,2,5,1.0,LoadError: cannot load such file -- concurrent/atomic/atomic_reference
+concurrent-ruby,lib/concurrent-ruby/concurrent/tvar.rb,0b88d5ff75f6,concurrency and parallelism,7.4,55,11,33,0.0,2,0.0,18,3,15,0.833,LoadError: cannot load such file -- concurrent/synchronization/object
+concurrent-ruby,lib/concurrent-ruby/concurrent/utility/native_extension_loader.rb,0b88d5ff75f6,concurrency and parallelism,6.1,16,0,25,0.33,0,0.0,8,3,5,0.625,LoadError: cannot load such file -- concurrent/utility/engine
+concurrent-ruby,lib/concurrent-ruby/concurrent/utility/processor_counter.rb,0b88d5ff75f6,concurrency and parallelism,8.1,39,31,88,0.0,0,0.0,16,3,13,0.812,LoadError: cannot load such file -- concurrent/delay
+dalli,lib/rack/session/dalli.rb,fc1b590e462a,caching,7.4,15,0,89,0.0,1,0.0,19,4,19,1.0,LoadError: cannot load such file -- rack/session/abstract/id
+database_cleaner,examples/lib/redis_models.rb,23fb7a715317,database tools,3.5,8,73,18,0.0,1,0.0,11,3,8,0.727,LoadError: cannot load such file -- redis
+devise,app/controllers/devise/confirmations_controller.rb,9ea459de9aec,authentication and oauth,6.3,12,0,50,0.0,2,0.0,6,1,6,1.0,NameError: uninitialized constant DeviseController
+devise,app/controllers/devise/omniauth_callbacks_controller.rb,9ea459de9aec,authentication and oauth,3.8,7,0,50,0.0,2,0.0,6,1,6,1.0,NameError: uninitialized constant DeviseController
+devise,app/controllers/devise/passwords_controller.rb,9ea459de9aec,authentication and oauth,6.1,20,0,70,0.0,2,0.0,10,1,10,1.0,NameError: uninitialized constant DeviseController
+devise,app/controllers/devise/registrations_controller.rb,9ea459de9aec,authentication and oauth,5.9,21,0,53,0.0,2,21.1,19,1,18,0.947,NameError: uninitialized constant DeviseController
+devise,app/controllers/devise/sessions_controller.rb,9ea459de9aec,authentication and oauth,5.4,8,0,60,0.0,2,0.0,10,1,10,1.0,NameError: uninitialized constant DeviseController
+devise,app/controllers/devise/unlocks_controller.rb,9ea459de9aec,authentication and oauth,5.7,12,0,50,0.0,2,0.0,6,1,5,0.833,NameError: uninitialized constant DeviseController
+devise,app/controllers/devise_controller.rb,9ea459de9aec,authentication and oauth,5.7,18,5,73,1.0,1,9.1,22,1,22,1.0,NameError: uninitialized constant ApplicationController
+devise,guides/bug_report_templates/integration_test.rb,9ea459de9aec,authentication and oauth,5.5,8,0,50,0.5,3,0.0,4,6,4,1.0,"Bundler::SolveFailure: Could not find compatible versions
+
+Because rails >= 4.0.0.beta1, < 5.0.5.rc1 depends on bundler >= 1.3.0, < 2.0
+  and the current Bundler version (2.6.9) does not satisfy bundler >= 1.3.0, < 2.0,
+  rails >= 4.0.0.beta1, < 5.0.5.rc1 cannot be used.
+So, because Gemfile depends on rails ~> 4.2.0,
+  ve"
+devise,lib/devise/failure_app.rb,9ea459de9aec,authentication and oauth,7.2,26,7,83,3.0,1,10.3,29,2,26,0.897,NoMethodError: undefined method 'routes' for nil
+devise,lib/devise/omniauth/config.rb,9ea459de9aec,authentication and oauth,6,8,0,60,0.0,1,20.0,5,4,5,1.0,"Gem::MissingSpecError: Could not find 'omniauth' (>= 1.0.0) among 119 total gem(s)
+Checked in 'GEM_PATH=/private/var/folders/xt/zsl5k3z97rn823l5tt5fhfr40000gn/T/marta_p6_3ync3utc/gems_devise:/Users/mario/.rbenv/versions/3.4.10/lib/ruby/gems/3.4.0' , execute `gem env` for more information"
+devise,lib/generators/active_record/devise_generator.rb,9ea459de9aec,authentication and oauth,7.5,32,0,42,0.33,2,0.0,12,3,12,1.0,LoadError: cannot load such file -- rails/generators/active_record
+devise,lib/generators/devise/install_generator.rb,9ea459de9aec,authentication and oauth,7.3,16,0,67,0.0,2,0.0,3,3,3,1.0,NameError: uninitialized constant Rails::Generators::Actions
+devise,lib/generators/devise/views_generator.rb,9ea459de9aec,authentication and oauth,5.6,13,0,67,0.67,2,0.0,9,9,8,0.889,NameError: uninitialized constant Rails::Generators::Actions
+devise,lib/generators/mongoid/devise_generator.rb,9ea459de9aec,authentication and oauth,10.2,32,0,25,0.33,1,0.0,4,3,4,1.0,NameError: uninitialized constant Rails::Generators::Actions
+doorkeeper,app/controllers/doorkeeper/applications_controller.rb,75a84fefe686,authentication and oauth,7.7,22,0,70,0.0,2,0.0,10,2,10,1.0,NameError: uninitialized constant Doorkeeper::ApplicationController
+doorkeeper,app/controllers/doorkeeper/authorizations_controller.rb,75a84fefe686,authentication and oauth,7.5,23,0,61,0.0,2,0.0,18,2,18,1.0,NameError: uninitialized constant Doorkeeper::ApplicationController
+doorkeeper,app/controllers/doorkeeper/token_info_controller.rb,75a84fefe686,authentication and oauth,5,9,0,67,0.0,2,0.0,3,2,3,1.0,NameError: uninitialized constant Doorkeeper::ApplicationMetalController
+doorkeeper,app/controllers/doorkeeper/tokens_controller.rb,75a84fefe686,authentication and oauth,8,28,0,75,0.0,2,0.0,16,2,16,1.0,NameError: uninitialized constant Doorkeeper::ApplicationMetalController
+doorkeeper,lib/doorkeeper.rb,75a84fefe686,authentication and oauth,5.9,13,100,64,0.0,0,0.0,11,15,11,1.0,NoMethodError: undefined method 'mattr_reader' for class Doorkeeper::Config
+doorkeeper,lib/doorkeeper/config.rb,75a84fefe686,authentication and oauth,4.2,15,0,57,0.67,1,37.3,67,3,36,0.537,NoMethodError: undefined method 'mattr_reader' for class Doorkeeper::Config
+doorkeeper,lib/doorkeeper/grape/helpers.rb,75a84fefe686,authentication and oauth,5.7,12,0,50,0.67,0,0.0,6,3,6,1.0,NameError: uninitialized constant Doorkeeper::Grape::SimpleDelegator
+doorkeeper,lib/doorkeeper/models/access_grant_mixin.rb,75a84fefe686,authentication and oauth,4,10,0,43,3.67,0,0.0,7,3,7,1.0,NameError: uninitialized constant Doorkeeper::AccessGrantMixin::ActiveSupport
+doorkeeper,lib/doorkeeper/models/access_token_mixin.rb,75a84fefe686,authentication and oauth,7.3,22,0,65,4.0,0,3.2,31,3,29,0.935,NameError: uninitialized constant Doorkeeper::AccessTokenMixin::ActiveSupport
+doorkeeper,lib/doorkeeper/models/application_mixin.rb,75a84fefe686,authentication and oauth,6,16,0,67,1.67,0,0.0,6,3,6,1.0,NameError: uninitialized constant Doorkeeper::ApplicationMixin::ActiveSupport
+doorkeeper,lib/doorkeeper/models/concerns/expiration_time_sql_math.rb,75a84fefe686,authentication and oauth,3.5,7,0,18,0.1,1,0.0,11,10,7,0.636,NameError: uninitialized constant ActiveSupport
+doorkeeper,lib/doorkeeper/oauth/authorization_code_request.rb,75a84fefe686,authentication and oauth,7.7,22,0,83,0.0,1,0.0,12,3,12,1.0,NameError: uninitialized constant Doorkeeper::OAuth::BaseRequest
+doorkeeper,lib/doorkeeper/oauth/client_credentials/validator.rb,75a84fefe686,authentication and oauth,8.2,15,0,100,0.5,0,0.0,4,4,4,1.0,NameError: uninitialized constant Doorkeeper::OAuth::ClientCredentials::Validator::Validations
+doorkeeper,lib/doorkeeper/oauth/code_response.rb,75a84fefe686,authentication and oauth,7,15,0,80,0.33,1,0.0,5,3,5,1.0,NameError: uninitialized constant Doorkeeper::OAuth::BaseResponse
+doorkeeper,lib/doorkeeper/oauth/error_response.rb,75a84fefe686,authentication and oauth,5.8,11,21,57,0.33,1,0.0,14,3,14,1.0,NameError: uninitialized constant Doorkeeper::OAuth::BaseResponse
+doorkeeper,lib/doorkeeper/oauth/forbidden_token_response.rb,75a84fefe686,authentication and oauth,3.4,4,20,60,0.0,2,0.0,5,3,4,0.8,NameError: uninitialized constant Doorkeeper::OAuth::ErrorResponse
+doorkeeper,lib/doorkeeper/oauth/invalid_request_response.rb,75a84fefe686,authentication and oauth,5.3,10,17,50,0.0,2,0.0,6,3,5,0.833,NameError: uninitialized constant Doorkeeper::OAuth::ErrorResponse
+doorkeeper,lib/doorkeeper/oauth/invalid_token_response.rb,75a84fefe686,authentication and oauth,5.8,11,17,50,0.0,2,0.0,6,3,6,1.0,NameError: uninitialized constant Doorkeeper::OAuth::ErrorResponse
+doorkeeper,lib/doorkeeper/oauth/password_access_token_request.rb,75a84fefe686,authentication and oauth,6,10,0,83,0.33,1,0.0,6,3,6,1.0,NameError: uninitialized constant Doorkeeper::OAuth::BaseRequest
+doorkeeper,lib/doorkeeper/oauth/pre_authorization.rb,75a84fefe686,authentication and oauth,6.1,13,0,86,0.33,0,0.0,22,3,22,1.0,NameError: uninitialized constant Doorkeeper::OAuth::PreAuthorization::Validations
+doorkeeper,lib/doorkeeper/oauth/refresh_token_request.rb,75a84fefe686,authentication and oauth,9.2,36,0,92,0.33,1,0.0,12,3,12,1.0,NameError: uninitialized constant Doorkeeper::OAuth::BaseRequest
+dotenv,lib/dotenv/log_subscriber.rb,34156bf400cd,configuration,4.6,12,0,38,0.0,1,0.0,8,2,8,1.0,LoadError: cannot load such file -- active_support/log_subscriber
+dotenv,lib/dotenv/rails.rb,34156bf400cd,configuration,5.4,15,12,62,0.0,1,0.0,8,2,8,1.0,NameError: uninitialized constant Rails
+dotenv,lib/dotenv/replay_logger.rb,34156bf400cd,configuration,3.7,4,0,67,0.0,1,0.0,3,2,3,1.0,NameError: uninitialized constant Dotenv::Logger
+dry-types,lib/dry/types/extensions/maybe.rb,1a13fb04926f,type signatures and type checking,5.5,10,0,75,1.0,0,0.0,8,6,8,1.0,LoadError: cannot load such file -- dry/monads
+eventmachine,examples/guides/getting_started/03_simple_chat_server.rb,9cb13a8a6236,concurrency and parallelism,5.1,13,0,53,0.0,1,0.0,17,1,15,0.882,RuntimeError: no acceptor (port is in use or requires root privileges)
+eventmachine,examples/guides/getting_started/05_simple_chat_server_step_two.rb,9cb13a8a6236,concurrency and parallelism,3.7,4,0,0,0.0,1,0.0,3,1,3,1.0,RuntimeError: no acceptor (port is in use or requires root privileges)
+eventmachine,examples/guides/getting_started/06_simple_chat_server_step_three.rb,9cb13a8a6236,concurrency and parallelism,5,13,0,33,0.0,1,0.0,9,1,9,1.0,RuntimeError: no acceptor (port is in use or requires root privileges)
+eventmachine,examples/old/ex_tick_loop_counter.rb,9cb13a8a6236,concurrency and parallelism,3.5,4,0,25,0.0,0,0.0,4,1,4,1.0,timeout: pendurou-se a carregar (20s)
+eventmachine,lib/em/protocols/postgres3.rb,9cb13a8a6236,concurrency and parallelism,16.9,40,0,88,0.25,1,0.0,8,4,8,1.0,LoadError: cannot load such file -- postgres-pr/message
+eventmachine,lib/jeventmachine.rb,9cb13a8a6236,concurrency and parallelism,3.9,36,91,56,0.0,1,0.0,54,8,40,0.741,LoadError: cannot load such file -- java
+excon,benchmarks/httpbin.rb,ac022b6417d7,http clients and tools,2.8,6,0,0,0.0,0,0.0,5,1,3,0.6,"Bundler::GemNotFound: Could not find gem 'excon' in source at `..`.
+"
+eye,examples/plugin/plugin.rb,300aa8793112,process management and monitoring,4.6,10,0,33,0.25,2,0.0,9,4,9,1.0,NameError: uninitialized constant Reactor::Celluloid
+eye,examples/processes/em.rb,300aa8793112,process management and monitoring,4.6,12,0,29,0.5,1,0.0,7,2,4,0.571,LoadError: cannot load such file -- eventmachine
+eye,examples/processes/sample.rb,300aa8793112,process management and monitoring,11.2,16,0,75,0.0,0,0.0,4,1,4,1.0,timeout: pendurou-se a carregar (20s)
+eye,lib/eye/controller.rb,300aa8793112,process management and monitoring,4.7,8,0,33,7.0,0,0.0,3,1,3,1.0,LoadError: cannot load such file -- celluloid/current
+eye,lib/eye/controller/apply.rb,300aa8793112,process management and monitoring,15.7,45,0,70,0.0,1,0.0,10,2,9,0.9,LoadError: cannot load such file -- celluloid/current
+eye,lib/eye/controller/commands.rb,300aa8793112,process management and monitoring,27,59,0,67,0.0,0,0.0,3,1,3,1.0,LoadError: cannot load such file -- celluloid/current
+eye,lib/eye/controller/helpers.rb,300aa8793112,process management and monitoring,7.9,20,0,100,0.0,0,0.0,11,1,11,1.0,LoadError: cannot load such file -- celluloid/current
+eye,lib/eye/controller/load.rb,300aa8793112,process management and monitoring,14.3,56,0,64,0.0,0,7.1,14,2,13,0.929,LoadError: cannot load such file -- celluloid/current
+eye,lib/eye/controller/status.rb,300aa8793112,process management and monitoring,9.1,22,0,86,0.0,0,0.0,7,1,7,1.0,LoadError: cannot load such file -- celluloid/current
+eye,lib/eye/server.rb,300aa8793112,process management and monitoring,11.4,37,0,60,1.0,0,0.0,5,1,5,1.0,LoadError: cannot load such file -- celluloid/current
+eye,lib/eye/system_resources.rb,300aa8793112,process management and monitoring,5.1,8,65,47,0.5,0,0.0,17,2,17,1.0,LoadError: cannot load such file -- celluloid/current
+faker,benchmark/generators.rb,e48d35f4fa0d,testing,10.3,17,0,67,0.0,0,33.3,3,0,3,1.0,LoadError: cannot load such file -- benchmark/ips
+faraday,examples/client_spec.rb,f1ace878bae1,http clients and tools,4,5,0,67,0.0,0,0.0,3,1,3,1.0,NameError: uninitialized constant RSpec
+fastlane,fastlane/lib/assets/custom_action_template.rb,38d0ec404332,mobile development,8.4,25,100,38,0.0,1,0.0,8,4,6,0.75,"SyntaxError: /private/var/folders/xt/zsl5k3z97rn823l5tt5fhfr40000gn/T/marta_p6_3ync3utc/fastlane/fastlane/lib/assets/custom_action_template.rb:4: syntax errors found
+  2 |   module Actions
+  3 |     module SharedValues
+> 4 |       [[NAME_UP]]_CUSTOM_VALUE = :[[NAME_UP]]_CUSTOM_VALUE
+    |                  ^~~~~~"
+fastlane,frameit/lib/frameit/device.rb,38d0ec404332,mobile development,10.7,27,33,100,0.0,0,33.3,6,2,6,1.0,NameError: uninitialized constant Frameit::Devices::Device
+fastlane,snapshot/lib/snapshot/collector.rb,38d0ec404332,mobile development,17.4,42,100,71,0.0,0,0.0,7,2,7,1.0,FastlaneCore::Interface::FastlaneError: Could not determine installed iOS SDK version. Try running the _xcodebuild_ command manually to ensure it works.
+fastlane,snapshot/lib/snapshot/commands_generator.rb,38d0ec404332,mobile development,32.3,89,33,67,0.5,0,0.0,3,2,3,1.0,FastlaneCore::Interface::FastlaneError: Could not determine installed iOS SDK version. Try running the _xcodebuild_ command manually to ensure it works.
+fastlane,snapshot/lib/snapshot/module.rb,38d0ec404332,mobile development,3.8,5,100,25,0.0,0,0.0,4,1,4,1.0,FastlaneCore::Interface::FastlaneError: Could not determine installed iOS SDK version. Try running the _xcodebuild_ command manually to ensure it works.
+fastlane,snapshot/lib/snapshot/options.rb,38d0ec404332,mobile development,112.7,331,100,67,0.0,0,0.0,3,2,3,1.0,FastlaneCore::Interface::FastlaneError: Could not determine installed iOS SDK version. Try running the _xcodebuild_ command manually to ensure it works.
+fastlane,snapshot/lib/snapshot/reports_generator.rb,38d0ec404332,mobile development,37.8,110,0,20,0.0,0,0.0,5,2,5,1.0,FastlaneCore::Interface::FastlaneError: Could not determine installed iOS SDK version. Try running the _xcodebuild_ command manually to ensure it works.
+fastlane,snapshot/lib/snapshot/reset_simulators.rb,38d0ec404332,mobile development,15.6,62,100,86,0.0,0,0.0,7,2,7,1.0,FastlaneCore::Interface::FastlaneError: Could not determine installed iOS SDK version. Try running the _xcodebuild_ command manually to ensure it works.
+fastlane,snapshot/lib/snapshot/runner.rb,38d0ec404332,mobile development,19.8,46,17,67,0.0,0,0.0,6,2,6,1.0,FastlaneCore::Interface::FastlaneError: Could not determine installed iOS SDK version. Try running the _xcodebuild_ command manually to ensure it works.
+fastlane,snapshot/lib/snapshot/simulator_launchers/simulator_launcher.rb,38d0ec404332,mobile development,16,38,17,75,0.0,1,0.0,12,3,12,1.0,FastlaneCore::Interface::FastlaneError: Could not determine installed iOS SDK version. Try running the _xcodebuild_ command manually to ensure it works.
+fastlane,snapshot/lib/snapshot/simulator_launchers/simulator_launcher_base.rb,38d0ec404332,mobile development,12.7,39,0,47,0.0,0,0.0,15,2,14,0.933,FastlaneCore::Interface::FastlaneError: Could not determine installed iOS SDK version. Try running the _xcodebuild_ command manually to ensure it works.
+fastlane,snapshot/lib/snapshot/simulator_launchers/simulator_launcher_xcode_8.rb,38d0ec404332,mobile development,19.4,29,0,80,0.0,1,0.0,5,2,5,1.0,FastlaneCore::Interface::FastlaneError: Could not determine installed iOS SDK version. Try running the _xcodebuild_ command manually to ensure it works.
+fastlane,snapshot/lib/snapshot/test_command_generator.rb,38d0ec404332,mobile development,17.1,32,100,100,0.0,1,0.0,8,2,8,1.0,FastlaneCore::Interface::FastlaneError: Could not determine installed iOS SDK version. Try running the _xcodebuild_ command manually to ensure it works.
+fastlane,snapshot/lib/snapshot/test_command_generator_base.rb,38d0ec404332,mobile development,7.8,26,100,43,0.0,0,0.0,14,2,12,0.857,FastlaneCore::Interface::FastlaneError: Could not determine installed iOS SDK version. Try running the _xcodebuild_ command manually to ensure it works.
+fastlane,snapshot/lib/snapshot/test_command_generator_xcode_8.rb,38d0ec404332,mobile development,13.2,18,100,100,0.0,1,0.0,4,2,4,1.0,FastlaneCore::Interface::FastlaneError: Could not determine installed iOS SDK version. Try running the _xcodebuild_ command manually to ensure it works.
+fastlane,spec_helper.rb,38d0ec404332,mobile development,7.8,16,83,33,0.0,0,16.7,6,4,6,1.0,SystemExit: exit
+geocoder,examples/reverse_geocode_job.rb,d3515db46c57,geolocation,6.3,9,0,100,0.0,1,0.0,3,1,3,1.0,NameError: uninitialized constant ActiveJob
+haml,benchmark/slim/run-benchmarks.rb,7f51ae709d96,template engine,8.5,13,0,75,0.0,0,25.0,4,1,4,1.0,LoadError: cannot load such file -- slim
+haml,lib/haml/rails_template.rb,7f51ae709d96,template engine,9.8,24,50,50,0.0,0,0.0,4,2,4,1.0,NameError: uninitialized constant Haml::ActionView
+httparty,examples/tripit_sign_in.rb,9c89e55ce357,http clients and tools,6.8,16,0,100,1.0,0,0.0,4,1,4,1.0,NoMethodError: undefined method 'get_fields' for nil
+httparty,examples/twitter.rb,9c89e55ce357,http clients and tools,3.7,4,0,33,1.0,0,0.0,3,1,3,1.0,NameError: uninitialized constant YAML
+httpclient,lib/httpclient/jruby_ssl_socket.rb,5bc7b0d383c4,http clients and tools,7.5,36,8,65,0.14,1,0.0,60,14,48,0.8,LoadError: cannot load such file -- java
+httpclient,sample/generate_test_keys.rb,5bc7b0d383c4,http clients and tools,20.7,24,0,100,0.0,0,0.0,3,0,3,1.0,Errno::ENOENT: No such file or directory @ rb_sysopen - test/ca.cert
+i18n,lib/i18n/backend/key_value.rb,8beba7876163,internationalization,5.9,18,11,56,0.5,0,0.0,18,6,17,0.944,LoadError: cannot load such file -- active_support/json
+image_processing,lib/image_processing/mini_magick.rb,1611c00ed4eb,image processing,8.6,21,19,81,0.25,1,14.3,21,4,19,0.905,"LoadError: ImageProcessing::MiniMagick requires the mini_magick gem. Please add `gem ""mini_magick"", ""~> 5.0""` to your Gemfile."
+image_processing,lib/image_processing/vips.rb,1611c00ed4eb,image processing,7.4,25,19,67,0.25,1,14.3,21,4,20,0.952,"LoadError: ImageProcessing::Vips requires the ruby-vips gem. Please add `gem ""ruby-vips"", ""~> 2.0""` to your Gemfile."
+jbuilder,lib/generators/rails/jbuilder_generator.rb,31eb6e909968,api builder and discovery,4.6,7,0,38,0.33,1,0.0,8,3,8,1.0,LoadError: cannot load such file -- rails/generators/named_base
+jbuilder,lib/jbuilder/jbuilder_template.rb,31eb6e909968,api builder and discovery,8.5,33,5,84,0.0,2,0.0,19,2,19,1.0,LoadError: cannot load such file -- action_dispatch/http/mime_type
+kaminari,kaminari-activerecord/lib/kaminari/activerecord/active_record_relation_methods.rb,508caf4653b2,pagination,9.2,28,0,67,0.17,0,0.0,9,6,9,1.0,NameError: uninitialized constant ActiveRecord
+kaminari,kaminari-core/lib/generators/kaminari/views_generator.rb,508caf4653b2,pagination,5.9,13,12,81,0.0,1,0.0,16,5,16,1.0,NameError: uninitialized constant Kaminari::Generators::Rails
+knapsack,test_examples/fast/shared_examples_test.rb,f394c8470281,testing,3.5,4,0,0,1.0,1,0.0,4,1,4,1.0,LoadError: cannot load such file -- test_helper
+liquid,example/server/example_servlet.rb,7a5e45fc4784,template engine,3.8,7,0,33,0.0,2,0.0,9,2,9,1.0,NameError: uninitialized constant LiquidServlet
+liquid,example/server/liquid_servlet.rb,7a5e45fc4784,template engine,5.2,12,0,25,0.0,1,25.0,4,1,3,0.75,NameError: uninitialized constant WEBrick
+liquid,performance/memory_profile.rb,7a5e45fc4784,template engine,7.6,16,20,60,0.0,0,0.0,5,1,5,1.0,LoadError: cannot load such file -- benchmark/ips
+listen,lib/listen/cli.rb,2fa1a742d8c2,file system listener,9,19,0,67,0.0,1,0.0,3,3,3,1.0,LoadError: cannot load such file -- thor
+lograge,lib/lograge/rails_ext/action_cable/channel/base.rb,e5caed777529,logging,3.7,5,0,0,0.0,0,0.0,3,3,3,1.0,NameError: uninitialized constant ActionCable
+minitest,design_rationale.rb,f6180b07ea6e,testing,3.5,4,0,0,0.0,4,0.0,4,2,3,0.75,NameError: uninitialized constant Thingy
+mongo,lib/mongo/crypt/binary.rb,049b718a2d47,database drivers,10.9,29,43,57,0.0,0,0.0,7,3,6,0.857,LoadError: cannot load such file -- ffi
+mongo,lib/mongo/crypt/binding.rb,049b718a2d47,database drivers,7.4,20,98,93,0.2,0,0.0,55,5,55,1.0,LoadError: Cannot load Mongo::Crypt::Binding because there is no path to libmongocrypt specified in the LIBMONGOCRYPT_PATH environment variable and libmongocrypt-helper is not installed: LoadError: cannot load such file -- libmongocrypt_helper
+mongo,lib/mongo/crypt/handle.rb,049b718a2d47,database drivers,16.7,96,0,50,0.0,0,6.2,16,3,16,1.0,LoadError: cannot load such file -- ffi
+mongo,lib/mongo/crypt/status.rb,049b718a2d47,database drivers,6,13,11,22,0.0,0,0.0,9,3,9,1.0,LoadError: cannot load such file -- ffi
+mysql2,lib/mysql2/em.rb,c79b3c14fd47,database drivers,6.2,11,0,50,0.0,1,0.0,6,4,5,0.833,LoadError: cannot load such file -- mysql2/mysql2
+paper_trail,lib/generators/paper_trail/install/install_generator.rb,0c511ed46c08,orm/odm extensions,6.7,13,0,50,0.0,2,0.0,6,2,5,0.833,LoadError: cannot load such file -- rails/generators
+paper_trail,lib/generators/paper_trail/migration_generator.rb,0c511ed46c08,orm/odm extensions,8.2,19,20,40,0.5,1,0.0,5,2,5,1.0,LoadError: cannot load such file -- rails/generators
+paper_trail,lib/generators/paper_trail/update_item_subtype/update_item_subtype_generator.rb,0c511ed46c08,orm/odm extensions,3,3,0,67,0.0,2,0.0,3,2,3,1.0,LoadError: cannot load such file -- rails/generators
+parallel_tests,lib/parallel_tests/rspec/logger_base.rb,e4870a1632aa,testing,10,15,0,100,0.0,1,0.0,3,3,3,1.0,LoadError: cannot load such file -- rspec/core/formatters/base_text_formatter
+parallel_tests,lib/parallel_tests/rspec/runtime_logger.rb,e4870a1632aa,testing,3.8,12,0,33,0.0,2,0.0,9,1,5,0.556,LoadError: cannot load such file -- rspec/core/formatters/base_text_formatter
+parallel_tests,lib/parallel_tests/rspec/verbose_logger.rb,e4870a1632aa,testing,4.5,10,0,88,0.0,1,0.0,8,1,6,0.75,LoadError: cannot load such file -- rspec/core/formatters/base_text_formatter
+pg,ext/extconf.rb,d4539c25dcc8,database drivers,5.5,13,0,15,0.0,1,0.0,13,1,11,0.846,SystemExit: Can't find the 'libpq-fe.h header
+prawn,bench/table_bench.rb,f82783b1d020,pdf,6,12,33,33,0.0,0,0.0,3,1,3,1.0,NoMethodError: undefined method 'table' for an instance of Prawn::Document
+prawn,manual/basic_concepts/view.rb,f82783b1d020,pdf,3.7,5,0,0,1.0,0,0.0,3,1,3,1.0,LoadError: cannot load such file -- prawn/manual_builder
+prawn,manual/text/formatted_callbacks.rb,f82783b1d020,pdf,4.2,6,0,100,0.0,0,0.0,4,2,3,0.75,LoadError: cannot load such file -- prawn/manual_builder
+pry-rails,lib/pry-rails/commands/find_route.rb,d8d0c6d87a5b,debugging tools,5.3,18,0,80,0.0,1,0.0,10,1,10,1.0,NameError: uninitialized constant PryRails::Commands
+pry-rails,lib/pry-rails/commands/show_middleware.rb,d8d0c6d87a5b,debugging tools,17.3,39,0,100,0.0,1,66.7,3,1,3,1.0,NameError: uninitialized constant PryRails::Commands
+pry-rails,lib/pry-rails/commands/show_models.rb,d8d0c6d87a5b,debugging tools,9.7,25,0,86,0.0,1,0.0,7,1,7,1.0,NameError: uninitialized constant PryRails::Commands
+pry-rails,lib/pry-rails/commands/show_routes.rb,d8d0c6d87a5b,debugging tools,10.1,20,0,57,0.0,1,0.0,7,1,6,0.857,NameError: uninitialized constant PryRails::Commands
+puma,benchmarks/local/long_tail_hey.rb,8085b75e79e3,web servers,44,79,0,100,0.0,2,0.0,4,2,4,1.0,TypeError: no implicit conversion of nil into String
+puma,benchmarks/local/response_time_wrk.rb,8085b75e79e3,web servers,37,67,0,100,0.0,2,0.0,5,2,5,1.0,TypeError: no implicit conversion of nil into String
+puma,benchmarks/local/sleep_fibonacci_test.rb,8085b75e79e3,web servers,18,27,100,67,0.0,0,33.3,3,1,3,1.0,timeout: pendurou-se a carregar (20s)
+pundit,lib/pundit/rspec.rb,2d665d67a26f,authorization,5.9,11,29,71,0.4,0,14.3,7,5,7,1.0,NameError: uninitialized constant RSpec
+ransack,lib/polyamorous/activerecord/join_association.rb,383c5dd9aa8f,search,20.3,47,33,67,0.5,0,33.3,3,2,3,1.0,NameError: uninitialized constant Polyamorous::JoinAssociationExtensions::SwappingReflectionClass
+ransack,lib/polyamorous/join.rb,383c5dd9aa8f,search,6.1,16,0,12,0.5,0,12.5,8,2,8,1.0,NameError: uninitialized constant Polyamorous::Join::TreeNode
+ransack,lib/ransack/helpers/form_builder.rb,383c5dd9aa8f,search,6.8,25,0,62,0.0,1,12.5,32,5,27,0.844,LoadError: cannot load such file -- action_view
+rdoc,lib/rdoc/ri/servlet.rb,4e303b392092,documentation,18.4,45,6,94,0.0,1,0.0,17,1,17,1.0,SystemExit: webrick is not found. You may need to `gem install webrick` to install webrick.
+responders,lib/generators/responders/install_generator.rb,b20fdd24befe,decorators,8.5,16,0,0,0.0,1,0.0,4,3,4,1.0,NameError: uninitialized constant Rails::Generators
+rest-client,lib/restclient/windows/root_certs.rb,cf3e5a115bcd,http clients and tools,8,23,50,50,1.0,1,0.0,4,2,4,1.0,LoadError: cannot load such file -- ffi
+rqrcode,benchmark/benchmark_helper.rb,f0d65004f2b5,qr,14.2,42,100,38,0.0,0,0.0,13,1,13,1.0,LoadError: cannot load such file -- benchmark/ips
+rspec,rspec-core/benchmarks/capture_block_vs_yield.rb,79a280d76e10,testing,3,3,0,50,0.0,0,0.0,8,0,8,1.0,LoadError: cannot load such file -- benchmark/ips
+rspec,rspec-core/benchmarks/module_inclusion_filtering.rb,79a280d76e10,testing,5.2,6,25,50,0.0,0,50.0,4,1,4,1.0,LoadError: cannot load such file -- /private/var/folders/xt/zsl5k3z97rn823l5tt5fhfr40000gn/T/marta_p6_h_gvuyjw/rspec/rspec-core/bundle/bundler/setup
+rspec,rspec-core/benchmarks/shuffle_vs_sort_by_for_random_ordering.rb,79a280d76e10,testing,6,18,20,100,0.0,0,0.0,5,1,4,0.8,LoadError: cannot load such file -- benchmark/ips
+rspec,rspec-core/benchmarks/singleton_example_groups/helper.rb,79a280d76e10,testing,12.6,41,71,29,0.0,0,42.9,7,1,6,0.857,LoadError: cannot load such file -- /private/var/folders/xt/zsl5k3z97rn823l5tt5fhfr40000gn/T/marta_p6_h_gvuyjw/rspec/rspec-core/bundle/bundler/setup
+rspec,rspec-core/benchmarks/threadsafe_let_block.rb,79a280d76e10,testing,10,21,62,88,0.83,1,112.5,8,6,8,1.0,LoadError: cannot load such file -- benchmark/ips
+rspec,rspec-core/lib/rspec/core/mocking_adapters/flexmock.rb,79a280d76e10,testing,3,3,25,0,0.25,0,0.0,4,4,3,0.75,LoadError: cannot load such file -- flexmock/rspec
+rspec,rspec-core/lib/rspec/core/mocking_adapters/mocha.rb,79a280d76e10,testing,3,3,25,0,0.5,0,0.0,4,4,4,1.0,LoadError: cannot load such file -- mocha/standalone
+rspec,rspec-core/lib/rspec/core/mocking_adapters/rr.rb,79a280d76e10,testing,3,3,25,0,0.25,0,0.0,4,4,3,0.75,LoadError: cannot load such file -- rr
+rspec,rspec-expectations/benchmarks/include_matcher.rb,79a280d76e10,testing,4.8,15,0,56,0.0,1,12.5,16,4,14,0.875,LoadError: cannot load such file -- benchmark/ips
+rspec,rspec-expectations/lib/rspec/expectations/minitest_integration.rb,79a280d76e10,testing,4.6,7,0,20,0.0,0,0.0,5,2,3,0.6,NameError: uninitialized constant Minitest
+rspec,rspec-mocks/lib/rspec/mocks/minitest_integration.rb,79a280d76e10,testing,5.8,13,0,20,0.2,0,0.0,5,5,3,0.6,NameError: uninitialized constant Minitest
+rspec,rspec-support/benchmarks/caller_vs_caller_locations_vs_raise.rb,79a280d76e10,testing,4,5,0,67,0.0,0,0.0,3,0,3,1.0,LoadError: cannot load such file -- benchmark/ips
+rubocop,lib/rubocop/cops_documentation_generator.rb,65854e6bbfe4,code formatting,10.9,26,0,100,1.0,0,3.4,29,1,29,1.0,LoadError: cannot load such file -- yard
+rubocop,lib/rubocop/mcp/server.rb,65854e6bbfe4,code formatting,13.1,37,0,55,0.0,0,0.0,11,3,11,1.0,"saida abrupta: Error: Unable to load `mcp` gem. Add `gem 'mcp', '~> 0.6'` to your Gemfile, or run `gem install mcp`."
+rubocop,lib/rubocop/rspec/cop_helper.rb,65854e6bbfe4,code formatting,7.4,14,0,78,0.25,1,11.1,9,4,9,1.0,NameError: uninitialized constant CopHelper::RSpec
+rubocop,lib/rubocop/rspec/parallel_formatter.rb,65854e6bbfe4,code formatting,5.8,12,0,56,0.0,1,0.0,9,3,9,1.0,NameError: uninitialized constant RSpec
+rubocop,lib/rubocop/rspec/shared_contexts.rb,65854e6bbfe4,code formatting,5.3,7,0,67,0.0,0,0.0,3,0,3,1.0,NameError: uninitialized constant RSpec
+rubocop,lib/ruby_lsp/rubocop/addon.rb,65854e6bbfe4,code formatting,8,24,0,50,0.0,1,0.0,8,3,6,0.75,NameError: uninitialized constant RubyLsp::Addon
+selenium-webdriver,lib/selenium/webdriver/remote/http/curb.rb,9175ed94d83e,testing,13.8,32,0,50,0.0,1,0.0,4,5,4,1.0,LoadError: cannot load such file -- curb
+sentry-ruby,sentry-delayed_job/lib/sentry/delayed_job/plugin.rb,a940dfdb5a64,error handling,10.4,27,100,88,0.0,1,0.0,8,3,8,1.0,LoadError: cannot load such file -- delayed_job
+sentry-ruby,sentry-opentelemetry/lib/sentry/opentelemetry/propagator.rb,a940dfdb5a64,error handling,20,40,0,67,0.0,0,0.0,3,3,3,1.0,NameError: uninitialized constant OpenTelemetry
+sentry-ruby,sentry-opentelemetry/lib/sentry/opentelemetry/span_processor.rb,a940dfdb5a64,error handling,14.1,43,0,83,0.33,1,0.0,12,3,12,1.0,NameError: uninitialized constant OpenTelemetry
+sentry-ruby,sentry-rails/lib/sentry/rails/active_job.rb,a940dfdb5a64,error handling,10.1,51,83,78,0.25,0,4.3,23,4,22,0.957,NameError: uninitialized constant Rails
+sentry-ruby,sentry-rails/lib/sentry/rails/capture_exceptions.rb,a940dfdb5a64,error handling,7.1,15,0,71,0.33,1,0.0,7,3,7,1.0,NameError: uninitialized constant Rails
+sentry-ruby,sentry-rails/lib/sentry/rails/configuration.rb,a940dfdb5a64,error handling,9,20,0,0,0.0,0,0.0,3,5,3,1.0,NameError: uninitialized constant Rails
+sentry-ruby,sentry-rails/lib/sentry/rails/log_subscriber.rb,a940dfdb5a64,error handling,6.7,11,33,100,0.33,1,66.7,3,3,3,1.0,LoadError: cannot load such file -- active_support/log_subscriber
+sentry-ruby,sentry-rails/lib/sentry/rails/log_subscribers/action_controller_subscriber.rb,a940dfdb5a64,error handling,27.3,43,0,100,0.25,2,0.0,3,4,3,1.0,LoadError: cannot load such file -- active_support/log_subscriber
+sentry-ruby,sentry-rails/lib/sentry/rails/log_subscribers/active_job_subscriber.rb,a940dfdb5a64,error handling,24.6,35,0,100,0.25,2,0.0,5,4,5,1.0,LoadError: cannot load such file -- active_support/log_subscriber
+sentry-ruby,sentry-rails/lib/sentry/rails/log_subscribers/active_record_subscriber.rb,a940dfdb5a64,error handling,14.6,46,0,100,0.25,2,0.0,8,4,8,1.0,LoadError: cannot load such file -- active_support/log_subscriber
+sentry-ruby,sentry-rails/lib/sentry/rails/railtie.rb,a940dfdb5a64,error handling,5.7,11,0,27,3.0,1,18.2,11,2,11,1.0,NameError: uninitialized constant Rails
+sentry-ruby,sentry-rails/lib/sentry/rails/tracing/abstract_subscriber.rb,a940dfdb5a64,error handling,7.4,10,100,60,0.0,0,0.0,5,4,5,1.0,NameError: uninitialized constant Rails
+sentry-ruby,sentry-resque/lib/sentry/resque.rb,a940dfdb5a64,error handling,16.2,30,80,80,0.0,0,20.0,5,3,5,1.0,LoadError: cannot load such file -- resque
+sentry-ruby,sentry-ruby/lib/sentry/excon/middleware.rb,a940dfdb5a64,error handling,8.8,15,0,83,0.25,1,0.0,6,4,6,1.0,NameError: uninitialized constant Excon
+sentry-ruby,sentry-ruby/lib/sentry/rspec.rb,a940dfdb5a64,error handling,5.9,14,0,88,0.0,0,0.0,8,0,7,0.875,NameError: uninitialized constant RSpec
+sentry-ruby,sentry-sidekiq/lib/sentry/sidekiq/error_handler.rb,a940dfdb5a64,error handling,24.3,46,0,100,0.0,0,0.0,3,3,3,1.0,NameError: uninitialized constant Sidekiq
+sentry-ruby,sentry-sidekiq/lib/sentry/sidekiq/sentry_context_middleware.rb,a940dfdb5a64,error handling,10.6,42,0,89,0.4,0,0.0,9,5,9,1.0,NameError: uninitialized constant Sidekiq
+sentry-ruby,sentry-yabeda/lib/sentry/yabeda/adapter.rb,a940dfdb5a64,error handling,4.6,10,0,25,0.0,1,0.0,12,3,8,0.667,LoadError: cannot load such file -- yabeda/base_adapter
+shoulda-matchers,custom_plan.rb,cf3b3685f2c0,testing,7.7,22,8,50,0.0,1,8.3,12,2,11,0.917,LoadError: cannot load such file -- zeus
+shoulda-matchers,tasks/documentation.rb,cf3b3685f2c0,testing,12.2,88,27,40,0.25,0,0.0,15,4,12,0.8,NameError: uninitialized constant Shoulda::Matchers::DocumentationTasks::Rake
+simplecov,test_projects/faked_project/minitest/other_test.rb,76a8e4e0f661,code analysis and metrics,3,3,0,67,0.0,1,0.0,3,1,3,1.0,LoadError: cannot load such file -- faked_project/some_class
+spring,lib/spring/client/binstub.rb,b7f3fd04b2ed,testing,10.3,35,25,75,0.0,1,0.0,12,4,12,1.0,NameError: uninitialized constant Spring::Client::Command
+spring,lib/spring/client/help.rb,b7f3fd04b2ed,testing,4.7,10,22,67,0.0,1,0.0,9,3,9,1.0,NameError: uninitialized constant Spring::Client::Command
+spring,lib/spring/client/run.rb,b7f3fd04b2ed,testing,9.5,45,0,63,0.0,1,0.0,27,3,27,1.0,NameError: uninitialized constant Spring::Client::Command
+spring,lib/spring/client/server.rb,b7f3fd04b2ed,testing,3.3,4,33,33,0.0,1,0.0,3,3,3,1.0,NameError: uninitialized constant Spring::Client::Command
+spring,lib/spring/client/status.rb,b7f3fd04b2ed,testing,5.2,10,25,50,0.0,1,0.0,4,3,4,1.0,NameError: uninitialized constant Spring::Client::Command
+sprockets,lib/sprockets/sass_cache_store.rb,73c5a5316bd1,assets,3,3,0,50,0.0,1,0.0,4,3,4,1.0,LoadError: cannot load such file -- sass
+stackprof,sample.rb,4367efa4b8bc,profiler and optimization,4.2,5,25,0,0.0,0,0.0,4,1,4,1.0,sem resposta (processo morreu)
+thin,benchmark/benchmarker.rb,84a5188612d8,web servers,9.1,21,0,43,0.0,0,14.3,7,1,6,0.857,LoadError: cannot load such file -- rack/lobster
+thin,site/thin.rb,84a5188612d8,web servers,42.8,81,0,67,0.0,1,0.0,6,1,6,1.0,LoadError: cannot load such file -- atchoum
+tilt,lib/tilt/builder.rb,f0d75c60e3a6,template engine,5,13,0,40,0.0,1,0.0,5,2,5,1.0,LoadError: cannot load such file -- builder
+tilt,lib/tilt/erubi.rb,f0d75c60e3a6,template engine,12.3,31,0,33,0.0,1,0.0,3,2,3,1.0,LoadError: cannot load such file -- erubi
+tilt,lib/tilt/haml.rb,f0d75c60e3a6,template engine,8,14,0,100,0.0,1,25.0,8,2,8,1.0,LoadError: cannot load such file -- haml
+tilt,lib/tilt/herb.rb,f0d75c60e3a6,template engine,13.7,35,0,33,0.0,1,0.0,3,2,3,1.0,LoadError: cannot load such file -- herb
+tilt,lib/tilt/liquid.rb,f0d75c60e3a6,template engine,5.7,10,0,67,0.0,1,0.0,3,2,3,1.0,LoadError: cannot load such file -- liquid
+tilt,lib/tilt/markaby.rb,f0d75c60e3a6,template engine,12,22,33,33,0.0,1,66.7,3,2,3,1.0,LoadError: cannot load such file -- markaby
+tilt,lib/tilt/nokogiri.rb,f0d75c60e3a6,template engine,5.2,11,0,75,0.0,1,0.0,4,2,4,1.0,LoadError: cannot load such file -- nokogiri
+tilt,lib/tilt/prawn.rb,f0d75c60e3a6,template engine,4.7,7,0,100,0.0,1,0.0,3,2,3,1.0,LoadError: cannot load such file -- prawn
+tilt,lib/tilt/radius.rb,f0d75c60e3a6,template engine,6,13,0,75,0.0,1,25.0,4,3,4,1.0,LoadError: cannot load such file -- radius
+tilt,lib/tilt/sass.rb,f0d75c60e3a6,template engine,5.2,9,0,60,0.0,3,0.0,5,3,5,1.0,LoadError: cannot load such file -- sass-embedded
+tilt,lib/tilt/yajl.rb,f0d75c60e3a6,template engine,5,12,0,60,0.0,1,0.0,5,2,5,1.0,LoadError: cannot load such file -- yajl
+twilio-ruby,lib/rack/twilio_webhook_authentication.rb,c58e213a6f04,third-party apis,12,18,0,67,0.0,0,33.3,3,2,3,1.0,LoadError: cannot load such file -- rack/media_type
+typhoeus,lib/typhoeus/adapters/faraday.rb,d7aba1bbfa8d,http clients and tools,8.7,33,8,83,0.0,1,0.0,12,3,12,1.0,LoadError: cannot load such file -- faraday
+vcr,lib/vcr/library_hooks/faraday.rb,5dcacdf69bd6,testing,6,10,0,50,0.0,0,0.0,4,5,4,1.0,LoadError: cannot load such file -- faraday
+vcr,lib/vcr/library_hooks/typhoeus.rb,5dcacdf69bd6,testing,6.6,17,30,80,0.0,1,50.0,10,4,10,1.0,LoadError: cannot load such file -- typhoeus
+vcr,lib/vcr/library_hooks/webmock.rb,5dcacdf69bd6,testing,5.6,14,6,56,0.5,1,12.5,16,6,16,1.0,LoadError: cannot load such file -- webmock
+vcr,lib/vcr/middleware/excon.rb,5dcacdf69bd6,testing,5.7,12,5,50,0.12,1,0.0,22,8,19,0.864,LoadError: cannot load such file -- excon
+vcr,lib/vcr/middleware/faraday.rb,5dcacdf69bd6,testing,6.5,12,0,80,0.25,1,13.3,15,4,15,1.0,LoadError: cannot load such file -- faraday
+will_paginate,lib/will_paginate/active_record.rb,50017c3eb071,pagination,10.2,36,0,88,0.2,0,0.0,16,5,16,1.0,LoadError: cannot load such file -- active_record
+will_paginate,lib/will_paginate/mongoid.rb,50017c3eb071,pagination,4.7,9,0,67,0.25,0,0.0,6,4,6,1.0,LoadError: cannot load such file -- mongoid
+will_paginate,lib/will_paginate/railtie.rb,50017c3eb071,pagination,10.7,20,33,67,0.25,1,33.3,3,4,3,1.0,NameError: uninitialized constant WillPaginate::Rails
+will_paginate,lib/will_paginate/sequel.rb,50017c3eb071,pagination,3,3,0,33,0.5,0,0.0,6,2,6,1.0,LoadError: cannot load such file -- sequel
+will_paginate,lib/will_paginate/view_helpers/action_view.rb,50017c3eb071,pagination,7.6,14,0,82,0.33,1,9.1,11,3,11,1.0,NameError: uninitialized constant ActionView
+will_paginate,lib/will_paginate/view_helpers/hanami.rb,50017c3eb071,pagination,4,6,20,80,0.25,1,0.0,5,4,5,1.0,LoadError: cannot load such file -- hanami/view
+will_paginate,lib/will_paginate/view_helpers/sinatra.rb,50017c3eb071,pagination,3.8,6,20,80,0.25,1,0.0,5,4,5,1.0,LoadError: cannot load such file -- sinatra/base
+yajl-ruby,lib/yajl.rb,6501652d1135,optimizations,5.4,14,80,20,0.0,0,0.0,5,4,5,1.0,LoadError: cannot load such file -- yajl/yajl
+yajl-ruby,lib/yajl/deflate/stream_reader.rb,6501652d1135,optimizations,9,12,33,67,0.0,1,0.0,3,3,3,1.0,NameError: uninitialized constant Zlib
+yajl-ruby,lib/yajl/http_stream.rb,6501652d1135,optimizations,13.6,112,42,42,0.0,1,0.0,12,4,10,0.833,LoadError: cannot load such file -- yajl/yajl
+yajl-ruby,lib/yajl/json_gem/encoding.rb,6501652d1135,optimizations,7.8,11,75,75,0.0,2,0.0,4,4,4,1.0,LoadError: cannot load such file -- yajl/yajl
+yajl-ruby,lib/yajl/json_gem/parsing.rb,6501652d1135,optimizations,5.7,7,100,67,0.0,2,0.0,3,3,3,1.0,LoadError: cannot load such file -- yajl/yajl

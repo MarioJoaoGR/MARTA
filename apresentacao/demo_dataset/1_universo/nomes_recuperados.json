@@ -1,0 +1,233 @@
+[
+  {
+    "repo": "CocoaPods/CocoaPods",
+    "palpite_antigo": "CocoaPods",
+    "gem_real": "cocoapods",
+    "downloads": 138280576,
+    "categoria": "package management"
+  },
+  {
+    "repo": "mongodb/mongo-ruby-driver",
+    "palpite_antigo": "mongo-ruby-driver",
+    "gem_real": "mongo",
+    "downloads": 103549499,
+    "categoria": "database drivers"
+  },
+  {
+    "repo": "glejeune/Ruby-Graphviz",
+    "palpite_antigo": "Ruby-Graphviz",
+    "gem_real": "ruby-graphviz",
+    "downloads": 70868651,
+    "categoria": "data visualization"
+  },
+  {
+    "repo": "sferik/twitter-ruby",
+    "palpite_antigo": "twitter-ruby",
+    "gem_real": "twitter",
+    "downloads": 27908670,
+    "categoria": "third-party apis"
+  },
+  {
+    "repo": "biola/Voight-Kampff",
+    "palpite_antigo": "Voight-Kampff",
+    "gem_real": "voight_kampff",
+    "downloads": 10217804,
+    "categoria": "captchas and anti-spam"
+  },
+  {
+    "repo": "Shopify/ruby-lsp-rails",
+    "palpite_antigo": "lsp-rails",
+    "gem_real": "ruby-lsp-rails",
+    "downloads": 7457736,
+    "categoria": "developer tooling"
+  },
+  {
+    "repo": "st0012/ruby-lsp-rspec",
+    "palpite_antigo": "lsp-rspec",
+    "gem_real": "ruby-lsp-rspec",
+    "downloads": 7406881,
+    "categoria": "developer tooling"
+  },
+  {
+    "repo": "pygments/pygments.rb",
+    "palpite_antigo": "pygments",
+    "gem_real": "pygments.rb",
+    "downloads": 7218831,
+    "categoria": "code highlighting"
+  },
+  {
+    "repo": "jeremytregunna/ruby-trello",
+    "palpite_antigo": "trello",
+    "gem_real": "ruby-trello",
+    "downloads": 6216901,
+    "categoria": "third-party apis"
+  },
+  {
+    "repo": "github-changelog-generator/github-changelog-generator",
+    "palpite_antigo": "github-changelog-generator",
+    "gem_real": "github_changelog_generator",
+    "downloads": 3151943,
+    "categoria": "documentation"
+  },
+  {
+    "repo": "neovim/neovim-ruby",
+    "palpite_antigo": "neovim-ruby",
+    "gem_real": "neovim",
+    "downloads": 1948563,
+    "categoria": "automation"
+  },
+  {
+    "repo": "comfy/comfortable-mexican-sofa",
+    "palpite_antigo": "comfortable-mexican-sofa",
+    "gem_real": "comfortable_mexican_sofa",
+    "downloads": 1780117,
+    "categoria": "cms"
+  },
+  {
+    "repo": "ably/ably-ruby",
+    "palpite_antigo": "ably-ruby",
+    "gem_real": "ably",
+    "downloads": 752424,
+    "categoria": "third-party apis"
+  },
+  {
+    "repo": "motor-admin/motor-admin-rails",
+    "palpite_antigo": "motor-admin-rails",
+    "gem_real": "motor-admin",
+    "downloads": 693713,
+    "categoria": "admin interface"
+  },
+  {
+    "repo": "Instrumental/instrumental_agent-ruby",
+    "palpite_antigo": "instrumental_agent-ruby",
+    "gem_real": "instrumental_agent",
+    "downloads": 548377,
+    "categoria": "performance monitoring"
+  },
+  {
+    "repo": "comfy/comfy-bootstrap-form",
+    "palpite_antigo": "comfy-bootstrap-form",
+    "gem_real": "comfy_bootstrap_form",
+    "downloads": 522150,
+    "categoria": "form builder"
+  },
+  {
+    "repo": "soundcloud/soundcloud-ruby",
+    "palpite_antigo": "soundcloud-ruby",
+    "gem_real": "soundcloud",
+    "downloads": 514351,
+    "categoria": "third-party apis"
+  },
+  {
+    "repo": "typesense/typesense-ruby",
+    "palpite_antigo": "typesense-ruby",
+    "gem_real": "typesense",
+    "downloads": 492346,
+    "categoria": "search"
+  },
+  {
+    "repo": "calonso/ruby-push-notifications",
+    "palpite_antigo": "push-notifications",
+    "gem_real": "ruby-push-notifications",
+    "downloads": 414277,
+    "categoria": "notifications"
+  },
+  {
+    "repo": "conekta/conekta-ruby",
+    "palpite_antigo": "conekta-ruby",
+    "gem_real": "conekta",
+    "downloads": 366848,
+    "categoria": "e-commerce and payments"
+  },
+  {
+    "repo": "codenoble/cache-crispies",
+    "palpite_antigo": "cache-crispies",
+    "gem_real": "cache_crispies",
+    "downloads": 366667,
+    "categoria": "api builder and discovery"
+  },
+  {
+    "repo": "test-bench/test-bench",
+    "palpite_antigo": "test-bench",
+    "gem_real": "test_bench",
+    "downloads": 298668,
+    "categoria": "testing"
+  },
+  {
+    "repo": "ignacio-chiazzo/ruby_whatsapp_sdk",
+    "palpite_antigo": "ruby_whatsapp_sdk",
+    "gem_real": "whatsapp_sdk",
+    "downloads": 246120,
+    "categoria": "third-party apis"
+  },
+  {
+    "repo": "tangledpath/ruby-fann",
+    "palpite_antigo": "fann",
+    "gem_real": "ruby-fann",
+    "downloads": 222120,
+    "categoria": "machine learning"
+  },
+  {
+    "repo": "fastruby/fast-ruby",
+    "palpite_antigo": "fast-ruby",
+    "gem_real": "fast",
+    "downloads": 73714,
+    "categoria": "coding style guides"
+  },
+  {
+    "repo": "ip2location/ip2location-io-ruby",
+    "palpite_antigo": "ip2location-io-ruby",
+    "gem_real": "ip2location_io_ruby",
+    "downloads": 62099,
+    "categoria": "geolocation"
+  },
+  {
+    "repo": "osheroff/git-spelunk",
+    "palpite_antigo": "git-spelunk",
+    "gem_real": "git_spelunk",
+    "downloads": 36052,
+    "categoria": "git tools"
+  },
+  {
+    "repo": "prettier/plugin-ruby",
+    "palpite_antigo": "plugin-ruby",
+    "gem_real": "plugin",
+    "downloads": 19911,
+    "categoria": "code formatting"
+  },
+  {
+    "repo": "adamcooke/fake-person",
+    "palpite_antigo": "fake-person",
+    "gem_real": "fake_person",
+    "downloads": 14602,
+    "categoria": "testing"
+  },
+  {
+    "repo": "franzejr/best-ruby",
+    "palpite_antigo": "best-ruby",
+    "gem_real": "best",
+    "downloads": 9215,
+    "categoria": "coding style guides"
+  },
+  {
+    "repo": "postmodern/gem_home",
+    "palpite_antigo": "gem_home",
+    "gem_real": "gem-home",
+    "downloads": 6616,
+    "categoria": "environment management"
+  },
+  {
+    "repo": "erwanlr/Fingerprinter",
+    "palpite_antigo": "Fingerprinter",
+    "gem_real": "fingerprinter",
+    "downloads": 5229,
+    "categoria": "security"
+  },
+  {
+    "repo": "HellRok/Taylor",
+    "palpite_antigo": "Taylor",
+    "gem_real": "taylor",
+    "downloads": 905,
+    "categoria": "game development and graphics"
+  }
+]

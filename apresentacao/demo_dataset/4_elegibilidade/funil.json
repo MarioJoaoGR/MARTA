@@ -1,0 +1,13 @@
+{
+  "data": "2026-08-23",
+  "chao_formas": 3,
+  "proporcao_minima": 0.4,
+  "entram": 9074,
+  "saem_pelo_chao": 2471,
+  "saem_pela_proporcao": 100,
+  "saem_por_ambos": 160,
+  "elegiveis": 6343,
+  "metodos_elegiveis": 87962,
+  "gems": 133,
+  "categorias": 59
+}

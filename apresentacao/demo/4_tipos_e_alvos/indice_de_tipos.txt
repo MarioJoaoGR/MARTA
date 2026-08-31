@@ -1,0 +1,21 @@
+# O ProjectTypeIndex do projeto, depois de lidos os dois ficheiros.
+
+classes      (nome completo -> ClassInfo)
+    'Carteira': kind='class' superclass=None includes=[] attributes=[]
+    'Movimento': kind='class' superclass=None includes=[] attributes=[]
+
+own_methods  (o que cada classe DEFINE, sem heranca)
+    'Carteira': ['initialize', 'resumo', 'saldo']
+    'Movimento': ['initialize', 'juntar', 'total']
+
+_by_short    (nome curto -> nome completo)
+    'Carteira' -> 'Carteira'
+    'Movimento' -> 'Movimento'
+
+----------------------------------------------------------------------
+Calculado a pedido, nao guardado:
+
+    ancestors('Carteira')   = ['Carteira']
+    responds_to('Carteira') = ['initialize', 'resumo', 'saldo']
+    ancestors('Movimento')   = ['Movimento']
+    responds_to('Movimento') = ['initialize', 'juntar', 'total']

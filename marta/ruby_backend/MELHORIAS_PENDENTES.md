@@ -100,6 +100,65 @@ também a maior parte das chamadas classificadas como `other`.
 - Auditar uma amostra (~30 arestas `static_only`) → permite reportar **precisão**
   e não só recall. Ver `sondagens/s1_callgraph_money/RESULTADOS.md`.
 
+### 9. A passagem 2 dos sumários depende da ordem de iteração
+No ciclo da segunda passagem, o `t.done_what` é **substituído à medida que o
+ciclo avança**. Um método processado no fim vai buscar aos vizinhos que já
+passaram por lá a versão **já enriquecida**, e não a original da passagem 1.
+
+Ou seja, a profundidade do enriquecimento depende da ordem por que os métodos
+aparecem na lista: uns recebem informação de primeira mão, outros recebem
+informação que já passou por duas digestões.
+
+Não se manifesta como erro e pode até ser benéfico nalguns casos. Mas torna o
+resultado dependente da ordem de iteração, que é o tipo de coisa que estraga a
+reprodutibilidade sem dar sinal.
+
+- **Correção:** guardar os `done_what` da passagem 1 numa cópia e ler sempre
+  dessa, para todos verem o mesmo estado.
+- **Onde:** `project.analyze_summaries`, o ciclo da passagem 2.
+
+### 10. O RAG é consultado a cada ronda e devolve sempre o mesmo
+O `_related_for(t)` é chamado dentro do ciclo das rondas (`project.py:599`). A
+pergunta é o `t.summary`, que **não muda entre rondas** — só o `coverage_info`
+muda. Portanto na ronda 2 refaz-se uma busca que dá exatamente o mesmo resultado
+da ronda 1, e o mesmo na 3.
+
+É desperdício pequeno (uma multiplicação de matriz por método por ronda), mas
+convém estar registado: se perguntarem se o RAG é consultado a cada ronda, a
+resposta é que sim, e sempre com a mesma resposta.
+
+- **Correção:** calcular os relacionados uma vez por método, antes do ciclo das
+  rondas, e reutilizar.
+- **Onde:** `project.generate_rounds`, o argumento `related=`.
+
+### 11. Sumários de classe cortados demais, e sem validação a jusante
+Duas coisas ligadas, ambas no caminho do *judge semântico*.
+
+**O que se envia.** À classe manda-se só o stub (cabeçalho + `body_statements`)
+e as assinaturas, nunca os corpos. A regra existe porque a classe inteira
+estourava a janela (`fpm/Deb`: 43k chars), mas aplica-se a **todas**: numa
+classe de dois métodos cabia tudo, e o resultado é um sumário inútil. Medido na
+demo: o modelo respondeu *"incomplete implementation ... challenging to provide
+a detailed summary"* para as duas classes.
+
+- **Correção:** enviar os corpos quando cabem no `MAX_CONTEXT_CHARS`, e cair
+  nas assinaturas só quando não cabem.
+- **Onde:** `project.analyze_summaries`, a construção do `class_src` (:425).
+
+**O que se faz com o resultado.** O `_augment_judge_semantic` pergunta à matriz
+das classes qual a mais parecida e escreve-a no judge, **sem limiar nenhum de
+semelhança**. A busca por cosseno devolve sempre alguma coisa: se nenhuma classe
+servir, devolve a menos má, e ela entra no prompt com o mesmo peso de uma
+acertada.
+
+Repare-se no contraste: a parte estrutural tem o travão dos 5 candidatos, que
+prefere não dizer nada a dizer demais. Aqui não há equivalente.
+
+- **Correção:** um limiar mínimo de cosseno, abaixo do qual não se acrescenta
+  linha nenhuma.
+- **Onde:** `project._augment_judge_semantic` (:472), e `rag.query` teria de
+  devolver a pontuação, que hoje deita fora.
+
 ---
 
 ## Já feitas

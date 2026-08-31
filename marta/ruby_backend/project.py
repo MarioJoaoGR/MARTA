@@ -252,8 +252,7 @@ class RubyProject:
         for t in self.targets:
             t.judge = self.type_index.judge_for_method(t.method)
         # Static call graph (item 6) — feeds cross-method done_what enrichment.
-        # Cache keyed by source hash + RESOLVER_VERSION (rebuilds when o resolver
-        # muda, não só quando o source muda — mordeu-nos na sondagem 1).
+        # Cache keyed by source hash + RESOLVER_VERSION .
         from .call_graph import RESOLVER_VERSION
         src_hash = f"{cache.compute_source_hash(self.files)}:r{RESOLVER_VERSION}"
         cg_path = cache.call_graph_path(self.out_root())

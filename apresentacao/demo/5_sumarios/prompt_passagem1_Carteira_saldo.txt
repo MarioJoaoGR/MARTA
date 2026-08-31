@@ -1,0 +1,25 @@
+# Passagem 1: so o codigo. A seccao 'methods it calls' vai VAZIA.
+
+
+----- PROMPT DE SISTEMA -----
+You are a helpful assistant designed to analyze Ruby methods. Based on the provided source code of a method, your task is to generate a clear and concise summary of the given method. The summary should describe what the method does, what parameters it accepts, highlighting the role of each parameter and how changes to their values affect the method's execution, what it returns, and how to use the method effectively. Let's think step by step, only output the summary content. Do not include the source code or any extra explanations. Do NOT output Ruby comments or YARD tags.
+
+----- PEDIDO -----
+Here is the source code of a Ruby method. Please analyze this and generate an appropriate summary for the provided method. Be sure to explain what the method does and how to use it.
+
+source code: 
+# --- contexto: a classe onde o método vive (sem corpos) ---
+class Carteira
+
+# --- construtor ---
+  def initialize
+    @mov = Movimento.new
+  end
+
+# --- MÉTODO A ANALISAR: Carteira#saldo ---
+  def saldo
+    @mov.total
+  end
+
+ methods it calls: 
+
