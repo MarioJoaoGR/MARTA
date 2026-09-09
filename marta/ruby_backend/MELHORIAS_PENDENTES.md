@@ -5,11 +5,13 @@ melhorar guiado por dados e não por intuição — foi assim que o resolver do 
 subiu de 35,9% para 49,6% (sondagem 1) e foi assim que se encontrou a
 divergência do contexto (ver `PARIDADE.md`).*
 
-Última revisão: 2026-08-20.
+Última revisão: 2026-09-09.
 
 ---
 
-## Por ordem de risco
+## A. Melhorias de código
+
+Por ordem de risco.
 
 ### 1. O contexto dos métodos chamados não tem travão nenhum
 Na segunda passagem dos sumários, o contexto leva o `done_what` **de todos** os
@@ -31,6 +33,7 @@ o sumarizador da `formatador` descrever a classe em vez do método.
 - **Onde:** `project.analyze_summaries` (a lista `called`), `summaries.analyze_done_what`.
 
 ### 2. A segunda passagem dos sumários pode não compensar sempre
+*(o teste que falta está na secção B)*
 Hoje, todo o método que chame outros do projeto é resumido **duas vezes**: a
 segunda com os sumários dos chamados. Custa uma chamada ao modelo por método, e
 **nunca foi medido o que rende**.
@@ -41,9 +44,11 @@ A alternativa levantada pelo utilizador: em vez de pedir ao modelo que sintetize
 Não é equivalente, e por três razões que convém não perder:
 1. A síntese reescreve o sumário do ponto de vista de quem chama; a concatenação
    deixa dois textos lado a lado, cada um na sua perspetiva.
-2. **O sumário final é indexado no ChromaDB** (`build_rag`) e serve a busca por
-   semelhança. Uma colagem embebe-se mal: o vetor fica uma mistura de assuntos e
-   a busca passa a devolver métodos parecidos com os vizinhos.
+2. **O sumário final é vetorizado** (`build_rag`) e serve a busca por semelhança.
+   Uma colagem embebe-se mal: o vetor fica uma mistura de assuntos e a busca
+   passa a devolver métodos parecidos com os vizinhos. (Nota: o índice do lado
+   Ruby é uma matriz de NumPy em memória, não o ChromaDB da MARTA Python — ver o
+   ponto B2.)
 3. Quinze chamados a ~3000 caracteres não cabem num sumário.
 
 **O teste que falta:** correr o mesmo projeto com síntese e com concatenação, e
@@ -94,13 +99,7 @@ onde é preciso saber o tipo devolvido para resolver a chamada seguinte). São
 também a maior parte das chamadas classificadas como `other`.
 - **Esforço:** alto, é um projeto em si. Retornos decrescentes.
 
-### 8. Apurar a avaliação do grafo (não a ferramenta)
-- Ligar `:c_call` no `marta_tracegraph.rb` → tira a cegueira do grafo dinâmico
-  aos métodos implementados em C (`attr_*`), que hoje inflaciona as `static_only`.
-- Auditar uma amostra (~30 arestas `static_only`) → permite reportar **precisão**
-  e não só recall. Ver `sondagens/s1_callgraph_money/RESULTADOS.md`.
-
-### 9. A passagem 2 dos sumários depende da ordem de iteração
+### 8. A passagem 2 dos sumários depende da ordem de iteração
 No ciclo da segunda passagem, o `t.done_what` é **substituído à medida que o
 ciclo avança**. Um método processado no fim vai buscar aos vizinhos que já
 passaram por lá a versão **já enriquecida**, e não a original da passagem 1.
@@ -117,7 +116,7 @@ reprodutibilidade sem dar sinal.
   dessa, para todos verem o mesmo estado.
 - **Onde:** `project.analyze_summaries`, o ciclo da passagem 2.
 
-### 10. O RAG é consultado a cada ronda e devolve sempre o mesmo
+### 9. O RAG é consultado a cada ronda e devolve sempre o mesmo
 O `_related_for(t)` é chamado dentro do ciclo das rondas (`project.py:599`). A
 pergunta é o `t.summary`, que **não muda entre rondas** — só o `coverage_info`
 muda. Portanto na ronda 2 refaz-se uma busca que dá exatamente o mesmo resultado
@@ -131,7 +130,7 @@ resposta é que sim, e sempre com a mesma resposta.
   rondas, e reutilizar.
 - **Onde:** `project.generate_rounds`, o argumento `related=`.
 
-### 11. Sumários de classe cortados demais, e sem validação a jusante
+### 10. Sumários de classe cortados demais, e sem validação a jusante
 Duas coisas ligadas, ambas no caminho do *judge semântico*.
 
 **O que se envia.** À classe manda-se só o stub (cabeçalho + `body_statements`)
@@ -159,7 +158,40 @@ prefere não dizer nada a dizer demais. Aqui não há equivalente.
 - **Onde:** `project._augment_judge_semantic` (:472), e `rag.query` teria de
   devolver a pontuação, que hoje deita fora.
 
-### 12. Estudo de ablação do RAG: os dois usos nunca foram medidos
+
+---
+
+## B. Medições e estudos que faltam
+
+Não são alterações ao código: são experiências por correr, e o que sai delas é material do paper.
+
+### B1. Apurar a avaliação do grafo (não a ferramenta)
+- Ligar `:c_call` no `marta_tracegraph.rb` → tira a cegueira do grafo dinâmico
+  aos métodos implementados em C (`attr_*`), que hoje inflaciona as `static_only`.
+- Auditar uma amostra (~30 arestas `static_only`) → permite reportar **precisão**
+  e não só recall. Ver `sondagens/s1_callgraph_money/RESULTADOS.md`.
+
+### B2. Persistir a matriz de vetores entre execuções
+O `build_rag` reconstrói o índice **do zero a cada execução**: numa execução com
+cache, os sumários vêm do disco e são embebidos outra vez. No Deucalion o script
+corre com `EMBED_DEVICE=cpu`, e o `bge-large` em CPU não é instantâneo.
+
+**O custo está aqui, e não na busca.** O índice é por projeto: o maior do corpus
+(`debug`) tem 565 métodos-alvo, e a média é 69. Uma matriz de 565×1024 é ~2 MB, e
+uma consulta é um produto de matriz de microssegundos. O HNSW do ChromaDB só
+compensa três ordens de grandeza acima disto, e a nossa busca ser exata em vez de
+aproximada não é vantagem nenhuma nesta escala: é só a consequência de não valer
+a pena aproximar. **Não usar isso como argumento** (ver `PARIDADE.md` §2).
+
+O que falta é a persistência, e o ChromaDB também não a daria: a MARTA Python
+instancia `chromadb.Client(...)`, o cliente efémero em memória, e por isso também
+reconstrói tudo a cada execução. Resolve-se guardando a matriz num ficheiro ao
+lado da cache dos sumários, com a mesma chave (`hash do código + modelo`, mais o
+nome do modelo de embeddings).
+
+- **Onde:** `project.build_rag`, `cache.py`.
+
+### B3. Estudo de ablação do RAG: os dois usos nunca foram medidos
 O RAG entra em três sítios e **nenhum tem ganho demonstrado**. Vale a pena medir
 antes de continuar a pagar por ele.
 
@@ -201,7 +233,6 @@ se sabe agora.
 Nota: a demo em `apresentacao/demo/` correu **sem RAG** (o prompt do Planner não
 tem bloco `RELATED`) e gerou planos, specs, e um spec verde. Não é medição, mas é
 indício de que a ferramenta não depende disto.
-
 ---
 
 ## Já feitas

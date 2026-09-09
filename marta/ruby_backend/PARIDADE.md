@@ -6,7 +6,7 @@ que **continua diferente**, para não se confundir uma adaptação obrigatória 
 uma lacuna, e para que qualquer comparação entre as duas versões saiba o que
 está a comparar.*
 
-Última revisão: 2026-08-18.
+Última revisão: 2026-09-10.
 
 ---
 
@@ -26,7 +26,47 @@ qualquer comparação entre as duas versões.
 | **Salvamento** | testes são `def`, removidos por nome | `it` são blocos, removidos por intervalo de linhas e indexados por `[1:2]` na saída do RSpec |
 | **Cobertura** | `coverage.py`, biblioteca externa | módulo `Coverage`, embutido no interpretador; as linhas em falta **por método** têm de ser sintetizadas |
 
-## 2. O que a versão Ruby ainda não tem
+## 2. Divergências deliberadas de implementação
+
+Não são consequência da linguagem: foram escolhas, e ficam aqui para ninguém as
+confundir com lacunas nem lhes dar mais importância do que têm.
+
+### O armazenamento dos vetores do RAG: ChromaDB → matriz NumPy
+
+| | Python | Ruby |
+|---|---|---|
+| Modelo de *embeddings* | `bge-large-en-v1.5` | **o mesmo**, reutilizado tal e qual (`marta.embedding.embedder`) |
+| Onde ficam os vetores | `FunctionDatabase` → coleção ChromaDB | matriz NumPy em memória (`rag.RubyFunctionDatabase._matrix`) |
+| Como se pesquisa | `collection.query` (HNSW, aproximado) | cosseno sobre todas as linhas (exato) |
+| Persistência entre execuções | **nenhuma nos dois casos** | idem |
+
+Decidido quando o `rag.py` foi escrito (`a324e42af`), pela razão que está no seu
+cabeçalho: com a matriz em memória, o *embedder* é injetável e a lógica de busca
+é testável **sem carregar o torch** (ver `tests/test_rag.py`).
+
+Três factos que impedem a leitura errada disto, nos dois sentidos:
+
+1. **A MARTA Python já tinha feito a mesma troca** no caminho quente. O
+   `find_topK_message` (`marta/embedding.py:95`) faz cosseno em NumPy, e o
+   *docstring* diz porquê: criar e apagar uma coleção ChromaDB por chamada era
+   *"overhead enorme"*. O ChromaDB sobrevive só no `FunctionDatabase`.
+2. **O cliente ChromaDB da Python é efémero.** `chromadb.Client(...)`
+   (`embedding.py:165`) é o cliente em memória, não o `PersistentClient`. Ou
+   seja, o ChromaDB não está ali a dar persistência, nem escala, nem velocidade.
+3. **A escala não justifica um índice aproximado.** O índice é por projeto: o
+   maior do corpus tem 565 métodos-alvo, a média é 69. O HNSW compensa a partir
+   de centenas de milhares de vetores.
+
+**Cuidado com o argumento inverso:** a nossa busca ser exata e a do HNSW
+aproximada é verdade, mas não é vantagem a esta escala, onde o aproximado
+devolveria o mesmo. O que **falta mesmo** é persistir a matriz, e isso não é o
+ChromaDB que resolve (`MELHORIAS_PENDENTES.md` §B2).
+
+Neste repositório o `FunctionDatabase` já não tem chamador nenhum: o código
+Python saiu no `9d02d37ac` e o único consumo de `marta/embedding.py` é o
+`embedder` importado pelo `rag.py`.
+
+## 3. O que a versão Ruby ainda não tem
 
 | Em falta | Impacto |
 |---|---|
@@ -34,7 +74,7 @@ qualquer comparação entre as duas versões.
 | Emitir os ramos na medição para lá da síntese por método | Já são recolhidos e usados; falta expô-los no relatório final |
 | Medir precisão do grafo, e não só *recall* | Exige ligar os eventos `:c_call` no instrumento dinâmico e auditar uma amostra |
 
-## 3. Divergência encontrada a 2026-08-18, e a lição
+## 4. Divergência encontrada a 2026-08-18, e a lição
 
 O `get_source_code` do Python delimita as três partes do contexto (stub da
 classe, construtor, método-alvo) com blocos `"""…"""`. O porte inicial colou-as
