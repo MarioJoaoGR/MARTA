@@ -159,6 +159,49 @@ prefere não dizer nada a dizer demais. Aqui não há equivalente.
 - **Onde:** `project._augment_judge_semantic` (:472), e `rag.query` teria de
   devolver a pontuação, que hoje deita fora.
 
+### 12. Estudo de ablação do RAG: os dois usos nunca foram medidos
+O RAG entra em três sítios e **nenhum tem ganho demonstrado**. Vale a pena medir
+antes de continuar a pagar por ele.
+
+**Uso 1: os `related` no prompt do Planner.** Três métodos "semanticamente
+próximos", sob o cabeçalho *"for inspiration"*. O problema de fundo é que a
+busca devolve os **mais parecidos**, e esses são por definição os que fazem
+quase o mesmo — provavelmente os menos informativos. Os vizinhos que ajudariam a
+montar um cenário são os **colaboradores** (o que o método chama, quem o chama),
+e esses vêm do grafo, não da semelhança. E já lá estão: a passagem 2 anexou o
+`done_what` dos chamados ao sumário que vai no prompt.
+
+**Uso 2: o judge semântico.** Só entra quando a inferência estrutural falha ou
+fica ambígua, o que já é um bom desenho. Mas depende da qualidade dos sumários
+de classe, que o ponto 11 mostra serem fracos, e não tem limiar de semelhança.
+
+**Uso 3: o RAG dirigido ao erro**, na reparação. Assenta em supor que o sumário
+de um método se parece com a **mensagem de erro** de outro — texto de natureza
+muito diferente (nomes de ficheiro, números de linha, `expected X got Y`). O que
+salva o mecanismo é a outra metade: o *spec* de exemplo que passa, que é útil
+independentemente de a busca ter acertado.
+
+**O estudo.** Quatro braços sobre o mesmo corpus e o mesmo modelo:
+
+| braço | `related` | judge semântico | ajuda no erro |
+|---|---|---|---|
+| A completo | sim | sim | sim |
+| B sem related | não | sim | sim |
+| C sem judge semântico | sim | não | sim |
+| D sem RAG (`--no_rag`) | não | não | não |
+
+Métricas: cobertura, taxa de specs verdes, tokens e tempo. O par **A vs D já é
+corrível hoje**, porque a bandeira existe; os braços B e C precisam de bandeiras
+novas para separar os usos.
+
+Se D empatar com A, o RAG sai e o sistema fica mais barato e mais simples de
+explicar. Se A ganhar, sabe-se por qual dos três caminhos, o que é mais do que
+se sabe agora.
+
+Nota: a demo em `apresentacao/demo/` correu **sem RAG** (o prompt do Planner não
+tem bloco `RELATED`) e gerou planos, specs, e um spec verde. Não é medição, mas é
+indício de que a ferramenta não depende disto.
+
 ---
 
 ## Já feitas

@@ -1,0 +1,930 @@
+{
+  "active_model_serializers": {
+    "files": [
+      "lib/active_model/serializer/field.rb",
+      "lib/active_model_serializers.rb",
+      "lib/active_model_serializers/adapter/base.rb",
+      "lib/active_model_serializers/adapter/json_api/pagination_links.rb",
+      "lib/active_model_serializers/model.rb"
+    ]
+  },
+  "activerecord": {
+    "files": [
+      "lib/active_record.rb",
+      "lib/active_record/associations/builder/collection_association.rb",
+      "lib/active_record/connection_adapters/abstract/database_statements.rb",
+      "lib/active_record/migration/compatibility.rb",
+      "lib/active_record/migration/default_strategy.rb",
+      "lib/active_record/query_cache.rb",
+      "lib/active_record/relation.rb",
+      "lib/arel/nodes/sql_literal.rb"
+    ]
+  },
+  "activerecord-import": {
+    "files": [
+      "benchmarks/lib/cli_parser.rb",
+      "benchmarks/lib/float.rb",
+      "lib/activerecord-import/adapters/mysql_adapter.rb",
+      "lib/activerecord-import/adapters/postgresql_adapter.rb",
+      "lib/activerecord-import/adapters/sqlite3_adapter.rb",
+      "lib/activerecord-import/base.rb",
+      "lib/activerecord-import/import.rb",
+      "lib/activerecord-import/value_sets_parser.rb"
+    ]
+  },
+  "activesupport": {
+    "files": [
+      "lib/active_support/callbacks.rb",
+      "lib/active_support/core_ext/module/attribute_accessors_per_thread.rb",
+      "lib/active_support/delegation.rb",
+      "lib/active_support/deprecation/constant_accessor.rb",
+      "lib/active_support/isolated_execution_state.rb",
+      "lib/active_support/multibyte/unicode.rb",
+      "lib/active_support/test_case.rb"
+    ]
+  },
+  "addressable": {
+    "files": [
+      "lib/addressable/idna/pure.rb",
+      "lib/addressable/template.rb",
+      "lib/addressable/uri.rb"
+    ]
+  },
+  "autoprefixer-rails": {
+    "files": [
+      "lib/autoprefixer-rails.rb",
+      "lib/autoprefixer-rails/processor.rb",
+      "lib/autoprefixer-rails/sprockets.rb"
+    ]
+  },
+  "awesome_print": {
+    "files": [
+      "lib/awesome_print/custom_defaults.rb",
+      "lib/awesome_print/ext/active_record.rb",
+      "lib/awesome_print/formatter.rb",
+      "lib/awesome_print/formatters/array_formatter.rb",
+      "lib/awesome_print/formatters/base_formatter.rb",
+      "lib/awesome_print/formatters/hash_formatter.rb",
+      "lib/awesome_print/formatters/object_formatter.rb",
+      "lib/awesome_print/formatters/struct_formatter.rb",
+      "lib/awesome_print/inspector.rb"
+    ]
+  },
+  "bootsnap": {
+    "files": [
+      "lib/bootsnap.rb",
+      "lib/bootsnap/cli.rb",
+      "lib/bootsnap/cli/worker_pool.rb",
+      "lib/bootsnap/compile_cache.rb",
+      "lib/bootsnap/compile_cache/iseq.rb",
+      "lib/bootsnap/compile_cache/yaml.rb",
+      "lib/bootsnap/explicit_require.rb",
+      "lib/bootsnap/load_path_cache.rb",
+      "lib/bootsnap/load_path_cache/cache.rb",
+      "lib/bootsnap/load_path_cache/change_observer.rb",
+      "lib/bootsnap/load_path_cache/loaded_features_index.rb",
+      "lib/bootsnap/load_path_cache/path.rb",
+      "lib/bootsnap/load_path_cache/path_scanner.rb",
+      "lib/bootsnap/load_path_cache/store.rb"
+    ]
+  },
+  "brakeman": {
+    "files": [
+      "lib/brakeman.rb",
+      "lib/brakeman/app_tree.rb",
+      "lib/brakeman/call_index.rb",
+      "lib/brakeman/commandline.rb",
+      "lib/brakeman/differ.rb",
+      "lib/brakeman/file_path.rb",
+      "lib/brakeman/logger.rb",
+      "lib/brakeman/messages.rb",
+      "lib/brakeman/options.rb",
+      "lib/brakeman/parsers/template_parser.rb",
+      "lib/brakeman/processors/lib/call_conversion_helper.rb",
+      "lib/brakeman/processors/lib/render_helper.rb",
+      "lib/brakeman/processors/lib/render_path.rb",
+      "lib/brakeman/processors/lib/route_helper.rb",
+      "lib/brakeman/report/ignore/config.rb",
+      "lib/brakeman/report/pager.rb",
+      "lib/brakeman/warning.rb",
+      "lib/ruby_parser/bm_sexp_processor.rb"
+    ]
+  },
+  "bullet": {
+    "files": [
+      "lib/bullet/active_record80.rb",
+      "lib/bullet/detector/unused_eager_loading.rb",
+      "lib/bullet/notification/n_plus_one_query.rb",
+      "lib/bullet/registry/base.rb"
+    ]
+  },
+  "bundler-audit": {
+    "files": [
+      "lib/bundler/audit/cli.rb",
+      "lib/bundler/audit/cli/formats.rb"
+    ]
+  },
+  "byebug": {
+    "files": [
+      "lib/byebug/commands/var/const.rb",
+      "lib/byebug/context.rb",
+      "lib/byebug/helpers/var.rb",
+      "lib/byebug/interfaces/local_interface.rb",
+      "lib/byebug/remote.rb"
+    ]
+  },
+  "capybara": {
+    "files": [
+      "lib/capybara/rspec/matchers/match_selector.rb",
+      "lib/capybara/selenium/nodes/edge_node.rb"
+    ]
+  },
+  "carrierwave": {
+    "files": [
+      "lib/carrierwave.rb",
+      "lib/carrierwave/downloader/base.rb",
+      "lib/carrierwave/downloader/remote_file.rb",
+      "lib/carrierwave/mounter.rb",
+      "lib/carrierwave/processing/mini_magick.rb",
+      "lib/carrierwave/processing/rmagick.rb",
+      "lib/carrierwave/processing/vips.rb",
+      "lib/carrierwave/sanitized_file.rb",
+      "lib/carrierwave/storage/file.rb",
+      "lib/carrierwave/storage/fog.rb",
+      "lib/carrierwave/uploader/cache.rb",
+      "lib/carrierwave/uploader/callbacks.rb",
+      "lib/carrierwave/uploader/configuration.rb",
+      "lib/carrierwave/uploader/content_type_allowlist.rb",
+      "lib/carrierwave/uploader/content_type_denylist.rb",
+      "lib/carrierwave/uploader/extension_allowlist.rb",
+      "lib/carrierwave/uploader/extension_denylist.rb",
+      "lib/carrierwave/uploader/processing.rb",
+      "lib/carrierwave/uploader/proxy.rb",
+      "lib/carrierwave/uploader/store.rb",
+      "lib/carrierwave/uploader/versions.rb"
+    ]
+  },
+  "childprocess": {
+    "files": [
+      "lib/childprocess.rb",
+      "lib/childprocess/abstract_io.rb",
+      "lib/childprocess/abstract_process.rb",
+      "lib/childprocess/process_spawn_process.rb",
+      "lib/childprocess/windows/io.rb"
+    ]
+  },
+  "chronic": {
+    "files": [
+      "lib/chronic/date.rb"
+    ]
+  },
+  "cocoapods": {
+    "files": [
+      "lib/cocoapods/command/install.rb",
+      "lib/cocoapods/command/ipc/repl.rb",
+      "lib/cocoapods/installer/xcode/pods_project_generator/pod_target_installer.rb",
+      "lib/cocoapods/installer/xcode/pods_project_generator/project_generator.rb",
+      "lib/cocoapods/user_interface.rb"
+    ]
+  },
+  "coderay": {
+    "files": [
+      "lib/coderay/scanners/ruby.rb"
+    ]
+  },
+  "commander": {
+    "files": [
+      "lib/commander/command.rb",
+      "lib/commander/help_formatters.rb",
+      "lib/commander/help_formatters/base.rb",
+      "lib/commander/help_formatters/terminal.rb",
+      "lib/commander/runner.rb",
+      "lib/commander/user_interaction.rb"
+    ]
+  },
+  "concurrent-ruby": {
+    "files": [
+      "docs-source/medium-example.init.rb",
+      "lib/concurrent-ruby/concurrent/executor/java_thread_pool_executor.rb",
+      "lib/concurrent-ruby/concurrent/synchronization/abstract_struct.rb"
+    ]
+  },
+  "connection_pool": {
+    "files": [
+      "lib/connection_pool/fork.rb"
+    ]
+  },
+  "countries": {
+    "files": [
+      "lib/countries/configuration.rb",
+      "lib/countries/country.rb",
+      "lib/countries/data.rb",
+      "lib/countries/data/locales_methods.rb",
+      "lib/countries/subdivision.rb"
+    ]
+  },
+  "dalli": {
+    "files": [
+      "lib/dalli.rb",
+      "lib/dalli/client.rb",
+      "lib/dalli/servers_arg_normalizer.rb"
+    ]
+  },
+  "danger": {
+    "files": [
+      "lib/danger/ci_source/jenkins.rb",
+      "lib/danger/ci_source/support/commits.rb",
+      "lib/danger/danger_core/dangerfile.rb",
+      "lib/danger/plugin_support/plugin.rb",
+      "lib/danger/request_sources/github/github_review_unsupported.rb"
+    ]
+  },
+  "database_cleaner": {
+    "files": [
+      "lib/database_cleaner/cleaner.rb",
+      "lib/database_cleaner/null_strategy.rb"
+    ]
+  },
+  "debug": {
+    "files": [
+      "lib/debug/abbrev_command.rb",
+      "lib/debug/breakpoint.rb",
+      "lib/debug/client.rb",
+      "lib/debug/color.rb",
+      "lib/debug/config.rb",
+      "lib/debug/console.rb",
+      "lib/debug/dap_custom/traceInspector.rb",
+      "lib/debug/frame_info.rb",
+      "lib/debug/irb_integration.rb",
+      "lib/debug/local.rb",
+      "lib/debug/server.rb",
+      "lib/debug/server_cdp.rb",
+      "lib/debug/server_dap.rb",
+      "lib/debug/session.rb",
+      "lib/debug/source_repository.rb",
+      "lib/debug/thread_client.rb",
+      "lib/debug/tracer.rb"
+    ]
+  },
+  "devise": {
+    "files": [
+      "lib/devise/rails/routes.rb"
+    ]
+  },
+  "diffy": {
+    "files": [
+      "lib/diffy/diff.rb"
+    ]
+  },
+  "doorkeeper": {
+    "files": [
+      "lib/doorkeeper/errors.rb",
+      "lib/doorkeeper/oauth/client/credentials.rb",
+      "lib/doorkeeper/secret_storing/plain.rb"
+    ]
+  },
+  "dotenv": {
+    "files": [
+      "lib/dotenv.rb",
+      "lib/dotenv/diff.rb",
+      "lib/dotenv/environment.rb",
+      "lib/dotenv/parser.rb",
+      "lib/dotenv/template.rb"
+    ]
+  },
+  "dry-types": {
+    "files": [
+      "lib/dry/types/array/constructor.rb",
+      "lib/dry/types/coercions/params.rb",
+      "lib/dry/types/composition.rb",
+      "lib/dry/types/module.rb"
+    ]
+  },
+  "eventmachine": {
+    "files": [
+      "lib/em/protocols/saslauth.rb",
+      "lib/em/pure_ruby.rb",
+      "lib/eventmachine.rb"
+    ]
+  },
+  "excon": {
+    "files": [
+      "lib/excon/error.rb",
+      "lib/excon/ssl_socket.rb"
+    ]
+  },
+  "eye": {
+    "files": [
+      "lib/eye/checker/cpu.rb",
+      "lib/eye/child_process.rb",
+      "lib/eye/dsl.rb",
+      "lib/eye/dsl/pure_opts.rb",
+      "lib/eye/group/chain.rb"
+    ]
+  },
+  "factory_bot": {
+    "files": [
+      "lib/factory_bot/decorator.rb"
+    ]
+  },
+  "faker": {
+    "files": [
+      "lib/faker/default/omniauth.rb"
+    ]
+  },
+  "faraday": {
+    "files": [
+      "lib/faraday.rb"
+    ]
+  },
+  "fastimage": {
+    "files": [
+      "lib/fastimage/fastimage.rb"
+    ]
+  },
+  "fastlane": {
+    "files": [
+      "deliver/lib/deliver/commands_generator.rb",
+      "deliver/lib/deliver/setup.rb",
+      "fastlane/lib/fastlane/plugins/plugin_generator_ui.rb",
+      "fastlane_core/lib/fastlane_core/helper.rb",
+      "frameit/lib/frameit/device_types.rb",
+      "precheck/lib/precheck/rules/custom_text_rule.rb",
+      "spaceship/lib/spaceship/connect_api/models/beta_app_clip_invocation.rb",
+      "spaceship/lib/spaceship/test_flight/base.rb",
+      "spaceship/lib/spaceship/tunes/iap_families.rb",
+      "spaceship/lib/spaceship/tunes/tunes_client.rb"
+    ]
+  },
+  "geocoder": {
+    "files": [
+      "lib/geocoder.rb",
+      "lib/geocoder/models/mongo_base.rb",
+      "lib/geocoder/results/ipqualityscore.rb",
+      "lib/geocoder/results/uk_ordnance_survey_names.rb"
+    ]
+  },
+  "gitlab": {
+    "files": [
+      "lib/gitlab.rb",
+      "lib/gitlab/client.rb",
+      "lib/gitlab/objectified_hash.rb"
+    ]
+  },
+  "gli": {
+    "files": [
+      "lib/gli/app.rb",
+      "lib/gli/commands/scaffold.rb",
+      "lib/gli/gli_option_parser.rb"
+    ]
+  },
+  "guard": {
+    "files": [
+      "lib/guard/dsl_describer.rb",
+      "lib/guard/interactor.rb",
+      "lib/guard/internals/scope.rb",
+      "lib/guard/jobs/sleep.rb"
+    ]
+  },
+  "haml": {
+    "files": [
+      "lib/haml/dynamic_merger.rb",
+      "lib/haml/ruby_expression.rb"
+    ]
+  },
+  "hashie": {
+    "files": [
+      "lib/hashie/dash.rb",
+      "lib/hashie/extensions/coercion.rb",
+      "lib/hashie/extensions/dash/indifferent_access.rb",
+      "lib/hashie/extensions/dash/predefined_values.rb",
+      "lib/hashie/extensions/dash/property_translation.rb",
+      "lib/hashie/extensions/deep_merge.rb",
+      "lib/hashie/extensions/indifferent_access.rb",
+      "lib/hashie/extensions/parsers/yaml_erb_parser.rb",
+      "lib/hashie/extensions/ruby_version_check.rb",
+      "lib/hashie/extensions/stringify_keys.rb",
+      "lib/hashie/extensions/symbolize_keys.rb",
+      "lib/hashie/hash.rb",
+      "lib/hashie/mash.rb",
+      "lib/hashie/rash.rb",
+      "lib/hashie/utils.rb"
+    ]
+  },
+  "http": {
+    "files": [
+      "lib/http/feature.rb"
+    ]
+  },
+  "httparty": {
+    "files": [
+      "examples/party_foul_mode.rb"
+    ]
+  },
+  "httpclient": {
+    "files": [
+      "lib/httpclient/auth.rb"
+    ]
+  },
+  "i18n": {
+    "files": [
+      "lib/i18n/locale/tag/parents.rb"
+    ]
+  },
+  "image_processing": {
+    "files": [
+      "lib/image_processing/builder.rb",
+      "lib/image_processing/chainable.rb",
+      "lib/image_processing/pipeline.rb",
+      "lib/image_processing/processor.rb"
+    ]
+  },
+  "jaro_winkler": {
+    "files": [
+      "lib/jaro_winkler/jaro_winkler_pure.rb"
+    ]
+  },
+  "jwt": {
+    "files": [
+      "lib/jwt/claims.rb",
+      "lib/jwt/claims/numeric.rb",
+      "lib/jwt/claims/verifier.rb",
+      "lib/jwt/decode.rb",
+      "lib/jwt/encoded_token.rb",
+      "lib/jwt/jwa.rb",
+      "lib/jwt/jwa/ecdsa.rb",
+      "lib/jwt/jwa/hmac.rb",
+      "lib/jwt/jwa/ps.rb",
+      "lib/jwt/jwa/rsa.rb",
+      "lib/jwt/jwa/signing_algorithm.rb",
+      "lib/jwt/jwk.rb",
+      "lib/jwt/jwk/ec.rb",
+      "lib/jwt/jwk/hmac.rb",
+      "lib/jwt/jwk/key_base.rb",
+      "lib/jwt/jwk/key_finder.rb",
+      "lib/jwt/jwk/rsa.rb",
+      "lib/jwt/jwk/set.rb",
+      "lib/jwt/token.rb",
+      "lib/jwt/x5c_key_finder.rb"
+    ]
+  },
+  "kaminari": {
+    "files": [
+      "kaminari-core/lib/kaminari/config.rb",
+      "kaminari-core/lib/kaminari/helpers/paginator.rb"
+    ]
+  },
+  "knapsack": {
+    "files": [
+      "lib/knapsack.rb",
+      "lib/knapsack/adapters/base_adapter.rb",
+      "lib/knapsack/adapters/cucumber_adapter.rb",
+      "lib/knapsack/adapters/minitest_adapter.rb",
+      "lib/knapsack/adapters/rspec_adapter.rb",
+      "lib/knapsack/adapters/spinach_adapter.rb",
+      "lib/knapsack/allocator.rb",
+      "lib/knapsack/allocator_builder.rb",
+      "lib/knapsack/config/env.rb",
+      "lib/knapsack/distributors/base_distributor.rb",
+      "lib/knapsack/distributors/leftover_distributor.rb",
+      "lib/knapsack/distributors/report_distributor.rb",
+      "lib/knapsack/presenter.rb",
+      "lib/knapsack/report.rb",
+      "lib/knapsack/tracker.rb"
+    ]
+  },
+  "kramdown": {
+    "files": [
+      "lib/kramdown/element.rb",
+      "lib/kramdown/parser/kramdown/html.rb",
+      "lib/kramdown/utils.rb",
+      "setup.rb"
+    ]
+  },
+  "liquid": {
+    "files": [
+      "lib/liquid/expression.rb",
+      "lib/liquid/standardfilters.rb",
+      "lib/liquid/strainer_template.rb",
+      "lib/liquid/tags/capture.rb",
+      "lib/liquid/tags/comment.rb"
+    ]
+  },
+  "listen": {
+    "files": [
+      "lib/listen/directory.rb"
+    ]
+  },
+  "logging": {
+    "files": [
+      "lib/logging.rb",
+      "lib/logging/appender.rb",
+      "lib/logging/appenders.rb",
+      "lib/logging/appenders/buffering.rb",
+      "lib/logging/appenders/console.rb",
+      "lib/logging/appenders/file.rb",
+      "lib/logging/appenders/io.rb",
+      "lib/logging/appenders/rolling_file.rb",
+      "lib/logging/appenders/string_io.rb",
+      "lib/logging/appenders/syslog.rb",
+      "lib/logging/color_scheme.rb",
+      "lib/logging/diagnostic_context.rb",
+      "lib/logging/layout.rb",
+      "lib/logging/layouts/parseable.rb",
+      "lib/logging/layouts/pattern.rb",
+      "lib/logging/logger.rb",
+      "lib/logging/repository.rb",
+      "lib/logging/root_logger.rb",
+      "lib/logging/utils.rb"
+    ]
+  },
+  "lograge": {
+    "files": [
+      "lib/lograge/formatters/graylog2.rb"
+    ]
+  },
+  "mail": {
+    "files": [
+      "lib/mail/encodings/base64.rb",
+      "lib/mail/network/delivery_methods/logger_delivery.rb",
+      "lib/mail/utilities.rb"
+    ]
+  },
+  "minitest": {
+    "files": [
+      "lib/minitest.rb",
+      "lib/minitest/find_minimal_combination.rb"
+    ]
+  },
+  "money": {
+    "files": [
+      "lib/money/bank/base.rb",
+      "lib/money/bank/variable_exchange.rb",
+      "lib/money/currency.rb",
+      "lib/money/money.rb",
+      "lib/money/money/arithmetic.rb",
+      "lib/money/money/formatter.rb",
+      "lib/money/money/formatting_rules.rb",
+      "lib/money/rates_store/memory.rb"
+    ]
+  },
+  "mongo": {
+    "files": [
+      "lib/mongo.rb",
+      "lib/mongo/auth.rb",
+      "lib/mongo/logger.rb",
+      "lib/mongo/server/description.rb",
+      "lib/mongo/session.rb"
+    ]
+  },
+  "optimist": {
+    "files": [
+      "lib/optimist.rb"
+    ]
+  },
+  "paper_trail": {
+    "files": [
+      "lib/paper_trail.rb",
+      "lib/paper_trail/events/base.rb",
+      "lib/paper_trail/reifier.rb"
+    ]
+  },
+  "pastel": {
+    "files": [
+      "lib/pastel/color.rb",
+      "lib/pastel/color_parser.rb",
+      "lib/pastel/decorator_chain.rb",
+      "lib/pastel/delegator.rb",
+      "lib/pastel/detached.rb"
+    ]
+  },
+  "pg": {
+    "files": [
+      "rakelib/task_extension.rb",
+      "sample/warehouse_partitions.rb"
+    ]
+  },
+  "prawn": {
+    "files": [
+      "lib/prawn/fonts/dfont.rb",
+      "lib/prawn/fonts/to_unicode_cmap.rb",
+      "lib/prawn/graphics.rb",
+      "lib/prawn/grid.rb",
+      "lib/prawn/measurement_extensions.rb",
+      "lib/prawn/text/formatted/parser.rb",
+      "lib/prawn/view.rb"
+    ]
+  },
+  "premailer-rails": {
+    "files": [
+      "lib/premailer/rails/css_loaders/asset_pipeline_loader.rb"
+    ]
+  },
+  "pry": {
+    "files": [
+      "lib/pry/cli.rb",
+      "lib/pry/command.rb",
+      "lib/pry/commands/edit/file_and_line_locator.rb",
+      "lib/pry/commands/ls/formatter.rb",
+      "lib/pry/commands/show_source.rb",
+      "lib/pry/editor.rb",
+      "lib/pry/input_completer.rb",
+      "lib/pry/syntax_highlighter.rb"
+    ]
+  },
+  "pry-byebug": {
+    "files": [
+      "lib/pry-byebug/commands/breakpoint.rb",
+      "lib/pry-byebug/helpers/breakpoints.rb",
+      "lib/pry/byebug/breakpoints.rb"
+    ]
+  },
+  "puma": {
+    "files": [
+      "lib/puma/app/status.rb",
+      "lib/puma/events.rb"
+    ]
+  },
+  "pundit": {
+    "files": [
+      "lib/pundit.rb",
+      "lib/pundit/authorization.rb"
+    ]
+  },
+  "rack-cors": {
+    "files": [
+      "lib/rack/cors/result.rb"
+    ]
+  },
+  "rails-i18n": {
+    "files": [
+      "lib/rails_i18n/pluralization.rb",
+      "lib/rails_i18n/railtie.rb"
+    ]
+  },
+  "ransack": {
+    "files": [
+      "lib/ransack/adapters/active_record/context.rb",
+      "lib/ransack/nodes/node.rb"
+    ]
+  },
+  "rdoc": {
+    "files": [
+      "lib/rdoc/code_object/normal_class.rb",
+      "lib/rdoc/markdown.rb",
+      "lib/rdoc/parser/c.rb",
+      "lib/rdoc/ri/paths.rb"
+    ]
+  },
+  "responders": {
+    "files": [
+      "lib/action_controller/respond_with.rb"
+    ]
+  },
+  "rest-client": {
+    "files": [
+      "lib/restclient.rb",
+      "lib/restclient/abstract_response.rb",
+      "lib/restclient/exceptions.rb",
+      "lib/restclient/payload.rb",
+      "lib/restclient/platform.rb",
+      "lib/restclient/raw_response.rb",
+      "lib/restclient/request.rb",
+      "lib/restclient/resource.rb",
+      "lib/restclient/response.rb",
+      "lib/restclient/utils.rb"
+    ]
+  },
+  "roo": {
+    "files": [
+      "lib/roo/base.rb",
+      "lib/roo/csv.rb",
+      "lib/roo/excelx.rb",
+      "lib/roo/excelx/cell.rb",
+      "lib/roo/excelx/cell/base.rb",
+      "lib/roo/excelx/cell/boolean.rb",
+      "lib/roo/excelx/cell/date.rb",
+      "lib/roo/excelx/cell/number.rb",
+      "lib/roo/excelx/extractor.rb",
+      "lib/roo/excelx/relationships.rb",
+      "lib/roo/excelx/shared.rb",
+      "lib/roo/excelx/shared_strings.rb",
+      "lib/roo/excelx/sheet.rb",
+      "lib/roo/excelx/sheet_doc.rb",
+      "lib/roo/excelx/styles.rb",
+      "lib/roo/excelx/workbook.rb",
+      "lib/roo/formatters/csv.rb",
+      "lib/roo/open_office.rb"
+    ]
+  },
+  "rouge": {
+    "files": [
+      "lib/rouge/guesser.rb",
+      "lib/rouge/lexers/cython.rb",
+      "lib/rouge/lexers/sas.rb",
+      "lib/rouge/lexers/tcl.rb",
+      "lib/rouge/token.rb"
+    ]
+  },
+  "rqrcode": {
+    "files": [
+      "lib/rqrcode/export/svg.rb"
+    ]
+  },
+  "rspec": {
+    "files": [
+      "rspec-core/lib/rspec/core.rb"
+    ]
+  },
+  "rubocop": {
+    "files": [
+      "lib/rubocop/comment_config.rb",
+      "lib/rubocop/config_loader.rb",
+      "lib/rubocop/cop/exclude_limit.rb"
+    ]
+  },
+  "rubocop-rails": {
+    "files": [
+      "lib/rubocop/cop/rails/action_order.rb",
+      "lib/rubocop/cop/rails/active_record_callbacks_order.rb",
+      "lib/rubocop/cop/rails/blank.rb",
+      "lib/rubocop/cop/rails/compact_blank.rb",
+      "lib/rubocop/cop/rails/eager_evaluation_log_message.rb",
+      "lib/rubocop/cop/rails/enum_hash.rb",
+      "lib/rubocop/cop/rails/enum_syntax.rb",
+      "lib/rubocop/cop/rails/enum_uniqueness.rb",
+      "lib/rubocop/cop/rails/environment_comparison.rb",
+      "lib/rubocop/cop/rails/file_path.rb",
+      "lib/rubocop/cop/rails/find_by_id.rb",
+      "lib/rubocop/cop/rails/pluck.rb",
+      "lib/rubocop/cop/rails/presence.rb",
+      "lib/rubocop/cop/rails/present.rb",
+      "lib/rubocop/cop/rails/redirect_back_or_to.rb",
+      "lib/rubocop/cop/rails/render_plain_text.rb",
+      "lib/rubocop/cop/rails/squished_sql_heredocs.rb",
+      "lib/rubocop/cop/rails/strong_parameters_expect.rb",
+      "lib/rubocop/cop/rails/where_exists.rb"
+    ]
+  },
+  "rubocop-rspec": {
+    "files": [
+      "lib/rubocop/cop/rspec/empty_line_after_example.rb",
+      "lib/rubocop/cop/rspec/implicit_subject.rb",
+      "lib/rubocop/cop/rspec/mixin/empty_line_separation.rb",
+      "lib/rubocop/rspec/example_group.rb"
+    ]
+  },
+  "rufus-scheduler": {
+    "files": [
+      "lib/rufus/scheduler.rb",
+      "lib/rufus/scheduler/job_array.rb",
+      "lib/rufus/scheduler/jobs_core.rb",
+      "lib/rufus/scheduler/jobs_one_time.rb",
+      "lib/rufus/scheduler/jobs_repeat.rb",
+      "lib/rufus/scheduler/locks.rb",
+      "lib/rufus/scheduler/util.rb"
+    ]
+  },
+  "sawyer": {
+    "files": [
+      "lib/sawyer/resource.rb"
+    ]
+  },
+  "selenium-webdriver": {
+    "files": [
+      "lib/selenium/webdriver/remote/bridge.rb"
+    ]
+  },
+  "sentry-ruby": {
+    "files": [
+      "sentry-rails/lib/sentry/rails/serializer.rb",
+      "sentry-rails/lib/sentry/rails/tracing.rb",
+      "sentry-ruby/lib/sentry-ruby.rb",
+      "sentry-ruby/lib/sentry/interfaces/single_exception.rb",
+      "sentry-ruby/lib/sentry/profiler.rb",
+      "sentry-ruby/lib/sentry/utils/argument_checking_helper.rb"
+    ]
+  },
+  "simplecov": {
+    "files": [
+      "lib/simplecov/cli/dotfile.rb",
+      "lib/simplecov/configuration/eval_coverage.rb",
+      "lib/simplecov/coverage_statistics.rb",
+      "lib/simplecov/parallel_adapters/parallel_tests.rb"
+    ]
+  },
+  "slop": {
+    "files": [
+      "lib/slop.rb"
+    ]
+  },
+  "spring": {
+    "files": [
+      "lib/spring/watcher.rb"
+    ]
+  },
+  "sprockets": {
+    "files": [
+      "lib/rake/sprocketstask.rb",
+      "lib/sprockets/base.rb",
+      "lib/sprockets/bundle.rb",
+      "lib/sprockets/erb_processor.rb",
+      "lib/sprockets/jst_processor.rb",
+      "lib/sprockets/loader.rb"
+    ]
+  },
+  "stackprof": {
+    "files": [
+      "lib/stackprof/truffleruby.rb"
+    ]
+  },
+  "state_machines": {
+    "files": [
+      "lib/state_machines/extensions.rb",
+      "lib/state_machines/integrations.rb",
+      "lib/state_machines/machine.rb",
+      "lib/state_machines/machine/configuration.rb",
+      "lib/state_machines/machine_collection.rb"
+    ]
+  },
+  "terminal-table": {
+    "files": [
+      "lib/terminal-table/separator.rb"
+    ]
+  },
+  "thin": {
+    "files": [
+      "lib/rack/adapter/loader.rb",
+      "lib/thin/server.rb"
+    ]
+  },
+  "tilt": {
+    "files": [
+      "lib/tilt/erb.rb",
+      "lib/tilt/mapping.rb",
+      "lib/tilt/string.rb",
+      "lib/tilt/template.rb"
+    ]
+  },
+  "twilio-ruby": {
+    "files": [
+      "lib/twilio-ruby/framework/serialize.rb",
+      "lib/twilio-ruby/jwt/task_router.rb",
+      "lib/twilio-ruby/rest/api.rb",
+      "lib/twilio-ruby/rest/api/v2010/account/call/stream.rb"
+    ]
+  },
+  "tzinfo": {
+    "files": [
+      "lib/tzinfo/data_sources/transitions_data_timezone_info.rb",
+      "lib/tzinfo/format1/country_index_definition.rb",
+      "lib/tzinfo/timezone.rb"
+    ]
+  },
+  "vcr": {
+    "files": [
+      "lib/vcr/version.rb"
+    ]
+  },
+  "virtus": {
+    "files": [
+      "lib/virtus/class_inclusions.rb",
+      "lib/virtus/model.rb"
+    ]
+  },
+  "warden": {
+    "files": [
+      "lib/warden/config.rb",
+      "lib/warden/errors.rb",
+      "lib/warden/manager.rb",
+      "lib/warden/mixins/common.rb",
+      "lib/warden/proxy.rb",
+      "lib/warden/session_serializer.rb",
+      "lib/warden/strategies.rb",
+      "lib/warden/strategies/base.rb"
+    ]
+  },
+  "will_paginate": {
+    "files": [
+      "lib/will_paginate/deprecation.rb",
+      "lib/will_paginate/i18n.rb",
+      "lib/will_paginate/view_helpers/link_renderer.rb",
+      "lib/will_paginate/view_helpers/link_renderer_base.rb"
+    ]
+  },
+  "wisper": {
+    "files": [
+      "lib/wisper.rb",
+      "lib/wisper/broadcasters/logger_broadcaster.rb",
+      "lib/wisper/global_listeners.rb"
+    ]
+  },
+  "zeitwerk": {
+    "files": [
+      "lib/zeitwerk/loader.rb",
+      "lib/zeitwerk/loader/eager_load.rb",
+      "lib/zeitwerk/registry.rb",
+      "lib/zeitwerk/registry/inceptions.rb"
+    ]
+  }
+}

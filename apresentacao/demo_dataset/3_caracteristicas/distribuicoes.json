@@ -1,39 +1,39 @@
 {
-  "data": "2026-08-23",
+  "data": "2026-09-07",
   "modulos_com_metodos": 9074,
   "gems": 133,
   "categorias": 59,
   "distribuicoes": {
     "loc_medio": {
-      "min": 1,
+      "min": 1.0,
       "q1": 4.5,
       "mediana": 6.5,
       "q3": 9.0,
-      "max": 1290,
+      "max": 1290.0,
       "media": 9.03
     },
     "loc_max": {
-      "min": 1,
+      "min": 1.0,
       "q1": 7.0,
       "mediana": 13.0,
       "q3": 23.0,
-      "max": 1405,
+      "max": 1405.0,
       "media": 20.54
     },
     "pct_singleton": {
-      "min": 0,
+      "min": 0.0,
       "q1": 0.0,
       "mediana": 0.0,
       "q3": 17.0,
-      "max": 100,
+      "max": 100.0,
       "media": 19.49
     },
     "pct_duck": {
-      "min": 0,
+      "min": 0.0,
       "q1": 39.0,
       "mediana": 67.0,
       "q3": 89.0,
-      "max": 100,
+      "max": 100.0,
       "media": 60.53
     },
     "mixins_por_classe": {
@@ -45,11 +45,11 @@
       "media": 0.15
     },
     "profundidade_heranca": {
-      "min": 0,
+      "min": 0.0,
       "q1": 0.0,
       "mediana": 1.0,
       "q3": 1.0,
-      "max": 10,
+      "max": 10.0,
       "media": 0.8
     },
     "metaprog_por_100": {
@@ -61,27 +61,27 @@
       "media": 4.19
     },
     "metodos": {
-      "min": 1,
+      "min": 1.0,
       "q1": 2.0,
       "mediana": 5.0,
       "q3": 12.0,
-      "max": 304,
+      "max": 304.0,
       "media": 10.63
     },
     "classes": {
-      "min": 0,
+      "min": 0.0,
       "q1": 2.0,
       "mediana": 3.0,
       "q3": 4.0,
-      "max": 66,
+      "max": 66.0,
       "media": 3.69
     },
     "formas": {
-      "min": 1,
+      "min": 1.0,
       "q1": 2.0,
       "mediana": 5.0,
       "q3": 10.0,
-      "max": 170,
+      "max": 170.0,
       "media": 8.3
     },
     "razao_formas": {

@@ -44,3 +44,16 @@ baselines/codamosa/
 # numeros), ao contrario dos run_results/ gerados em runtime na raiz.
 !artifact/**/run_results/
 !artifact/**/run_results/**
+
+# Lixo de compilacao de gems com partes em C (gem install pg/mysql2/nokogiri
+# corre o mkmf na pasta atual e deixa estes restos).
+mkmf.log
+*_lib_path.rb
+error.log
+pytest_report.json
+
+# Makefile gerado pelo mkmf ao compilar gems nativas
+Makefile
+
+# Estado do SimpleCov, regenerado a cada medicao de cobertura
+coverage/

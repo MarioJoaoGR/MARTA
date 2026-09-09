@@ -1,162 +1,120 @@
-# Deucalion — guia de execução
+# Deucalion — guia de execução do MARTA-Ruby
 
-Conteúdo desta pasta:
-- `Singularity.def` — definição do container (build com `singularity build`)
-- `run_benchmark.sh` — job SLURM principal (DeepSeek 16B em 1× A100 40GB)
-- `run_benchmark_236b.sh` — wrapper para DeepSeek 236B em 2× A100 80GB
+Esta pasta tem o necessário para correr o benchmark no cluster:
 
-## Setup inicial (uma vez)
+| Ficheiro | O que é |
+|---|---|
+| `Singularity.def` | definição do container |
+| `run_ruby_benchmark.sh` | o job SLURM |
+| `logs/` | saída dos jobs (`ruby_<jobid>.out`) |
 
-```bash
-# 1. Estrutura de pastas no Deucalion
-mkdir -p /projects/F202407648IACDCF2/mario/{containers,ollama_models,results}
-cd /projects/F202407648IACDCF2/mario
+> Os `run_benchmark.sh` e `run_benchmark_236b.sh` que este ficheiro descrevia
+> eram do lado **Python**, e saíram no commit `9d02d37ac` quando o Python foi
+> para o repositório do artefacto. Só existe o da Ruby.
 
-# 2. Clonar o repo MARTA
-git clone https://github.com/MarioJoaoGR/MARTA.git
-cd MARTA
+---
 
-# 3. Pull dos clones externos (Pynguin, Test4Py-baseline, codamosa) +
-#    aplicar patches (faz-se localmente como já está descrito em
-#    baselines/BASELINES_README.md; depois sync para Deucalion via rsync ou
-#    re-clonar lá e re-aplicar os patches manualmente)
+## Porque é preciso um passo prévio com rede
 
-# 4. Build do container (~30-60 min)
-# NOTA: O Deucalion tem `singularity` (não `apptainer`). São interchangeable
-# — sintaxe e .def file iguais.
-cd /projects/F202407648IACDCF2/mario/containers
+**Os nós de computação do Deucalion não têm rede.** Tudo o que precise de
+descarregar, clonar ou instalar tem de acontecer antes, no nó de login, e ficar
+em `/projects`.
 
-# Se a build falhar por "permission denied" no login node, tenta uma destas:
-#   a) com --fakeroot (rootless build):
-#      singularity build --fakeroot marta_benchmark.sif ../MARTA/deucalion/Singularity.def
-#   b) num compute node interactivo (se login não tiver recursos):
-#      salloc -A f202407648iacdcf2g --time=2:00:00 --partition=dev-x86 \
-#          --nodes=1 --cpus-per-task=8 --mem=32G
-#      # depois, no nó alocado, voltar a esta pasta e correr:
-#      singularity build marta_benchmark.sif ../MARTA/deucalion/Singularity.def
-singularity build marta_benchmark.sif ../MARTA/deucalion/Singularity.def
+São três coisas: os modelos do Ollama, a cache do HuggingFace (para os
+*embeddings*), e os projetos Ruby com as dependências já instaladas.
 
-# 5. Verificar:
-singularity exec --nv marta_benchmark.sif python --version
-singularity exec --nv marta_benchmark.sif ollama --version
-```
-
-## Deps pesadas (pydeps) — OBRIGATÓRIO para MARTA + Test4Py-baseline
-
-O `.sif` base tem os 3 conda envs, Ollama, os 27 projetos CM e a cache do
-BAAI, mas **NÃO** tem as deps pesadas da MARTA/test4dt (torch, transformers,
-chromadb, sentence-transformers, langchain...). Sem elas, Pynguin corre mas
-MARTA e Test4Py-baseline falham com `ModuleNotFoundError: No module named 'torch'`.
-
-**Overlay e `--fakeroot` NÃO funcionam no Deucalion** (FUSE `allow_other`
-bloqueado + namespaces esgotados). Solução: `pip install --target` para uma
-pasta em `/projects` (writable, sem o problema de quota do `$HOME`), injetada
-via `PYTHONPATH` em runtime. Faz-se UMA vez, num nó dev-x86 (tem internet):
+## Setup, uma vez
 
 ```bash
-salloc -A f202407648iacdcf2x --time=2:00:00 --partition=dev-x86 \
-    --nodes=1 --cpus-per-task=8 --mem=32G
+# 1. Estrutura em /projects
+mkdir -p /projects/F202407648IACDCF2/mario/{containers,ollama_models,results_ruby,pydeps,hf_cache,ruby_projects}
 
-SIF=/projects/F202407648IACDCF2/mario/containers/marta_benchmark.sif
-MARTA_ROOT=/projects/F202407648IACDCF2/mario/MARTA
-PYDEPS=/projects/F202407648IACDCF2/mario/pydeps
-mkdir -p $PYDEPS
+# 2. Container
+singularity build containers/marta_benchmark.sif deucalion/Singularity.def
 
-# marta deps (requirements.txt completo) → /data/pydeps/marta
-singularity exec --bind $PYDEPS:/data/pydeps --bind $MARTA_ROOT:/opt/marta $SIF \
-    /opt/conda/envs/test4py_env/bin/pip install --no-cache-dir \
-    --target /data/pydeps/marta -r /opt/marta/requirements.txt
-
-# baseline deps → /data/pydeps/baseline
-singularity exec --bind $PYDEPS:/data/pydeps --bind $MARTA_ROOT:/opt/marta $SIF \
-    /opt/conda/envs/test4py_baseline_env/bin/pip install --no-cache-dir \
-    --target /data/pydeps/baseline -r /opt/marta/baselines/test4py-baseline/requirements.txt
-
-# HF cache writable (o /opt/hf_cache do .sif é read-only; transformers precisa escrever)
-HFCACHE=/projects/F202407648IACDCF2/mario/hf_cache
-mkdir -p $HFCACHE
-singularity exec --bind $HFCACHE:/data/hf_cache $SIF cp -r /opt/hf_cache/. /data/hf_cache/
-
-exit  # liberta o nó dev-x86
+# 3. Modelo e embeddings (no nó de LOGIN, tem rede)
+OLLAMA_MODELS=/projects/.../ollama_models ollama pull deepseek-coder-v2:16b
+HF_HOME=/projects/.../hf_cache python -c \
+  "from transformers import AutoModel; AutoModel.from_pretrained('BAAI/bge-large-en-v1.5')"
 ```
 
-O `run_benchmark.sh` faz bind de `pydeps` → `/data/pydeps` e exporta
-`PYDEPS_MARTA`/`PYDEPS_BASELINE`; o `run_benchmark.py` injeta-os no
-`PYTHONPATH` de cada tool. Também faz bind da `hf_cache` writable com
-`HF_HOME=/data/hf_cache` + `HF_HUB_OFFLINE=1`.
-
-Os pacotes `marta/` e `test4dt/` (código, não deps) vêm via bind-mount do
-`$MARTA_ROOT`; garantir que existem em `MARTA/marta/` e
-`MARTA/baselines/test4py-baseline/test4dt/` (rsync do Mac se faltarem —
-`test4dt/` é gitignored). O `requirements.txt` do baseline também é gitignored.
-
-## Submeter jobs
+## Preparar os projetos, a cada mudança de corpus
 
 ```bash
-cd /projects/F202407648IACDCF2/mario/MARTA
-
-# Job principal — DeepSeek 16B (cabe em 1× A100 40GB)
-sbatch deucalion/run_benchmark.sh
-
-# Job 236B — para a comparação cross-scale
-sbatch deucalion/run_benchmark_236b.sh
-
-# Override do modelo via env var:
-sbatch --export=ALL,MODEL=deepseek-coder-v2:236b deucalion/run_benchmark.sh
-
-# Override de tools/projetos (subset):
-sbatch --export=ALL,TOOLS=pynguin,PROJECTS=codetiming,apimd deucalion/run_benchmark.sh
+# no nó de LOGIN
+python -m benchmark.prepare_ruby_projects \
+    --out /projects/F202407648IACDCF2/mario/ruby_projects
 ```
 
-## Auto-chain (resume automático aos 48h)
+Clona cada projeto no *commit* fixado e instala as dependências de runtime num
+`.gem_home` próprio, para o nó de computação poder correr offline.
 
-O `run_benchmark.sh` está configurado com `#SBATCH --signal=B:SIGTERM@120` — SLURM envia SIGTERM **120s antes do walltime**. O harness apanha o sinal, grava `state.json`, e sai com exit 143.
-
-Quando o job termina com exit 143, o próprio script SLURM **submete automaticamente um job dependente** (`--dependency=afterany`) que arranca depois do anterior terminar. Esse novo job lê o `state.json`, salta tudo o que já está `ok`, e continua de onde parou.
-
-Repete-se até todos os 27 projetos estarem feitos.
-
-## Onde os outputs aparecem
-
-```
-/projects/F202407648IACDCF2/mario/results/
-└── deepseek-coder-v2_16b/             ← um por modelo ($SAFE_MODEL)
-    ├── harness/
-    │   ├── state.json                  ← progresso por (tool, projeto[, módulo])
-    │   └── logs/<tool>/<projeto>/<mod>.log
-    ├── Results_Pynguin/<projeto>/<mod>/test_*.py
-    ├── Results_Test4PyBaseline/<projeto>/Test4DT_tests/
-    ├── Results_MARTA/<projeto>/Test4DT_tests/
-    ├── ollama_server.log
-    └── prepare_envs.log
-```
-
-## Sincronizar resultados de volta para o Mac
+## Correr
 
 ```bash
-# Do Mac:
-rsync -avz --progress \
-    user@deucalion-ln:/projects/F202407648IACDCF2/mario/results/ \
-    ~/Desktop/GECAD/Test4Py/baselines/Results_Deucalion/
+sbatch deucalion/run_ruby_benchmark.sh                        # 16B, 1× A100 40GB
+
+MODEL=deepseek-coder-v2:236b sbatch \
+    --partition=normal-a100-80 --gpus=4 --mem=400G \
+    --export=ALL deucalion/run_ruby_benchmark.sh              # 236B
 ```
 
-## Verificar progresso a meio
+Variáveis de ambiente que o script aceita:
 
-```bash
-# No Deucalion, ver state.json em runtime:
-watch -n 30 'cat /projects/F202407648IACDCF2/mario/results/deepseek-coder-v2_16b/harness/state.json | jq "to_entries | map(.value.status) | group_by(.) | map({status: .[0], n: length})"'
-```
-
-## Estimativas de tempo (DeepSeek 16B)
-
-| Tool | Tempo por módulo | Total p/ 486 módulos |
+| Variável | Omissão | Para quê |
 |---|---|---|
-| Pynguin | ~60s | ~8h |
-| Test4Py-baseline | ~13min | ~106h ≈ 4.4 dias |
-| MARTA | ~9min | ~73h ≈ 3 dias |
+| `MODEL` | `deepseek-coder-v2:16b` | qual o modelo |
+| `NUM_ROUNDS` | `3` | rondas do ciclo de cobertura |
+| `PROJECTS` | todos | subconjunto, separado por vírgulas |
+| `LIMIT` | sem limite | limitar métodos-alvo, para um teste rápido |
 
-Total estimado: **~7-9 dias wall-clock** para o run completo (via chain de jobs de 48h). Ansible (237 mods) domina porque é metade do dataset.
+**O modelo ainda não está decidido**, 16B ou 236B. O script está parametrizado
+para os dois.
 
-## DeepSeek 236B
+## O corpus, e a ligação ao dataset
 
-Estimativa: throughput ~3× menor (MoE com 21B active vs 2.4B). Total estimado: **~21-27 dias** para um run completo. Considera correr só num subset dos projetos representativos (5-7 projetos médios + ansible parcial).
+O harness limita os ficheiros-alvo com `--targets`, que espera:
+
+```json
+{ "<gem>": { "files": ["lib/a.rb", "lib/b.rb"] } }
+```
+
+Esse ficheiro é escrito pela última camada da construção do dataset:
+
+```
+apresentacao/demo_dataset/7_selecao/targets.json      500 módulos, 107 gems
+```
+
+Ver `benchmark/dataset/README.md` para como o corpus é construído. Se o corpus
+mudar, correr a camada 7 outra vez e voltar a preparar os projetos.
+
+## Walltime e retoma
+
+O job pede 47h30 e tem `#SBATCH --signal=B:SIGTERM@120`: o SLURM avisa **120
+segundos antes** de o tempo acabar. O script apanha o sinal, submete a
+continuação com `--dependency=afterany`, e sai com 143.
+
+A continuação retoma sozinha: o harness grava `state.json` e salta os projetos
+já marcados como `ok`. Não é preciso fazer nada.
+
+## Resultados
+
+```
+/projects/F202407648IACDCF2/mario/results_ruby/<modelo>/
+    harness/       state.json, targets_<gem>.json
+    run_results/   um JSON por projeto, com métricas e cobertura
+```
+
+## Armadilhas conhecidas
+
+**`OLLAMA_FLASH_ATTENTION=0`** é obrigatório. O DeepSeek-V2 usa *Multi-head
+Latent Attention*, que é incompatível com o *flash attention* nesta versão.
+
+**A porta do Ollama vem do ID do job** (`1` + os últimos 4 dígitos), para dois
+jobs em simultâneo não colidirem.
+
+**`HF_HUB_OFFLINE=1` e `TRANSFORMERS_OFFLINE=1`**: sem isto o carregamento dos
+*embeddings* tenta ir à rede e o job morre no nó de computação.
+
+**A cache do HuggingFace tem de ser gravável.** Aponta-se `HF_HOME` para
+`/projects`, não para a *home*.

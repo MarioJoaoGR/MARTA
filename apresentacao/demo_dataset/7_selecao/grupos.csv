@@ -1,0 +1,77 @@
+componente,gem,categoria,modulos,escolhido
+i18n#1,i18n,internationalization,20,False
+jwt#0,jwt,authentication and oauth,20,True
+rubocop-rails#6,rubocop-rails,code formatting,19,True
+paper_trail#0,paper_trail,orm/odm extensions,19,False
+carrierwave#0,carrierwave,file upload,19,True
+logging#0,logging,logging,19,True
+savon#0,savon,http clients and tools,19,False
+devise#0,devise,authentication and oauth,18,False
+brakeman#1,brakeman,code analysis and metrics,18,True
+vcr#0,vcr,testing,18,False
+ransack#0,ransack,search,18,False
+gitlab#0,gitlab,third-party apis,18,False
+rubocop-rspec#1,rubocop-rspec,code formatting,17,False
+haml#0,haml,template engine,16,False
+debug#0,debug,developer tooling,16,True
+roo#0,roo,spreadsheets and documents,16,True
+knapsack#0,knapsack,testing,15,True
+httpclient#0,httpclient,http clients and tools,14,False
+hashie#1,hashie,core extensions,14,True
+httparty#0,httparty,http clients and tools,14,False
+minitest#1,minitest,testing,13,False
+zeitwerk#0,zeitwerk,code loaders,13,False
+spring#0,spring,testing,13,False
+bootsnap#0,bootsnap,optimizations,12,True
+bullet#0,bullet,profiler and optimization,12,False
+excon#0,excon,http clients and tools,11,False
+typhoeus#0,typhoeus,http clients and tools,11,False
+countries#0,countries,country data,11,False
+rest-client#0,rest-client,http clients and tools,10,True
+bundler-audit#0,bundler-audit,security,10,False
+warden#0,warden,authentication and oauth,8,True
+rubocop-rails#0,rubocop-rails,code formatting,8,False
+fastimage#0,fastimage,image processing,8,False
+money#0,money,money,8,True
+wisper#0,wisper,business logic,8,False
+better_errors#0,better_errors,error handling,8,False
+pg#0,pg,database drivers,7,False
+awesome_print#10,awesome_print,cli utilities,7,True
+oauth2#0,oauth2,authentication and oauth,7,False
+kaminari#0,kaminari,pagination,7,False
+rubocop-rspec#6,rubocop-rspec,code formatting,6,False
+rubocop-rspec#20,rubocop-rspec,code formatting,6,False
+omniauth#0,omniauth,authentication and oauth,6,False
+activerecord-import#5,activerecord-import,orm/odm extensions,6,True
+parallel_tests#0,parallel_tests,testing,6,False
+slop#0,slop,cli builder,6,False
+rack-attack#0,rack-attack,security,6,False
+commander#0,commander,cli builder,6,True
+rufus-scheduler#0,rufus-scheduler,scheduling,6,True
+foreman#0,foreman,process management and monitoring,6,False
+rack-protection#0,rack-protection,security,5,False
+terminal-table#0,terminal-table,cli utilities,5,False
+sawyer#0,sawyer,http clients and tools,5,False
+pastel#0,pastel,cli utilities,5,True
+tilt#2,tilt,template engine,4,True
+dotenv#0,dotenv,configuration,4,True
+simplecov#34,simplecov,code analysis and metrics,4,False
+childprocess#0,childprocess,processes,4,True
+rubocop-rspec#34,rubocop-rspec,code formatting,4,False
+rack-cors#0,rack-cors,http clients and tools,4,False
+image_processing#0,image_processing,image processing,4,True
+pundit#0,pundit,authorization,4,False
+diffy#0,diffy,diff,4,False
+will_paginate#2,will_paginate,pagination,4,True
+addressable#0,addressable,core extensions,3,True
+simplecov#0,simplecov,code analysis and metrics,3,False
+simplecov#20,simplecov,code analysis and metrics,3,False
+rubocop-rails#1,rubocop-rails,code formatting,3,False
+rubocop-rspec#0,rubocop-rspec,code formatting,3,False
+rubocop-rspec#9,rubocop-rspec,code formatting,3,True
+pry-byebug#1,pry-byebug,debugging tools,3,True
+formatador#0,formatador,cli utilities,3,False
+timecop#0,timecop,testing,3,False
+autoprefixer-rails#0,autoprefixer-rails,assets,3,True
+slack-notifier#0,slack-notifier,third-party apis,3,False
+will_paginate#0,will_paginate,pagination,3,False
