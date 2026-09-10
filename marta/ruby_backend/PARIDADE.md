@@ -31,52 +31,58 @@ qualquer comparação entre as duas versões.
 Não são consequência da linguagem: foram escolhas, e ficam aqui para ninguém as
 confundir com lacunas nem lhes dar mais importância do que têm.
 
-### O RAG: mesmo ChromaDB da Python, mas persistente e por cosseno
+### O RAG: mesmo armazenamento da Python, mas persistido
 
-O armazenamento é o mesmo dos dois lados. Difere em duas coisas, ambas
-deliberadas, e as duas na direção de corrigir o lado Python.
+Há **dois** índices, e na Python cada um usa um armazenamento diferente. A versão
+Ruby mantém essa divisão tal e qual:
 
-| | Python (`embedding.FunctionDatabase`) | Ruby (`rag.RubyFunctionDatabase`) |
-|---|---|---|
-| Modelo de *embeddings* | `bge-large-en-v1.5` | **o mesmo**, reutilizado tal e qual (`marta.embedding.embedder`) |
-| Onde ficam os vetores | coleção ChromaDB | **a mesma coisa** |
-| Cliente | `chromadb.Client(...)`, **efémero** (`embedding.py:165`) | `PersistentClient` em `.marta_ruby_cache/vectors` |
-| Entre execuções | reembebe tudo, sempre | reaproveita se a chave bater |
-| Métrica | `hnsw:space` por omissão, ou seja **L2** | **cosseno** (`hnsw:space: "cosine"`) |
-| Nome da coleção | fixo, `'functions_database'` | `functions` e `classes`, separados |
+| | Python | Ruby | O que responde |
+|---|---|---|---|
+| Sumários de **métodos** | `FunctionDatabase` → ChromaDB | `RubyFunctionDatabase` → ChromaDB | *"que métodos se parecem com este?"* → os `RELATED` do Planner |
+| Sumários de **classes** | `find_topK_message` → cosseno em NumPy | `RubyClassIndex` → cosseno em NumPy | *"que classe é este parâmetro?"* → o `_augment_judge_semantic` |
 
-**Porquê persistente.** É o custo real: o índice é reconstruído a cada execução,
-e mesmo com a cache de análise cheia (os sumários vêm do disco) os *embeddings*
-eram recalculados. No Deucalion isso corre com `EMBED_DEVICE=cpu`, para o Ollama
-ficar com a GPU sozinho. A coleção é validada por uma chave de três partes,
-`hash das fontes | modelo LLM | modelo de embeddings` (`cache.vectors_key`):
-mudar qualquer uma invalida o que está em disco, e o conjunto de ids tem de bater
-certo, para um `--limit` diferente não reaproveitar meia coleção.
+O modelo de *embeddings* é literalmente o mesmo objeto dos dois lados,
+`marta.embedding.embedder` (`bge-large-en-v1.5`).
 
-**Porquê cosseno.** O `HuggingFaceEmbedder` faz *mean pooling* e **não
-normaliza** (`embedding.py:43`). Em vetores não normalizados, o L2 e o cosseno
-**não ordenam da mesma maneira**: a norma do vetor entra na distância, e um
-sumário longo fica penalizado por ser longo. A própria MARTA Python usa cosseno
-no outro caminho de recuperação, o `find_topK_message` (`embedding.py:95`), que
-já tinha saído do ChromaDB por causa do *overhead* de criar e apagar uma coleção
-por chamada. Ou seja: os dois caminhos de recuperação da Python discordam entre
-si, e este alinha-os pelo cosseno.
+**A divergência é uma só: a persistência.** Na Python nenhum dos dois índices
+sobrevive à execução. O cliente é `chromadb.Client(...)` (`embedding.py:165`), o
+efémero, não o `PersistentClient`. Resultado: mesmo com a cache de análise cheia,
+em que os sumários vêm todos do disco, eram todos embebidos outra vez. Aqui os
+dois índices ficam em `.marta_ruby_cache/vectors`, ao lado da cache dos sumários:
 
-**Porquê nomes de coleção separados.** O `build_rag` cria **duas** bases no mesmo
-processo, a dos métodos e a das classes. Com o nome fixo da Python, a segunda
-colidia com a primeira (`create_collection` rebenta se já existir). Sem
-`persist_dir` o nome leva um sufixo aleatório, para duas instâncias em memória
-não se pisarem.
+```
+.marta_ruby_cache/vectors/
+    chroma.sqlite3      colecção 'functions'  (métodos)
+    classes.npz         matriz + ids + chave  (classes)
+```
+
+Validados por uma chave de três partes, `hash das fontes | modelo LLM | modelo de
+embeddings` (`cache.vectors_key`), mais o conjunto exato de ids, para um `--limit`
+diferente não reaproveitar meio índice. É aí que está o custo real: no Deucalion
+o *embedding* corre em CPU (`EMBED_DEVICE=cpu`), para o Ollama ficar com a GPU.
+
+**Duas afinações menores, dentro da coleção dos métodos:**
+
+*Cosseno em vez do L2.* O `HuggingFaceEmbedder` faz *mean pooling* e **não
+normaliza** (`embedding.py:43`), e em vetores não normalizados o L2 (a omissão do
+ChromaDB) não ordena como o cosseno: a norma entra na distância, e um sumário
+longo fica penalizado por ser longo. O cosseno é o que o `find_topK_message` já
+usa do outro lado, por isso isto alinha os dois caminhos, que na Python
+discordam entre si.
+
+*Nome da coleção.* A Python fixa `'functions_database'`. Sem `persist_dir` o nome
+leva aqui um sufixo aleatório, para duas instâncias em memória não colidirem
+(`create_collection` rebenta se a coleção já existir).
 
 **O que não é argumento.** A busca do ChromaDB é aproximada (HNSW) e a de uma
-matriz seria exata, mas isto **não é uma diferença que importe aqui**: o índice é
-por projeto, o maior do corpus tem 565 métodos-alvo e a média é 69, e o HNSW só
-diverge do exato a partir de escalas ordens de grandeza acima. Não usar isso como
-vantagem, em nenhum dos sentidos.
+matriz é exata, mas isso **não importa a esta escala**: o índice é por projeto, o
+maior do corpus tem 565 métodos-alvo e a média é 69, e o HNSW só diverge do exato
+ordens de grandeza acima. Não usar como vantagem, em nenhum dos sentidos. A
+escolha do armazenamento aqui é paridade com a Python, mais nada.
 
-O *embedder* continua injetável, por isso a lógica de recuperação continua
-testável sem carregar o torch (`tests/test_rag.py`, incluindo o reaproveitamento
-do disco e as três maneiras de o invalidar).
+O *embedder* continua injetável, por isso a recuperação continua testável sem
+carregar o torch (`tests/test_rag.py`, incluindo o reaproveitamento do disco e as
+maneiras de o invalidar, para os dois índices).
 
 ## 3. O que a versão Ruby ainda não tem
 

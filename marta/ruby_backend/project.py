@@ -184,7 +184,7 @@ class RubyProject:
     code_changed: bool = True             # False on cg_cache hit (source unchanged)
     class_files: Dict[str, str] = field(default_factory=dict)   # class qn -> abs path
     class_summaries: Dict[str, str] = field(default_factory=dict)  # class qn -> summary
-    class_db: Optional[rag.RubyFunctionDatabase] = None
+    class_db: Optional[rag.RubyClassIndex] = None
     backend: LanguageBackend = field(default_factory=RubyBackend)
 
     def _recorder(self) -> rec.RubyRecorder:
@@ -466,8 +466,9 @@ class RubyProject:
             embed_documents, embed_query, persist_dir=pdir, name="functions", key=key or "")
         self.rag_db.init(self.targets)
         if self.class_summaries:
-            self.class_db = rag.RubyFunctionDatabase(
-                embed_documents, embed_query, persist_dir=pdir, name="classes", key=key or "")
+            # Classes em NumPy, como o find_topK_message da Python (ver rag.py).
+            self.class_db = rag.RubyClassIndex(
+                embed_documents, embed_query, persist_dir=pdir, key=key or "")
             self.class_db.init([_ClassEntry(qn, s) for qn, s in self.class_summaries.items()])
             self._augment_judge_semantic()
         if persist and self.rag_db.reused:

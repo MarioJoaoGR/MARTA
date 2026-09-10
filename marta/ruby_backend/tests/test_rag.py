@@ -128,17 +128,47 @@ def test_membership_change_invalidates(tmp_path):
     assert len(chamadas) == 3 and not db.reused
 
 
-def test_methods_and_classes_do_not_collide(tmp_path):
-    """A MARTA Python usa o nome fixo 'functions_database'; aqui há duas bases
-    no mesmo processo e no mesmo disco."""
+def test_two_databases_share_a_directory(tmp_path):
+    """Os métodos (chromadb) e as classes (npz) convivem na mesma pasta."""
     d = str(tmp_path / "vectors")
     m = rag.RubyFunctionDatabase(_embed_documents, _embed_query,
                                  persist_dir=d, name="functions", key="h1").init(_targets())
-    c = rag.RubyFunctionDatabase(_embed_documents, _embed_query,
-                                 persist_dir=d, name="classes", key="h1").init(
+    c = rag.RubyClassIndex(_embed_documents, _embed_query,
+                           persist_dir=d, key="h1").init(
         [_T("Bank", "a bank account holding a balance")])
     assert m.query("adding numbers", k=1)[0].method.qualified_name == "Calc#add"
     assert c.query("bank account", k=1)[0].method.qualified_name == "Bank"
+
+
+# --- índice das classes: NumPy, como o find_topK_message da Python ---------- #
+def _classes():
+    return [_T("Calc", "a calculator that adds and multiplies numbers"),
+            _T("Bank", "a bank account holding a balance")]
+
+
+def test_class_index_finds_closest():
+    c = rag.RubyClassIndex(_embed_documents, _embed_query).init(_classes())
+    assert c.query("an object with a balance", k=1)[0].method.qualified_name == "Bank"
+
+
+def test_class_index_persists_and_reuses(tmp_path):
+    d = str(tmp_path / "vectors")
+    embed, chamadas = _counting_embedder()
+    rag.RubyClassIndex(embed, _embed_query, persist_dir=d, key="h1").init(_classes())
+    assert len(chamadas) == 2
+
+    embed2, chamadas2 = _counting_embedder()
+    c = rag.RubyClassIndex(embed2, _embed_query, persist_dir=d, key="h1").init(_classes())
+    assert chamadas2 == [] and c.reused
+    assert c.query("an object with a balance", k=1)[0].method.qualified_name == "Bank"
+
+
+def test_class_index_key_change_invalidates(tmp_path):
+    d = str(tmp_path / "vectors")
+    rag.RubyClassIndex(_embed_documents, _embed_query, persist_dir=d, key="h1").init(_classes())
+    embed, chamadas = _counting_embedder()
+    c = rag.RubyClassIndex(embed, _embed_query, persist_dir=d, key="h2").init(_classes())
+    assert len(chamadas) == 2 and not c.reused
 
 
 # --- wiring: RAG-derived related lines reach the Planner -------------------- #

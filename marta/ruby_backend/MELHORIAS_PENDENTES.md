@@ -154,8 +154,9 @@ prefere não dizer nada a dizer demais. Aqui não há equivalente.
 
 - **Correção:** um limiar mínimo de cosseno, abaixo do qual não se acrescenta
   linha nenhuma.
-- **Onde:** `project._augment_judge_semantic` (:472), e `rag.query` teria de
-  devolver a pontuação, que hoje deita fora.
+- **Onde:** `project._augment_judge_semantic`, e o `RubyClassIndex.query` teria
+  de devolver a pontuação, que hoje deita fora. É fácil: ali o cosseno já está
+  calculado em `sims`.
 
 
 ---
@@ -175,11 +176,12 @@ O `build_rag` reconstruía o índice do zero a cada execução: mesmo com a cach
 análise cheia, os sumários vinham do disco e eram embebidos outra vez. No
 Deucalion isso corre com `EMBED_DEVICE=cpu`.
 
-Resolvido a 2026-09-10 passando o RAG para uma coleção **ChromaDB persistente**
-em `.marta_ruby_cache/vectors`, validada por `hash das fontes | modelo LLM |
-modelo de embeddings`. Ao mesmo tempo alinhou-se a métrica pelo cosseno, porque o
-*embedder* não normaliza e o L2 por omissão do ChromaDB não ordena igual. Ver
-`PARIDADE.md` §2.
+Resolvido a 2026-09-10: os dois índices passaram a viver em
+`.marta_ruby_cache/vectors`, validados por `hash das fontes | modelo LLM | modelo
+de embeddings`. O armazenamento continua o mesmo da Python em cada um (métodos em
+ChromaDB, classes em NumPy), só que agora persistido. Ao mesmo tempo alinhou-se a
+métrica da coleção dos métodos pelo cosseno, porque o *embedder* não normaliza e
+o L2 por omissão do ChromaDB não ordena igual. Ver `PARIDADE.md` §2.
 
 **Falta medir** quanto poupa de facto numa segunda execução no cluster, que é o
 número que interessa reportar.
