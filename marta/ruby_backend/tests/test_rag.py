@@ -79,6 +79,68 @@ def test_empty_db_returns_nothing():
     assert db.query("anything", k=3) == []
 
 
+# --- persistência: o ponto de haver chromadb em vez de matriz em memória ---- #
+def _targets():
+    return [_T("Calc#add", "add two numbers and return the sum"),
+            _T("Bank#balance", "return the bank account balance")]
+
+
+def _counting_embedder():
+    """Conta quantos textos foram embebidos, para provar que a 2ª execução não
+    embebe nada."""
+    chamadas = []
+
+    def embed(docs):
+        chamadas.extend(docs)
+        return _embed_documents(docs)
+
+    return embed, chamadas
+
+
+def test_persisted_vectors_are_reused(tmp_path):
+    d = str(tmp_path / "vectors")
+    embed, chamadas = _counting_embedder()
+    rag.RubyFunctionDatabase(embed, _embed_query, persist_dir=d, key="h1").init(_targets())
+    assert len(chamadas) == 2                      # 1ª execução: embebe
+
+    embed2, chamadas2 = _counting_embedder()
+    db = rag.RubyFunctionDatabase(embed2, _embed_query, persist_dir=d, key="h1").init(_targets())
+    assert chamadas2 == [] and db.reused           # 2ª: vem do disco
+    assert db.query("adding numbers", k=1)[0].method.qualified_name == "Calc#add"
+
+
+def test_key_change_invalidates(tmp_path):
+    """Código, modelo ou embedder diferentes → os vetores no disco não servem."""
+    d = str(tmp_path / "vectors")
+    rag.RubyFunctionDatabase(_embed_documents, _embed_query, persist_dir=d, key="h1").init(_targets())
+    embed, chamadas = _counting_embedder()
+    db = rag.RubyFunctionDatabase(embed, _embed_query, persist_dir=d, key="h2").init(_targets())
+    assert len(chamadas) == 2 and not db.reused
+
+
+def test_membership_change_invalidates(tmp_path):
+    """Mesma chave mas outro conjunto de alvos (ex.: --limit diferente)."""
+    d = str(tmp_path / "vectors")
+    rag.RubyFunctionDatabase(_embed_documents, _embed_query, persist_dir=d, key="h1").init(_targets())
+    embed, chamadas = _counting_embedder()
+    db = rag.RubyFunctionDatabase(embed, _embed_query, persist_dir=d, key="h1").init(
+        _targets() + [_T("Calc#multiply", "multiply to get the product")])
+    assert len(chamadas) == 3 and not db.reused
+
+
+def test_methods_and_classes_do_not_collide(tmp_path):
+    """A MARTA Python usa o nome fixo 'functions_database'; aqui há duas bases
+    no mesmo processo e no mesmo disco."""
+    d = str(tmp_path / "vectors")
+    m = rag.RubyFunctionDatabase(_embed_documents, _embed_query,
+                                 persist_dir=d, name="functions", key="h1").init(_targets())
+    c = rag.RubyFunctionDatabase(_embed_documents, _embed_query,
+                                 persist_dir=d, name="classes", key="h1").init(
+        [_T("Bank", "a bank account holding a balance")])
+    assert m.query("adding numbers", k=1)[0].method.qualified_name == "Calc#add"
+    assert c.query("bank account", k=1)[0].method.qualified_name == "Bank"
+
+
 # --- wiring: RAG-derived related lines reach the Planner -------------------- #
 def _toolchain_ok():
     try:

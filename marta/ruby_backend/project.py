@@ -444,17 +444,34 @@ class RubyProject:
         if entry.get("judge"):
             t.judge = entry["judge"]
 
-    def build_rag(self, embed_documents=None, embed_query=None) -> None:
+    def build_rag(self, embed_documents=None, embed_query=None, persist=True) -> None:
         """Index target summaries for retrieval. Call after analyze_summaries.
         A custom embedder can be injected (tests); default is the real bge one.
         Also indexes class summaries and adds semantic type hints to ambiguous
-        judges (the ``find_type_by_RAG`` analogue)."""
-        self.rag_db = rag.RubyFunctionDatabase(embed_documents, embed_query)
+        judges (the ``find_type_by_RAG`` analogue).
+
+        The collections are persisted under ``.marta_ruby_cache/vectors`` and
+        keyed on sources + LLM + embedder, so an unchanged project skips the
+        embedding pass entirely on a re-run. ``persist=False`` keeps them in
+        memory (tests)."""
+        pdir = key = None
+        if persist:
+            pdir = cache.vectors_path(self.out_root())
+            key = cache.vectors_key(
+                cache.compute_source_hash(self.files),
+                os.getenv("MODEL", "default"),
+                os.getenv("TRANSFORMER_PATH", "default"),
+            )
+        self.rag_db = rag.RubyFunctionDatabase(
+            embed_documents, embed_query, persist_dir=pdir, name="functions", key=key or "")
         self.rag_db.init(self.targets)
         if self.class_summaries:
-            self.class_db = rag.RubyFunctionDatabase(embed_documents, embed_query)
+            self.class_db = rag.RubyFunctionDatabase(
+                embed_documents, embed_query, persist_dir=pdir, name="classes", key=key or "")
             self.class_db.init([_ClassEntry(qn, s) for qn, s in self.class_summaries.items()])
             self._augment_judge_semantic()
+        if persist and self.rag_db.reused:
+            print("[rag] vetores reaproveitados do disco (sem re-embedding)")
 
     def _augment_judge_semantic(self) -> None:
         """For params whose structural candidates are absent or ambiguous (!=1),

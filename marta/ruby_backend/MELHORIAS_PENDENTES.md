@@ -46,9 +46,8 @@ Não é equivalente, e por três razões que convém não perder:
    deixa dois textos lado a lado, cada um na sua perspetiva.
 2. **O sumário final é vetorizado** (`build_rag`) e serve a busca por semelhança.
    Uma colagem embebe-se mal: o vetor fica uma mistura de assuntos e a busca
-   passa a devolver métodos parecidos com os vizinhos. (Nota: o índice do lado
-   Ruby é uma matriz de NumPy em memória, não o ChromaDB da MARTA Python — ver o
-   ponto B2.)
+   passa a devolver métodos parecidos com os vizinhos. (O índice é uma coleção
+   ChromaDB, como na MARTA Python, mas persistida — ver `PARIDADE.md` §2.)
 3. Quinze chamados a ~3000 caracteres não cabem num sumário.
 
 **O teste que falta:** correr o mesmo projeto com síntese e com concatenação, e
@@ -171,25 +170,19 @@ Não são alterações ao código: são experiências por correr, e o que sai de
 - Auditar uma amostra (~30 arestas `static_only`) → permite reportar **precisão**
   e não só recall. Ver `sondagens/s1_callgraph_money/RESULTADOS.md`.
 
-### B2. Persistir a matriz de vetores entre execuções
-O `build_rag` reconstrói o índice **do zero a cada execução**: numa execução com
-cache, os sumários vêm do disco e são embebidos outra vez. No Deucalion o script
-corre com `EMBED_DEVICE=cpu`, e o `bge-large` em CPU não é instantâneo.
+### B2. ~~Persistir os vetores entre execuções~~ — feito
+O `build_rag` reconstruía o índice do zero a cada execução: mesmo com a cache de
+análise cheia, os sumários vinham do disco e eram embebidos outra vez. No
+Deucalion isso corre com `EMBED_DEVICE=cpu`.
 
-**O custo está aqui, e não na busca.** O índice é por projeto: o maior do corpus
-(`debug`) tem 565 métodos-alvo, e a média é 69. Uma matriz de 565×1024 é ~2 MB, e
-uma consulta é um produto de matriz de microssegundos. O HNSW do ChromaDB só
-compensa três ordens de grandeza acima disto, e a nossa busca ser exata em vez de
-aproximada não é vantagem nenhuma nesta escala: é só a consequência de não valer
-a pena aproximar. **Não usar isso como argumento** (ver `PARIDADE.md` §2).
+Resolvido a 2026-09-10 passando o RAG para uma coleção **ChromaDB persistente**
+em `.marta_ruby_cache/vectors`, validada por `hash das fontes | modelo LLM |
+modelo de embeddings`. Ao mesmo tempo alinhou-se a métrica pelo cosseno, porque o
+*embedder* não normaliza e o L2 por omissão do ChromaDB não ordena igual. Ver
+`PARIDADE.md` §2.
 
-O que falta é a persistência, e o ChromaDB também não a daria: a MARTA Python
-instancia `chromadb.Client(...)`, o cliente efémero em memória, e por isso também
-reconstrói tudo a cada execução. Resolve-se guardando a matriz num ficheiro ao
-lado da cache dos sumários, com a mesma chave (`hash do código + modelo`, mais o
-nome do modelo de embeddings).
-
-- **Onde:** `project.build_rag`, `cache.py`.
+**Falta medir** quanto poupa de facto numa segunda execução no cluster, que é o
+número que interessa reportar.
 
 ### B3. Estudo de ablação do RAG: os dois usos nunca foram medidos
 O RAG entra em três sítios e **nenhum tem ganho demonstrado**. Vale a pena medir

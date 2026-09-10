@@ -57,3 +57,6 @@ Makefile
 
 # Estado do SimpleCov, regenerado a cada medicao de cobertura
 coverage/
+
+# Cache do backend Ruby (analise, grafo e vetores do RAG), regeneravel
+.marta_ruby_cache/

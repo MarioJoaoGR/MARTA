@@ -38,6 +38,18 @@ def call_graph_path(root_dir: str) -> str:
     return os.path.join(root_dir, ".marta_ruby_cache", "call_graph.json")
 
 
+def vectors_path(root_dir: str) -> str:
+    """Where the chromadb collections of the RAG live (see ``rag.py``)."""
+    return os.path.join(root_dir, ".marta_ruby_cache", "vectors")
+
+
+def vectors_key(source_hash: str, model: str, embed_model: str) -> str:
+    """Validity key of the stored vectors. The summaries depend on the sources
+    and on the LLM, the vectors depend on those plus the embedder: change any of
+    the three and what is on disk no longer applies."""
+    return f"{source_hash}|{model}|{embed_model}"
+
+
 def save_call_graph(path: str, source_hash: str, graph_json: dict) -> None:
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "w", encoding="utf-8") as f:
