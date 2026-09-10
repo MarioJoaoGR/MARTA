@@ -32,11 +32,54 @@ mkdir -p /projects/F202407648IACDCF2/mario/{containers,ollama_models,results_rub
 # 2. Container
 singularity build containers/marta_benchmark.sif deucalion/Singularity.def
 
-# 3. Modelo e embeddings (no nó de LOGIN, tem rede)
+# 3. Modelo do Ollama (no nó de LOGIN, tem rede)
 OLLAMA_MODELS=/projects/.../ollama_models ollama pull deepseek-coder-v2:16b
-HF_HOME=/projects/.../hf_cache python -c \
-  "from transformers import AutoModel; AutoModel.from_pretrained('BAAI/bge-large-en-v1.5')"
 ```
+
+### 4. As deps pesadas (`pydeps`) — obrigatório
+
+O `.sif` traz os *conda envs*, o Ollama e a cache do BAAI, mas **não** traz as
+deps pesadas da MARTA: `torch`, `transformers`, `chromadb`, `langchain`. Sem
+elas o job morre logo no arranque com `ModuleNotFoundError: No module named
+'torch'`.
+
+Não se instalam dentro do `.sif`: **o *overlay* e o `--fakeroot` não funcionam
+no Deucalion** (o `allow_other` do FUSE está bloqueado e os *namespaces* de
+utilizador esgotam-se), e o `pip --user` cai no `$HOME`, que tem 2 GB de quota.
+A saída é `pip install --target` para uma pasta em `/projects`, que é gravável e
+sem quota, injetada no `PYTHONPATH` em tempo de execução.
+
+Faz-se **uma vez**, num nó `dev-x86`, que é dos poucos com internet:
+
+```bash
+salloc -A f202407648iacdcf2x --time=2:00:00 --partition=dev-x86 \
+    --nodes=1 --cpus-per-task=8 --mem=32G
+
+SIF=/projects/F202407648IACDCF2/mario/containers/marta_benchmark.sif
+MARTA_ROOT=/projects/F202407648IACDCF2/mario/MARTA
+PYDEPS=/projects/F202407648IACDCF2/mario/pydeps
+
+# deps da MARTA -> /data/pydeps/marta  (a corrida Ruby só precisa desta)
+singularity exec --bind $PYDEPS:/data/pydeps --bind $MARTA_ROOT:/opt/marta $SIF \
+    /opt/conda/envs/test4py_env/bin/pip install --no-cache-dir \
+    --target /data/pydeps/marta -r /opt/marta/requirements.txt
+
+# cache do HuggingFace gravável: a do .sif é read-only e o transformers
+# precisa de escrever locks
+HFCACHE=/projects/F202407648IACDCF2/mario/hf_cache
+singularity exec --bind $HFCACHE:/data/hf_cache $SIF cp -r /opt/hf_cache/. /data/hf_cache/
+
+exit   # liberta o nó dev-x86
+```
+
+O `run_ruby_benchmark.sh` faz o *bind* de `pydeps` para `/data/pydeps` e põe
+`/data/pydeps/marta` à cabeça do `PYTHONPATH`. O pacote `marta/` em si não vem
+daqui: vem do *bind* de `$MARTA_ROOT` para `/opt/marta`, que tem de ter o
+código atualizado (rsync do portátil).
+
+> Só é preciso repetir isto quando o `requirements.txt` mudar. O
+> `pydeps/baseline` do README antigo era das baselines Python, que saíram no
+> `9d02d37ac`.
 
 ## Preparar os projetos, a cada mudança de corpus
 
@@ -118,3 +161,10 @@ jobs em simultâneo não colidirem.
 
 **A cache do HuggingFace tem de ser gravável.** Aponta-se `HF_HOME` para
 `/projects`, não para a *home*.
+
+**A pasta dos projetos Ruby também tem de ser gravável.** Cada projeto guarda em
+`.marta_ruby_cache/` a análise, o grafo de chamadas e, desde 2026-09-10, os
+vetores do RAG (uma coleção ChromaDB). É isso que faz uma segunda execução saltar
+o *embedding* de todos os sumários, que aqui corre em CPU (`EMBED_DEVICE=cpu`,
+para o Ollama ficar com a GPU sozinho). O *bind* de `ruby_projects` é de
+escrita; se algum dia passar a `:ro`, o custo volta a aparecer sem dar erro.
