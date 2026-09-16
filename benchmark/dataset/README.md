@@ -9,11 +9,11 @@ A unidade é o **módulo** (ficheiro Ruby), como no CodaMosa e no CoverUp.
 source scripts/ruby_env.sh          # obrigatório: as camadas 2 e 6 usam Ruby
 
 python -m benchmark.dataset.camada1_universo
-python -m benchmark.dataset.camada2_parser              # ~35 min, clona 133 gems
+python -m benchmark.dataset.camada2_parser              # ~5 min, clona 133 gems
 python -m benchmark.dataset.camada3_caracteristicas     # segundos
 python -m benchmark.dataset.camada4_elegibilidade       # segundos
 python -m benchmark.dataset.camada5_desduplicacao       # ~1 min
-python -m benchmark.dataset.camada6_carregamento        # ~1 h, instala
+python -m benchmark.dataset.camada6_carregamento        # ~20 min, instala
 python -m benchmark.dataset.camada7_selecao             # ~2 min
 ```
 
@@ -67,12 +67,24 @@ guardava a subpasta com o ramo (`tree/master/master/activesupport`), e a camada 
 lia o repositório inteiro. Corrigido. O corpus não foi afetado, porque foi
 construído a partir da camada 2 original, anterior ao erro.
 
-**Por resolver:** o `1_universo/` guardado é uma regeneração de 25 de agosto, com
-esse erro e com as versões publicadas nesse dia (rubocop 1.90.0, sprockets 4.4.1,
-twilio-ruby 7.11.1). A camada 2 guardada consumiu o universo de 23 de agosto
-(1.89.0, 4.4.0, 7.10.7). As camadas 2 a 7 são coerentes entre si; a 1 não é
-coerente com elas. Para a camada 2 se verificar, o universo foi reconstruído a
-partir das colunas do próprio `parse.csv` original.
+**O universo está congelado a 23 de agosto.** A camada 1 consulta o RubyGems ao
+vivo, por isso correr noutro dia dá outra fotografia: a 16 de setembro, com o
+código corrigido, deu as mesmas 133 gems, os mesmos repositórios e as mesmas
+categorias, mas **22 das 133 versões já eram outras** (rubocop 1.91.0,
+sentry-ruby 7.0.0, ...). A reprodução começa no `1_universo/` guardado, não numa
+nova corrida da camada 1.
+
+O `1_universo/` guardado era uma regeneração de 25 de agosto, com o ramo repetido
+e versões posteriores às que a camada 2 usou. Foi reposto o de 23 de agosto, a
+partir dos valores que a camada 2 registou ao clonar (`parse.csv`: repositório,
+categoria, descargas, versão). A licença vem de 25 de agosto (nenhuma camada a
+lê). Nas `candidatas.csv`, as 133 que qualificam têm os valores de 23; as outras
+726 ficam com os de 25, que são os únicos guardados, e só mostram que ficam abaixo
+do limiar — o que é verdade nos dois dias (as mesmas 133 qualificam a 23 e a 25).
+
+Verificado: zero incoerências entre `universo`, `candidatas` e `parse.csv`; a
+camada 2 corrida sobre este universo reproduz o `analise_completa` linha a linha
+(a ordem das linhas no ficheiro varia entre corridas; o conteúdo não).
 
 ## O que sai para o cluster
 

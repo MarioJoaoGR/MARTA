@@ -1,5 +1,5 @@
 {
-  "data": "2026-08-25",
+  "data": "2026-08-23",
   "fonte": "https://raw.githubusercontent.com/markets/awesome-ruby/master/README.md",
   "min_downloads": 100000000,
   "1_entradas_awesome_ruby": 859,
@@ -70,5 +70,6 @@
     "authorization": 1,
     "diff": 1,
     "pdf": 1
-  }
+  },
+  "nota": "Contagens iguais nos dois dias: as mesmas 133 gems qualificam a 23 e a 25 de agosto. Em candidatas.csv, as 133 que qualificam tem os valores de 23 de agosto; as outras 726 tem os de 25 de agosto, porque os de 23 nao ficaram guardados, e so servem para mostrar que ficam abaixo do limiar (ficam nos dois dias)."
 }
