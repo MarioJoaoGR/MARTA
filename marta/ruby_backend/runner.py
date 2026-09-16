@@ -26,6 +26,11 @@ from typing import Dict, List, Optional
 from .ruby_ast import RubyParseError, ruby_bin
 
 
+# Carregado com -r antes de cada spec (ver o próprio ficheiro): impede que o
+# to_json substituído pelo ActiveSupport rebente o relatório JSON do RSpec.
+_GUARD = os.path.join(os.path.dirname(__file__), "rb", "marta_rspec_guard.rb")
+
+
 def rspec_bin() -> str:
     override = os.getenv("MARTA_RSPEC_BIN")
     if override:
@@ -148,7 +153,7 @@ def run_rspec(
     import tempfile
     fd, json_path = tempfile.mkstemp(prefix="marta_rspec_", suffix=".json")
     os.close(fd)
-    args = [rspec_bin(), "-O", os.devnull, "-f", "json", "-o", json_path]
+    args = [rspec_bin(), "-O", os.devnull, "-f", "json", "-o", json_path, "-r", _GUARD]
     for p in load_paths or []:
         args += ["-I", p]
     for r in requires or []:

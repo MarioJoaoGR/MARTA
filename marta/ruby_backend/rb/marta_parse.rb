@@ -289,10 +289,15 @@ if $PROGRAM_NAME == __FILE__
     path = ARGV[1] || "(stdin)"
   elsif ARGV[0] && !ARGV[0].start_with?("--")
     path = ARGV[0]
-    src = File.read(path)
+    src = File.read(path, encoding: "UTF-8")
   else
     warn "usage: ruby marta_parse.rb <file.rb> | --stdin [name]"
     exit 2
   end
+  # Bytes inválidos em UTF-8 viram "?", a MESMA regra do lote.rb da camada 2.
+  # Sem isto, um único ficheiro noutra codificação (a simplecov traz uma fixture
+  # em EUC-JP) rebentava num String#strip e derrubava a análise da gem inteira,
+  # e a ferramenta lia ficheiros diferentes dos que o dataset leu.
+  src = src.scrub("?") unless src.valid_encoding?
   puts JSON.generate(MartaParse.analyze(src, path))
 end

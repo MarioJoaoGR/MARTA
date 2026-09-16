@@ -78,6 +78,16 @@ $LOAD_PATH.unshift(source_dir)
 end
 
 def emit_coverage(source_dir)
+  # Mesma proteção do marta_rspec_guard.rb: se o código sob teste substituiu o
+  # to_json pelo do ActiveSupport sem carregar o encoder, o JSON.generate abaixo
+  # rebentava e a medição saía vazia.
+  if defined?(ActiveSupport::ToJsonWithActiveSupportEncoder) && !defined?(ActiveSupport::JSON)
+    begin
+      require "active_support/json"
+    rescue LoadError
+      nil
+    end
+  end
   result = Coverage.result
   files = {}
   prefix = source_dir + File::SEPARATOR
