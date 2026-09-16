@@ -246,8 +246,10 @@ class Harness:
                 shutil.rmtree(scratch, ignore_errors=True)
 
             por_modulo = {a["ficheiro"]: a for a in p["alvos"]}
-            linhas, tot = [], dict(exec=0, cob=0, cob_invocados=0, ramos=0, ramos_cob=0,
-                                   invocados=0, carregados=0)
+
+            # 1. Por MÉTODO: dado auxiliar. É o que a ferramenta usa entre rondas
+            #    para escolher o que ainda falta testar; não é a métrica reportada.
+            linhas = []
             for t in proj.targets:
                 rel = t.source_rel
                 a = por_modulo.get(rel, {})
@@ -263,37 +265,48 @@ class Harness:
                                  linhas_cobertas=mc.covered_lines,
                                  ramos=mc.total_branches, ramos_cobertos=mc.covered_branches,
                                  invocado=mc.invoked)
-                    tot["exec"] += mc.executable_lines
-                    tot["cob"] += mc.covered_lines
-                    tot["ramos"] += mc.total_branches
-                    tot["ramos_cob"] += mc.covered_branches
-                    tot["carregados"] += 1
-                    if mc.invoked:
-                        tot["invocados"] += 1
-                        tot["cob_invocados"] += mc.covered_lines
                 linhas.append(linha)
             _grava_json(out_root / "cobertura_por_metodo.json", linhas)
 
+            # 2. Por MÓDULO (ficheiro-alvo): a métrica reportada. Cobertura
+            #    convencional, a do coverage.py: o ficheiro inteiro, não só as
+            #    linhas de dentro dos métodos-alvo (ver coverage_runner.FileCoverage).
+            modulos, tot = [], dict(exec=0, cob=0, ramos=0, ramos_cob=0)
+            for rel in sorted(por_modulo):
+                a = por_modulo[rel]
+                fc = cov.file_coverage(result.files.get(rel), result.branches.get(rel))
+                modulos.append({"ficheiro": rel, "origem": a.get("origem"),
+                                "modo": a.get("modo"),
+                                "vizinhos_no_corpus": a.get("vizinhos_no_corpus"),
+                                "carregado": rel in result.files,
+                                "linhas_executaveis": fc.executable_lines,
+                                "linhas_cobertas": fc.covered_lines,
+                                "cobertura_linhas_pct": round(fc.pct, 2),
+                                "ramos": fc.total_branches,
+                                "ramos_cobertos": fc.covered_branches})
+                tot["exec"] += fc.executable_lines
+                tot["cob"] += fc.covered_lines
+                tot["ramos"] += fc.total_branches
+                tot["ramos_cob"] += fc.covered_branches
+            _grava_json(out_root / "cobertura_por_modulo.json", modulos)
+
             def pct(a, b):
                 return round(100 * a / b, 2) if b else 0.0
+            # 3. Por PROJETO: soma sobre os ficheiros-alvo desta gem (o TOTAL do
+            #    coverage report restrito aos módulos-alvo).
             self.state[key] = {
                 "status": "ok", "elapsed_s": round(time.time() - t0, 1),
-                "spec_files": len(specs), "metodos_alvo": len(proj.targets),
-                "metodos_carregados": tot["carregados"],
-                "metodos_invocados": tot["invocados"],
+                "spec_files": len(specs), "modulos_alvo": len(modulos),
+                "modulos_carregados": sum(1 for m in modulos if m["carregado"]),
                 "linhas_executaveis": tot["exec"], "linhas_cobertas": tot["cob"],
                 "cobertura_linhas_pct": pct(tot["cob"], tot["exec"]),
-                # A mesma cobertura, mas só a contar métodos que chegaram a ser
-                # chamados: tira o `def` executado ao carregar o ficheiro.
-                "cobertura_linhas_so_invocados_pct": pct(tot["cob_invocados"], tot["exec"]),
                 "ramos": tot["ramos"], "ramos_cobertos": tot["ramos_cob"],
                 "cobertura_ramos_pct": pct(tot["ramos_cob"], tot["ramos"]),
             }
             s = self.state[key]
-            log(f"  └─ cobertura: {s['cobertura_linhas_pct']}% linhas "
-                f"({s['cobertura_linhas_so_invocados_pct']}% só invocados), "
-                f"{s['cobertura_ramos_pct']}% ramos, "
-                f"{tot['invocados']}/{len(proj.targets)} métodos invocados")
+            log(f"  └─ cobertura do projeto: {s['cobertura_linhas_pct']}% linhas "
+                f"({tot['cob']}/{tot['exec']}), {s['cobertura_ramos_pct']}% ramos, "
+                f"{len(modulos)} módulos")
         except Exception as e:
             self.state[key] = {"status": "error", "err": repr(e)[:300],
                                "elapsed_s": round(time.time() - t0, 1)}
@@ -303,18 +316,43 @@ class Harness:
     def report(self):
         rows = {k.split("/", 1)[1]: v for k, v in self.state.items()
                 if k.startswith("coverage/") and v.get("status") == "ok"}
+        # Agregados do corpus. As tres formas, porque dizem coisas diferentes e
+        # escolher so a conveniente e desonesto: somada (cada linha pesa igual),
+        # media por modulo (cada modulo pesa igual, a unidade do corpus) e media
+        # por projeto (cada gem pesa igual).
+        modulos = []
+        for gem in rows:
+            f = self.out_dir / gem / "cobertura_por_modulo.json"
+            if f.exists():
+                modulos += json.loads(f.read_text())
+        agregados = {}
+        if rows:
+            e = sum(v["linhas_executaveis"] for v in rows.values())
+            c = sum(v["linhas_cobertas"] for v in rows.values())
+            pm = [m["cobertura_linhas_pct"] for m in modulos if m["linhas_executaveis"]]
+            agregados = {
+                "projetos": len(rows), "modulos": len(modulos),
+                "cobertura_linhas_somada_pct": round(100 * c / e, 2) if e else 0.0,
+                "cobertura_linhas_media_por_modulo_pct":
+                    round(sum(pm) / len(pm), 2) if pm else 0.0,
+                "cobertura_linhas_media_por_projeto_pct":
+                    round(sum(v["cobertura_linhas_pct"] for v in rows.values()) / len(rows), 2),
+            }
         out = self.out_dir / ("results_medicao.json" if self.state_path.name != "state.json"
                               else "results.json")
-        _grava_json(out, {"projetos": rows, "state": self.state})
+        _grava_json(out, {"agregados": agregados, "projetos": rows, "state": self.state})
         if rows:
             log("")
-            log(f"{'gem':24s}{'specs':>7s}{'métodos':>9s}{'invoc.':>8s}{'linhas':>9s}{'ramos':>8s}")
+            log(f"{'gem':28s}{'módulos':>8s}{'linhas':>14s}{'cobertura':>11s}{'ramos':>8s}")
             for n, v in sorted(rows.items()):
-                log(f"{n:24s}{v['spec_files']:>7}{v['metodos_alvo']:>9}"
-                    f"{v['metodos_invocados']:>8}{v['cobertura_linhas_pct']:>8}%"
-                    f"{v['cobertura_ramos_pct']:>7}%")
+                log(f"{n:28s}{v['modulos_alvo']:>8}"
+                    f"{v['linhas_cobertas']:>7}/{v['linhas_executaveis']:<6}"
+                    f"{v['cobertura_linhas_pct']:>10}%{v['cobertura_ramos_pct']:>7}%")
+            a = agregados
+            log(f"corpus: {a['cobertura_linhas_somada_pct']}% somada · "
+                f"{a['cobertura_linhas_media_por_modulo_pct']}% média por módulo · "
+                f"{a['cobertura_linhas_media_por_projeto_pct']}% média por projeto")
         log(f"resultados → {out}")
-
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__,

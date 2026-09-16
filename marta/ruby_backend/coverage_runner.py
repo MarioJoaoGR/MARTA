@@ -162,6 +162,48 @@ def run_line_coverage(
                           files=files, branches=branches, methods=methods)
 
 
+@dataclass
+class FileCoverage:
+    """Cobertura CONVENCIONAL de um ficheiro, a mesma regra do coverage.py.
+
+    Denominador: todas as linhas executáveis do ficheiro inteiro — o topo do
+    ficheiro, o corpo das classes, as linhas `def`, o `initialize`, e não só as
+    linhas de dentro dos métodos-alvo. Numerador: as que correram pelo menos uma
+    vez. É o que o `coverage report` do Python mostra como Stmts/Miss/Cover, e o
+    que o CodaMosa e o CoverUp reportam por módulo.
+
+    Consequência, igual nas duas linguagens: carregar o ficheiro já cobre as
+    linhas que correm ao carregar (a linha `def`, as constantes, o `class`).
+    """
+    executable_lines: int = 0
+    covered_lines: int = 0
+    total_branches: int = 0
+    covered_branches: int = 0
+
+    @property
+    def pct(self) -> float:
+        return 100.0 * self.covered_lines / self.executable_lines if self.executable_lines else 0.0
+
+
+def file_coverage(lines: Optional[List[Optional[int]]],
+                  branches: Optional[List[List[int]]] = None) -> FileCoverage:
+    """Cobertura convencional de um ficheiro a partir do array de linhas do
+    Coverage do Ruby (null = não executável, 0 = não correu, >0 = correu)."""
+    fc = FileCoverage()
+    for hit in lines or []:
+        if hit is None:
+            continue
+        fc.executable_lines += 1
+        if hit > 0:
+            fc.covered_lines += 1
+    for entry in branches or []:
+        if entry and len(entry) >= 2:
+            fc.total_branches += 1
+            if entry[1]:
+                fc.covered_branches += 1
+    return fc
+
+
 def synthesize(method: MethodInfo, lines: List[Optional[int]],
                branches: Optional[List[List[int]]] = None,
                methods: Optional[List[List[int]]] = None) -> MethodCoverage:

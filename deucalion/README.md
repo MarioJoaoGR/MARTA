@@ -246,15 +246,28 @@ já marcados como `ok`. Não é preciso fazer nada.
 ```
 /projects/F202407648IACDCF2/mario/results_ruby/<modelo>/
     harness/       state.json, ambiente_<gem>.json, alvos_<gem>.json, logs/
-    <gem>/         marta_specs/, cobertura_por_metodo.json
+    <gem>/         marta_specs/, cobertura_por_modulo.json, cobertura_por_metodo.json
                    run_results/<gem>.json          métricas e agregados
                    run_results/<gem>.eventos.jsonl uma linha por chamada
     results.json   resumo por gem
 ```
 
-O `cobertura_por_metodo.json` tem uma linha por método-alvo, com `origem`,
-`modo` e `vizinhos_no_corpus` ao lado da cobertura. É o que permite responder,
-dentro da mesma execução, se o contexto entre módulos ajudou.
+**A cobertura reportada é a convencional, por módulo**: a mesma regra do
+`coverage.py`, que o CodaMosa e o CoverUp usam. O denominador é o ficheiro-alvo
+inteiro (topo do ficheiro, corpo das classes, linhas `def`, `initialize`), não só
+o interior dos métodos. Confirmado com o `coverage.py` 7.6.1 a 2026-09-16: um
+módulo só importado dá 6/12 instruções, as que correm ao carregar.
+
+- `cobertura_por_modulo.json`: uma linha por ficheiro-alvo, com a cobertura de
+  linhas e de ramos, e `origem`, `modo` e `vizinhos_no_corpus` ao lado. É daqui
+  que sai a comparação entre módulos com e sem vizinhos, e entre os dois braços.
+- por projeto (no `results.json`): a soma sobre os ficheiros-alvo da gem, o
+  `TOTAL` do `coverage report` restrito a esses ficheiros.
+- para o corpus: as três agregações — somada, média por módulo, média por
+  projeto — porque dizem coisas diferentes e escolher só uma é escolher a
+  conveniente.
+- `cobertura_por_metodo.json`: dado auxiliar, por método. É o que a ferramenta
+  usa entre rondas para decidir o que falta testar; não é a métrica reportada.
 
 O `<gem>.json` traz `por_fase` (chamadas, tokens de entrada e saída, segundos de
 modelo e de parede) e `subprocessos` (quantas vezes e quanto tempo em `ruby -c`,
