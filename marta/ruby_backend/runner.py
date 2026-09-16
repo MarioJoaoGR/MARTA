@@ -128,12 +128,15 @@ def run_rspec(
     load_paths: Optional[List[str]] = None,
     cwd: Optional[str] = None,
     timeout: int = 60,
+    requires: Optional[List[str]] = None,
 ) -> RSpecResult:
     """Run one spec file under ``rspec -f json`` and parse the results.
 
     ``load_paths`` become ``-I`` flags (the ``PYTHONPATH`` analogue) so the spec
-    can ``require`` the code under test. ``all_passed`` follows RSpec's exit code
-    (0 only when every example passed and nothing errored outside examples).
+    can ``require`` the code under test. ``requires`` become ``-r`` flags, loaded
+    before the spec: the gem's entry point, as in the environment the dataset
+    certified. ``all_passed`` follows RSpec's exit code (0 only when every
+    example passed and nothing errored outside examples).
     """
     # -O /dev/null: a "vacina" (analoga ao -c /dev/null do pytest na MARTA
     # Python) — ignora o .rspec do projeto-alvo, para os specs gerados serem
@@ -141,6 +144,8 @@ def run_rspec(
     args = [rspec_bin(), "-O", os.devnull, "-f", "json"]
     for p in load_paths or []:
         args += ["-I", p]
+    for r in requires or []:
+        args += ["-r", r]
     args.append(spec_path)
 
     try:

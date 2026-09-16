@@ -1,164 +1,205 @@
 """Prepara os projetos Ruby do benchmark (PASSO COM REDE — correr ANTES do job).
 
 Os nós de computação do Deucalion não têm rede, por isso os projetos têm de vir
-clonados e com as dependências instaladas — o análogo do que o .sif faz para o
-benchmark Python (projetos pip-installed em build-time).
+clonados e com as dependências instaladas.
 
-Por cada projeto de ``ruby_projects.json``:
-  clone --> checkout do commit FIXADO --> instala runtime deps do gemspec num
-  GEM_HOME local ao projeto (``.gem_home/``), sem tocar no gem-store do sistema.
+Lê o ``projetos.json`` da camada 7 e, por gem, reproduz o ambiente em que a
+camada 6 certificou que os módulos carregam. Não inventa uma receita própria:
+chama as mesmas funções da camada 6 (``clona``, ``instala``, ``bundle``). Uma
+receita diferente foi exatamente o que antes fazia módulos certificados falharem
+no cluster (nos monorepos o gemspec nem está na raiz; o fastlane precisa do
+Gemfile).
 
-O diretório resultante é auto-contido: copia-se/bind-monta-se no Deucalion e o
-harness corre offline (basta GEM_HOME apontar para ``<proj>/.gem_home``).
+  clone da etiqueta publicada --> confirma o commit --> instala segundo o
+  `ambiente` da camada 6 --> regista as versões que ficaram instaladas
 
-    python -m benchmark.prepare_ruby_projects --out /caminho/para/ruby_projects
-    python -m benchmark.prepare_ruby_projects --out ... --projects faker,fpm
+Nada vai para o sistema: as gems ficam dentro de cada projeto (``.gem_home/``, ou
+``.gem_bundle/`` quando a receita é o Gemfile). O diretório de saída é
+auto-contido e o ``manifest.json`` diz o que ficou pronto.
+
+    python -m benchmark.prepare_ruby_projects --out /caminho/ruby_projects
+    python -m benchmark.prepare_ruby_projects --out ... --projects aasm,puma
+    python -m benchmark.prepare_ruby_projects --out ... --continuar
 """
 from __future__ import annotations
 
 import argparse
-import glob
 import json
 import os
 import pathlib
+import shutil
 import subprocess
 import sys
 import time
-import urllib.request
 
 REPO = pathlib.Path(__file__).resolve().parent.parent
-CONFIG = REPO / "benchmark" / "ruby_projects.json"
-RUBY_BIN = os.environ.get("MARTA_RUBY_BIN", "ruby")
-_BIN = os.path.dirname(RUBY_BIN)
-GEM_BIN = os.path.join(_BIN, "gem") if _BIN else "gem"
-BUNDLE_BIN = os.path.join(_BIN, "bundle") if _BIN else "bundle"
+sys.path.insert(0, str(REPO))
+
+from benchmark.dataset import camada6_carregamento as camada6  # noqa: E402
+
+PROJETOS = REPO / "apresentacao" / "demo_dataset" / "7_selecao" / "projetos.json"
 
 
-def _run(cmd, cwd=None, timeout=600, env=None, quiet=True):
+def carrega_projetos(path: pathlib.Path = PROJETOS) -> dict:
+    with open(path, encoding="utf-8") as f:
+        return {k: v for k, v in json.load(f).items() if not k.startswith("_")}
+
+
+def raiz_de(clone: pathlib.Path, projeto: dict) -> pathlib.Path:
+    return clone if projeto["raiz"] in ("", ".") else clone / projeto["raiz"]
+
+
+def _default_dir() -> str:
     try:
-        r = subprocess.run(cmd, cwd=cwd, timeout=timeout, env=env,
-                           capture_output=True, text=True, errors='replace')
-        if r.returncode != 0 and not quiet:
-            print(f"    ! {' '.join(cmd[:3])}: {(r.stderr or r.stdout)[-300:]}")
-        return r.returncode == 0, (r.stderr or r.stdout)[-400:]
-    except subprocess.TimeoutExpired:
-        return False, "timeout"
-    except Exception as e:
-        return False, repr(e)[:200]
-
-
-def _rubygems_runtime_deps(name: str):
-    """Deps de runtime da gem publicada, ou None se a consulta FALHAR (ver a
-    mesma função em finalize_corpus.py: devolver [] numa falha de rede daria um
-    projeto 'pronto' sem deps, que só rebentava já offline no cluster)."""
-    try:
-        req = urllib.request.Request(
-            f"https://rubygems.org/api/v1/gems/{name}.json",
-            headers={"User-Agent": "marta"})
-        d = json.load(urllib.request.urlopen(req, timeout=20))
-        return [x["name"] for x in d.get("dependencies", {}).get("runtime", [])]
+        return subprocess.run([camada6.ruby(), "-e", "print Gem.default_dir"],
+                              capture_output=True, text=True, timeout=30).stdout.strip()
     except Exception:
-        return None
+        return ""
 
 
-def prepare(name: str, info: dict, out_dir: pathlib.Path, timeout: int) -> dict:
-    dest = out_dir / name
-    res = {"project": name, "repo": info["repo"], "commit": info["commit"]}
+def gem_env(clone: pathlib.Path, gems: dict) -> dict:
+    """GEM_HOME/GEM_PATH para correr specs no ambiente preparado.
 
-    if not dest.exists():
-        # Clone completo (precisamos de fazer checkout de um commit antigo, por
-        # isso NÃO se pode usar --depth 1).
-        ok, err = _run(["git", "clone", f"https://github.com/{info['repo']}", str(dest)],
-                       timeout=timeout)
-        if not ok:
-            return {**res, "status": "clone_failed", "detail": err}
-
-    ok, err = _run(["git", "-C", str(dest), "checkout", "--quiet", info["commit"]],
-                   timeout=180)
-    if not ok:
-        return {**res, "status": "checkout_failed", "detail": err}
-
-    src = dest / info["source_path"]
-    if not src.is_dir():
-        return {**res, "status": "no_source", "detail": f"{info['source_path']} nao existe"}
-
-    # Runtime deps num GEM_HOME local ao projeto (auto-contido, portável).
-    gem_home = dest / ".gem_home"
-    gem_home.mkdir(exist_ok=True)
-    env = {**os.environ, "GEM_HOME": str(gem_home), "GEM_PATH": str(gem_home)}
-
-    specs = sorted(glob.glob(str(dest / "*.gemspec")))
-    installed, detail = False, "sem gemspec na raiz"
-    if specs:
-        ok, err = _run([GEM_BIN, "build", os.path.basename(specs[0])],
-                       cwd=str(dest), timeout=180, env=env)
-        if ok:
-            built = sorted(glob.glob(str(dest / "*.gem")))
-            if built:
-                installed, detail = _run(
-                    [GEM_BIN, "install", os.path.basename(built[-1]),
-                     "--install-dir", str(gem_home), "--no-document"],
-                    cwd=str(dest), timeout=timeout, env=env)
-        else:
-            detail = f"gem build falhou: {err}"
+    Usado pelo verificador e pelo harness, para os dois correrem exatamente no
+    ambiente que este script montou. O GEM_PATH vê, por esta ordem:
+      1. as gems do projeto (a mesma disposição que a camada 6 usou: com Gemfile,
+         as pastas que o bundler cria dentro de .gem_bundle);
+      2. o venv de Ruby (``MARTA_RUBY_ENV``), onde vive o rspec;
+      3. ``Gem.default_dir``, as bundled gems da distribuição.
+    """
+    base = _default_dir()
+    pasta = str(clone / gems["dir"])
+    if gems.get("tipo") == "bundle" and os.path.isdir(pasta):
+        e = camada6.env_bundle(pasta, base)
+        home, caminhos = e["GEM_HOME"], e["GEM_PATH"].split(":")
     else:
-        # Sem gemspec versionado (ex.: kramdown gera-o com `rake gemspec`). Aqui
-        # NÃO se pode falhar em silêncio: os nós do Deucalion não têm rede, por
-        # isso uma dep em falta só rebentaria durante o job. Mesmo critério do
-        # portão em finalize_corpus.py — deps de runtime vindas do RubyGems.
-        deps = _rubygems_runtime_deps(name)
-        if deps is None:
-            detail = "sem gemspec e a consulta ao RubyGems falhou"
-        else:
-            installed, detail = True, None
-            for dep in deps:
-                ok, err = _run([GEM_BIN, "install", dep, "--install-dir",
-                                str(gem_home), "--no-document"],
-                               cwd=str(dest), timeout=timeout, env=env)
-                if not ok:
-                    installed, detail = False, f"dep {dep} falhou: {err}"
-                    break
+        home, caminhos = pasta, [pasta, base]
+    extra = [os.environ.get("MARTA_RUBY_ENV", ""), os.environ.get("GEM_PATH", "")]
+    vistos, ordem = set(), []
+    for p in caminhos[:-1] + extra + caminhos[-1:]:
+        for parte in p.split(os.pathsep):
+            if parte and parte not in vistos:
+                vistos.add(parte)
+                ordem.append(parte)
+    return {"GEM_HOME": home, "GEM_PATH": os.pathsep.join(ordem)}
 
-    rb_files = len(glob.glob(str(src / "**" / "*.rb"), recursive=True))
-    return {**res, "status": "ready" if installed else "ready_no_deps",
-            "source_path": info["source_path"], "rb_files": rb_files,
-            "gem_home": str(gem_home), "deps_detail": None if installed else detail}
+
+def _git(clone: pathlib.Path, *args, timeout=600) -> str:
+    try:
+        return subprocess.run(["git", "-C", str(clone), *args], capture_output=True,
+                              text=True, timeout=timeout).stdout.strip()
+    except Exception:
+        return ""
+
+
+def prepara(gem: str, p: dict, out_dir: pathlib.Path) -> dict:
+    clone = out_dir / gem
+    reg = {"gem": gem, "repo": p["repo"], "etiqueta": p["etiqueta"],
+           "commit": p["commit"], "raiz": p["raiz"], "ambiente": p["ambiente"],
+           "estado": "", "detalhe": ""}
+
+    # 1. Código: a etiqueta da versão publicada, e o commit tem de bater certo.
+    if not (clone / ".git").is_dir():
+        shutil.rmtree(clone, ignore_errors=True)
+        if not camada6.clona(p["repo"], p["etiqueta"] or None, str(clone)):
+            return {**reg, "estado": "nao clonou"}
+    head = _git(clone, "rev-parse", "HEAD")[:12]
+    if head != p["commit"]:
+        # Sem etiqueta a camada 2 usou o ramo por omissão, que entretanto pode ter
+        # andado: vai-se buscar o historial e volta-se ao commit certificado.
+        _git(clone, "fetch", "--unshallow", timeout=1800)
+        _git(clone, "checkout", "--quiet", p["commit"])
+        head = _git(clone, "rev-parse", "HEAD")[:12]
+        if head != p["commit"]:
+            return {**reg, "estado": "commit diferente",
+                    "detalhe": f"HEAD {head or '?'} != {p['commit']}"}
+
+    raiz = raiz_de(clone, p)
+    em_falta = [a["ficheiro"] for a in p["alvos"] if not (raiz / a["ficheiro"]).is_file()]
+    if em_falta:
+        return {**reg, "estado": "alvos em falta", "detalhe": ", ".join(em_falta[:5])}
+
+    # 2. Dependências, pelo mesmo degrau que a camada 6 precisou de usar.
+    if p["ambiente"] == "Gemfile do projeto":
+        gems = {"tipo": "bundle", "dir": ".gem_bundle"}
+        ok, err = camada6.bundle(str(raiz), str(clone / gems["dir"]))
+    else:
+        gems = {"tipo": "gem_home", "dir": ".gem_home"}
+        ok, err = camada6.instala(p["deps"], str(clone / gems["dir"]))
+        if ok and p["ambiente"] == "deps + a propria gem":
+            ok, err = camada6.instala([gem], str(clone / gems["dir"]))
+    reg["gems"] = gems
+    if not ok:
+        return {**reg, "estado": "falhou a instalar", "detalhe": err}
+
+    # 3. O que ficou instalado, com versões. A camada 6 instalou as versões mais
+    #    recentes à data; se entretanto saiu uma que parte o carregamento, o
+    #    verificador apanha-o, e isto diz qual foi.
+    env = {**os.environ, **gem_env(clone, gems)}
+    try:
+        lista = subprocess.run([camada6.ruby(), "-S", "gem", "list", "--local"],
+                               capture_output=True, text=True, env=env, timeout=120).stdout
+    except Exception:
+        lista = ""
+    reg["gems_instaladas"] = [ln.strip() for ln in lista.splitlines() if ln.strip()]
+    return {**reg, "estado": "pronto"}
+
+
+def _grava(path: pathlib.Path, dados: dict) -> None:
+    """Temporário + os.replace: um write interrompido nunca deixa o manifesto
+    truncado (já se perderam linhas de um CSV assim)."""
+    tmp = path.with_suffix(".json.tmp")
+    tmp.write_text(json.dumps(dados, indent=2, ensure_ascii=False) + "\n")
+    os.replace(tmp, path)
 
 
 def main():
-    ap = argparse.ArgumentParser(description=__doc__)
+    ap = argparse.ArgumentParser(description=__doc__,
+                                 formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--out", required=True, help="diretório de saída (auto-contido)")
-    ap.add_argument("--projects", default=None, help="subset separado por vírgulas")
-    ap.add_argument("--timeout", type=int, default=900)
+    ap.add_argument("--manifest", default=str(PROJETOS),
+                    help="projetos.json da camada 7")
+    ap.add_argument("--projects", default=None, help="subconjunto separado por vírgulas")
+    ap.add_argument("--continuar", action="store_true",
+                    help="salta as gems que o manifest.json já dá como prontas")
     args = ap.parse_args()
 
-    cfg = {k: v for k, v in json.loads(CONFIG.read_text()).items() if not k.startswith("_")}
+    projetos = carrega_projetos(pathlib.Path(args.manifest))
     if args.projects:
-        wanted = {p.strip() for p in args.projects.split(",")}
-        cfg = {k: v for k, v in cfg.items() if k in wanted}
+        pedidas = {x.strip() for x in args.projects.split(",")}
+        desconhecidas = sorted(pedidas - set(projetos))
+        if desconhecidas:
+            sys.exit(f"não estão no corpus: {', '.join(desconhecidas)}")
+        projetos = {g: p for g, p in projetos.items() if g in pedidas}
 
     out_dir = pathlib.Path(args.out).resolve()
     out_dir.mkdir(parents=True, exist_ok=True)
-    print(f"A preparar {len(cfg)} projetos em {out_dir}\n")
-
-    results = []
-    for name, info in cfg.items():
-        t0 = time.time()
-        print(f"→ {name} ({info['repo']} @ {info['commit'][:10]}) ...", flush=True)
-        r = prepare(name, info, out_dir, args.timeout)
-        r["seconds"] = round(time.time() - t0, 1)
-        results.append(r)
-        extra = f" ({r['rb_files']} .rb)" if r.get("rb_files") else ""
-        print(f"   {r['status']}{extra}  {r['seconds']}s")
-        if r.get("deps_detail"):
-            print(f"   nota deps: {str(r['deps_detail'])[:150]}")
-
     manifest = out_dir / "manifest.json"
-    manifest.write_text(json.dumps({"projects": results}, indent=2) + "\n")
-    ready = sum(1 for r in results if r["status"].startswith("ready"))
-    print(f"\n{ready}/{len(results)} prontos. Manifesto: {manifest}")
-    print("Copiar/bind-montar este diretório no Deucalion e apontar o harness com --projects-dir.")
+    feitos = {}
+    if manifest.exists():
+        feitos = {r["gem"]: r for r in json.loads(manifest.read_text())["projetos"]}
+
+    print(f"A preparar {len(projetos)} gems em {out_dir}\n")
+    for i, (gem, p) in enumerate(sorted(projetos.items()), 1):
+        antes = feitos.get(gem)
+        if args.continuar and antes and antes["estado"] == "pronto" \
+                and antes["commit"] == p["commit"]:
+            print(f"[{i}/{len(projetos)}] {gem}: já pronto")
+            continue
+        t0 = time.time()
+        print(f"[{i}/{len(projetos)}] {gem} ({p['repo']} @ {p['etiqueta'] or p['commit']}, "
+              f"{p['ambiente']}) ...", flush=True)
+        r = prepara(gem, p, out_dir)
+        r["segundos"] = round(time.time() - t0, 1)
+        feitos[gem] = r
+        _grava(manifest, {"projetos": [feitos[g] for g in sorted(feitos)]})
+        print(f"   {r['estado']}  {r['segundos']}s"
+              + (f"  ({str(r['detalhe'])[:150]})" if r.get("detalhe") else ""))
+
+    prontos = sum(1 for r in feitos.values() if r["estado"] == "pronto")
+    print(f"\n{prontos}/{len(feitos)} prontos. Manifesto: {manifest}")
+    print("A seguir: python -m benchmark.verifica_ambiente --projects-dir", out_dir)
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    main()

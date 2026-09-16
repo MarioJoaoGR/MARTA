@@ -9,14 +9,19 @@
 # line range (from marta_parse.rb) to synthesise per-method missing_lines — the
 # structure coverage.py hands the original MARTA for free.
 #
-#   ruby marta_coverage.rb <source_abs_dir> <spec1> [spec2 ...]
+#   ruby marta_coverage.rb [--isolated] [--minitest] \
+#        [--load-path DIR]... [--require LIB]... <source_abs_dir> <spec1> [spec2 ...]
 #
 # `lines` is an array indexed by (line - 1): an integer hit count, or null for
 # non-executable lines. RSpec's own output goes to stderr so stdout stays pure
 # JSON. Exit code is 0 even if some examples fail (coverage is still valid).
 
 require "coverage"
-Coverage.start(lines: true, branches: true)
+# methods: true dá, por método, QUANTAS VEZES foi invocado. É o que separa um
+# método testado de um que só foi carregado: a linha do `def` executa quando o
+# ficheiro é lido, por isso um método de 2 a 3 linhas nunca chamado aparece com
+# metade das linhas cobertas só por existir (36,6% dos métodos do corpus).
+Coverage.start(lines: true, branches: true, methods: true)
 
 require "json"
 
@@ -25,13 +30,30 @@ require "json"
 isolated = ARGV.delete("--isolated") ? true : false
 # --minitest: os ficheiros de teste sao Minitest (nao RSpec).
 minitest_mode = ARGV.delete("--minitest") ? true : false
+
+# Opções repetíveis, tiradas do ARGV antes dos posicionais. Reproduzem o ambiente
+# em que a camada 6 do dataset certificou que cada módulo carrega:
+#   --load-path DIR   pasta de carregamento extra (nos monorepos, uma por sub-gem)
+#   --require LIB     carregada antes dos specs: a porta de entrada da gem
+def take_repeated(flag)
+  vals = []
+  while (i = ARGV.index(flag))
+    vals << ARGV[i + 1]
+    ARGV.slice!(i, 2)
+  end
+  vals.compact
+end
+extra_paths = take_repeated("--load-path")
+preloads = take_repeated("--require")
+
 source_dir = ARGV.shift
 # .dup é essencial: o modo minitest faz ARGV.clear (Minitest.run parseia ARGV),
 # e sem a cópia isso esvaziaria também esta lista — nenhum teste era carregado.
 specs = ARGV.dup
 
 if source_dir.nil? || specs.empty?
-  warn "usage: ruby marta_coverage.rb <source_abs_dir> <spec1> [spec2 ...]"
+  warn "usage: ruby marta_coverage.rb [--load-path DIR]... [--require LIB]... " \
+       "<source_abs_dir> <spec1> [spec2 ...]"
   exit 2
 end
 
@@ -45,6 +67,7 @@ source_dir = begin
 rescue StandardError
   File.expand_path(source_dir)
 end
+$LOAD_PATH.unshift(*extra_paths.map { |p| File.expand_path(p) })
 $LOAD_PATH.unshift(source_dir)
 # Suites humanas carregam helpers a partir da própria pasta de testes
 # (`require "test_helper"` / `"spec_helper"`) — é o que o `rake test -Ilib -Itest`
@@ -68,9 +91,24 @@ def emit_coverage(source_dir)
     (data[:branches] || {}).each_value do |targets|
       targets.each { |tgt, count| branches << [tgt[2], count] }
     end
-    files[path[prefix.length..]] = { "lines" => data[:lines], "branches" => branches }
+    # Métodos: {[Classe, :nome, l, c, el, ec] => invocações}. Mesma lógica: fica
+    # a linha do `def` (que é a start_line do Prism) e o número de invocações.
+    methods = (data[:methods] || {}).map { |key, count| [key[2], count] }
+    files[path[prefix.length..]] = { "lines" => data[:lines], "branches" => branches,
+                                     "methods" => methods }
   end
   $stdout.write(JSON.generate({ "source_dir" => source_dir, "files" => files }))
+end
+
+# A porta de entrada vai DEPOIS do Coverage.start, como qualquer código sob
+# teste. Se falhar, avisa no stderr e segue: os specs que dependem dela falham
+# por si, e a medição dos restantes continua válida.
+preloads.each do |lib|
+  begin
+    require lib
+  rescue Exception => e # rubocop:disable Lint/RescueException
+    warn "[marta_coverage] porta de entrada '#{lib}' falhou: #{e.class}: #{e.message}"
+  end
 end
 
 if minitest_mode

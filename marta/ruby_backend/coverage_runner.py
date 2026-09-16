@@ -7,7 +7,9 @@ to get per-line hit counts, then intersects them with each method's line range
 
 Why synthesise rather than read it off: Ruby's ``:methods`` coverage is only
 hit/no-hit per method, not *which* lines are missing. The line ranges make the
-missing-lines breakdown that Python gets natively.
+missing-lines breakdown that Python gets natively. The ``:methods`` data is still
+collected, because it answers a different question the lines cannot: was the
+method ever INVOKED, or only loaded (see ``MethodCoverage.invoked``).
 """
 from __future__ import annotations
 
@@ -34,6 +36,12 @@ class MethodCoverage:
     missing_branch_lines: List[int] = field(default_factory=list)
     covered_branches: int = 0
     total_branches: int = 0
+    # O método chegou a ser CHAMADO? A linha do `def` executa quando o ficheiro é
+    # carregado, por isso um método nunca chamado tem sempre essa linha coberta:
+    # num de 2-3 linhas isso é metade da cobertura sem teste nenhum. None quando
+    # a medição não trouxe dados de métodos. As linhas NÃO são corrigidas aqui:
+    # qual das duas métricas se reporta é uma decisão, e as duas ficam gravadas.
+    invoked: Optional[bool] = None
 
     @property
     def fully_covered(self) -> bool:
@@ -74,6 +82,8 @@ class CoverageResult:
     files: Dict[str, List[Optional[int]]] = field(default_factory=dict)
     # relative-path -> [[linha, execuções], ...] por ramo (0 = ramo não tomado)
     branches: Dict[str, List[List[int]]] = field(default_factory=dict)
+    # relative-path -> [[linha do def, invocações], ...] por método
+    methods: Dict[str, List[List[int]]] = field(default_factory=dict)
 
 
 def run_line_coverage(
@@ -83,6 +93,8 @@ def run_line_coverage(
     timeout: int = 120,
     isolated: bool = False,
     minitest: bool = False,
+    load_paths: Optional[List[str]] = None,
+    requires: Optional[List[str]] = None,
 ) -> CoverageResult:
     """Run specs under Coverage and return per-file per-line hit arrays.
 
@@ -90,6 +102,10 @@ def run_line_coverage(
     prepended to the load path so specs can ``require`` the code under test.
     ``isolated=True`` ignores the project's .rspec (for GENERATED specs, which
     are self-contained); leave False to measure human suites with their config.
+
+    ``load_paths`` (extra, relative to ``cwd``) and ``requires`` (loaded before the
+    specs) reproduce the environment the specs were generated in; without them a
+    spec that was green during generation can fail to load when measured.
     """
     # cwd pode chegar relativo (ex.: CLI com --project_path relativo); o filtro
     # de caminhos no helper compara absolutos — absolutizar SEMPRE.
@@ -100,6 +116,10 @@ def run_line_coverage(
         args.append("--isolated")
     if minitest:
         args.append("--minitest")
+    for p in load_paths or []:
+        args += ["--load-path", p if os.path.isabs(p) else os.path.join(cwd, p)]
+    for r in requires or []:
+        args += ["--require", r]
     args += [abs_source, *spec_paths]
     try:
         proc = subprocess.run(
@@ -134,15 +154,17 @@ def run_line_coverage(
             f"(stdout[:200]: {raw[:200]!r}; stderr: {proc.stderr[:200]})"
         )
     # Helper wraps each file as {"lines": [...]}; unwrap to the bare hit array.
-    files = {rel: entry.get("lines", []) for rel, entry in data.get("files", {}).items()}
-    branches = {rel: entry.get("branches", []) or []
-                for rel, entry in data.get("files", {}).items()}
+    entries = data.get("files", {})
+    files = {rel: entry.get("lines", []) for rel, entry in entries.items()}
+    branches = {rel: entry.get("branches", []) or [] for rel, entry in entries.items()}
+    methods = {rel: entry.get("methods", []) or [] for rel, entry in entries.items()}
     return CoverageResult(source_dir=data.get("source_dir", abs_source),
-                          files=files, branches=branches)
+                          files=files, branches=branches, methods=methods)
 
 
 def synthesize(method: MethodInfo, lines: List[Optional[int]],
-               branches: Optional[List[List[int]]] = None) -> MethodCoverage:
+               branches: Optional[List[List[int]]] = None,
+               methods: Optional[List[List[int]]] = None) -> MethodCoverage:
     """Per-method missing_lines (e ramos) from a file's coverage arrays.
 
     Executable lines are those with a non-null entry within the method's
@@ -153,6 +175,9 @@ def synthesize(method: MethodInfo, lines: List[Optional[int]],
     real: um ``if`` cuja linha executou conta como linha coberta, mas se o lado
     ``else`` nunca correu há aqui um ramo por tomar que a cobertura de linhas
     não mostrava.
+
+    ``methods`` (pares ``[linha do def, invocações]``) só preenche ``invoked``;
+    não altera as contagens de linhas.
     """
     missing: List[int] = []
     covered = 0
@@ -184,7 +209,14 @@ def synthesize(method: MethodInfo, lines: List[Optional[int]],
         else:
             missing_br.append(b_line)
 
+    invoked: Optional[bool] = None
+    if methods is not None:
+        counts = [m[1] for m in methods
+                  if m and len(m) >= 2 and m[0] == method.start_line]
+        invoked = (max(counts) > 0) if counts else None
+
     return MethodCoverage(missing_lines=missing, covered_lines=covered,
                           executable_lines=executable,
                           missing_branch_lines=missing_br,
-                          covered_branches=cov_br, total_branches=tot_br)
+                          covered_branches=cov_br, total_branches=tot_br,
+                          invoked=invoked)

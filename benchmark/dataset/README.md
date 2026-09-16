@@ -48,6 +48,37 @@ varrimentos ficam gravados ao lado dos artefactos.
 | orçamento | 500 | camada 7 | decisão do utilizador, perto dos 486 do CodaMosa |
 | fatia de grupos | 50% | camada 7 | decisão do utilizador |
 
+## O que sai para o cluster
+
+A camada 7 escreve, além do corpus, o **manifesto de execução**:
+
+```
+apresentacao/demo_dataset/7_selecao/projetos.json
+```
+
+Não decide nada de novo: junta, por gem, o que as camadas anteriores já
+decidiram.
+
+| campo | de onde vem | para quê |
+|---|---|---|
+| `repo`, `etiqueta`, `commit`, `raiz` | camada 2 | clonar exatamente o código analisado |
+| `ambiente`, `deps` | camada 6 | repetir o degrau de instalação que abriu a porta |
+| `load_paths`, `entrada` | camada 6 | correr os specs no ambiente em que o módulo foi certificado |
+| `ficheiros_codigo` | camada 2 | o grafo da ferramenta vê o que a camada 7 viu |
+| `alvos` (`modo`, `origem`, `vizinhos_no_corpus`) | camadas 6 e 7 | os alvos, e as etiquetas para repartir os resultados |
+
+Três programas leem daqui, e só daqui: `benchmark/prepare_ruby_projects.py`
+(clona e instala), `benchmark/verifica_ambiente.py` (confirma que cada módulo
+carrega **pela ferramenta**, sem chamar o modelo) e
+`benchmark/run_ruby_benchmark.py` (o harness).
+
+**Porque é que isto é uma peça do dataset e não do harness:** a camada 6 não
+certificou os módulos em abstrato, certificou-os num ambiente concreto, com todas
+as pastas de carregamento da gem e com a porta de entrada já carregada. Uma
+ferramenta que corra os specs de outra maneira vê módulos certificados a falhar,
+e o erro conta contra a ferramenta sem ser culpa dela. Por isso o ambiente viaja
+com os alvos.
+
 ## O que NÃO é critério
 
 Não há exclusões por nome, por categoria, nem por o projeto ser uma aplicação,
@@ -57,6 +88,12 @@ quase metade de aplicações (`ansible`, `black`, `httpie`, `youtube-dl`, e o
 
 Também não se exclui por não haver `lib/`: das 133, as duas que não a têm são
 monorepos (`rspec`, `fastlane`), e o código está lá.
+
+Consequência assumida: cinco dos 500 alvos não são código de biblioteca
+(`kramdown/setup.rb`, `pg/rakelib/task_extension.rb`, `pg/sample/…`,
+`httparty/examples/…`, `concurrent-ruby/docs-source/…`). Passaram as camadas 3 a
+6 como qualquer outro módulo e carregam; ficam, porque excluí-los seria um
+critério por nome, que é precisamente o que esta secção recusa.
 
 ## Cinco bugs de assunção encontrados ao construir
 
@@ -111,3 +148,6 @@ medida no fim dentro do mesmo conjunto. Resultado, com os mesmos 500 módulos:
 12,2%  outro módulo do corpus      (era 5,1%)
 34,9%  fora                        (era 45,0%)
 ```
+
+Dos 500, **410 têm pelo menos um vizinho no corpus e 90 não têm**. É essa divisão
+que o `cobertura_por_metodo.json` do harness permite comparar no fim.

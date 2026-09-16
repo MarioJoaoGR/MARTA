@@ -1,16 +1,23 @@
-"""Harness do benchmark MARTA-Ruby (espelha scripts/run_benchmark.py).
+"""Harness do benchmark MARTA-Ruby.
 
-Por projeto preparado (ver ``prepare_ruby_projects.py``):
-  1. corre a MARTA-Ruby (``marta.ruby_backend.start_react``) → specs em marta_specs/
-  2. mede a cobertura **só dos specs gerados** (isolada da suite humana)
-  3. grava métricas por projeto e acumula em results.json
+Não adivinha nada. Lê dois ficheiros:
+  - ``projetos.json`` (camada 7 do dataset): os alvos e o ambiente certificado
+    de cada gem;
+  - ``<projects-dir>/manifest.json`` (``prepare_ruby_projects``): o que ficou de
+    facto preparado.
+Só corre gems que estejam nos dois. Não há modo "sem alvos": sem eles a
+ferramenta tomava a gem inteira como alvo (83 766 métodos em vez de 6 976).
 
-Resume: ``state.json`` guarda o estado por projeto; um restart salta o que já
-está ``ok``/``failed`` (idêntico ao harness Python — essencial no Deucalion, onde
-o walltime obriga a encadear jobs).
+Por gem, duas fases separáveis:
+  generate   corre a MARTA-Ruby no ambiente certificado       (precisa de GPU)
+  measure    cobertura só dos specs gerados, no MESMO ambiente (só CPU)
+No Deucalion a medição vai para a conta de CPU; ``--phase all`` faz as duas.
+
+Resume: ``state.json`` guarda o estado por gem e por fase; um restart salta o
+que já está feito (essencial no Deucalion, onde o walltime obriga a encadear).
 
     python -m benchmark.run_ruby_benchmark --projects-dir /data/ruby_projects \\
-        --out-dir /data/results --num 3
+        --out-dir /data/results --num 3 [--phase generate|measure|all]
 """
 from __future__ import annotations
 
@@ -28,8 +35,11 @@ import time
 from datetime import datetime, timezone
 
 REPO = pathlib.Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(REPO))
+
+from benchmark import prepare_ruby_projects as prep  # noqa: E402
+
 PYTHON = os.environ.get("USER_PYTHON_PATH", sys.executable)
-RUBY_BIN = os.environ.get("MARTA_RUBY_BIN", "ruby")
 
 
 def log(msg: str) -> None:
@@ -37,44 +47,20 @@ def log(msg: str) -> None:
     print(f"[{ts}] {msg}", flush=True)
 
 
-def _gem_env(proj: pathlib.Path) -> dict:
-    """GEM_HOME/GEM_PATH para correr os specs do projeto.
-
-    GEM_PATH tem de ver TRÊS sítios, e falhou uma vez por faltar cada um deles:
-      1. ``<proj>/.gem_home`` — deps do código sob teste, pré-instaladas offline;
-      2. o venv de Ruby (``MARTA_RUBY_ENV``) — onde vive o rspec. Apontar só para
-         o do projeto escondia-o: `can't find gem rspec-core`;
-      3. ``Gem.default_dir`` — as bundled gems da distribuição (minitest & c.),
-         sem as quais a medição das suites humanas em Minitest rebenta.
-
-    GEM_HOME fica no projeto e nada escreve lá durante a medição — a regra de
-    nunca instalar fora do venv mantém-se (ver scripts/ruby_env.sh).
-    """
-    gem_home = proj / ".gem_home"
-    try:
-        default_dir = subprocess.run([RUBY_BIN, "-e", "print Gem.default_dir"],
-                                     capture_output=True, text=True, errors='replace', timeout=30).stdout.strip()
-    except Exception:
-        default_dir = ""
-    paths = [str(gem_home), os.environ.get("MARTA_RUBY_ENV", ""), default_dir,
-             os.environ.get("GEM_PATH", "")]
-    seen, ordered = set(), []
-    for p in paths:
-        for part in p.split(os.pathsep):
-            if part and part not in seen:
-                seen.add(part)
-                ordered.append(part)
-    return {"GEM_HOME": str(gem_home), "GEM_PATH": os.pathsep.join(ordered)}
+def _grava_json(path: pathlib.Path, dados) -> None:
+    tmp = path.with_suffix(path.suffix + ".tmp")
+    tmp.write_text(json.dumps(dados, indent=2, ensure_ascii=False) + "\n")
+    os.replace(tmp, path)
 
 
 class Harness:
-    def __init__(self, projects_dir, out_dir, num, limit, timeout, fresh_specs=False,
-                 targets=None):
+    def __init__(self, projects_dir, out_dir, num, limit, timeout, projetos,
+                 preparados, fresh_specs=False):
         self.projects_dir = pathlib.Path(projects_dir).resolve()
         self.out_dir = pathlib.Path(out_dir).resolve()
         self.num, self.limit, self.timeout = num, limit, timeout
+        self.projetos, self.preparados = projetos, preparados
         self.fresh_specs = fresh_specs
-        self.targets = targets or {}
         self.harness_dir = self.out_dir / "harness"
         self.logs_dir = self.harness_dir / "logs"
         self.state_path = self.harness_dir / "state.json"
@@ -83,7 +69,10 @@ class Harness:
         self.state = json.loads(self.state_path.read_text()) if self.state_path.exists() else {}
 
     def save(self):
-        self.state_path.write_text(json.dumps(self.state, indent=2) + "\n")
+        _grava_json(self.state_path, self.state)
+
+    def _clone(self, gem) -> pathlib.Path:
+        return self.projects_dir / gem
 
     # ---------------------------------------------------------------- run --
     def _run(self, cmd, cwd, log_path, timeout, extra_env=None):
@@ -106,170 +95,228 @@ class Harness:
         except Exception as e:
             return "failed", time.time() - t0, repr(e)[:200]
 
-    def run_marta(self, name, info):
-        """Gera specs com a MARTA-Ruby. Um run por projeto."""
-        key = f"marta_ruby/{name}"
+    def run_marta(self, gem) -> bool:
+        """Gera specs com a MARTA-Ruby, uma execução por gem."""
+        key = f"marta_ruby/{gem}"
         if self.state.get(key, {}).get("status") in ("ok", "failed"):
-            log(f"  {name}: já feito ({self.state[key]['status']}), a saltar")
+            log(f"  {gem}: geração já feita ({self.state[key]['status']}), a saltar")
             return self.state[key]["status"] == "ok"
 
-        proj = self.projects_dir / name
-        # Runs independentes (desenho experimental: N runs + Wilcoxon): sem
-        # isto, a run k reutilizaria os specs da run k-1 (o skip resume-safe vê
-        # os ficheiros no projeto e não regenera). As caches de ANÁLISE ficam —
-        # são contexto determinístico, reutilizado entre runs também no Python.
+        p, pr = self.projetos[gem], self.preparados[gem]
+        raiz = prep.raiz_de(self._clone(gem), p)
+        # Runs independentes (desenho experimental: N runs + Wilcoxon): sem isto a
+        # run k reutilizaria os specs da run k-1. As caches de ANÁLISE ficam.
         if self.fresh_specs:
-            spec_dir = self.out_dir / name / "marta_specs"
+            spec_dir = self.out_dir / gem / "marta_specs"
             if spec_dir.is_dir():
                 shutil.rmtree(spec_dir)
-                log(f"  {name}: marta_specs/ limpo (--fresh-specs)")
+                log(f"  {gem}: marta_specs/ limpo (--fresh-specs)")
+
+        ambiente = self.harness_dir / f"ambiente_{gem}.json"
+        _grava_json(ambiente, {"load_paths": p["load_paths"],
+                               "preload": p["entrada"] or None,
+                               "code_files": p["ficheiros_codigo"]})
+        alvos = self.harness_dir / f"alvos_{gem}.json"
+        _grava_json(alvos, [a["ficheiro"] for a in p["alvos"]])
+
         cmd = [PYTHON, "-m", "marta.ruby_backend.start_react",
-               "--project_path", str(proj),
-               "--source_path", info["source_path"],
-               "--num", str(self.num),
-               "--output_dir", str(self.out_dir)]
+               "--project_path", str(raiz), "--source_path", ".",
+               "--project_name", gem,
+               "--targets", str(alvos), "--environment", str(ambiente),
+               "--num", str(self.num), "--output_dir", str(self.out_dir)]
         if self.limit:
             cmd += ["--limit", str(self.limit)]
-        # Seleção de ficheiros-alvo (benchmark/select_targets.py): escreve a
-        # lista deste projeto num ficheiro temporário e passa-a ao CLI.
-        if self.targets and name in self.targets:
-            tf = self.harness_dir / f"targets_{name}.json"
-            tf.write_text(json.dumps(self.targets[name]["files"], indent=2))
-            cmd += ["--targets", str(tf)]
 
-        extra = _gem_env(proj)
+        extra = prep.gem_env(self._clone(gem), pr["gems"])
         pp = [str(REPO)] + ([os.environ["PYTHONPATH"]] if os.environ.get("PYTHONPATH") else [])
         extra["PYTHONPATH"] = os.pathsep.join(pp)
 
-        log(f"  {name}: a gerar (num={self.num}) …")
-        status, elapsed, err = self._run(cmd, REPO, self.logs_dir / f"{name}.log",
+        log(f"  {gem}: a gerar ({len(p['alvos'])} módulos, num={self.num}) …")
+        status, elapsed, err = self._run(cmd, REPO, self.logs_dir / f"{gem}.log",
                                          self.timeout, extra)
         self.state[key] = {"status": status, "elapsed_s": round(elapsed, 1), "err": err}
         self.save()
         log(f"  └─ {status} ({elapsed/60:.1f} min)")
         return status == "ok"
 
-    def measure(self, name, info):
-        """Cobertura SÓ dos specs gerados (marta_specs/), isolada da suite humana."""
-        key = f"coverage/{name}"
+    def measure(self, gem):
+        """Cobertura SÓ dos specs gerados (marta_specs/), no ambiente certificado."""
+        key = f"coverage/{gem}"
         if self.state.get(key, {}).get("status") == "ok":
             return
-        proj = self.projects_dir / name
+        p, pr = self.projetos[gem], self.preparados[gem]
+        clone = self._clone(gem)
+        t0 = time.time()
         try:
-            sys.path.insert(0, str(REPO))
             from marta.ruby_backend import coverage_runner as cov
             from marta.ruby_backend.project import GENERATED_SPEC_DIR, RubyProject
 
-            out_root = self.out_dir / name
+            out_root = self.out_dir / gem
             spec_root = out_root / GENERATED_SPEC_DIR
-            specs = sorted(str(p) for p in spec_root.glob("**/*.rb")) \
+            specs = sorted(str(s) for s in spec_root.glob("**/*.rb")) \
                 if spec_root.is_dir() else []
             if not specs:
                 self.state[key] = {"status": "no_specs"}
                 self.save()
                 return
 
-            os.environ.update(_gem_env(proj))  # deps do projeto + rspec global
-            p = RubyProject(root_dir=str(proj), source_dir=info["source_path"],
-                            output_root=str(out_root)).discover()
+            os.environ.update(prep.gem_env(clone, pr["gems"]))
+            proj = RubyProject(root_dir=str(prep.raiz_de(clone, p)), source_dir=".",
+                               output_root=str(out_root),
+                               target_files=[a["ficheiro"] for a in p["alvos"]],
+                               load_paths=p["load_paths"], preload=p["entrada"] or None,
+                               code_files=p["ficheiros_codigo"]).discover()
 
-            # CÓPIA DESCARTÁVEL (porte do fix Python b8cb6ac7): os testes
-            # gerados podem criar/apagar ficheiros no cwd. Medir com cwd no
-            # diretório REAL do projeto deixava-o num estado diferente a cada
-            # medição — no lado Python o mesmo projeto deu 27.7% numa execução e
-            # 8.4% noutra com os MESMOS ficheiros. Medir sobre uma cópia torna a
-            # medição reprodutível e impede que uma medição contamine a seguinte.
-            scratch = tempfile.mkdtemp(prefix=f"cov_{name}_",
+            # CÓPIA DESCARTÁVEL (porte do fix Python b8cb6ac7): os testes gerados
+            # podem criar/apagar ficheiros no cwd; medir sobre uma cópia torna a
+            # medição reprodutível. As gems ficam fora da cópia: o ambiente aponta
+            # para as originais, que nada escreve durante a medição.
+            scratch = tempfile.mkdtemp(prefix=f"cov_{gem}_",
                                        dir=os.getenv("COV_SCRATCH") or None)
             try:
-                proj_copy = os.path.join(scratch, proj.name)
-                shutil.copytree(str(proj), proj_copy, symlinks=True)
-                result = cov.run_line_coverage(info["source_path"], specs,
-                                               cwd=proj_copy, timeout=1800,
-                                               isolated=True)
+                copia = pathlib.Path(scratch) / gem
+                shutil.copytree(str(clone), str(copia), symlinks=True,
+                                ignore=shutil.ignore_patterns(".git", ".gem_home", ".gem_bundle"))
+                raiz_copia = prep.raiz_de(copia, p)
+                # Carregar TODOS os ficheiros-alvo antes: um ficheiro sem nenhum
+                # spec verde não aparecia no Coverage, e as linhas dele saíam do
+                # denominador. A percentagem subia por haver menos testes.
+                carrega = pathlib.Path(scratch) / "_marta_carrega_alvos_spec.rb"
+                reqs = sorted({t.require_target for t in proj.targets})
+                carrega.write_text("".join(
+                    f"begin; require {json.dumps(r)}; rescue Exception; end\n" for r in reqs))
+                result = cov.run_line_coverage(
+                    ".", [str(carrega), *specs], cwd=str(raiz_copia), timeout=1800,
+                    isolated=True, load_paths=p["load_paths"],
+                    requires=[p["entrada"]] if p["entrada"] else None)
             finally:
                 shutil.rmtree(scratch, ignore_errors=True)
-            tot_exec = tot_cov = fully = 0
-            for t in p.targets:
-                lines = result.files.get(t.source_rel)
-                if not lines:
-                    continue
-                mc = cov.synthesize(t.method, lines)
-                tot_exec += mc.executable_lines
-                tot_cov += mc.covered_lines
-                fully += 1 if mc.fully_covered and mc.executable_lines else 0
-            pct = round(100 * tot_cov / tot_exec, 2) if tot_exec else 0.0
-            self.state[key] = {"status": "ok", "spec_files": len(specs),
-                               "target_methods": len(p.targets),
-                               "methods_fully_covered": fully,
-                               "covered_lines": tot_cov, "executable_lines": tot_exec,
-                               "line_coverage_pct": pct}
-            log(f"  └─ cobertura (só gerados): {pct}%  ({len(specs)} specs, "
-                f"{fully}/{len(p.targets)} métodos 100%)")
+
+            por_modulo = {a["ficheiro"]: a for a in p["alvos"]}
+            linhas, tot = [], dict(exec=0, cob=0, cob_invocados=0, ramos=0, ramos_cob=0,
+                                   invocados=0, carregados=0)
+            for t in proj.targets:
+                rel = t.source_rel
+                a = por_modulo.get(rel, {})
+                lines = result.files.get(rel)
+                mc = cov.synthesize(t.method, lines, result.branches.get(rel),
+                                    result.methods.get(rel)) if lines else None
+                linha = {"metodo": t.method.qualified_name, "ficheiro": rel,
+                         "origem": a.get("origem"), "modo": a.get("modo"),
+                         "vizinhos_no_corpus": a.get("vizinhos_no_corpus"),
+                         "carregado": mc is not None}
+                if mc is not None:
+                    linha.update(linhas_executaveis=mc.executable_lines,
+                                 linhas_cobertas=mc.covered_lines,
+                                 ramos=mc.total_branches, ramos_cobertos=mc.covered_branches,
+                                 invocado=mc.invoked)
+                    tot["exec"] += mc.executable_lines
+                    tot["cob"] += mc.covered_lines
+                    tot["ramos"] += mc.total_branches
+                    tot["ramos_cob"] += mc.covered_branches
+                    tot["carregados"] += 1
+                    if mc.invoked:
+                        tot["invocados"] += 1
+                        tot["cob_invocados"] += mc.covered_lines
+                linhas.append(linha)
+            _grava_json(out_root / "cobertura_por_metodo.json", linhas)
+
+            def pct(a, b):
+                return round(100 * a / b, 2) if b else 0.0
+            self.state[key] = {
+                "status": "ok", "elapsed_s": round(time.time() - t0, 1),
+                "spec_files": len(specs), "metodos_alvo": len(proj.targets),
+                "metodos_carregados": tot["carregados"],
+                "metodos_invocados": tot["invocados"],
+                "linhas_executaveis": tot["exec"], "linhas_cobertas": tot["cob"],
+                "cobertura_linhas_pct": pct(tot["cob"], tot["exec"]),
+                # A mesma cobertura, mas só a contar métodos que chegaram a ser
+                # chamados: tira o `def` executado ao carregar o ficheiro.
+                "cobertura_linhas_so_invocados_pct": pct(tot["cob_invocados"], tot["exec"]),
+                "ramos": tot["ramos"], "ramos_cobertos": tot["ramos_cob"],
+                "cobertura_ramos_pct": pct(tot["ramos_cob"], tot["ramos"]),
+            }
+            s = self.state[key]
+            log(f"  └─ cobertura: {s['cobertura_linhas_pct']}% linhas "
+                f"({s['cobertura_linhas_so_invocados_pct']}% só invocados), "
+                f"{s['cobertura_ramos_pct']}% ramos, "
+                f"{tot['invocados']}/{len(proj.targets)} métodos invocados")
         except Exception as e:
-            self.state[key] = {"status": "error", "err": repr(e)[:300]}
+            self.state[key] = {"status": "error", "err": repr(e)[:300],
+                               "elapsed_s": round(time.time() - t0, 1)}
             log(f"  └─ erro na medição: {repr(e)[:150]}")
         self.save()
 
     def report(self):
-        rows = []
-        for k, v in self.state.items():
-            if k.startswith("coverage/") and v.get("status") == "ok":
-                rows.append((k.split("/", 1)[1], v))
+        rows = {k.split("/", 1)[1]: v for k, v in self.state.items()
+                if k.startswith("coverage/") and v.get("status") == "ok"}
         out = self.out_dir / "results.json"
-        out.write_text(json.dumps({"projects": dict(rows), "state": self.state}, indent=2) + "\n")
+        _grava_json(out, {"projetos": rows, "state": self.state})
         if rows:
             log("")
-            log(f"{'projeto':14s}{'specs':>7s}{'métodos':>9s}{'100%':>7s}{'cobertura':>11s}")
-            for n, v in rows:
-                log(f"{n:14s}{v['spec_files']:>7}{v['target_methods']:>9}"
-                    f"{v['methods_fully_covered']:>7}{v['line_coverage_pct']:>10}%")
+            log(f"{'gem':24s}{'specs':>7s}{'métodos':>9s}{'invoc.':>8s}{'linhas':>9s}{'ramos':>8s}")
+            for n, v in sorted(rows.items()):
+                log(f"{n:24s}{v['spec_files']:>7}{v['metodos_alvo']:>9}"
+                    f"{v['metodos_invocados']:>8}{v['cobertura_linhas_pct']:>8}%"
+                    f"{v['cobertura_ramos_pct']:>7}%")
         log(f"resultados → {out}")
 
 
 def main():
-    ap = argparse.ArgumentParser(description=__doc__)
+    ap = argparse.ArgumentParser(description=__doc__,
+                                 formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--projects-dir", required=True, help="dir preparado (prepare_ruby_projects)")
     ap.add_argument("--out-dir", required=True)
-    ap.add_argument("--projects", default=None, help="subset separado por vírgulas")
+    ap.add_argument("--manifest", default=str(prep.PROJETOS), help="projetos.json da camada 7")
+    ap.add_argument("--projects", default=None, help="subconjunto separado por vírgulas")
+    ap.add_argument("--phase", choices=("all", "generate", "measure"), default="all")
     ap.add_argument("--num", type=int, default=3, help="rondas do loop de cobertura")
     ap.add_argument("--limit", type=int, default=None, help="limitar métodos-alvo (smoke)")
-    ap.add_argument("--timeout", type=int, default=0, help="timeout por projeto (0 = sem limite)")
-    ap.add_argument("--targets", default=None,
-                    help="targets.json do select_targets (limita os ficheiros-alvo)")
+    ap.add_argument("--timeout", type=int, default=0, help="timeout por gem (0 = sem limite)")
     ap.add_argument("--fresh-specs", action="store_true",
-                    help="apaga marta_specs/ de cada projeto antes de gerar "
+                    help="apaga marta_specs/ de cada gem antes de gerar "
                          "(runs independentes p/ o desenho N-runs+Wilcoxon)")
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--reset", action="store_true")
     args = ap.parse_args()
 
-    cfg_path = pathlib.Path(args.projects_dir) / "manifest.json"
-    config = json.loads((REPO / "benchmark" / "ruby_projects.json").read_text())
-    config = {k: v for k, v in config.items() if not k.startswith("_")}
-    if cfg_path.exists():  # respeita o que foi realmente preparado
-        prepared = {p["project"] for p in json.loads(cfg_path.read_text())["projects"]
-                    if p["status"].startswith("ready")}
-        config = {k: v for k, v in config.items() if k in prepared}
-    if args.projects:
-        wanted = {p.strip() for p in args.projects.split(",")}
-        config = {k: v for k, v in config.items() if k in wanted}
+    projetos = prep.carrega_projetos(pathlib.Path(args.manifest))
+    manifest = pathlib.Path(args.projects_dir) / "manifest.json"
+    if not manifest.exists():
+        sys.exit(f"❌ {manifest} não existe: correr primeiro "
+                 f"`python -m benchmark.prepare_ruby_projects --out {args.projects_dir}`")
+    preparados = {r["gem"]: r for r in json.loads(manifest.read_text())["projetos"]
+                  if r["estado"] == "pronto"}
 
-    targets = None
-    if args.targets:
-        targets = json.loads(pathlib.Path(args.targets).read_text())["projects"]
-    h = Harness(args.projects_dir, args.out_dir, args.num, args.limit,
-                args.timeout or None, fresh_specs=args.fresh_specs, targets=targets)
+    gems = sorted(g for g in projetos if g in preparados
+                  and preparados[g]["commit"] == projetos[g]["commit"])
+    nao_prontas = sorted(set(projetos) - set(gems))
+    if args.projects:
+        pedidas = {x.strip() for x in args.projects.split(",")}
+        desconhecidas = sorted(pedidas - set(projetos))
+        if desconhecidas:
+            sys.exit(f"❌ não estão no corpus: {', '.join(desconhecidas)}")
+        nao_prontas = sorted(pedidas - set(gems))
+        gems = [g for g in gems if g in pedidas]
+    if nao_prontas:
+        log(f"⚠️  {len(nao_prontas)} gem(s) do corpus não preparadas, ficam de fora: "
+            f"{', '.join(nao_prontas[:10])}{' …' if len(nao_prontas) > 10 else ''}")
+
+    h = Harness(args.projects_dir, args.out_dir, args.num, args.limit, args.timeout or None,
+                projetos, preparados, fresh_specs=args.fresh_specs)
     if args.reset and h.state_path.exists():
         h.state_path.unlink()
         h.state = {}
         log("state.json apagado (reset)")
 
-    log(f"MARTA-Ruby benchmark · {len(config)} projetos · num={args.num} · "
-        f"modelo={os.environ.get('MODEL', '(default do .env)')}")
-    for n, i in config.items():
-        log(f"  • {n} (source={i['source_path']}, suite humana={i['human_suite']})")
+    modulos = sum(len(projetos[g]["alvos"]) for g in gems)
+    log(f"MARTA-Ruby benchmark · {len(gems)} gems · {modulos} módulos · fase={args.phase} "
+        f"· num={args.num} · modelo={os.environ.get('MODEL', '(default do .env)')}")
     if args.dry_run:
+        for g in gems:
+            p = projetos[g]
+            log(f"  • {g}: {len(p['alvos'])} módulos, raiz={p['raiz']}, "
+                f"{p['ambiente']}, porta={p['entrada'] or '(nenhuma)'}")
         log("(dry-run; a sair)")
         return
 
@@ -281,10 +328,16 @@ def main():
         sys.exit(143)
     signal.signal(signal.SIGTERM, _sigterm)
 
-    for name, info in config.items():
-        log(f"▶ {name}")
-        if h.run_marta(name, info):
-            h.measure(name, info)
+    for gem in gems:
+        log(f"▶ {gem}")
+        if args.phase in ("all", "generate"):
+            gerou = h.run_marta(gem)
+        else:
+            gerou = h.state.get(f"marta_ruby/{gem}", {}).get("status") == "ok"
+            if not gerou:
+                log(f"  {gem}: sem geração concluída, nada para medir")
+        if gerou and args.phase in ("all", "measure"):
+            h.measure(gem)
     h.report()
 
 

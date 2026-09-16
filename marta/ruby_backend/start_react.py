@@ -13,6 +13,7 @@ rbenv 3.4 binaries) and the LLM configured via .env (ollama etc.).
 import argparse
 import asyncio
 import functools
+import json
 import os
 import sys
 import traceback
@@ -34,8 +35,18 @@ def main():
     parser.add_argument("--no_cache", action="store_true", help="Ignore the analysis cache (recompute summaries)")
     parser.add_argument(
         "--targets", type=str, default=None,
-        help="Ficheiro JSON com os ficheiros-alvo deste projeto (ver "
-             "benchmark/select_targets.py). Sem ele, todos os ficheiros são alvo.")
+        help="Ficheiro JSON com a lista dos ficheiros-alvo deste projeto, relativos "
+             "a --source_path. Escrito pelo harness a partir do projetos.json da "
+             "camada 7. Sem ele, todos os ficheiros são alvo.")
+    parser.add_argument(
+        "--environment", type=str, default=None,
+        help="Ficheiro JSON com o ambiente certificado pela camada 6: load_paths, "
+             "preload e code_files, relativos a --project_path. Escrito pelo harness "
+             "a partir do projetos.json. Sem ele: um só -I e nenhuma porta de entrada.")
+    parser.add_argument(
+        "--project_name", type=str, default=None,
+        help="Nome dos outputs. Por omissão, a última pasta de --project_path; nos "
+             "monorepos essa pasta é a sub-gem (`rb` no selenium), não a gem.")
     parser.add_argument(
         "--output_dir", type=str, default=None,
         help="Where to write run_results (default: <project_path>/run_results)",
@@ -56,7 +67,8 @@ def main():
         print("   Define MARTA_RUBY_BIN/MARTA_RSPEC_BIN (Ruby >= 3.3 com RSpec).")
         sys.exit(2)
 
-    project_name = os.path.abspath(args.project_path).rstrip(os.sep).split(os.sep)[-1]
+    project_name = args.project_name or \
+        os.path.abspath(args.project_path).rstrip(os.sep).split(os.sep)[-1]
     print(f"🚀 [MARTA Ruby] A iniciar análise para o projeto: {project_name}")
 
     try:
@@ -68,14 +80,22 @@ def main():
             output_root = os.path.join(os.path.abspath(args.output_dir), project_name)
         target_files = None
         if args.targets:
-            import json as _json
-            with open(args.targets, encoding="utf-8") as _f:
+            with open(args.targets, encoding="utf-8") as f:
                 target_files = [e["file"] if isinstance(e, dict) else e
-                                for e in _json.load(_f)]
+                                for e in json.load(f)]
             print(f"🎯 [Alvos] {len(target_files)} ficheiros selecionados "
                   f"(seleção de alvos ativa)")
+        env = {}
+        if args.environment:
+            with open(args.environment, encoding="utf-8") as f:
+                env = json.load(f)
+            print(f"🧪 [Ambiente] {len(env.get('load_paths') or [])} pasta(s) de "
+                  f"carregamento, porta de entrada: {env.get('preload') or '(nenhuma)'}, "
+                  f"{len(env.get('code_files') or [])} ficheiros de código")
         proj = RubyProject(root_dir=args.project_path, source_dir=args.source_path,
-                           output_root=output_root, target_files=target_files).discover()
+                           output_root=output_root, target_files=target_files,
+                           load_paths=env.get("load_paths"), preload=env.get("preload"),
+                           code_files=env.get("code_files")).discover()
         print(f"🔍 [Contexto] {len(proj.files)} ficheiros, {len(proj.targets)} métodos-alvo; "
               f"grafo: {len(proj.call_graph.edges) if proj.call_graph else 0} arestas "
               f"({'source inalterado' if not proj.code_changed else 'source novo/alterado'})")
@@ -112,7 +132,7 @@ def main():
         path = recorder.end(out_dir, project_name)
         print(f"📊 Métricas em {path}")
 
-    except Exception as e:
+    except Exception:
         print("\n🚨 ERRO CRÍTICO NA EXECUÇÃO RUBY!")
         traceback.print_exc()
         try:  # salvamento de emergência das métricas parciais, como o Python

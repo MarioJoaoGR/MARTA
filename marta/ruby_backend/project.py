@@ -68,6 +68,10 @@ class MethodTarget:
     owner_class: Optional[ruby_ast.ClassInfo]
     file_path: str            # absolute path to the .rb file
     require_target: str       # e.g. "foo/bar" (relative to source_dir, no .rb)
+    # Caminho do ficheiro relativo a source_dir, quando difere de require_target +
+    # ".rb" (com load_paths: `deliver/lib/deliver/setup.rb` faz `require
+    # "deliver/setup"`). É a chave que o helper de cobertura devolve.
+    rel_path: str = ""
     # outros métodos da mesma classe (para a vista focada de context_source)
     siblings: List[ruby_ast.MethodInfo] = field(default_factory=list)
     spec_dir: str = GENERATED_SPEC_DIR
@@ -156,9 +160,11 @@ class MethodTarget:
 
     @property
     def source_rel(self) -> str:
-        """Path of the code file relative to source_dir (= require_target + .rb).
-        Matches the keys returned by the coverage runner."""
-        return self.require_target + ".rb"
+        """Path of the code file relative to source_dir — the key the coverage
+        runner returns. Igual a ``require_target + ".rb"`` no caso simples; com
+        load_paths os dois separam-se (`deliver/lib/deliver/setup.rb` pede-se por
+        `deliver/setup`), e aí vale o ``rel_path``."""
+        return self.rel_path or (self.require_target + ".rb")
 
 
 @dataclass
@@ -174,6 +180,20 @@ class RubyProject:
     # projects.json na MARTA Python (_targeted_file_messages). A análise
     # estática continua a ver o projeto inteiro (o grafo precisa disso).
     target_files: Optional[List[str]] = None
+    # Ambiente de execução certificado pela camada 6 do dataset (vem do
+    # `projetos.json` da camada 7). Sem ele, o comportamento de sempre: um só -I
+    # (source_dir), sem porta de entrada, todos os .rb de source_dir analisados.
+    #  - load_paths: pastas de carregamento, relativas a root_dir. Nos monorepos há
+    #    uma por sub-gem (fastlane: 19). Decidem também o nome do `require`: o
+    #    caminho do ficheiro sem o prefixo da pasta que o contém.
+    #  - preload: a porta de entrada da gem, carregada antes de cada spec, tal como
+    #    a camada 6 a carregou antes de certificar cada módulo.
+    #  - code_files: os ficheiros que a camada 2 analisou, relativos a root_dir.
+    #    Assim o grafo e o índice de tipos veem exatamente o que a camada 7 viu ao
+    #    calcular os vizinhos de cada módulo.
+    load_paths: Optional[List[str]] = None
+    preload: Optional[str] = None
+    code_files: Optional[List[str]] = None
 
     files: List[str] = field(default_factory=list)          # absolute .rb paths
     targets: List[MethodTarget] = field(default_factory=list)
@@ -208,15 +228,57 @@ class RubyProject:
     def abs_source(self) -> str:
         return os.path.join(self.root_dir, self.source_dir)
 
+    def _load_path_list(self) -> List[str]:
+        """Pastas de carregamento para o `-I`, relativas a root_dir. Sem ambiente
+        declarado, só o source_dir — o comportamento de sempre.
+
+        Com ambiente, a raiz do código entra TAMBÉM, e no fim: a camada 6 fazia
+        `$LOAD_PATH.unshift(raiz)` depois das pastas, e é por isso que ficheiros
+        fora de qualquer `lib/` (o `setup.rb` da kramdown, o `rakelib/` da pg)
+        carregam. Sem a raiz, cinco módulos do corpus falhariam por causa do
+        ambiente e não do código. Não entra no cálculo do nome do `require`, que
+        usa só as pastas declaradas (ver _require_for)."""
+        if not self.load_paths:
+            return [self.source_dir]
+        return list(self.load_paths) + [self.source_dir]
+
+    def _apply_environment(self) -> None:
+        """Passa o ambiente ao backend, para os specs correrem e a cobertura ser
+        medida nas MESMAS condições em que o dataset certificou que o módulo
+        carrega: as pastas todas no caminho, e a porta de entrada já carregada."""
+        self.backend.extra_load_paths = self._load_path_list()
+        self.backend.requires = [self.preload] if self.preload else []
+
+    def _code_paths(self) -> List[str]:
+        """Ficheiros a analisar: os do manifesto quando existe (exatamente os que
+        a camada 2 leu, para o grafo ver o que a camada 7 viu), senão a descoberta
+        do backend."""
+        if self.code_files is None:
+            return self.backend.discover_files(self.abs_source)
+        return [p for p in (os.path.join(self.abs_source, rel) for rel in self.code_files)
+                if os.path.isfile(p)]
+
+    def _require_for(self, rel: str) -> str:
+        """O nome por que o spec pede o ficheiro: tira o prefixo da PRIMEIRA pasta
+        de carregamento que o contém, a mesma regra e a mesma ordem com que a
+        camada 6 certificou o módulo. No fastlane, `deliver/lib/deliver/setup.rb`
+        pede-se por `deliver/setup`, não pelo caminho inteiro."""
+        for lp in (self.load_paths or []):
+            pref = "" if lp in ("", ".") else lp.rstrip("/") + "/"
+            if pref and rel.startswith(pref):
+                return self.backend.module_ref(rel[len(pref):])
+        return self.backend.module_ref(rel)
+
     def discover(self) -> "RubyProject":
         """Find *.rb under source_dir (excluding spec/) and build method targets."""
         self.files = []
         self.targets = []
         self.type_index = param_types.ProjectTypeIndex()
+        self._apply_environment()
         # Métodos de TODOS os ficheiros (não só dos alvos): o grafo precisa do
         # projeto inteiro, e assim reaproveita-se este parse em vez de o repetir.
         all_methods: List = []
-        for path in self.backend.discover_files(self.abs_source):
+        for path in self._code_paths():
             rel = os.path.relpath(path, self.abs_source)
             self.files.append(path)
             fp = self.backend.parse_file(path)
@@ -225,7 +287,7 @@ class RubyProject:
             classes_by_qn = {c.qualified_name: c for c in fp.classes}
             for c in fp.classes:
                 self.class_files.setdefault(c.qualified_name, path)
-            require_target = self.backend.module_ref(rel)
+            require_target = self._require_for(rel)
             # Fora da seleção de alvos? O ficheiro continua a ser PARSEADO
             # (alimenta o grafo e o índice de tipos), mas não gera alvos.
             if self.target_files is not None and rel not in self.target_files:
@@ -243,6 +305,7 @@ class RubyProject:
                         owner_class=classes_by_qn.get(m.owner) if m.owner else None,
                         file_path=path,
                         require_target=require_target,
+                        rel_path=rel,
                         spec_dir=self._spec_dir(),
                         siblings=[s for s in by_owner.get(m.owner or "", [])
                                   if s is not m],
@@ -285,7 +348,7 @@ class RubyProject:
                 describe_subject=t.describe_subject,
                 method_source=t.context_source,
                 require_target=t.require_target,
-                load_paths=[self.source_dir],
+                load_paths=self._load_path_list(),
                 spec_path=t.spec_path,
                 cwd=self.root_dir,
                 ask=ask,
@@ -560,7 +623,9 @@ class RubyProject:
             lines = result.files.get(t.source_rel)
             if lines:
                 branches = getattr(result, "branches", {}).get(t.source_rel)
-                by_target[i] = self.backend.synthesize_coverage(t.method, lines, branches)
+                methods = getattr(result, "methods", {}).get(t.source_rel)
+                by_target[i] = self.backend.synthesize_coverage(
+                    t.method, lines, branches, methods)
         return by_target
 
     async def generate_rounds(
@@ -608,7 +673,7 @@ class RubyProject:
                     describe_subject=t.describe_subject,
                     method_source=t.context_source,
                     require_target=t.require_target,
-                    load_paths=[self.source_dir],
+                    load_paths=self._load_path_list(),
                     spec_path=t.spec_path_for_round(rnd),
                     cwd=self.root_dir,
                     ask=ask,

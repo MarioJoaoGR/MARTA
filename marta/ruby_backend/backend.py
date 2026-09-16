@@ -121,16 +121,26 @@ class RubyBackend(LanguageBackend):
     def syntax_check(self, source: str) -> Optional[str]:
         return runner.syntax_check(source)
 
+    # O ambiente de execução (ver RubyProject.load_paths / preload) é atribuído
+    # pelo projeto, por instância; lê-se com getattr para um RubyBackend() solto
+    # continuar a funcionar como antes, sem porta de entrada nem pastas extra.
     def run_tests(self, test_path: str, load_paths: List[str], cwd: str) -> RSpecResult:
-        return runner.run_rspec(test_path, load_paths=load_paths, cwd=cwd)
+        return runner.run_rspec(test_path, load_paths=load_paths, cwd=cwd,
+                                requires=getattr(self, "requires", None))
 
     def run_coverage(self, source_dir: str, test_paths: List[str], cwd: str) -> CoverageResult:
         # Generated specs are self-contained -> isolate from the project .rspec.
-        return coverage_runner.run_line_coverage(source_dir, test_paths, cwd=cwd, isolated=True)
+        # O ambiente tem de ser o MESMO da geração: um spec verde a gerar e que
+        # não carrega a medir contava como teste perdido, por culpa do ambiente.
+        return coverage_runner.run_line_coverage(
+            source_dir, test_paths, cwd=cwd, isolated=True,
+            load_paths=getattr(self, "extra_load_paths", None),
+            requires=getattr(self, "requires", None))
 
     def synthesize_coverage(self, method: MethodInfo, lines: List[Optional[int]],
-                            branches: Optional[List[List[int]]] = None) -> MethodCoverage:
-        return coverage_runner.synthesize(method, lines, branches)
+                            branches: Optional[List[List[int]]] = None,
+                            methods: Optional[List[List[int]]] = None) -> MethodCoverage:
+        return coverage_runner.synthesize(method, lines, branches, methods)
 
     def salvage(
         self,

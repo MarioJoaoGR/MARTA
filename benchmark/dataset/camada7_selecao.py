@@ -245,15 +245,53 @@ def main() -> None:
             w.writerow([g["id"], g["gem"], g["categoria"], len(g["membros"]),
                         g["id"] in esc])
 
-    # targets.json: o formato que o harness de execucao consome
-    # (`run_ruby_benchmark.py --targets`). Sem isto o corpus ficava sem ligacao
-    # ao que corre no cluster — era o `select_targets.py`, agora substituido.
-    alvos = defaultdict(list)
-    for m in sorted(corpus, key=lambda x: (x["gem"], x["ficheiro"])):
-        alvos[m["gem"]].append(m["ficheiro"])
-    with open(f"{OUT}/targets.json", "w", encoding="utf-8") as f:
-        json.dump({g: {"files": fs} for g, fs in sorted(alvos.items())},
-                  f, indent=2, ensure_ascii=False)
+    # projetos.json: tudo o que o cluster precisa para correr este corpus, num so
+    # ficheiro. Nao decide nada de novo, junta o que as camadas anteriores ja
+    # decidiram: de onde vem o codigo (camada 2), em que ambiente cada modulo foi
+    # certificado (camada 6) e quais sao os alvos (esta camada). O prepare, o
+    # verificador e o harness leem todos daqui. Antes havia tres versoes do
+    # ambiente, e nenhuma era a que certificou os modulos.
+    with open(f"{D}/2_parser/parse.csv", encoding="utf-8") as f:
+        origem_codigo = {r["gem"]: r for r in csv.DictReader(f)}
+    with open(f"{D}/6_carregamento/gems.csv", encoding="utf-8") as f:
+        receita = {r["gem"]: r for r in csv.DictReader(f)}
+    gems_corpus = {m["gem"] for m in corpus}
+    codigo = defaultdict(list)
+    with gzip.open(f"{D}/2_parser/analise_completa.jsonl.gz", "rt",
+                   encoding="utf-8") as f:
+        for linha in f:
+            d = json.loads(linha)
+            if d["gem"] in gems_corpus:
+                codigo[d["gem"]].append(d["ficheiro"])
+    projetos = {"_gerado": f"camada 7, {date.today()}"}
+    for gem in sorted(gems_corpus):
+        o, r = origem_codigo[gem], receita[gem]
+        raiz = o["raiz_codigo"] or "."
+        # A camada 6 grava as pastas relativas a raiz do CLONE (activesupport/lib);
+        # a ferramenta corre com cwd na raiz do codigo, por isso passam a relativas
+        # a essa raiz (lib).
+        pref = "" if raiz == "." else raiz.rstrip("/") + "/"
+        load_paths = []
+        for p in r["load_paths"].split():
+            if pref and not p.startswith(pref):
+                raise SystemExit(f"{gem}: pasta de carregamento {p} fora da raiz {raiz}")
+            load_paths.append(p[len(pref):])
+        projetos[gem] = {
+            "repo": o["repo_usado"], "etiqueta": o["etiqueta"],
+            "commit": o["commit"], "raiz": raiz,
+            "ambiente": r["ambiente"], "deps": r["deps"].split(),
+            "load_paths": load_paths,
+            "entrada": "" if r["entrada"] in ("", "(sem porta)") else r["entrada"],
+            "ficheiros_codigo": sorted(codigo[gem]),
+            "alvos": [{"ficheiro": m["ficheiro"], "modo": m["modo"],
+                       "origem": m["origem"], "componente": m["componente"],
+                       "vizinhos_no_corpus": m["vizinhos_no_corpus"],
+                       "metodos": int(m["metodos"])}
+                      for m in sorted(corpus, key=lambda x: x["ficheiro"])
+                      if m["gem"] == gem],
+        }
+    with open(f"{OUT}/projetos.json", "w", encoding="utf-8") as f:
+        json.dump(projetos, f, indent=1, ensure_ascii=False)
 
     com = sum(1 for m in corpus if m["vizinhos_no_corpus"] > 0)
     funil = {

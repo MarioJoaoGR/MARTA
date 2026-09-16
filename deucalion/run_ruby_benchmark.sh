@@ -11,15 +11,22 @@
 #SBATCH --output=logs/ruby_%j.out
 #SBATCH --signal=B:SIGTERM@120
 # ─────────────────────────────────────────────────────────────────────
-# Benchmark MARTA-Ruby. Mesma engenharia do run_benchmark.sh (Python):
-# auto-chain no SIGTERM, resume via state.json, retry em OOM.
+# Benchmark MARTA-Ruby sobre o corpus de 500 módulos / 107 gems.
+# Os alvos e o ambiente de cada gem vêm do projetos.json (camada 7); o harness
+# recusa-se a correr gems que não estejam lá E preparadas, para nunca acontecer
+# tomar a gem inteira como alvo (83 766 métodos em vez de 6 976).
 #
-# MODELO AINDA POR DECIDIR (16B vs 236B). Parametrizado por env var:
+# Mesma engenharia do lado Python: auto-chain no SIGTERM, resume via state.json,
+# retry em OOM.
+#
+# MODELO POR DECIDIR (16B vs 32B). Medido nos mesmos 10 projetos do lado Python:
+# o 32B é 3,4x mais lento na geração, e o corpus inteiro a 32B (~340 GPU-h) não
+# cabe nas horas disponíveis. O 236B está fora (4 GPUs e muito mais lento).
 #   16B:  sbatch deucalion/run_ruby_benchmark.sh
-#   236B: export MODEL=deepseek-coder-v2:236b
-#         sbatch --partition=normal-a100-80 --gpus=4 --mem=400G \
-#                --export=ALL deucalion/run_ruby_benchmark.sh
-#   (o wrapper 236B do lado Python é o padrão a seguir se se quiser fixar)
+#   32B:  MODEL=qwen2.5-coder:32b sbatch --export=ALL deucalion/run_ruby_benchmark.sh
+#
+# FASES: `generate` precisa de GPU, `measure` não. Para não gastar horas de GPU a
+# medir cobertura, correr PHASE=generate aqui e PHASE=measure na conta de CPU.
 # ─────────────────────────────────────────────────────────────────────
 
 set -euo pipefail
@@ -33,17 +40,22 @@ OLLAMA_DIR="/projects/F202407648IACDCF2/mario/ollama_models"
 RESULTS_DIR="/projects/F202407648IACDCF2/mario/results_ruby"
 PYDEPS_DIR="/projects/F202407648IACDCF2/mario/pydeps"
 HF_CACHE_DIR="/projects/F202407648IACDCF2/mario/hf_cache"
-# Projetos Ruby preparados COM REDE no login node (ver prepare_ruby_projects.py):
-#   python -m benchmark.prepare_ruby_projects --out $RUBY_PROJECTS
-# Contêm o clone no commit fixado + .gem_home com as runtime deps (offline-ready).
+# Projetos preparados COM REDE no nó de login (ver prepare_ruby_projects.py), e
+# depois VERIFICADOS (verifica_ambiente.py) — sem a verificação não se sabe se os
+# módulos carregam pela ferramenta neste ambiente.
 RUBY_PROJECTS="/projects/F202407648IACDCF2/mario/ruby_projects"
 # Toolchain Ruby (>=3.3 p/ Prism) — no container ou instalada em /projects.
 RUBY_ROOT="${RUBY_ROOT:-/projects/F202407648IACDCF2/mario/ruby-3.4.10}"
 
 export MODEL="${MODEL:-deepseek-coder-v2:16b}"
-export PROJECTS="${PROJECTS:-}"     # vazio = todos os do manifest
+export PROJECTS="${PROJECTS:-}"     # vazio = todas as gems do corpus preparadas
 export NUM_ROUNDS="${NUM_ROUNDS:-3}"
 export LIMIT="${LIMIT:-}"           # p/ smoke run (ex.: LIMIT=5)
+export PHASE="${PHASE:-all}"        # all | generate | measure
+# Janela de contexto do Ollama. SEM ISTO fica a do modelo por omissão e um prompt
+# maior é cortado EM SILÊNCIO — o modelo responde a um prompt truncado e nada no
+# log o diz. A telemetria por chamada mostra se algum prompt se aproxima daqui.
+export OLLAMA_CTX="${OLLAMA_CTX:-16384}"
 
 mkdir -p "$OLLAMA_DIR" logs
 
@@ -55,19 +67,21 @@ PORT_SUFFIX="${SLURM_JOB_ID: -4}"
 OLLAMA_PORT="1${PORT_SUFFIX}"
 
 echo "================================================================="
-echo " MARTA-Ruby Benchmark (Fase 1: repos Ruby do SWE-bench Multilingual)"
+echo " MARTA-Ruby Benchmark — corpus de 500 módulos (camada 7)"
 echo "  Job ID:    $SLURM_JOB_ID"
-echo "  Model:     $MODEL"
-echo "  Projects:  ${PROJECTS:-(todos do manifest)}"
+echo "  Model:     $MODEL   (contexto $OLLAMA_CTX)"
+echo "  Fase:      $PHASE"
+echo "  Projects:  ${PROJECTS:-(todas as preparadas)}"
 echo "  Rondas:    $NUM_ROUNDS   Limite métodos: ${LIMIT:-(sem limite)}"
 echo "  Ruby proj: $RUBY_PROJECTS"
 echo "  Output:    $RUN_RESULTS"
 echo "  Ollama:    127.0.0.1:$OLLAMA_PORT"
 echo "================================================================="
 
-if [ ! -d "$RUBY_PROJECTS" ]; then
-    echo "❌ $RUBY_PROJECTS não existe. Correr no login node (tem rede):"
+if [ ! -f "$RUBY_PROJECTS/manifest.json" ]; then
+    echo "❌ $RUBY_PROJECTS/manifest.json não existe. No nó de LOGIN (tem rede):"
     echo "   python -m benchmark.prepare_ruby_projects --out $RUBY_PROJECTS"
+    echo "   python -m benchmark.verifica_ambiente   --projects-dir $RUBY_PROJECTS"
     exit 2
 fi
 
@@ -115,6 +129,8 @@ srun -n1 singularity exec --nv \
     --env "HF_HUB_OFFLINE=1" \
     --env "TRANSFORMERS_OFFLINE=1" \
     --env "OLLAMA_FLASH_ATTENTION=0" \
+    --env "OLLAMA_CONTEXT_LENGTH=$OLLAMA_CTX" \
+    --env "OLLAMA_KEEP_ALIVE=-1" \
     --env "PYTHONUNBUFFERED=1" \
     "$CONTAINER" bash -c '
         set -e
@@ -125,10 +141,16 @@ srun -n1 singularity exec --nv \
         "$MARTA_RUBY_BIN" -e "require \"prism\"; puts \"   prism OK \" + Prism::VERSION" \
             || { echo "❌ Prism indisponível (precisa de Ruby >= 3.3)"; exit 2; }
 
-        echo "→ A iniciar Ollama em $OLLAMA_HOST ..."
+        echo "→ A iniciar Ollama em $OLLAMA_HOST (contexto $OLLAMA_CONTEXT_LENGTH, keep_alive -1) ..."
         ollama serve > /data/results/ollama_server.log 2>&1 &
         OLLAMA_PID=$!
-        sleep 30
+        # Sondagem em vez de `sleep 30`: num nó carregado 30s podem não chegar, e
+        # a primeira chamada falhava sem razão visível.
+        for i in $(seq 1 60); do
+            ollama list >/dev/null 2>&1 && break
+            sleep 2
+        done
+        ollama list >/dev/null 2>&1 || { echo "❌ Ollama não respondeu em 120s"; exit 2; }
         echo "→ Garantir modelo $MODEL (pull-on-miss) ..."
         ollama show "$MODEL" >/dev/null 2>&1 || ollama pull "$MODEL"
 
@@ -141,6 +163,7 @@ srun -n1 singularity exec --nv \
         /opt/conda/envs/test4py_env/bin/python -m benchmark.run_ruby_benchmark \
             --projects-dir /data/ruby_projects \
             --out-dir /data/results \
+            --phase '"$PHASE"' \
             --num '"$NUM_ROUNDS"' $EXTRA
 
         EXIT_CODE=$?
