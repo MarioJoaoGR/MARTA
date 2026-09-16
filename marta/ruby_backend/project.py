@@ -369,6 +369,7 @@ class RubyProject:
         limit: Optional[int] = None,
         use_cache: bool = True,
         max_class_summaries: int = 50,
+        enrich: bool = True,
     ) -> None:
         """Populate each target's done_what / what_todo / summary before
         generation — the context-building phase MARTA runs in ``init()``.
@@ -376,11 +377,16 @@ class RubyProject:
 
         Cached by source hash + model: on an unchanged project the whole LLM
         summary phase is skipped (``load_analysis_cache`` analogue).
+
+        ``enrich=False`` é o braço da ablação: desliga os DOIS sítios onde o grafo
+        entra (a 2ª passagem do done_what e a propagação do what_todo do chamador),
+        que é tudo o que o grafo faz nesta fase. O resto do fluxo fica igual. A
+        cache vai para um ficheiro próprio, senão um braço comia a do outro.
         """
         targets = self.targets[:limit] if limit else self.targets
         model = os.getenv("MODEL", "default")
         src_hash = cache.compute_source_hash(self.files)
-        path = cache.cache_path(self.out_root(), model)
+        path = cache.cache_path(self.out_root(), model if enrich else f"{model}_sem_grafo")
 
         if use_cache:
             cached = cache.load_analysis(path, src_hash, model)
@@ -406,7 +412,7 @@ class RubyProject:
         # Pass 2: enrich done_what of callers with their callees' done_what,
         # following the static call graph (the PyCG-driven enrichment). Only
         # methods that actually call project methods pay the extra LLM call.
-        if self.call_graph is not None:
+        if self.call_graph is not None and enrich:
             by_qn = {t.method.qualified_name: t for t in targets}
             # Esta é a fase que a ablação do grafo desliga: é aqui que o contexto
             # de um método passa a incluir o que os métodos chamados fazem.
@@ -430,7 +436,9 @@ class RubyProject:
         by_qn = {t.method.qualified_name: t for t in targets}
 
         def _callers_of(t: MethodTarget) -> List[MethodTarget]:
-            if self.call_graph is None:
+            # A outra metade da ablação: sem grafo não há chamadores, logo todos os
+            # métodos são raiz e o what_todo vem do README para todos.
+            if self.call_graph is None or not enrich:
                 return []
             return [by_qn[c] for c in self.call_graph.callers(t.method.qualified_name) if c in by_qn]
 

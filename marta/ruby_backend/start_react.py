@@ -34,6 +34,11 @@ def main():
     parser.add_argument("--no_rag", action="store_true", help="Skip embeddings/RAG (faster start, less context)")
     parser.add_argument("--no_cache", action="store_true", help="Ignore the analysis cache (recompute summaries)")
     parser.add_argument(
+        "--no_graph_enrich", action="store_true",
+        help="Braço da ablação: desliga o enriquecimento pelo grafo de chamadas (a "
+             "2ª passagem do done_what e a propagação do what_todo do chamador). "
+             "Escreve numa cache própria, para não comer a da execução normal.")
+    parser.add_argument(
         "--targets", type=str, default=None,
         help="Ficheiro JSON com a lista dos ficheiros-alvo deste projeto, relativos "
              "a --source_path. Escrito pelo harness a partir do projetos.json da "
@@ -69,6 +74,11 @@ def main():
 
     project_name = args.project_name or \
         os.path.abspath(args.project_path).rstrip(os.sep).split(os.sep)[-1]
+    if args.no_graph_enrich:
+        # Sufixo no nome: sem ele o braço da ablação escrevia por cima dos specs,
+        # das métricas e da telemetria da execução normal, e perdia-se o lado com
+        # que se ia comparar.
+        project_name += "_sem_grafo"
     print(f"🚀 [MARTA Ruby] A iniciar análise para o projeto: {project_name}")
 
     try:
@@ -116,7 +126,8 @@ def main():
         # AsyncLimiter do gptapi entre loops distintos).
         async def _pipeline():
             recorder.start_count_time("collect_message")
-            await proj.analyze_summaries(limit=args.limit, use_cache=not args.no_cache)
+            await proj.analyze_summaries(limit=args.limit, use_cache=not args.no_cache,
+                                         enrich=not args.no_graph_enrich)
             if not args.no_rag:
                 print("🧠 [RAG] A indexar summaries (bge)...")
                 proj.build_rag()
