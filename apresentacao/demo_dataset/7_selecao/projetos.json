@@ -77,6 +77,7 @@
    "lib/grape/formatters/active_model_serializers.rb",
    "lib/grape/helpers/active_model_serializers.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/active_model/serializer/field.rb",
@@ -536,6 +537,7 @@
    "lib/rails/generators/active_record/model/model_generator.rb",
    "lib/rails/generators/active_record/multi_db/multi_db_generator.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/active_record.rb",
@@ -660,6 +662,19 @@
    "lib/activerecord-import/synchronize.rb",
    "lib/activerecord-import/value_sets_parser.rb",
    "lib/activerecord-import/version.rb"
+  ],
+  "biblioteca": [
+   "benchmarks/lib/base.rb",
+   "benchmarks/lib/cli_parser.rb",
+   "benchmarks/lib/float.rb",
+   "lib/activerecord-import/adapters/abstract_adapter.rb",
+   "lib/activerecord-import/adapters/active_record_proxy_adapter.rb",
+   "lib/activerecord-import/adapters/mysql_adapter.rb",
+   "lib/activerecord-import/adapters/postgresql_adapter.rb",
+   "lib/activerecord-import/adapters/sqlite3_adapter.rb",
+   "lib/activerecord-import/base.rb",
+   "lib/activerecord-import/import.rb",
+   "lib/activerecord-import/value_sets_parser.rb"
   ],
   "alvos": [
    {
@@ -1043,6 +1058,7 @@
    "lib/active_support/xml_mini/nokogirisax.rb",
    "lib/active_support/xml_mini/rexml.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/active_support/callbacks.rb",
@@ -1132,6 +1148,7 @@
    "lib/addressable/uri.rb",
    "lib/addressable/version.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/addressable/idna/pure.rb",
@@ -1181,6 +1198,7 @@
    "lib/autoprefixer-rails/version.rb",
    "lib/rake/autoprefixer_tasks.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/autoprefixer-rails.rb",
@@ -1259,6 +1277,7 @@
    "lib/awesome_print/version.rb",
    "rails/init.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/awesome_print/custom_defaults.rb",
@@ -1371,6 +1390,7 @@
    "lib/bootsnap/setup.rb",
    "lib/bootsnap/version.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/bootsnap.rb",
@@ -1680,6 +1700,71 @@
    "lib/ruby_parser/bm_sexp.rb",
    "lib/ruby_parser/bm_sexp_processor.rb"
   ],
+  "biblioteca": [
+   "gem_common.rb",
+   "lib/brakeman.rb",
+   "lib/brakeman/app_tree.rb",
+   "lib/brakeman/call_index.rb",
+   "lib/brakeman/checks/check_render_inline.rb",
+   "lib/brakeman/codeclimate/engine_configuration.rb",
+   "lib/brakeman/commandline.rb",
+   "lib/brakeman/differ.rb",
+   "lib/brakeman/file_parser.rb",
+   "lib/brakeman/file_path.rb",
+   "lib/brakeman/logger.rb",
+   "lib/brakeman/messages.rb",
+   "lib/brakeman/options.rb",
+   "lib/brakeman/parsers/template_parser.rb",
+   "lib/brakeman/processor.rb",
+   "lib/brakeman/processors/alias_processor.rb",
+   "lib/brakeman/processors/base_processor.rb",
+   "lib/brakeman/processors/controller_alias_processor.rb",
+   "lib/brakeman/processors/controller_processor.rb",
+   "lib/brakeman/processors/erubi_template_procesor.rb",
+   "lib/brakeman/processors/gem_processor.rb",
+   "lib/brakeman/processors/haml6_template_processor.rb",
+   "lib/brakeman/processors/haml_template_processor.rb",
+   "lib/brakeman/processors/lib/basic_processor.rb",
+   "lib/brakeman/processors/lib/call_conversion_helper.rb",
+   "lib/brakeman/processors/lib/file_type_detector.rb",
+   "lib/brakeman/processors/lib/find_all_calls.rb",
+   "lib/brakeman/processors/lib/find_call.rb",
+   "lib/brakeman/processors/lib/find_return_value.rb",
+   "lib/brakeman/processors/lib/module_helper.rb",
+   "lib/brakeman/processors/lib/processor_helper.rb",
+   "lib/brakeman/processors/lib/rails2_config_processor.rb",
+   "lib/brakeman/processors/lib/rails2_route_processor.rb",
+   "lib/brakeman/processors/lib/rails3_config_processor.rb",
+   "lib/brakeman/processors/lib/rails3_route_processor.rb",
+   "lib/brakeman/processors/lib/render_helper.rb",
+   "lib/brakeman/processors/lib/render_path.rb",
+   "lib/brakeman/processors/lib/route_helper.rb",
+   "lib/brakeman/processors/library_processor.rb",
+   "lib/brakeman/processors/model_processor.rb",
+   "lib/brakeman/processors/slim_template_processor.rb",
+   "lib/brakeman/processors/template_alias_processor.rb",
+   "lib/brakeman/processors/template_processor.rb",
+   "lib/brakeman/report.rb",
+   "lib/brakeman/report/ignore/config.rb",
+   "lib/brakeman/report/pager.rb",
+   "lib/brakeman/report/report_base.rb",
+   "lib/brakeman/report/report_codeclimate.rb",
+   "lib/brakeman/report/report_csv.rb",
+   "lib/brakeman/report/report_github.rb",
+   "lib/brakeman/report/report_sarif.rb",
+   "lib/brakeman/report/report_sonar.rb",
+   "lib/brakeman/tracker/collection.rb",
+   "lib/brakeman/tracker/config.rb",
+   "lib/brakeman/tracker/controller.rb",
+   "lib/brakeman/tracker/file_cache.rb",
+   "lib/brakeman/tracker/method_info.rb",
+   "lib/brakeman/tracker/model.rb",
+   "lib/brakeman/tracker/template.rb",
+   "lib/brakeman/util.rb",
+   "lib/brakeman/warning.rb",
+   "lib/ruby_parser/bm_sexp.rb",
+   "lib/ruby_parser/bm_sexp_processor.rb"
+  ],
   "alvos": [
    {
     "ficheiro": "lib/brakeman.rb",
@@ -1889,6 +1974,7 @@
    "perf/benchmark.rb",
    "rails/init.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/bullet/active_record80.rb",
@@ -1958,6 +2044,7 @@
    "lib/bundler/audit/task.rb",
    "lib/bundler/audit/version.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/bundler/audit/cli.rb",
@@ -2108,6 +2195,99 @@
    "lib/byebug/source_file_formatter.rb",
    "lib/byebug/subcommands.rb",
    "lib/byebug/version.rb",
+   "tasks/linter.rb"
+  ],
+  "biblioteca": [
+   "docker/manager.rb",
+   "lib/byebug/attacher.rb",
+   "lib/byebug/breakpoint.rb",
+   "lib/byebug/command.rb",
+   "lib/byebug/command_list.rb",
+   "lib/byebug/commands/break.rb",
+   "lib/byebug/commands/catch.rb",
+   "lib/byebug/commands/condition.rb",
+   "lib/byebug/commands/continue.rb",
+   "lib/byebug/commands/debug.rb",
+   "lib/byebug/commands/delete.rb",
+   "lib/byebug/commands/display.rb",
+   "lib/byebug/commands/down.rb",
+   "lib/byebug/commands/edit.rb",
+   "lib/byebug/commands/enable/breakpoints.rb",
+   "lib/byebug/commands/enable/display.rb",
+   "lib/byebug/commands/finish.rb",
+   "lib/byebug/commands/frame.rb",
+   "lib/byebug/commands/help.rb",
+   "lib/byebug/commands/history.rb",
+   "lib/byebug/commands/info/breakpoints.rb",
+   "lib/byebug/commands/info/display.rb",
+   "lib/byebug/commands/info/file.rb",
+   "lib/byebug/commands/info/line.rb",
+   "lib/byebug/commands/info/program.rb",
+   "lib/byebug/commands/interrupt.rb",
+   "lib/byebug/commands/irb.rb",
+   "lib/byebug/commands/kill.rb",
+   "lib/byebug/commands/list.rb",
+   "lib/byebug/commands/method.rb",
+   "lib/byebug/commands/next.rb",
+   "lib/byebug/commands/pry.rb",
+   "lib/byebug/commands/quit.rb",
+   "lib/byebug/commands/restart.rb",
+   "lib/byebug/commands/save.rb",
+   "lib/byebug/commands/set.rb",
+   "lib/byebug/commands/show.rb",
+   "lib/byebug/commands/skip.rb",
+   "lib/byebug/commands/source.rb",
+   "lib/byebug/commands/step.rb",
+   "lib/byebug/commands/thread/current.rb",
+   "lib/byebug/commands/thread/list.rb",
+   "lib/byebug/commands/thread/resume.rb",
+   "lib/byebug/commands/thread/stop.rb",
+   "lib/byebug/commands/thread/switch.rb",
+   "lib/byebug/commands/tracevar.rb",
+   "lib/byebug/commands/undisplay.rb",
+   "lib/byebug/commands/untracevar.rb",
+   "lib/byebug/commands/up.rb",
+   "lib/byebug/commands/var/all.rb",
+   "lib/byebug/commands/var/args.rb",
+   "lib/byebug/commands/var/const.rb",
+   "lib/byebug/commands/var/global.rb",
+   "lib/byebug/commands/var/instance.rb",
+   "lib/byebug/commands/var/local.rb",
+   "lib/byebug/commands/where.rb",
+   "lib/byebug/context.rb",
+   "lib/byebug/core.rb",
+   "lib/byebug/errors.rb",
+   "lib/byebug/frame.rb",
+   "lib/byebug/helpers/bin.rb",
+   "lib/byebug/helpers/eval.rb",
+   "lib/byebug/helpers/file.rb",
+   "lib/byebug/helpers/frame.rb",
+   "lib/byebug/helpers/parse.rb",
+   "lib/byebug/helpers/path.rb",
+   "lib/byebug/helpers/string.rb",
+   "lib/byebug/helpers/thread.rb",
+   "lib/byebug/helpers/toggle.rb",
+   "lib/byebug/helpers/var.rb",
+   "lib/byebug/history.rb",
+   "lib/byebug/interface.rb",
+   "lib/byebug/interfaces/local_interface.rb",
+   "lib/byebug/interfaces/remote_interface.rb",
+   "lib/byebug/interfaces/script_interface.rb",
+   "lib/byebug/interfaces/test_interface.rb",
+   "lib/byebug/option_setter.rb",
+   "lib/byebug/printers/base.rb",
+   "lib/byebug/printers/plain.rb",
+   "lib/byebug/processors/command_processor.rb",
+   "lib/byebug/processors/script_processor.rb",
+   "lib/byebug/remote.rb",
+   "lib/byebug/remote/client.rb",
+   "lib/byebug/runner.rb",
+   "lib/byebug/setting.rb",
+   "lib/byebug/settings/autopry.rb",
+   "lib/byebug/settings/linetrace.rb",
+   "lib/byebug/settings/post_mortem.rb",
+   "lib/byebug/source_file_formatter.rb",
+   "lib/byebug/subcommands.rb",
    "tasks/linter.rb"
   ],
   "alvos": [
@@ -2298,6 +2478,7 @@
    "lib/capybara/version.rb",
    "lib/capybara/window.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/capybara/rspec/matchers/match_selector.rb",
@@ -2380,6 +2561,7 @@
    "lib/carrierwave/version.rb",
    "lib/generators/uploader_generator.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/carrierwave.rb",
@@ -2578,6 +2760,7 @@
    "lib/childprocess/windows/io.rb",
    "lib/childprocess/windows/process.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/childprocess.rb",
@@ -2670,6 +2853,7 @@
    "lib/chronic/time_zone.rb",
    "lib/chronic/token.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/chronic/date.rb",
@@ -2859,6 +3043,7 @@
    "lib/cocoapods/xcode/xcframework.rb",
    "lib/cocoapods/xcode/xcframework/xcframework_slice.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/cocoapods/command/install.rb",
@@ -2990,6 +3175,7 @@
    "lib/coderay/version.rb",
    "rake_tasks/code_statistics.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/coderay/scanners/ruby.rb",
@@ -3034,6 +3220,7 @@
    "lib/commander/user_interaction.rb",
    "lib/commander/version.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/commander/command.rb",
@@ -3342,6 +3529,129 @@
    "support/yard_full_types.rb",
    "yard-template/default/module/setup.rb"
   ],
+  "biblioteca": [
+   "docs-source/actor/define.out.rb",
+   "docs-source/actor/io.out.rb",
+   "docs-source/actor/supervision_tree.out.rb",
+   "docs-source/medium-example.init.rb",
+   "docs-source/medium-example.out.rb",
+   "docs-source/top-stock-scala/top-stock.rb",
+   "examples/a-tour-of-go-channels/equivalent-binary-trees.rb",
+   "examples/actor_stress_test.rb",
+   "examples/benchmark_atomic_1.rb",
+   "examples/benchmark_read_write_lock.rb",
+   "examples/thread_local_memory_usage.rb",
+   "lib/concurrent-ruby-edge/concurrent/actor.rb",
+   "lib/concurrent-ruby-edge/concurrent/actor/behaviour.rb",
+   "lib/concurrent-ruby-edge/concurrent/actor/behaviour/abstract.rb",
+   "lib/concurrent-ruby-edge/concurrent/actor/behaviour/buffer.rb",
+   "lib/concurrent-ruby-edge/concurrent/actor/behaviour/linking.rb",
+   "lib/concurrent-ruby-edge/concurrent/actor/behaviour/pausing.rb",
+   "lib/concurrent-ruby-edge/concurrent/actor/behaviour/termination.rb",
+   "lib/concurrent-ruby-edge/concurrent/actor/context.rb",
+   "lib/concurrent-ruby-edge/concurrent/actor/core.rb",
+   "lib/concurrent-ruby-edge/concurrent/actor/envelope.rb",
+   "lib/concurrent-ruby-edge/concurrent/actor/internal_delegations.rb",
+   "lib/concurrent-ruby-edge/concurrent/actor/public_delegations.rb",
+   "lib/concurrent-ruby-edge/concurrent/actor/reference.rb",
+   "lib/concurrent-ruby-edge/concurrent/actor/root.rb",
+   "lib/concurrent-ruby-edge/concurrent/actor/type_check.rb",
+   "lib/concurrent-ruby-edge/concurrent/actor/utils/balancer.rb",
+   "lib/concurrent-ruby-edge/concurrent/actor/utils/broadcast.rb",
+   "lib/concurrent-ruby-edge/concurrent/channel.rb",
+   "lib/concurrent-ruby-edge/concurrent/channel/buffer/base.rb",
+   "lib/concurrent-ruby-edge/concurrent/channel/buffer/buffered.rb",
+   "lib/concurrent-ruby-edge/concurrent/channel/buffer/timer.rb",
+   "lib/concurrent-ruby-edge/concurrent/channel/buffer/unbuffered.rb",
+   "lib/concurrent-ruby-edge/concurrent/channel/selector.rb",
+   "lib/concurrent-ruby-edge/concurrent/channel/tick.rb",
+   "lib/concurrent-ruby-edge/concurrent/edge/cancellation.rb",
+   "lib/concurrent-ruby-edge/concurrent/edge/channel.rb",
+   "lib/concurrent-ruby-edge/concurrent/edge/erlang_actor.rb",
+   "lib/concurrent-ruby-edge/concurrent/edge/lock_free_linked_set.rb",
+   "lib/concurrent-ruby-edge/concurrent/edge/lock_free_linked_set/node.rb",
+   "lib/concurrent-ruby-edge/concurrent/edge/lock_free_queue.rb",
+   "lib/concurrent-ruby-edge/concurrent/edge/old_channel_integration.rb",
+   "lib/concurrent-ruby-edge/concurrent/edge/processing_actor.rb",
+   "lib/concurrent-ruby-edge/concurrent/edge/promises.rb",
+   "lib/concurrent-ruby-edge/concurrent/edge/throttle.rb",
+   "lib/concurrent-ruby-edge/concurrent/executor/wrapping_executor.rb",
+   "lib/concurrent-ruby-edge/concurrent/lazy_register.rb",
+   "lib/concurrent-ruby/concurrent/agent.rb",
+   "lib/concurrent-ruby/concurrent/async.rb",
+   "lib/concurrent-ruby/concurrent/atom.rb",
+   "lib/concurrent-ruby/concurrent/atomic/atomic_markable_reference.rb",
+   "lib/concurrent-ruby/concurrent/atomic/cyclic_barrier.rb",
+   "lib/concurrent-ruby/concurrent/atomic/event.rb",
+   "lib/concurrent-ruby/concurrent/atomic/java_count_down_latch.rb",
+   "lib/concurrent-ruby/concurrent/atomic/locals.rb",
+   "lib/concurrent-ruby/concurrent/atomic/mutex_atomic_boolean.rb",
+   "lib/concurrent-ruby/concurrent/atomic/mutex_atomic_fixnum.rb",
+   "lib/concurrent-ruby/concurrent/atomic/mutex_count_down_latch.rb",
+   "lib/concurrent-ruby/concurrent/atomic/mutex_semaphore.rb",
+   "lib/concurrent-ruby/concurrent/atomic/read_write_lock.rb",
+   "lib/concurrent-ruby/concurrent/atomic/reentrant_read_write_lock.rb",
+   "lib/concurrent-ruby/concurrent/atomic/thread_local_var.rb",
+   "lib/concurrent-ruby/concurrent/atomic_reference/atomic_direct_update.rb",
+   "lib/concurrent-ruby/concurrent/atomic_reference/mutex_atomic.rb",
+   "lib/concurrent-ruby/concurrent/collection/copy_on_notify_observer_set.rb",
+   "lib/concurrent-ruby/concurrent/collection/copy_on_write_observer_set.rb",
+   "lib/concurrent-ruby/concurrent/collection/java_non_concurrent_priority_queue.rb",
+   "lib/concurrent-ruby/concurrent/collection/lock_free_stack.rb",
+   "lib/concurrent-ruby/concurrent/collection/map/mri_map_backend.rb",
+   "lib/concurrent-ruby/concurrent/collection/map/non_concurrent_map_backend.rb",
+   "lib/concurrent-ruby/concurrent/collection/ruby_non_concurrent_priority_queue.rb",
+   "lib/concurrent-ruby/concurrent/collection/ruby_timeout_queue.rb",
+   "lib/concurrent-ruby/concurrent/concern/dereferenceable.rb",
+   "lib/concurrent-ruby/concurrent/concern/logging.rb",
+   "lib/concurrent-ruby/concurrent/concern/obligation.rb",
+   "lib/concurrent-ruby/concurrent/concern/observable.rb",
+   "lib/concurrent-ruby/concurrent/configuration.rb",
+   "lib/concurrent-ruby/concurrent/dataflow.rb",
+   "lib/concurrent-ruby/concurrent/delay.rb",
+   "lib/concurrent-ruby/concurrent/errors.rb",
+   "lib/concurrent-ruby/concurrent/exchanger.rb",
+   "lib/concurrent-ruby/concurrent/executor/abstract_executor_service.rb",
+   "lib/concurrent-ruby/concurrent/executor/executor_service.rb",
+   "lib/concurrent-ruby/concurrent/executor/immediate_executor.rb",
+   "lib/concurrent-ruby/concurrent/executor/java_executor_service.rb",
+   "lib/concurrent-ruby/concurrent/executor/java_thread_pool_executor.rb",
+   "lib/concurrent-ruby/concurrent/executor/ruby_executor_service.rb",
+   "lib/concurrent-ruby/concurrent/executor/ruby_thread_pool_executor.rb",
+   "lib/concurrent-ruby/concurrent/executor/serialized_execution.rb",
+   "lib/concurrent-ruby/concurrent/executor/simple_executor_service.rb",
+   "lib/concurrent-ruby/concurrent/executor/timer_set.rb",
+   "lib/concurrent-ruby/concurrent/future.rb",
+   "lib/concurrent-ruby/concurrent/immutable_struct.rb",
+   "lib/concurrent-ruby/concurrent/ivar.rb",
+   "lib/concurrent-ruby/concurrent/map.rb",
+   "lib/concurrent-ruby/concurrent/maybe.rb",
+   "lib/concurrent-ruby/concurrent/mvar.rb",
+   "lib/concurrent-ruby/concurrent/promise.rb",
+   "lib/concurrent-ruby/concurrent/promises.rb",
+   "lib/concurrent-ruby/concurrent/scheduled_task.rb",
+   "lib/concurrent-ruby/concurrent/settable_struct.rb",
+   "lib/concurrent-ruby/concurrent/synchronization/abstract_lockable_object.rb",
+   "lib/concurrent-ruby/concurrent/synchronization/abstract_struct.rb",
+   "lib/concurrent-ruby/concurrent/synchronization/condition.rb",
+   "lib/concurrent-ruby/concurrent/synchronization/full_memory_barrier.rb",
+   "lib/concurrent-ruby/concurrent/synchronization/lock.rb",
+   "lib/concurrent-ruby/concurrent/synchronization/mutex_lockable_object.rb",
+   "lib/concurrent-ruby/concurrent/synchronization/object.rb",
+   "lib/concurrent-ruby/concurrent/synchronization/volatile.rb",
+   "lib/concurrent-ruby/concurrent/thread_safe/synchronized_delegator.rb",
+   "lib/concurrent-ruby/concurrent/thread_safe/util/adder.rb",
+   "lib/concurrent-ruby/concurrent/thread_safe/util/data_structures.rb",
+   "lib/concurrent-ruby/concurrent/thread_safe/util/power_of_two_tuple.rb",
+   "lib/concurrent-ruby/concurrent/thread_safe/util/striped64.rb",
+   "lib/concurrent-ruby/concurrent/timer_task.rb",
+   "lib/concurrent-ruby/concurrent/tuple.rb",
+   "lib/concurrent-ruby/concurrent/tvar.rb",
+   "lib/concurrent-ruby/concurrent/utility/engine.rb",
+   "lib/concurrent-ruby/concurrent/utility/native_extension_loader.rb",
+   "lib/concurrent-ruby/concurrent/utility/native_integer.rb",
+   "lib/concurrent-ruby/concurrent/utility/processor_counter.rb"
+  ],
   "alvos": [
    {
     "ficheiro": "docs-source/medium-example.init.rb",
@@ -3387,6 +3697,7 @@
    "lib/connection_pool/version.rb",
    "lib/connection_pool/wrapper.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/connection_pool/fork.rb",
@@ -3439,6 +3750,7 @@
    "lib/countries/translations.rb",
    "lib/countries/version.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/countries/configuration.rb",
@@ -3528,6 +3840,7 @@
    "lib/rack/session/dalli.rb",
    "scripts/changelog_section.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/dalli.rb",
@@ -3697,6 +4010,7 @@
    "lib/danger/scm_source/git_repo.rb",
    "lib/danger/version.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/danger/ci_source/jenkins.rb",
@@ -3770,6 +4084,7 @@
    "lib/database_cleaner/strategy.rb",
    "lib/database_cleaner/version.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/database_cleaner/cleaner.rb",
@@ -3829,6 +4144,7 @@
    "lib/debug/tracer.rb",
    "lib/debug/version.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/debug/abbrev_command.rb",
@@ -4066,6 +4382,7 @@
    "lib/generators/templates/controllers/unlocks_controller.rb",
    "lib/generators/templates/devise.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/devise/rails/routes.rb",
@@ -4097,6 +4414,7 @@
    "lib/diffy/split_diff.rb",
    "lib/diffy/version.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/diffy/diff.rb",
@@ -4241,6 +4559,75 @@
    "lib/generators/doorkeeper/templates/initializer.rb",
    "lib/generators/doorkeeper/views_generator.rb"
   ],
+  "biblioteca": [
+   "app/controllers/doorkeeper/applications_controller.rb",
+   "app/controllers/doorkeeper/authorizations_controller.rb",
+   "app/controllers/doorkeeper/token_info_controller.rb",
+   "app/controllers/doorkeeper/tokens_controller.rb",
+   "lib/doorkeeper.rb",
+   "lib/doorkeeper/config.rb",
+   "lib/doorkeeper/config/validations.rb",
+   "lib/doorkeeper/errors.rb",
+   "lib/doorkeeper/grant_flow/flow.rb",
+   "lib/doorkeeper/grant_flow/registry.rb",
+   "lib/doorkeeper/grape/helpers.rb",
+   "lib/doorkeeper/helpers/controller.rb",
+   "lib/doorkeeper/models/access_grant_mixin.rb",
+   "lib/doorkeeper/models/access_token_mixin.rb",
+   "lib/doorkeeper/models/application_mixin.rb",
+   "lib/doorkeeper/models/concerns/expirable.rb",
+   "lib/doorkeeper/models/concerns/expiration_time_sql_math.rb",
+   "lib/doorkeeper/models/concerns/scopes.rb",
+   "lib/doorkeeper/models/concerns/secret_storable.rb",
+   "lib/doorkeeper/oauth/authorization/code.rb",
+   "lib/doorkeeper/oauth/authorization/token.rb",
+   "lib/doorkeeper/oauth/authorization/uri_builder.rb",
+   "lib/doorkeeper/oauth/authorization_code_request.rb",
+   "lib/doorkeeper/oauth/base_request.rb",
+   "lib/doorkeeper/oauth/client.rb",
+   "lib/doorkeeper/oauth/client/credentials.rb",
+   "lib/doorkeeper/oauth/client_credentials/creator.rb",
+   "lib/doorkeeper/oauth/client_credentials/issuer.rb",
+   "lib/doorkeeper/oauth/client_credentials/validator.rb",
+   "lib/doorkeeper/oauth/client_credentials_request.rb",
+   "lib/doorkeeper/oauth/code_request.rb",
+   "lib/doorkeeper/oauth/code_response.rb",
+   "lib/doorkeeper/oauth/error_response.rb",
+   "lib/doorkeeper/oauth/forbidden_token_response.rb",
+   "lib/doorkeeper/oauth/helpers/scope_checker.rb",
+   "lib/doorkeeper/oauth/helpers/uri_checker.rb",
+   "lib/doorkeeper/oauth/invalid_request_response.rb",
+   "lib/doorkeeper/oauth/invalid_token_response.rb",
+   "lib/doorkeeper/oauth/password_access_token_request.rb",
+   "lib/doorkeeper/oauth/pre_authorization.rb",
+   "lib/doorkeeper/oauth/refresh_token_request.rb",
+   "lib/doorkeeper/oauth/scopes.rb",
+   "lib/doorkeeper/oauth/token.rb",
+   "lib/doorkeeper/oauth/token_introspection.rb",
+   "lib/doorkeeper/oauth/token_request.rb",
+   "lib/doorkeeper/orm/active_record/mixins/access_grant.rb",
+   "lib/doorkeeper/orm/active_record/mixins/access_token.rb",
+   "lib/doorkeeper/orm/active_record/mixins/application.rb",
+   "lib/doorkeeper/orm/active_record/redirect_uri_validator.rb",
+   "lib/doorkeeper/orm/active_record/stale_records_cleaner.rb",
+   "lib/doorkeeper/rails/helpers.rb",
+   "lib/doorkeeper/rails/routes.rb",
+   "lib/doorkeeper/rails/routes/abstract_router.rb",
+   "lib/doorkeeper/rails/routes/mapper.rb",
+   "lib/doorkeeper/rails/routes/mapping.rb",
+   "lib/doorkeeper/request.rb",
+   "lib/doorkeeper/revocable_tokens/revocable_access_token.rb",
+   "lib/doorkeeper/revocable_tokens/revocable_refresh_token.rb",
+   "lib/doorkeeper/secret_storing/base.rb",
+   "lib/doorkeeper/secret_storing/bcrypt.rb",
+   "lib/doorkeeper/secret_storing/plain.rb",
+   "lib/doorkeeper/server.rb",
+   "lib/doorkeeper/stale_records_cleaner.rb",
+   "lib/doorkeeper/validations.rb",
+   "lib/generators/doorkeeper/confidential_applications_generator.rb",
+   "lib/generators/doorkeeper/enable_polymorphic_resource_owner_generator.rb",
+   "lib/generators/doorkeeper/previous_refresh_token_generator.rb"
+  ],
   "alvos": [
    {
     "ficheiro": "lib/doorkeeper/errors.rb",
@@ -4301,6 +4688,7 @@
    "lib/dotenv/template.rb",
    "lib/dotenv/version.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/dotenv.rb",
@@ -4426,6 +4814,7 @@
    "lib/dry/types/type.rb",
    "lib/dry/types/version.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/dry/types/array/constructor.rb",
@@ -4530,6 +4919,7 @@
    "lib/eventmachine.rb",
    "lib/jeventmachine.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/em/protocols/saslauth.rb",
@@ -4619,6 +5009,7 @@
    "lib/excon/utils.rb",
    "lib/excon/version.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/excon/error.rb",
@@ -4747,6 +5138,72 @@
    "lib/eye/utils/pmap.rb",
    "lib/eye/utils/tail.rb"
   ],
+  "biblioteca": [
+   "examples/plugin/plugin.rb",
+   "examples/processes/em.rb",
+   "lib/eye/application.rb",
+   "lib/eye/checker.rb",
+   "lib/eye/checker/children_count.rb",
+   "lib/eye/checker/cpu.rb",
+   "lib/eye/checker/file_ctime.rb",
+   "lib/eye/checker/file_size.rb",
+   "lib/eye/checker/file_touched.rb",
+   "lib/eye/checker/http.rb",
+   "lib/eye/checker/memory.rb",
+   "lib/eye/checker/socket.rb",
+   "lib/eye/child_process.rb",
+   "lib/eye/cli.rb",
+   "lib/eye/cli/commands.rb",
+   "lib/eye/cli/render.rb",
+   "lib/eye/cli/server.rb",
+   "lib/eye/client.rb",
+   "lib/eye/config.rb",
+   "lib/eye/controller.rb",
+   "lib/eye/controller/apply.rb",
+   "lib/eye/controller/commands.rb",
+   "lib/eye/controller/helpers.rb",
+   "lib/eye/controller/load.rb",
+   "lib/eye/controller/status.rb",
+   "lib/eye/dsl.rb",
+   "lib/eye/dsl/application_opts.rb",
+   "lib/eye/dsl/config_opts.rb",
+   "lib/eye/dsl/helpers.rb",
+   "lib/eye/dsl/main.rb",
+   "lib/eye/dsl/opts.rb",
+   "lib/eye/dsl/process_opts.rb",
+   "lib/eye/dsl/pure_opts.rb",
+   "lib/eye/dsl/validation.rb",
+   "lib/eye/group.rb",
+   "lib/eye/group/call.rb",
+   "lib/eye/group/chain.rb",
+   "lib/eye/group/data.rb",
+   "lib/eye/local.rb",
+   "lib/eye/logger.rb",
+   "lib/eye/notify.rb",
+   "lib/eye/notify/mail.rb",
+   "lib/eye/process/children.rb",
+   "lib/eye/process/commands.rb",
+   "lib/eye/process/config.rb",
+   "lib/eye/process/controller.rb",
+   "lib/eye/process/data.rb",
+   "lib/eye/process/monitor.rb",
+   "lib/eye/process/scheduler.rb",
+   "lib/eye/process/states.rb",
+   "lib/eye/process/states_history.rb",
+   "lib/eye/process/system.rb",
+   "lib/eye/process/trigger.rb",
+   "lib/eye/process/watchers.rb",
+   "lib/eye/server.rb",
+   "lib/eye/system.rb",
+   "lib/eye/system_resources.rb",
+   "lib/eye/trigger.rb",
+   "lib/eye/trigger/flapping.rb",
+   "lib/eye/trigger/starting_guard.rb",
+   "lib/eye/utils.rb",
+   "lib/eye/utils/alive_array.rb",
+   "lib/eye/utils/mini_active_support.rb",
+   "lib/eye/utils/tail.rb"
+  ],
   "alvos": [
    {
     "ficheiro": "lib/eye/checker/cpu.rb",
@@ -4858,6 +5315,7 @@
    "lib/factory_bot/uri_manager.rb",
    "lib/factory_bot/version.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/factory_bot/decorator.rb",
@@ -5139,6 +5597,7 @@
    "lib/helpers/positional_generator.rb",
    "lib/helpers/unique_generator.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/faker/default/omniauth.rb",
@@ -5202,6 +5661,7 @@
    "lib/faraday/utils/params_hash.rb",
    "lib/faraday/version.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/faraday.rb",
@@ -5248,6 +5708,7 @@
    "lib/fastimage/fastimage_parsing/webp.rb",
    "lib/fastimage/version.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/fastimage/fastimage.rb",
@@ -6140,6 +6601,7 @@
    "trainer/lib/trainer/xcresult/test_plan.rb",
    "trainer/lib/trainer/xcresult/test_suite.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "deliver/lib/deliver/commands_generator.rb",
@@ -6405,6 +6867,7 @@
    "lib/geocoder/version.rb",
    "lib/maxmind_database.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/geocoder.rb",
@@ -6539,6 +7002,7 @@
    "lib/gitlab/shell_history.rb",
    "lib/gitlab/version.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/gitlab.rb",
@@ -6621,6 +7085,7 @@
    "lib/gli/terminal.rb",
    "lib/gli/version.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/gli/app.rb",
@@ -6733,6 +7198,7 @@
    "lib/guard/watcher/pattern/simple_path.rb",
    "lib/tasks/releaser.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/guard/dsl_describer.rb",
@@ -6845,6 +7311,7 @@
    "lib/haml/version.rb",
    "lib/haml/whitespace.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/haml/dynamic_merger.rb",
@@ -6923,6 +7390,7 @@
    "lib/hashie/utils.rb",
    "lib/hashie/version.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/hashie/dash.rb",
@@ -7113,6 +7581,7 @@
    "lib/http/uri/parsing.rb",
    "lib/http/version.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/http/feature.rb",
@@ -7187,6 +7656,7 @@
    "lib/httparty/utils.rb",
    "lib/httparty/version.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "examples/party_foul_mode.rb",
@@ -7253,6 +7723,7 @@
    "sample/thread.rb",
    "sample/wcat.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/httpclient/auth.rb",
@@ -7314,6 +7785,7 @@
    "lib/i18n/utils.rb",
    "lib/i18n/version.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/i18n/locale/tag/parents.rb",
@@ -7346,6 +7818,7 @@
    "lib/image_processing/version.rb",
    "lib/image_processing/vips.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/image_processing/builder.rb",
@@ -7404,6 +7877,7 @@
    "lib/jaro_winkler/jaro_winkler_pure.rb",
    "lib/jaro_winkler/version.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/jaro_winkler/jaro_winkler_pure.rb",
@@ -7479,6 +7953,7 @@
    "lib/jwt/version.rb",
    "lib/jwt/x5c_key_finder.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/jwt/claims.rb",
@@ -7689,6 +8164,7 @@
    "lib/kaminari/version.rb",
    "misc/bug_report_template.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "kaminari-core/lib/kaminari/config.rb",
@@ -7770,6 +8246,7 @@
    "test_examples/slow/slow_test.rb",
    "test_examples/test_helper.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/knapsack.rb",
@@ -7967,6 +8444,32 @@
    "lib/kramdown/version.rb",
    "setup.rb"
   ],
+  "biblioteca": [
+   "lib/kramdown/converter/base.rb",
+   "lib/kramdown/converter/html.rb",
+   "lib/kramdown/converter/kramdown.rb",
+   "lib/kramdown/converter/latex.rb",
+   "lib/kramdown/converter/man.rb",
+   "lib/kramdown/converter/syntax_highlighter/rouge.rb",
+   "lib/kramdown/converter/toc.rb",
+   "lib/kramdown/document.rb",
+   "lib/kramdown/element.rb",
+   "lib/kramdown/options.rb",
+   "lib/kramdown/parser/base.rb",
+   "lib/kramdown/parser/html.rb",
+   "lib/kramdown/parser/kramdown.rb",
+   "lib/kramdown/parser/kramdown/abbreviation.rb",
+   "lib/kramdown/parser/kramdown/extensions.rb",
+   "lib/kramdown/parser/kramdown/header.rb",
+   "lib/kramdown/parser/kramdown/html.rb",
+   "lib/kramdown/parser/kramdown/link.rb",
+   "lib/kramdown/parser/kramdown/list.rb",
+   "lib/kramdown/utils.rb",
+   "lib/kramdown/utils/html.rb",
+   "lib/kramdown/utils/lru_cache.rb",
+   "lib/kramdown/utils/string_scanner.rb",
+   "setup.rb"
+  ],
   "alvos": [
    {
     "ficheiro": "lib/kramdown/element.rb",
@@ -8100,6 +8603,7 @@
    "performance/unit/expression_benchmark.rb",
    "performance/unit/lexer_benchmark.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/liquid/expression.rb",
@@ -8194,6 +8698,7 @@
    "lib/listen/thread.rb",
    "lib/listen/version.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/listen/directory.rb",
@@ -8266,6 +8771,7 @@
    "lib/logging/version.rb",
    "lib/rspec/logging_helper.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/logging.rb",
@@ -8462,6 +8968,7 @@
    "lib/lograge/silent_logger.rb",
    "lib/lograge/version.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/lograge/formatters/graylog2.rb",
@@ -8603,6 +9110,7 @@
    "lib/mail/version.rb",
    "lib/mail/yaml.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/mail/encodings/base64.rb",
@@ -8671,6 +9179,7 @@
    "lib/minitest/test.rb",
    "lib/minitest/test_task.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/minitest.rb",
@@ -8727,6 +9236,7 @@
    "lib/money/rates_store/memory.rb",
    "lib/money/version.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/money/bank/base.rb",
@@ -9349,6 +9859,7 @@
    "profile/driver_bench/single_doc/run_command.rb",
    "profile/driver_bench/suite.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/mongo.rb",
@@ -9418,6 +9929,7 @@
    "examples/types_custom.rb",
    "lib/optimist.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/optimist.rb",
@@ -9486,6 +9998,7 @@
    "lib/paper_trail/version_concern.rb",
    "lib/paper_trail/version_number.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/paper_trail.rb",
@@ -9541,6 +10054,7 @@
    "lib/pastel/detached.rb",
    "lib/pastel/version.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/pastel/color.rb",
@@ -9651,6 +10165,7 @@
    "sample/wal_shipper.rb",
    "sample/warehouse_partitions.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "rakelib/task_extension.rb",
@@ -9844,6 +10359,7 @@
    "manual/text/utf8.rb",
    "manual/text/win_ansi_charset.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/prawn/fonts/dfont.rb",
@@ -9960,6 +10476,7 @@
    "lib/premailer/rails/railtie.rb",
    "lib/premailer/rails/version.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/premailer/rails/css_loaders/asset_pipeline_loader.rb",
@@ -10123,6 +10640,7 @@
    "lib/pry/wrapped_module.rb",
    "lib/pry/wrapped_module/candidate.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/pry/cli.rb",
@@ -10230,6 +10748,7 @@
    "lib/pry-byebug/version.rb",
    "lib/pry/byebug/breakpoints.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/pry-byebug/commands/breakpoint.rb",
@@ -10330,6 +10849,7 @@
    "lib/rack/handler/puma.rb",
    "tools/trickletest.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/puma/app/status.rb",
@@ -10380,6 +10900,7 @@
    "lib/pundit/rspec.rb",
    "lib/pundit/version.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/pundit.rb",
@@ -10481,6 +11002,7 @@
    "lib/rack/cors/result.rb",
    "lib/rack/cors/version.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/rack/cors/result.rb",
@@ -10640,6 +11162,7 @@
    "rails/transliteration/ru.rb",
    "rails/transliteration/uk.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/rails_i18n/pluralization.rb",
@@ -10709,6 +11232,7 @@
    "lib/ransack/version.rb",
    "lib/ransack/visitor.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/ransack/adapters/active_record/context.rb",
@@ -10858,6 +11382,7 @@
    "lib/rdoc/version.rb",
    "lib/rubygems_plugin.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/rdoc/code_object/normal_class.rb",
@@ -10919,6 +11444,7 @@
    "lib/responders/http_cache_responder.rb",
    "lib/responders/version.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/action_controller/respond_with.rb",
@@ -10964,6 +11490,7 @@
    "lib/restclient/windows.rb",
    "lib/restclient/windows/root_certs.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/restclient.rb",
@@ -11112,6 +11639,7 @@
    "lib/roo/utils.rb",
    "lib/roo/version.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/roo/base.rb",
@@ -11576,6 +12104,7 @@
    "lib/rubocop/cop/rouge/no_huge_collections.rb",
    "tasks/task_helper.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/rouge/guesser.rb",
@@ -11650,6 +12179,7 @@
    "lib/rqrcode/qrcode/qrcode.rb",
    "lib/rqrcode/version.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/rqrcode/export/svg.rb",
@@ -11937,6 +12467,7 @@
    "rspec/lib/rspec.rb",
    "rspec/lib/rspec/version.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "rspec-core/lib/rspec/core.rb",
@@ -12907,6 +13438,7 @@
    "lib/ruby_lsp/rubocop/runtime_adapter.rb",
    "tasks/changelog.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/rubocop/comment_config.rb",
@@ -13111,6 +13643,7 @@
    "lib/rubocop/rails/version.rb",
    "tasks/changelog.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/rubocop/cop/rails/action_order.rb",
@@ -13430,6 +13963,7 @@
    "lib/rubocop/rspec/version.rb",
    "lib/rubocop/rspec/wording.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/rubocop/cop/rspec/empty_line_after_example.rb",
@@ -13495,6 +14029,7 @@
    "misc/six_field_cronline_test.rb",
    "misc/tz_all.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/rufus/scheduler.rb",
@@ -13580,6 +14115,7 @@
    "lib/sawyer/response.rb",
    "lib/sawyer/serializer.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/sawyer/resource.rb",
@@ -13817,6 +14353,7 @@
    "support/rbs_collection_update.rb",
    "support/steep_check.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/selenium/webdriver/remote/bridge.rb",
@@ -14015,6 +14552,7 @@
    "sentry-yabeda/lib/sentry/yabeda/configuration.rb",
    "sentry-yabeda/lib/sentry/yabeda/version.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "sentry-rails/lib/sentry/rails/serializer.rb",
@@ -14280,6 +14818,7 @@
    "test_projects/subprocesses/.simplecov_spawn.rb",
    "test_projects/subprocesses/lib/subprocesses.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/simplecov/cli/dotfile.rb",
@@ -14335,6 +14874,7 @@
    "lib/slop/result.rb",
    "lib/slop/types.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/slop.rb",
@@ -14389,6 +14929,7 @@
    "lib/spring/watcher/abstract.rb",
    "lib/spring/watcher/polling.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/spring/watcher.rb",
@@ -14497,6 +15038,7 @@
    "lib/sprockets/version.rb",
    "lib/sprockets/yui_compressor.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/rake/sprocketstask.rb",
@@ -14568,6 +15110,7 @@
    "lib/stackprof/truffleruby.rb",
    "sample.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/stackprof/truffleruby.rb",
@@ -14644,6 +15187,7 @@
    "lib/state_machines/transition_collection.rb",
    "lib/state_machines/version.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/state_machines/extensions.rb",
@@ -14720,6 +15264,7 @@
    "lib/terminal-table/util.rb",
    "lib/terminal-table/version.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/terminal-table/separator.rb",
@@ -14785,6 +15330,7 @@
    "site/rdoc.rb",
    "site/thin.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/rack/adapter/loader.rb",
@@ -14856,6 +15402,7 @@
    "lib/tilt/typescript.rb",
    "lib/tilt/yajl.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/tilt/erb.rb",
@@ -15661,6 +16208,143 @@
    "lib/twilio-ruby/util/configuration.rb",
    "lib/twilio-ruby/version.rb"
   ],
+  "biblioteca": [
+   "lib/rack/twilio_webhook_authentication.rb",
+   "lib/twilio-ruby/auth_strategy/token_auth_strategy.rb",
+   "lib/twilio-ruby/base/client_base.rb",
+   "lib/twilio-ruby/framework/rest/domain.rb",
+   "lib/twilio-ruby/framework/rest/error.rb",
+   "lib/twilio-ruby/framework/rest/page.rb",
+   "lib/twilio-ruby/framework/rest/page_metadata.rb",
+   "lib/twilio-ruby/framework/rest/token_page.rb",
+   "lib/twilio-ruby/framework/rest/version.rb",
+   "lib/twilio-ruby/framework/serialize.rb",
+   "lib/twilio-ruby/http/http_client.rb",
+   "lib/twilio-ruby/jwt/access_token.rb",
+   "lib/twilio-ruby/jwt/client_capability.rb",
+   "lib/twilio-ruby/jwt/jwt.rb",
+   "lib/twilio-ruby/jwt/task_router.rb",
+   "lib/twilio-ruby/rest/accounts.rb",
+   "lib/twilio-ruby/rest/accounts/v1/safelist.rb",
+   "lib/twilio-ruby/rest/accounts/v1/secondary_auth_token.rb",
+   "lib/twilio-ruby/rest/api.rb",
+   "lib/twilio-ruby/rest/api/v2010.rb",
+   "lib/twilio-ruby/rest/api/v2010/account.rb",
+   "lib/twilio-ruby/rest/api/v2010/account/available_phone_number_country/voip.rb",
+   "lib/twilio-ruby/rest/api/v2010/account/call.rb",
+   "lib/twilio-ruby/rest/api/v2010/account/call/notification.rb",
+   "lib/twilio-ruby/rest/api/v2010/account/call/recording.rb",
+   "lib/twilio-ruby/rest/api/v2010/account/call/stream.rb",
+   "lib/twilio-ruby/rest/api/v2010/account/conference.rb",
+   "lib/twilio-ruby/rest/api/v2010/account/incoming_phone_number.rb",
+   "lib/twilio-ruby/rest/api/v2010/account/message.rb",
+   "lib/twilio-ruby/rest/api/v2010/account/message/feedback.rb",
+   "lib/twilio-ruby/rest/api/v2010/account/recording.rb",
+   "lib/twilio-ruby/rest/api/v2010/account/recording/add_on_result/payload/data.rb",
+   "lib/twilio-ruby/rest/api/v2010/account/short_code.rb",
+   "lib/twilio-ruby/rest/api/v2010/account/sip/domain.rb",
+   "lib/twilio-ruby/rest/api/v2010/account/usage.rb",
+   "lib/twilio-ruby/rest/api/v2010/account/usage/record/daily.rb",
+   "lib/twilio-ruby/rest/chat.rb",
+   "lib/twilio-ruby/rest/content/v1/content/approval_create.rb",
+   "lib/twilio-ruby/rest/content/v2/content.rb",
+   "lib/twilio-ruby/rest/conversations.rb",
+   "lib/twilio-ruby/rest/conversations/v1/configuration.rb",
+   "lib/twilio-ruby/rest/conversations/v1/conversation.rb",
+   "lib/twilio-ruby/rest/conversations/v1/service/configuration.rb",
+   "lib/twilio-ruby/rest/conversations/v1/service/conversation/message.rb",
+   "lib/twilio-ruby/rest/conversations/v1/service/conversation/participant.rb",
+   "lib/twilio-ruby/rest/conversations/v1/service/user.rb",
+   "lib/twilio-ruby/rest/conversations/v2/participant.rb",
+   "lib/twilio-ruby/rest/events.rb",
+   "lib/twilio-ruby/rest/events/v1/sink.rb",
+   "lib/twilio-ruby/rest/flex_api.rb",
+   "lib/twilio-ruby/rest/flex_api/v1/assessments.rb",
+   "lib/twilio-ruby/rest/flex_api/v1/insights_assessments_comment.rb",
+   "lib/twilio-ruby/rest/flex_api/v1/insights_questionnaires_category.rb",
+   "lib/twilio-ruby/rest/flex_api/v1/insights_questionnaires_question.rb",
+   "lib/twilio-ruby/rest/flex_api/v1/plugin.rb",
+   "lib/twilio-ruby/rest/flex_api/v1/plugin_version_archive.rb",
+   "lib/twilio-ruby/rest/flex_api/v2.rb",
+   "lib/twilio-ruby/rest/iam/v1/new_api_key.rb",
+   "lib/twilio-ruby/rest/insights.rb",
+   "lib/twilio-ruby/rest/insights/v1/call.rb",
+   "lib/twilio-ruby/rest/insights/v1/call/event.rb",
+   "lib/twilio-ruby/rest/insights/v1/conference.rb",
+   "lib/twilio-ruby/rest/insights/v1/setting.rb",
+   "lib/twilio-ruby/rest/insights/v2/outbound.rb",
+   "lib/twilio-ruby/rest/insights/v3/metadata.rb",
+   "lib/twilio-ruby/rest/insights/v3/query.rb",
+   "lib/twilio-ruby/rest/intelligence/v2/transcript.rb",
+   "lib/twilio-ruby/rest/intelligence/v3/conversation.rb",
+   "lib/twilio-ruby/rest/intelligence/v3/operator.rb",
+   "lib/twilio-ruby/rest/ip_messaging/v2.rb",
+   "lib/twilio-ruby/rest/ip_messaging/v2/service/channel.rb",
+   "lib/twilio-ruby/rest/knowledge/v2/chunk.rb",
+   "lib/twilio-ruby/rest/lookups/v2.rb",
+   "lib/twilio-ruby/rest/lookups/v2/lookup_override.rb",
+   "lib/twilio-ruby/rest/marketplace/v1/module_data.rb",
+   "lib/twilio-ruby/rest/memory/v1/bulk.rb",
+   "lib/twilio-ruby/rest/memory/v1/conversation_summary.rb",
+   "lib/twilio-ruby/rest/memory/v1/event.rb",
+   "lib/twilio-ruby/rest/memory/v1/identifier.rb",
+   "lib/twilio-ruby/rest/memory/v1/profile.rb",
+   "lib/twilio-ruby/rest/memory/v1/recall.rb",
+   "lib/twilio-ruby/rest/memory/v1/revision.rb",
+   "lib/twilio-ruby/rest/memory/v1/trait.rb",
+   "lib/twilio-ruby/rest/memory/v1/trait_group.rb",
+   "lib/twilio-ruby/rest/messaging.rb",
+   "lib/twilio-ruby/rest/messaging/v1/brand_registration.rb",
+   "lib/twilio-ruby/rest/messaging/v1/service.rb",
+   "lib/twilio-ruby/rest/messaging/v1/service/us_app_to_person.rb",
+   "lib/twilio-ruby/rest/messaging/v2/channels_sender.rb",
+   "lib/twilio-ruby/rest/numbers/v1/porting_all_port_in.rb",
+   "lib/twilio-ruby/rest/numbers/v1/sender_id_registration.rb",
+   "lib/twilio-ruby/rest/numbers/v1/signing_request_configuration.rb",
+   "lib/twilio-ruby/rest/numbers/v2/bundle_clone.rb",
+   "lib/twilio-ruby/rest/numbers/v2/regulatory_compliance.rb",
+   "lib/twilio-ruby/rest/numbers/v2/regulatory_compliance/bundle.rb",
+   "lib/twilio-ruby/rest/numbers/v2/regulatory_compliance/bundle/replace_items.rb",
+   "lib/twilio-ruby/rest/numbers/v2/regulatory_compliance/regulation.rb",
+   "lib/twilio-ruby/rest/preview.rb",
+   "lib/twilio-ruby/rest/preview_iam/versionless/organization.rb",
+   "lib/twilio-ruby/rest/preview_iam/versionless/organization/role_assignment.rb",
+   "lib/twilio-ruby/rest/preview_iam/versionless/organization/user.rb",
+   "lib/twilio-ruby/rest/pricing.rb",
+   "lib/twilio-ruby/rest/proxy/v1/service/session/participant/message_interaction.rb",
+   "lib/twilio-ruby/rest/routes.rb",
+   "lib/twilio-ruby/rest/studio/v2/flow/execution.rb",
+   "lib/twilio-ruby/rest/supersim.rb",
+   "lib/twilio-ruby/rest/supersim/v1/sim.rb",
+   "lib/twilio-ruby/rest/supersim/v1/usage_record.rb",
+   "lib/twilio-ruby/rest/taskrouter/v1/workspace.rb",
+   "lib/twilio-ruby/rest/taskrouter/v1/workspace/task.rb",
+   "lib/twilio-ruby/rest/taskrouter/v1/workspace/task_queue/task_queues_statistics.rb",
+   "lib/twilio-ruby/rest/taskrouter/v1/workspace/worker.rb",
+   "lib/twilio-ruby/rest/taskrouter/v1/workspace/worker/workers_cumulative_statistics.rb",
+   "lib/twilio-ruby/rest/taskrouter/v1/workspace/workflow.rb",
+   "lib/twilio-ruby/rest/trusthub.rb",
+   "lib/twilio-ruby/rest/verify.rb",
+   "lib/twilio-ruby/rest/verify/v2/service.rb",
+   "lib/twilio-ruby/rest/verify/v2/service/entity/challenge/notification.rb",
+   "lib/twilio-ruby/rest/verify/v2/service/new_verify_factor.rb",
+   "lib/twilio-ruby/rest/verify/v2/service/verification.rb",
+   "lib/twilio-ruby/rest/video.rb",
+   "lib/twilio-ruby/rest/video/v1/composition_hook.rb",
+   "lib/twilio-ruby/rest/video/v1/room.rb",
+   "lib/twilio-ruby/rest/video/v1/room/participant.rb",
+   "lib/twilio-ruby/rest/video/v1/room/participant/anonymize.rb",
+   "lib/twilio-ruby/rest/video/v1/room/participant/subscribe_rules.rb",
+   "lib/twilio-ruby/rest/video/v1/room/recording_rules.rb",
+   "lib/twilio-ruby/rest/voice.rb",
+   "lib/twilio-ruby/rest/voice/v3/transcription.rb",
+   "lib/twilio-ruby/rest/wireless.rb",
+   "lib/twilio-ruby/rest/wireless/v1/sim.rb",
+   "lib/twilio-ruby/rest/wireless/v1/sim/data_session.rb",
+   "lib/twilio-ruby/security/request_validator.rb",
+   "lib/twilio-ruby/twiml/messaging_response.rb",
+   "lib/twilio-ruby/twiml/twiml.rb"
+  ],
   "alvos": [
    {
     "ficheiro": "lib/twilio-ruby/framework/serialize.rb",
@@ -15760,6 +16444,7 @@
    "lib/tzinfo/version.rb",
    "lib/tzinfo/with_offset.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/tzinfo/data_sources/transitions_data_timezone_info.rb",
@@ -15839,6 +16524,7 @@
    "lib/vcr/util/version_checker.rb",
    "lib/vcr/version.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/vcr/version.rb",
@@ -15901,6 +16587,7 @@
    "lib/virtus/value_object.rb",
    "lib/virtus/version.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/virtus/class_inclusions.rb",
@@ -15946,6 +16633,7 @@
    "lib/warden/strategies/base.rb",
    "lib/warden/version.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/warden/config.rb",
@@ -16057,6 +16745,7 @@
    "spec-non-rails/sequel_spec.rb",
    "spec-non-rails/spec_helper.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/will_paginate/deprecation.rb",
@@ -16119,6 +16808,7 @@
    "lib/wisper/value_objects/prefix.rb",
    "lib/wisper/version.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/wisper.rb",
@@ -16185,6 +16875,7 @@
    "lib/zeitwerk/registry/loaders.rb",
    "lib/zeitwerk/version.rb"
   ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/zeitwerk/loader.rb",

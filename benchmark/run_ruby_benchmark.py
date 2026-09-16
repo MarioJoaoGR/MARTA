@@ -53,6 +53,12 @@ def _grava_json(path: pathlib.Path, dados) -> None:
     os.replace(tmp, path)
 
 
+def _alvos_biblioteca(p: dict):
+    """Ficheiros-alvo que a camada 6 so certificou com a biblioteca carregada."""
+    alvos = [a["ficheiro"] for a in p["alvos"] if a.get("modo", "isolado") != "isolado"]
+    return alvos or None
+
+
 class Harness:
     def __init__(self, projects_dir, out_dir, num, limit, timeout, projetos,
                  preparados, fresh_specs=False):
@@ -120,7 +126,9 @@ class Harness:
         ambiente = self.harness_dir / f"ambiente_{gem}.json"
         _grava_json(ambiente, {"load_paths": p["load_paths"],
                                "preload": p["entrada"] or None,
-                               "code_files": p["ficheiros_codigo"]})
+                               "code_files": p["ficheiros_codigo"],
+                               "library_files": p.get("biblioteca") or None,
+                               "library_targets": _alvos_biblioteca(p)})
         alvos = self.harness_dir / f"alvos_{gem}.json"
         _grava_json(alvos, [a["ficheiro"] for a in p["alvos"]])
 
@@ -187,7 +195,9 @@ class Harness:
                                output_root=str(out_root),
                                target_files=[a["ficheiro"] for a in p["alvos"]],
                                load_paths=p["load_paths"], preload=p["entrada"] or None,
-                               code_files=p["ficheiros_codigo"]).discover()
+                               code_files=p["ficheiros_codigo"],
+                               library_files=p.get("biblioteca") or None,
+                               library_targets=_alvos_biblioteca(p)).discover()
 
             # CÓPIA DESCARTÁVEL (porte do fix Python b8cb6ac7): os testes gerados
             # podem criar/apagar ficheiros no cwd; medir sobre uma cópia torna a
@@ -210,7 +220,8 @@ class Harness:
                 result = cov.run_line_coverage(
                     ".", [str(carrega), *specs], cwd=str(raiz_copia), timeout=1800,
                     isolated=True, load_paths=p["load_paths"],
-                    requires=[p["entrada"]] if p["entrada"] else None)
+                    requires=([p["entrada"]] if p["entrada"] else [])
+                    + list(proj.backend.coverage_requires))
             finally:
                 shutil.rmtree(scratch, ignore_errors=True)
 

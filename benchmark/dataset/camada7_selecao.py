@@ -256,6 +256,23 @@ def main() -> None:
     with open(f"{D}/6_carregamento/gems.csv", encoding="utf-8") as f:
         receita = {r["gem"]: r for r in csv.DictReader(f)}
     gems_corpus = {m["gem"] for m in corpus}
+    # Os modulos que a camada 6 so certificou "com a biblioteca carregada" foram
+    # carregados depois de TODA a biblioteca, em tres passagens (rb/ordem.rb).
+    # Para os reproduzir e preciso a lista do que se carregou nessas passagens:
+    # os modulos da gem que carregam. Vai so para as gems que tem algum alvo
+    # nesse modo, para o manifesto nao crescer sem uso.
+    # A lista e EXATAMENTE a que o ordem.rb recebeu: todos os modulos da gem que
+    # entraram na camada 6, incluindo os que falharam isolados, menos os que
+    # morreram abruptamente ou por timeout. Usar so os que carregaram deixava de
+    # fora o brakeman/util.rb, sem o qual o template_parser nao carrega.
+    carregados = defaultdict(list)
+    with open(f"{D}/6_carregamento/carregam.csv", encoding="utf-8") as f:
+        for r in csv.DictReader(f):
+            carregados[r["gem"]].append(r["ficheiro"])
+    with open(f"{D}/6_carregamento/falham.csv", encoding="utf-8") as f:
+        for r in csv.DictReader(f):
+            if not r.get("erro", "").startswith(("saida abrupta", "timeout")):
+                carregados[r["gem"]].append(r["ficheiro"])
     codigo = defaultdict(list)
     with gzip.open(f"{D}/2_parser/analise_completa.jsonl.gz", "rt",
                    encoding="utf-8") as f:
@@ -289,6 +306,8 @@ def main() -> None:
             "entrada": "" if (r["entrada"] in ("", "(sem porta)")
                               or r["porta_abriu"] != "True") else r["entrada"],
             "ficheiros_codigo": sorted(codigo[gem]),
+            "biblioteca": sorted(carregados[gem]) if any(
+                m["gem"] == gem and m["modo"] != "isolado" for m in corpus) else [],
             "alvos": [{"ficheiro": m["ficheiro"], "modo": m["modo"],
                        "origem": m["origem"], "componente": m["componente"],
                        "vizinhos_no_corpus": m["vizinhos_no_corpus"],

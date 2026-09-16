@@ -13,6 +13,7 @@ Load-path / require resolution (the ``PYTHONPATH``/import-root analogue):
 from __future__ import annotations
 
 import glob
+import json
 import os
 import re
 from dataclasses import dataclass, field
@@ -198,6 +199,14 @@ class RubyProject:
     # braço da ablação só precisa de repetir os métodos cujo prompt o grafo muda
     # (4601 dos 6898; ver benchmark/alvos_ablacao.py). Sem isto, repetia todos.
     method_names: Optional[List[str]] = None
+    # Módulos que a camada 6 só certificou "com a biblioteca carregada": depois de
+    # carregar TODA a biblioteca em três passagens (rb/ordem.rb). A porta de
+    # entrada não chega para eles — o verificador mostrou-o nos 15 do corpus.
+    #  - library_files: o que se carrega nessas passagens (relativo a root_dir)
+    #  - library_targets: os ficheiros-alvo que precisam disso
+    # Só os specs DESTES alvos pagam o carregamento; os outros não mudam.
+    library_files: Optional[List[str]] = None
+    library_targets: Optional[List[str]] = None
 
     files: List[str] = field(default_factory=list)          # absolute .rb paths
     targets: List[MethodTarget] = field(default_factory=list)
@@ -252,6 +261,45 @@ class RubyProject:
         carrega: as pastas todas no caminho, e a porta de entrada já carregada."""
         self.backend.extra_load_paths = self._load_path_list()
         self.backend.requires = [self.preload] if self.preload else []
+        script = self._library_script()
+        self.backend.coverage_requires = [script] if script else []
+
+    def _library_script(self) -> Optional[str]:
+        """Escreve o carregamento da biblioteca em três passagens, a mesma coisa
+        que o rb/ordem.rb da camada 6 fez para certificar estes módulos, e devolve
+        o caminho. None quando nenhum alvo precisa."""
+        if not (self.library_files and self.library_targets):
+            return None
+        reqs = sorted({self._require_for(f) for f in self.library_files})
+        linhas = ["# Gerado pela MARTA-Ruby: reproduz o rb/ordem.rb da camada 6.",
+                  "# Três passagens, ignorando falhas: um módulo que falha na",
+                  "# primeira pode passar depois de os irmãos definirem constantes.",
+                  "ALVOS_BIBLIOTECA = ["]
+        linhas += [f"  {json.dumps(r)}," for r in reqs]
+        linhas += ["].freeze",
+                   "3.times do",
+                   "  ALVOS_BIBLIOTECA.each do |a|",
+                   "    begin",
+                   "      require a",
+                   "    rescue Exception # rubocop:disable Lint/RescueException",
+                   "      nil",
+                   "    end",
+                   "  end",
+                   "end", ""]
+        pasta = os.path.join(self.out_root(), ".marta_ruby_cache")
+        os.makedirs(pasta, exist_ok=True)
+        caminho = os.path.join(pasta, "biblioteca.rb")
+        with open(caminho, "w", encoding="utf-8") as f:
+            f.write("\n".join(linhas))
+        return caminho
+
+    def _extra_requires_for(self, t: "MethodTarget") -> Optional[List[str]]:
+        """O `-r` extra que só os specs dos módulos certificados com a biblioteca
+        carregada levam."""
+        if self.library_targets and t.source_rel in self.library_targets:
+            script = self._library_script()
+            return [script] if script else None
+        return None
 
     def _code_paths(self) -> List[str]:
         """Ficheiros a analisar: os do manifesto quando existe (exatamente os que
@@ -367,6 +415,7 @@ class RubyProject:
                 backend=self.backend,
 
                 error_help_fn=self._error_help_fn(t),
+                extra_requires=self._extra_requires_for(t),
             )
             outcomes.append(outcome)
         return outcomes
@@ -731,6 +780,7 @@ class RubyProject:
                     backend=self.backend,
 
                     error_help_fn=self._error_help_fn(t),
+                extra_requires=self._extra_requires_for(t),
                 )
                 outcomes.append(outcome)
             recorder.end_count_time(f"round_{rnd}")

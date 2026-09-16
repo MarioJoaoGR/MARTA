@@ -77,6 +77,7 @@ async def generate_spec_for_method(
     recorder=None,
     backend: Optional[LanguageBackend] = None,
     error_help_fn: Optional[Callable[[str], str]] = None,
+    extra_requires: Optional[List[str]] = None,
 ) -> GenOutcome:
     """Generate, self-heal and validate one spec file for one method.
 
@@ -127,6 +128,10 @@ async def generate_spec_for_method(
     def _tel(fn, *a, **kw):
         return fn(*a, **kw) if recorder is not None else nullcontext()
 
+    # Só se passa o kwarg quando há alguma coisa: backends que sobrepõem
+    # run_tests(test_path, load_paths, cwd) sem ele continuam a funcionar.
+    _extra = {"requires_extra": extra_requires} if extra_requires else {}
+
     for attempt in range(1, max_attempts + 1):
         if attempt == 1:
             instruction = prompts.first_dev_instruction(scenarios)
@@ -162,7 +167,7 @@ async def generate_spec_for_method(
             continue
 
         with _tel(recorder.medir if recorder else None, "rspec"):
-            res = backend.run_tests(spec_path, load_paths, cwd)
+            res = backend.run_tests(spec_path, load_paths, cwd, **_extra)
         results = res.results
         last_res = res
         if res.all_passed:
@@ -190,7 +195,7 @@ async def generate_spec_for_method(
             if backend.syntax_check(new_code) is None:
                 _write(new_code)
                 with _tel(recorder.medir if recorder else None, "rspec"):
-                    recheck = backend.run_tests(spec_path, load_paths, cwd)
+                    recheck = backend.run_tests(spec_path, load_paths, cwd, **_extra)
                 if recheck.all_passed and recheck.examples:
                     success = True
                     salvaged = True

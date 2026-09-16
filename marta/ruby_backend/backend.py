@@ -124,18 +124,27 @@ class RubyBackend(LanguageBackend):
     # O ambiente de execução (ver RubyProject.load_paths / preload) é atribuído
     # pelo projeto, por instância; lê-se com getattr para um RubyBackend() solto
     # continuar a funcionar como antes, sem porta de entrada nem pastas extra.
-    def run_tests(self, test_path: str, load_paths: List[str], cwd: str) -> RSpecResult:
+    def run_tests(self, test_path: str, load_paths: List[str], cwd: str,
+                  requires_extra: Optional[List[str]] = None) -> RSpecResult:
+        # requires_extra: o que só ESTE spec precisa além da porta de entrada — o
+        # carregamento da biblioteca inteira, para os módulos que a camada 6 só
+        # certificou assim (ver RubyProject.library_targets).
+        requires = list(getattr(self, "requires", None) or []) + list(requires_extra or [])
         return runner.run_rspec(test_path, load_paths=load_paths, cwd=cwd,
-                                requires=getattr(self, "requires", None))
+                                requires=requires)
 
     def run_coverage(self, source_dir: str, test_paths: List[str], cwd: str) -> CoverageResult:
         # Generated specs are self-contained -> isolate from the project .rspec.
         # O ambiente tem de ser o MESMO da geração: um spec verde a gerar e que
         # não carrega a medir contava como teste perdido, por culpa do ambiente.
+        # Os specs correm todos num processo, por isso a biblioteca entra se
+        # algum alvo precisar dela.
+        requires = list(getattr(self, "requires", None) or []) \
+            + list(getattr(self, "coverage_requires", None) or [])
         return coverage_runner.run_line_coverage(
             source_dir, test_paths, cwd=cwd, isolated=True,
             load_paths=getattr(self, "extra_load_paths", None),
-            requires=getattr(self, "requires", None))
+            requires=requires)
 
     def synthesize_coverage(self, method: MethodInfo, lines: List[Optional[int]],
                             branches: Optional[List[List[int]]] = None,

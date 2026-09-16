@@ -116,6 +116,8 @@ def main():
                            output_root=output_root, target_files=target_files,
                            load_paths=env.get("load_paths"), preload=env.get("preload"),
                            code_files=env.get("code_files"),
+                           library_files=env.get("library_files"),
+                           library_targets=env.get("library_targets"),
                            method_names=method_names).discover()
         print(f"🔍 [Contexto] {len(proj.files)} ficheiros, {len(proj.targets)} métodos-alvo; "
               f"grafo: {len(proj.call_graph.edges) if proj.call_graph else 0} arestas "

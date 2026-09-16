@@ -65,7 +65,11 @@ def verifica_gem(gem: str, p: dict, projects_dir: pathlib.Path, preparado: dict,
     proj = RubyProject(root_dir=str(raiz), source_dir=".",
                        target_files=[a["ficheiro"] for a in p["alvos"]],
                        load_paths=p["load_paths"], preload=p["entrada"] or None,
-                       code_files=p["ficheiros_codigo"]).discover()
+                       code_files=p["ficheiros_codigo"],
+                       library_files=p.get("biblioteca") or None,
+                       library_targets=[a["ficheiro"] for a in p["alvos"]
+                                        if a.get("modo", "isolado") != "isolado"] or None,
+                       ).discover()
     t_parse = time.time() - t0
 
     # Um alvo por FICHEIRO (o require é do ficheiro, não do método).
@@ -83,7 +87,9 @@ def verifica_gem(gem: str, p: dict, projects_dir: pathlib.Path, preparado: dict,
             f.write(SPEC.format(req=json.dumps(t.require_target),
                                 desc=json.dumps(f"carrega {rel}")))
         t1 = time.time()
-        res = proj.backend.run_tests(spec, proj._load_path_list(), str(raiz))
+        extra = proj._extra_requires_for(t)
+        res = proj.backend.run_tests(spec, proj._load_path_list(), str(raiz),
+                                     **({"requires_extra": extra} if extra else {}))
         a = meta.get(rel, {})
         erro = "" if res.all_passed else \
             " ".join((res.output or "").split())[:300] or "sem saída"
@@ -107,7 +113,8 @@ def verifica_gem(gem: str, p: dict, projects_dir: pathlib.Path, preparado: dict,
                 r = cov.run_line_coverage(
                     ".", specs, cwd=str(raiz), timeout=1800, isolated=True,
                     load_paths=proj._load_path_list(),
-                    requires=[p["entrada"]] if p["entrada"] else None)
+                    requires=([p["entrada"]] if p["entrada"] else [])
+                    + list(proj.backend.coverage_requires))
                 chaves = set(r.files)
             except Exception as e:
                 log(f"    ! cobertura falhou: {repr(e)[:150]}")
