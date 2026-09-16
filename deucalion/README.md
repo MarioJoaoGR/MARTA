@@ -130,10 +130,20 @@ Variáveis de ambiente que o script aceita:
 do lado Python: o 32B é 3,4× mais lento a gerar, e o corpus inteiro a 32B rondaria
 340 GPU-h, que não cabe nas horas disponíveis. O 236B está fora (4 GPUs).
 
-**A fase `measure` não precisa de GPU.** Para não gastar horas de GPU a medir
-cobertura, correr `PHASE=generate` neste job e a medição depois, com a conta de
-CPU (`-A f202407648iacdcf2x`) e sem `--gpus`. Falta escrever o job de CPU para
-isso; por agora, `PHASE=all` faz as duas no mesmo job.
+**A fase `measure` não precisa de GPU.** Corre-se a geração com `PHASE=generate`
+neste job, e a medição no job de CPU (conta `...cf2x`, partição `dev-x86`):
+
+```bash
+PHASE=generate sbatch --export=ALL deucalion/run_ruby_benchmark.sh
+ACOMPANHAR=1 sbatch --export=ALL deucalion/run_ruby_measure_cpu.sh
+```
+
+Os dois podem correr ao mesmo tempo. A medição grava num `state_medicao.json`
+próprio e só lê o `state.json` da geração; escrever os dois no mesmo ficheiro já
+comeu resultados no lado Python. Com `ACOMPANHAR=1`, quando a medição acaba e a
+geração ainda tem gems por terminar, o job volta a agendar-se para daqui a 30
+minutos, e a medição vai seguindo a geração sozinha. O `MODEL` e o
+`MARTA_SEM_GRAFO` têm de ser os mesmos da geração que se quer medir.
 
 ## A ablação do grafo
 
@@ -157,7 +167,10 @@ MARTA_SEM_GRAFO=1 sbatch --export=ALL deucalion/run_ruby_benchmark.sh
 ```
 
 Tem cache de análise, estado e outputs próprios (`<gem>_sem_grafo/`), por isso
-não toca na execução normal. A comparação faz-se método a método, com os dois
+não toca na execução normal. A primeira passagem dos sumários não usa o grafo e
+sai igual nos dois braços: o braço sem grafo vai buscá-la à cache da execução
+normal em vez de a pagar outra vez (uma chamada por método afetado), por isso
+**tem de correr depois** da execução normal da mesma gem. A comparação faz-se método a método, com os dois
 `cobertura_por_metodo.json`, restrita aos métodos afetados.
 
 ## O corpus, e a ligação ao dataset

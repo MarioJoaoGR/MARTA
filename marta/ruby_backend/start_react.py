@@ -139,8 +139,18 @@ def main():
         # AsyncLimiter do gptapi entre loops distintos).
         async def _pipeline():
             recorder.start_count_time("collect_message")
+            # Braço da ablação: a passagem 1 dos sumários é igual à da execução
+            # normal, que vive em <output_dir>/<nome sem sufixo>.
+            reap = None
+            if args.no_graph_enrich and args.output_dir and not args.no_cache:
+                from marta.ruby_backend import cache as _cache
+                nome_normal = project_name[: -len("_sem_grafo")]
+                reap = _cache.cache_path(
+                    os.path.join(os.path.abspath(args.output_dir), nome_normal),
+                    os.getenv("MODEL", "default"))
             await proj.analyze_summaries(limit=args.limit, use_cache=not args.no_cache,
-                                         enrich=not args.no_graph_enrich)
+                                         enrich=not args.no_graph_enrich,
+                                         reaproveitar_passagem1_de=reap)
             if not args.no_rag:
                 print("🧠 [RAG] A indexar summaries (bge)...")
                 proj.build_rag()

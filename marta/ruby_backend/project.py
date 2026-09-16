@@ -427,6 +427,7 @@ class RubyProject:
         use_cache: bool = True,
         max_class_summaries: int = 50,
         enrich: bool = True,
+        reaproveitar_passagem1_de: Optional[str] = None,
     ) -> None:
         """Populate each target's done_what / what_todo / summary before
         generation — the context-building phase MARTA runs in ``init()``.
@@ -461,10 +462,32 @@ class RubyProject:
         overviews = readme.ReadmeOverviewCache(self.abs_source)
 
         # Pass 1: source-only done_what (MARTA's no-call-graph branch).
+        #
+        # A passagem 1 só lê o código do método e não usa o grafo: sai igual nos
+        # dois braços da ablação. Por isso o braço sem grafo vai buscá-la à cache
+        # da execução normal (`reaproveitar_passagem1_de`) em vez de pagar a
+        # chamada outra vez — uma por cada um dos 4601 métodos afetados. Só se
+        # reaproveita o que bate certo com as mesmas fontes e o mesmo modelo.
+        reaproveitada: Dict[str, str] = {}
+        if reaproveitar_passagem1_de:
+            normal = cache.load_analysis(reaproveitar_passagem1_de, src_hash, model) or {}
+            reaproveitada = {qn: e["done_what_passagem1"] for qn, e in normal.items()
+                             if e.get("done_what_passagem1")}
+        passagem1: Dict[str, str] = {}
         with r.fase("sumarios_passagem1"):
             for t in targets:
-                with r.contexto(metodo=t.method.qualified_name):
-                    t.done_what = await summaries.analyze_done_what(ask, t.context_source)
+                qn = t.method.qualified_name
+                if qn in reaproveitada:
+                    t.done_what = reaproveitada[qn]
+                else:
+                    with r.contexto(metodo=qn):
+                        t.done_what = await summaries.analyze_done_what(ask, t.context_source)
+                passagem1[qn] = t.done_what
+        n_reap = sum(1 for t in targets if t.method.qualified_name in reaproveitada)
+        if n_reap:
+            print(f"♻️  [Ablação] passagem 1 reaproveitada da execução normal em "
+                  f"{n_reap}/{len(targets)} métodos")
+            r.evento(tipo="passagem1_reaproveitada", metodos=n_reap, alvos=len(targets))
 
         # Pass 2: enrich done_what of callers with their callees' done_what,
         # following the static call graph (the PyCG-driven enrichment). Only
@@ -585,6 +608,9 @@ class RubyProject:
                 t.method.qualified_name: {
                     "done_what": t.done_what, "what_todo": t.what_todo,
                     "summary": t.summary, "judge": t.judge,
+                    # guardada à parte: o done_what final já vem enriquecido pela
+                    # passagem 2, e o braço da ablação precisa da versão de antes
+                    "done_what_passagem1": passagem1.get(t.method.qualified_name, ""),
                 }
                 for t in targets
             }, classes=self.class_summaries)

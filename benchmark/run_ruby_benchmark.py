@@ -61,7 +61,7 @@ def _alvos_biblioteca(p: dict):
 
 class Harness:
     def __init__(self, projects_dir, out_dir, num, limit, timeout, projetos,
-                 preparados, fresh_specs=False):
+                 preparados, fresh_specs=False, phase="all"):
         self.projects_dir = pathlib.Path(projects_dir).resolve()
         self.out_dir = pathlib.Path(out_dir).resolve()
         self.num, self.limit, self.timeout = num, limit, timeout
@@ -69,13 +69,29 @@ class Harness:
         self.fresh_specs = fresh_specs
         self.harness_dir = self.out_dir / "harness"
         self.logs_dir = self.harness_dir / "logs"
-        self.state_path = self.harness_dir / "state.json"
+        # A medicao pode correr num job de CPU AO MESMO TEMPO que a geracao no de
+        # GPU. Se escrevessem os dois o mesmo state.json, o ultimo a gravar
+        # apagava as entradas do outro (ja aconteceu no lado Python e comeu os
+        # resultados de um projeto). Por isso a medicao tem o seu proprio ficheiro
+        # e so LE o da geracao.
+        self.state_geracao_path = self.harness_dir / "state.json"
+        self.state_path = self.harness_dir / (
+            "state_medicao.json" if phase == "measure" else "state.json")
         self.harness_dir.mkdir(parents=True, exist_ok=True)
         self.logs_dir.mkdir(parents=True, exist_ok=True)
         self.state = json.loads(self.state_path.read_text()) if self.state_path.exists() else {}
 
     def save(self):
         _grava_json(self.state_path, self.state)
+
+    def geracao_ok(self, gem: str, sufixo: str = "") -> bool:
+        """A geracao desta gem terminou bem? Relido do disco a cada chamada, para
+        um job de medicao apanhar o que a geracao for concluindo."""
+        try:
+            estado = json.loads(self.state_geracao_path.read_text())
+        except (OSError, json.JSONDecodeError):
+            estado = {}
+        return estado.get(f"marta_ruby/{gem}{sufixo}", {}).get("status") == "ok"
 
     def _clone(self, gem) -> pathlib.Path:
         return self.projects_dir / gem
@@ -287,7 +303,8 @@ class Harness:
     def report(self):
         rows = {k.split("/", 1)[1]: v for k, v in self.state.items()
                 if k.startswith("coverage/") and v.get("status") == "ok"}
-        out = self.out_dir / "results.json"
+        out = self.out_dir / ("results_medicao.json" if self.state_path.name != "state.json"
+                              else "results.json")
         _grava_json(out, {"projetos": rows, "state": self.state})
         if rows:
             log("")
@@ -314,6 +331,9 @@ def main():
                     help="apaga marta_specs/ de cada gem antes de gerar "
                          "(runs independentes p/ o desenho N-runs+Wilcoxon)")
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--pendentes", action="store_true",
+                    help="escreve quantas gems ainda nao tem a geracao terminada e sai "
+                         "(o job de medicao em CPU usa isto para se voltar a agendar)")
     ap.add_argument("--reset", action="store_true")
     args = ap.parse_args()
 
@@ -340,11 +360,22 @@ def main():
             f"{', '.join(nao_prontas[:10])}{' …' if len(nao_prontas) > 10 else ''}")
 
     h = Harness(args.projects_dir, args.out_dir, args.num, args.limit, args.timeout or None,
-                projetos, preparados, fresh_specs=args.fresh_specs)
+                projetos, preparados, fresh_specs=args.fresh_specs, phase=args.phase)
     if args.reset and h.state_path.exists():
         h.state_path.unlink()
         h.state = {}
         log("state.json apagado (reset)")
+
+    if args.pendentes:
+        sufixo = "_sem_grafo" if os.getenv("MARTA_SEM_GRAFO") == "1" else ""
+        try:
+            estado = json.loads(h.state_geracao_path.read_text())
+        except (OSError, json.JSONDecodeError):
+            estado = {}
+        finais = ("ok", "failed", "timeout", "sem_afetados")
+        print(sum(1 for g in gems
+                  if estado.get(f"marta_ruby/{g}{sufixo}", {}).get("status") not in finais))
+        return
 
     modulos = sum(len(projetos[g]["alvos"]) for g in gems)
     log(f"MARTA-Ruby benchmark · {len(gems)} gems · {modulos} módulos · fase={args.phase} "
@@ -371,7 +402,7 @@ def main():
             gerou = h.run_marta(gem)
         else:
             sufixo = "_sem_grafo" if os.getenv("MARTA_SEM_GRAFO") == "1" else ""
-            gerou = h.state.get(f"marta_ruby/{gem}{sufixo}", {}).get("status") == "ok"
+            gerou = h.geracao_ok(gem, sufixo)
             if not gerou:
                 log(f"  {gem}: sem geração concluída, nada para medir")
         if gerou and args.phase in ("all", "measure"):

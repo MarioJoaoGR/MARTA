@@ -82,6 +82,32 @@ def test_sem_grafo_os_dois_pontos_ficam_desligados(tmp_path):
 
 
 @precisa
+def test_braco_sem_grafo_reaproveita_a_passagem1(tmp_path, monkeypatch):
+    """A passagem 1 não usa o grafo e sai igual nos dois braços: o braço sem grafo
+    vai buscá-la à cache da execução normal e não paga essas chamadas."""
+    from marta.ruby_backend import cache
+
+    monkeypatch.setenv("MODEL", "modelo_de_teste")
+    normal = _projeto(tmp_path)
+    asyncio.run(normal.analyze_summaries(ask=_ask, use_cache=True, enrich=True))
+    cache_normal = cache.cache_path(normal.out_root(), "modelo_de_teste")
+
+    guardado = cache.load_analysis(cache_normal, cache.compute_source_hash(normal.files),
+                                   "modelo_de_teste")
+    assert all(e["done_what_passagem1"] for e in guardado.values())
+
+    sem_grafo = RubyProject(root_dir=str(tmp_path), source_dir="lib").discover()
+    r = sem_grafo._recorder()
+    asyncio.run(sem_grafo.analyze_summaries(
+        ask=_ask, use_cache=True, enrich=False,
+        reaproveitar_passagem1_de=cache_normal))
+
+    fases = r.score.por_fase
+    assert fases.get("sumarios_passagem1", {}).get("chamadas", 0) == 0
+    assert fases["sumario_final"]["chamadas"] == 2
+
+
+@precisa
 def test_filtro_por_metodo(tmp_path):
     """O braço da ablação só repete os métodos que o grafo afeta: o ficheiro
     continua alvo, mas só esses métodos geram specs."""
