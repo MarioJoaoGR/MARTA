@@ -1,134 +1,134 @@
-gem,repo,categoria,downloads,versao,repo_usado,origem_repo,etiqueta,ref_usada,erro_clone,ramo,commit,raiz_codigo,tem_lib,rb_alvo,rb_suite,lidos,com_erro,com_erro_real,taxa,metodos,classes
-i18n,ruby-i18n/i18n,internationalization,1416535738,1.15.2,ruby-i18n/i18n,lista,v1.15.2,etiqueta,,HEAD,8beba7876163,.,True,35,55,35,0,0,100.0,273,118
-activesupport,rails/rails/tree/master/master/activesupport,core extensions,1413493331,8.1.3.1,rails/rails,lista,v8.1.3.1,etiqueta,,HEAD,3989ebf3473d,master/activesupport,False,1519,1813,1519,0,0,100.0,14143,4729
-rake,ruby/rake,cli builder,1396264920,13.4.2,ruby/rake,lista,v13.4.2,etiqueta,,HEAD,503b8ec593c5,.,True,45,50,45,0,0,100.0,322,85
-concurrent-ruby,ruby-concurrency/concurrent-ruby,concurrency and parallelism,1351817785,1.3.8,ruby-concurrency/concurrent-ruby,lista,v1.3.8,etiqueta,,HEAD,0b88d5ff75f6,.,True,244,101,244,0,0,100.0,1671,619
-tzinfo,tzinfo/tzinfo,date and time processing,1303296972,2.0.6,tzinfo/tzinfo,lista,v2.0.6,etiqueta,,HEAD,d5893c99bbcd,.,True,49,92,49,0,0,100.0,356,144
-minitest,minitest/minitest,testing,1282273996,6.0.6,minitest/minitest,lista,v6.0.6,etiqueta,,HEAD,f6180b07ea6e,.,True,25,11,25,0,0,100.0,313,72
-addressable,sporkmonger/addressable,core extensions,1249314571,2.9.0,sporkmonger/addressable,lista,addressable-2.9.0,etiqueta,,HEAD,0c3e8589b23d,.,True,15,6,15,0,0,100.0,135,21
-faraday,lostisland/faraday,http clients and tools,1242225853,2.14.3,lostisland/faraday,lista,v2.14.3,etiqueta,,HEAD,f1ace878bae1,.,True,35,36,35,0,0,100.0,314,93
-rspec,rspec/rspec,testing,1011554156,3.13.2,rspec/rspec,lista,rspec-core-v3.13.2,etiqueta,,HEAD,79a280d76e10,.,False,255,306,255,0,0,100.0,2865,867
-activerecord,rails/rails/tree/master/master/activerecord,orm/odm,827953595,8.1.3.1,rails/rails,lista,v8.1.3.1,etiqueta,,HEAD,3989ebf3473d,master/activerecord,False,1519,1813,1519,0,0,100.0,14143,4729
-parallel,grosser/parallel,concurrency and parallelism,812279355,2.1.0,grosser/parallel,lista,v2.1.0,etiqueta,,HEAD,cd5ba09894cd,.,True,3,68,3,0,0,100.0,59,13
-jwt,jwt/ruby-jwt,authentication and oauth,802138915,3.2.0,jwt/ruby-jwt,lista,v3.2.0,etiqueta,,HEAD,db560b769a07,.,True,49,37,49,0,0,100.0,240,144
-tilt,rtomayko/tilt,template engine,785376558,2.9.0,jeremyevans/tilt,declarado no RubyGems,v2.9.0,etiqueta,,HEAD,f0d75c60e3a6,.,True,39,42,39,0,0,100.0,151,48
-mail,mikel/mail,email,755286721,2.9.1,mikel/mail,lista,2.9.1,etiqueta,,HEAD,d645d7b5b7d0,.,True,111,85,111,0,0,100.0,812,242
-rubocop,rubocop/rubocop,code formatting,735259184,1.90.0,rubocop/rubocop,lista,v1.90.0,etiqueta,,HEAD,f1b25e104041,.,True,943,820,943,0,0,100.0,7368,3552
-connection_pool,mperham/connection_pool,database tools,714797693,3.0.2,mperham/connection_pool,lista,v3.0.2,etiqueta,,HEAD,78bc41e2a9ff,.,True,5,5,5,0,0,100.0,41,11
-excon,excon/excon,http clients and tools,699999190,1.7.0,excon/excon,lista,v1.7.0,etiqueta,,HEAD,ac022b6417d7,.,True,47,60,47,0,0,100.0,183,135
-zeitwerk,fxn/zeitwerk,code loaders,688179299,2.8.3,fxn/zeitwerk,lista,v2.8.3,etiqueta,,HEAD,607973fc0bd8,.,True,25,54,25,0,0,100.0,146,39
-coderay,rubychan/coderay,code highlighting,633856048,1.1.3,rubychan/coderay,lista,v1.1.3,etiqueta,,HEAD,d30855fe96e3,.,True,74,48,74,0,0,100.0,279,207
-pry,pry/pry,irb,627459000,0.16.0,pry/pry,lista,v0.16.0,etiqueta,,HEAD,5a267df08ad6,.,True,135,89,135,0,0,100.0,1033,395
-sprockets,rails/sprockets,assets,616974660,4.4.1,rails/sprockets,lista,v4.4.1,etiqueta,,HEAD,49d9f20c00ac,.,True,80,45,80,0,0,100.0,515,183
-puma,puma/puma,web servers,596355020,8.0.2,puma/puma,lista,v8.0.2,etiqueta,,HEAD,8085b75e79e3,.,True,58,110,58,0,0,100.0,666,140
-dotenv,bkeepers/dotenv,configuration,538739274,3.2.0,bkeepers/dotenv,lista,v3.2.0,etiqueta,,HEAD,34156bf400cd,.,True,20,9,20,0,0,100.0,57,28
-httpclient,nahi/httpclient,http clients and tools,530692170,2.9.0,nahi/httpclient,lista,v2.9.0,etiqueta,,HEAD,5bc7b0d383c4,.,True,40,13,40,0,0,100.0,515,113
-rack-protection,sinatra/sinatra/tree/master/master/rack-protection,security,512406857,4.2.1,sinatra/sinatra,lista,v4.2.1,etiqueta,,HEAD,599a007a779d,master/rack-protection,True,56,91,56,0,0,100.0,583,156
-docile,ms-ati/docile,core extensions,496767488,1.4.1,ms-ati/docile,lista,v1.4.1,etiqueta,,HEAD,f0c25f516b8f,.,True,6,2,6,0,0,100.0,10,10
-simplecov,simplecov-ruby/simplecov,code analysis and metrics,494202244,1.1.1,simplecov-ruby/simplecov,lista,v1.1.1,etiqueta,,HEAD,76a8e4e0f661,.,True,202,198,202,2,0,99.0,936,361
-rest-client,rest-client/rest-client,http clients and tools,481645596,2.1.0,rest-client/rest-client,lista,v2.1.0,etiqueta,,HEAD,cf3e5a115bcd,.,True,16,19,16,0,0,100.0,161,39
-hashie,hashie/hashie,core extensions,479469860,5.1.0,hashie/hashie,lista,v5.1.0,etiqueta,,HEAD,ce2226269688,.,True,44,53,44,0,0,100.0,269,152
-httparty,jnunemaker/httparty,http clients and tools,476707639,0.24.2,jnunemaker/httparty,lista,v0.24.2,etiqueta,,HEAD,9c89e55ce357,.,True,46,28,46,0,0,100.0,280,89
-byebug,deivid-rodriguez/byebug,debugging tools,475425784,13.0.0,deivid-rodriguez/byebug,lista,v13.0.0,etiqueta,,HEAD,aff644023372,.,True,118,65,118,0,0,100.0,663,269
-pg,ged/ruby-pg,database drivers,465403733,1.6.3,ged/ruby-pg,lista,v1.6.3,etiqueta,,HEAD,d4539c25dcc8,.,True,54,25,54,0,0,100.0,163,89
-webmock,bblimke/webmock,testing,417786674,3.26.3,bblimke/webmock,lista,v3.26.3,etiqueta,,HEAD,ee409ac0a5f0,.,True,64,66,64,0,0,100.0,476,173
-terminal-table,tj/terminal-table,cli utilities,412717349,4.0.0,tj/terminal-table,lista,v4.0.0,etiqueta,,HEAD,ba051e6f8aae,.,True,18,7,18,0,0,100.0,85,28
-sawyer,lostisland/sawyer,http clients and tools,396999344,0.9.3,lostisland/sawyer,lista,v0.9.3,etiqueta,,HEAD,7a60719e675f,.,True,10,5,10,0,0,100.0,75,19
-listen,guard/listen,file system listener,396628201,3.10.0,guard/listen,lista,v3.10.0,etiqueta,,HEAD,2fa1a742d8c2,.,True,33,33,33,0,0,100.0,182,88
-knapsack,KnapsackPro/knapsack,testing,379938279,4.0.0,KnapsackPro/knapsack,lista,v4.0.0,etiqueta,,HEAD,f394c8470281,.,True,47,24,47,0,0,100.0,136,67
-bootsnap,rails/bootsnap,optimizations,369759211,1.25.0,rails/bootsnap,lista,v1.25.0,etiqueta,,HEAD,e099ec707644,.,True,22,27,22,0,0,100.0,167,52
-capybara,teamcapybara/capybara,testing,354902722,3.40.0,teamcapybara/capybara,lista,3.40.0,etiqueta,,HEAD,a210c6e57872,.,True,123,132,123,0,0,100.0,1195,291
-selenium-webdriver,SeleniumHQ/selenium/tree/master/master/rb,testing,353864427,4.47.0,SeleniumHQ/selenium,lista,selenium-4.47.0,etiqueta,,HEAD,9175ed94d83e,master/rb,False,209,127,209,0,0,100.0,1607,812
-factory_bot,thoughtbot/factory_bot,testing,349439346,6.6.0,thoughtbot/factory_bot,lista,v6.6.0,etiqueta,,HEAD,5d399535578d,.,True,53,90,53,0,0,100.0,315,131
-faker,faker-ruby/faker,testing,338609496,3.8.0,faker-ruby/faker,lista,v3.8.0,etiqueta,,HEAD,e48d35f4fa0d,.,True,255,312,255,0,0,100.0,1396,644
-rdoc,ruby/rdoc,documentation,337152389,8.0.0,ruby/rdoc,lista,v8.0.0,etiqueta,,HEAD,4e303b392092,.,True,111,94,111,0,0,100.0,1861,166
-responders,heartcombo/responders,decorators,331146851,3.2.0,heartcombo/responders,lista,v3.2.0,etiqueta,,HEAD,b20fdd24befe,.,True,10,9,10,0,0,100.0,49,23
-eventmachine,eventmachine/eventmachine,concurrency and parallelism,329603418,1.2.7,eventmachine/eventmachine,lista,v1.2.7,etiqueta,,HEAD,9cb13a8a6236,.,True,56,63,56,0,0,100.0,647,155
-rubocop-performance,rubocop/rubocop-performance,code formatting,321530131,1.27.0,rubocop/rubocop-performance,lista,v1.27.0,etiqueta,,HEAD,c07064ddee3f,.,True,62,56,62,0,0,100.0,296,229
-rouge,rouge-ruby/rouge,code highlighting,320002395,5.1.0,rouge-ruby/rouge,lista,v5.1.0,etiqueta,,HEAD,afc3c52c2af0,.,True,302,247,302,0,0,100.0,912,924
-jbuilder,rails/jbuilder,api builder and discovery,309062979,2.15.1,rails/jbuilder,lista,v2.15.1,etiqueta,,HEAD,31eb6e909968,.,True,14,7,14,2,0,85.7,85,27
-childprocess,enkessler/childprocess,processes,306482445,5.1.0,enkessler/childprocess,lista,v5.1.0,etiqueta,,HEAD,c756730c4ac4,.,True,12,8,12,0,0,100.0,54,30
-warden,wardencommunity/warden,authentication and oauth,303392385,1.2.9,wardencommunity/warden,lista,v1.2.9,etiqueta,,HEAD,3f197cee0511,.,True,11,25,11,0,0,100.0,106,26
-rubocop-rails,rubocop/rubocop-rails,code formatting,301551492,2.37.0,rubocop/rubocop-rails,lista,v2.37.0,etiqueta,,HEAD,2ccba590ec47,.,True,158,149,158,0,0,100.0,819,610
-devise,heartcombo/devise,authentication and oauth,292598634,5.0.4,heartcombo/devise,lista,v5.0.4,etiqueta,,HEAD,9ea459de9aec,.,True,78,119,78,9,0,88.5,485,183
-rubocop-rspec,rubocop/rubocop-rspec,code formatting,290879074,3.10.2,rubocop/rubocop-rspec,lista,v3.10.2,etiqueta,,HEAD,2488441eb70a,.,True,147,140,147,0,0,100.0,637,583
-typhoeus,typhoeus/typhoeus,http clients and tools,285795206,1.6.0,typhoeus/typhoeus,lista,v1.6.0,etiqueta,,HEAD,d7aba1bbfa8d,.,True,45,39,45,0,0,100.0,166,118
-awesome_print,awesome-print/awesome_print,cli utilities,285611364,1.9.2,awesome-print/awesome_print,lista,v1.9.2,etiqueta,,HEAD,9ae56ba413b9,.,True,38,22,38,0,0,100.0,152,71
-pry-byebug,deivid-rodriguez/pry-byebug,debugging tools,284882437,3.12.0,deivid-rodriguez/pry-byebug,lista,v3.12.0,etiqueta,,HEAD,0b5aea2615fd,.,True,24,17,24,0,0,100.0,67,43
-formatador,geemus/formatador,cli utilities,280656070,1.2.3,geemus/formatador,lista,v1.2.3,etiqueta,,HEAD,1000476d1648,.,True,3,3,3,0,0,100.0,22,4
-oauth2,ruby-oauth/oauth2,authentication and oauth,273609635,2.0.25,ruby-oauth/oauth2,lista,v2.0.25,etiqueta,,HEAD,63727352546e,.,True,16,22,16,0,0,100.0,95,35
-rack-cors,cyu/rack-cors,http clients and tools,271479745,3.0.0,cyu/rack-cors,lista,v3.0.0,etiqueta,,HEAD,f73bcd39b91c,.,True,66,7,66,0,0,100.0,43,43
-shoulda-matchers,thoughtbot/shoulda-matchers,testing,270167567,8.0.1,thoughtbot/shoulda-matchers,lista,v8.0.1,etiqueta,,HEAD,cf3b3685f2c0,.,True,139,144,139,0,0,100.0,1437,587
-timecop,travisjeffery/timecop,testing,269990531,0.9.11,travisjeffery/timecop,lista,v0.9.11,etiqueta,,HEAD,b3c9a5a6f06b,.,True,5,17,5,0,0,100.0,72,9
-kaminari,amatsuda/kaminari,pagination,269324777,1.2.2,kaminari/kaminari,declarado no RubyGems,v1.2.2,etiqueta,,HEAD,508caf4653b2,.,True,26,18,26,0,0,100.0,109,66
-spring,rails/spring,testing,257306881,4.7.0,rails/spring,lista,v4.7.0,etiqueta,,HEAD,b7f3fd04b2ed,.,True,30,17,30,0,0,100.0,252,76
-kramdown,gettalong/kramdown,markdown processors,249570695,2.5.2,gettalong/kramdown,lista,,ramo por omissao,,master,12b3d2e75279,.,True,59,4,59,0,0,100.0,525,175
-mysql2,brianmario/mysql2,database drivers,240532194,0.5.7,brianmario/mysql2,lista,0.5.7,etiqueta,,HEAD,c79b3c14fd47,.,True,22,6,22,0,0,100.0,28,23
-brakeman,presidentbeef/brakeman,code analysis and metrics,230403965,8.0.6,presidentbeef/brakeman,lista,v8.0.6,etiqueta,,HEAD,fffc4837becb,.,True,179,503,179,0,0,100.0,1533,242
-pry-rails,pry/pry-rails,debugging tools,227503482,0.3.11,pry/pry-rails,lista,v0.3.11,etiqueta,,HEAD,d8d0c6d87a5b,.,True,13,10,13,0,0,100.0,42,13
-omniauth,omniauth/omniauth,authentication and oauth,221618074,2.1.4,omniauth/omniauth,lista,v2.1.4,etiqueta,,HEAD,20ac5e05a39d,.,True,11,12,11,0,0,100.0,115,30
-dry-types,dry-rb/dry-types,type signatures and type checking,217336252,1.9.1,dry-rb/dry-types,lista,v1.9.1,etiqueta,,HEAD,1a13fb04926f,.,True,62,40,62,0,0,100.0,401,180
-database_cleaner,DatabaseCleaner/database_cleaner,database tools,216668656,2.1.0,DatabaseCleaner/database_cleaner,lista,v2.1.0,etiqueta,,HEAD,23fb7a715317,.,True,14,17,14,0,0,100.0,64,28
-http,httprb/http,http clients and tools,211684850,6.0.4,httprb/http,lista,v6.0.4,etiqueta,,HEAD,942b1b36cea9,.,True,51,79,51,0,0,100.0,390,149
-fastlane,fastlane/fastlane,mobile development,209381031,2.238.0,fastlane/fastlane,lista,2.238.0,etiqueta,,HEAD,38d0ec404332,.,False,796,498,796,1,0,99.9,5958,2247
-thin,macournoyer/thin,web servers,208199531,2.0.1,macournoyer/thin,lista,v2.0.1,etiqueta,,HEAD,84a5188612d8,.,True,36,42,36,0,0,100.0,241,92
-fastimage,sdsykes/fastimage,image processing,207985306,2.4.1,sdsykes/fastimage,lista,v2.4.1,etiqueta,,HEAD,7a0dcf780e6d,.,True,22,3,22,0,0,100.0,85,48
-haml,haml/haml,template engine,204281555,7.4.1,haml/haml,lista,v7.4.1,etiqueta,,HEAD,7f51ae709d96,.,True,59,40,59,0,0,100.0,257,137
-lograge,roidrage/lograge,logging,198067726,0.15.0,roidrage/lograge,lista,v0.15.0,etiqueta,,HEAD,e5caed777529,.,True,23,17,23,0,0,100.0,87,63
-state_machines,state-machines/state_machines,state machines,182844835,0.202.0,state-machines/state_machines,lista,state_machines/v0.202.0,etiqueta,,HEAD,219b43ea588f,.,True,52,446,52,0,0,100.0,380,132
-bullet,flyerhzm/bullet,profiler and optimization,182203796,8.1.3,flyerhzm/bullet,lista,8.1.3,etiqueta,,HEAD,bc55c037d27a,.,True,46,63,46,0,0,100.0,404,116
-colorize,fazibear/colorize,cli utilities,166560423,1.1.0,fazibear/colorize,lista,,ramo por omissao,,master,a252d8af6b76,.,True,6,4,6,0,0,100.0,36,10
-activerecord-import,zdennis/activerecord-import,orm/odm extensions,164815113,2.3.0,zdennis/activerecord-import,lista,v2.3.0,etiqueta,,HEAD,8ac907c9bbc5,.,True,42,90,42,0,0,100.0,113,53
-parallel_tests,grosser/parallel_tests,testing,164748246,5.7.0,grosser/parallel_tests,lista,v5.7.0,etiqueta,,HEAD,e4870a1632aa,.,True,23,53,23,0,0,100.0,156,53
-vcr,vcr/vcr,testing,163274479,6.4.0,vcr/vcr,lista,v6.4.0,etiqueta,,HEAD,5dcacdf69bd6,.,True,38,46,38,0,0,100.0,405,153
-autoprefixer-rails,ai/autoprefixer-rails,assets,163216765,10.4.21.0,ai/autoprefixer-rails,lista,10.4.21.0,etiqueta,,HEAD,01f8d15c4677,.,True,7,13,7,0,0,100.0,26,12
-slop,leejarvis/slop,cli builder,157277077,4.10.1,leejarvis/slop,lista,v4.10.1,etiqueta,,HEAD,7e720331b78d,.,True,7,8,7,0,0,100.0,83,25
-stackprof,tmm1/stackprof,profiler and optimization,155377647,0.2.28,tmm1/stackprof,lista,v0.2.28,etiqueta,,HEAD,4367efa4b8bc,.,True,7,4,7,0,0,100.0,50,7
-guard,guard/guard,file system listener,153696327,2.20.2,guard/guard,lista,v2.20.2,etiqueta,,HEAD,170d63c6ca57,.,True,61,58,61,0,0,100.0,336,180
-rack-attack,rack/rack-attack,security,149940901,6.8.0,rack/rack-attack,lista,v6.8.0,etiqueta,,HEAD,65f1ead3bc64,.,True,22,43,22,0,0,100.0,90,67
-sentry-ruby,getsentry/sentry-ruby,error handling,147953687,6.7.0,getsentry/sentry-ruby,lista,6.7.0,etiqueta,,HEAD,a940dfdb5a64,.,True,162,189,162,0,0,100.0,859,427
-commander,commander-rb/commander,cli builder,146076271,6.0.0,commander-rb/commander,lista,v6.0.0,etiqueta,,HEAD,b4c6be4b149c,.,True,18,12,18,0,0,100.0,99,35
-paper_trail,paper-trail-gem/paper_trail,orm/odm extensions,145297702,17.0.0,paper-trail-gem/paper_trail,lista,v17.0.0,etiqueta,,HEAD,0c511ed46c08,.,True,41,163,41,0,0,100.0,245,105
-bundler-audit,rubysec/bundler-audit,security,141719615,0.9.3,rubysec/bundler-audit,lista,v0.9.3,etiqueta,,HEAD,f8b06ebbefdd,.,True,18,19,18,0,0,100.0,86,63
-carrierwave,carrierwaveuploader/carrierwave,file upload,141038336,3.1.3,carrierwaveuploader/carrierwave,lista,v3.1.3,etiqueta,,HEAD,5effe4ecaae9,.,True,43,50,43,0,0,100.0,317,138
-rufus-scheduler,jmettraux/rufus-scheduler,scheduling,141035730,3.9.2,jmettraux/rufus-scheduler,lista,v3.9.2,etiqueta,,HEAD,ec048146d12d,.,True,15,24,15,0,0,100.0,151,20
-slack-notifier,slack-notifier/slack-notifier,third-party apis,139495227,2.4.0,slack-notifier/slack-notifier,lista,2.4.0,etiqueta,,HEAD,29e51132ce0e,.,True,13,14,13,0,0,100.0,39,47
-rails-i18n,svenfuchs/rails-i18n,internationalization,139133073,8.1.0,svenfuchs/rails-i18n,lista,v8.1.0,etiqueta,,HEAD,32a4583d2111,.,True,132,28,132,0,0,100.0,46,44
-cocoapods,CocoaPods/CocoaPods,package management,138453089,1.17.0,CocoaPods/CocoaPods,lista,1.17.0,etiqueta,,HEAD,5493bfd201a3,.,True,148,128,148,0,0,100.0,1350,502
-jaro_winkler,tonytonyjan/jaro_winkler,scientific,137683433,1.7.0,tonytonyjan/jaro_winkler,lista,v1.7.0,etiqueta,,HEAD,9d7b6c110fa8,.,True,10,3,10,0,0,100.0,8,5
-liquid,Shopify/liquid,template engine,137182287,5.13.0,Shopify/liquid,lista,v5.13.0,etiqueta,,HEAD,7a5e45fc4784,.,True,82,71,82,0,0,100.0,587,174
-active_model_serializers,rails-api/active_model_serializers,api builder and discovery,136546230,0.10.16,rails-api/active_model_serializers,lista,v0.10.16,etiqueta,,HEAD,6934c8bd31f4,.,True,59,95,59,0,0,100.0,286,178
-chronic,mojombo/chronic,date and time processing,133871900,0.10.2,mojombo/chronic,lista,v0.10.2,etiqueta,,HEAD,7d3d82d38c99,.,True,36,22,36,0,0,100.0,276,97
-optimist,ManageIQ/optimist,cli builder,133565556,3.2.1,ManageIQ/optimist,lista,v3.2.1,etiqueta,,HEAD,ecd4d8573b46,.,True,13,13,13,0,0,100.0,103,25
-twilio-ruby,twilio/twilio-ruby,third-party apis,132809086,7.11.1,twilio/twilio-ruby,lista,7.11.1,etiqueta,,HEAD,c8ae95972f64,.,True,760,22,760,0,0,100.0,26841,7940
-redcarpet,vmg/redcarpet,markdown processors,132340674,3.6.1,vmg/redcarpet,lista,v3.6.1,etiqueta,,HEAD,34c138e3f149,.,True,6,14,6,0,0,100.0,32,16
-money,RubyMoney/money,money,132038806,7.1.1,RubyMoney/money,lista,v7.1.1,etiqueta,,HEAD,26e2829c34f1,.,True,20,23,20,0,0,100.0,159,55
-foreman,ddollar/foreman,process management and monitoring,131867902,0.90.0,ddollar/foreman,lista,v0.90.0,etiqueta,,HEAD,3530b8e4a1b1,.,True,20,18,20,0,0,100.0,121,23
-countries,countries/countries,country data,130350411,8.1.0,countries/countries,lista,v8.1.0,etiqueta,,HEAD,8c026f5b49da,.,True,26,10,26,0,0,100.0,131,48
-virtus,solnic/virtus,core extensions,130097705,2.0.0,solnic/virtus,lista,v2.0.0,etiqueta,,HEAD,9e4f56fe8259,.,True,34,69,34,0,0,100.0,218,104
-dalli,petergoldstein/dalli,caching,128582127,5.1.0,petergoldstein/dalli,lista,v5.1.0,etiqueta,,HEAD,fc1b590e462a,.,True,31,58,31,0,0,100.0,379,91
-rqrcode,whomwah/rqrcode,qr,127260787,3.2.0,whomwah/rqrcode,lista,v3.2.0,etiqueta,,HEAD,f0d65004f2b5,.,True,15,7,15,0,0,100.0,21,20
-danger,danger/danger,automation,124379417,9.6.1,danger/danger,lista,v9.6.1,etiqueta,,HEAD,c94d38b3ce68,.,True,114,110,114,0,0,100.0,860,252
-image_processing,janko/image_processing,image processing,123038838,2.0.3,janko/image_processing,lista,v2.0.3,etiqueta,,HEAD,1611c00ed4eb,.,True,8,5,8,0,0,100.0,74,18
-debug,ruby/debug,developer tooling,120209890,1.11.1,ruby/debug,lista,v1.11.1,etiqueta,,HEAD,bad4d38f8330,.,True,24,83,24,0,0,100.0,566,105
-letter_opener,ryanb/letter_opener,email,117894707,1.10.0,ryanb/letter_opener,lista,v1.10.0,etiqueta,,HEAD,f6a925b0232b,.,True,5,3,5,0,0,100.0,26,10
-ransack,activerecord-hackery/ransack,search,116292116,4.4.1,activerecord-hackery/ransack,lista,v4.4.1,etiqueta,,HEAD,383c5dd9aa8f,.,True,33,27,33,0,0,100.0,325,80
-wisper,krisleech/wisper,business logic,114978387,3.0.0,krisleech/wisper,lista,,ramo por omissao,,master,4569343e353e,.,True,13,14,13,0,0,100.0,65,30
-pastel,piotrmurach/pastel,cli utilities,114847609,0.8.0,piotrmurach/pastel,lista,v0.8.0,etiqueta,,HEAD,afd82952076e,.,True,13,22,13,0,0,100.0,55,18
-gitlab,NARKOZ/gitlab,third-party apis,114583065,6.1.0,NARKOZ/gitlab,lista,v6.1.0,etiqueta,,HEAD,4818c5712616,.,True,82,83,82,0,0,100.0,653,178
-eye,kostya/eye,process management and monitoring,114491739,0.10.0,kostya/eye,lista,v0.10.0,etiqueta,,HEAD,300aa8793112,.,True,90,115,90,0,0,100.0,585,109
-roo,roo-rb/roo,spreadsheets and documents,113483339,3.0.0,roo-rb/roo,lista,v3.0.0,etiqueta,,HEAD,20d424f8bf96,.,True,45,44,45,0,0,100.0,296,119
-doorkeeper,doorkeeper-gem/doorkeeper,authentication and oauth,112767757,5.9.6,doorkeeper-gem/doorkeeper,lista,v5.9.6,etiqueta,,HEAD,75a84fefe686,.,True,116,136,116,0,0,100.0,631,363
-gli,davetron5000/gli,cli builder,110259961,2.22.2,davetron5000/gli,lista,v2.22.2,etiqueta,,HEAD,4029b76c888a,.,True,40,32,40,0,0,100.0,310,130
-premailer-rails,fphilipe/premailer-rails,email,110221727,1.12.0,fphilipe/premailer-rails,lista,v1.12.0,etiqueta,,HEAD,33287e89f7a3,.,True,40,24,40,0,0,100.0,44,44
-better_errors,BetterErrors/better_errors,error handling,109045091,2.10.1,BetterErrors/better_errors,lista,v2.10.1,etiqueta,,HEAD,fde3b7025db1,.,True,18,15,18,0,0,100.0,134,39
-geocoder,alexreisner/geocoder,geolocation,108740468,1.8.6,alexreisner/geocoder,lista,v1.8.6,etiqueta,,HEAD,d3515db46c57,.,True,166,78,166,2,0,98.8,1404,360
-pundit,varvet/pundit,authorization,108405168,2.5.2,varvet/pundit,lista,v2.5.2,etiqueta,,HEAD,2d665d67a26f,.,True,16,50,16,0,0,100.0,56,45
-yajl-ruby,brianmario/yajl-ruby,optimizations,108396579,1.4.3,brianmario/yajl-ruby,lista,,ramo por omissao,,master,6501652d1135,.,True,32,17,32,0,0,100.0,36,35
-diffy,samg/diffy,diff,107469036,3.4.4,samg/diffy,lista,,ramo por omissao,,main,72dc29ff5a5b,.,True,7,2,7,0,0,100.0,27,11
-will_paginate,mislav/will_paginate,pagination,107168775,4.0.1,mislav/will_paginate,lista,v4.0.1,etiqueta,,HEAD,50017c3eb071,.,True,31,19,31,0,0,100.0,109,53
-logging,TwP/logging,logging,106240925,2.4.0,TwP/logging,lista,logging-2.4.0,etiqueta,,HEAD,aec306300d18,.,True,45,31,45,0,0,100.0,270,70
-aasm,aasm/aasm,state machines,104408322,6.0.0,aasm/aasm,lista,v6.0.0,etiqueta,,HEAD,88061ec5104a,.,True,49,189,49,2,0,95.9,293,116
-mongo,mongodb/mongo-ruby-driver,database drivers,103629556,2.25.0,mongodb/mongo-ruby-driver,lista,v2.25.0,etiqueta,,HEAD,049b718a2d47,.,True,539,498,539,0,0,100.0,2576,1793
-prawn,prawnpdf/prawn,pdf,101807383,2.5.0,prawnpdf/prawn,lista,2.5.0,etiqueta,,HEAD,f82783b1d020,.,True,157,41,157,0,0,100.0,609,161
-savon,savonrb/savon,http clients and tools,100303557,2.17.4,savonrb/savon,lista,v2.17.4,etiqueta,,HEAD,69ab4149642b,.,True,26,38,26,0,0,100.0,278,59
+gem,repo,categoria,downloads,versao,clonou,erro_clone,etiqueta,ref_usada,repo_usado,origem_repo,ramo,commit,rb_alvo,rb_suite,lidos,com_erro,com_erro_real,taxa,metodos,classes,tem_lib,raiz_codigo
+i18n,ruby-i18n/i18n,internationalization,1414735742,1.15.2,True,,v1.15.2,etiqueta,ruby-i18n/i18n,lista,HEAD,8beba7876163,35,55,35,0,0,100.0,273,118,True,.
+activesupport,rails/rails/tree/master/activesupport,core extensions,1411697643,8.1.3.1,True,,v8.1.3.1,etiqueta,rails/rails,lista,HEAD,3989ebf3473d,289,217,289,0,0,100.0,2106,688,True,activesupport
+rake,ruby/rake,cli builder,1394335059,13.4.2,True,,v13.4.2,etiqueta,ruby/rake,lista,HEAD,503b8ec593c5,45,50,45,0,0,100.0,322,85,True,.
+concurrent-ruby,ruby-concurrency/concurrent-ruby,concurrency and parallelism,1349821682,1.3.8,True,,v1.3.8,etiqueta,ruby-concurrency/concurrent-ruby,lista,HEAD,0b88d5ff75f6,244,101,244,0,0,100.0,1671,619,True,.
+tzinfo,tzinfo/tzinfo,date and time processing,1301765700,2.0.6,True,,v2.0.6,etiqueta,tzinfo/tzinfo,lista,HEAD,d5893c99bbcd,49,92,49,0,0,100.0,356,144,True,.
+minitest,minitest/minitest,testing,1280590561,6.0.6,True,,v6.0.6,etiqueta,minitest/minitest,lista,HEAD,f6180b07ea6e,25,11,25,0,0,100.0,313,72,True,.
+addressable,sporkmonger/addressable,core extensions,1247619954,2.9.0,True,,addressable-2.9.0,etiqueta,sporkmonger/addressable,lista,HEAD,0c3e8589b23d,15,6,15,0,0,100.0,135,21,True,.
+faraday,lostisland/faraday,http clients and tools,1240624040,2.14.3,True,,v2.14.3,etiqueta,lostisland/faraday,lista,HEAD,f1ace878bae1,35,36,35,0,0,100.0,314,93,True,.
+rspec,rspec/rspec,testing,1010694666,3.13.2,True,,rspec-core-v3.13.2,etiqueta,rspec/rspec,lista,HEAD,79a280d76e10,255,306,255,0,0,100.0,2865,867,False,.
+activerecord,rails/rails/tree/master/activerecord,orm/odm,826882185,8.1.3.1,True,,v8.1.3.1,etiqueta,rails/rails,lista,HEAD,3989ebf3473d,399,727,399,0,0,100.0,5329,1543,True,activerecord
+parallel,grosser/parallel,concurrency and parallelism,811017572,2.1.0,True,,v2.1.0,etiqueta,grosser/parallel,lista,HEAD,cd5ba09894cd,3,68,3,0,0,100.0,59,13,True,.
+jwt,jwt/ruby-jwt,authentication and oauth,801035362,3.2.0,True,,v3.2.0,etiqueta,jwt/ruby-jwt,lista,HEAD,db560b769a07,49,37,49,0,0,100.0,240,144,True,.
+tilt,rtomayko/tilt,template engine,784602449,2.9.0,True,,v2.9.0,etiqueta,jeremyevans/tilt,declarado no RubyGems,HEAD,f0d75c60e3a6,39,42,39,0,0,100.0,151,48,True,.
+mail,mikel/mail,email,754348248,2.9.1,True,,2.9.1,etiqueta,mikel/mail,lista,HEAD,d645d7b5b7d0,111,85,111,0,0,100.0,812,242,True,.
+rubocop,rubocop/rubocop,code formatting,734109297,1.89.0,True,,v1.89.0,etiqueta,rubocop/rubocop,lista,HEAD,65854e6bbfe4,935,808,935,0,0,100.0,7211,3525,True,.
+connection_pool,mperham/connection_pool,database tools,713375926,3.0.2,True,,v3.0.2,etiqueta,mperham/connection_pool,lista,HEAD,78bc41e2a9ff,5,5,5,0,0,100.0,41,11,True,.
+excon,excon/excon,http clients and tools,699236311,1.7.0,True,,v1.7.0,etiqueta,excon/excon,lista,HEAD,ac022b6417d7,47,60,47,0,0,100.0,183,135,True,.
+zeitwerk,fxn/zeitwerk,code loaders,686924150,2.8.3,True,,v2.8.3,etiqueta,fxn/zeitwerk,lista,HEAD,607973fc0bd8,25,54,25,0,0,100.0,146,39,True,.
+coderay,rubychan/coderay,code highlighting,633231201,1.1.3,True,,v1.1.3,etiqueta,rubychan/coderay,lista,HEAD,d30855fe96e3,74,48,74,0,0,100.0,279,207,True,.
+pry,pry/pry,irb,626830788,0.16.0,True,,v0.16.0,etiqueta,pry/pry,lista,HEAD,5a267df08ad6,135,89,135,0,0,100.0,1033,395,True,.
+sprockets,rails/sprockets,assets,616460643,4.4.0,True,,v4.4.0,etiqueta,rails/sprockets,lista,HEAD,73c5a5316bd1,80,45,80,0,0,100.0,513,183,True,.
+puma,puma/puma,web servers,595456154,8.0.2,True,,v8.0.2,etiqueta,puma/puma,lista,HEAD,8085b75e79e3,58,110,58,0,0,100.0,666,140,True,.
+dotenv,bkeepers/dotenv,configuration,537810196,3.2.0,True,,v3.2.0,etiqueta,bkeepers/dotenv,lista,HEAD,34156bf400cd,20,9,20,0,0,100.0,57,28,True,.
+httpclient,nahi/httpclient,http clients and tools,530055838,2.9.0,True,,v2.9.0,etiqueta,nahi/httpclient,lista,HEAD,5bc7b0d383c4,40,13,40,0,0,100.0,515,113,True,.
+rack-protection,sinatra/sinatra/tree/master/rack-protection,security,511863723,4.2.1,True,,v4.2.1,etiqueta,sinatra/sinatra,lista,HEAD,599a007a779d,22,23,22,0,0,100.0,86,58,True,rack-protection
+docile,ms-ati/docile,core extensions,496224247,1.4.1,True,,v1.4.1,etiqueta,ms-ati/docile,lista,HEAD,f0c25f516b8f,6,2,6,0,0,100.0,10,10,True,.
+simplecov,simplecov-ruby/simplecov,code analysis and metrics,493478573,1.1.1,True,,v1.1.1,etiqueta,simplecov-ruby/simplecov,lista,HEAD,76a8e4e0f661,202,198,202,2,0,99.0,936,361,True,.
+rest-client,rest-client/rest-client,http clients and tools,481301859,2.1.0,True,,v2.1.0,etiqueta,rest-client/rest-client,lista,HEAD,cf3e5a115bcd,16,19,16,0,0,100.0,161,39,True,.
+hashie,hashie/hashie,core extensions,478813919,5.1.0,True,,v5.1.0,etiqueta,hashie/hashie,lista,HEAD,ce2226269688,44,53,44,0,0,100.0,269,152,True,.
+httparty,jnunemaker/httparty,http clients and tools,476197556,0.24.2,True,,v0.24.2,etiqueta,jnunemaker/httparty,lista,HEAD,9c89e55ce357,46,28,46,0,0,100.0,280,89,True,.
+byebug,deivid-rodriguez/byebug,debugging tools,474975783,13.0.0,True,,v13.0.0,etiqueta,deivid-rodriguez/byebug,lista,HEAD,aff644023372,118,65,118,0,0,100.0,663,269,True,.
+pg,ged/ruby-pg,database drivers,464811681,1.6.3,True,,v1.6.3,etiqueta,ged/ruby-pg,lista,HEAD,d4539c25dcc8,54,25,54,0,0,100.0,163,89,True,.
+webmock,bblimke/webmock,testing,417169993,3.26.3,True,,v3.26.3,etiqueta,bblimke/webmock,lista,HEAD,ee409ac0a5f0,64,66,64,0,0,100.0,476,173,True,.
+terminal-table,tj/terminal-table,cli utilities,412061036,4.0.0,True,,v4.0.0,etiqueta,tj/terminal-table,lista,HEAD,ba051e6f8aae,18,7,18,0,0,100.0,85,28,True,.
+sawyer,lostisland/sawyer,http clients and tools,396575044,0.9.3,True,,v0.9.3,etiqueta,lostisland/sawyer,lista,HEAD,7a60719e675f,10,5,10,0,0,100.0,75,19,True,.
+listen,guard/listen,file system listener,396160770,3.10.0,True,,v3.10.0,etiqueta,guard/listen,lista,HEAD,2fa1a742d8c2,33,33,33,0,0,100.0,182,88,True,.
+knapsack,KnapsackPro/knapsack,testing,379403511,4.0.0,True,,v4.0.0,etiqueta,KnapsackPro/knapsack,lista,HEAD,f394c8470281,47,24,47,0,0,100.0,136,67,True,.
+bootsnap,rails/bootsnap,optimizations,369113025,1.25.0,True,,v1.25.0,etiqueta,rails/bootsnap,lista,HEAD,e099ec707644,22,27,22,0,0,100.0,167,52,True,.
+capybara,teamcapybara/capybara,testing,354508673,3.40.0,True,,3.40.0,etiqueta,teamcapybara/capybara,lista,HEAD,a210c6e57872,123,132,123,0,0,100.0,1195,291,True,.
+selenium-webdriver,SeleniumHQ/selenium/tree/master/rb,testing,353486833,4.47.0,True,,selenium-4.47.0,etiqueta,SeleniumHQ/selenium,lista,HEAD,9175ed94d83e,206,127,206,0,0,100.0,1598,810,True,rb
+factory_bot,thoughtbot/factory_bot,testing,348950562,6.6.0,True,,v6.6.0,etiqueta,thoughtbot/factory_bot,lista,HEAD,5d399535578d,53,90,53,0,0,100.0,315,131,True,.
+faker,faker-ruby/faker,testing,338196843,3.8.0,True,,v3.8.0,etiqueta,faker-ruby/faker,lista,HEAD,e48d35f4fa0d,255,312,255,0,0,100.0,1396,644,True,.
+rdoc,ruby/rdoc,documentation,336215384,8.0.0,True,,v8.0.0,etiqueta,ruby/rdoc,lista,HEAD,4e303b392092,111,94,111,0,0,100.0,1861,166,True,.
+responders,heartcombo/responders,decorators,330764169,3.2.0,True,,v3.2.0,etiqueta,heartcombo/responders,lista,HEAD,b20fdd24befe,10,9,10,0,0,100.0,49,23,True,.
+eventmachine,eventmachine/eventmachine,concurrency and parallelism,329350191,1.2.7,True,,v1.2.7,etiqueta,eventmachine/eventmachine,lista,HEAD,9cb13a8a6236,56,63,56,0,0,100.0,647,155,True,.
+rubocop-performance,rubocop/rubocop-performance,code formatting,320832667,1.27.0,True,,v1.27.0,etiqueta,rubocop/rubocop-performance,lista,HEAD,c07064ddee3f,62,56,62,0,0,100.0,296,229,True,.
+rouge,rouge-ruby/rouge,code highlighting,319431294,5.1.0,True,,v5.1.0,etiqueta,rouge-ruby/rouge,lista,HEAD,afc3c52c2af0,302,247,302,0,0,100.0,912,924,True,.
+jbuilder,rails/jbuilder,api builder and discovery,308690344,2.15.1,True,,v2.15.1,etiqueta,rails/jbuilder,lista,HEAD,31eb6e909968,14,7,14,2,0,85.7,85,27,True,.
+childprocess,enkessler/childprocess,processes,306195003,5.1.0,True,,v5.1.0,etiqueta,enkessler/childprocess,lista,HEAD,c756730c4ac4,12,8,12,0,0,100.0,54,30,True,.
+warden,wardencommunity/warden,authentication and oauth,303048143,1.2.9,True,,v1.2.9,etiqueta,wardencommunity/warden,lista,HEAD,3f197cee0511,11,25,11,0,0,100.0,106,26,True,.
+rubocop-rails,rubocop/rubocop-rails,code formatting,300940650,2.37.0,True,,v2.37.0,etiqueta,rubocop/rubocop-rails,lista,HEAD,2ccba590ec47,158,149,158,0,0,100.0,819,610,True,.
+devise,heartcombo/devise,authentication and oauth,292260224,5.0.4,True,,v5.0.4,etiqueta,heartcombo/devise,lista,HEAD,9ea459de9aec,78,119,78,9,0,88.5,485,183,True,.
+rubocop-rspec,rubocop/rubocop-rspec,code formatting,290373233,3.10.2,True,,v3.10.2,etiqueta,rubocop/rubocop-rspec,lista,HEAD,2488441eb70a,147,140,147,0,0,100.0,637,583,True,.
+awesome_print,awesome-print/awesome_print,cli utilities,285429768,1.9.2,True,,v1.9.2,etiqueta,awesome-print/awesome_print,lista,HEAD,9ae56ba413b9,38,22,38,0,0,100.0,152,71,True,.
+typhoeus,typhoeus/typhoeus,http clients and tools,285385617,1.6.0,True,,v1.6.0,etiqueta,typhoeus/typhoeus,lista,HEAD,d7aba1bbfa8d,45,39,45,0,0,100.0,166,118,True,.
+pry-byebug,deivid-rodriguez/pry-byebug,debugging tools,284630879,3.12.0,True,,v3.12.0,etiqueta,deivid-rodriguez/pry-byebug,lista,HEAD,0b5aea2615fd,24,17,24,0,0,100.0,67,43,True,.
+formatador,geemus/formatador,cli utilities,280423105,1.2.3,True,,v1.2.3,etiqueta,geemus/formatador,lista,HEAD,1000476d1648,3,3,3,0,0,100.0,22,4,True,.
+oauth2,ruby-oauth/oauth2,authentication and oauth,273268515,2.0.25,True,,v2.0.25,etiqueta,ruby-oauth/oauth2,lista,HEAD,63727352546e,16,22,16,0,0,100.0,95,35,True,.
+rack-cors,cyu/rack-cors,http clients and tools,271106816,3.0.0,True,,v3.0.0,etiqueta,cyu/rack-cors,lista,HEAD,f73bcd39b91c,66,7,66,0,0,100.0,43,43,True,.
+shoulda-matchers,thoughtbot/shoulda-matchers,testing,269834446,8.0.1,True,,v8.0.1,etiqueta,thoughtbot/shoulda-matchers,lista,HEAD,cf3b3685f2c0,139,144,139,0,0,100.0,1437,587,True,.
+timecop,travisjeffery/timecop,testing,269720320,0.9.11,True,,v0.9.11,etiqueta,travisjeffery/timecop,lista,HEAD,b3c9a5a6f06b,5,17,5,0,0,100.0,72,9,True,.
+kaminari,amatsuda/kaminari,pagination,269011361,1.2.2,True,,v1.2.2,etiqueta,kaminari/kaminari,declarado no RubyGems,HEAD,508caf4653b2,26,18,26,0,0,100.0,109,66,True,.
+spring,rails/spring,testing,257087795,4.7.0,True,,v4.7.0,etiqueta,rails/spring,lista,HEAD,b7f3fd04b2ed,30,17,30,0,0,100.0,252,76,True,.
+kramdown,gettalong/kramdown,markdown processors,249220330,2.5.2,True,,,ramo por omissao (sem etiqueta),gettalong/kramdown,lista,master,12b3d2e75279,59,4,59,0,0,100.0,525,175,True,.
+mysql2,brianmario/mysql2,database drivers,240330345,0.5.7,True,,0.5.7,etiqueta,brianmario/mysql2,lista,HEAD,c79b3c14fd47,22,6,22,0,0,100.0,28,23,True,.
+brakeman,presidentbeef/brakeman,code analysis and metrics,229904356,8.0.6,True,,v8.0.6,etiqueta,presidentbeef/brakeman,lista,HEAD,fffc4837becb,179,503,179,0,0,100.0,1533,242,True,.
+pry-rails,pry/pry-rails,debugging tools,227280241,0.3.11,True,,v0.3.11,etiqueta,pry/pry-rails,lista,HEAD,d8d0c6d87a5b,13,10,13,0,0,100.0,42,13,True,.
+omniauth,omniauth/omniauth,authentication and oauth,221315479,2.1.4,True,,v2.1.4,etiqueta,omniauth/omniauth,lista,HEAD,20ac5e05a39d,11,12,11,0,0,100.0,115,30,True,.
+dry-types,dry-rb/dry-types,type signatures and type checking,217044239,1.9.1,True,,v1.9.1,etiqueta,dry-rb/dry-types,lista,HEAD,1a13fb04926f,62,40,62,0,0,100.0,401,180,True,.
+database_cleaner,DatabaseCleaner/database_cleaner,database tools,216491366,2.1.0,True,,v2.1.0,etiqueta,DatabaseCleaner/database_cleaner,lista,HEAD,23fb7a715317,14,17,14,0,0,100.0,64,28,True,.
+http,httprb/http,http clients and tools,211433521,6.0.4,True,,v6.0.4,etiqueta,httprb/http,lista,HEAD,942b1b36cea9,51,79,51,0,0,100.0,390,149,True,.
+fastlane,fastlane/fastlane,mobile development,209048100,2.238.0,True,,2.238.0,etiqueta,fastlane/fastlane,lista,HEAD,38d0ec404332,796,498,796,1,0,99.9,5958,2247,False,.
+thin,macournoyer/thin,web servers,208143875,2.0.1,True,,v2.0.1,etiqueta,macournoyer/thin,lista,HEAD,84a5188612d8,36,42,36,0,0,100.0,241,92,True,.
+fastimage,sdsykes/fastimage,image processing,207630493,2.4.1,True,,v2.4.1,etiqueta,sdsykes/fastimage,lista,HEAD,7a0dcf780e6d,22,3,22,0,0,100.0,85,48,True,.
+haml,haml/haml,template engine,204105063,7.4.1,True,,v7.4.1,etiqueta,haml/haml,lista,HEAD,7f51ae709d96,59,40,59,0,0,100.0,257,137,True,.
+lograge,roidrage/lograge,logging,197796392,0.15.0,True,,v0.15.0,etiqueta,roidrage/lograge,lista,HEAD,e5caed777529,23,17,23,0,0,100.0,87,63,True,.
+state_machines,state-machines/state_machines,state machines,182767878,0.202.0,True,,state_machines/v0.202.0,etiqueta,state-machines/state_machines,lista,HEAD,219b43ea588f,52,446,52,0,0,100.0,380,132,True,.
+bullet,flyerhzm/bullet,profiler and optimization,181992446,8.1.3,True,,8.1.3,etiqueta,flyerhzm/bullet,lista,HEAD,bc55c037d27a,46,63,46,0,0,100.0,404,116,True,.
+colorize,fazibear/colorize,cli utilities,166414232,1.1.0,True,,,ramo por omissao (sem etiqueta),fazibear/colorize,lista,master,a252d8af6b76,6,4,6,0,0,100.0,36,10,True,.
+activerecord-import,zdennis/activerecord-import,orm/odm extensions,164592026,2.3.0,True,,v2.3.0,etiqueta,zdennis/activerecord-import,lista,HEAD,8ac907c9bbc5,42,90,42,0,0,100.0,113,53,True,.
+parallel_tests,grosser/parallel_tests,testing,164480606,5.7.0,True,,v5.7.0,etiqueta,grosser/parallel_tests,lista,HEAD,e4870a1632aa,23,53,23,0,0,100.0,156,53,True,.
+autoprefixer-rails,ai/autoprefixer-rails,assets,163088557,10.4.21.0,True,,10.4.21.0,etiqueta,ai/autoprefixer-rails,lista,HEAD,01f8d15c4677,7,13,7,0,0,100.0,26,12,True,.
+vcr,vcr/vcr,testing,163045134,6.4.0,True,,v6.4.0,etiqueta,vcr/vcr,lista,HEAD,5dcacdf69bd6,38,46,38,0,0,100.0,405,153,True,.
+slop,leejarvis/slop,cli builder,157208738,4.10.1,True,,v4.10.1,etiqueta,leejarvis/slop,lista,HEAD,7e720331b78d,7,8,7,0,0,100.0,83,25,True,.
+stackprof,tmm1/stackprof,profiler and optimization,155164978,0.2.28,True,,v0.2.28,etiqueta,tmm1/stackprof,lista,HEAD,4367efa4b8bc,7,4,7,0,0,100.0,50,7,True,.
+guard,guard/guard,file system listener,153565722,2.20.2,True,,v2.20.2,etiqueta,guard/guard,lista,HEAD,170d63c6ca57,61,58,61,0,0,100.0,336,180,True,.
+rack-attack,rack/rack-attack,security,149697111,6.8.0,True,,v6.8.0,etiqueta,rack/rack-attack,lista,HEAD,65f1ead3bc64,22,43,22,0,0,100.0,90,67,True,.
+sentry-ruby,getsentry/sentry-ruby,error handling,147642201,6.7.0,True,,6.7.0,etiqueta,getsentry/sentry-ruby,lista,HEAD,a940dfdb5a64,162,189,162,0,0,100.0,859,427,True,.
+commander,commander-rb/commander,cli builder,145780280,6.0.0,True,,v6.0.0,etiqueta,commander-rb/commander,lista,HEAD,b4c6be4b149c,18,12,18,0,0,100.0,99,35,True,.
+paper_trail,paper-trail-gem/paper_trail,orm/odm extensions,145088904,17.0.0,True,,v17.0.0,etiqueta,paper-trail-gem/paper_trail,lista,HEAD,0c511ed46c08,41,163,41,0,0,100.0,245,105,True,.
+bundler-audit,rubysec/bundler-audit,security,141424751,0.9.3,True,,v0.9.3,etiqueta,rubysec/bundler-audit,lista,HEAD,f8b06ebbefdd,18,19,18,0,0,100.0,86,63,True,.
+rufus-scheduler,jmettraux/rufus-scheduler,scheduling,140906570,3.9.2,True,,v3.9.2,etiqueta,jmettraux/rufus-scheduler,lista,HEAD,ec048146d12d,15,24,15,0,0,100.0,151,20,True,.
+carrierwave,carrierwaveuploader/carrierwave,file upload,140822776,3.1.3,True,,v3.1.3,etiqueta,carrierwaveuploader/carrierwave,lista,HEAD,5effe4ecaae9,43,50,43,0,0,100.0,317,138,True,.
+slack-notifier,slack-notifier/slack-notifier,third-party apis,139375911,2.4.0,True,,2.4.0,etiqueta,slack-notifier/slack-notifier,lista,HEAD,29e51132ce0e,13,14,13,0,0,100.0,39,47,True,.
+rails-i18n,svenfuchs/rails-i18n,internationalization,138935860,8.1.0,True,,v8.1.0,etiqueta,svenfuchs/rails-i18n,lista,HEAD,32a4583d2111,132,28,132,0,0,100.0,46,44,True,.
+cocoapods,CocoaPods/CocoaPods,package management,138280576,1.17.0,True,,1.17.0,etiqueta,CocoaPods/CocoaPods,lista,HEAD,5493bfd201a3,148,128,148,0,0,100.0,1350,502,True,.
+jaro_winkler,tonytonyjan/jaro_winkler,scientific,137585942,1.7.0,True,,v1.7.0,etiqueta,tonytonyjan/jaro_winkler,lista,HEAD,9d7b6c110fa8,10,3,10,0,0,100.0,8,5,True,.
+liquid,Shopify/liquid,template engine,136972272,5.13.0,True,,v5.13.0,etiqueta,Shopify/liquid,lista,HEAD,7a5e45fc4784,82,71,82,0,0,100.0,587,174,True,.
+active_model_serializers,rails-api/active_model_serializers,api builder and discovery,136400821,0.10.16,True,,v0.10.16,etiqueta,rails-api/active_model_serializers,lista,HEAD,6934c8bd31f4,59,95,59,0,0,100.0,286,178,True,.
+chronic,mojombo/chronic,date and time processing,133756594,0.10.2,True,,v0.10.2,etiqueta,mojombo/chronic,lista,HEAD,7d3d82d38c99,36,22,36,0,0,100.0,276,97,True,.
+optimist,ManageIQ/optimist,cli builder,133459811,3.2.1,True,,v3.2.1,etiqueta,ManageIQ/optimist,lista,HEAD,ecd4d8573b46,13,13,13,0,0,100.0,103,25,True,.
+twilio-ruby,twilio/twilio-ruby,third-party apis,132628798,7.10.7,True,,7.10.7,etiqueta,twilio/twilio-ruby,lista,HEAD,c58e213a6f04,753,22,753,0,0,100.0,26691,7870,True,.
+redcarpet,vmg/redcarpet,markdown processors,132119358,3.6.1,True,,v3.6.1,etiqueta,vmg/redcarpet,lista,HEAD,34c138e3f149,6,14,6,0,0,100.0,32,16,True,.
+money,RubyMoney/money,money,131851309,7.1.1,True,,v7.1.1,etiqueta,RubyMoney/money,lista,HEAD,26e2829c34f1,20,23,20,0,0,100.0,159,55,True,.
+foreman,ddollar/foreman,process management and monitoring,131722054,0.90.0,True,,v0.90.0,etiqueta,ddollar/foreman,lista,HEAD,3530b8e4a1b1,20,18,20,0,0,100.0,121,23,True,.
+countries,countries/countries,country data,130185866,8.1.0,True,,v8.1.0,etiqueta,countries/countries,lista,HEAD,8c026f5b49da,26,10,26,0,0,100.0,131,48,True,.
+virtus,solnic/virtus,core extensions,130014058,2.0.0,True,,v2.0.0,etiqueta,solnic/virtus,lista,HEAD,9e4f56fe8259,34,69,34,0,0,100.0,218,104,True,.
+dalli,petergoldstein/dalli,caching,128463547,5.1.0,True,,v5.1.0,etiqueta,petergoldstein/dalli,lista,HEAD,fc1b590e462a,31,58,31,0,0,100.0,379,91,True,.
+rqrcode,whomwah/rqrcode,qr,127041201,3.2.0,True,,v3.2.0,etiqueta,whomwah/rqrcode,lista,HEAD,f0d65004f2b5,15,7,15,0,0,100.0,21,20,True,.
+danger,danger/danger,automation,124233518,9.6.1,True,,v9.6.1,etiqueta,danger/danger,lista,HEAD,c94d38b3ce68,114,110,114,0,0,100.0,860,252,True,.
+image_processing,janko/image_processing,image processing,122667655,2.0.3,True,,v2.0.3,etiqueta,janko/image_processing,lista,HEAD,1611c00ed4eb,8,5,8,0,0,100.0,74,18,True,.
+debug,ruby/debug,developer tooling,119855419,1.11.1,True,,v1.11.1,etiqueta,ruby/debug,lista,HEAD,bad4d38f8330,24,83,24,0,0,100.0,566,105,True,.
+letter_opener,ryanb/letter_opener,email,117699757,1.10.0,True,,v1.10.0,etiqueta,ryanb/letter_opener,lista,HEAD,f6a925b0232b,5,3,5,0,0,100.0,26,10,True,.
+ransack,activerecord-hackery/ransack,search,116133111,4.4.1,True,,v4.4.1,etiqueta,activerecord-hackery/ransack,lista,HEAD,383c5dd9aa8f,33,27,33,0,0,100.0,325,80,True,.
+wisper,krisleech/wisper,business logic,114834566,3.0.0,True,,,ramo por omissao (sem etiqueta),krisleech/wisper,lista,master,4569343e353e,13,14,13,0,0,100.0,65,30,True,.
+pastel,piotrmurach/pastel,cli utilities,114714898,0.8.0,True,,v0.8.0,etiqueta,piotrmurach/pastel,lista,HEAD,afd82952076e,13,22,13,0,0,100.0,55,18,True,.
+gitlab,NARKOZ/gitlab,third-party apis,114479514,6.1.0,True,,v6.1.0,etiqueta,NARKOZ/gitlab,lista,HEAD,4818c5712616,82,83,82,0,0,100.0,653,178,True,.
+eye,kostya/eye,process management and monitoring,114463221,0.10.0,True,,v0.10.0,etiqueta,kostya/eye,lista,HEAD,300aa8793112,90,115,90,0,0,100.0,585,109,True,.
+roo,roo-rb/roo,spreadsheets and documents,113309329,3.0.0,True,,v3.0.0,etiqueta,roo-rb/roo,lista,HEAD,20d424f8bf96,45,44,45,0,0,100.0,296,119,True,.
+doorkeeper,doorkeeper-gem/doorkeeper,authentication and oauth,112602099,5.9.6,True,,v5.9.6,etiqueta,doorkeeper-gem/doorkeeper,lista,HEAD,75a84fefe686,116,136,116,0,0,100.0,631,363,True,.
+premailer-rails,fphilipe/premailer-rails,email,110119040,1.12.0,True,,v1.12.0,etiqueta,fphilipe/premailer-rails,lista,HEAD,33287e89f7a3,40,24,40,0,0,100.0,44,44,True,.
+gli,davetron5000/gli,cli builder,110114444,2.22.2,True,,v2.22.2,etiqueta,davetron5000/gli,lista,HEAD,4029b76c888a,40,32,40,0,0,100.0,310,130,True,.
+better_errors,BetterErrors/better_errors,error handling,108936208,2.10.1,True,,v2.10.1,etiqueta,BetterErrors/better_errors,lista,HEAD,fde3b7025db1,18,15,18,0,0,100.0,134,39,True,.
+geocoder,alexreisner/geocoder,geolocation,108579616,1.8.6,True,,v1.8.6,etiqueta,alexreisner/geocoder,lista,HEAD,d3515db46c57,166,78,166,2,0,98.8,1404,360,True,.
+yajl-ruby,brianmario/yajl-ruby,optimizations,108316861,1.4.3,True,,,ramo por omissao (sem etiqueta),brianmario/yajl-ruby,lista,master,6501652d1135,32,17,32,0,0,100.0,36,35,True,.
+pundit,varvet/pundit,authorization,108209280,2.5.2,True,,v2.5.2,etiqueta,varvet/pundit,lista,HEAD,2d665d67a26f,16,50,16,0,0,100.0,56,45,True,.
+diffy,samg/diffy,diff,107380602,3.4.4,True,,,ramo por omissao (sem etiqueta),samg/diffy,lista,main,72dc29ff5a5b,7,2,7,0,0,100.0,27,11,True,.
+will_paginate,mislav/will_paginate,pagination,107078458,4.0.1,True,,v4.0.1,etiqueta,mislav/will_paginate,lista,HEAD,50017c3eb071,31,19,31,0,0,100.0,109,53,True,.
+logging,TwP/logging,logging,106168848,2.4.0,True,,logging-2.4.0,etiqueta,TwP/logging,lista,HEAD,aec306300d18,45,31,45,0,0,100.0,270,70,True,.
+aasm,aasm/aasm,state machines,104257092,6.0.0,True,,v6.0.0,etiqueta,aasm/aasm,lista,HEAD,88061ec5104a,49,189,49,2,0,95.9,293,116,True,.
+mongo,mongodb/mongo-ruby-driver,database drivers,103549499,2.25.0,True,,v2.25.0,etiqueta,mongodb/mongo-ruby-driver,lista,HEAD,049b718a2d47,539,498,539,0,0,100.0,2576,1793,True,.
+prawn,prawnpdf/prawn,pdf,101624067,2.5.0,True,,2.5.0,etiqueta,prawnpdf/prawn,lista,HEAD,f82783b1d020,157,41,157,0,0,100.0,609,161,True,.
+savon,savonrb/savon,http clients and tools,100178849,2.17.4,True,,v2.17.4,etiqueta,savonrb/savon,lista,HEAD,69ab4149642b,26,38,26,0,0,100.0,278,59,True,.
