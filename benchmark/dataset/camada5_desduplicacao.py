@@ -29,7 +29,11 @@ from collections import defaultdict
 from datetime import date
 
 RAIZ = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-D = os.path.join(RAIZ, "apresentacao", "demo_dataset")
+# MARTA_DATASET_DIR desvia os artefactos para outra pasta. Serve para verificar
+# se uma camada reproduz o seu artefacto sem escrever por cima do que esta no
+# repositorio (uma verificacao assim ja apanhou ficheiros por engano num commit).
+D = os.environ.get("MARTA_DATASET_DIR") or \
+    os.path.join(RAIZ, "apresentacao", "demo_dataset")
 ANALISE = os.path.join(D, "2_parser", "analise_completa.jsonl.gz")
 ELEG = os.path.join(D, "4_elegibilidade", "elegiveis.csv")
 OUT = os.path.join(D, "5_desduplicacao")

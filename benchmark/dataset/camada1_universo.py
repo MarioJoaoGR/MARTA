@@ -34,8 +34,12 @@ from datetime import date
 
 AWESOME = "https://raw.githubusercontent.com/markets/awesome-ruby/master/README.md"
 MIN_DOWNLOADS = 100_000_000
-OUT = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(
-    os.path.abspath(__file__)))), "apresentacao", "demo_dataset", "1_universo")
+# MARTA_DATASET_DIR desvia os artefactos para outra pasta. Serve para verificar
+# se uma camada reproduz o seu artefacto sem escrever por cima do que esta no
+# repositorio (uma verificacao assim ja apanhou ficheiros por engano num commit).
+OUT = os.path.join(os.environ.get("MARTA_DATASET_DIR") or os.path.join(
+    os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
+    "apresentacao", "demo_dataset"), "1_universo")
 
 # Exige dono/repo, e aceita opcionalmente /tree/<subpasta>. Sem os dois
 # segmentos entram paginas de organizacao (github.com/dry-rb) e pesquisas
@@ -72,7 +76,10 @@ def extrai(md: str):
         nome, url = m.group(1), m.group(2).rstrip("/")
         partes = url.replace("https://github.com/", "").split("/tree/")
         repo = "/".join(partes[0].split("/")[:2])
-        sub = partes[1] if len(partes) > 1 else ""
+        # O link e .../tree/<ramo>/<subpasta>. O ramo NAO faz parte da subpasta:
+        # guardado junto, o repo saia "tree/master/master/activesupport" e a
+        # camada 2 lia o repositorio rails inteiro como se fosse a activesupport.
+        sub = partes[1].split("/", 1)[1] if len(partes) > 1 and "/" in partes[1] else ""
         if sub:
             # monorepo: a gem e a subpasta, e o nome vem do texto do link
             gem = _limpo(nome)

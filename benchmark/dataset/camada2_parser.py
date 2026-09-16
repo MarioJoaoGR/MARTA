@@ -33,6 +33,7 @@ import csv
 import gzip
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -42,7 +43,11 @@ from collections import defaultdict
 from datetime import date
 
 RAIZ = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-D = os.path.join(RAIZ, "apresentacao", "demo_dataset")
+# MARTA_DATASET_DIR desvia os artefactos para outra pasta. Serve para verificar
+# se uma camada reproduz o seu artefacto sem escrever por cima do que esta no
+# repositorio (uma verificacao assim ja apanhou ficheiros por engano num commit).
+D = os.environ.get("MARTA_DATASET_DIR") or \
+    os.path.join(RAIZ, "apresentacao", "demo_dataset")
 OUT = os.path.join(D, "2_parser")
 UNIVERSO = os.path.join(D, "1_universo", "universo.json")
 DECLARADOS = os.path.join(D, "1_universo", "repos_declarados.csv")
@@ -221,7 +226,9 @@ def main(continuar: bool = False, limite=None) -> None:
         for i, g in enumerate(gems):
             nome = g["gem"]
             base_repo = g["repo"].split("/tree/")[0]
-            sub = g["repo"].split("/tree/master/")[1] if "/tree/master/" in g["repo"] else ""
+            # A subpasta e o que vem depois de /tree/<ramo>/, seja qual for o ramo.
+            m_sub = re.search(r"/tree/[^/]+/(.+)$", g["repo"])
+            sub = m_sub.group(1) if m_sub else ""
             versao = g.get("versao") or ""
             dest = os.path.join(trabalho, nome.replace("/", "_"))
 

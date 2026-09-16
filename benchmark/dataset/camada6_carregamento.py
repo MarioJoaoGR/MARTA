@@ -50,7 +50,11 @@ from collections import defaultdict
 from datetime import date
 
 RAIZ = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-D = os.path.join(RAIZ, "apresentacao", "demo_dataset")
+# MARTA_DATASET_DIR desvia os artefactos para outra pasta. Serve para verificar
+# se uma camada reproduz o seu artefacto sem escrever por cima do que esta no
+# repositorio (uma verificacao assim ja apanhou ficheiros por engano num commit).
+D = os.environ.get("MARTA_DATASET_DIR") or \
+    os.path.join(RAIZ, "apresentacao", "demo_dataset")
 ENT = os.path.join(D, "5_desduplicacao", "representantes.csv")
 PARSE = os.path.join(D, "2_parser", "parse.csv")
 OUT = os.path.join(D, "6_carregamento")

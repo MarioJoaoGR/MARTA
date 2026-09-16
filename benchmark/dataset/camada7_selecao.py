@@ -49,7 +49,11 @@ from marta.ruby_backend.call_graph import StaticCallGraph        # noqa: E402
 from marta.ruby_backend.param_types import ProjectTypeIndex      # noqa: E402
 from marta.ruby_backend.ruby_ast import _from_json               # noqa: E402
 
-D = os.path.join(RAIZ, "apresentacao", "demo_dataset")
+# MARTA_DATASET_DIR desvia os artefactos para outra pasta. Serve para verificar
+# se uma camada reproduz o seu artefacto sem escrever por cima do que esta no
+# repositorio (uma verificacao assim ja apanhou ficheiros por engano num commit).
+D = os.environ.get("MARTA_DATASET_DIR") or \
+    os.path.join(RAIZ, "apresentacao", "demo_dataset")
 OUT = os.path.join(D, "7_selecao")
 
 ORCAMENTO = 500          # alvo total (o utilizador fixou 400-600)
