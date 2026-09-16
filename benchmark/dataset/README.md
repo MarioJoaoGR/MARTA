@@ -48,6 +48,32 @@ varrimentos ficam gravados ao lado dos artefactos.
 | orçamento | 500 | camada 7 | decisão do utilizador, perto dos 486 do CodaMosa |
 | fatia de grupos | 50% | camada 7 | decisão do utilizador |
 
+## Reprodução verificada (2026-09-16)
+
+Cada camada foi corrida outra vez numa pasta à parte (`MARTA_DATASET_DIR`), com as
+entradas originais, e comparada com o artefacto guardado. **Nunca se verifica
+dentro do repositório**: uma verificação assim já escreveu ficheiros por cima e
+eles entraram num commit.
+
+| camada | resultado |
+|---|---|
+| 2 parser | `analise_completa` igual no conteúdo (96 440 métodos); `onde_vive` e `erros` iguais. `parse.csv`, `modulos.jsonl` e `funil.json` diferem só em campos de diagnóstico da versão antiga do script (a coluna `clonou`, o campo `formas`), que nenhum programa lê |
+| 3, 4, 5 | iguais |
+| 6 carregamento | igual: os mesmos 5 217 módulos, `gems.csv` igual nas colunas de ambiente, porta, pastas e contagens — com as dependências instaladas na versão de hoje |
+| 7 seleção | igual (`corpus.csv`, `grupos.csv`) |
+
+A verificação da camada 2 apanhou um defeito da camada 1 reescrita: nos monorepos
+guardava a subpasta com o ramo (`tree/master/master/activesupport`), e a camada 2
+lia o repositório inteiro. Corrigido. O corpus não foi afetado, porque foi
+construído a partir da camada 2 original, anterior ao erro.
+
+**Por resolver:** o `1_universo/` guardado é uma regeneração de 25 de agosto, com
+esse erro e com as versões publicadas nesse dia (rubocop 1.90.0, sprockets 4.4.1,
+twilio-ruby 7.11.1). A camada 2 guardada consumiu o universo de 23 de agosto
+(1.89.0, 4.4.0, 7.10.7). As camadas 2 a 7 são coerentes entre si; a 1 não é
+coerente com elas. Para a camada 2 se verificar, o universo foi reconstruído a
+partir das colunas do próprio `parse.csv` original.
+
 ## O que sai para o cluster
 
 A camada 7 escreve, além do corpus, o **manifesto de execução**:
