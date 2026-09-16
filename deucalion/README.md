@@ -124,6 +124,7 @@ Variáveis de ambiente que o script aceita:
 | `PROJECTS` | todas | subconjunto, separado por vírgulas |
 | `LIMIT` | sem limite | limitar métodos-alvo, para um teste rápido |
 | `OLLAMA_CTX` | `16384` | janela de contexto do Ollama |
+| `MARTA_SEM_GRAFO` | `0` | `1` corre o braço da ablação do grafo |
 
 **O modelo ainda não está decidido**, 16B ou 32B. Medido nos mesmos 10 projetos
 do lado Python: o 32B é 3,4× mais lento a gerar, e o corpus inteiro a 32B rondaria
@@ -133,6 +134,31 @@ do lado Python: o 32B é 3,4× mais lento a gerar, e o corpus inteiro a 32B rond
 cobertura, correr `PHASE=generate` neste job e a medição depois, com a conta de
 CPU (`-A f202407648iacdcf2x`) e sem `--gpus`. Falta escrever o job de CPU para
 isso; por agora, `PHASE=all` faz as duas no mesmo job.
+
+## A ablação do grafo
+
+O grafo de chamadas entra na Fase 1 em dois sítios: a 2ª passagem do `done_what`
+e a propagação do `what_todo`. O braço da ablação desliga os dois e repete
+**só os métodos cujo prompt muda** — os que têm um chamado ou um chamador que
+também é alvo. Nos outros o contexto sai igual, e repetir seria pagar GPU para
+medir ruído do modelo.
+
+Esse conjunto calcula-se localmente, sem modelo:
+
+```bash
+python -m benchmark.alvos_ablacao      # escreve 7_selecao/ablacao.json
+```
+
+Medido: **4601 dos 6898 métodos-alvo (66,7%)**. Corre-se depois da execução
+normal, com o mesmo modelo:
+
+```bash
+MARTA_SEM_GRAFO=1 sbatch --export=ALL deucalion/run_ruby_benchmark.sh
+```
+
+Tem cache de análise, estado e outputs próprios (`<gem>_sem_grafo/`), por isso
+não toca na execução normal. A comparação faz-se método a método, com os dois
+`cobertura_por_metodo.json`, restrita aos métodos afetados.
 
 ## O corpus, e a ligação ao dataset
 

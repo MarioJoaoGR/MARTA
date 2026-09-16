@@ -171,7 +171,8 @@ class Harness:
 
     def measure(self, gem):
         """Cobertura SÓ dos specs gerados (marta_specs/), no ambiente certificado."""
-        key = f"coverage/{gem}"
+        sufixo = "_sem_grafo" if os.getenv("MARTA_SEM_GRAFO") == "1" else ""
+        key = f"coverage/{gem}{sufixo}"
         if self.state.get(key, {}).get("status") == "ok":
             return
         p, pr = self.projetos[gem], self.preparados[gem]
@@ -181,7 +182,10 @@ class Harness:
             from marta.ruby_backend import coverage_runner as cov
             from marta.ruby_backend.project import GENERATED_SPEC_DIR, RubyProject
 
-            out_root = self.out_dir / gem
+            # O braço da ablação escreve em <gem>_sem_grafo (ver start_react). O
+            # cobertura_por_metodo.json de cada braço permite comparar os dois só
+            # nos métodos afetados pelo grafo, que é onde a comparação faz sentido.
+            out_root = self.out_dir / f"{gem}{sufixo}"
             spec_root = out_root / GENERATED_SPEC_DIR
             specs = sorted(str(s) for s in spec_root.glob("**/*.rb")) \
                 if spec_root.is_dir() else []
@@ -366,7 +370,8 @@ def main():
         if args.phase in ("all", "generate"):
             gerou = h.run_marta(gem)
         else:
-            gerou = h.state.get(f"marta_ruby/{gem}", {}).get("status") == "ok"
+            sufixo = "_sem_grafo" if os.getenv("MARTA_SEM_GRAFO") == "1" else ""
+            gerou = h.state.get(f"marta_ruby/{gem}{sufixo}", {}).get("status") == "ok"
             if not gerou:
                 log(f"  {gem}: sem geração concluída, nada para medir")
         if gerou and args.phase in ("all", "measure"):

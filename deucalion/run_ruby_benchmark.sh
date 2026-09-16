@@ -52,6 +52,7 @@ export PROJECTS="${PROJECTS:-}"     # vazio = todas as gems do corpus preparadas
 export NUM_ROUNDS="${NUM_ROUNDS:-3}"
 export LIMIT="${LIMIT:-}"           # p/ smoke run (ex.: LIMIT=5)
 export PHASE="${PHASE:-all}"        # all | generate | measure
+export MARTA_SEM_GRAFO="${MARTA_SEM_GRAFO:-0}"   # 1 = braço da ablação do grafo
 # Janela de contexto do Ollama. SEM ISTO fica a do modelo por omissão e um prompt
 # maior é cortado EM SILÊNCIO — o modelo responde a um prompt truncado e nada no
 # log o diz. A telemetria por chamada mostra se algum prompt se aproxima daqui.
@@ -70,7 +71,7 @@ echo "================================================================="
 echo " MARTA-Ruby Benchmark — corpus de 500 módulos (camada 7)"
 echo "  Job ID:    $SLURM_JOB_ID"
 echo "  Model:     $MODEL   (contexto $OLLAMA_CTX)"
-echo "  Fase:      $PHASE"
+echo "  Fase:      $PHASE   Ablação (sem grafo): $MARTA_SEM_GRAFO"
 echo "  Projects:  ${PROJECTS:-(todas as preparadas)}"
 echo "  Rondas:    $NUM_ROUNDS   Limite métodos: ${LIMIT:-(sem limite)}"
 echo "  Ruby proj: $RUBY_PROJECTS"
@@ -131,6 +132,7 @@ srun -n1 singularity exec --nv \
     --env "OLLAMA_FLASH_ATTENTION=0" \
     --env "OLLAMA_CONTEXT_LENGTH=$OLLAMA_CTX" \
     --env "OLLAMA_KEEP_ALIVE=-1" \
+    --env "MARTA_SEM_GRAFO=$MARTA_SEM_GRAFO" \
     --env "PYTHONUNBUFFERED=1" \
     "$CONTAINER" bash -c '
         set -e
