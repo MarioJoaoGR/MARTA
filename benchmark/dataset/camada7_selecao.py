@@ -58,6 +58,10 @@ OUT = os.path.join(D, "7_selecao")
 
 ORCAMENTO = 500          # alvo total (o utilizador fixou 400-600)
 FATIA_GRUPOS = 0.5       # metade do orcamento vem de grupos inteiros
+# Para estudar alternativas (outro tamanho de corpus, outra fatia de grupos) sem
+# mexer nas constantes: usar sempre com MARTA_DATASET_DIR noutra pasta.
+ORCAMENTO = int(os.environ.get("MARTA_ORCAMENTO", ORCAMENTO))
+FATIA_GRUPOS = float(os.environ.get("MARTA_FATIA_GRUPOS", FATIA_GRUPOS))
 MIN_GRUPO, MAX_GRUPO = 3, 20
 
 NUMERICAS = ["loc_medio", "pct_singleton", "pct_duck", "mixins_por_classe",
