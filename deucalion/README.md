@@ -145,6 +145,41 @@ geração ainda tem gems por terminar, o job volta a agendar-se para daqui a 30
 minutos, e a medição vai seguindo a geração sozinha. O `MODEL` e o
 `MARTA_SEM_GRAFO` têm de ser os mesmos da geração que se quer medir.
 
+## O piloto, antes da corrida completa
+
+Cinco gems, 262 métodos (3,8% do corpus), escolhidas para passar pelos caminhos
+de maior risco com o mínimo de GPU:
+
+| gem | métodos | afetados pelo grafo | porquê |
+|---|---|---|---|
+| warden | 87 | 66 | origem grupo, com vizinhos: é onde a ablação mede alguma coisa |
+| activesupport | 98 | 35 | monorepo (a raiz é `activesupport/` dentro do rails) |
+| byebug | 40 | 24 | módulos certificados com a biblioteca carregada |
+| pundit | 23 | 14 | origem diversidade, gem simples |
+| puma | 14 | 14 | receita "deps + a própria gem" (extensão em C) |
+
+Estimativa a 16B: ~4 GPU-h a execução normal, ~2 GPU-h o braço sem grafo.
+
+```bash
+export PROJECTS=warden,activesupport,byebug,pundit,puma
+PHASE=generate sbatch --export=ALL deucalion/run_ruby_benchmark.sh
+ACOMPANHAR=1 sbatch --export=ALL deucalion/run_ruby_measure_cpu.sh
+# quando a geração normal acabar (o braço sem grafo reaproveita a passagem 1 dela):
+MARTA_SEM_GRAFO=1 PHASE=generate sbatch --export=ALL deucalion/run_ruby_benchmark.sh
+MARTA_SEM_GRAFO=1 ACOMPANHAR=1 sbatch --export=ALL deucalion/run_ruby_measure_cpu.sh
+```
+
+No fim, o consumo medido e a extrapolação para o corpus:
+
+```bash
+python -m benchmark.resumo_consumo \
+    --results /projects/F202407648IACDCF2/mario/results_ruby/deepseek-coder-v2_16b
+```
+
+Três coisas a ver antes de lançar o corpus: se as GPU-h extrapoladas cabem no
+orçamento com margem; se `cortadas` e `erros` estão a zero (senão, subir o
+`LLM_MAX_TOKENS` ou o `OLLAMA_CTX`); e se as fases pesam como se esperava.
+
 ## A ablação do grafo
 
 O grafo de chamadas entra na Fase 1 em dois sítios: a 2ª passagem do `done_what`
