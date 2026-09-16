@@ -90,15 +90,21 @@ async def generate_spec_for_method(
     prompts = backend.prompts
     score = recorder.score if recorder is not None else None
     if score is not None:
-        # Credita llm_calls + tokens (delta do singleton gptapi) por chamada.
+        # Credita llm_calls + tokens (delta do singleton gptapi) por chamada, e
+        # etiqueta cada uma com a fase e o método (ver recorder.py).
         from .recorder import token_tracking_ask
-        ask = token_tracking_ask(ask, score)
+        ask = token_tracking_ask(ask, score, recorder)
 
     # ---- Planner ---------------------------------------------------------- #
     context_block = prompts.build_context_block(
         method_qualified_name, require_target, method_source, summary, coverage_info, related
     )
-    raw_plan = await ask(prompts.PLAN_SYS, prompts.plan_user(context_block))
+    if recorder is not None:
+        with recorder.contexto(metodo=method_qualified_name):
+            with recorder.fase("plano"):
+                raw_plan = await ask(prompts.PLAN_SYS, prompts.plan_user(context_block))
+    else:
+        raw_plan = await ask(prompts.PLAN_SYS, prompts.plan_user(context_block))
     scenarios = parse_plan(raw_plan, describe_subject)
 
     # ---- Dev + self-healing ---------------------------------------------- #
@@ -115,6 +121,12 @@ async def generate_spec_for_method(
         with open(abs_spec, "w", encoding="utf-8") as f:
             f.write(code + "\n")
 
+    # Telemetria opcional: sem recorder, nullcontext e nada muda (ver recorder.py).
+    from contextlib import nullcontext
+
+    def _tel(fn, *a, **kw):
+        return fn(*a, **kw) if recorder is not None else nullcontext()
+
     for attempt in range(1, max_attempts + 1):
         if attempt == 1:
             instruction = prompts.first_dev_instruction(scenarios)
@@ -124,15 +136,22 @@ async def generate_spec_for_method(
             similar_help = error_help_fn(last_error or "") if error_help_fn else ""
             instruction = prompts.repair_dev_instruction(last_error or "", similar_help)
 
-        raw_dev = await ask(
-            prompts.DEV_SYS,
-            prompts.dev_user(instruction, method_source, require_target, describe_subject),
-        )
-        spec_code = prompts.get_ruby_code(raw_dev)
-        _write(spec_code)
+        # A primeira escrita e as reparações são fases separadas: o que interessa
+        # saber é quanto do custo total é o ciclo de auto-correção.
+        fase = "dev_primeira" if attempt == 1 else "dev_reparacao"
+        with _tel(recorder.contexto if recorder else None,
+                  metodo=method_qualified_name, tentativa=attempt), \
+                _tel(recorder.fase if recorder else None, fase):
+            raw_dev = await ask(
+                prompts.DEV_SYS,
+                prompts.dev_user(instruction, method_source, require_target, describe_subject),
+            )
+            spec_code = prompts.get_ruby_code(raw_dev)
+            _write(spec_code)
 
-        # Cheap gate first: ruby -c. Only run RSpec if it parses.
-        syntax_err = backend.syntax_check(spec_code)
+            # Cheap gate first: ruby -c. Only run RSpec if it parses.
+            with _tel(recorder.medir if recorder else None, "ruby -c"):
+                syntax_err = backend.syntax_check(spec_code)
         if score is not None:
             (score.add_syntax_error if syntax_err else score.add_syntax_pass)()
             if syntax_err is None and attempt > 1:
@@ -142,7 +161,8 @@ async def generate_spec_for_method(
             last_res = None
             continue
 
-        res = backend.run_tests(spec_path, load_paths, cwd)
+        with _tel(recorder.medir if recorder else None, "rspec"):
+            res = backend.run_tests(spec_path, load_paths, cwd)
         results = res.results
         last_res = res
         if res.all_passed:
@@ -169,7 +189,8 @@ async def generate_spec_for_method(
             new_code, removed = trimmed
             if backend.syntax_check(new_code) is None:
                 _write(new_code)
-                recheck = backend.run_tests(spec_path, load_paths, cwd)
+                with _tel(recorder.medir if recorder else None, "rspec"):
+                    recheck = backend.run_tests(spec_path, load_paths, cwd)
                 if recheck.all_passed and recheck.examples:
                     success = True
                     salvaged = True

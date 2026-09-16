@@ -83,6 +83,8 @@ class MyGPT:
         self.temperature = temperature
         self.limiter = AsyncLimiter(max_rate=max_rate, time_period=time_period)
         self.model_type = model_type
+        # Detalhe da última chamada (tokens, finish_reason, erro) — ver chat().
+        self.last_call = None
 
         # Teto de geração: trava respostas em loop de modelos locais (o objetivo
         # é cortar o runaway, não o output legítimo). Override via LLM_MAX_TOKENS;
@@ -132,8 +134,23 @@ class MyGPT:
                     getattr(usage, 'completion_tokens', 0) or 0,
                 )
 
+            # Detalhe da última chamada, para quem quiser medir (ver
+            # ruby_backend/recorder.py). Duas coisas que se perdiam aqui: uma
+            # resposta CORTADA pelo max_tokens chega com finish_reason "length" e
+            # até agora passava por resposta normal; e um erro devolve "" sem
+            # deixar rasto nenhum nas métricas. As chamadas são sequenciais, por
+            # isso "a última" é sempre a que acabou de correr.
+            self.last_call = {
+                'prompt_tokens': getattr(usage, 'prompt_tokens', 0) or 0 if usage else 0,
+                'completion_tokens': getattr(usage, 'completion_tokens', 0) or 0 if usage else 0,
+                'finish_reason': getattr(chat.choices[0], 'finish_reason', None),
+                'erro': None,
+            }
+
         except Exception as e:
             logging.error(f"Erro no chat: {e}")
+            self.last_call = {'prompt_tokens': 0, 'completion_tokens': 0,
+                              'finish_reason': None, 'erro': repr(e)[:200]}
             return ""
         return output
 

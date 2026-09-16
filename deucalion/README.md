@@ -172,13 +172,29 @@ já marcados como `ok`. Não é preciso fazer nada.
 ```
 /projects/F202407648IACDCF2/mario/results_ruby/<modelo>/
     harness/       state.json, ambiente_<gem>.json, alvos_<gem>.json, logs/
-    <gem>/         marta_specs/, cobertura_por_metodo.json, run_results/
+    <gem>/         marta_specs/, cobertura_por_metodo.json
+                   run_results/<gem>.json          métricas e agregados
+                   run_results/<gem>.eventos.jsonl uma linha por chamada
     results.json   resumo por gem
 ```
 
 O `cobertura_por_metodo.json` tem uma linha por método-alvo, com `origem`,
 `modo` e `vizinhos_no_corpus` ao lado da cobertura. É o que permite responder,
 dentro da mesma execução, se o contexto entre módulos ajudou.
+
+O `<gem>.json` traz `por_fase` (chamadas, tokens de entrada e saída, segundos de
+modelo e de parede) e `subprocessos` (quantas vezes e quanto tempo em `ruby -c`,
+RSpec e cobertura). As fases são as sete da Fase 1 — `sumarios_passagem1`,
+`sumarios_passagem2`, `what_todo_raiz`, `what_todo_propagado`,
+`what_todo_fallback`, `sumario_final`, `sumarios_de_classe` — mais `plano`,
+`dev_primeira` e `dev_reparacao` na geração. Também conta `llm_cortadas`
+(respostas truncadas pelo limite de tokens) e `llm_erros` (chamadas falhadas, que
+o cliente devolve como resposta vazia).
+
+O `<gem>.eventos.jsonl` é a mesma coisa sem agregação: uma linha por chamada ao
+modelo e por subprocesso Ruby, com método, ronda e tentativa. Escrito à medida,
+por isso um job morto pelo walltime deixa na mesma o que já mediu — ao contrário
+do JSON final, que só é escrito no fim.
 
 ## Armadilhas conhecidas
 

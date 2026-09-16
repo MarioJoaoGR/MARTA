@@ -390,29 +390,39 @@ class RubyProject:
                 self.class_summaries = cache.load_class_analysis(path, src_hash, model) or {}
                 return
 
+        r = self._recorder()
         ask = ask or _default_ask()
-        ask = rec.token_tracking_ask(ask, self._recorder().score)
+        # A Fase 1 são sete sub-fases e até agora media-se como um bloco só
+        # ("collect_message"). Cada chamada fica etiquetada com a sua.
+        ask = rec.token_tracking_ask(ask, r.score, r)
         overviews = readme.ReadmeOverviewCache(self.abs_source)
 
         # Pass 1: source-only done_what (MARTA's no-call-graph branch).
-        for t in targets:
-            t.done_what = await summaries.analyze_done_what(ask, t.context_source)
+        with r.fase("sumarios_passagem1"):
+            for t in targets:
+                with r.contexto(metodo=t.method.qualified_name):
+                    t.done_what = await summaries.analyze_done_what(ask, t.context_source)
 
         # Pass 2: enrich done_what of callers with their callees' done_what,
         # following the static call graph (the PyCG-driven enrichment). Only
         # methods that actually call project methods pay the extra LLM call.
         if self.call_graph is not None:
             by_qn = {t.method.qualified_name: t for t in targets}
-            for t in targets:
-                called = [
-                    f"{by_qn[c].method.qualified_name}: {by_qn[c].done_what}"
-                    for c in self.call_graph.callees(t.method.qualified_name)
-                    if c in by_qn and by_qn[c].done_what
-                ]
-                if called:
-                    t.done_what = await summaries.analyze_done_what(
-                        ask, t.context_source, called_summaries=called
-                    )
+            # Esta é a fase que a ablação do grafo desliga: é aqui que o contexto
+            # de um método passa a incluir o que os métodos chamados fazem.
+            with r.fase("sumarios_passagem2"):
+                for t in targets:
+                    called = [
+                        f"{by_qn[c].method.qualified_name}: {by_qn[c].done_what}"
+                        for c in self.call_graph.callees(t.method.qualified_name)
+                        if c in by_qn and by_qn[c].done_what
+                    ]
+                    if called:
+                        with r.contexto(metodo=t.method.qualified_name,
+                                        chamados=len(called)):
+                            t.done_what = await summaries.analyze_done_what(
+                                ask, t.context_source, called_summaries=called
+                            )
 
         # what_todo: raízes (sem callers) a partir do README; métodos chamados
         # herdam a perspetiva de requisito do chamador via grafo (porta do ramo
@@ -424,36 +434,49 @@ class RubyProject:
                 return []
             return [by_qn[c] for c in self.call_graph.callers(t.method.qualified_name) if c in by_qn]
 
-        for t in targets:
-            if not _callers_of(t):  # raiz
-                overview = await overviews.overview_for(ask, t.file_path)
-                t.what_todo = await readme.analyze_what_todo(ask, t.context_source, overview)
-
-        changed = True
-        while changed:  # propaga pelas arestas até fixpoint
-            changed = False
+        with r.fase("what_todo_raiz"):
             for t in targets:
-                if t.what_todo:
-                    continue
-                ready = [c for c in _callers_of(t) if c.what_todo]
-                if ready:
-                    c = ready[0]
-                    t.what_todo = await summaries.analyze_what_todo_from_caller(
-                        ask, t.method.qualified_name, t.context_source,
-                        c.method.qualified_name, c.what_todo,
-                    )
-                    changed = True
+                if not _callers_of(t):  # raiz
+                    with r.contexto(metodo=t.method.qualified_name):
+                        overview = await overviews.overview_for(ask, t.file_path)
+                        t.what_todo = await readme.analyze_what_todo(
+                            ask, t.context_source, overview)
 
-        for t in targets:
-            if not t.what_todo:  # ciclo sem raiz processada — fallback README
-                overview = await overviews.overview_for(ask, t.file_path)
-                t.what_todo = await readme.analyze_what_todo(ask, t.context_source, overview)
+        # A outra metade do que a ablação do grafo desliga: sem arestas, todos os
+        # métodos seriam raiz e o what_todo viria do README para todos.
+        with r.fase("what_todo_propagado"):
+            changed = True
+            while changed:  # propaga pelas arestas até fixpoint
+                changed = False
+                for t in targets:
+                    if t.what_todo:
+                        continue
+                    ready = [c for c in _callers_of(t) if c.what_todo]
+                    if ready:
+                        c = ready[0]
+                        with r.contexto(metodo=t.method.qualified_name,
+                                        chamador=c.method.qualified_name):
+                            t.what_todo = await summaries.analyze_what_todo_from_caller(
+                                ask, t.method.qualified_name, t.context_source,
+                                c.method.qualified_name, c.what_todo,
+                            )
+                        changed = True
+
+        with r.fase("what_todo_fallback"):
+            for t in targets:
+                if not t.what_todo:  # ciclo sem raiz processada — fallback README
+                    with r.contexto(metodo=t.method.qualified_name):
+                        overview = await overviews.overview_for(ask, t.file_path)
+                        t.what_todo = await readme.analyze_what_todo(
+                            ask, t.context_source, overview)
 
         # Merge final das duas perspetivas.
-        for t in targets:
-            t.summary = await summaries.generate_summary(
-                ask, t.context_source, t.done_what, t.what_todo
-            )
+        with r.fase("sumario_final"):
+            for t in targets:
+                with r.contexto(metodo=t.method.qualified_name):
+                    t.summary = await summaries.generate_summary(
+                        ask, t.context_source, t.done_what, t.what_todo
+                    )
 
         # Summaries de classes (análogo leve do analyze_each_class): base do RAG
         # semântico de tipos. ATENÇÃO ao âmbito: só as classes DONAS dos targets
@@ -477,18 +500,20 @@ class RubyProject:
             sigs_by_qn.setdefault(q, []).append(
                 _slice_lines(t.file_path, t.method.start_line, t.method.start_line).strip())
 
-        for qn in owner_qns[:max_class_summaries]:
-            cls = (self.type_index.classes if self.type_index else {}).get(qn)
-            if cls is None or cls.kind != "class" or qn in self.class_summaries:
-                continue
-            stub = stub_by_qn.get(qn)
-            if not stub:
-                continue
-            sigs = sigs_by_qn.get(qn, [])[:40]
-            class_src = stub + ("\n" + "\n".join(f"  {s}" for s in sigs) if sigs else "")
-            if len(class_src) > MAX_CONTEXT_CHARS:
-                class_src = class_src[:MAX_CONTEXT_CHARS] + "\n# ... (truncado)"
-            self.class_summaries[qn] = await summaries.analyze_class(ask, class_src)
+        with r.fase("sumarios_de_classe"):
+            for qn in owner_qns[:max_class_summaries]:
+                cls = (self.type_index.classes if self.type_index else {}).get(qn)
+                if cls is None or cls.kind != "class" or qn in self.class_summaries:
+                    continue
+                stub = stub_by_qn.get(qn)
+                if not stub:
+                    continue
+                sigs = sigs_by_qn.get(qn, [])[:40]
+                class_src = stub + ("\n" + "\n".join(f"  {s}" for s in sigs) if sigs else "")
+                if len(class_src) > MAX_CONTEXT_CHARS:
+                    class_src = class_src[:MAX_CONTEXT_CHARS] + "\n# ... (truncado)"
+                with r.contexto(classe=qn):
+                    self.class_summaries[qn] = await summaries.analyze_class(ask, class_src)
 
         if use_cache:
             cache.save_analysis(path, src_hash, model, {
@@ -525,15 +550,19 @@ class RubyProject:
                 os.getenv("MODEL", "default"),
                 os.getenv("TRANSFORMER_PATH", "default"),
             )
-        self.rag_db = rag.RubyFunctionDatabase(
-            embed_documents, embed_query, persist_dir=pdir, name="functions", key=key or "")
-        self.rag_db.init(self.targets)
-        if self.class_summaries:
-            # Classes em NumPy, como o find_topK_message da Python (ver rag.py).
-            self.class_db = rag.RubyClassIndex(
-                embed_documents, embed_query, persist_dir=pdir, key=key or "")
-            self.class_db.init([_ClassEntry(qn, s) for qn, s in self.class_summaries.items()])
-            self._augment_judge_semantic()
+        # Fase à parte: embeber os sumários é o custo que a cache de vetores veio
+        # poupar, e no cluster corre em CPU (EMBED_DEVICE=cpu, para o Ollama ficar
+        # com a GPU). Sem etiqueta própria, não havia como mostrar a poupança.
+        with self._recorder().fase("rag"):
+            self.rag_db = rag.RubyFunctionDatabase(
+                embed_documents, embed_query, persist_dir=pdir, name="functions", key=key or "")
+            self.rag_db.init(self.targets)
+            if self.class_summaries:
+                # Classes em NumPy, como o find_topK_message da Python (ver rag.py).
+                self.class_db = rag.RubyClassIndex(
+                    embed_documents, embed_query, persist_dir=pdir, key=key or "")
+                self.class_db.init([_ClassEntry(qn, s) for qn, s in self.class_summaries.items()])
+                self._augment_judge_semantic()
         if persist and self.rag_db.reused:
             print("[rag] vetores reaproveitados do disco (sem re-embedding)")
 
@@ -652,6 +681,7 @@ class RubyProject:
         for rnd in range(rounds):
             recorder.score.first_run = (rnd == 0)  # first_run metrics = round 0
             recorder.start_count_time(f"round_{rnd}")
+            recorder.define_contexto(ronda=rnd)
             for idx, t in targets:
                 mc = cov.get(idx)
                 if rnd > 0 and mc is not None and mc.fully_covered:
@@ -688,7 +718,11 @@ class RubyProject:
                 )
                 outcomes.append(outcome)
             recorder.end_count_time(f"round_{rnd}")
-            cov = self.measure_coverage()
+            # A cobertura corre uma vez por ronda, sobre TODOS os specs acumulados
+            # até aqui. No cluster isso é tempo com a GPU parada, por isso convém
+            # estar medido à parte e não diluído no tempo da ronda.
+            with recorder.medir("cobertura"):
+                cov = self.measure_coverage()
             recorder.score.coverage.append(
                 {t.method.qualified_name: (cov[i].covered_lines if i in cov else 0)
                  for i, t in targets}

@@ -105,6 +105,12 @@ def main():
             sys.exit(2)
 
         recorder = proj._recorder()
+        # Telemetria por chamada: uma linha por chamada ao modelo e por
+        # subprocesso Ruby, escrita à medida. Uma execução morta a meio (walltime,
+        # OOM) deixa na mesma o que já tinha medido, ao contrário do JSON final.
+        recorder.caminho_eventos = os.path.join(
+            output_root or args.project_path, "run_results",
+            f"{project_name}.eventos.jsonl")
 
         # Um único event loop para todo o fluxo async (evita re-uso do
         # AsyncLimiter do gptapi entre loops distintos).
