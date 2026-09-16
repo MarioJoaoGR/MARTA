@@ -82,6 +82,19 @@ def test_sem_grafo_os_dois_pontos_ficam_desligados(tmp_path):
 
 
 @precisa
+def test_filtro_por_metodo(tmp_path):
+    """O braço da ablação só repete os métodos que o grafo afeta: o ficheiro
+    continua alvo, mas só esses métodos geram specs."""
+    (tmp_path / "lib").mkdir()
+    (tmp_path / "lib" / "calc.rb").write_text(CODIGO)
+    proj = RubyProject(root_dir=str(tmp_path), source_dir="lib",
+                       method_names=["Calc#soma"]).discover()
+    assert [t.method.qualified_name for t in proj.targets] == ["Calc#soma"]
+    # o ficheiro continua a ser analisado: o grafo e o índice de tipos precisam
+    assert len(proj.files) == 1
+
+
+@precisa
 def test_os_dois_bracos_nao_partilham_cache(tmp_path, monkeypatch):
     """Sem ficheiros de cache separados, um braço lia os sumários do outro e a
     ablação não media nada."""

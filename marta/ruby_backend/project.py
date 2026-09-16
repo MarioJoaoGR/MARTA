@@ -194,6 +194,10 @@ class RubyProject:
     load_paths: Optional[List[str]] = None
     preload: Optional[str] = None
     code_files: Optional[List[str]] = None
+    # Filtro por MÉTODO (nomes qualificados). Os alvos são por ficheiro, mas o
+    # braço da ablação só precisa de repetir os métodos cujo prompt o grafo muda
+    # (4601 dos 6898; ver benchmark/alvos_ablacao.py). Sem isto, repetia todos.
+    method_names: Optional[List[str]] = None
 
     files: List[str] = field(default_factory=list)          # absolute .rb paths
     targets: List[MethodTarget] = field(default_factory=list)
@@ -298,6 +302,10 @@ class RubyProject:
                     by_owner.setdefault(m.owner, []).append(m)
             for m in fp.methods:
                 if m.name in SKIP_METHODS:
+                    continue
+                # Filtro por método (braço da ablação): o ficheiro continua alvo,
+                # mas só estes métodos geram specs.
+                if self.method_names is not None and m.qualified_name not in self.method_names:
                     continue
                 self.targets.append(
                     MethodTarget(

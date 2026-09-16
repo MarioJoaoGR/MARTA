@@ -97,7 +97,12 @@ class Harness:
 
     def run_marta(self, gem) -> bool:
         """Gera specs com a MARTA-Ruby, uma execução por gem."""
-        key = f"marta_ruby/{gem}"
+        # Braço da ablação (MARTA_SEM_GRAFO=1): mesma gem, mesmo ambiente, mas sem
+        # o enriquecimento pelo grafo. Estado e outputs à parte, senão um braço
+        # dava o outro por feito e escrevia-lhe por cima.
+        sem_grafo = os.getenv("MARTA_SEM_GRAFO") == "1"
+        sufixo = "_sem_grafo" if sem_grafo else ""
+        key = f"marta_ruby/{gem}{sufixo}"
         if self.state.get(key, {}).get("status") in ("ok", "failed"):
             log(f"  {gem}: geração já feita ({self.state[key]['status']}), a saltar")
             return self.state[key]["status"] == "ok"
@@ -107,7 +112,7 @@ class Harness:
         # Runs independentes (desenho experimental: N runs + Wilcoxon): sem isto a
         # run k reutilizaria os specs da run k-1. As caches de ANÁLISE ficam.
         if self.fresh_specs:
-            spec_dir = self.out_dir / gem / "marta_specs"
+            spec_dir = self.out_dir / f"{gem}{sufixo}" / "marta_specs"
             if spec_dir.is_dir():
                 shutil.rmtree(spec_dir)
                 log(f"  {gem}: marta_specs/ limpo (--fresh-specs)")
@@ -126,6 +131,23 @@ class Harness:
                "--num", str(self.num), "--output_dir", str(self.out_dir)]
         if self.limit:
             cmd += ["--limit", str(self.limit)]
+        if sem_grafo:
+            # Só os métodos cujo prompt o grafo muda (66,7% do corpus). Nos outros
+            # o contexto sai igual, e repetir seria pagar GPU para medir ruído.
+            if not hasattr(self, "_ablacao"):
+                caminho = REPO / "apresentacao" / "demo_dataset" / "7_selecao" / "ablacao.json"
+                self._ablacao = json.loads(caminho.read_text())["gems"] \
+                    if caminho.exists() else {}
+            afetados = sorted(self._ablacao.get(gem, {}).get("afetados", {}))
+            if not afetados:
+                log(f"  {gem}: nenhum método afetado pelo grafo, nada a comparar")
+                self.state[key] = {"status": "sem_afetados"}
+                self.save()
+                return False
+            metodos = self.harness_dir / f"metodos_{gem}_sem_grafo.json"
+            _grava_json(metodos, afetados)
+            cmd += ["--no_graph_enrich", "--methods", str(metodos)]
+            log(f"  {gem}: braço SEM GRAFO, {len(afetados)} métodos afetados")
 
         extra = prep.gem_env(self._clone(gem), pr["gems"])
         pp = [str(REPO)] + ([os.environ["PYTHONPATH"]] if os.environ.get("PYTHONPATH") else [])

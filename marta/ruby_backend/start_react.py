@@ -44,6 +44,11 @@ def main():
              "a --source_path. Escrito pelo harness a partir do projetos.json da "
              "camada 7. Sem ele, todos os ficheiros são alvo.")
     parser.add_argument(
+        "--methods", type=str, default=None,
+        help="Ficheiro JSON com nomes qualificados de métodos. Restringe a geração a "
+             "esses (o braço da ablação só repete os métodos cujo prompt o grafo "
+             "muda — ver benchmark/alvos_ablacao.py).")
+    parser.add_argument(
         "--environment", type=str, default=None,
         help="Ficheiro JSON com o ambiente certificado pela camada 6: load_paths, "
              "preload e code_files, relativos a --project_path. Escrito pelo harness "
@@ -95,6 +100,11 @@ def main():
                                 for e in json.load(f)]
             print(f"🎯 [Alvos] {len(target_files)} ficheiros selecionados "
                   f"(seleção de alvos ativa)")
+        method_names = None
+        if args.methods:
+            with open(args.methods, encoding="utf-8") as f:
+                method_names = json.load(f)
+            print(f"🔬 [Ablação] restrito a {len(method_names)} métodos")
         env = {}
         if args.environment:
             with open(args.environment, encoding="utf-8") as f:
@@ -105,7 +115,8 @@ def main():
         proj = RubyProject(root_dir=args.project_path, source_dir=args.source_path,
                            output_root=output_root, target_files=target_files,
                            load_paths=env.get("load_paths"), preload=env.get("preload"),
-                           code_files=env.get("code_files")).discover()
+                           code_files=env.get("code_files"),
+                           method_names=method_names).discover()
         print(f"🔍 [Contexto] {len(proj.files)} ficheiros, {len(proj.targets)} métodos-alvo; "
               f"grafo: {len(proj.call_graph.edges) if proj.call_graph else 0} arestas "
               f"({'source inalterado' if not proj.code_changed else 'source novo/alterado'})")
