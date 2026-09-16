@@ -4122,7 +4122,7 @@
    "app",
    "spec/lib"
   ],
-  "entrada": "doorkeeper",
+  "entrada": "",
   "ficheiros_codigo": [
    "app/controllers/doorkeeper/application_controller.rb",
    "app/controllers/doorkeeper/application_metal_controller.rb",

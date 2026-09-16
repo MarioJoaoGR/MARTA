@@ -141,7 +141,14 @@ def run_rspec(
     # -O /dev/null: a "vacina" (analoga ao -c /dev/null do pytest na MARTA
     # Python) — ignora o .rspec do projeto-alvo, para os specs gerados serem
     # auto-contidos e nao dependerem do spec_helper/config da suite humana.
-    args = [rspec_bin(), "-O", os.devnull, "-f", "json"]
+    # O JSON vai para FICHEIRO (-o), não para o stdout. O código sob teste escreve
+    # no stdout ao ser carregado — a `httparty` traz um exemplo que tenta ligar-se
+    # à rede e imprime o relatório do erro, com chavetas lá dentro. Isso corrompia
+    # o JSON e um spec verde era lido como falha de carregamento.
+    import tempfile
+    fd, json_path = tempfile.mkstemp(prefix="marta_rspec_", suffix=".json")
+    os.close(fd)
+    args = [rspec_bin(), "-O", os.devnull, "-f", "json", "-o", json_path]
     for p in load_paths or []:
         args += ["-I", p]
     for r in requires or []:
@@ -153,12 +160,29 @@ def run_rspec(
             args, cwd=cwd, capture_output=True, text=True, errors='replace', timeout=timeout
         )
     except FileNotFoundError as e:
+        os.unlink(json_path)
         raise RubyParseError(f"rspec binary '{rspec_bin()}' not found") from e
     except subprocess.TimeoutExpired:
+        os.unlink(json_path)
         return RSpecResult(all_passed=False, output="time exceeded")
 
-    data = _extract_json(proc.stdout)
-    full_output = (proc.stdout + "\n" + proc.stderr).strip()
+    try:
+        with open(json_path, encoding="utf-8", errors="replace") as f:
+            bruto = f.read()
+    except OSError:
+        bruto = ""
+    finally:
+        try:
+            os.unlink(json_path)
+        except OSError:
+            pass
+    # Fallback ao stdout: versões antigas do rspec, ou um -o que não pegou.
+    data = _extract_json(bruto) or _extract_json(proc.stdout)
+    # O relatório JSON tem de ENTRAR no output: é daqui que sai o texto do erro
+    # que volta ao modelo na tentativa de reparação. Com o -o, o stdout passou a
+    # vir vazio e a reparação ficou sem saber o que tinha falhado.
+    full_output = "\n".join(
+        x for x in (bruto.strip(), proc.stdout.strip(), proc.stderr.strip()) if x)
 
     if data is None:
         # No parseable JSON: a hard failure (usually a load/require error).

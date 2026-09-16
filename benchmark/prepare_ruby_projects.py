@@ -74,7 +74,13 @@ def gem_env(clone: pathlib.Path, gems: dict) -> dict:
         home, caminhos = e["GEM_HOME"], e["GEM_PATH"].split(":")
     else:
         home, caminhos = pasta, [pasta, base]
-    extra = [os.environ.get("MARTA_RUBY_ENV", ""), os.environ.get("GEM_PATH", "")]
+    # NÃO herdar o GEM_PATH do ambiente: o harness e o verificador chamam isto
+    # gem a gem no MESMO processo e fazem os.environ.update() com o resultado.
+    # Herdando, o caminho ia acumulando os .gem_home de todas as gems anteriores,
+    # e à décima a ferramenta via as dependências das outras nove — a cocoapods
+    # passava sozinha e falhava 5/5 na corrida completa, por apanhar versões de
+    # outra gem. O ambiente tem de ser função da gem, e de mais nada.
+    extra = [os.environ.get("MARTA_RUBY_ENV", "")]
     vistos, ordem = set(), []
     for p in caminhos[:-1] + extra + caminhos[-1:]:
         for parte in p.split(os.pathsep):

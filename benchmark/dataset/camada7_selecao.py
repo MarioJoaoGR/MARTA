@@ -281,7 +281,13 @@ def main() -> None:
             "commit": o["commit"], "raiz": raiz,
             "ambiente": r["ambiente"], "deps": r["deps"].split(),
             "load_paths": load_paths,
-            "entrada": "" if r["entrada"] in ("", "(sem porta)") else r["entrada"],
+            # A porta de entrada só vai para o manifesto se a camada 6 a tiver
+            # ABERTO. A doorkeeper tem porta (`doorkeeper`) que rebenta com
+            # NoMethodError: mattr_reader — a camada 6 registou porta_abriu=False
+            # e certificou os modulos sem ela. Carregá-la a força mataria a
+            # execucao desses modulos, por uma decisao nossa e nao do codigo.
+            "entrada": "" if (r["entrada"] in ("", "(sem porta)")
+                              or r["porta_abriu"] != "True") else r["entrada"],
             "ficheiros_codigo": sorted(codigo[gem]),
             "alvos": [{"ficheiro": m["ficheiro"], "modo": m["modo"],
                        "origem": m["origem"], "componente": m["componente"],
