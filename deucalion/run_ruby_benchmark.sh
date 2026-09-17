@@ -139,6 +139,9 @@ srun -n1 singularity exec --nv \
         set -e
         cd /opt/marta
         export PATH="/opt/ruby/bin:$PATH"
+        # o $HOME da conta é partilhado e está cheio; RubyGems, bundler e caches escrevem lá
+        export HOME=/data/results/.home XDG_CACHE_HOME=/data/results/.home/.cache
+        mkdir -p "$HOME"
 
         echo "→ Ruby: $("$MARTA_RUBY_BIN" -v 2>&1 | head -1)"
         "$MARTA_RUBY_BIN" -e "require \"prism\"; puts \"   prism OK \" + Prism::VERSION" \

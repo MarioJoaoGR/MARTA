@@ -9,6 +9,12 @@ DEPS=/opt/ruby/deps
 unset GEM_HOME GEM_PATH RUBYOPT BUNDLE_GEMFILE
 # O container não tem locale UTF-8 por omissão; sem isto o Ruby lê texto como ASCII.
 export LANG=C.UTF-8 LC_ALL=C.UTF-8
+# O $HOME da conta do Deucalion é partilhado e está cheio: o conda, o RubyGems e o
+# bundler escrevem lá. Um HOME próprio na pasta de compilação, e o conda sem
+# plugins (o dos Terms of Service também escreve no HOME, e o conda-forge não os tem);
+# sem plugins não há o solver libmamba, e o classic chega para dois pacotes.
+export HOME=/data/build/home XDG_CACHE_HOME=/data/build/home/.cache CONDA_NO_PLUGINS=true CONDA_SOLVER=classic
+mkdir -p "$HOME"
 
 # 1. libyaml (no conda-forge chama-se "yaml") e libffi, para dentro da pasta do Ruby
 if [ ! -f "$DEPS/include/yaml.h" ] || [ ! -f "$DEPS/include/ffi.h" ]; then

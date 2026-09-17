@@ -38,6 +38,8 @@ singularity exec \
         cd /opt/marta
         unset GEM_HOME GEM_PATH RUBYOPT BUNDLE_GEMFILE
         export LANG=C.UTF-8 LC_ALL=C.UTF-8   # o container não tem locale UTF-8 por omissão
+        export HOME=/data/ruby_projects/.home XDG_CACHE_HOME=/data/ruby_projects/.home/.cache   # o $HOME da conta está cheio
+        mkdir -p "$HOME"
         export PATH="/opt/ruby/bin:$PATH"
         export MARTA_RUBY_BIN=/opt/ruby/bin/ruby MARTA_RSPEC_BIN=/opt/ruby/bin/rspec
         export PYTHONPATH="/data/pydeps/marta:/opt/marta" PYTHONUNBUFFERED=1

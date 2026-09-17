@@ -90,6 +90,8 @@ _harness() {
             set -e
             cd /opt/marta
             export PATH="/opt/ruby/bin:$PATH"
+            export HOME=/data/results/.home XDG_CACHE_HOME=/data/results/.home/.cache   # o $HOME da conta está cheio
+            mkdir -p "$HOME"
             EXTRA=""
             [ -n "'"$PROJECTS"'" ] && EXTRA="$EXTRA --projects '"$PROJECTS"'"
             PYTHONPATH="/data/pydeps/marta:/opt/marta:${PYTHONPATH:-}" \
