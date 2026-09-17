@@ -80,6 +80,7 @@ _harness() {
         --bind "$RUBY_ROOT:/opt/ruby" \
         --bind "$SCRATCH_DIR:/data/scratch" \
         --env "MODEL=$MODEL" \
+        --env "LANG=C.UTF-8" --env "LC_ALL=C.UTF-8" \
         --env "MARTA_RUBY_BIN=/opt/ruby/bin/ruby" \
         --env "MARTA_RSPEC_BIN=/opt/ruby/bin/rspec" \
         --env "MARTA_SEM_GRAFO=$MARTA_SEM_GRAFO" \

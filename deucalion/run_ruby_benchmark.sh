@@ -44,7 +44,7 @@ HF_CACHE_DIR="/projects/F202407648IACDCF2/mario/hf_cache"
 # depois VERIFICADOS (verifica_ambiente.py) — sem a verificação não se sabe se os
 # módulos carregam pela ferramenta neste ambiente.
 RUBY_PROJECTS="/projects/F202407648IACDCF2/mario/ruby_projects"
-# Toolchain Ruby (>=3.3 p/ Prism) — no container ou instalada em /projects.
+# Ruby 3.4.10 compilado para o container pelo deucalion/setup_ruby.sh.
 RUBY_ROOT="${RUBY_ROOT:-/projects/F202407648IACDCF2/mario/ruby-3.4.10}"
 
 export MODEL="${MODEL:-deepseek-coder-v2:16b}"
@@ -122,6 +122,7 @@ srun -n1 singularity exec --nv \
     --env "TRANSFORMER_PATH=BAAI/bge-large-en-v1.5" \
     --env "USER_PYTHON_PATH=/opt/conda/envs/test4py_env/bin/python" \
     --env "SAFE_MODEL=$SAFE_MODEL" \
+    --env "LANG=C.UTF-8" --env "LC_ALL=C.UTF-8" \
     --env "MARTA_RUBY_BIN=/opt/ruby/bin/ruby" \
     --env "MARTA_RSPEC_BIN=/opt/ruby/bin/rspec" \
     --env "PYDEPS_MARTA=/data/pydeps/marta" \

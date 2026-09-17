@@ -75,35 +75,47 @@ exit   # liberta o nó dev-x86
 O `run_ruby_benchmark.sh` faz o *bind* de `pydeps` para `/data/pydeps` e põe
 `/data/pydeps/marta` à cabeça do `PYTHONPATH`. O pacote `marta/` em si não vem
 daqui: vem do *bind* de `$MARTA_ROOT` para `/opt/marta`, que tem de ter o
-código atualizado (rsync do portátil).
+código atualizado (`git pull` em `/projects/F202407648IACDCF2/mario/MARTA`).
 
 > Só é preciso repetir isto quando o `requirements.txt` mudar. O
 > `pydeps/baseline` do README antigo era das baselines Python, que saíram no
 > `9d02d37ac`.
 
-## Preparar e VERIFICAR os projetos, a cada mudança de corpus
-
-São dois comandos, e o segundo não é opcional.
+## O Ruby, uma vez
 
 ```bash
 # no nó de LOGIN (tem rede)
-python -m benchmark.prepare_ruby_projects \
-    --out /projects/F202407648IACDCF2/mario/ruby_projects
-
-python -m benchmark.verifica_ambiente \
-    --projects-dir /projects/F202407648IACDCF2/mario/ruby_projects
+bash deucalion/setup_ruby.sh
 ```
 
-O `prepare` clona cada gem na etiqueta da versão publicada, confirma o *commit*
-fixado e instala as dependências pelo **mesmo degrau** que a camada 6 do dataset
-precisou de usar (deps do gemspec, mais a própria gem, ou o Gemfile). Escreve um
-`manifest.json` com o que ficou pronto e com as versões instaladas.
+Compila o Ruby 3.4.10 (a versão que certificou o dataset) **dentro do container**,
+com o prefixo `/opt/ruby`, que é onde os jobs o montam, e instala o RSpec nas
+versões exatas do dataset (rspec-core 3.13.6, ...). O container não tem os
+cabeçalhos do libyaml nem do libffi: vêm do conda-forge, com o conda do próprio
+container, para `ruby-3.4.10/deps/`. Nada vai para o sistema; apagar a pasta
+desfaz tudo. No fim confirma o Prism, o psych, o openssl e as versões do RSpec.
 
-O `verifica_ambiente` escreve, para cada um dos 500 módulos, um spec trivial que
-só faz `require` do módulo, e corre-o **pela mesma função que a ferramenta usa**.
-Não chama modelo nenhum. É o que garante que um módulo certificado pelo dataset
-carrega mesmo aqui: se falhar, o erro apareceria no cluster contado como falha da
-MARTA, sem ser culpa dela. Sai com código 1 e lista os módulos que falham.
+## Preparar e VERIFICAR os projetos, a cada mudança de corpus
+
+```bash
+# no nó de LOGIN (tem rede)
+PROJECTS=aasm,commander bash deucalion/prepara_corpus.sh   # só essas gems
+bash deucalion/prepara_corpus.sh                           # o corpus inteiro
+```
+
+Corre dentro do container e com **as mesmas montagens dos jobs**: as gems com
+extensões em C compilam contra a glibc do container, e os caminhos que o bundler
+grava são os que o job vai ver. Três passos, e pára no primeiro que falhe:
+
+1. `verifica_pydeps.py`: os `pydeps` têm as versões do `requirements.txt`. Uma
+   versão diferente não dá erro no arranque, dá comportamento diferente a meio.
+2. `prepare_ruby_projects`: clona cada gem na etiqueta da versão publicada,
+   confirma o *commit* fixado e instala as dependências pelo **mesmo degrau** que
+   a camada 6 do dataset usou. Escreve `manifest.json` com as versões instaladas.
+3. `verifica_ambiente`: para cada módulo, um spec trivial que só faz `require`,
+   corrido **pela mesma função que a ferramenta usa**, e a confirmação de que o
+   ficheiro aparece na cobertura. Não chama modelo. Se um módulo falhar aqui, no
+   cluster contaria como falha da MARTA, sem ser culpa dela.
 
 ## Correr
 
