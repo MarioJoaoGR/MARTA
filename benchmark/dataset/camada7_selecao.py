@@ -38,8 +38,9 @@ Cada modulo leva `origem` (grupo ou diversidade), `posicao_ranking`,
 para a cobertura poder ser repartida no fim e responder com dados a "o contexto
 entre modulos ajuda?".
 
-Antes de tudo, a populacao perde os modulos que falham pelo RSpec da
-ferramenta (6_carregamento/falham_rspec.csv, ver porta_rspec.py).
+Antes de tudo, a populacao fica so com codigo do projeto (dentro das pastas de
+codigo da gem: lib/, src/, app/, <sub>/lib) e perde os modulos que falham pelo
+RSpec da ferramenta (6_carregamento/falham_rspec.csv, ver porta_rspec.py).
 
 O tamanho e a fatia sao decisao do utilizador: MARTA_ORCAMENTO e
 MARTA_FATIA_GRUPOS estudam alternativas sem mexer nas constantes.
@@ -114,17 +115,53 @@ MIN_GRUPO, MAX_GRUPO = 3, 20
 
 
 
+def pastas_de_codigo():
+    """gem -> (raiz do codigo, pastas de codigo relativas a essa raiz).
+
+    As pastas sao as da camada 6 (lib/, src/, app/ e, nos monorepos, <sub>/lib),
+    as mesmas que a ferramenta poe no load path. A camada 6 grava-as relativas a
+    raiz do CLONE (activesupport/lib); a ferramenta corre com cwd na raiz do
+    codigo, por isso passam a relativas a essa raiz (lib)."""
+    with open(f"{D}/2_parser/parse.csv", encoding="utf-8") as f:
+        raizes = {r["gem"]: (r["raiz_codigo"] or ".") for r in csv.DictReader(f)}
+    out = {}
+    with open(f"{D}/6_carregamento/gems.csv", encoding="utf-8") as f:
+        for r in csv.DictReader(f):
+            raiz = raizes.get(r["gem"], ".")
+            pref = "" if raiz == "." else raiz.rstrip("/") + "/"
+            pastas = []
+            for p in r["load_paths"].split():
+                if pref and not p.startswith(pref):
+                    raise SystemExit(f"{r['gem']}: pasta de carregamento {p} fora da raiz {raiz}")
+                pastas.append(p[len(pref):])
+            out[r["gem"]] = (raiz, pastas)
+    return out
+
+
 def certificados():
-    """As linhas do carregam.csv que tambem passam na porta RSpec (porta_rspec.py).
-    Um modulo que falha pela ferramenta nao pode ser alvo, nem membro de grupo."""
+    """As linhas do carregam.csv que sao codigo do projeto e passam na porta RSpec.
+
+    Codigo do projeto: dentro das pastas de codigo da gem (o "src" do Ruby). Fora
+    delas ficam exemplos, benchmarks, tarefas de rake, geradores de site e
+    configuracao de extensoes, que o projeto nao entrega como codigo.
+    Porta RSpec (porta_rspec.py): um modulo que falha pela ferramenta nao pode
+    ser alvo, nem membro de grupo.
+    Devolve (modulos, contagens do filtro)."""
     fora = set()
     porta = f"{D}/6_carregamento/falham_rspec.csv"
     if os.path.exists(porta):
         with open(porta, encoding="utf-8") as f:
             fora = {(r["gem"], r["ficheiro"]) for r in csv.DictReader(f)}
+    pastas = pastas_de_codigo()
     with open(f"{D}/6_carregamento/carregam.csv", encoding="utf-8") as f:
         linhas = list(csv.DictReader(f))
-    return [r for r in linhas if (r["gem"], r["ficheiro"]) not in fora], len(linhas)
+    no_src = [r for r in linhas
+              if any(r["ficheiro"].startswith(p.rstrip("/") + "/")
+                     for p in pastas[r["gem"]][1])]
+    ficam = [r for r in no_src if (r["gem"], r["ficheiro"]) not in fora]
+    return ficam, {"carregam_na_camada_6": len(linhas),
+                   "fora_das_pastas_de_codigo": len(linhas) - len(no_src),
+                   "barrados_pela_porta_rspec": len(no_src) - len(ficam)}
 
 
 NUMERICAS = ["loc_medio", "pct_singleton", "pct_duck", "mixins_por_classe",
@@ -246,10 +283,9 @@ def grafos():
 
 def main() -> None:
     os.makedirs(OUT, exist_ok=True)
-    mods, n_carregam = certificados()
+    mods, filtro = certificados()
     por_chave = {(m["gem"], m["ficheiro"]): m for m in mods}
-    print(f"populacao: {len(mods)} modulos que carregam "
-          f"({n_carregam - len(mods)} barrados pela porta RSpec)")
+    print(f"populacao: {len(mods)} modulos ({filtro})")
 
     print("a construir os grafos por gem (certo e possivel)...", flush=True)
     gs = grafos()
@@ -386,6 +422,7 @@ def main() -> None:
     # ambiente, e nenhuma era a que certificou os modulos.
     with open(f"{D}/2_parser/parse.csv", encoding="utf-8") as f:
         origem_codigo = {r["gem"]: r for r in csv.DictReader(f)}
+    pastas = pastas_de_codigo()
     with open(f"{D}/6_carregamento/gems.csv", encoding="utf-8") as f:
         receita = {r["gem"]: r for r in csv.DictReader(f)}
     gems_corpus = {m["gem"] for m in corpus}
@@ -416,16 +453,7 @@ def main() -> None:
     projetos = {"_gerado": f"camada 7, {date.today()}"}
     for gem in sorted(gems_corpus):
         o, r = origem_codigo[gem], receita[gem]
-        raiz = o["raiz_codigo"] or "."
-        # A camada 6 grava as pastas relativas a raiz do CLONE (activesupport/lib);
-        # a ferramenta corre com cwd na raiz do codigo, por isso passam a relativas
-        # a essa raiz (lib).
-        pref = "" if raiz == "." else raiz.rstrip("/") + "/"
-        load_paths = []
-        for p in r["load_paths"].split():
-            if pref and not p.startswith(pref):
-                raise SystemExit(f"{gem}: pasta de carregamento {p} fora da raiz {raiz}")
-            load_paths.append(p[len(pref):])
+        raiz, load_paths = pastas[gem]
         projetos[gem] = {
             "repo": o["repo_usado"], "etiqueta": o["etiqueta"],
             "commit": o["commit"], "raiz": raiz,
@@ -457,8 +485,7 @@ def main() -> None:
         "data": str(date.today()),
         "orcamento": ORCAMENTO, "fatia_grupos": FATIA_GRUPOS,
         "grupo_min": MIN_GRUPO, "grupo_max": MAX_GRUPO,
-        "carregam_na_camada_6": n_carregam,
-        "barrados_pela_porta_rspec": n_carregam - len(mods),
+        **filtro,
         "populacao": len(mods),
         "componentes_elegiveis": len(grupos),
         "grupos_escolhidos": len(escolhidos_g),

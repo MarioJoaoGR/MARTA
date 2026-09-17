@@ -31,8 +31,8 @@ GitHub com frequência.
 | 4 elegibilidade | ≥3 formas distintas **e** formas/métodos ≥0,4 | 6 343 |
 | 5 desduplicação | semelhança >0,50 descarta | 5 672 |
 | 6 carregamento | instala o declarado e tenta carregar | 5 217 |
-| porta RSpec | carrega pelo RSpec da própria ferramenta | 5 200 |
-| 7 seleção | ranking de diversidade + grupos com chamadas garantidas | 500 (99 gems, 8 690 métodos) |
+| só código + porta RSpec | dentro das pastas de código, e carrega pelo RSpec da ferramenta | 5 131 |
+| 7 seleção | ranking de diversidade + grupos com chamadas garantidas | 500 (107 gems, 7 685 métodos) |
 
 ## As constantes, e porquê
 
@@ -158,25 +158,47 @@ Regra que saiu disto: **preferir a declaração à suposição, e quando há dua
 declarações que discordam, arranjar um teste objetivo em vez de escolher em quem
 confiar.**
 
-## A porta RSpec, entre a camada 6 e a 7
+## Dois filtros entre a camada 6 e a 7
 
-A camada 6 carrega os módulos com o seu próprio carregador. A ferramenta corre o
-RSpec. Verificados os 5 217 pela função que a ferramenta usa
-(`verifica_ambiente`), **17 falham**. Há de vários tipos:
+### Só código do projeto
 
-- um exemplo que instala gems ao carregar (`bundler/inline`);
-- um `require "bundler/setup"` que lê o Gemfile da pasta onde corre (spring);
-- *generators* que precisam do Rails (doorkeeper);
-- dependências só de desenvolvimento (o `benchmark/run.rb` do i18n pede o mocha);
-- ficheiros que definem ou arrancam o próprio minitest ou RSpec.
+A camada 2 tira a suíte humana (`spec/`, `test/`), os moldes, as *fixtures* e o
+`vendor`, mas deixa os scripts auxiliares que vivem no repositório: benchmarks
+(`mongo/profile/`, `puma/benchmarks/`), exemplos (`puma/examples/`), tarefas de
+rake (`pg/rakelib/`, `byebug/tasks/`), o gerador do site (`thin/site/`) e a
+configuração de extensões em C (`eventmachine/ext/extconf.rb`). Não é código que
+o projeto entregue, e testá-lo não diz nada sobre o projeto.
+
+Critério: o módulo tem de estar dentro das **pastas de código da gem**, as
+mesmas que a ferramenta põe no *load path* (`lib/`, `src/`, `app/` e, nos
+monorepos, `<componente>/lib`). É o equivalente Ruby ao `src`. Saem **74 de
+5 217** (1,4%). Não interfere com a desduplicação: nenhum módulo de código foi
+descartado por ser cópia de um ficheiro de fora.
+
+Não é uma exclusão por tipo de projeto: aplicações e *frameworks* continuam
+(ver camada 2).
+
+### A porta RSpec
+
+A camada 6 carrega cada módulo num processo Ruby limpo. A ferramenta corre o
+RSpec: com os argumentos dele, com ele carregado e dentro da pasta do projeto.
+Verificados os 5 217 pela função que a ferramenta usa (`verifica_ambiente`),
+**17 falham**, por três causas:
+
+| causa | módulos | exemplo |
+|---|---|---|
+| o módulo interfere com o próprio *runner* | 6 | ativa o Minitest ou o Test::Unit, ou lê argumentos ao carregar, e recusa o `-O` do RSpec; ou redefine classes do próprio RSpec |
+| scripts de desenvolvimento | 7 | `bundler/inline` instala gems ao carregar (puma); `bundler/setup` lê o Gemfile e pede gems só de desenvolvimento (spring, i18n) |
+| falta o contexto do *framework* | 4 | *generators* e validadores do doorkeeper que só existem dentro de uma aplicação Rails |
 
 Não falham sozinhos: carregados junto com os outros alvos da gem, **apagam a
 cobertura deles**. No puma e no spring, 49 módulos que carregavam ficavam sem
 cobertura por causa de 6. Sem os 17, os 239 módulos dessas quatro gems carregam
 e aparecem todos na cobertura.
 
-A lista fica em `6_carregamento/falham_rspec.csv`, e a camada 7 só escolhe entre
-os outros 5 200. O `porta_rspec.py` tem os três comandos para a refazer.
+5 dos 17 também estão fora das pastas de código; a porta tira mais 12. A lista
+fica em `6_carregamento/falham_rspec.csv`, e o `porta_rspec.py` tem os comandos
+para a refazer.
 
 ## Uma limitação medida, e o que a camada 7 faz com ela
 
@@ -215,11 +237,11 @@ resolver da ferramenta adivinha quando o nome é ambíguo (fica com a primeira
 classe com o mesmo nome curto) e aceita *duck typing* com até 5 candidatos; essas
 arestas dizem que **pode** chamar, e não contam.
 
-Com 500 módulos e fatia de 50% (as constantes atuais), sobre os 5 200 que passam
-a porta RSpec: 32 grupos com 256 módulos, dos quais 41 já estavam entre os 500
-melhores; saíram 215 do fim do ranking. No total, 291 módulos têm chamada
-garantida com outro módulo do corpus (35 deles vindos do ranking, por acaso). O
-corpus tem 99 gems, 59 categorias e 8 690 métodos.
+Com 500 módulos e fatia de 50% (as constantes atuais), sobre os 5 131 módulos
+da população: 35 grupos com 252 módulos, dos quais 46 já estavam entre os 500
+melhores; saíram 206 do fim do ranking. No total, 282 módulos têm chamada
+garantida com outro módulo do corpus (30 deles vindos do ranking, por acaso). O
+corpus tem 107 gems, 59 categorias e 7 685 métodos.
 
 O ranking é sensível à população: tirar os 17 módulos da porta mudou cerca de 30%
 de cada variante (no de 500, ficaram 348 dos 500). Não é defeito do critério, é o

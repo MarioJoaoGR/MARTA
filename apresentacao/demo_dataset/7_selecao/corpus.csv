@@ -1,158 +1,167 @@
 gem,ficheiro,commit,categoria,loc_medio,loc_max,pct_singleton,pct_duck,mixins_por_classe,profundidade_heranca,metaprog_por_100,metodos,classes,formas,razao_formas,modo,componente,tamanho_componente,origem,posicao_ranking,relacionado,vizinhos_no_corpus,ligacoes_possiveis_no_corpus
 aasm,lib/aasm/core/invokers/base_invoker.rb,88061ec5104a,state machines,4.6,7,0,14,0.0,0,0.0,7,4,5,0.714,isolado,aasm#3,4,grupo,,True,3,3
 aasm,lib/aasm/core/invokers/class_invoker.rb,88061ec5104a,state machines,4.5,12,0,82,0.0,1,0.0,11,4,11,1.0,isolado,aasm#3,4,grupo,,True,1,1
-aasm,lib/aasm/core/invokers/literal_invoker.rb,88061ec5104a,state machines,4.8,9,0,92,0.0,1,53.8,13,4,13,1.0,isolado,aasm#3,4,grupo,205,True,1,1
+aasm,lib/aasm/core/invokers/literal_invoker.rb,88061ec5104a,state machines,4.8,9,0,92,0.0,1,53.8,13,4,13,1.0,isolado,aasm#3,4,grupo,217,True,1,1
 aasm,lib/aasm/core/invokers/proc_invoker.rb,88061ec5104a,state machines,6.8,17,0,90,0.0,1,70.0,10,4,10,1.0,isolado,aasm#3,4,grupo,,True,1,1
-aasm,lib/aasm/persistence/plain_persistence.rb,88061ec5104a,state machines,4.3,7,0,0,0.0,0,100.0,3,3,3,1.0,isolado,aasm#7,1,diversidade,68,False,0,0
-active_model_serializers,lib/active_model/serializer/field.rb,6934c8bd31f4,api builder and discovery,8.7,16,0,71,0.0,0,71.4,7,2,7,1.0,isolado,active_model_serializers#1,1,diversidade,218,False,0,0
-active_model_serializers,lib/active_model_serializers.rb,6934c8bd31f4,api builder and discovery,4.8,7,100,40,1.0,0,0.0,5,1,5,1.0,isolado,active_model_serializers#0,13,diversidade,246,True,2,2
-active_model_serializers,lib/active_model_serializers/adapter/base.rb,6934c8bd31f4,api builder and discovery,3.2,4,46,23,0.0,0,7.7,13,3,13,1.0,isolado,active_model_serializers#0,13,diversidade,148,True,1,1
-active_model_serializers,lib/active_model_serializers/adapter/json_api/error.rb,6934c8bd31f4,api builder and discovery,9.7,14,100,67,0.0,1,33.3,3,4,3,1.0,isolado,active_model_serializers#7,2,diversidade,265,False,0,0
-active_model_serializers,lib/active_model_serializers/adapter/json_api/pagination_links.rb,6934c8bd31f4,api builder and discovery,5.2,11,0,83,0.0,1,0.0,12,4,12,1.0,isolado,active_model_serializers#10,1,diversidade,233,False,0,0
-active_model_serializers,lib/active_model_serializers/model.rb,6934c8bd31f4,api builder and discovery,5.4,7,38,100,1.0,0,12.5,8,3,8,1.0,isolado,active_model_serializers#0,13,diversidade,47,True,1,1
-activerecord,lib/active_record.rb,3989ebf3473d,orm/odm,7.9,21,100,33,0.86,0,5.6,18,7,18,1.0,isolado,activerecord#0,16,grupo,135,True,6,6
-activerecord,lib/active_record/aggregations.rb,3989ebf3473d,orm/odm,10.3,24,0,71,0.33,0,71.4,7,3,7,1.0,isolado,activerecord#0,16,grupo,,True,1,1
-activerecord,lib/active_record/associations.rb,3989ebf3473d,orm/odm,6.9,37,8,38,0.75,0,15.4,13,4,12,0.923,isolado,activerecord#0,16,grupo,490,True,3,3
-activerecord,lib/active_record/associations/builder/association.rb,3989ebf3473d,orm/odm,7.5,19,100,65,0.0,0,23.5,17,2,13,0.765,isolado,activerecord#0,16,grupo,,True,1,1
-activerecord,lib/active_record/associations/builder/belongs_to.rb,3989ebf3473d,orm/odm,13.9,34,100,82,0.0,1,45.5,11,2,10,0.909,isolado,activerecord#5,3,grupo,,True,1,2
-activerecord,lib/active_record/associations/builder/collection_association.rb,3989ebf3473d,orm/odm,11,26,100,83,0.0,1,100.0,6,2,5,0.833,isolado,activerecord#6,1,diversidade,109,False,0,1
+aasm,lib/aasm/persistence/plain_persistence.rb,88061ec5104a,state machines,4.3,7,0,0,0.0,0,100.0,3,3,3,1.0,isolado,aasm#7,1,diversidade,67,False,0,0
+active_model_serializers,lib/active_model/serializer/field.rb,6934c8bd31f4,api builder and discovery,8.7,16,0,71,0.0,0,71.4,7,2,7,1.0,isolado,active_model_serializers#1,1,diversidade,224,False,0,0
+active_model_serializers,lib/active_model_serializers.rb,6934c8bd31f4,api builder and discovery,4.8,7,100,40,1.0,0,0.0,5,1,5,1.0,isolado,active_model_serializers#0,13,diversidade,256,True,2,2
+active_model_serializers,lib/active_model_serializers/adapter/base.rb,6934c8bd31f4,api builder and discovery,3.2,4,46,23,0.0,0,7.7,13,3,13,1.0,isolado,active_model_serializers#0,13,diversidade,143,True,1,1
+active_model_serializers,lib/active_model_serializers/adapter/json_api/error.rb,6934c8bd31f4,api builder and discovery,9.7,14,100,67,0.0,1,33.3,3,4,3,1.0,isolado,active_model_serializers#7,2,diversidade,271,False,0,0
+active_model_serializers,lib/active_model_serializers/adapter/json_api/pagination_links.rb,6934c8bd31f4,api builder and discovery,5.2,11,0,83,0.0,1,0.0,12,4,12,1.0,isolado,active_model_serializers#10,1,diversidade,239,False,0,0
+active_model_serializers,lib/active_model_serializers/model.rb,6934c8bd31f4,api builder and discovery,5.4,7,38,100,1.0,0,12.5,8,3,8,1.0,isolado,active_model_serializers#0,13,diversidade,49,True,1,1
+activerecord,lib/active_record.rb,3989ebf3473d,orm/odm,7.9,21,100,33,0.86,0,5.6,18,7,18,1.0,isolado,activerecord#0,16,diversidade,166,False,0,0
+activerecord,lib/active_record/associations/builder/belongs_to.rb,3989ebf3473d,orm/odm,13.9,34,100,82,0.0,1,45.5,11,2,10,0.909,isolado,activerecord#5,3,grupo,,True,1,1
 activerecord,lib/active_record/associations/builder/has_one.rb,3989ebf3473d,orm/odm,5.6,11,100,75,0.0,1,12.5,8,2,7,0.875,isolado,activerecord#5,3,grupo,,True,1,1
-activerecord,lib/active_record/associations/deprecation.rb,3989ebf3473d,orm/odm,6.6,24,100,78,0.0,0,0.0,9,1,9,1.0,isolado,activerecord#0,16,grupo,,True,3,4
-activerecord,lib/active_record/associations/join_dependency.rb,3989ebf3473d,orm/odm,11.6,47,9,91,0.25,0,0.0,22,4,22,1.0,isolado,activerecord#0,16,grupo,,True,1,1
-activerecord,lib/active_record/associations/preloader/branch.rb,3989ebf3473d,orm/odm,7.6,16,0,94,0.0,0,0.0,16,4,16,1.0,isolado,activerecord#0,16,grupo,,True,1,1
-activerecord,lib/active_record/callbacks.rb,3989ebf3473d,orm/odm,4.3,11,0,0,1.0,0,0.0,6,3,6,1.0,isolado,activerecord#34,1,diversidade,180,False,0,0
-activerecord,lib/active_record/connection_adapters/abstract/connection_pool.rb,3989ebf3473d,orm/odm,9.2,58,3,67,0.2,1,0.0,95,10,81,0.853,isolado,activerecord#0,16,grupo,,True,1,5
-activerecord,lib/active_record/connection_adapters/abstract/database_statements.rb,3989ebf3473d,orm/odm,6.3,41,0,32,0.0,0,0.0,71,3,59,0.831,isolado,activerecord#1,43,diversidade,222,False,0,5
-activerecord,lib/active_record/connection_adapters/abstract_adapter.rb,3989ebf3473d,orm/odm,5.6,67,9,38,2.0,0,0.6,159,4,93,0.585,isolado,activerecord#0,16,grupo,,True,2,10
-activerecord,lib/active_record/connection_adapters/abstract_mysql_adapter.rb,3989ebf3473d,orm/odm,8.4,49,6,56,0.75,1,0.0,96,4,74,0.771,isolado,activerecord#0,16,grupo,,True,1,4
-activerecord,lib/active_record/connection_adapters/pool_config.rb,3989ebf3473d,orm/odm,6.1,12,22,67,0.33,0,0.0,9,3,9,1.0,isolado,activerecord#0,16,grupo,,True,1,3
-activerecord,lib/active_record/connection_adapters/schema_cache.rb,3989ebf3473d,orm/odm,5.7,25,5,62,0.0,0,1.5,66,6,62,0.939,isolado,activerecord#0,16,grupo,,True,2,8
-activerecord,lib/active_record/errors.rb,3989ebf3473d,orm/odm,7.5,35,14,23,0.03,5,0.0,22,60,17,0.773,isolado,activerecord#113,1,diversidade,21,False,0,4
-activerecord,lib/active_record/marshalling.rb,3989ebf3473d,orm/odm,14.3,18,33,100,0.0,0,0.0,3,3,3,1.0,isolado,activerecord#0,16,grupo,,True,1,1
+activerecord,lib/active_record/associations/builder/singular_association.rb,3989ebf3473d,orm/odm,15.5,21,100,75,0.0,1,50.0,4,2,4,1.0,isolado,activerecord#8,1,diversidade,62,False,0,0
+activerecord,lib/active_record/associations/foreign_association.rb,3989ebf3473d,orm/odm,10,17,0,100,0.0,0,0.0,3,2,3,1.0,isolado,activerecord#12,4,grupo,,True,2,2
+activerecord,lib/active_record/associations/has_many_association.rb,3989ebf3473d,orm/odm,9.5,46,0,85,0.33,1,23.1,13,3,13,1.0,isolado,activerecord#12,4,grupo,,True,2,3
+activerecord,lib/active_record/associations/has_many_through_association.rb,3989ebf3473d,orm/odm,9.4,36,0,81,0.33,2,19.0,21,3,21,1.0,isolado,activerecord#12,4,grupo,,True,1,1
+activerecord,lib/active_record/associations/has_one_association.rb,3989ebf3473d,orm/odm,14.9,31,0,88,0.33,1,25.0,8,3,8,1.0,isolado,activerecord#12,4,grupo,,True,1,2
+activerecord,lib/active_record/callbacks.rb,3989ebf3473d,orm/odm,4.3,11,0,0,1.0,0,0.0,6,3,6,1.0,isolado,activerecord#34,1,diversidade,176,False,0,0
+activerecord,lib/active_record/connection_adapters/abstract/database_statements.rb,3989ebf3473d,orm/odm,6.3,41,0,32,0.0,0,0.0,71,3,59,0.831,isolado,activerecord#1,43,diversidade,225,False,0,1
+activerecord,lib/active_record/errors.rb,3989ebf3473d,orm/odm,7.5,35,14,23,0.03,5,0.0,22,60,17,0.773,isolado,activerecord#113,1,diversidade,21,False,0,1
 activerecord,lib/active_record/migration/default_strategy.rb,3989ebf3473d,orm/odm,3,3,0,100,0.0,1,33.3,3,3,3,1.0,isolado,activerecord#129,1,diversidade,17,False,0,0
-activerecord,lib/active_record/model_schema.rb,3989ebf3473d,orm/odm,6.0,19,2,85,0.33,0,4.9,41,3,40,0.976,isolado,activerecord#0,16,grupo,455,True,1,3
-activerecord,lib/active_record/query_cache.rb,3989ebf3473d,orm/odm,7,13,60,100,0.0,0,0.0,5,4,5,1.0,isolado,activerecord#134,1,diversidade,167,False,0,0
-activerecord,lib/active_record/reflection.rb,3989ebf3473d,orm/odm,6.0,43,3,68,0.07,3,4.1,147,14,124,0.844,isolado,activerecord#0,16,grupo,372,True,4,7
+activerecord,lib/active_record/query_cache.rb,3989ebf3473d,orm/odm,7,13,60,100,0.0,0,0.0,5,4,5,1.0,isolado,activerecord#134,1,diversidade,192,False,0,0
 activerecord,lib/active_record/relation.rb,3989ebf3473d,orm/odm,7.3,44,2,76,2.5,0,2.0,100,4,99,0.99,isolado,activerecord#1,43,diversidade,6,False,0,2
 activerecord,lib/active_record/touch_later.rb,3989ebf3473d,orm/odm,8,26,0,43,0.0,0,0.0,7,2,7,1.0,isolado,activerecord#5,3,grupo,,True,2,2
-activerecord,lib/active_record/transactions.rb,3989ebf3473d,orm/odm,7.2,28,0,44,0.33,0,0.0,32,3,26,0.812,isolado,activerecord#0,16,grupo,,True,1,1
-activerecord,lib/arel/attributes/attribute.rb,3989ebf3473d,orm/odm,3,3,0,100,1.67,1,0.0,4,3,4,1.0,isolado,activerecord#172,1,diversidade,219,False,0,0
-activerecord-import,benchmarks/lib/cli_parser.rb,8ac907c9bbc5,orm/odm extensions,17.8,68,100,60,0.0,0,0.0,5,1,5,1.0,isolado,activerecord-import#1,1,diversidade,101,False,0,0
-activerecord-import,benchmarks/lib/float.rb,8ac907c9bbc5,orm/odm extensions,3,3,0,0,0.0,0,0.0,3,1,3,1.0,isolado,activerecord-import#2,1,diversidade,190,False,0,0
-activerecord-import,lib/activerecord-import/adapters/mysql_adapter.rb,8ac907c9bbc5,orm/odm extensions,13.1,52,0,100,2.0,0,0.0,9,1,9,1.0,com a biblioteca carregada,activerecord-import#5,3,grupo,339,True,1,2
+activerecord,lib/arel/attributes/attribute.rb,3989ebf3473d,orm/odm,3,3,0,100,1.67,1,0.0,4,3,4,1.0,isolado,activerecord#172,1,diversidade,220,False,0,0
+activerecord-import,benchmarks/lib/base.rb,8ac907c9bbc5,orm/odm extensions,11.1,41,0,86,0.0,0,28.6,7,1,7,1.0,isolado,activerecord-import#0,1,diversidade,231,False,0,0
+activerecord-import,benchmarks/lib/cli_parser.rb,8ac907c9bbc5,orm/odm extensions,17.8,68,100,60,0.0,0,0.0,5,1,5,1.0,isolado,activerecord-import#1,1,diversidade,213,False,0,0
+activerecord-import,lib/activerecord-import/adapters/mysql_adapter.rb,8ac907c9bbc5,orm/odm extensions,13.1,52,0,100,2.0,0,0.0,9,1,9,1.0,com a biblioteca carregada,activerecord-import#5,3,grupo,303,True,1,2
 activerecord-import,lib/activerecord-import/adapters/sqlite3_adapter.rb,8ac907c9bbc5,orm/odm extensions,9.6,35,0,87,2.0,0,0.0,15,1,14,0.933,com a biblioteca carregada,activerecord-import#5,3,grupo,,True,1,2
-activerecord-import,lib/activerecord-import/import.rb,8ac907c9bbc5,orm/odm extensions,30,202,64,82,0.09,1,114.3,28,11,27,0.964,com a biblioteca carregada,activerecord-import#7,2,diversidade,74,False,0,2
+activerecord-import,lib/activerecord-import/import.rb,8ac907c9bbc5,orm/odm extensions,30,202,64,82,0.09,1,114.3,28,11,27,0.964,com a biblioteca carregada,activerecord-import#7,2,diversidade,72,False,0,2
 activerecord-import,lib/activerecord-import/value_sets_parser.rb,8ac907c9bbc5,orm/odm extensions,6.9,28,25,62,0.0,1,0.0,8,4,7,0.875,com a biblioteca carregada,activerecord-import#5,3,grupo,,True,2,2
-activesupport,lib/active_support/core_ext/date_and_time/calculations.rb,3989ebf3473d,core extensions,3.4,7,0,40,0.0,0,0.0,50,2,42,0.84,isolado,activesupport#0,43,diversidade,45,False,0,0
+activesupport,lib/active_support/configurable.rb,3989ebf3473d,core extensions,6.9,18,14,57,0.25,3,100.0,7,4,7,1.0,isolado,activesupport#10,1,diversidade,29,False,0,0
+activesupport,lib/active_support/core_ext/date_and_time/calculations.rb,3989ebf3473d,core extensions,3.4,7,0,40,0.0,0,0.0,50,2,42,0.84,isolado,activesupport#0,43,diversidade,79,False,0,0
 activesupport,lib/active_support/delegation.rb,3989ebf3473d,core extensions,54,128,100,67,0.0,1,66.7,3,3,3,1.0,isolado,activesupport#0,43,diversidade,2,False,0,0
-activesupport,lib/active_support/deprecation/constant_accessor.rb,3989ebf3473d,core extensions,26.3,66,33,100,0.0,0,0.0,3,3,3,1.0,isolado,activesupport#40,1,diversidade,96,False,0,0
-activesupport,lib/active_support/json/decoding.rb,3989ebf3473d,core extensions,12.7,26,100,33,0.0,0,0.0,3,2,3,1.0,isolado,activesupport#0,43,diversidade,165,False,0,0
+activesupport,lib/active_support/deprecation/constant_accessor.rb,3989ebf3473d,core extensions,26.3,66,33,100,0.0,0,0.0,3,3,3,1.0,isolado,activesupport#40,1,diversidade,44,False,0,0
+activesupport,lib/active_support/json/decoding.rb,3989ebf3473d,core extensions,12.7,26,100,33,0.0,0,0.0,3,2,3,1.0,isolado,activesupport#0,43,diversidade,159,False,0,0
 activesupport,lib/active_support/test_case.rb,3989ebf3473d,core extensions,4,14,82,9,6.0,1,0.0,11,2,10,0.909,isolado,activesupport#80,3,diversidade,4,False,0,0
-addressable,lib/addressable/idna/pure.rb,0c3e8589b23d,core extensions,27.7,120,100,100,0.2,1,0.0,12,5,12,1.0,isolado,addressable#0,3,grupo,396,True,1,2
+addressable,lib/addressable/idna/pure.rb,0c3e8589b23d,core extensions,27.7,120,100,100,0.2,1,0.0,12,5,12,1.0,isolado,addressable#0,3,grupo,398,True,1,2
 addressable,lib/addressable/template.rb,0c3e8589b23d,core extensions,14.8,96,0,70,0.0,1,0.0,30,6,30,1.0,isolado,addressable#0,3,grupo,,True,1,2
-addressable,lib/addressable/uri.rb,0c3e8589b23d,core extensions,18.5,93,16,69,0.0,1,3.4,88,6,87,0.989,isolado,addressable#0,3,grupo,304,True,2,2
-autoprefixer-rails,lib/autoprefixer-rails/sprockets.rb,01f8d15c4677,assets,6.1,10,71,57,0.0,0,0.0,7,2,7,1.0,isolado,autoprefixer-rails#0,2,diversidade,49,False,0,0
-awesome_print,lib/awesome_print/custom_defaults.rb,9ae56ba413b9,cli utilities,4.4,9,100,30,0.0,0,10.0,10,1,9,0.9,isolado,awesome_print#0,1,diversidade,243,False,0,0
-awesome_print,lib/awesome_print/ext/nokogiri.rb,9ae56ba413b9,cli utilities,9.3,16,33,100,0.0,0,66.7,3,2,3,1.0,isolado,awesome_print#6,1,diversidade,60,False,0,0
+addressable,lib/addressable/uri.rb,0c3e8589b23d,core extensions,18.5,93,16,69,0.0,1,3.4,88,6,87,0.989,isolado,addressable#0,3,grupo,300,True,2,2
+autoprefixer-rails,lib/autoprefixer-rails/sprockets.rb,01f8d15c4677,assets,6.1,10,71,57,0.0,0,0.0,7,2,7,1.0,isolado,autoprefixer-rails#0,2,diversidade,50,False,0,0
+awesome_print,lib/awesome_print/custom_defaults.rb,9ae56ba413b9,cli utilities,4.4,9,100,30,0.0,0,10.0,10,1,9,0.9,isolado,awesome_print#0,1,diversidade,252,False,0,0
 awesome_print,lib/awesome_print/formatters/array_formatter.rb,9ae56ba413b9,cli utilities,6.5,15,0,88,0.0,1,5.9,17,3,16,0.941,isolado,awesome_print#11,5,grupo,,True,1,1
 awesome_print,lib/awesome_print/formatters/base_formatter.rb,9ae56ba413b9,cli utilities,10.6,38,0,89,0.33,0,0.0,9,3,9,1.0,isolado,awesome_print#11,5,grupo,,True,4,4
 awesome_print,lib/awesome_print/formatters/hash_formatter.rb,9ae56ba413b9,cli utilities,5.8,16,0,93,0.0,1,0.0,14,3,14,1.0,isolado,awesome_print#11,5,grupo,,True,1,1
 awesome_print,lib/awesome_print/formatters/object_formatter.rb,9ae56ba413b9,cli utilities,12.2,39,0,100,0.0,1,40.0,5,3,5,1.0,isolado,awesome_print#11,5,grupo,,True,1,1
 awesome_print,lib/awesome_print/formatters/struct_formatter.rb,9ae56ba413b9,cli utilities,13.8,39,0,100,0.0,1,25.0,4,3,4,1.0,isolado,awesome_print#11,5,grupo,,True,1,1
+better_errors,lib/better_errors.rb,fde3b7025db1,error handling,5.2,12,100,25,0.0,0,0.0,4,1,3,0.75,isolado,better_errors#0,5,diversidade,174,False,0,0
 bootsnap,lib/bootsnap.rb,e099ec707644,optimizations,10.8,49,100,60,0.0,0,0.0,15,1,15,1.0,isolado,bootsnap#0,10,grupo,,True,5,5
-bootsnap,lib/bootsnap/cli.rb,e099ec707644,optimizations,14.1,62,0,33,0.0,0,6.7,15,3,13,0.867,isolado,bootsnap#0,10,grupo,82,True,5,5
+bootsnap,lib/bootsnap/cli.rb,e099ec707644,optimizations,14.1,62,0,33,0.0,0,6.7,15,3,13,0.867,isolado,bootsnap#0,10,grupo,86,True,5,5
 bootsnap,lib/bootsnap/cli/worker_pool.rb,e099ec707644,optimizations,8.9,27,21,74,0.0,0,0.0,19,5,18,0.947,isolado,bootsnap#0,10,grupo,,True,1,1
-bootsnap,lib/bootsnap/compile_cache.rb,e099ec707644,optimizations,12,28,100,0,0.0,0,0.0,3,2,3,1.0,isolado,bootsnap#0,10,grupo,34,True,4,4
-bootsnap,lib/bootsnap/compile_cache/iseq.rb,e099ec707644,optimizations,7,28,50,50,0.17,0,0.0,20,6,19,0.95,isolado,bootsnap#0,10,grupo,365,True,2,2
+bootsnap,lib/bootsnap/compile_cache.rb,e099ec707644,optimizations,12,28,100,0,0.0,0,0.0,3,2,3,1.0,isolado,bootsnap#0,10,grupo,33,True,4,4
+bootsnap,lib/bootsnap/compile_cache/iseq.rb,e099ec707644,optimizations,7,28,50,50,0.17,0,0.0,20,6,19,0.95,isolado,bootsnap#0,10,grupo,366,True,2,2
 bootsnap,lib/bootsnap/compile_cache/yaml.rb,e099ec707644,optimizations,13.9,116,39,65,0.44,0,8.7,23,9,18,0.783,isolado,bootsnap#0,10,grupo,,True,2,2
 bootsnap,lib/bootsnap/load_path_cache.rb,e099ec707644,optimizations,12,16,100,0,0.0,0,0.0,3,2,3,1.0,isolado,bootsnap#0,10,grupo,,True,2,4
 bootsnap,lib/bootsnap/load_path_cache/cache.rb,e099ec707644,optimizations,9.1,53,0,84,0.0,0,0.0,19,3,19,1.0,isolado,bootsnap#0,10,grupo,,True,2,3
-bootsnap,lib/bootsnap/load_path_cache/change_observer.rb,e099ec707644,optimizations,5,8,25,88,0.0,0,62.5,8,4,7,0.875,isolado,bootsnap#0,10,grupo,216,True,2,2
-bootsnap,lib/bootsnap/load_path_cache/loaded_features_index.rb,e099ec707644,optimizations,9.6,23,0,100,0.0,0,0.0,9,3,9,1.0,isolado,bootsnap#0,10,grupo,319,True,1,2
-bootsnap,lib/bootsnap/load_path_cache/path_scanner.rb,e099ec707644,optimizations,22.2,39,100,100,0.0,0,0.0,4,3,4,1.0,isolado,bootsnap#3,1,diversidade,168,False,0,0
-brakeman,lib/brakeman.rb,fffc4837becb,code analysis and metrics,16.1,39,100,78,0.0,1,0.0,32,5,30,0.938,isolado,brakeman#1,13,diversidade,46,True,1,1
-brakeman,lib/brakeman/processors/lib/call_conversion_helper.rb,fffc4837becb,code analysis and metrics,13.7,24,0,100,0.0,0,16.7,6,2,6,1.0,isolado,brakeman#1,13,diversidade,93,True,1,1
-bullet,lib/bullet.rb,bc55c037d27a,profiler and optimization,6.1,20,100,52,0.5,1,0.0,31,2,26,0.839,isolado,bullet#0,8,grupo,29,True,6,7
-bullet,lib/bullet/active_record4.rb,bc55c037d27a,profiler and optimization,21.1,191,13,87,0.0,0,80.0,15,2,15,1.0,isolado,bullet#0,8,grupo,,True,4,5
+bootsnap,lib/bootsnap/load_path_cache/change_observer.rb,e099ec707644,optimizations,5,8,25,88,0.0,0,62.5,8,4,7,0.875,isolado,bootsnap#0,10,grupo,221,True,2,2
+bootsnap,lib/bootsnap/load_path_cache/loaded_features_index.rb,e099ec707644,optimizations,9.6,23,0,100,0.0,0,0.0,9,3,9,1.0,isolado,bootsnap#0,10,grupo,320,True,1,2
+bootsnap,lib/bootsnap/load_path_cache/path_scanner.rb,e099ec707644,optimizations,22.2,39,100,100,0.0,0,0.0,4,3,4,1.0,isolado,bootsnap#3,1,diversidade,157,False,0,0
+brakeman,lib/brakeman/options.rb,fffc4837becb,code analysis and metrics,105,397,100,50,0.0,0,0.0,4,1,3,0.75,isolado,brakeman#0,13,diversidade,54,False,0,0
+brakeman,lib/brakeman/processors/lib/render_helper.rb,fffc4837becb,code analysis and metrics,22.4,99,0,89,0.0,0,11.1,9,1,9,1.0,isolado,brakeman#0,13,diversidade,204,False,0,0
+bullet,lib/bullet.rb,bc55c037d27a,profiler and optimization,6.1,20,100,52,0.5,1,0.0,31,2,26,0.839,isolado,bullet#0,8,grupo,27,True,6,7
+bullet,lib/bullet/active_record4.rb,bc55c037d27a,profiler and optimization,21.1,191,13,87,0.0,0,80.0,15,2,15,1.0,isolado,bullet#0,8,grupo,,True,4,4
 bullet,lib/bullet/active_record42.rb,bc55c037d27a,profiler and optimization,26.4,256,18,88,0.0,0,58.8,17,2,17,1.0,isolado,bullet#0,8,grupo,,True,3,3
-bullet,lib/bullet/active_record61.rb,bc55c037d27a,profiler and optimization,29.5,294,6,89,0.0,0,11.1,18,3,17,0.944,isolado,bullet#2,1,diversidade,73,False,0,0
-bullet,lib/bullet/detector/counter_cache.rb,bc55c037d27a,profiler and optimization,7,13,100,71,0.0,1,0.0,7,3,6,0.857,isolado,bullet#0,8,grupo,,True,3,4
-bullet,lib/bullet/detector/n_plus_one_query.rb,bc55c037d27a,profiler and optimization,10.5,23,100,91,0.67,1,0.0,11,3,11,1.0,isolado,bullet#0,8,grupo,,True,4,6
-bullet,lib/bullet/detector/unused_eager_loading.rb,bc55c037d27a,profiler and optimization,14.8,37,100,100,0.67,1,0.0,5,3,5,1.0,isolado,bullet#0,8,grupo,431,True,2,3
+bullet,lib/bullet/active_record61.rb,bc55c037d27a,profiler and optimization,29.5,294,6,89,0.0,0,11.1,18,3,17,0.944,isolado,bullet#2,1,diversidade,20,False,0,0
+bullet,lib/bullet/detector/counter_cache.rb,bc55c037d27a,profiler and optimization,7,13,100,71,0.0,1,0.0,7,3,6,0.857,isolado,bullet#0,8,grupo,,True,3,3
+bullet,lib/bullet/detector/n_plus_one_query.rb,bc55c037d27a,profiler and optimization,10.5,23,100,91,0.67,1,0.0,11,3,11,1.0,isolado,bullet#0,8,grupo,,True,4,5
+bullet,lib/bullet/detector/unused_eager_loading.rb,bc55c037d27a,profiler and optimization,14.8,37,100,100,0.67,1,0.0,5,3,5,1.0,isolado,bullet#0,8,grupo,427,True,2,2
 bullet,lib/bullet/mongoid8x.rb,bc55c037d27a,profiler and optimization,15.7,57,17,50,0.0,0,33.3,6,2,6,1.0,isolado,bullet#0,8,grupo,,True,1,1
-bullet,lib/bullet/notification/n_plus_one_query.rb,bc55c037d27a,profiler and optimization,3.4,5,0,0,0.0,1,0.0,5,3,5,1.0,isolado,bullet#9,1,diversidade,175,False,0,1
-bullet,lib/bullet/registry/base.rb,bc55c037d27a,profiler and optimization,3.6,8,0,88,0.0,0,0.0,8,3,8,1.0,isolado,bullet#11,1,diversidade,238,False,0,6
-bullet,lib/bullet/stack_trace_filter.rb,bc55c037d27a,profiler and optimization,9.6,22,0,100,0.0,0,0.0,5,2,5,1.0,isolado,bullet#0,8,grupo,,True,1,2
+bullet,lib/bullet/notification_collector.rb,bc55c037d27a,profiler and optimization,3,3,0,50,0.0,0,0.0,4,2,4,1.0,isolado,bullet#10,1,diversidade,158,False,0,2
+bullet,lib/bullet/stack_trace_filter.rb,bc55c037d27a,profiler and optimization,9.6,22,0,100,0.0,0,0.0,5,2,5,1.0,isolado,bullet#0,8,grupo,,True,1,1
 bundler-audit,lib/bundler/audit/advisory.rb,f8b06ebbefdd,security,8.3,37,9,36,0.0,1,0.0,11,3,11,1.0,isolado,bundler-audit#0,4,grupo,,True,1,1
-bundler-audit,lib/bundler/audit/cli.rb,f8b06ebbefdd,security,15.6,41,14,57,0.33,1,0.0,7,3,7,1.0,isolado,bundler-audit#0,4,grupo,,True,2,2
-bundler-audit,lib/bundler/audit/cli/formats.rb,f8b06ebbefdd,security,8.7,16,100,100,0.0,1,0.0,3,5,3,1.0,isolado,bundler-audit#0,4,grupo,,True,1,2
-bundler-audit,lib/bundler/audit/cli/formats/text.rb,f8b06ebbefdd,security,25,51,0,67,0.0,1,0.0,3,5,3,1.0,com a biblioteca carregada,bundler-audit#2,1,diversidade,256,False,0,0
+bundler-audit,lib/bundler/audit/cli.rb,f8b06ebbefdd,security,15.6,41,14,57,0.33,1,0.0,7,3,7,1.0,isolado,bundler-audit#0,4,grupo,78,True,2,2
+bundler-audit,lib/bundler/audit/cli/formats.rb,f8b06ebbefdd,security,8.7,16,100,100,0.0,1,0.0,3,5,3,1.0,isolado,bundler-audit#0,4,grupo,142,True,1,2
 bundler-audit,lib/bundler/audit/database.rb,f8b06ebbefdd,security,6.9,17,24,35,0.0,1,0.0,17,5,16,0.941,isolado,bundler-audit#0,4,grupo,,True,2,3
-bundler-audit,lib/bundler/audit/task.rb,f8b06ebbefdd,security,8,21,0,0,0.0,1,0.0,5,4,4,0.8,isolado,bundler-audit#7,1,diversidade,178,False,0,0
-byebug,lib/byebug/command_list.rb,aff644023372,debugging tools,3,3,0,80,0.5,0,0.0,5,2,5,1.0,isolado,byebug#2,1,diversidade,41,False,0,0
-byebug,lib/byebug/commands/thread/current.rb,aff644023372,debugging tools,4,7,75,0,0.33,1,0.0,4,3,3,0.75,com a biblioteca carregada,byebug#1,67,diversidade,56,False,0,0
-byebug,lib/byebug/interfaces/local_interface.rb,aff644023372,debugging tools,7.2,11,0,0,0.0,1,0.0,4,2,4,1.0,com a biblioteca carregada,byebug#1,67,diversidade,247,False,0,0
-capybara,lib/capybara/result.rb,a210c6e57872,testing,7.8,25,0,94,1.0,0,0.0,16,2,16,1.0,isolado,capybara#12,1,diversidade,217,False,0,2
-capybara,lib/capybara/rspec/matchers/match_selector.rb,a210c6e57872,testing,3,3,0,75,0.0,4,0.0,4,4,4,1.0,isolado,capybara#22,1,diversidade,39,False,0,0
+byebug,lib/byebug/commands/where.rb,aff644023372,debugging tools,8.2,18,60,20,0.5,1,0.0,5,2,4,0.8,isolado,byebug#1,67,diversidade,52,False,0,0
+byebug,lib/byebug/helpers/string.rb,aff644023372,debugging tools,3,3,0,67,0.0,0,0.0,3,3,3,1.0,isolado,byebug#1,67,diversidade,209,False,0,0
+capybara,lib/capybara/rspec/matchers/match_selector.rb,a210c6e57872,testing,3,3,0,75,0.0,4,0.0,4,4,4,1.0,isolado,capybara#22,1,diversidade,42,False,0,0
 capybara,lib/capybara/selenium/extensions/html5_drag.rb,a210c6e57872,testing,9,12,0,100,0.0,1,0.0,4,2,4,1.0,isolado,capybara#35,6,grupo,,True,3,3
-capybara,lib/capybara/selenium/node.rb,a210c6e57872,testing,6.5,36,0,80,1.0,1,1.4,71,3,66,0.93,isolado,capybara#35,6,grupo,,True,4,5
-capybara,lib/capybara/selenium/nodes/chrome_node.rb,a210c6e57872,testing,7.1,17,0,79,2.0,2,14.3,14,1,13,0.929,isolado,capybara#35,6,grupo,470,True,2,3
+capybara,lib/capybara/selenium/node.rb,a210c6e57872,testing,6.5,36,0,80,1.0,1,1.4,71,3,66,0.93,isolado,capybara#35,6,grupo,,True,4,4
+capybara,lib/capybara/selenium/nodes/chrome_node.rb,a210c6e57872,testing,7.1,17,0,79,2.0,2,14.3,14,1,13,0.929,isolado,capybara#35,6,grupo,478,True,2,2
 capybara,lib/capybara/selenium/nodes/edge_node.rb,a210c6e57872,testing,8.2,17,0,91,1.0,2,18.2,11,1,11,1.0,isolado,capybara#35,6,grupo,,True,2,2
 capybara,lib/capybara/selenium/nodes/firefox_node.rb,a210c6e57872,testing,7.9,24,0,93,2.0,2,7.1,14,1,13,0.929,isolado,capybara#35,6,grupo,,True,2,2
 capybara,lib/capybara/selenium/nodes/safari_node.rb,a210c6e57872,testing,9.2,19,0,100,0.0,2,0.0,10,1,10,1.0,isolado,capybara#35,6,grupo,,True,1,1
-carrierwave,lib/carrierwave.rb,5effe4ecaae9,file upload,3,3,100,0,0.0,1,0.0,4,5,4,1.0,isolado,carrierwave#0,12,diversidade,131,False,0,0
-carrierwave,lib/carrierwave/mounter.rb,5effe4ecaae9,file upload,6.5,28,3,88,0.0,1,0.0,32,4,32,1.0,isolado,carrierwave#4,2,diversidade,140,False,0,0
-carrierwave,lib/carrierwave/uploader/configuration.rb,5effe4ecaae9,file upload,19,40,0,50,0.25,0,33.3,6,4,6,1.0,isolado,carrierwave#9,1,diversidade,48,False,0,0
-carrierwave,lib/carrierwave/uploader/store.rb,5effe4ecaae9,file upload,6.5,16,0,36,1.25,0,0.0,11,4,11,1.0,isolado,carrierwave#0,12,diversidade,220,False,0,0
-childprocess,lib/childprocess.rb,c756730c4ac4,processes,6.6,27,100,53,0.0,0,0.0,17,1,16,0.941,isolado,childprocess#0,3,diversidade,179,True,1,1
-childprocess,lib/childprocess/process_spawn_process.rb,c756730c4ac4,processes,15.9,58,0,57,0.0,1,0.0,7,2,6,0.857,isolado,childprocess#0,3,diversidade,107,True,1,1
-chronic,lib/chronic/date.rb,7d3d82d38c99,date and time processing,4.8,8,100,100,0.0,0,0.0,5,2,3,0.6,isolado,chronic#0,2,diversidade,210,False,0,0
-chronic,lib/chronic/handlers.rb,7d3d82d38c99,date and time processing,11.9,58,0,96,0.0,0,0.0,46,2,35,0.761,isolado,chronic#2,1,diversidade,50,False,0,0
-chronic,lib/chronic/repeater.rb,7d3d82d38c99,date and time processing,8.5,25,58,25,0.0,1,8.3,12,2,9,0.75,isolado,chronic#6,1,diversidade,85,False,0,0
-cocoapods,lib/cocoapods/command/install.rb,5493bfd201a3,package management,7.3,9,33,100,0.67,2,0.0,3,3,3,1.0,isolado,cocoapods#0,45,diversidade,32,False,0,0
-cocoapods,lib/cocoapods/command/repo/remove.rb,5493bfd201a3,package management,5.3,7,0,33,0.0,3,0.0,3,4,3,1.0,isolado,cocoapods#15,1,diversidade,225,False,0,0
-cocoapods,lib/cocoapods/executable.rb,5493bfd201a3,package management,13,33,70,80,0.0,1,20.0,10,3,10,1.0,isolado,cocoapods#0,45,diversidade,245,False,0,1
-cocoapods,lib/cocoapods/generator/embed_frameworks_script.rb,5493bfd201a3,package management,29.6,129,0,60,0.0,0,0.0,5,3,5,1.0,isolado,cocoapods#24,1,diversidade,194,False,0,0
-cocoapods,lib/cocoapods/installer/analyzer/specs_state.rb,5493bfd201a3,package management,9,19,0,40,0.0,0,40.0,5,4,5,1.0,isolado,cocoapods#34,1,diversidade,127,False,0,1
-cocoapods,lib/cocoapods/target/pod_target.rb,5493bfd201a3,package management,6.7,31,0,88,0.0,1,0.0,90,2,70,0.778,isolado,cocoapods#0,45,diversidade,157,False,0,0
-cocoapods,lib/cocoapods/version_metadata.rb,5493bfd201a3,package management,5.7,8,100,33,0.0,0,0.0,3,2,3,1.0,isolado,cocoapods#29,11,diversidade,118,False,0,0
-coderay,lib/coderay/encoders/count.rb,d30855fe96e3,code highlighting,3.5,5,0,0,0.0,1,0.0,4,3,4,1.0,isolado,coderay#0,13,diversidade,193,False,0,0
-coderay,lib/coderay/scanners/php.rb,d30855fe96e3,code highlighting,98.7,289,0,67,0.0,2,0.0,3,5,3,1.0,isolado,coderay#0,13,diversidade,104,False,0,0
+carrierwave,lib/carrierwave.rb,5effe4ecaae9,file upload,3,3,100,0,0.0,1,0.0,4,5,4,1.0,isolado,carrierwave#0,12,diversidade,180,False,0,0
+carrierwave,lib/carrierwave/mounter.rb,5effe4ecaae9,file upload,6.5,28,3,88,0.0,1,0.0,32,4,32,1.0,isolado,carrierwave#4,2,diversidade,149,False,0,0
+carrierwave,lib/carrierwave/uploader/configuration.rb,5effe4ecaae9,file upload,19,40,0,50,0.25,0,33.3,6,4,6,1.0,isolado,carrierwave#9,1,diversidade,82,False,0,0
+carrierwave,lib/carrierwave/uploader/store.rb,5effe4ecaae9,file upload,6.5,16,0,36,1.25,0,0.0,11,4,11,1.0,isolado,carrierwave#0,12,diversidade,226,False,0,0
+childprocess,lib/childprocess.rb,c756730c4ac4,processes,6.6,27,100,53,0.0,0,0.0,17,1,16,0.941,isolado,childprocess#0,3,diversidade,132,False,0,0
+childprocess,lib/childprocess/abstract_io.rb,c756730c4ac4,processes,3.8,4,0,0,0.0,0,0.0,5,2,3,0.6,isolado,childprocess#1,1,diversidade,182,False,0,0
+childprocess,lib/childprocess/windows/io.rb,c756730c4ac4,processes,4,6,0,100,0.0,1,0.0,3,3,3,1.0,isolado,childprocess#2,1,diversidade,74,False,0,0
+chronic,lib/chronic/date.rb,7d3d82d38c99,date and time processing,4.8,8,100,100,0.0,0,0.0,5,2,3,0.6,isolado,chronic#0,2,diversidade,201,False,0,0
+chronic,lib/chronic/mini_date.rb,7d3d82d38c99,date and time processing,7.2,15,25,75,0.0,0,0.0,4,2,4,1.0,isolado,chronic#3,4,grupo,,True,2,2
+chronic,lib/chronic/repeaters/repeater_season.rb,7d3d82d38c99,date and time processing,6.5,21,0,62,0.0,2,0.0,13,2,13,1.0,isolado,chronic#3,4,grupo,,True,3,3
+chronic,lib/chronic/repeaters/repeater_season_name.rb,7d3d82d38c99,date and time processing,8,21,0,100,0.0,3,0.0,4,2,4,1.0,isolado,chronic#3,4,grupo,,True,2,2
+chronic,lib/chronic/season.rb,7d3d82d38c99,date and time processing,3.8,5,75,25,0.0,0,0.0,4,2,3,0.75,isolado,chronic#3,4,grupo,362,True,1,1
+cocoapods,lib/cocoapods/command/install.rb,5493bfd201a3,package management,7.3,9,33,100,0.67,2,0.0,3,3,3,1.0,isolado,cocoapods#0,45,diversidade,30,False,0,0
+cocoapods,lib/cocoapods/command/repo/remove.rb,5493bfd201a3,package management,5.3,7,0,33,0.0,3,0.0,3,4,3,1.0,isolado,cocoapods#15,1,diversidade,230,False,0,0
+cocoapods,lib/cocoapods/executable.rb,5493bfd201a3,package management,13,33,70,80,0.0,1,20.0,10,3,10,1.0,isolado,cocoapods#0,45,diversidade,251,False,0,1
+cocoapods,lib/cocoapods/generator/embed_frameworks_script.rb,5493bfd201a3,package management,29.6,129,0,60,0.0,0,0.0,5,3,5,1.0,isolado,cocoapods#24,1,diversidade,189,False,0,0
+cocoapods,lib/cocoapods/installer/analyzer/specs_state.rb,5493bfd201a3,package management,9,19,0,40,0.0,0,40.0,5,4,5,1.0,isolado,cocoapods#34,1,diversidade,120,False,0,1
+cocoapods,lib/cocoapods/target/pod_target.rb,5493bfd201a3,package management,6.7,31,0,88,0.0,1,0.0,90,2,70,0.778,isolado,cocoapods#0,45,diversidade,144,False,0,0
+cocoapods,lib/cocoapods/version_metadata.rb,5493bfd201a3,package management,5.7,8,100,33,0.0,0,0.0,3,2,3,1.0,isolado,cocoapods#29,11,diversidade,179,False,0,0
+coderay,lib/coderay/helpers/plugin.rb,d30855fe96e3,code highlighting,5.8,7,0,100,0.0,0,25.0,4,2,4,1.0,isolado,coderay#11,1,diversidade,147,False,0,0
+coderay,lib/coderay/scanners/php.rb,d30855fe96e3,code highlighting,98.7,289,0,67,0.0,2,0.0,3,5,3,1.0,isolado,coderay#0,13,diversidade,31,False,0,0
+colorize,lib/colorize/class_methods.rb,a252d8af6b76,cli utilities,5.7,11,0,55,0.0,0,15.0,20,2,14,0.7,isolado,colorize#0,1,diversidade,51,False,0,0
 commander,lib/commander/command.rb,b4c6be4b149c,cli builder,5.1,11,0,73,0.33,0,20.0,15,3,14,0.933,isolado,commander#0,3,grupo,,True,1,2
-commander,lib/commander/runner.rb,b4c6be4b149c,cli builder,7.7,38,9,64,0.0,2,0.0,33,4,31,0.939,isolado,commander#0,3,grupo,,True,2,2
+commander,lib/commander/help_formatters/terminal.rb,b4c6be4b149c,cli builder,3,3,0,0,0.0,1,0.0,3,3,3,1.0,isolado,commander#3,1,diversidade,119,False,0,1
+commander,lib/commander/runner.rb,b4c6be4b149c,cli builder,7.7,38,9,64,0.0,2,0.0,33,4,31,0.939,isolado,commander#0,3,grupo,,True,2,3
 commander,lib/commander/user_interaction.rb,b4c6be4b149c,cli builder,7.4,32,0,83,0.0,0,6.7,30,4,28,0.933,isolado,commander#0,3,grupo,,True,1,2
-concurrent-ruby,lib/concurrent-ruby/concurrent/executor/java_thread_pool_executor.rb,0b88d5ff75f6,concurrency and parallelism,5.1,35,0,87,0.5,4,0.0,15,2,15,1.0,com a biblioteca carregada,concurrent-ruby#9,1,diversidade,70,False,0,0
-concurrent-ruby,lib/concurrent-ruby/concurrent/synchronization/abstract_struct.rb,0b88d5ff75f6,concurrency and parallelism,6.1,28,6,71,0.33,0,41.2,17,3,17,1.0,isolado,concurrent-ruby#10,1,diversidade,154,False,0,0
-connection_pool,lib/connection_pool/fork.rb,78bc41e2a9ff,database tools,8,14,67,67,0.0,0,0.0,3,2,3,1.0,isolado,connection_pool#1,1,diversidade,172,False,0,0
-countries,lib/countries/configuration.rb,8c026f5b49da,country data,4.5,9,38,25,0.0,0,0.0,8,2,8,1.0,isolado,countries#0,7,diversidade,153,True,3,3
-countries,lib/countries/country.rb,8c026f5b49da,country data,3.5,7,0,83,2.5,0,4.2,24,2,20,0.833,isolado,countries#0,7,diversidade,130,True,1,3
-countries,lib/countries/data.rb,8c026f5b49da,country data,5.2,11,92,67,1.0,0,0.0,24,2,24,1.0,isolado,countries#0,7,diversidade,211,True,1,3
-countries,lib/countries/data/locales_methods.rb,8c026f5b49da,country data,3,3,0,100,0.0,0,0.0,4,2,4,1.0,isolado,countries#0,7,diversidade,249,True,1,1
-countries,lib/countries/subdivision.rb,8c026f5b49da,country data,3.8,5,0,50,0.0,0,50.0,4,2,4,1.0,isolado,countries#6,1,diversidade,207,False,0,2
-dalli,lib/dalli.rb,fc1b590e462a,caching,4,6,100,25,0.0,3,0.0,4,11,4,1.0,isolado,dalli#0,15,diversidade,102,False,0,0
-dalli,lib/dalli/protocol/request_formatter.rb,fc1b590e462a,caching,11.6,21,0,76,0.25,1,0.0,17,4,16,0.941,isolado,dalli#5,1,diversidade,103,False,0,0
-dalli,lib/dalli/servers_arg_normalizer.rb,fc1b590e462a,caching,5.7,7,100,100,0.0,0,0.0,3,2,3,1.0,isolado,dalli#0,15,diversidade,223,False,0,0
-danger,lib/danger/ci_source/appcenter.rb,c94d38b3ce68,automation,3.6,5,71,86,0.0,1,0.0,7,2,7,1.0,isolado,danger#0,2,diversidade,254,False,0,1
-danger,lib/danger/danger_core/dangerfile.rb,c94d38b3ce68,automation,12.5,35,9,77,0.5,0,36.4,22,2,19,0.864,isolado,danger#38,4,grupo,301,True,2,3
+concurrent-ruby,lib/concurrent-ruby/concurrent/executor/java_thread_pool_executor.rb,0b88d5ff75f6,concurrency and parallelism,5.1,35,0,87,0.5,4,0.0,15,2,15,1.0,com a biblioteca carregada,concurrent-ruby#8,1,diversidade,80,False,0,0
+concurrent-ruby,lib/concurrent-ruby/concurrent/synchronization/abstract_struct.rb,0b88d5ff75f6,concurrency and parallelism,6.1,28,6,71,0.33,0,41.2,17,3,17,1.0,isolado,concurrent-ruby#9,1,diversidade,146,False,0,0
+connection_pool,lib/connection_pool/fork.rb,78bc41e2a9ff,database tools,8,14,67,67,0.0,0,0.0,3,2,3,1.0,isolado,connection_pool#1,1,diversidade,238,False,0,0
+connection_pool,lib/connection_pool/wrapper.rb,78bc41e2a9ff,database tools,3.2,5,0,89,0.0,1,11.1,9,2,9,1.0,isolado,connection_pool#3,1,diversidade,125,False,0,0
+countries,lib/countries/configuration.rb,8c026f5b49da,country data,4.5,9,38,25,0.0,0,0.0,8,2,8,1.0,isolado,countries#0,7,diversidade,141,True,3,3
+countries,lib/countries/country.rb,8c026f5b49da,country data,3.5,7,0,83,2.5,0,4.2,24,2,20,0.833,isolado,countries#0,7,diversidade,93,True,1,3
+countries,lib/countries/data.rb,8c026f5b49da,country data,5.2,11,92,67,1.0,0,0.0,24,2,24,1.0,isolado,countries#0,7,diversidade,218,True,1,3
+countries,lib/countries/data/locales_methods.rb,8c026f5b49da,country data,3,3,0,100,0.0,0,0.0,4,2,4,1.0,isolado,countries#0,7,diversidade,258,True,1,1
+countries,lib/countries/subdivision.rb,8c026f5b49da,country data,3.8,5,0,50,0.0,0,50.0,4,2,4,1.0,isolado,countries#6,1,diversidade,208,False,0,2
+dalli,lib/dalli.rb,fc1b590e462a,caching,4,6,100,25,0.0,3,0.0,4,11,4,1.0,isolado,dalli#0,15,diversidade,95,True,1,1
+dalli,lib/dalli/pipelined_getter.rb,fc1b590e462a,caching,12.1,25,0,93,0.0,0,0.0,15,2,15,1.0,isolado,dalli#0,15,diversidade,115,True,1,1
+dalli,lib/dalli/servers_arg_normalizer.rb,fc1b590e462a,caching,5.7,7,100,100,0.0,0,0.0,3,2,3,1.0,isolado,dalli#0,15,diversidade,227,False,0,0
+danger,lib/danger/ci_source/appcenter.rb,c94d38b3ce68,automation,3.6,5,71,86,0.0,1,0.0,7,2,7,1.0,isolado,danger#0,2,diversidade,261,False,0,1
+danger,lib/danger/ci_source/ci_source.rb,c94d38b3ce68,automation,3.1,4,57,29,0.0,0,0.0,7,2,6,0.857,isolado,danger#7,19,grupo,440,True,1,1
+danger,lib/danger/ci_source/local_only_git_repo.rb,c94d38b3ce68,automation,3.3,5,33,50,0.0,1,0.0,6,2,6,1.0,isolado,danger#7,19,grupo,,True,1,1
+danger,lib/danger/commands/local.rb,c94d38b3ce68,automation,12,20,20,60,0.0,2,0.0,5,2,5,1.0,isolado,danger#7,19,grupo,,True,1,2
+danger,lib/danger/commands/mr.rb,c94d38b3ce68,automation,14,21,20,60,0.0,2,0.0,5,2,5,1.0,isolado,danger#7,19,grupo,,True,1,2
+danger,lib/danger/commands/pr.rb,c94d38b3ce68,automation,14.4,21,20,60,0.0,2,0.0,5,2,5,1.0,isolado,danger#7,19,grupo,,True,1,2
+danger,lib/danger/commands/staging.rb,c94d38b3ce68,automation,9.8,15,25,50,0.0,2,0.0,4,2,4,1.0,isolado,danger#7,19,grupo,,True,1,2
+danger,lib/danger/danger_core/dangerfile.rb,c94d38b3ce68,automation,12.5,35,9,77,0.5,0,36.4,22,2,19,0.864,isolado,danger#38,4,grupo,309,True,2,9
+danger,lib/danger/danger_core/environment_manager.rb,c94d38b3ce68,automation,6.2,19,25,56,0.0,0,0.0,16,2,15,0.938,isolado,danger#7,19,grupo,,True,14,15
+danger,lib/danger/danger_core/executor.rb,c94d38b3ce68,automation,9.2,35,0,38,0.0,0,0.0,8,2,8,1.0,isolado,danger#7,19,grupo,,True,1,2
 danger,lib/danger/danger_core/message_aggregator.rb,c94d38b3ce68,automation,12.3,26,33,67,0.0,0,0.0,3,2,3,1.0,isolado,danger#38,4,grupo,,True,1,1
 danger,lib/danger/danger_core/plugins/dangerfile_danger_plugin.rb,c94d38b3ce68,automation,9.5,22,8,69,0.0,1,0.0,13,2,13,1.0,isolado,danger#38,4,grupo,,True,1,2
+danger,lib/danger/helpers/comment.rb,c94d38b3ce68,automation,4.4,8,40,80,0.0,0,0.0,5,2,5,1.0,isolado,danger#7,19,grupo,,True,2,2
+danger,lib/danger/helpers/comments_helper.rb,c94d38b3ce68,automation,8.9,21,0,64,0.33,0,0.0,14,3,14,1.0,isolado,danger#7,19,grupo,,True,7,7
+danger,lib/danger/helpers/comments_parsing_helper.rb,c94d38b3ce68,automation,8.2,16,0,50,0.0,0,0.0,6,3,6,1.0,isolado,danger#7,19,grupo,,True,5,5
 danger,lib/danger/plugin_support/plugin.rb,c94d38b3ce68,automation,3.6,7,57,43,0.0,0,28.6,7,2,7,1.0,isolado,danger#38,4,grupo,81,True,2,2
-danger,lib/danger/request_sources/github/github.rb,c94d38b3ce68,automation,14.6,68,5,82,0.33,1,0.0,38,3,35,0.921,isolado,danger#7,19,diversidade,141,False,0,2
-danger,lib/danger/request_sources/github/github_review_unsupported.rb,c94d38b3ce68,automation,1,1,0,0,0.0,0,0.0,7,4,3,0.429,isolado,danger#59,1,diversidade,185,False,0,1
-database_cleaner,lib/database_cleaner/cleaner.rb,23fb7a715317,database tools,5.7,12,13,53,0.67,1,20.0,15,3,15,1.0,isolado,database_cleaner#0,1,diversidade,23,False,0,0
-database_cleaner,lib/database_cleaner/null_strategy.rb,23fb7a715317,database tools,3.2,4,0,0,0.0,0,0.0,4,2,3,0.75,isolado,database_cleaner#3,1,diversidade,191,False,0,0
+danger,lib/danger/request_sources/bitbucket_cloud.rb,c94d38b3ce68,automation,10.4,42,14,64,0.33,1,0.0,14,3,13,0.929,isolado,danger#7,19,grupo,,True,2,2
+danger,lib/danger/request_sources/bitbucket_server.rb,c94d38b3ce68,automation,9.4,44,11,74,0.33,1,0.0,19,3,18,0.947,isolado,danger#7,19,grupo,,True,2,2
+danger,lib/danger/request_sources/github/github.rb,c94d38b3ce68,automation,14.6,68,5,82,0.33,1,0.0,38,3,35,0.921,isolado,danger#7,19,grupo,,True,4,7
+danger,lib/danger/request_sources/github/github_review.rb,c94d38b3ce68,automation,5.5,12,0,57,0.25,0,0.0,14,4,11,0.786,isolado,danger#7,19,grupo,,True,2,3
+danger,lib/danger/request_sources/github/github_review_unsupported.rb,c94d38b3ce68,automation,1,1,0,0,0.0,0,0.0,7,4,3,0.429,isolado,danger#59,1,diversidade,172,False,0,1
+danger,lib/danger/request_sources/gitlab.rb,c94d38b3ce68,automation,14.8,77,6,74,0.33,1,0.0,34,3,32,0.941,isolado,danger#7,19,grupo,110,True,4,4
+danger,lib/danger/request_sources/local_only.rb,c94d38b3ce68,automation,3.2,9,11,11,0.33,1,0.0,9,3,6,0.667,isolado,danger#7,19,grupo,,True,1,1
+danger,lib/danger/request_sources/request_source.rb,c94d38b3ce68,automation,3.5,9,32,21,0.0,0,0.0,19,3,12,0.632,isolado,danger#7,19,grupo,,True,1,1
+danger,lib/danger/request_sources/vsts.rb,c94d38b3ce68,automation,12.2,57,10,70,0.33,1,0.0,20,3,17,0.85,isolado,danger#7,19,grupo,,True,3,3
+database_cleaner,lib/database_cleaner/null_strategy.rb,23fb7a715317,database tools,3.2,4,0,0,0.0,0,0.0,4,2,3,0.75,isolado,database_cleaner#3,1,diversidade,177,False,0,0
 debug,lib/debug/breakpoint.rb,bad4d38f8330,developer tooling,8.9,43,2,62,0.25,1,7.7,52,8,46,0.885,isolado,debug#1,14,grupo,,True,2,7
 debug,lib/debug/client.rb,bad4d38f8330,developer tooling,19.1,62,42,58,0.0,1,33.3,12,3,12,1.0,isolado,debug#1,14,grupo,,True,1,2
-debug,lib/debug/config.rb,bad4d38f8330,developer tooling,18.1,177,52,59,0.0,0,11.1,27,2,26,0.963,isolado,debug#1,14,grupo,349,True,4,10
+debug,lib/debug/color.rb,bad4d38f8330,developer tooling,4.9,13,0,27,0.0,0,0.0,15,4,10,0.667,isolado,debug#2,1,diversidade,219,False,0,0
+debug,lib/debug/config.rb,bad4d38f8330,developer tooling,18.1,177,52,59,0.0,0,11.1,27,2,26,0.963,isolado,debug#1,14,grupo,40,True,4,10
 debug,lib/debug/console.rb,bad4d38f8330,developer tooling,11.8,65,0,50,0.5,0,0.0,16,2,13,0.812,isolado,debug#1,14,grupo,,True,1,3
 debug,lib/debug/dap_custom/traceInspector.rb,bad4d38f8330,developer tooling,14.8,53,0,90,0.0,1,10.0,20,7,19,0.95,isolado,debug#1,14,grupo,,True,2,4
 debug,lib/debug/frame_info.rb,bad4d38f8330,developer tooling,6.5,17,5,68,0.0,0,0.0,22,2,22,1.0,isolado,debug#1,14,grupo,,True,2,5
-debug,lib/debug/irb_integration.rb,bad4d38f8330,developer tooling,7.7,8,0,33,0.0,0,66.7,3,4,3,1.0,isolado,debug#1,14,grupo,226,True,2,3
-debug,lib/debug/local.rb,bad4d38f8330,developer tooling,7.2,17,0,31,0.0,1,0.0,13,2,13,1.0,isolado,debug#1,14,grupo,142,True,1,6
-debug,lib/debug/server.rb,bad4d38f8330,developer tooling,18.4,58,0,73,0.0,2,0.0,26,8,24,0.923,isolado,debug#1,14,grupo,445,True,5,7
-debug,lib/debug/server_cdp.rb,bad4d38f8330,developer tooling,27,202,9,83,0.27,1,26.1,46,11,42,0.913,isolado,debug#1,14,grupo,33,True,4,7
+debug,lib/debug/irb_integration.rb,bad4d38f8330,developer tooling,7.7,8,0,33,0.0,0,66.7,3,4,3,1.0,isolado,debug#1,14,grupo,240,True,2,3
+debug,lib/debug/local.rb,bad4d38f8330,developer tooling,7.2,17,0,31,0.0,1,0.0,13,2,13,1.0,isolado,debug#1,14,grupo,,True,1,6
+debug,lib/debug/server.rb,bad4d38f8330,developer tooling,18.4,58,0,73,0.0,2,0.0,26,8,24,0.923,isolado,debug#1,14,grupo,318,True,5,7
+debug,lib/debug/server_cdp.rb,bad4d38f8330,developer tooling,27,202,9,83,0.27,1,26.1,46,11,42,0.913,isolado,debug#1,14,grupo,358,True,4,7
 debug,lib/debug/server_dap.rb,bad4d38f8330,developer tooling,32.6,219,12,81,0.17,1,28.1,32,6,31,0.969,isolado,debug#1,14,grupo,,True,4,6
-debug,lib/debug/session.rb,bad4d38f8330,developer tooling,15.6,675,16,69,0.62,1,3.4,149,24,129,0.866,isolado,debug#1,14,grupo,279,True,10,11
+debug,lib/debug/session.rb,bad4d38f8330,developer tooling,15.6,675,16,69,0.62,1,3.4,149,24,129,0.866,isolado,debug#1,14,grupo,165,True,10,11
 debug,lib/debug/thread_client.rb,bad4d38f8330,developer tooling,14.7,377,1,76,0.62,1,5.7,87,8,82,0.943,isolado,debug#1,14,grupo,,True,8,11
 debug,lib/debug/tracer.rb,bad4d38f8330,developer tooling,9.6,55,0,67,0.33,1,4.8,21,6,20,0.952,isolado,debug#1,14,grupo,,True,4,8
 devise,lib/devise.rb,9ea459de9aec,authentication and oauth,7.7,44,89,42,0.43,0,5.3,19,7,19,1.0,isolado,devise#0,13,grupo,,True,10,10
@@ -160,222 +169,183 @@ devise,lib/devise/controllers/helpers.rb,9ea459de9aec,authentication and oauth,8
 devise,lib/devise/controllers/rememberable.rb,9ea459de9aec,authentication and oauth,4.9,8,14,86,0.0,0,0.0,7,3,7,1.0,isolado,devise#0,13,grupo,,True,1,1
 devise,lib/devise/controllers/sign_in_out.rb,9ea459de9aec,authentication and oauth,8,14,0,100,0.0,0,16.7,6,3,6,1.0,isolado,devise#0,13,grupo,,True,3,3
 devise,lib/devise/controllers/store_location.rb,9ea459de9aec,authentication and oauth,5.7,10,0,71,0.0,0,0.0,7,3,7,1.0,isolado,devise#0,13,grupo,,True,2,2
-devise,lib/devise/controllers/url_helpers.rb,9ea459de9aec,authentication and oauth,10,22,67,33,0.0,0,133.3,3,3,3,1.0,isolado,devise#0,13,grupo,,True,2,2
+devise,lib/devise/controllers/url_helpers.rb,9ea459de9aec,authentication and oauth,10,22,67,33,0.0,0,133.3,3,3,3,1.0,isolado,devise#0,13,grupo,253,True,2,2
 devise,lib/devise/mailers/helpers.rb,9ea459de9aec,authentication and oauth,6.4,18,0,71,0.67,0,14.3,7,3,7,1.0,isolado,devise#0,13,grupo,,True,2,2
-devise,lib/devise/mapping.rb,9ea459de9aec,authentication and oauth,6.3,21,17,72,0.0,0,11.1,18,2,17,0.944,isolado,devise#0,13,grupo,,True,7,9
-devise,lib/devise/models.rb,9ea459de9aec,authentication and oauth,13.5,34,33,67,1.33,1,100.0,6,3,6,1.0,isolado,devise#1,1,diversidade,58,False,0,0
+devise,lib/devise/mapping.rb,9ea459de9aec,authentication and oauth,6.3,21,17,72,0.0,0,11.1,18,2,17,0.944,isolado,devise#0,13,grupo,,True,7,8
+devise,lib/devise/models.rb,9ea459de9aec,authentication and oauth,13.5,34,33,67,1.33,1,100.0,6,3,6,1.0,isolado,devise#1,1,diversidade,35,False,0,0
 devise,lib/devise/models/authenticatable.rb,9ea459de9aec,authentication and oauth,4.7,16,5,41,0.25,0,13.6,22,4,19,0.864,isolado,devise#0,13,grupo,,True,1,1
 devise,lib/devise/models/confirmable.rb,9ea459de9aec,authentication and oauth,6.4,26,3,50,0.25,0,0.0,30,4,26,0.867,isolado,devise#0,13,grupo,,True,1,1
 devise,lib/devise/models/rememberable.rb,9ea459de9aec,authentication and oauth,5.9,18,8,46,0.25,0,0.0,13,4,13,1.0,isolado,devise#0,13,grupo,,True,1,1
 devise,lib/devise/rails/routes.rb,9ea459de9aec,authentication and oauth,12.9,46,0,65,0.2,0,11.8,17,5,15,0.882,isolado,devise#0,13,grupo,,True,1,2
-devise,lib/devise/strategies/authenticatable.rb,9ea459de9aec,authentication and oauth,4.3,12,0,83,0.0,2,4.3,23,3,23,1.0,isolado,devise#12,1,diversidade,76,False,0,1
 devise,lib/devise/token_generator.rb,9ea459de9aec,authentication and oauth,4.8,9,0,75,0.0,0,0.0,4,2,4,1.0,isolado,devise#0,13,grupo,,True,1,1
-diffy,lib/diffy/diff.rb,72dc29ff5a5b,diff,13.4,35,20,80,0.5,0,10.0,10,2,10,1.0,isolado,diffy#0,2,diversidade,79,False,0,0
+diffy,lib/diffy/diff.rb,72dc29ff5a5b,diff,13.4,35,20,80,0.5,0,10.0,10,2,10,1.0,isolado,diffy#0,2,diversidade,91,False,0,0
 doorkeeper,lib/doorkeeper/oauth/client.rb,75a84fefe686,authentication and oauth,4.7,6,67,67,0.0,0,0.0,3,3,3,1.0,com a biblioteca carregada,doorkeeper#12,3,grupo,,True,1,1
+doorkeeper,lib/doorkeeper/orm/active_record/mixins/access_grant.rb,75a84fefe686,authentication and oauth,5.3,7,0,100,1.0,0,0.0,3,3,3,1.0,com a biblioteca carregada,doorkeeper#22,1,diversidade,140,False,0,0
 doorkeeper,lib/doorkeeper/request.rb,75a84fefe686,authentication and oauth,9.3,20,100,50,0.0,0,0.0,6,2,6,1.0,isolado,doorkeeper#12,3,grupo,,True,1,1
-doorkeeper,lib/doorkeeper/secret_storing/plain.rb,75a84fefe686,authentication and oauth,3,3,100,33,0.0,1,33.3,3,3,3,1.0,com a biblioteca carregada,doorkeeper#34,1,diversidade,145,False,0,0
 doorkeeper,lib/doorkeeper/server.rb,75a84fefe686,authentication and oauth,3.4,4,0,75,0.0,0,25.0,8,2,7,0.875,isolado,doorkeeper#12,3,grupo,,True,2,2
-dotenv,lib/dotenv.rb,34156bf400cd,configuration,8.4,19,0,64,1.0,0,0.0,11,1,9,0.818,isolado,dotenv#0,1,diversidade,146,False,0,1
-dotenv,lib/dotenv/environment.rb,34156bf400cd,configuration,4,6,0,0,0.0,1,0.0,3,2,3,1.0,isolado,dotenv#2,2,diversidade,229,False,0,1
-dry-types,lib/dry/types.rb,1a13fb04926f,type signatures and type checking,7.3,28,100,50,2.0,0,8.3,12,2,10,0.833,isolado,dry-types#0,21,diversidade,95,False,0,0
-dry-types,lib/dry/types/constructor/function.rb,1a13fb04926f,type signatures and type checking,5.8,21,26,79,0.2,3,26.3,19,10,17,0.895,isolado,dry-types#0,21,diversidade,54,True,1,1
-dry-types,lib/dry/types/fn_container.rb,1a13fb04926f,type signatures and type checking,4.8,7,100,75,0.0,0,0.0,4,3,4,1.0,isolado,dry-types#0,21,diversidade,235,True,1,1
-dry-types,lib/dry/types/result.rb,1a13fb04926f,type signatures and type checking,1.7,4,0,14,0.4,1,0.0,7,5,4,0.571,isolado,dry-types#15,1,diversidade,129,False,0,0
-dry-types,lib/dry/types/schema/key.rb,1a13fb04926f,type signatures and type checking,4.2,13,0,92,1.5,2,0.0,12,4,12,1.0,isolado,dry-types#4,2,diversidade,237,False,0,0
-eventmachine,examples/old/ex_channel.rb,9cb13a8a6236,concurrency and parallelism,3,3,50,25,0.0,1,0.0,4,1,4,1.0,isolado,eventmachine#0,17,grupo,,True,2,2
-eventmachine,lib/em/connection.rb,9cb13a8a6236,concurrency and parallelism,4.3,44,2,15,0.0,1,2.2,46,3,40,0.87,isolado,eventmachine#0,17,grupo,452,True,11,13
-eventmachine,lib/em/deferrable.rb,9cb13a8a6236,concurrency and parallelism,8,23,0,78,0.33,0,0.0,9,3,6,0.667,isolado,eventmachine#0,17,grupo,,True,8,9
-eventmachine,lib/em/iterator.rb,9cb13a8a6236,concurrency and parallelism,16.2,51,0,78,0.0,0,0.0,9,2,8,0.889,isolado,eventmachine#7,1,diversidade,236,False,0,0
-eventmachine,lib/em/processes.rb,9cb13a8a6236,concurrency and parallelism,4.2,11,25,62,0.33,1,0.0,8,3,7,0.875,isolado,eventmachine#0,17,grupo,484,True,3,3
-eventmachine,lib/em/protocols/httpclient.rb,9cb13a8a6236,concurrency and parallelism,22.8,88,11,56,0.33,1,11.1,9,3,9,1.0,isolado,eventmachine#0,17,grupo,422,True,3,3
-eventmachine,lib/em/protocols/httpclient2.rb,9cb13a8a6236,concurrency and parallelism,9.5,48,5,73,0.5,1,0.0,22,4,21,0.955,isolado,eventmachine#0,17,grupo,,True,1,3
-eventmachine,lib/em/protocols/line_and_text.rb,9cb13a8a6236,concurrency and parallelism,13.8,34,0,60,0.0,1,0.0,5,3,5,1.0,isolado,eventmachine#0,17,grupo,,True,2,2
-eventmachine,lib/em/protocols/memcache.rb,9cb13a8a6236,concurrency and parallelism,9,39,7,50,0.4,1,0.0,14,5,14,1.0,isolado,eventmachine#0,17,grupo,,True,1,1
-eventmachine,lib/em/protocols/smtpclient.rb,9cb13a8a6236,concurrency and parallelism,9.0,38,4,84,0.67,1,4.0,25,3,24,0.96,isolado,eventmachine#0,17,grupo,,True,3,3
-eventmachine,lib/em/protocols/smtpserver.rb,9cb13a8a6236,concurrency and parallelism,8.5,37,3,38,0.33,1,0.0,37,3,24,0.649,isolado,eventmachine#0,17,grupo,,True,1,1
-eventmachine,lib/em/protocols/socks4.rb,9cb13a8a6236,concurrency and parallelism,6,17,29,14,0.0,1,0.0,7,3,7,1.0,isolado,eventmachine#0,17,grupo,,True,1,1
-eventmachine,lib/em/protocols/tcptest.rb,9cb13a8a6236,concurrency and parallelism,3.5,5,25,0,0.33,1,0.0,4,3,4,1.0,isolado,eventmachine#0,17,grupo,113,True,3,3
-eventmachine,lib/em/pure_ruby.rb,9cb13a8a6236,concurrency and parallelism,6.5,53,42,52,0.05,2,2.6,114,37,80,0.702,isolado,eventmachine#0,17,grupo,,True,2,3
-eventmachine,lib/em/resolver.rb,9cb13a8a6236,concurrency and parallelism,6.9,19,31,50,0.17,1,3.8,26,6,23,0.885,isolado,eventmachine#0,17,grupo,,True,3,5
-eventmachine,lib/em/streamer.rb,9cb13a8a6236,concurrency and parallelism,11.8,24,0,60,0.5,0,0.0,5,2,5,1.0,isolado,eventmachine#0,17,grupo,,True,2,3
-eventmachine,lib/em/timers.rb,9cb13a8a6236,concurrency and parallelism,4.2,7,0,17,0.0,0,16.7,6,3,6,1.0,isolado,eventmachine#0,17,grupo,,True,1,2
-eventmachine,lib/eventmachine.rb,9cb13a8a6236,concurrency and parallelism,12.9,96,100,64,1.0,0,17.0,47,1,46,0.979,isolado,eventmachine#0,17,grupo,336,True,9,9
-excon,lib/excon/error.rb,ac022b6417d7,http clients and tools,15.4,45,43,43,0.0,4,14.3,7,63,6,0.857,isolado,excon#1,1,diversidade,214,False,0,1
-excon,lib/excon/ssl_socket.rb,ac022b6417d7,http clients and tools,32.7,161,0,83,0.0,1,0.0,6,2,5,0.833,isolado,excon#0,7,diversidade,259,False,0,1
-eye,lib/eye/checker/cpu.rb,300aa8793112,process management and monitoring,3,3,0,0,0.0,2,0.0,3,1,3,1.0,isolado,eye#1,36,diversidade,200,False,0,0
-eye,lib/eye/dsl.rb,300aa8793112,process management and monitoring,6.2,16,100,50,0.0,1,0.0,4,2,4,1.0,isolado,eye#1,36,diversidade,152,True,1,1
-eye,lib/eye/dsl/pure_opts.rb,300aa8793112,process management and monitoring,11.9,39,22,33,0.0,0,122.2,9,1,7,0.778,isolado,eye#1,36,diversidade,10,True,1,2
-eye,lib/eye/process/commands.rb,300aa8793112,process management and monitoring,26.1,47,0,82,0.0,0,0.0,11,1,11,1.0,com a biblioteca carregada,eye#1,36,diversidade,150,False,0,1
-eye,lib/eye/utils/alive_array.rb,300aa8793112,process management and monitoring,4.3,10,0,50,2.0,0,0.0,10,1,9,0.9,com a biblioteca carregada,eye#17,1,diversidade,65,False,0,2
-faker,lib/helpers/char.rb,e48d35f4fa0d,testing,17.7,37,100,100,0.0,0,0.0,3,2,3,1.0,isolado,faker#0,29,diversidade,252,False,0,0
+doorkeeper,lib/doorkeeper/stale_records_cleaner.rb,75a84fefe686,authentication and oauth,4.7,8,100,33,0.0,0,0.0,3,2,3,1.0,isolado,doorkeeper#35,1,diversidade,114,False,0,0
+dotenv,lib/dotenv.rb,34156bf400cd,configuration,8.4,19,0,64,1.0,0,0.0,11,1,9,0.818,isolado,dotenv#0,1,diversidade,90,False,0,1
+dotenv,lib/dotenv/environment.rb,34156bf400cd,configuration,4,6,0,0,0.0,1,0.0,3,2,3,1.0,isolado,dotenv#2,2,diversidade,237,False,0,1
+dry-types,lib/dry/types.rb,1a13fb04926f,type signatures and type checking,7.3,28,100,50,2.0,0,8.3,12,2,10,0.833,isolado,dry-types#0,21,diversidade,66,False,0,0
+dry-types,lib/dry/types/constrained.rb,1a13fb04926f,type signatures and type checking,4.2,10,0,83,1.67,0,0.0,12,3,12,1.0,isolado,dry-types#2,1,diversidade,277,False,0,0
+dry-types,lib/dry/types/constrained/coercible.rb,1a13fb04926f,type signatures and type checking,11.7,16,0,100,0.0,1,0.0,3,4,3,1.0,isolado,dry-types#3,1,diversidade,244,False,0,0
+dry-types,lib/dry/types/constructor/function.rb,1a13fb04926f,type signatures and type checking,5.8,21,26,79,0.2,3,26.3,19,10,17,0.895,isolado,dry-types#0,21,diversidade,88,True,1,1
+dry-types,lib/dry/types/fn_container.rb,1a13fb04926f,type signatures and type checking,4.8,7,100,75,0.0,0,0.0,4,3,4,1.0,isolado,dry-types#0,21,diversidade,241,True,1,1
+dry-types,lib/dry/types/result.rb,1a13fb04926f,type signatures and type checking,1.7,4,0,14,0.4,1,0.0,7,5,4,0.571,isolado,dry-types#15,1,diversidade,130,False,0,0
+eventmachine,lib/em/iterator.rb,9cb13a8a6236,concurrency and parallelism,16.2,51,0,78,0.0,0,0.0,9,2,8,0.889,isolado,eventmachine#5,1,diversidade,243,False,0,1
+eventmachine,lib/em/protocols/header_and_content.rb,9cb13a8a6236,concurrency and parallelism,10.3,35,14,29,0.33,1,0.0,7,3,7,1.0,isolado,eventmachine#8,3,grupo,,True,1,2
+eventmachine,lib/em/protocols/linetext2.rb,9cb13a8a6236,concurrency and parallelism,11.6,63,0,56,0.0,0,0.0,9,3,8,0.889,isolado,eventmachine#8,3,grupo,,True,2,2
+eventmachine,lib/em/protocols/stomp.rb,9cb13a8a6236,concurrency and parallelism,7.8,29,0,45,0.25,0,0.0,11,4,10,0.909,isolado,eventmachine#8,3,grupo,,True,1,1
+eventmachine,lib/em/protocols/tcptest.rb,9cb13a8a6236,concurrency and parallelism,3.5,5,25,0,0.33,1,0.0,4,3,4,1.0,isolado,eventmachine#3,16,diversidade,105,False,0,0
+excon,lib/excon/error.rb,ac022b6417d7,http clients and tools,15.4,45,43,43,0.0,4,14.3,7,63,6,0.857,isolado,excon#1,1,diversidade,215,False,0,1
+excon,lib/excon/ssl_socket.rb,ac022b6417d7,http clients and tools,32.7,161,0,83,0.0,1,0.0,6,2,5,0.833,isolado,excon#0,7,diversidade,205,False,0,1
+eye,lib/eye/checker/cpu.rb,300aa8793112,process management and monitoring,3,3,0,0,0.0,2,0.0,3,1,3,1.0,isolado,eye#1,36,diversidade,163,False,0,0
+eye,lib/eye/checker/socket.rb,300aa8793112,process management and monitoring,17,31,0,100,0.0,2,0.0,7,1,7,1.0,isolado,eye#4,1,diversidade,48,False,0,0
+eye,lib/eye/child_process.rb,300aa8793112,process management and monitoring,3.8,17,0,21,8.0,0,0.0,14,1,11,0.786,com a biblioteca carregada,eye#1,36,diversidade,73,False,0,0
+eye,lib/eye/dsl/application_opts.rb,300aa8793112,process management and monitoring,7,17,0,50,1.0,2,25.0,4,1,3,0.75,isolado,eye#1,36,diversidade,265,False,0,0
+eye,lib/eye/dsl/pure_opts.rb,300aa8793112,process management and monitoring,11.9,39,22,33,0.0,0,122.2,9,1,7,0.778,isolado,eye#1,36,diversidade,10,False,0,0
+eye,lib/eye/system.rb,300aa8793112,process management and monitoring,13.2,26,100,50,0.0,0,0.0,8,1,7,0.875,isolado,eye#1,36,diversidade,136,False,0,0
+faker,lib/faker/default/cosmere.rb,e48d35f4fa0d,testing,3,3,100,0,0.0,1,0.0,10,2,10,1.0,isolado,faker#7,1,diversidade,102,False,0,0
+faker,lib/faker/default/omniauth.rb,e48d35f4fa0d,testing,26.5,72,93,57,0.0,1,0.0,14,2,13,0.929,isolado,faker#0,29,diversidade,268,False,0,0
 faraday,lib/faraday.rb,f1ace878bae1,http clients and tools,4,7,100,29,0.0,0,14.3,7,1,7,1.0,isolado,faraday#0,1,diversidade,14,False,0,0
-fastimage,lib/fastimage/fastimage.rb,7a0dcf780e6d,image processing,10.8,54,12,56,0.14,2,4.0,25,7,22,0.88,isolado,fastimage#0,1,diversidade,110,False,0,0
-fastlane,deliver/lib/deliver/setup.rb,38d0ec404332,mobile development,26.1,89,0,57,0.0,0,142.9,7,2,7,1.0,isolado,fastlane#0,349,diversidade,88,False,0,0
-fastlane,fastlane/lib/fastlane/actions/setup_jenkins.rb,38d0ec404332,mobile development,20.1,64,100,12,0.0,1,0.0,8,3,6,0.75,isolado,fastlane#0,349,diversidade,122,False,0,0
-fastlane,frameit/lib/frameit/device_types.rb,38d0ec404332,mobile development,4,7,100,25,0.0,0,75.0,4,5,4,1.0,isolado,fastlane#64,2,diversidade,84,False,0,0
-fastlane,precheck/lib/precheck/rules/custom_text_rule.rb,38d0ec404332,mobile development,3,3,57,14,0.0,4,0.0,7,2,3,0.429,isolado,fastlane#77,1,diversidade,255,False,0,0
+faraday,lib/faraday/options/ssl_options.rb,f1ace878bae1,http clients and tools,3,3,0,100,0.0,0,0.0,3,1,3,1.0,isolado,faraday#11,1,diversidade,250,False,0,0
+fastimage,lib/fastimage/fastimage.rb,7a0dcf780e6d,image processing,10.8,54,12,56,0.14,2,4.0,25,7,22,0.88,isolado,fastimage#0,1,diversidade,100,False,0,0
+fastlane,fastlane/lib/fastlane/actions/hockey.rb,38d0ec404332,mobile development,26.4,145,100,43,0.0,1,0.0,14,4,12,0.857,isolado,fastlane#0,349,diversidade,197,False,0,0
+fastlane,fastlane_core/lib/fastlane_core/ipa_upload_package_builder.rb,38d0ec404332,mobile development,18,44,0,0,0.0,0,0.0,3,2,3,1.0,isolado,fastlane#0,349,diversidade,210,False,0,0
+fastlane,frameit/lib/frameit/device_types.rb,38d0ec404332,mobile development,4,7,100,25,0.0,0,75.0,4,5,4,1.0,isolado,fastlane#61,2,diversidade,83,False,0,1
+fastlane,match/lib/match/migrate.rb,38d0ec404332,mobile development,33.7,88,0,100,0.0,0,0.0,3,2,3,1.0,isolado,fastlane#0,349,diversidade,200,False,0,0
+fastlane,precheck/lib/precheck/rules/other_platforms_rule.rb,38d0ec404332,mobile development,5.3,14,67,0,0.0,4,0.0,6,2,3,0.5,isolado,fastlane#74,1,diversidade,123,False,0,0
 fastlane,produce/lib/produce/service.rb,38d0ec404332,mobile development,39.6,328,30,50,1.5,0,0.0,10,2,9,0.9,isolado,fastlane#0,349,diversidade,11,False,0,0
-fastlane,spaceship/lib/spaceship/base.rb,38d0ec404332,mobile development,7.3,29,35,65,0.67,0,21.7,23,3,23,1.0,isolado,fastlane#83,1,diversidade,201,False,0,1
-fastlane,spaceship/lib/spaceship/connect_api/file_uploader.rb,38d0ec404332,mobile development,27.7,35,100,100,0.0,0,33.3,3,3,3,1.0,isolado,fastlane#0,349,diversidade,90,False,0,0
-fastlane,spaceship/lib/spaceship/connect_api/models/app_store_version_phased_release.rb,38d0ec404332,mobile development,3.3,5,17,0,0.25,0,0.0,6,4,4,0.667,isolado,fastlane#85,1,diversidade,164,False,0,0
-fastlane,spaceship/lib/spaceship/portal/cloud_container.rb,38d0ec404332,mobile development,4,5,100,100,0.0,2,0.0,3,3,3,1.0,isolado,fastlane#105,1,diversidade,18,False,0,0
-fastlane,spaceship/lib/spaceship/tunes/app_version_history.rb,38d0ec404332,mobile development,4.2,5,0,75,0.0,2,0.0,4,3,4,1.0,isolado,fastlane#116,1,diversidade,258,False,0,1
-fastlane,spaceship/lib/spaceship/tunes/build_train.rb,38d0ec404332,mobile development,30.2,60,25,100,0.0,2,0.0,4,3,4,1.0,isolado,fastlane#119,1,diversidade,204,False,0,1
-fastlane,spaceship/lib/spaceship/tunes/tunes_client.rb,38d0ec404332,mobile development,14.8,87,2,73,0.0,1,0.0,93,2,79,0.849,isolado,fastlane#0,349,diversidade,69,False,0,3
-geocoder,lib/geocoder.rb,d3515db46c57,geolocation,4.7,5,100,100,0.0,0,0.0,3,1,3,1.0,isolado,geocoder#2,45,diversidade,171,False,0,0
-geocoder,lib/geocoder/cache_stores/base.rb,d3515db46c57,geolocation,3,7,0,43,0.0,0,0.0,7,2,5,0.714,isolado,geocoder#3,1,diversidade,78,False,0,0
-geocoder,lib/geocoder/models/mongo_base.rb,d3515db46c57,geolocation,9.8,13,0,100,0.33,0,50.0,4,3,3,0.75,isolado,geocoder#34,1,diversidade,75,False,0,0
-gitlab,lib/gitlab.rb,4818c5712616,third-party apis,4.3,7,100,67,1.0,0,33.3,6,1,6,1.0,isolado,gitlab#0,3,grupo,228,True,1,1
-gitlab,lib/gitlab/cli.rb,4818c5712616,third-party apis,19.7,43,100,67,1.0,0,0.0,3,1,3,1.0,isolado,gitlab#1,2,diversidade,40,False,0,0
-gitlab,lib/gitlab/cli_helpers.rb,4818c5712616,third-party apis,9.4,32,0,67,0.0,0,11.1,18,2,17,0.944,isolado,gitlab#0,3,grupo,,True,2,3
-gitlab,lib/gitlab/client.rb,4818c5712616,third-party apis,4.2,5,0,75,32.5,2,0.0,4,2,4,1.0,isolado,gitlab#2,1,diversidade,12,False,0,1
-gitlab,lib/gitlab/file_response.rb,4818c5712616,third-party apis,3.7,7,0,57,0.0,0,14.3,7,2,6,0.857,isolado,gitlab#37,1,diversidade,52,False,0,2
+fastlane,spaceship/lib/spaceship/connect_api/file_uploader.rb,38d0ec404332,mobile development,27.7,35,100,100,0.0,0,33.3,3,3,3,1.0,isolado,fastlane#0,349,diversidade,84,False,0,0
+fastlane,spaceship/lib/spaceship/connect_api/models/beta_group.rb,38d0ec404332,mobile development,4.1,8,14,71,0.33,0,0.0,7,3,7,1.0,isolado,fastlane#0,349,diversidade,223,False,0,0
+fastlane,spaceship/lib/spaceship/portal/app_service.rb,38d0ec404332,mobile development,9,12,33,100,0.0,0,33.3,3,3,3,1.0,isolado,fastlane#99,1,diversidade,270,False,0,5
+fastlane,spaceship/lib/spaceship/portal/cloud_container.rb,38d0ec404332,mobile development,4,5,100,100,0.0,2,0.0,3,3,3,1.0,isolado,fastlane#100,1,diversidade,18,False,0,0
+fastlane,spaceship/lib/spaceship/tunes/app_image.rb,38d0ec404332,mobile development,6.3,10,0,33,0.0,2,33.3,3,3,3,1.0,isolado,fastlane#110,1,diversidade,127,False,0,1
+fastlane,spaceship/lib/spaceship/tunes/tunes_client.rb,38d0ec404332,mobile development,14.8,87,2,73,0.0,1,0.0,93,2,79,0.849,isolado,fastlane#0,349,diversidade,65,False,0,1
+fastlane,trainer/lib/trainer/xcresult/test_case.rb,38d0ec404332,mobile development,13.4,47,17,92,0.33,0,0.0,12,3,11,0.917,isolado,fastlane#125,4,grupo,,True,2,3
+fastlane,trainer/lib/trainer/xcresult/test_case_attributes.rb,38d0ec404332,mobile development,4.1,6,12,100,0.0,0,0.0,8,4,4,0.5,isolado,fastlane#125,4,grupo,,True,1,2
+fastlane,trainer/lib/trainer/xcresult/test_plan.rb,38d0ec404332,mobile development,18,41,25,75,0.33,0,0.0,4,3,4,1.0,isolado,fastlane#125,4,grupo,,True,1,4
+fastlane,trainer/lib/trainer/xcresult/test_suite.rb,38d0ec404332,mobile development,7.3,25,7,87,0.0,0,0.0,15,3,13,0.867,isolado,fastlane#125,4,grupo,,True,2,3
+formatador,lib/formatador/table.rb,1000476d1648,cli utilities,23.5,69,0,100,0.0,0,0.0,4,1,4,1.0,isolado,formatador#0,3,diversidade,234,False,0,0
+geocoder,lib/geocoder.rb,d3515db46c57,geolocation,4.7,5,100,100,0.0,0,0.0,3,1,3,1.0,isolado,geocoder#1,45,diversidade,162,False,0,0
+geocoder,lib/geocoder/results/ipbase.rb,d3515db46c57,geolocation,3.4,6,0,100,0.0,1,0.0,8,2,4,0.5,isolado,geocoder#49,1,diversidade,212,False,0,0
+geocoder,lib/geocoder/results/ipqualityscore.rb,d3515db46c57,geolocation,11,27,33,0,0.0,1,0.0,3,3,3,1.0,isolado,geocoder#52,1,diversidade,124,False,0,0
+geocoder,lib/geocoder/stores/active_record.rb,d3515db46c57,geolocation,13.1,62,6,82,0.33,0,41.2,17,3,17,1.0,isolado,geocoder#1,45,diversidade,53,False,0,0
+gitlab,lib/gitlab.rb,4818c5712616,third-party apis,4.3,7,100,67,1.0,0,33.3,6,1,6,1.0,isolado,gitlab#0,3,grupo,233,True,1,1
+gitlab,lib/gitlab/cli.rb,4818c5712616,third-party apis,19.7,43,100,67,1.0,0,0.0,3,1,3,1.0,isolado,gitlab#1,2,diversidade,38,False,0,0
+gitlab,lib/gitlab/cli_helpers.rb,4818c5712616,third-party apis,9.4,32,0,67,0.0,0,11.1,18,2,17,0.944,isolado,gitlab#0,3,grupo,,True,2,2
+gitlab,lib/gitlab/client.rb,4818c5712616,third-party apis,4.2,5,0,75,32.5,2,0.0,4,2,4,1.0,isolado,gitlab#2,1,diversidade,12,False,0,0
 gitlab,lib/gitlab/help.rb,4818c5712616,third-party apis,10.3,18,100,83,1.0,0,0.0,6,1,6,1.0,isolado,gitlab#0,3,grupo,,True,1,1
-gli,lib/gli/commands/scaffold.rb,4029b76c888a,cli builder,34.1,109,100,89,0.0,0,0.0,9,3,9,1.0,isolado,gli#10,1,diversidade,177,False,0,0
-gli,lib/gli/gli_option_parser.rb,4029b76c888a,cli builder,17.9,57,0,73,0.0,2,9.1,11,5,11,1.0,isolado,gli#13,2,diversidade,36,False,0,1
-gli,lib/gli/terminal.rb,4029b76c888a,cli builder,3.1,10,70,10,0.0,0,0.0,10,2,7,0.7,isolado,gli#6,3,diversidade,112,False,0,1
-guard,lib/guard.rb,170d63c6ca57,file system listener,11,28,100,89,1.0,0,11.1,9,1,9,1.0,isolado,guard#0,22,diversidade,8,False,0,0
-guard,lib/guard/deprecated/guard.rb,170d63c6ca57,file system listener,6.3,50,4,19,0.25,0,11.1,27,4,26,0.963,isolado,guard#0,22,diversidade,57,False,0,0
-guard,lib/guard/internals/debugging.rb,170d63c6ca57,file system listener,5.2,11,100,17,0.0,0,0.0,6,3,6,1.0,isolado,guard#0,22,diversidade,173,False,0,0
-haml,lib/haml/parser.rb,7f51ae709d96,template engine,13.7,80,2,83,0.33,0,5.6,54,3,53,0.981,isolado,haml#0,9,diversidade,67,False,0,0
-hashie,lib/hashie/hash.rb,ce2226269688,core extensions,8,22,0,80,1.0,1,0.0,5,2,5,1.0,isolado,hashie#19,1,diversidade,230,False,0,0
-http,lib/http/feature.rb,942b1b36cea9,http clients and tools,2.2,3,0,0,0.0,0,0.0,5,2,3,0.6,isolado,http#3,1,diversidade,186,False,0,0
-httparty,examples/party_foul_mode.rb,9c89e55ce357,http clients and tools,16.7,34,100,67,1.0,0,0.0,3,1,3,1.0,isolado,httparty#1,1,diversidade,189,False,0,0
-httparty,lib/httparty/module_inheritable_attributes.rb,9c89e55ce357,http clients and tools,11,16,50,100,0.0,0,100.0,4,3,4,1.0,isolado,httparty#0,8,diversidade,268,False,0,0
-httpclient,lib/httpclient/http.rb,5bc7b0d383c4,http clients and tools,7.6,37,22,67,0.17,0,0.0,87,6,81,0.931,isolado,httpclient#0,11,diversidade,206,False,0,0
-i18n,lib/i18n/gettext/helpers.rb,8beba7876163,internationalization,5.4,11,0,29,0.0,0,0.0,7,3,7,1.0,isolado,i18n#10,1,diversidade,203,False,0,0
-i18n,lib/i18n/locale/tag/rfc4646.rb,8beba7876163,internationalization,3.6,6,57,71,0.2,1,14.3,7,5,7,1.0,isolado,i18n#13,1,diversidade,35,False,0,0
-image_processing,lib/image_processing/processor.rb,1611c00ed4eb,image processing,8.6,24,57,43,0.0,0,57.1,7,2,7,1.0,isolado,image_processing#3,1,diversidade,209,False,0,0
-jaro_winkler,lib/jaro_winkler/jaro_winkler_pure.rb,9d7b6c110fa8,scientific,17.1,84,100,71,0.0,2,0.0,7,3,7,1.0,isolado,jaro_winkler#0,1,diversidade,149,False,0,0
-jwt,lib/jwt/configuration/container.rb,db560b769a07,authentication and oauth,4.7,6,0,0,0.0,0,0.0,3,3,3,1.0,isolado,jwt#2,1,diversidade,212,False,0,0
-jwt,lib/jwt/jwa.rb,db560b769a07,authentication and oauth,9,13,100,100,0.0,0,0.0,5,2,5,1.0,isolado,jwt#0,16,diversidade,155,False,0,0
-kramdown,lib/kramdown/element.rb,12b3d2e75279,markdown processors,3.7,7,14,57,0.0,0,0.0,7,2,5,0.714,isolado,kramdown#6,1,diversidade,156,False,0,1
-kramdown,lib/kramdown/parser/kramdown/html.rb,12b3d2e75279,markdown processors,42,59,0,100,0.67,1,0.0,3,3,3,1.0,com a biblioteca carregada,kramdown#0,14,diversidade,55,False,0,1
-kramdown,lib/kramdown/utils.rb,12b3d2e75279,markdown processors,4.3,7,100,67,0.0,0,33.3,3,2,3,1.0,isolado,kramdown#0,14,diversidade,123,False,0,0
-kramdown,setup.rb,12b3d2e75279,markdown processors,6.2,111,4,55,0.21,1,2.8,181,19,148,0.818,isolado,kramdown#10,1,diversidade,119,False,0,0
-liquid,lib/liquid/expression.rb,7a5e45fc4784,template engine,23,52,100,100,0.0,0,0.0,4,2,4,1.0,isolado,liquid#0,29,diversidade,184,False,0,0
-liquid,lib/liquid/strainer_template.rb,7a5e45fc4784,template engine,5.6,12,71,71,0.5,0,28.6,7,2,7,1.0,isolado,liquid#11,1,diversidade,116,False,0,0
-liquid,lib/liquid/tags/capture.rb,7a5e45fc4784,template engine,4.8,7,0,50,0.5,2,0.0,6,2,6,1.0,isolado,liquid#0,29,diversidade,261,False,0,0
-liquid,lib/liquid/tags/comment.rb,7a5e45fc4784,template engine,12.6,48,0,40,0.0,2,40.0,5,2,5,1.0,isolado,liquid#0,29,diversidade,158,False,0,0
-liquid,lib/liquid/template.rb,7a5e45fc4784,template engine,7.1,60,52,26,0.0,0,0.0,23,2,20,0.87,isolado,liquid#0,29,diversidade,202,False,0,0
-listen,lib/listen/adapter/darwin.rb,2fa1a742d8c2,file system listener,7.2,11,17,100,0.0,1,0.0,6,3,6,1.0,isolado,listen#0,16,diversidade,137,False,0,0
-logging,lib/logging.rb,aec306300d18,logging,9.8,58,100,56,0.5,0,16.0,25,2,22,0.88,isolado,logging#0,19,grupo,77,True,13,13
-logging,lib/logging/appender.rb,aec306300d18,logging,9.2,27,0,56,0.0,0,0.0,16,2,15,0.938,isolado,logging#0,19,grupo,,True,5,8
-logging,lib/logging/appenders.rb,aec306300d18,logging,3,8,0,100,0.5,0,0.0,5,2,5,1.0,isolado,logging#0,19,grupo,,True,1,1
-logging,lib/logging/appenders/buffering.rb,aec306300d18,logging,10.5,27,0,75,0.0,0,0.0,24,3,24,1.0,isolado,logging#0,19,grupo,,True,6,9
-logging,lib/logging/appenders/console.rb,aec306300d18,logging,8.2,11,40,80,0.0,2,0.0,5,2,4,0.8,isolado,logging#0,19,grupo,242,True,2,3
-logging,lib/logging/appenders/file.rb,aec306300d18,logging,9,14,29,57,0.0,2,0.0,7,2,7,1.0,isolado,logging#0,19,grupo,,True,2,4
-logging,lib/logging/appenders/io.rb,aec306300d18,logging,7.8,12,17,100,0.5,1,16.7,6,2,6,1.0,isolado,logging#0,19,grupo,,True,3,4
-logging,lib/logging/appenders/rolling_file.rb,aec306300d18,logging,12.3,35,5,76,0.0,2,9.5,21,3,21,1.0,isolado,logging#0,19,grupo,,True,3,6
-logging,lib/logging/appenders/string_io.rb,aec306300d18,logging,7.2,13,20,80,0.0,2,0.0,5,3,5,1.0,isolado,logging#0,19,grupo,,True,1,2
-logging,lib/logging/appenders/syslog.rb,aec306300d18,logging,8.6,15,12,100,0.5,1,12.5,8,2,8,1.0,isolado,logging#0,19,grupo,,True,2,7
-logging,lib/logging/color_scheme.rb,aec306300d18,logging,5.6,16,23,85,0.0,0,7.7,13,2,12,0.923,isolado,logging#0,19,grupo,,True,2,6
-logging,lib/logging/diagnostic_context.rb,aec306300d18,logging,7.1,20,17,75,0.5,0,4.2,24,4,22,0.917,isolado,logging#0,19,grupo,,True,1,3
-logging,lib/logging/layout.rb,aec306300d18,logging,9.5,20,0,62,0.0,0,0.0,13,2,12,0.923,isolado,logging#0,19,grupo,,True,2,6
-logging,lib/logging/layouts/parseable.rb,aec306300d18,logging,8.7,24,54,69,0.0,1,15.4,13,2,11,0.846,isolado,logging#0,19,grupo,,True,1,3
-logging,lib/logging/layouts/pattern.rb,aec306300d18,logging,10.5,28,16,84,0.0,1,10.5,19,3,18,0.947,isolado,logging#0,19,grupo,,True,2,4
-logging,lib/logging/logger.rb,aec306300d18,logging,9.2,43,23,81,0.0,0,7.7,26,2,25,0.962,isolado,logging#0,19,grupo,,True,2,4
-logging,lib/logging/rails_compat.rb,aec306300d18,logging,1.7,3,0,0,0.0,0,0.0,3,2,3,1.0,isolado,logging#1,1,diversidade,115,False,0,0
-logging,lib/logging/repository.rb,aec306300d18,logging,7.2,19,9,100,0.5,0,18.2,11,2,11,1.0,isolado,logging#0,19,grupo,161,True,1,13
-logging,lib/logging/root_logger.rb,aec306300d18,logging,6.3,10,0,0,0.0,1,0.0,3,2,3,1.0,isolado,logging#0,19,grupo,,True,2,3
-logging,lib/logging/utils.rb,aec306300d18,logging,9.9,20,0,44,0.0,1,0.0,9,5,8,0.889,isolado,logging#0,19,grupo,,True,1,11
-mail,lib/mail/encodings.rb,d645d7b5b7d0,email,9.0,21,100,76,0.67,1,0.0,21,3,21,1.0,isolado,mail#0,27,diversidade,132,True,2,2
+gli,lib/gli/commands/scaffold.rb,4029b76c888a,cli builder,34.1,109,100,89,0.0,0,0.0,9,3,9,1.0,isolado,gli#10,1,diversidade,169,False,0,0
+gli,lib/gli/options.rb,4029b76c888a,cli builder,3,3,0,100,0.0,1,66.7,3,2,3,1.0,isolado,gli#14,1,diversidade,164,False,0,0
+guard,lib/guard.rb,170d63c6ca57,file system listener,11,28,100,89,1.0,0,11.1,9,1,9,1.0,isolado,guard#0,22,diversidade,9,False,0,0
+guard,lib/guard/deprecated/guard.rb,170d63c6ca57,file system listener,6.3,50,4,19,0.25,0,11.1,27,4,26,0.963,isolado,guard#0,22,diversidade,61,False,0,0
+guard,lib/guard/dsl_describer.rb,170d63c6ca57,file system listener,23.6,50,0,100,0.0,0,0.0,5,2,5,1.0,isolado,guard#0,22,diversidade,98,False,0,0
+guard,lib/guard/internals/debugging.rb,170d63c6ca57,file system listener,5.2,11,100,17,0.0,0,0.0,6,3,6,1.0,isolado,guard#0,22,diversidade,167,False,0,0
+haml,lib/haml/dynamic_merger.rb,7f51ae709d96,template engine,19,25,0,100,0.0,1,0.0,3,2,3,1.0,isolado,haml#7,1,diversidade,259,False,0,0
+haml,lib/haml/ruby_expression.rb,7f51ae709d96,template engine,6.7,14,100,33,0.0,0,0.0,3,2,3,1.0,isolado,haml#0,9,diversidade,242,False,0,0
+hashie,lib/hashie/hash.rb,ce2226269688,core extensions,8,22,0,80,1.0,1,0.0,5,2,5,1.0,isolado,hashie#19,1,diversidade,236,False,0,0
+http,lib/http/feature.rb,942b1b36cea9,http clients and tools,2.2,3,0,0,0.0,0,0.0,5,2,3,0.6,isolado,http#3,1,diversidade,183,False,0,0
+httparty,lib/httparty/hash_conversions.rb,9c89e55ce357,http clients and tools,14.7,34,100,100,0.0,0,0.0,3,2,3,1.0,isolado,httparty#0,7,diversidade,195,False,0,0
+httpclient,lib/httpclient/auth.rb,5bc7b0d383c4,http clients and tools,9.9,45,2,71,0.54,2,0.0,62,13,53,0.855,isolado,httpclient#0,10,diversidade,37,False,0,0
+i18n,lib/i18n/gettext/helpers.rb,8beba7876163,internationalization,5.4,11,0,29,0.0,0,0.0,7,3,7,1.0,isolado,i18n#10,1,diversidade,198,False,0,0
+i18n,lib/i18n/locale/tag/rfc4646.rb,8beba7876163,internationalization,3.6,6,57,71,0.2,1,14.3,7,5,7,1.0,isolado,i18n#13,1,diversidade,34,False,0,0
+image_processing,lib/image_processing/processor.rb,1611c00ed4eb,image processing,8.6,24,57,43,0.0,0,57.1,7,2,7,1.0,isolado,image_processing#3,1,diversidade,211,False,0,0
+jaro_winkler,lib/jaro_winkler/jaro_winkler_pure.rb,9d7b6c110fa8,scientific,17.1,84,100,71,0.0,2,0.0,7,3,7,1.0,isolado,jaro_winkler#0,1,diversidade,46,False,0,0
+jwt,lib/jwt/configuration/container.rb,db560b769a07,authentication and oauth,4.7,6,0,0,0.0,0,0.0,3,3,3,1.0,isolado,jwt#2,1,diversidade,161,False,0,0
+kaminari,kaminari-core/lib/kaminari/helpers/paginator.rb,508caf4653b2,pagination,4.3,16,0,78,0.25,1,14.8,27,4,26,0.963,isolado,kaminari#0,5,diversidade,89,False,0,0
+kramdown,lib/kramdown/converter/html.rb,12b3d2e75279,markdown processors,9.6,45,0,84,0.67,1,4.7,43,3,41,0.953,isolado,kramdown#1,1,diversidade,121,False,0,0
+kramdown,lib/kramdown/parser/kramdown/list.rb,12b3d2e75279,markdown processors,58,99,0,75,0.0,1,0.0,4,3,4,1.0,com a biblioteca carregada,kramdown#0,14,diversidade,184,False,0,0
+kramdown,lib/kramdown/utils.rb,12b3d2e75279,markdown processors,4.3,7,100,67,0.0,0,33.3,3,2,3,1.0,isolado,kramdown#0,14,diversidade,122,False,0,0
+liquid,lib/liquid/expression.rb,7a5e45fc4784,template engine,23,52,100,100,0.0,0,0.0,4,2,4,1.0,isolado,liquid#0,29,diversidade,181,False,0,0
+liquid,lib/liquid/standardfilters.rb,7a5e45fc4784,template engine,6.8,22,1,81,0.33,0,1.4,74,3,69,0.932,isolado,liquid#0,29,diversidade,260,False,0,0
+liquid,lib/liquid/strainer_template.rb,7a5e45fc4784,template engine,5.6,12,71,71,0.5,0,28.6,7,2,7,1.0,isolado,liquid#11,1,diversidade,118,False,0,0
+liquid,lib/liquid/tags/capture.rb,7a5e45fc4784,template engine,4.8,7,0,50,0.5,2,0.0,6,2,6,1.0,isolado,liquid#0,29,diversidade,43,False,0,0
+liquid,lib/liquid/tags/comment.rb,7a5e45fc4784,template engine,12.6,48,0,40,0.0,2,40.0,5,2,5,1.0,isolado,liquid#0,29,diversidade,232,False,0,0
+listen,lib/listen/options.rb,2fa1a742d8c2,file system listener,5.3,9,0,100,0.0,0,33.3,3,2,3,1.0,isolado,listen#5,1,diversidade,203,False,0,0
+logging,lib/logging.rb,aec306300d18,logging,9.8,58,100,56,0.5,0,16.0,25,2,22,0.88,isolado,logging#0,19,diversidade,190,True,1,1
+logging,lib/logging/layouts/pattern.rb,aec306300d18,logging,10.5,28,16,84,0.0,1,10.5,19,3,18,0.947,isolado,logging#0,19,diversidade,77,True,1,1
+logging,lib/logging/rails_compat.rb,aec306300d18,logging,1.7,3,0,0,0.0,0,0.0,3,2,3,1.0,isolado,logging#1,1,diversidade,185,False,0,0
+mail,lib/mail/elements/received_element.rb,d645d7b5b7d0,email,6.7,10,0,100,0.0,0,0.0,3,2,3,1.0,isolado,mail#4,1,diversidade,154,False,0,0
+mail,lib/mail/encodings.rb,d645d7b5b7d0,email,9.0,21,100,76,0.67,1,0.0,21,3,21,1.0,isolado,mail#0,27,diversidade,128,True,1,1
 mail,lib/mail/encodings/base64.rb,d645d7b5b7d0,email,3,3,100,0,0.0,5,0.0,5,3,4,0.8,isolado,mail#0,27,diversidade,7,False,0,0
-mail,lib/mail/fields/parameter_hash.rb,d645d7b5b7d0,email,14,28,0,100,0.0,2,0.0,3,2,3,1.0,isolado,mail#0,27,diversidade,61,True,1,2
-mail,lib/mail/message.rb,d645d7b5b7d0,email,5.4,52,2,61,0.0,0,5.6,180,2,115,0.639,isolado,mail#0,27,diversidade,20,True,1,2
-minitest,lib/minitest.rb,f6180b07ea6e,testing,7.1,126,30,39,0.12,3,2.2,92,17,72,0.783,isolado,minitest#1,5,grupo,417,True,4,4
+mail,lib/mail/message.rb,d645d7b5b7d0,email,5.4,52,2,61,0.0,0,5.6,180,2,115,0.639,isolado,mail#0,27,diversidade,19,True,1,1
+minitest,lib/minitest.rb,f6180b07ea6e,testing,7.1,126,30,39,0.12,3,2.2,92,17,72,0.783,isolado,minitest#1,5,grupo,272,True,4,4
 minitest,lib/minitest/assertions.rb,f6180b07ea6e,testing,8.3,34,6,61,0.0,0,11.1,54,2,52,0.963,isolado,minitest#1,5,grupo,,True,1,2
-minitest,lib/minitest/benchmark.rb,f6180b07ea6e,testing,6.4,20,48,41,0.25,2,14.8,27,4,24,0.889,isolado,minitest#1,5,grupo,,True,1,1
+minitest,lib/minitest/benchmark.rb,f6180b07ea6e,testing,6.4,20,48,41,0.25,2,14.8,27,4,24,0.889,isolado,minitest#1,5,grupo,491,True,1,1
 minitest,lib/minitest/path_expander.rb,f6180b07ea6e,testing,10.5,38,8,67,0.0,1,0.0,24,3,22,0.917,isolado,minitest#1,5,grupo,,True,1,2
-minitest,lib/minitest/test.rb,f6180b07ea6e,testing,6.1,19,27,20,2.33,1,33.3,15,3,10,0.667,isolado,minitest#1,5,grupo,288,True,1,1
-money,lib/money/bank/base.rb,26e2829c34f1,money,2.8,4,20,0,0.0,2,0.0,5,5,5,1.0,isolado,money#0,1,diversidade,197,False,0,0
-money,lib/money/bank/variable_exchange.rb,26e2829c34f1,money,7.2,20,0,85,0.0,1,7.7,13,4,13,1.0,isolado,money#1,1,diversidade,192,False,0,1
-money,lib/money/money.rb,26e2829c34f1,money,5.9,20,29,51,1.5,1,0.0,41,2,37,0.902,isolado,money#3,1,diversidade,30,False,0,1
+minitest,lib/minitest/test.rb,f6180b07ea6e,testing,6.1,19,27,20,2.33,1,33.3,15,3,10,0.667,isolado,minitest#1,5,grupo,295,True,1,1
+money,lib/money/bank/base.rb,26e2829c34f1,money,2.8,4,20,0,0.0,2,0.0,5,5,5,1.0,isolado,money#0,1,diversidade,193,False,0,0
+money,lib/money/bank/variable_exchange.rb,26e2829c34f1,money,7.2,20,0,85,0.0,1,7.7,13,4,13,1.0,isolado,money#1,1,diversidade,191,False,0,1
+money,lib/money/money.rb,26e2829c34f1,money,5.9,20,29,51,1.5,1,0.0,41,2,37,0.902,isolado,money#3,1,diversidade,56,False,0,1
 mongo,lib/mongo/address/unix.rb,049b718a2d47,database drivers,3,3,33,0,0.0,0,0.0,3,3,3,1.0,isolado,mongo#2,1,diversidade,28,False,0,0
-mongo,lib/mongo/collection.rb,049b718a2d47,database drivers,7,50,0,49,2.0,0,0.0,37,2,35,0.946,isolado,mongo#12,47,diversidade,126,False,0,2
-mongo,lib/mongo/protocol/serializers.rb,049b718a2d47,database drivers,5.8,15,100,91,0.0,0,9.1,22,14,20,0.909,isolado,mongo#12,47,diversidade,97,False,0,0
-mongo,profile/driver_bench/base.rb,049b718a2d47,database drivers,5.1,28,6,25,0.0,0,0.0,16,3,13,0.812,isolado,mongo#125,10,grupo,,True,6,6
-mongo,profile/driver_bench/crypto/decrypt.rb,049b718a2d47,database drivers,8.4,17,0,33,0.0,1,0.0,9,4,9,1.0,isolado,mongo#125,10,grupo,,True,1,1
-mongo,profile/driver_bench/multi_doc/grid_fs/download.rb,049b718a2d47,database drivers,4.7,6,0,100,0.0,3,0.0,3,5,3,1.0,isolado,mongo#128,1,diversidade,196,False,0,0
-mongo,profile/driver_bench/parallel/base.rb,049b718a2d47,database drivers,3.2,4,0,50,0.0,1,0.0,4,4,4,1.0,isolado,mongo#125,10,grupo,,True,1,1
-mongo,profile/driver_bench/parallel/gridfs/base.rb,049b718a2d47,database drivers,4.2,5,0,50,0.0,2,0.0,4,5,4,1.0,isolado,mongo#125,10,grupo,,True,3,3
-mongo,profile/driver_bench/parallel/gridfs/download.rb,049b718a2d47,database drivers,6.7,11,0,83,0.0,3,0.0,6,6,6,1.0,isolado,mongo#125,10,grupo,,True,1,2
-mongo,profile/driver_bench/parallel/gridfs/upload.rb,049b718a2d47,database drivers,4.8,7,0,50,0.0,3,0.0,4,6,4,1.0,isolado,mongo#125,10,grupo,,True,1,2
-mongo,profile/driver_bench/parallel/ldjson/base.rb,049b718a2d47,database drivers,6.5,13,0,50,0.0,2,0.0,4,5,4,1.0,isolado,mongo#125,10,grupo,,True,2,3
-mongo,profile/driver_bench/parallel/ldjson/export.rb,049b718a2d47,database drivers,5.6,11,0,57,0.0,3,0.0,7,6,7,1.0,isolado,mongo#125,10,grupo,,True,1,2
-mongo,profile/driver_bench/single_doc/base.rb,049b718a2d47,database drivers,4.3,8,0,33,0.0,1,0.0,6,4,5,0.833,isolado,mongo#125,10,grupo,,True,2,2
-mongo,profile/driver_bench/single_doc/run_command.rb,049b718a2d47,database drivers,3.8,5,0,25,0.0,2,0.0,4,4,4,1.0,isolado,mongo#125,10,grupo,,True,2,2
-optimist,lib/optimist.rb,ecd4d8573b46,cli builder,8.3,126,6,54,0.0,2,1.0,100,23,66,0.66,isolado,optimist#0,1,diversidade,266,False,0,0
-paper_trail,lib/paper_trail.rb,0c511ed46c08,orm/odm extensions,3.6,7,100,10,1.0,0,0.0,10,1,9,0.9,isolado,paper_trail#0,15,diversidade,208,True,1,1
-paper_trail,lib/paper_trail/version_concern.rb,0c511ed46c08,orm/odm extensions,5.4,29,0,75,0.33,0,11.1,36,3,31,0.861,isolado,paper_trail#0,15,diversidade,83,True,1,1
+mongo,lib/mongo/auth.rb,049b718a2d47,database drivers,15,33,0,100,0.6,3,0.0,3,5,3,1.0,isolado,mongo#4,1,diversidade,59,False,0,0
+mongo,lib/mongo/auth/aws/conversation.rb,049b718a2d47,database drivers,12.4,32,0,60,0.0,2,0.0,5,4,5,1.0,isolado,mongo#5,8,grupo,,True,2,2
+mongo,lib/mongo/auth/conversation_base.rb,049b718a2d47,database drivers,8.8,16,0,50,0.0,0,0.0,4,3,4,1.0,isolado,mongo#5,8,grupo,,True,5,5
+mongo,lib/mongo/auth/gssapi/conversation.rb,049b718a2d47,database drivers,6.4,11,0,80,0.0,2,0.0,5,4,5,1.0,isolado,mongo#5,8,grupo,,True,1,1
+mongo,lib/mongo/auth/sasl_conversation_base.rb,049b718a2d47,database drivers,8.8,17,0,80,0.0,1,40.0,5,3,5,1.0,isolado,mongo#5,8,grupo,,True,3,3
+mongo,lib/mongo/auth/scram.rb,049b718a2d47,database drivers,5.3,6,0,67,0.0,1,33.3,3,3,3,1.0,isolado,mongo#10,1,diversidade,135,False,0,0
+mongo,lib/mongo/auth/scram/conversation.rb,049b718a2d47,database drivers,5.3,8,0,67,0.0,3,0.0,3,4,3,1.0,isolado,mongo#5,8,grupo,464,True,1,1
+mongo,lib/mongo/auth/scram256/conversation.rb,049b718a2d47,database drivers,5.7,9,0,67,0.0,3,0.0,3,4,3,1.0,isolado,mongo#5,8,grupo,,True,1,1
+mongo,lib/mongo/auth/scram_conversation_base.rb,049b718a2d47,database drivers,4.6,23,0,46,0.0,2,0.0,26,3,25,0.962,isolado,mongo#5,8,grupo,,True,4,4
+mongo,lib/mongo/auth/x509/conversation.rb,049b718a2d47,database drivers,4.3,5,0,33,0.0,1,0.0,3,4,3,1.0,isolado,mongo#5,8,grupo,,True,1,1
+mongo,lib/mongo/collection.rb,049b718a2d47,database drivers,7,50,0,49,2.0,0,0.0,37,2,35,0.946,isolado,mongo#12,47,diversidade,228,False,0,0
+mongo,lib/mongo/protocol/serializers.rb,049b718a2d47,database drivers,5.8,15,100,91,0.0,0,9.1,22,14,20,0.909,isolado,mongo#12,47,diversidade,92,False,0,0
+mongo,lib/mongo/server/description.rb,049b718a2d47,database drivers,5.5,63,0,87,0.0,0,0.0,47,3,31,0.66,isolado,mongo#109,1,diversidade,264,False,0,0
+omniauth,lib/omniauth/strategy.rb,20ac5e05a39d,authentication and oauth,7.7,33,2,75,0.0,2,9.6,52,5,52,1.0,isolado,omniauth#0,6,diversidade,57,False,0,0
+optimist,lib/optimist.rb,ecd4d8573b46,cli builder,8.3,126,6,54,0.0,2,1.0,100,23,66,0.66,isolado,optimist#0,1,diversidade,229,False,0,0
+paper_trail,lib/paper_trail.rb,0c511ed46c08,orm/odm extensions,3.6,7,100,10,1.0,0,0.0,10,1,9,0.9,isolado,paper_trail#0,15,diversidade,96,False,0,0
+paper_trail,lib/paper_trail/serializers/yaml.rb,0c511ed46c08,orm/odm extensions,8.6,13,0,40,0.33,0,0.0,5,3,5,1.0,isolado,paper_trail#8,1,diversidade,106,False,0,0
 parallel,lib/parallel.rb,cd5ba09894cd,concurrency and parallelism,11.2,59,71,70,0.0,2,10.7,56,9,55,0.982,isolado,parallel#0,1,diversidade,16,False,0,0
-pastel,lib/pastel/color_parser.rb,afd82952076e,cli utilities,16.2,48,100,75,0.5,0,0.0,4,2,4,1.0,isolado,pastel#1,1,diversidade,151,False,0,0
-pastel,lib/pastel/detached.rb,afd82952076e,cli utilities,3.4,5,0,71,0.0,0,0.0,7,2,7,1.0,isolado,pastel#3,1,diversidade,139,False,0,0
-pg,rakelib/task_extension.rb,d4539c25dcc8,database drivers,10,16,0,67,0.0,0,66.7,3,1,3,1.0,isolado,pg#6,1,diversidade,80,False,0,0
-pg,sample/warehouse_partitions.rb,d4539c25dcc8,database drivers,44.6,81,0,100,0.0,0,0.0,5,1,5,1.0,isolado,pg#0,7,diversidade,19,False,0,0
-prawn,lib/prawn/document.rb,f82783b1d020,pdf,9.6,54,9,65,5.5,0,8.8,34,2,30,0.882,isolado,prawn#0,8,diversidade,53,False,0,1
-prawn,lib/prawn/fonts/dfont.rb,f82783b1d020,pdf,4.3,5,67,100,0.0,2,0.0,3,3,3,1.0,isolado,prawn#2,1,diversidade,231,False,0,0
-prawn,lib/prawn/measurement_extensions.rb,f82783b1d020,pdf,3,3,0,0,1.0,0,0.0,8,1,8,1.0,isolado,prawn#18,2,diversidade,240,False,0,0
+pastel,lib/pastel/color_parser.rb,afd82952076e,cli utilities,16.2,48,100,75,0.5,0,0.0,4,2,4,1.0,isolado,pastel#1,1,diversidade,139,False,0,0
+prawn,lib/prawn/document.rb,f82783b1d020,pdf,9.6,54,9,65,5.5,0,8.8,34,2,30,0.882,isolado,prawn#0,8,diversidade,60,False,0,1
+prawn,lib/prawn/fonts/dfont.rb,f82783b1d020,pdf,4.3,5,67,100,0.0,2,0.0,3,3,3,1.0,isolado,prawn#2,1,diversidade,235,False,0,0
+prawn,lib/prawn/graphics/patterns.rb,f82783b1d020,pdf,23.2,63,0,62,0.0,0,0.0,8,3,7,0.875,isolado,prawn#11,1,diversidade,87,False,0,0
+prawn,lib/prawn/measurement_extensions.rb,f82783b1d020,pdf,3,3,0,0,1.0,0,0.0,8,1,8,1.0,isolado,prawn#18,2,diversidade,246,False,0,0
 prawn,lib/prawn/text/formatted/parser.rb,f82783b1d020,pdf,34.7,114,100,100,0.0,0,0.0,6,4,5,0.833,isolado,prawn#0,8,diversidade,13,False,0,0
-prawn,lib/prawn/text/formatted/wrap.rb,f82783b1d020,pdf,17.4,34,0,100,0.0,0,0.0,7,4,7,1.0,isolado,prawn#26,2,diversidade,134,False,0,0
-prawn,lib/prawn/view.rb,f82783b1d020,pdf,3.4,5,0,60,0.0,0,40.0,5,2,5,1.0,isolado,prawn#31,1,diversidade,183,False,0,1
-premailer-rails,lib/premailer/rails/css_loaders/asset_pipeline_loader.rb,33287e89f7a3,email,8,10,0,0,0.25,0,0.0,3,4,3,1.0,isolado,premailer-rails#1,1,diversidade,138,False,0,0
-pry,lib/pry/cli.rb,5a267df08ad6,irb,16.8,37,100,60,0.0,0,40.0,5,2,5,1.0,isolado,pry#0,69,diversidade,251,False,0,0
-pry,lib/pry/commands/find_method.rb,5a267df08ad6,irb,8.5,22,0,100,0.33,2,7.7,13,3,13,1.0,isolado,pry#0,69,diversidade,51,True,1,1
-pry,lib/pry/core_extensions.rb,5a267df08ad6,irb,23,43,0,67,0.0,0,166.7,3,3,3,1.0,isolado,pry#0,69,diversidade,174,False,0,0
-pry,lib/pry/exceptions.rb,5a267df08ad6,irb,10.3,17,100,67,0.0,2,0.0,3,8,3,1.0,isolado,pry#9,1,diversidade,98,False,0,1
-pry,lib/pry/method.rb,5a267df08ad6,irb,7.5,29,29,75,2.5,0,2.0,51,2,46,0.902,isolado,pry#0,69,diversidade,257,True,1,3
-pry,lib/pry/method/disowned.rb,5a267df08ad6,irb,4.2,8,0,17,0.0,1,0.0,6,3,5,0.833,isolado,pry#12,1,diversidade,162,False,0,1
-pry,lib/pry/testable.rb,5a267df08ad6,irb,8,13,100,33,2.0,0,33.3,3,2,3,1.0,isolado,pry#17,1,diversidade,27,False,0,0
-puma,examples/generate_client_test.rb,8085b75e79e3,web servers,15.7,22,100,67,0.0,0,16.7,6,1,6,1.0,isolado,puma#2,1,diversidade,44,False,0,0
-puma,lib/puma.rb,8085b75e79e3,web servers,4.7,13,100,43,0.0,1,0.0,7,3,7,1.0,isolado,puma#3,17,grupo,,True,10,10
-puma,lib/puma/app/status.rb,8085b75e79e3,web servers,19.8,62,0,75,0.0,0,25.0,4,3,4,1.0,isolado,puma#3,17,grupo,,True,1,3
-puma,lib/puma/binder.rb,8085b75e79e3,web servers,18.5,158,0,96,0.5,0,0.0,23,2,23,1.0,isolado,puma#3,17,grupo,,True,1,6
-puma,lib/puma/cli.rb,8085b75e79e3,web servers,40.8,151,0,80,0.0,0,0.0,5,2,5,1.0,isolado,puma#3,17,grupo,260,True,2,4
-puma,lib/puma/configuration.rb,8085b75e79e3,web servers,8.2,24,12,75,0.0,1,0.0,40,6,38,0.95,isolado,puma#3,17,grupo,,True,4,12
-puma,lib/puma/dsl.rb,8085b75e79e3,web servers,5.8,66,1,80,0.0,0,3.6,84,2,44,0.524,isolado,puma#3,17,grupo,,True,2,4
-puma,lib/puma/events.rb,8085b75e79e3,web servers,3.9,11,0,25,0.0,0,0.0,12,2,8,0.667,isolado,puma#3,17,grupo,,True,1,7
-puma,lib/puma/json_serialization.rb,8085b75e79e3,web servers,15,32,100,100,0.0,1,0.0,4,3,4,1.0,isolado,puma#3,17,grupo,443,True,2,3
-puma,lib/puma/launcher.rb,8085b75e79e3,web servers,11.7,70,0,94,0.0,0,0.0,34,2,34,1.0,isolado,puma#3,17,grupo,,True,1,5
-puma,lib/puma/log_writer.rb,8085b75e79e3,web servers,4.7,13,17,61,0.0,0,0.0,18,4,16,0.889,isolado,puma#3,17,grupo,,True,4,6
-puma,lib/puma/plugin.rb,8085b75e79e3,web servers,6.7,19,18,73,0.0,1,9.1,11,5,11,1.0,isolado,puma#3,17,grupo,,True,1,2
-puma,lib/puma/plugin/systemd.rb,8085b75e79e3,web servers,8.8,36,0,88,0.0,0,0.0,8,0,7,0.875,isolado,puma#3,17,grupo,,True,1,3
-puma,lib/puma/reactor.rb,8085b75e79e3,web servers,12.4,33,0,86,0.0,1,0.0,7,3,7,1.0,isolado,puma#3,17,grupo,,True,1,3
-puma,lib/puma/response.rb,8085b75e79e3,web servers,45.6,106,0,89,0.5,0,0.0,9,2,8,0.889,isolado,puma#3,17,grupo,,True,1,4
-puma,lib/puma/server.rb,8085b75e79e3,web servers,13.4,108,8,79,0.67,0,2.6,39,3,32,0.821,isolado,puma#3,17,grupo,,True,3,8
-puma,lib/puma/thread_pool.rb,8085b75e79e3,web servers,11.4,69,0,85,0.0,1,2.9,34,5,32,0.941,isolado,puma#3,17,grupo,,True,1,11
-puma,lib/rack/handler/puma.rb,8085b75e79e3,web servers,25,55,0,75,0.25,0,0.0,4,8,4,1.0,isolado,puma#3,17,grupo,,True,2,5
-pundit,lib/pundit.rb,2d665d67a26f,authorization,5,10,100,33,0.0,0,0.0,6,2,6,1.0,isolado,pundit#0,1,diversidade,182,False,0,0
-pundit,lib/pundit/authorization.rb,2d665d67a26f,authorization,4.1,9,0,47,0.5,0,5.9,17,2,13,0.765,isolado,pundit#1,1,diversidade,100,False,0,0
-rack-attack,lib/rack/attack/store_proxy/mem_cache_store_proxy.rb,65f1ead3bc64,security,3.7,5,33,100,0.0,2,0.0,3,4,3,1.0,isolado,rack-attack#4,1,diversidade,86,False,0,0
-rake,lib/rake/application.rb,503b8ec593c5,cli builder,12.5,217,0,71,1.0,0,0.0,55,2,54,0.982,isolado,rake#0,15,grupo,345,True,3,5
-rake,lib/rake/clean.rb,503b8ec593c5,cli builder,7.5,13,0,25,0.5,0,0.0,4,2,4,1.0,isolado,rake#0,15,grupo,,True,1,1
-rake,lib/rake/cpu_counter.rb,503b8ec593c5,cli builder,3.7,5,33,33,0.0,0,0.0,3,2,3,1.0,isolado,rake#0,15,grupo,,True,1,1
-rake,lib/rake/dsl_definition.rb,503b8ec593c5,cli builder,4.8,12,0,33,1.0,0,0.0,9,2,6,0.667,isolado,rake#0,15,grupo,187,True,6,6
-rake,lib/rake/file_list.rb,503b8ec593c5,cli builder,6.3,24,13,65,1.0,0,0.0,31,3,31,1.0,isolado,rake#0,15,grupo,,True,6,7
-rake,lib/rake/file_task.rb,503b8ec593c5,cli builder,6.8,10,25,50,0.0,1,0.0,4,2,4,1.0,isolado,rake#0,15,grupo,,True,2,4
-rake,lib/rake/file_utils.rb,503b8ec593c5,cli builder,10.1,17,0,100,0.0,0,0.0,7,1,7,1.0,isolado,rake#0,15,grupo,,True,2,3
-rake,lib/rake/invocation_chain.rb,503b8ec593c5,cli builder,3.4,6,12,25,0.0,2,0.0,8,3,8,1.0,isolado,rake#0,15,grupo,,True,2,2
-rake,lib/rake/linked_list.rb,503b8ec593c5,cli builder,4.7,12,31,31,0.33,1,0.0,13,3,9,0.692,isolado,rake#0,15,grupo,,True,1,2
-rake,lib/rake/loaders/makefile.rb,503b8ec593c5,cli builder,7,9,0,100,0.5,0,0.0,3,2,3,1.0,isolado,rake#0,15,grupo,,True,1,1
-rake,lib/rake/packagetask.rb,503b8ec593c5,cli builder,8.6,57,0,17,0.0,1,0.0,12,2,8,0.667,isolado,rake#0,15,grupo,,True,2,3
-rake,lib/rake/rake_module.rb,503b8ec593c5,cli builder,4.4,11,100,43,0.0,0,0.0,7,1,7,1.0,isolado,rake#0,15,grupo,,True,7,7
-rake,lib/rake/task.rb,503b8ec593c5,cli builder,5.6,30,17,55,0.0,0,0.0,47,2,44,0.936,isolado,rake#0,15,grupo,,True,6,7
-rake,lib/rake/task_manager.rb,503b8ec593c5,cli builder,9.2,26,0,81,0.0,0,0.0,26,2,25,0.962,isolado,rake#0,15,grupo,,True,4,7
-rake,lib/rake/testtask.rb,503b8ec593c5,cli builder,9.8,28,0,70,0.0,1,0.0,10,2,10,1.0,isolado,rake#0,15,grupo,,True,4,4
-ransack,lib/ransack/adapters/active_record/context.rb,383c5dd9aa8f,search,14.1,39,0,95,0.0,1,59.1,22,4,22,1.0,isolado,ransack#2,1,diversidade,72,False,0,4
-ransack,lib/ransack/nodes/attribute.rb,383c5dd9aa8f,search,4,7,0,56,0.33,1,0.0,9,3,9,1.0,isolado,ransack#7,4,grupo,,True,1,2
-ransack,lib/ransack/nodes/bindable.rb,383c5dd9aa8f,search,4.1,7,0,75,0.0,0,0.0,8,3,8,1.0,isolado,ransack#7,4,grupo,,True,2,3
-ransack,lib/ransack/nodes/node.rb,383c5dd9aa8f,search,3.8,6,50,75,0.0,0,0.0,4,3,4,1.0,isolado,ransack#5,6,diversidade,136,False,0,0
-ransack,lib/ransack/nodes/sort.rb,383c5dd9aa8f,search,5.8,9,17,83,0.33,1,16.7,6,3,6,1.0,isolado,ransack#7,4,grupo,441,True,2,3
-ransack,lib/ransack/search.rb,383c5dd9aa8f,search,12.9,30,0,75,0.5,0,33.3,12,2,12,1.0,isolado,ransack#7,4,grupo,,True,1,2
-rdoc,lib/rdoc/code_object/single_class.rb,4e303b392092,documentation,3.5,5,0,25,0.0,3,0.0,4,1,4,1.0,isolado,rdoc#1,50,diversidade,92,False,0,0
-rdoc,lib/rdoc/generator/darkfish.rb,4e303b392092,documentation,18,65,0,97,1.0,0,0.0,31,1,31,1.0,isolado,rdoc#1,50,diversidade,25,False,0,0
-rdoc,lib/rdoc/markdown.rb,4e303b392092,documentation,51.6,1405,1,29,0.0,1,2.3,304,4,170,0.559,isolado,rdoc#9,2,diversidade,5,False,0,1
-rdoc,lib/rdoc/parser.rb,4e303b392092,documentation,13.4,29,83,92,0.0,0,0.0,12,1,12,1.0,isolado,rdoc#1,50,diversidade,117,False,0,1
-rdoc,lib/rdoc/rd/block_parser.rb,4e303b392092,documentation,9.4,157,1,71,0.0,1,3.1,98,7,58,0.592,isolado,rdoc#26,1,diversidade,263,False,0,0
-rdoc,lib/rdoc/rubygems_hook.rb,4e303b392092,documentation,9.2,49,33,38,0.67,0,0.0,21,3,20,0.952,isolado,rdoc#29,1,diversidade,269,False,0,0
-responders,lib/responders/flash_responder.rb,b20fdd24befe,decorators,8.1,22,0,82,0.0,0,9.1,11,2,11,1.0,isolado,responders#2,1,diversidade,133,False,0,0
+prawn,lib/prawn/view.rb,f82783b1d020,pdf,3.4,5,0,60,0.0,0,40.0,5,2,5,1.0,isolado,prawn#31,1,diversidade,152,False,0,1
+premailer-rails,lib/premailer/rails/css_loaders/asset_pipeline_loader.rb,33287e89f7a3,email,8,10,0,0,0.25,0,0.0,3,4,3,1.0,isolado,premailer-rails#1,1,diversidade,129,False,0,0
+pry,lib/pry/cli.rb,5a267df08ad6,irb,16.8,37,100,60,0.0,0,40.0,5,2,5,1.0,isolado,pry#0,69,diversidade,257,False,0,0
+pry,lib/pry/command.rb,5a267df08ad6,irb,6.4,34,44,52,2.5,0,12.5,48,2,46,0.958,isolado,pry#0,69,diversidade,22,False,0,0
+pry,lib/pry/commands/list_inspectors.rb,5a267df08ad6,irb,4.5,9,0,50,0.0,2,0.0,4,3,4,1.0,isolado,pry#3,1,diversidade,101,False,0,0
+pry,lib/pry/core_extensions.rb,5a267df08ad6,irb,23,43,0,67,0.0,0,166.7,3,3,3,1.0,isolado,pry#0,69,diversidade,39,False,0,0
+pry,lib/pry/exceptions.rb,5a267df08ad6,irb,10.3,17,100,67,0.0,2,0.0,3,8,3,1.0,isolado,pry#9,1,diversidade,138,False,0,0
+pry,lib/pry/wrapped_module/candidate.rb,5a267df08ad6,irb,7.6,17,0,100,1.0,0,0.0,9,3,9,1.0,isolado,pry#0,69,diversidade,247,False,0,0
+pry-byebug,lib/pry-byebug/commands/breakpoint.rb,0b5aea2615fd,debugging tools,8.5,23,0,100,1.5,1,12.5,8,2,8,1.0,isolado,pry-byebug#1,1,diversidade,68,False,0,0
+puma,lib/puma.rb,8085b75e79e3,web servers,4.7,13,100,43,0.0,1,0.0,7,3,7,1.0,isolado,puma#0,17,grupo,,True,10,10
+puma,lib/puma/app/status.rb,8085b75e79e3,web servers,19.8,62,0,75,0.0,0,25.0,4,3,4,1.0,isolado,puma#0,17,grupo,262,True,1,3
+puma,lib/puma/binder.rb,8085b75e79e3,web servers,18.5,158,0,96,0.5,0,0.0,23,2,23,1.0,isolado,puma#0,17,grupo,,True,1,6
+puma,lib/puma/cli.rb,8085b75e79e3,web servers,40.8,151,0,80,0.0,0,0.0,5,2,5,1.0,isolado,puma#0,17,grupo,,True,2,4
+puma,lib/puma/client_env.rb,8085b75e79e3,web servers,43,80,0,100,0.5,0,0.0,3,2,3,1.0,isolado,puma#1,1,diversidade,55,False,0,0
+puma,lib/puma/configuration.rb,8085b75e79e3,web servers,8.2,24,12,75,0.0,1,0.0,40,6,38,0.95,isolado,puma#0,17,grupo,,True,4,12
+puma,lib/puma/dsl.rb,8085b75e79e3,web servers,5.8,66,1,80,0.0,0,3.6,84,2,44,0.524,isolado,puma#0,17,grupo,207,True,2,4
+puma,lib/puma/events.rb,8085b75e79e3,web servers,3.9,11,0,25,0.0,0,0.0,12,2,8,0.667,isolado,puma#0,17,grupo,,True,1,7
+puma,lib/puma/json_serialization.rb,8085b75e79e3,web servers,15,32,100,100,0.0,1,0.0,4,3,4,1.0,isolado,puma#0,17,grupo,389,True,2,3
+puma,lib/puma/launcher.rb,8085b75e79e3,web servers,11.7,70,0,94,0.0,0,0.0,34,2,34,1.0,isolado,puma#0,17,grupo,,True,1,5
+puma,lib/puma/log_writer.rb,8085b75e79e3,web servers,4.7,13,17,61,0.0,0,0.0,18,4,16,0.889,isolado,puma#0,17,grupo,,True,4,6
+puma,lib/puma/plugin.rb,8085b75e79e3,web servers,6.7,19,18,73,0.0,1,9.1,11,5,11,1.0,isolado,puma#0,17,grupo,,True,1,2
+puma,lib/puma/plugin/systemd.rb,8085b75e79e3,web servers,8.8,36,0,88,0.0,0,0.0,8,0,7,0.875,isolado,puma#0,17,grupo,,True,1,3
+puma,lib/puma/reactor.rb,8085b75e79e3,web servers,12.4,33,0,86,0.0,1,0.0,7,3,7,1.0,isolado,puma#0,17,grupo,,True,1,3
+puma,lib/puma/response.rb,8085b75e79e3,web servers,45.6,106,0,89,0.5,0,0.0,9,2,8,0.889,isolado,puma#0,17,grupo,,True,1,4
+puma,lib/puma/server.rb,8085b75e79e3,web servers,13.4,108,8,79,0.67,0,2.6,39,3,32,0.821,isolado,puma#0,17,grupo,,True,3,8
+puma,lib/puma/thread_pool.rb,8085b75e79e3,web servers,11.4,69,0,85,0.0,1,2.9,34,5,32,0.941,isolado,puma#0,17,grupo,,True,1,11
+puma,lib/rack/handler/puma.rb,8085b75e79e3,web servers,25,55,0,75,0.25,0,0.0,4,8,4,1.0,isolado,puma#0,17,grupo,,True,2,5
+pundit,lib/pundit.rb,2d665d67a26f,authorization,5,10,100,33,0.0,0,0.0,6,2,6,1.0,isolado,pundit#0,1,diversidade,178,False,0,0
+pundit,lib/pundit/authorization.rb,2d665d67a26f,authorization,4.1,9,0,47,0.5,0,5.9,17,2,13,0.765,isolado,pundit#1,1,diversidade,131,False,0,0
+rails-i18n,lib/rails_i18n/pluralization.rb,32a4583d2111,internationalization,14.5,21,100,100,0.0,0,0.0,8,10,8,1.0,isolado,rails-i18n#0,1,diversidade,275,False,0,0
+rake,lib/rake/task_arguments.rb,503b8ec593c5,cli builder,4,10,0,94,0.5,0,0.0,16,2,15,0.938,isolado,rake#8,1,diversidade,47,False,0,0
+ransack,lib/ransack/adapters/active_record/context.rb,383c5dd9aa8f,search,14.1,39,0,95,0.0,1,59.1,22,4,22,1.0,isolado,ransack#2,1,diversidade,266,False,0,0
+ransack,lib/ransack/helpers/form_helper.rb,383c5dd9aa8f,search,6.3,18,0,81,0.0,0,2.7,37,4,34,0.919,isolado,ransack#5,6,diversidade,71,True,1,1
+ransack,lib/ransack/naming.rb,383c5dd9aa8f,search,4,12,11,11,0.0,1,0.0,9,4,5,0.556,isolado,ransack#6,1,diversidade,263,False,0,1
+ransack,lib/ransack/translate.rb,383c5dd9aa8f,search,7.9,37,100,75,0.0,0,0.0,16,2,15,0.938,isolado,ransack#5,6,diversidade,160,True,1,2
+rdoc,lib/rdoc/code_object/normal_module.rb,4e303b392092,documentation,8.5,33,0,17,0.0,3,0.0,6,1,5,0.833,isolado,rdoc#0,50,diversidade,97,False,0,0
+rdoc,lib/rdoc/generator/darkfish.rb,4e303b392092,documentation,18,65,0,97,1.0,0,0.0,31,1,31,1.0,isolado,rdoc#0,50,diversidade,25,False,0,0
+rdoc,lib/rdoc/markdown.rb,4e303b392092,documentation,51.6,1405,1,29,0.0,1,2.3,304,4,170,0.559,isolado,rdoc#8,2,diversidade,5,False,0,2
+rdoc,lib/rdoc/markdown/literals.rb,4e303b392092,documentation,8.7,33,2,65,0.0,1,12.5,40,4,36,0.9,isolado,rdoc#9,1,diversidade,267,False,0,2
+rdoc,lib/rdoc/parser.rb,4e303b392092,documentation,13.4,29,83,92,0.0,0,0.0,12,1,12,1.0,isolado,rdoc#0,50,diversidade,94,False,0,2
+rdoc,lib/rdoc/rubygems_hook.rb,4e303b392092,documentation,9.2,49,33,38,0.67,0,0.0,21,3,20,0.952,isolado,rdoc#28,1,diversidade,274,False,0,0
+redcarpet,lib/redcarpet/render_man.rb,34c138e3f149,markdown processors,4.9,12,0,20,0.0,1,0.0,10,3,7,0.7,isolado,redcarpet#3,1,diversidade,186,False,0,0
+responders,lib/action_controller/respond_with.rb,b20fdd24befe,decorators,12.2,20,0,80,0.33,0,0.0,5,3,5,1.0,isolado,responders#0,1,diversidade,111,False,0,0
 rest-client,lib/restclient.rb,cf3e5a115bcd,http clients and tools,4.7,34,84,11,0.0,0,0.0,19,1,9,0.474,isolado,rest-client#0,9,grupo,,True,2,2
 rest-client,lib/restclient/abstract_response.rb,cf3e5a115bcd,http clients and tools,8.3,33,5,89,0.0,0,0.0,19,2,19,1.0,isolado,rest-client#0,9,grupo,,True,2,3
 rest-client,lib/restclient/payload.rb,cf3e5a115bcd,http clients and tools,6.7,29,0,80,0.17,1,0.0,25,6,24,0.96,isolado,rest-client#0,9,grupo,,True,1,4
@@ -383,71 +353,87 @@ rest-client,lib/restclient/platform.rb,cf3e5a115bcd,http clients and tools,4.3,8
 rest-client,lib/restclient/raw_response.rb,cf3e5a115bcd,http clients and tools,4.2,8,0,80,0.5,0,0.0,5,2,5,1.0,isolado,rest-client#0,9,grupo,,True,1,4
 rest-client,lib/restclient/request.rb,cf3e5a115bcd,http clients and tools,18,130,6,79,0.0,0,3.0,33,2,33,1.0,isolado,rest-client#0,9,grupo,,True,5,8
 rest-client,lib/restclient/resource.rb,cf3e5a115bcd,http clients and tools,6.1,9,0,88,0.0,0,0.0,16,2,8,0.5,isolado,rest-client#0,9,grupo,,True,2,3
-rest-client,lib/restclient/response.rb,cf3e5a115bcd,http clients and tools,7,18,29,57,0.5,1,0.0,7,2,6,0.857,isolado,rest-client#0,9,grupo,406,True,3,5
+rest-client,lib/restclient/response.rb,cf3e5a115bcd,http clients and tools,7,18,29,57,0.5,1,0.0,7,2,6,0.857,isolado,rest-client#0,9,grupo,402,True,3,5
 rest-client,lib/restclient/utils.rb,cf3e5a115bcd,http clients and tools,16.4,34,100,86,0.0,0,0.0,7,2,7,1.0,isolado,rest-client#0,9,grupo,,True,3,4
-roo,lib/roo/base.rb,20d424f8bf96,spreadsheets and documents,8.9,28,4,73,6.0,0,1.9,52,1,51,0.981,isolado,roo#0,3,grupo,120,True,2,2
+roo,lib/roo/base.rb,20d424f8bf96,spreadsheets and documents,8.9,28,4,73,6.0,0,1.9,52,1,51,0.981,isolado,roo#0,3,grupo,116,True,2,2
 roo,lib/roo/csv.rb,20d424f8bf96,spreadsheets and documents,6.3,24,0,67,0.0,1,0.0,15,2,12,0.8,isolado,roo#0,3,grupo,,True,1,1
 roo,lib/roo/excelx/cell.rb,20d424f8bf96,spreadsheets and documents,8.3,16,22,67,0.0,1,0.0,9,4,9,1.0,isolado,roo#2,7,diversidade,1,False,0,0
-roo,lib/roo/open_office.rb,20d424f8bf96,spreadsheets and documents,16.3,104,0,84,0.5,1,0.0,32,2,32,1.0,isolado,roo#0,3,grupo,430,True,1,1
-rouge,lib/rouge.rb,afc3c52c2af0,code highlighting,5.7,9,100,33,0.0,0,33.3,3,1,3,1.0,isolado,rouge#0,25,diversidade,170,False,0,0
-rouge,lib/rouge/lexers/cython.rb,afc3c52c2af0,code highlighting,4.2,5,75,0,0.67,3,0.0,4,3,4,1.0,isolado,rouge#10,1,diversidade,105,False,0,0
+roo,lib/roo/open_office.rb,20d424f8bf96,spreadsheets and documents,16.3,104,0,84,0.5,1,0.0,32,2,32,1.0,isolado,roo#0,3,grupo,429,True,1,1
+rouge,lib/rouge.rb,afc3c52c2af0,code highlighting,5.7,9,100,33,0.0,0,33.3,3,1,3,1.0,isolado,rouge#0,25,diversidade,151,True,1,1
+rouge,lib/rouge/lexer.rb,afc3c52c2af0,code highlighting,6.7,32,60,65,0.33,0,1.8,55,3,47,0.855,isolado,rouge#0,25,diversidade,69,True,2,2
+rouge,lib/rouge/lexers/http.rb,afc3c52c2af0,code highlighting,4.3,7,33,0,0.0,2,0.0,3,3,3,1.0,isolado,rouge#0,25,diversidade,170,True,1,1
 rouge,lib/rouge/lexers/javascript.rb,afc3c52c2af0,code highlighting,6.3,14,100,14,0.0,2,0.0,7,3,6,0.857,isolado,rouge#19,3,grupo,,True,2,2
 rouge,lib/rouge/lexers/livescript.rb,afc3c52c2af0,code highlighting,3.8,8,100,17,0.0,2,0.0,6,3,5,0.833,isolado,rouge#19,3,grupo,,True,1,1
-rouge,lib/rouge/lexers/sas.rb,afc3c52c2af0,code highlighting,51,188,100,0,0.0,2,0.0,7,3,5,0.714,isolado,rouge#30,1,diversidade,9,False,0,0
-rouge,lib/rouge/lexers/tcl.rb,afc3c52c2af0,code highlighting,18,26,100,100,0.0,2,0.0,3,3,3,1.0,isolado,rouge#0,25,diversidade,106,True,1,1
+rouge,lib/rouge/lexers/sas.rb,afc3c52c2af0,code highlighting,51,188,100,0,0.0,2,0.0,7,3,5,0.714,isolado,rouge#30,1,diversidade,8,False,0,0
+rouge,lib/rouge/lexers/tcl.rb,afc3c52c2af0,code highlighting,18,26,100,100,0.0,2,0.0,3,3,3,1.0,isolado,rouge#0,25,diversidade,206,False,0,0
 rouge,lib/rouge/lexers/typescript/common.rb,afc3c52c2af0,code highlighting,9.4,22,20,20,0.0,0,0.0,5,3,3,0.6,isolado,rouge#19,3,grupo,,True,1,1
-rouge,lib/rouge/regex_lexer.rb,afc3c52c2af0,code highlighting,7.3,61,19,66,0.0,1,17.0,47,8,42,0.894,isolado,rouge#0,25,diversidade,37,True,1,1
-rqrcode,lib/rqrcode/export/svg.rb,f0d65004f2b5,qr,49.5,130,0,75,0.0,1,0.0,4,6,4,1.0,isolado,rqrcode#0,1,diversidade,169,False,0,0
-rspec,rspec-core/lib/rspec/core/configuration.rb,79a280d76e10,testing,7.4,59,4,65,1.0,1,12.5,136,6,128,0.941,isolado,rspec#1,112,diversidade,63,True,1,1
-rspec,rspec-core/lib/rspec/core/example_group.rb,79a280d76e10,testing,7.6,38,87,65,1.0,1,7.9,63,6,56,0.889,isolado,rspec#1,112,diversidade,250,True,1,1
-rspec,rspec-core/lib/rspec/core/option_parser.rb,79a280d76e10,testing,42.7,268,14,57,0.0,0,0.0,7,2,7,1.0,isolado,rspec#1,112,diversidade,66,False,0,0
-rspec,rspec-mocks/lib/rspec/mocks/error_generator.rb,79a280d76e10,testing,5.5,33,2,45,0.0,0,0.0,49,3,45,0.918,isolado,rspec#1,112,diversidade,253,False,0,0
-rubocop,lib/rubocop/cop/correctors/space_corrector.rb,65854e6bbfe4,code formatting,9.7,11,100,100,0.33,0,0.0,3,3,3,1.0,isolado,rubocop#1,414,diversidade,64,False,0,0
-rubocop,lib/rubocop/cop/registry.rb,65854e6bbfe4,code formatting,6.1,20,10,88,0.25,2,2.0,50,4,50,1.0,isolado,rubocop#1,414,diversidade,31,False,0,1
-rubocop,lib/rubocop/cop/style/method_call_with_args_parentheses.rb,65854e6bbfe4,code formatting,4.4,7,20,60,1.5,1,20.0,5,4,5,1.0,isolado,rubocop#158,1,diversidade,221,False,0,0
-rubocop,lib/rubocop/plugin/loader.rb,65854e6bbfe4,code formatting,11.3,26,100,67,0.0,0,33.3,6,3,6,1.0,isolado,rubocop#1,414,diversidade,241,False,0,1
-rubocop,lib/rubocop/server.rb,65854e6bbfe4,code formatting,6,10,100,0,0.0,0,0.0,3,2,3,1.0,isolado,rubocop#1,414,diversidade,163,False,0,1
-rubocop,lib/rubocop/server/client_command/start.rb,65854e6bbfe4,code formatting,11,22,0,0,0.0,1,0.0,3,4,3,1.0,com a biblioteca carregada,rubocop#1,414,diversidade,59,False,0,1
+rqrcode,lib/rqrcode/export/svg.rb,f0d65004f2b5,qr,49.5,130,0,75,0.0,1,0.0,4,6,4,1.0,isolado,rqrcode#0,1,diversidade,156,False,0,0
+rspec,rspec-core/lib/rspec/core/configuration.rb,79a280d76e10,testing,7.4,59,4,65,1.0,1,12.5,136,6,128,0.941,isolado,rspec#0,112,diversidade,64,True,1,1
+rspec,rspec-core/lib/rspec/core/example_group.rb,79a280d76e10,testing,7.6,38,87,65,1.0,1,7.9,63,6,56,0.889,isolado,rspec#0,112,diversidade,278,True,1,1
+rspec,rspec-core/lib/rspec/core/option_parser.rb,79a280d76e10,testing,42.7,268,14,57,0.0,0,0.0,7,2,7,1.0,isolado,rspec#0,112,diversidade,134,False,0,0
+rubocop,lib/rubocop/cop/base.rb,65854e6bbfe4,code formatting,5.1,17,23,47,2.33,0,1.5,66,3,58,0.879,isolado,rubocop#1,414,diversidade,273,False,0,1
+rubocop,lib/rubocop/cop/correctors/space_corrector.rb,65854e6bbfe4,code formatting,9.7,11,100,100,0.33,0,0.0,3,3,3,1.0,isolado,rubocop#1,414,diversidade,58,False,0,0
+rubocop,lib/rubocop/plugin/loader.rb,65854e6bbfe4,code formatting,11.3,26,100,67,0.0,0,33.3,6,3,6,1.0,isolado,rubocop#1,414,diversidade,249,False,0,0
+rubocop,lib/rubocop/runner.rb,65854e6bbfe4,code formatting,9.7,40,4,79,0.0,1,0.0,57,3,57,1.0,isolado,rubocop#1,414,diversidade,196,False,0,1
+rubocop,lib/rubocop/server.rb,65854e6bbfe4,code formatting,6,10,100,0,0.0,0,0.0,3,2,3,1.0,isolado,rubocop#1,414,diversidade,148,False,0,0
 rubocop-rspec,lib/rubocop/cop/rspec/leading_subject.rb,2488441eb70a,code formatting,6,8,0,50,0.5,2,0.0,6,4,6,1.0,isolado,rubocop-rspec#27,3,grupo,,True,1,1
 rubocop-rspec,lib/rubocop/cop/rspec/mixin/inside_example_group.rb,2488441eb70a,code formatting,4.3,7,0,100,0.0,0,0.0,3,4,3,1.0,isolado,rubocop-rspec#27,3,grupo,,True,2,2
+rubocop-rspec,lib/rubocop/cop/rspec/stubbed_mock.rb,2488441eb70a,code formatting,8.5,12,0,0,0.0,2,0.0,4,4,4,1.0,isolado,rubocop-rspec#64,1,diversidade,187,False,0,0
 rubocop-rspec,lib/rubocop/cop/rspec/variable_definition.rb,2488441eb70a,code formatting,9.3,14,0,100,1.0,2,0.0,3,4,3,1.0,isolado,rubocop-rspec#27,3,grupo,,True,1,1
-rufus-scheduler,lib/rufus/scheduler.rb,ec048146d12d,scheduling,9.3,74,5,73,0.0,2,1.7,59,5,44,0.746,isolado,rufus-scheduler#0,5,grupo,114,True,1,1
+rubocop-rspec,lib/rubocop/rspec/align_let_brace.rb,2488441eb70a,code formatting,5,9,0,62,0.67,0,12.5,8,3,8,1.0,isolado,rubocop-rspec#71,1,diversidade,23,False,0,0
+rufus-scheduler,lib/rufus/scheduler.rb,ec048146d12d,scheduling,9.3,74,5,73,0.0,2,1.7,59,5,44,0.746,isolado,rufus-scheduler#0,5,grupo,109,True,1,1
 rufus-scheduler,lib/rufus/scheduler/jobs_core.rb,ec048146d12d,scheduling,9.4,51,0,70,0.0,1,3.3,30,2,29,0.967,isolado,rufus-scheduler#0,5,grupo,,True,2,2
 rufus-scheduler,lib/rufus/scheduler/jobs_one_time.rb,ec048146d12d,scheduling,6.2,9,0,83,0.0,2,0.0,6,3,6,1.0,isolado,rufus-scheduler#0,5,grupo,,True,1,1
 rufus-scheduler,lib/rufus/scheduler/jobs_repeat.rb,ec048146d12d,scheduling,10.5,23,0,92,0.0,3,0.0,24,5,23,0.958,isolado,rufus-scheduler#0,5,grupo,,True,2,2
-rufus-scheduler,lib/rufus/scheduler/util.rb,ec048146d12d,scheduling,5.6,14,100,62,0.0,0,0.0,16,2,16,1.0,isolado,rufus-scheduler#0,5,grupo,144,True,4,4
-sawyer,lib/sawyer/resource.rb,7a60719e675f,http clients and tools,7.6,22,8,77,1.0,0,84.6,13,2,12,0.923,isolado,sawyer#1,3,diversidade,143,False,0,0
-sentry-ruby,sentry-rails/lib/sentry/rails/serializer.rb,a940dfdb5a64,error handling,8.3,14,100,100,0.0,0,0.0,3,3,3,1.0,isolado,sentry-ruby#2,1,diversidade,213,False,0,0
-sentry-ruby,sentry-rails/lib/sentry/rails/tracing.rb,a940dfdb5a64,error handling,6.8,16,80,30,0.0,0,30.0,10,4,9,0.9,isolado,sentry-ruby#1,51,diversidade,147,True,1,1
-sentry-ruby,sentry-ruby/lib/sentry-ruby.rb,a940dfdb5a64,error handling,5.5,28,100,79,1.0,0,6.9,58,1,54,0.931,isolado,sentry-ruby#1,51,diversidade,38,True,3,3
-sentry-ruby,sentry-ruby/lib/sentry/configuration.rb,a940dfdb5a64,error handling,7.0,74,14,54,1.0,0,5.1,59,3,50,0.847,isolado,sentry-ruby#1,51,diversidade,267,True,2,3
-sentry-ruby,sentry-ruby/lib/sentry/interfaces/single_exception.rb,a940dfdb5a64,error handling,15.7,24,33,100,0.5,1,33.3,3,2,3,1.0,isolado,sentry-ruby#1,51,diversidade,99,False,0,0
-sentry-ruby,sentry-ruby/lib/sentry/profiler.rb,a940dfdb5a64,error handling,21.6,108,0,25,0.5,0,0.0,8,2,8,1.0,isolado,sentry-ruby#1,51,diversidade,42,True,1,2
-sentry-ruby,sentry-ruby/lib/sentry/utils/argument_checking_helper.rb,a940dfdb5a64,error handling,5,5,0,100,0.0,0,0.0,3,2,3,1.0,isolado,sentry-ruby#1,51,diversidade,181,True,1,1
-shoulda-matchers,lib/shoulda/matchers/doublespeak.rb,cf3b3685f2c0,testing,3.7,5,100,33,0.33,0,0.0,3,3,3,1.0,isolado,shoulda-matchers#46,1,diversidade,108,False,0,0
-shoulda-matchers,lib/shoulda/matchers/error.rb,cf3b3685f2c0,testing,4.8,9,25,25,0.0,1,50.0,4,3,4,1.0,isolado,shoulda-matchers#54,1,diversidade,121,False,0,0
-simplecov,benchmarks/collate/rss_sampler.rb,76a8e4e0f661,code analysis and metrics,4.8,6,20,20,0.0,0,0.0,5,2,5,1.0,isolado,simplecov#8,1,diversidade,160,False,0,0
-simplecov,lib/simplecov/file_list.rb,76a8e4e0f661,code analysis and metrics,3.7,11,0,78,1.0,0,0.0,23,2,16,0.696,isolado,simplecov#29,2,diversidade,227,False,0,0
+rufus-scheduler,lib/rufus/scheduler/util.rb,ec048146d12d,scheduling,5.6,14,100,62,0.0,0,0.0,16,2,16,1.0,isolado,rufus-scheduler#0,5,grupo,171,True,4,4
+savon,lib/savon/block_interface.rb,69ab4149642b,http clients and tools,5.3,8,0,67,0.0,0,100.0,3,2,3,1.0,isolado,savon#2,1,diversidade,104,False,0,0
+selenium-webdriver,lib/selenium/webdriver/common/driver.rb,9175ed94d83e,testing,4.3,18,3,83,1.0,0,0.0,29,3,26,0.897,isolado,selenium-webdriver#19,2,diversidade,255,False,0,0
+sentry-ruby,sentry-ruby/lib/sentry-ruby.rb,a940dfdb5a64,error handling,5.5,28,100,79,1.0,0,6.9,58,1,54,0.931,isolado,sentry-ruby#1,51,diversidade,36,True,3,3
+sentry-ruby,sentry-ruby/lib/sentry/configuration.rb,a940dfdb5a64,error handling,7.0,74,14,54,1.0,0,5.1,59,3,50,0.847,isolado,sentry-ruby#1,51,diversidade,269,True,1,2
+sentry-ruby,sentry-ruby/lib/sentry/profiler.rb,a940dfdb5a64,error handling,21.6,108,0,25,0.5,0,0.0,8,2,8,1.0,isolado,sentry-ruby#1,51,diversidade,41,True,1,2
+sentry-ruby,sentry-ruby/lib/sentry/profiler/helpers.rb,a940dfdb5a64,error handling,4.7,8,0,100,0.0,0,0.0,3,3,3,1.0,isolado,sentry-ruby#13,1,diversidade,175,False,0,0
+sentry-ruby,sentry-sidekiq/lib/sentry/sidekiq/cron/job.rb,a940dfdb5a64,error handling,11.2,28,25,75,0.0,0,75.0,4,4,4,1.0,isolado,sentry-ruby#1,51,diversidade,75,True,1,1
+shoulda-matchers,lib/shoulda/matchers/error.rb,cf3b3685f2c0,testing,4.8,9,25,25,0.0,1,50.0,4,3,4,1.0,isolado,shoulda-matchers#52,1,diversidade,117,False,0,0
+simplecov,lib/simplecov/combine/branches_combiner.rb,76a8e4e0f661,code analysis and metrics,4.7,10,0,33,0.0,0,0.0,6,3,6,1.0,isolado,simplecov#14,1,diversidade,63,False,0,0
+simplecov,lib/simplecov/configuration/filters.rb,76a8e4e0f661,code analysis and metrics,5,10,0,47,0.0,0,0.0,15,2,12,0.8,isolado,simplecov#18,3,grupo,,True,2,2
+simplecov,lib/simplecov/configuration/groups.rb,76a8e4e0f661,code analysis and metrics,6.2,12,0,75,0.0,0,0.0,4,2,4,1.0,isolado,simplecov#18,3,grupo,,True,1,1
+simplecov,lib/simplecov/filter.rb,76a8e4e0f661,code analysis and metrics,4.9,20,17,56,0.0,1,0.0,18,7,15,0.833,isolado,simplecov#18,3,grupo,,True,1,1
+simplecov,lib/simplecov/formatter/html_formatter/viewer_data_validator.rb,76a8e4e0f661,code analysis and metrics,7.8,12,100,100,0.0,1,0.0,8,4,8,1.0,isolado,simplecov#0,34,diversidade,214,False,0,0
+simplecov,lib/simplecov/parallel_adapters/generic.rb,76a8e4e0f661,code analysis and metrics,3.7,5,100,0,0.0,1,0.0,3,3,3,1.0,isolado,simplecov#25,1,diversidade,173,False,0,0
+slop,lib/slop.rb,7e720331b78d,cli builder,4,7,100,50,0.0,0,25.0,4,1,4,1.0,isolado,slop#0,2,diversidade,150,False,0,0
 spring,lib/spring/watcher.rb,b7f3fd04b2ed,testing,4.7,8,100,100,0.0,0,33.3,3,1,3,1.0,isolado,spring#0,7,diversidade,24,False,0,0
-sprockets,lib/sprockets/cache.rb,73c5a5316bd1,assets,6.7,21,5,95,0.0,2,0.0,19,6,18,0.947,isolado,sprockets#5,1,diversidade,239,False,0,0
-sprockets,lib/sprockets/cache/null_store.rb,73c5a5316bd1,assets,3,3,0,0,0.0,0,0.0,4,3,3,0.75,isolado,sprockets#8,1,diversidade,215,False,0,0
-sprockets,lib/sprockets/configuration.rb,73c5a5316bd1,assets,3.5,5,0,100,4.0,0,0.0,6,2,5,0.833,isolado,sprockets#3,17,diversidade,89,True,1,1
-sprockets,lib/sprockets/utils.rb,73c5a5316bd1,assets,14.8,26,0,75,0.5,0,50.0,8,2,8,1.0,isolado,sprockets#3,17,diversidade,128,True,1,1
+sprockets,lib/sprockets/base.rb,73c5a5316bd1,assets,7.7,28,0,36,3.67,2,0.0,11,3,11,1.0,isolado,sprockets#3,17,grupo,,True,5,6
+sprockets,lib/sprockets/cache.rb,73c5a5316bd1,assets,6.7,21,5,95,0.0,2,0.0,19,6,18,0.947,isolado,sprockets#5,1,diversidade,245,False,0,1
+sprockets,lib/sprockets/compressing.rb,73c5a5316bd1,assets,8.2,17,0,78,0.5,0,0.0,9,2,6,0.667,isolado,sprockets#3,17,grupo,,True,1,1
+sprockets,lib/sprockets/configuration.rb,73c5a5316bd1,assets,3.5,5,0,100,4.0,0,0.0,6,2,5,0.833,isolado,sprockets#3,17,grupo,338,True,1,1
+sprockets,lib/sprockets/digest_utils.rb,73c5a5316bd1,assets,4.5,15,0,50,0.5,0,0.0,12,2,11,0.917,isolado,sprockets#3,17,grupo,,True,2,2
+sprockets,lib/sprockets/http_utils.rb,73c5a5316bd1,assets,9.1,27,0,57,0.5,0,0.0,7,2,7,1.0,isolado,sprockets#3,17,grupo,,True,2,2
+sprockets,lib/sprockets/loader.rb,73c5a5316bd1,assets,29.6,92,0,100,4.0,0,0.0,8,2,8,1.0,isolado,sprockets#3,17,grupo,70,True,7,7
+sprockets,lib/sprockets/mime.rb,73c5a5316bd1,assets,8.2,19,0,100,1.0,0,0.0,5,2,4,0.8,isolado,sprockets#3,17,grupo,,True,2,2
+sprockets,lib/sprockets/path_dependency_utils.rb,73c5a5316bd1,assets,4.7,8,0,33,1.0,0,0.0,3,2,3,1.0,isolado,sprockets#3,17,grupo,168,True,2,2
+sprockets,lib/sprockets/path_digest_utils.rb,73c5a5316bd1,assets,6.3,11,0,67,1.0,0,0.0,3,2,3,1.0,isolado,sprockets#3,17,grupo,,True,3,3
+sprockets,lib/sprockets/path_utils.rb,73c5a5316bd1,assets,8.9,18,0,71,0.5,0,0.0,21,2,21,1.0,isolado,sprockets#3,17,grupo,,True,6,6
+sprockets,lib/sprockets/paths.rb,73c5a5316bd1,assets,5.9,13,0,86,1.0,0,0.0,7,2,6,0.857,isolado,sprockets#3,17,grupo,,True,3,3
+sprockets,lib/sprockets/processing.rb,73c5a5316bd1,assets,6.6,23,0,63,1.5,0,0.0,19,2,14,0.737,isolado,sprockets#3,17,grupo,,True,4,4
+sprockets,lib/sprockets/processor_utils.rb,73c5a5316bd1,assets,7.3,17,11,78,0.33,1,0.0,9,3,9,1.0,isolado,sprockets#3,17,grupo,,True,3,3
+sprockets,lib/sprockets/resolve.rb,73c5a5316bd1,assets,13.7,28,0,75,1.5,0,0.0,12,2,12,1.0,isolado,sprockets#3,17,grupo,,True,4,4
+sprockets,lib/sprockets/transformers.rb,73c5a5316bd1,assets,10.9,25,0,100,1.5,0,0.0,8,2,8,1.0,isolado,sprockets#3,17,grupo,,True,3,3
+sprockets,lib/sprockets/uri_utils.rb,73c5a5316bd1,assets,7.6,19,0,64,0.5,0,0.0,11,2,11,1.0,isolado,sprockets#3,17,grupo,,True,4,4
+sprockets,lib/sprockets/utils.rb,73c5a5316bd1,assets,14.8,26,0,75,0.5,0,50.0,8,2,8,1.0,isolado,sprockets#3,17,grupo,155,True,6,6
 state_machines,lib/state_machines/async_mode/async_transition_collection.rb,219b43ea588f,state machines,21.8,36,0,100,0.0,2,40.0,5,4,5,1.0,isolado,state_machines#2,20,grupo,,True,1,1
 state_machines,lib/state_machines/branch.rb,219b43ea588f,state machines,10.9,37,0,75,0.5,0,8.3,12,2,12,1.0,isolado,state_machines#2,20,grupo,,True,2,6
 state_machines,lib/state_machines/callback.rb,219b43ea588f,state machines,14.4,22,0,100,0.5,0,60.0,5,2,5,1.0,isolado,state_machines#2,20,grupo,,True,1,4
-state_machines,lib/state_machines/eval_helpers.rb,219b43ea588f,state machines,42,65,0,100,0.0,0,133.3,3,2,3,1.0,isolado,state_machines#2,20,grupo,305,True,2,3
+state_machines,lib/state_machines/eval_helpers.rb,219b43ea588f,state machines,42,65,0,100,0.0,0,133.3,3,2,3,1.0,isolado,state_machines#2,20,grupo,321,True,2,3
 state_machines,lib/state_machines/event.rb,219b43ea588f,state machines,10.2,29,0,77,0.5,0,15.4,13,2,13,1.0,isolado,state_machines#2,20,grupo,,True,1,5
 state_machines,lib/state_machines/event_collection.rb,219b43ea588f,state machines,7.6,26,0,80,0.0,1,20.0,5,2,5,1.0,isolado,state_machines#2,20,grupo,,True,1,2
-state_machines,lib/state_machines/integrations.rb,219b43ea588f,state machines,4.3,9,100,83,0.0,0,0.0,6,2,6,1.0,isolado,state_machines#2,20,grupo,111,True,1,1
-state_machines,lib/state_machines/machine.rb,219b43ea588f,state machines,4.6,18,0,38,7.5,0,23.1,13,2,12,0.923,isolado,state_machines#7,1,diversidade,232,False,0,4
+state_machines,lib/state_machines/integrations.rb,219b43ea588f,state machines,4.3,9,100,83,0.0,0,0.0,6,2,6,1.0,isolado,state_machines#2,20,grupo,103,True,1,1
+state_machines,lib/state_machines/machine.rb,219b43ea588f,state machines,4.6,18,0,38,7.5,0,23.1,13,2,12,0.923,isolado,state_machines#7,1,diversidade,199,False,0,4
 state_machines,lib/state_machines/machine/callbacks.rb,219b43ea588f,state machines,5.2,10,0,20,0.0,0,0.0,5,3,3,0.6,isolado,state_machines#2,20,grupo,,True,1,1
 state_machines,lib/state_machines/machine/configuration.rb,219b43ea588f,state machines,21,55,0,100,1.67,0,100.0,5,3,5,1.0,isolado,state_machines#2,20,grupo,3,True,2,5
-state_machines,lib/state_machines/machine/event_methods.rb,219b43ea588f,state machines,13.3,28,0,67,0.0,0,0.0,3,3,3,1.0,isolado,state_machines#2,20,grupo,,True,1,2
+state_machines,lib/state_machines/machine/event_methods.rb,219b43ea588f,state machines,13.3,28,0,67,0.0,0,0.0,3,3,3,1.0,isolado,state_machines#2,20,grupo,126,True,1,2
 state_machines,lib/state_machines/machine/state_methods.rb,219b43ea588f,state machines,9.4,32,0,100,0.0,0,57.1,7,3,7,1.0,isolado,state_machines#2,20,grupo,,True,1,2
-state_machines,lib/state_machines/machine_collection.rb,219b43ea588f,state machines,16.5,26,0,100,0.0,1,0.0,4,2,4,1.0,isolado,state_machines#2,20,grupo,332,True,1,3
-state_machines,lib/state_machines/matcher.rb,219b43ea588f,state machines,3,3,0,54,0.33,1,0.0,13,6,11,0.846,isolado,state_machines#15,1,diversidade,125,False,0,1
-state_machines,lib/state_machines/node_collection.rb,219b43ea588f,state machines,5.7,16,0,90,0.5,0,5.0,20,2,20,1.0,isolado,state_machines#2,20,grupo,,True,3,14
+state_machines,lib/state_machines/machine_collection.rb,219b43ea588f,state machines,16.5,26,0,100,0.0,1,0.0,4,2,4,1.0,isolado,state_machines#2,20,grupo,,True,1,3
+state_machines,lib/state_machines/node_collection.rb,219b43ea588f,state machines,5.7,16,0,90,0.5,0,5.0,20,2,20,1.0,isolado,state_machines#2,20,grupo,453,True,3,13
 state_machines,lib/state_machines/options_validator.rb,219b43ea588f,state machines,8.2,11,100,75,0.0,0,0.0,4,2,4,1.0,isolado,state_machines#2,20,grupo,,True,13,13
 state_machines,lib/state_machines/path.rb,219b43ea588f,state machines,3.8,8,0,92,0.0,1,0.0,13,2,13,1.0,isolado,state_machines#2,20,grupo,,True,1,3
 state_machines,lib/state_machines/path_collection.rb,219b43ea588f,state machines,5.5,13,0,50,0.0,1,0.0,6,2,4,0.667,isolado,state_machines#2,20,grupo,,True,1,4
@@ -455,47 +441,61 @@ state_machines,lib/state_machines/state.rb,219b43ea588f,state machines,10.2,49,0
 state_machines,lib/state_machines/state_collection.rb,219b43ea588f,state machines,4.7,12,0,83,0.0,1,0.0,6,2,6,1.0,isolado,state_machines#2,20,grupo,,True,1,3
 state_machines,lib/state_machines/state_context.rb,219b43ea588f,state machines,16,33,0,100,0.5,1,33.3,3,2,3,1.0,isolado,state_machines#2,20,grupo,,True,1,2
 state_machines,lib/state_machines/transition_collection.rb,219b43ea588f,state machines,9.9,46,0,50,0.0,2,30.0,20,3,16,0.8,isolado,state_machines#2,20,grupo,,True,2,4
-thin,lib/thin/backends/unix_server.rb,84a5188612d8,web servers,4.6,12,0,14,0.0,2,14.3,7,4,6,0.857,isolado,thin#5,1,diversidade,26,False,0,1
-thin,lib/thin/server.rb,84a5188612d8,web servers,11.1,38,8,77,1.5,1,0.0,13,2,13,1.0,isolado,thin#0,10,diversidade,91,False,0,1
-thin,site/rdoc.rb,84a5188612d8,web servers,13.2,17,0,100,0.0,0,25.0,4,4,4,1.0,isolado,thin#10,1,diversidade,176,False,0,0
-twilio-ruby,lib/twilio-ruby/jwt/task_router.rb,c58e213a6f04,third-party apis,4.9,23,80,8,0.0,1,0.0,25,5,13,0.52,isolado,twilio-ruby#12,1,diversidade,159,False,0,0
-twilio-ruby,lib/twilio-ruby/rest/api.rb,c58e213a6f04,third-party apis,3.9,4,0,0,0.0,2,0.0,26,3,26,1.0,com a biblioteca carregada,twilio-ruby#14,1,diversidade,264,False,0,0
-twilio-ruby,lib/twilio-ruby/rest/api/v2010/account/call/stream.rb,c58e213a6f04,third-party apis,28.5,432,0,66,0.0,2,0.0,38,14,19,0.5,isolado,twilio-ruby#5,98,diversidade,199,False,0,0
-typhoeus,lib/typhoeus/cache/dalli.rb,d7aba1bbfa8d,http clients and tools,3.3,4,0,100,0.0,0,0.0,3,3,3,1.0,isolado,typhoeus#3,1,diversidade,71,False,0,1
-typhoeus,lib/typhoeus/request.rb,d7aba1bbfa8d,http clients and tools,6.1,11,0,78,6.0,0,0.0,9,2,9,1.0,isolado,typhoeus#6,3,diversidade,195,False,0,1
-tzinfo,lib/tzinfo/format1/country_index_definition.rb,d5893c99bbcd,date and time processing,7.3,13,33,100,0.0,0,33.3,3,4,3,1.0,isolado,tzinfo#9,1,diversidade,224,False,0,0
+thin,lib/rack/adapter/loader.rb,84a5188612d8,web servers,15.7,37,100,33,0.0,1,0.0,3,3,3,1.0,isolado,thin#0,10,diversidade,108,False,0,0
+thin,lib/thin/backends/unix_server.rb,84a5188612d8,web servers,4.6,12,0,14,0.0,2,14.3,7,4,6,0.857,isolado,thin#5,1,diversidade,26,False,0,0
+twilio-ruby,lib/twilio-ruby/framework/serialize.rb,c58e213a6f04,third-party apis,7.7,12,100,100,0.0,0,0.0,9,1,8,0.889,isolado,twilio-ruby#5,98,diversidade,276,True,1,1
+twilio-ruby,lib/twilio-ruby/http/http_client.rb,c58e213a6f04,third-party apis,12.8,44,0,83,0.0,0,33.3,6,3,6,1.0,com a biblioteca carregada,twilio-ruby#8,1,diversidade,112,False,0,0
+twilio-ruby,lib/twilio-ruby/jwt/task_router.rb,c58e213a6f04,third-party apis,4.9,23,80,8,0.0,1,0.0,25,5,13,0.52,isolado,twilio-ruby#12,1,diversidade,248,False,0,0
+twilio-ruby,lib/twilio-ruby/rest/api/v2010.rb,c58e213a6f04,third-party apis,3.3,11,0,7,0.0,2,0.0,29,4,29,1.0,isolado,twilio-ruby#15,1,diversidade,45,False,0,0
+twilio-ruby,lib/twilio-ruby/rest/api/v2010/account/call/stream.rb,c58e213a6f04,third-party apis,28.5,432,0,66,0.0,2,0.0,38,14,19,0.5,isolado,twilio-ruby#5,98,diversidade,216,True,1,1
+typhoeus,lib/typhoeus.rb,d7aba1bbfa8d,http clients and tools,6.2,10,100,50,2.0,0,0.0,4,1,4,1.0,isolado,typhoeus#2,2,diversidade,222,False,0,0
+tzinfo,lib/tzinfo/country.rb,d5893c99bbcd,date and time processing,3.1,4,28,67,0.33,1,0.0,18,3,16,0.889,isolado,tzinfo#1,15,grupo,,True,2,2
+tzinfo,lib/tzinfo/country_timezone.rb,d5893c99bbcd,date and time processing,3.8,6,0,50,0.0,0,0.0,6,2,6,1.0,isolado,tzinfo#1,15,grupo,,True,1,2
+tzinfo,lib/tzinfo/data_source.rb,d5893c99bbcd,date and time processing,7.2,21,13,39,0.0,1,0.0,23,4,19,0.826,isolado,tzinfo#1,15,grupo,,True,4,4
+tzinfo,lib/tzinfo/data_sources/ruby_data_source.rb,d5893c99bbcd,date and time processing,7.6,31,0,22,0.0,1,11.1,9,4,7,0.778,isolado,tzinfo#1,15,grupo,333,True,1,1
+tzinfo,lib/tzinfo/data_sources/zoneinfo_data_source.rb,d5893c99bbcd,date and time processing,14.7,107,26,42,0.0,1,0.0,19,5,15,0.789,isolado,tzinfo#1,15,grupo,,True,1,5
+tzinfo,lib/tzinfo/data_sources/zoneinfo_reader.rb,d5893c99bbcd,date and time processing,24.5,136,0,85,0.0,1,0.0,13,4,13,1.0,isolado,tzinfo#7,1,diversidade,153,False,0,2
+tzinfo,lib/tzinfo/data_timezone.rb,d5893c99bbcd,date and time processing,6,11,0,75,0.0,2,0.0,4,2,4,1.0,isolado,tzinfo#1,15,grupo,,True,2,4
+tzinfo,lib/tzinfo/format1/country_index_definition.rb,d5893c99bbcd,date and time processing,7.3,13,33,100,0.0,0,33.3,3,4,3,1.0,isolado,tzinfo#9,1,diversidade,113,False,0,0
+tzinfo,lib/tzinfo/info_timezone.rb,d5893c99bbcd,date and time processing,3.3,4,0,33,0.0,1,0.0,3,2,3,1.0,isolado,tzinfo#1,15,grupo,,True,1,1
+tzinfo,lib/tzinfo/linked_timezone.rb,d5893c99bbcd,date and time processing,3.2,4,0,100,0.0,2,0.0,5,2,5,1.0,isolado,tzinfo#1,15,grupo,342,True,1,3
+tzinfo,lib/tzinfo/timestamp.rb,d5893c99bbcd,date and time processing,9.3,47,35,81,0.5,0,11.5,26,2,26,1.0,isolado,tzinfo#1,15,grupo,479,True,5,6
+tzinfo,lib/tzinfo/timestamp_with_offset.rb,d5893c99bbcd,date and time processing,6.8,8,25,50,0.5,1,0.0,4,2,4,1.0,isolado,tzinfo#1,15,grupo,,True,4,4
+tzinfo,lib/tzinfo/timezone.rb,d5893c99bbcd,date and time processing,5.5,36,31,33,0.17,1,0.0,48,6,45,0.938,isolado,tzinfo#1,15,grupo,32,True,7,8
+tzinfo,lib/tzinfo/timezone_period.rb,d5893c99bbcd,date and time processing,3.1,4,0,47,0.0,0,0.0,15,2,14,0.933,isolado,tzinfo#1,15,grupo,,True,1,1
+tzinfo,lib/tzinfo/timezone_proxy.rb,d5893c99bbcd,date and time processing,4.3,13,11,56,0.0,1,0.0,9,2,9,1.0,isolado,tzinfo#1,15,grupo,,True,1,3
+tzinfo,lib/tzinfo/timezone_transition.rb,d5893c99bbcd,date and time processing,3.5,5,0,50,0.0,0,0.0,6,2,5,0.833,isolado,tzinfo#1,15,grupo,,True,1,2
+tzinfo,lib/tzinfo/transition_rule.rb,d5893c99bbcd,date and time processing,4.2,18,0,69,0.0,2,0.0,32,8,20,0.625,isolado,tzinfo#1,15,grupo,,True,2,2
 vcr,lib/vcr.rb,5dcacdf69bd6,testing,6.0,18,0,53,1.0,0,0.0,34,3,27,0.794,isolado,vcr#0,9,grupo,,True,2,4
 vcr,lib/vcr/cassette/http_interaction_list.rb,5dcacdf69bd6,testing,4.9,16,0,62,0.5,0,0.0,16,4,13,0.812,isolado,vcr#0,9,grupo,,True,1,1
-vcr,lib/vcr/cassette/serializers/syck.rb,5dcacdf69bd6,testing,6.5,11,0,0,0.75,0,0.0,4,4,4,1.0,isolado,vcr#10,1,diversidade,15,False,0,0
+vcr,lib/vcr/cassette/serializers/json.rb,5dcacdf69bd6,testing,5,7,0,0,0.75,0,0.0,3,4,3,1.0,isolado,vcr#8,1,diversidade,15,False,0,0
 vcr,lib/vcr/configuration.rb,5dcacdf69bd6,testing,6.6,26,0,48,1.5,0,3.4,29,2,28,0.966,isolado,vcr#0,9,grupo,,True,3,5
 vcr,lib/vcr/deprecations.rb,5dcacdf69bd6,testing,4.8,6,40,40,0.0,0,0.0,5,5,5,1.0,isolado,vcr#0,9,grupo,,True,2,2
 vcr,lib/vcr/linked_cassette.rb,5dcacdf69bd6,testing,5,9,12,50,0.33,1,0.0,8,3,8,1.0,isolado,vcr#0,9,grupo,,True,1,2
 vcr,lib/vcr/request_handler.rb,5dcacdf69bd6,testing,4.8,20,0,6,0.5,0,5.6,18,2,14,0.778,isolado,vcr#0,9,grupo,,True,1,1
 vcr,lib/vcr/request_ignorer.rb,5dcacdf69bd6,testing,4,7,0,71,0.5,0,0.0,7,2,7,1.0,isolado,vcr#0,9,grupo,,True,1,2
-vcr,lib/vcr/util/hooks.rb,5dcacdf69bd6,testing,5.6,10,14,100,1.33,0,71.4,7,3,7,1.0,isolado,vcr#0,9,grupo,94,True,2,2
+vcr,lib/vcr/util/hooks.rb,5dcacdf69bd6,testing,5.6,10,14,100,1.33,0,71.4,7,3,7,1.0,isolado,vcr#0,9,grupo,76,True,2,2
 vcr,lib/vcr/util/logger.rb,5dcacdf69bd6,testing,2.9,6,0,30,0.0,0,0.0,10,4,8,0.8,isolado,vcr#0,9,grupo,,True,3,3
+vcr,lib/vcr/version.rb,5dcacdf69bd6,testing,7,23,80,100,1.0,0,0.0,5,1,3,0.6,isolado,vcr#17,1,diversidade,194,False,0,0
 virtus,lib/virtus.rb,9e4f56fe8259,core extensions,4.4,12,74,53,0.0,1,5.3,19,2,17,0.895,isolado,virtus#0,11,grupo,,True,3,4
 virtus,lib/virtus/attribute.rb,9e4f56fe8259,core extensions,3.5,7,29,53,2.0,0,0.0,17,2,14,0.824,isolado,virtus#0,11,grupo,,True,4,5
-virtus,lib/virtus/attribute/accessor.rb,9e4f56fe8259,core extensions,3.4,6,14,100,0.0,0,57.1,7,3,6,0.857,isolado,virtus#1,1,diversidade,166,False,0,1
 virtus,lib/virtus/attribute/builder.rb,9e4f56fe8259,core extensions,6.3,17,11,72,0.0,0,11.1,18,5,17,0.944,isolado,virtus#0,11,grupo,,True,3,4
 virtus,lib/virtus/attribute/collection.rb,9e4f56fe8259,core extensions,6,16,55,91,0.0,1,0.0,11,3,11,1.0,isolado,virtus#0,11,grupo,,True,2,4
-virtus,lib/virtus/attribute/default_value.rb,9e4f56fe8259,core extensions,3.3,4,33,33,0.67,0,0.0,3,3,3,1.0,isolado,virtus#0,11,grupo,409,True,1,1
+virtus,lib/virtus/attribute/default_value.rb,9e4f56fe8259,core extensions,3.3,4,33,33,0.67,0,0.0,3,3,3,1.0,isolado,virtus#0,11,grupo,,True,1,1
 virtus,lib/virtus/attribute/embedded_value.rb,9e4f56fe8259,core extensions,5.8,9,60,100,0.0,1,0.0,5,5,4,0.8,isolado,virtus#0,11,grupo,,True,3,3
 virtus,lib/virtus/attribute/hash.rb,9e4f56fe8259,core extensions,6.8,25,58,75,0.0,1,0.0,12,3,11,0.917,isolado,virtus#0,11,grupo,,True,2,5
-virtus,lib/virtus/attribute_set.rb,9e4f56fe8259,core extensions,4.7,8,6,94,0.5,1,44.4,18,2,18,1.0,isolado,virtus#0,11,grupo,,True,2,8
-virtus,lib/virtus/class_inclusions.rb,9e4f56fe8259,core extensions,4.7,8,33,33,1.33,0,133.3,3,3,3,1.0,isolado,virtus#6,1,diversidade,43,False,0,0
-virtus,lib/virtus/class_methods.rb,9e4f56fe8259,core extensions,4,5,17,83,1.5,0,33.3,6,2,6,1.0,isolado,virtus#0,11,grupo,,True,1,1
-virtus,lib/virtus/extensions.rb,9e4f56fe8259,core extensions,5.5,8,33,83,1.33,0,16.7,6,3,6,1.0,isolado,virtus#0,11,grupo,423,True,2,2
-virtus,lib/virtus/model.rb,9e4f56fe8259,core extensions,4.4,6,100,100,0.0,0,71.4,7,5,4,0.571,isolado,virtus#10,1,diversidade,262,False,0,0
+virtus,lib/virtus/attribute_set.rb,9e4f56fe8259,core extensions,4.7,8,6,94,0.5,1,44.4,18,2,18,1.0,isolado,virtus#0,11,grupo,,True,2,7
+virtus,lib/virtus/class_methods.rb,9e4f56fe8259,core extensions,4,5,17,83,1.5,0,33.3,6,2,6,1.0,isolado,virtus#0,11,grupo,336,True,1,1
+virtus,lib/virtus/extensions.rb,9e4f56fe8259,core extensions,5.5,8,33,83,1.33,0,16.7,6,3,6,1.0,isolado,virtus#0,11,grupo,,True,2,2
+virtus,lib/virtus/model.rb,9e4f56fe8259,core extensions,4.4,6,100,100,0.0,0,71.4,7,5,4,0.571,isolado,virtus#10,1,diversidade,202,False,0,0
 virtus,lib/virtus/value_object.rb,9e4f56fe8259,core extensions,6.2,11,17,67,1.0,0,16.7,6,5,6,1.0,isolado,virtus#0,11,grupo,,True,1,2
-will_paginate,lib/will_paginate/i18n.rb,50017c3eb071,pagination,5.3,10,67,33,0.0,0,0.0,3,2,3,1.0,isolado,will_paginate#3,1,diversidade,234,False,0,0
-will_paginate,lib/will_paginate/view_helpers/link_renderer_base.rb,50017c3eb071,pagination,11,37,0,80,0.0,0,0.0,5,3,5,1.0,isolado,will_paginate#5,2,diversidade,124,False,0,0
+will_paginate,lib/will_paginate/i18n.rb,50017c3eb071,pagination,5.3,10,67,33,0.0,0,0.0,3,2,3,1.0,isolado,will_paginate#3,1,diversidade,137,False,0,0
 wisper,lib/wisper.rb,4569343e353e,business logic,3.9,7,100,14,0.0,0,0.0,7,1,7,1.0,isolado,wisper#0,5,diversidade,188,True,1,1
-wisper,lib/wisper/broadcasters/logger_broadcaster.rb,4569343e353e,business logic,5.4,8,0,80,0.0,0,20.0,5,3,5,1.0,isolado,wisper#1,1,diversidade,244,False,0,0
-wisper,lib/wisper/global_listeners.rb,4569343e353e,business logic,3.9,8,42,83,0.5,0,0.0,12,2,12,1.0,isolado,wisper#0,5,diversidade,87,True,1,1
-zeitwerk,lib/zeitwerk/cref.rb,607973fc0bd8,code loaders,3.4,5,0,89,1.0,0,33.3,9,1,9,1.0,isolado,zeitwerk#0,1,diversidade,198,False,0,1
-zeitwerk,lib/zeitwerk/gem_loader.rb,607973fc0bd8,code loaders,11.2,25,25,50,0.5,1,0.0,4,2,4,1.0,isolado,zeitwerk#2,4,grupo,62,True,2,2
-zeitwerk,lib/zeitwerk/loader.rb,607973fc0bd8,code loaders,13.4,67,16,81,3.5,0,3.2,31,2,31,1.0,isolado,zeitwerk#2,4,grupo,,True,2,3
+wisper,lib/wisper/broadcasters/logger_broadcaster.rb,4569343e353e,business logic,5.4,8,0,80,0.0,0,20.0,5,3,5,1.0,isolado,wisper#1,1,diversidade,254,False,0,0
+wisper,lib/wisper/global_listeners.rb,4569343e353e,business logic,3.9,8,42,83,0.5,0,0.0,12,2,12,1.0,isolado,wisper#0,5,diversidade,85,True,1,1
+zeitwerk,lib/zeitwerk/gem_loader.rb,607973fc0bd8,code loaders,11.2,25,25,50,0.5,1,0.0,4,2,4,1.0,isolado,zeitwerk#2,4,grupo,447,True,2,2
+zeitwerk,lib/zeitwerk/inflector.rb,607973fc0bd8,code loaders,3,3,0,67,0.0,0,0.0,3,2,3,1.0,isolado,zeitwerk#3,1,diversidade,107,False,0,0
+zeitwerk,lib/zeitwerk/loader.rb,607973fc0bd8,code loaders,13.4,67,16,81,3.5,0,3.2,31,2,31,1.0,isolado,zeitwerk#2,4,grupo,133,True,2,2
 zeitwerk,lib/zeitwerk/loader/config.rb,607973fc0bd8,code loaders,7.2,18,0,85,2.0,0,0.0,27,1,26,0.963,isolado,zeitwerk#2,4,grupo,,True,2,2
-zeitwerk,lib/zeitwerk/loader/eager_load.rb,607973fc0bd8,code loaders,32.5,41,0,100,0.0,0,66.7,6,1,6,1.0,isolado,zeitwerk#5,1,diversidade,22,False,0,0
-zeitwerk,lib/zeitwerk/registry.rb,607973fc0bd8,code loaders,9.7,23,100,67,0.0,0,0.0,3,2,3,1.0,isolado,zeitwerk#2,4,grupo,248,True,2,2
+zeitwerk,lib/zeitwerk/loader/eager_load.rb,607973fc0bd8,code loaders,32.5,41,0,100,0.0,0,66.7,6,1,6,1.0,isolado,zeitwerk#5,1,diversidade,99,False,0,0
+zeitwerk,lib/zeitwerk/registry.rb,607973fc0bd8,code loaders,9.7,23,100,67,0.0,0,0.0,3,2,3,1.0,isolado,zeitwerk#2,4,grupo,145,True,2,2

@@ -147,23 +147,23 @@ minutos, e a medição vai seguindo a geração sozinha. O `MODEL` e o
 
 ## O piloto, antes da corrida completa
 
-Seis gems, 234 métodos, escolhidas entre as **45 gems que aparecem em todas as
+Seis gems, 241 métodos, escolhidas entre as **41 gems que aparecem em todas as
 variantes de tamanho e fatia** (os números do piloto valem qualquer que seja a
 decisão), uma por cada caminho de maior risco:
 
 | gem | métodos | afetados pelo grafo | porquê |
 |---|---|---|---|
 | aasm | 43 | 35 | origem grupo |
-| commander | 74 | 51 | origem grupo, maior |
-| activesupport | 70 | 36 | monorepo (a raiz é `activesupport/` dentro do rails) |
-| byebug | 11 | 5 | módulos certificados com a biblioteca carregada |
-| thin | 22 | 14 | receita "deps + a própria gem" (extensão em C) |
+| commander | 77 | 54 | origem grupo, maior |
+| activesupport | 77 | 40 | monorepo (a raiz é `activesupport/` dentro do rails) |
+| doorkeeper | 21 | 7 | módulos certificados com a biblioteca carregada; porta de entrada fechada |
+| thin | 9 | 3 | receita "deps + a própria gem" (extensão em C) |
 | i18n | 14 | 9 | origem diversidade, gem simples |
 
-Estimativa a 16B: ~3,6 GPU-h a execução normal, ~2 GPU-h o braço sem grafo.
+Estimativa a 16B: ~3,7 GPU-h a execução normal, ~2 GPU-h o braço sem grafo.
 
 ```bash
-export PROJECTS=aasm,commander,activesupport,byebug,thin,i18n
+export PROJECTS=aasm,commander,activesupport,doorkeeper,thin,i18n
 PHASE=generate sbatch --export=ALL deucalion/run_ruby_benchmark.sh
 ACOMPANHAR=1 sbatch --export=ALL deucalion/run_ruby_measure_cpu.sh
 # quando a geração normal acabar (o braço sem grafo reaproveita a passagem 1 dela):

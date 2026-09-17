@@ -669,38 +669,11 @@
    {
     "ficheiro": "lib/active_record.rb",
     "modo": "isolado",
-    "origem": "grupo",
+    "origem": "diversidade",
     "componente": "activerecord#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 6,
+    "relacionado": false,
+    "vizinhos_no_corpus": 0,
     "metodos": 18
-   },
-   {
-    "ficheiro": "lib/active_record/aggregations.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "activerecord#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 1,
-    "metodos": 7
-   },
-   {
-    "ficheiro": "lib/active_record/associations.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "activerecord#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 3,
-    "metodos": 13
-   },
-   {
-    "ficheiro": "lib/active_record/associations/builder/association.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "activerecord#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 1,
-    "metodos": 17
    },
    {
     "ficheiro": "lib/active_record/associations/builder/belongs_to.rb",
@@ -712,15 +685,6 @@
     "metodos": 11
    },
    {
-    "ficheiro": "lib/active_record/associations/builder/collection_association.rb",
-    "modo": "isolado",
-    "origem": "diversidade",
-    "componente": "activerecord#6",
-    "relacionado": false,
-    "vizinhos_no_corpus": 0,
-    "metodos": 6
-   },
-   {
     "ficheiro": "lib/active_record/associations/builder/has_one.rb",
     "modo": "isolado",
     "origem": "grupo",
@@ -730,31 +694,49 @@
     "metodos": 8
    },
    {
-    "ficheiro": "lib/active_record/associations/deprecation.rb",
+    "ficheiro": "lib/active_record/associations/builder/singular_association.rb",
     "modo": "isolado",
-    "origem": "grupo",
-    "componente": "activerecord#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 3,
-    "metodos": 9
+    "origem": "diversidade",
+    "componente": "activerecord#8",
+    "relacionado": false,
+    "vizinhos_no_corpus": 0,
+    "metodos": 4
    },
    {
-    "ficheiro": "lib/active_record/associations/join_dependency.rb",
+    "ficheiro": "lib/active_record/associations/foreign_association.rb",
     "modo": "isolado",
     "origem": "grupo",
-    "componente": "activerecord#0",
+    "componente": "activerecord#12",
     "relacionado": true,
-    "vizinhos_no_corpus": 1,
-    "metodos": 22
+    "vizinhos_no_corpus": 2,
+    "metodos": 3
    },
    {
-    "ficheiro": "lib/active_record/associations/preloader/branch.rb",
+    "ficheiro": "lib/active_record/associations/has_many_association.rb",
     "modo": "isolado",
     "origem": "grupo",
-    "componente": "activerecord#0",
+    "componente": "activerecord#12",
+    "relacionado": true,
+    "vizinhos_no_corpus": 2,
+    "metodos": 13
+   },
+   {
+    "ficheiro": "lib/active_record/associations/has_many_through_association.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "activerecord#12",
     "relacionado": true,
     "vizinhos_no_corpus": 1,
-    "metodos": 16
+    "metodos": 21
+   },
+   {
+    "ficheiro": "lib/active_record/associations/has_one_association.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "activerecord#12",
+    "relacionado": true,
+    "vizinhos_no_corpus": 1,
+    "metodos": 8
    },
    {
     "ficheiro": "lib/active_record/callbacks.rb",
@@ -766,15 +748,6 @@
     "metodos": 6
    },
    {
-    "ficheiro": "lib/active_record/connection_adapters/abstract/connection_pool.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "activerecord#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 1,
-    "metodos": 95
-   },
-   {
     "ficheiro": "lib/active_record/connection_adapters/abstract/database_statements.rb",
     "modo": "isolado",
     "origem": "diversidade",
@@ -782,42 +755,6 @@
     "relacionado": false,
     "vizinhos_no_corpus": 0,
     "metodos": 71
-   },
-   {
-    "ficheiro": "lib/active_record/connection_adapters/abstract_adapter.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "activerecord#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 2,
-    "metodos": 159
-   },
-   {
-    "ficheiro": "lib/active_record/connection_adapters/abstract_mysql_adapter.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "activerecord#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 1,
-    "metodos": 96
-   },
-   {
-    "ficheiro": "lib/active_record/connection_adapters/pool_config.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "activerecord#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 1,
-    "metodos": 9
-   },
-   {
-    "ficheiro": "lib/active_record/connection_adapters/schema_cache.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "activerecord#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 2,
-    "metodos": 66
    },
    {
     "ficheiro": "lib/active_record/errors.rb",
@@ -829,15 +766,6 @@
     "metodos": 22
    },
    {
-    "ficheiro": "lib/active_record/marshalling.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "activerecord#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 1,
-    "metodos": 3
-   },
-   {
     "ficheiro": "lib/active_record/migration/default_strategy.rb",
     "modo": "isolado",
     "origem": "diversidade",
@@ -847,15 +775,6 @@
     "metodos": 3
    },
    {
-    "ficheiro": "lib/active_record/model_schema.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "activerecord#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 1,
-    "metodos": 41
-   },
-   {
     "ficheiro": "lib/active_record/query_cache.rb",
     "modo": "isolado",
     "origem": "diversidade",
@@ -863,15 +782,6 @@
     "relacionado": false,
     "vizinhos_no_corpus": 0,
     "metodos": 5
-   },
-   {
-    "ficheiro": "lib/active_record/reflection.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "activerecord#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 4,
-    "metodos": 147
    },
    {
     "ficheiro": "lib/active_record/relation.rb",
@@ -890,15 +800,6 @@
     "relacionado": true,
     "vizinhos_no_corpus": 2,
     "metodos": 7
-   },
-   {
-    "ficheiro": "lib/active_record/transactions.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "activerecord#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 1,
-    "metodos": 32
    },
    {
     "ficheiro": "lib/arel/attributes/attribute.rb",
@@ -984,6 +885,15 @@
   ],
   "alvos": [
    {
+    "ficheiro": "benchmarks/lib/base.rb",
+    "modo": "isolado",
+    "origem": "diversidade",
+    "componente": "activerecord-import#0",
+    "relacionado": false,
+    "vizinhos_no_corpus": 0,
+    "metodos": 7
+   },
+   {
     "ficheiro": "benchmarks/lib/cli_parser.rb",
     "modo": "isolado",
     "origem": "diversidade",
@@ -991,15 +901,6 @@
     "relacionado": false,
     "vizinhos_no_corpus": 0,
     "metodos": 5
-   },
-   {
-    "ficheiro": "benchmarks/lib/float.rb",
-    "modo": "isolado",
-    "origem": "diversidade",
-    "componente": "activerecord-import#2",
-    "relacionado": false,
-    "vizinhos_no_corpus": 0,
-    "metodos": 3
    },
    {
     "ficheiro": "lib/activerecord-import/adapters/mysql_adapter.rb",
@@ -1357,6 +1258,15 @@
   "biblioteca": [],
   "alvos": [
    {
+    "ficheiro": "lib/active_support/configurable.rb",
+    "modo": "isolado",
+    "origem": "diversidade",
+    "componente": "activesupport#10",
+    "relacionado": false,
+    "vizinhos_no_corpus": 0,
+    "metodos": 7
+   },
+   {
     "ficheiro": "lib/active_support/core_ext/date_and_time/calculations.rb",
     "modo": "isolado",
     "origem": "diversidade",
@@ -1562,15 +1472,6 @@
     "metodos": 10
    },
    {
-    "ficheiro": "lib/awesome_print/ext/nokogiri.rb",
-    "modo": "isolado",
-    "origem": "diversidade",
-    "componente": "awesome_print#6",
-    "relacionado": false,
-    "vizinhos_no_corpus": 0,
-    "metodos": 3
-   },
-   {
     "ficheiro": "lib/awesome_print/formatters/array_formatter.rb",
     "modo": "isolado",
     "origem": "grupo",
@@ -1613,6 +1514,54 @@
     "componente": "awesome_print#11",
     "relacionado": true,
     "vizinhos_no_corpus": 1,
+    "metodos": 4
+   }
+  ]
+ },
+ "better_errors": {
+  "repo": "BetterErrors/better_errors",
+  "etiqueta": "v2.10.1",
+  "commit": "fde3b7025db1",
+  "raiz": ".",
+  "ambiente": "deps do gemspec",
+  "deps": [
+   "erubi",
+   "rack",
+   "rouge"
+  ],
+  "load_paths": [
+   "lib"
+  ],
+  "entrada": "better_errors",
+  "ficheiros_codigo": [
+   "lib/better_errors.rb",
+   "lib/better_errors/code_formatter.rb",
+   "lib/better_errors/code_formatter/html.rb",
+   "lib/better_errors/code_formatter/text.rb",
+   "lib/better_errors/editor.rb",
+   "lib/better_errors/error_page.rb",
+   "lib/better_errors/error_page_style.rb",
+   "lib/better_errors/exception_extension.rb",
+   "lib/better_errors/exception_hint.rb",
+   "lib/better_errors/inspectable_value.rb",
+   "lib/better_errors/middleware.rb",
+   "lib/better_errors/rails.rb",
+   "lib/better_errors/raised_exception.rb",
+   "lib/better_errors/repl.rb",
+   "lib/better_errors/repl/basic.rb",
+   "lib/better_errors/repl/pry.rb",
+   "lib/better_errors/stack_frame.rb",
+   "lib/better_errors/version.rb"
+  ],
+  "biblioteca": [],
+  "alvos": [
+   {
+    "ficheiro": "lib/better_errors.rb",
+    "modo": "isolado",
+    "origem": "diversidade",
+    "componente": "better_errors#0",
+    "relacionado": false,
+    "vizinhos_no_corpus": 0,
     "metodos": 4
    }
   ]
@@ -1954,22 +1903,22 @@
   "biblioteca": [],
   "alvos": [
    {
-    "ficheiro": "lib/brakeman.rb",
+    "ficheiro": "lib/brakeman/options.rb",
     "modo": "isolado",
     "origem": "diversidade",
-    "componente": "brakeman#1",
-    "relacionado": true,
-    "vizinhos_no_corpus": 1,
-    "metodos": 32
+    "componente": "brakeman#0",
+    "relacionado": false,
+    "vizinhos_no_corpus": 0,
+    "metodos": 4
    },
    {
-    "ficheiro": "lib/brakeman/processors/lib/call_conversion_helper.rb",
+    "ficheiro": "lib/brakeman/processors/lib/render_helper.rb",
     "modo": "isolado",
     "origem": "diversidade",
-    "componente": "brakeman#1",
-    "relacionado": true,
-    "vizinhos_no_corpus": 1,
-    "metodos": 6
+    "componente": "brakeman#0",
+    "relacionado": false,
+    "vizinhos_no_corpus": 0,
+    "metodos": 9
    }
   ]
  },
@@ -2110,22 +2059,13 @@
     "metodos": 6
    },
    {
-    "ficheiro": "lib/bullet/notification/n_plus_one_query.rb",
+    "ficheiro": "lib/bullet/notification_collector.rb",
     "modo": "isolado",
     "origem": "diversidade",
-    "componente": "bullet#9",
+    "componente": "bullet#10",
     "relacionado": false,
     "vizinhos_no_corpus": 0,
-    "metodos": 5
-   },
-   {
-    "ficheiro": "lib/bullet/registry/base.rb",
-    "modo": "isolado",
-    "origem": "diversidade",
-    "componente": "bullet#11",
-    "relacionado": false,
-    "vizinhos_no_corpus": 0,
-    "metodos": 8
+    "metodos": 4
    },
    {
     "ficheiro": "lib/bullet/stack_trace_filter.rb",
@@ -2172,19 +2112,7 @@
    "lib/bundler/audit/task.rb",
    "lib/bundler/audit/version.rb"
   ],
-  "biblioteca": [
-   "lib/bundler/audit/advisory.rb",
-   "lib/bundler/audit/cli.rb",
-   "lib/bundler/audit/cli/formats.rb",
-   "lib/bundler/audit/cli/formats/junit.rb",
-   "lib/bundler/audit/cli/formats/text.rb",
-   "lib/bundler/audit/database.rb",
-   "lib/bundler/audit/report.rb",
-   "lib/bundler/audit/results/insecure_source.rb",
-   "lib/bundler/audit/results/unpatched_gem.rb",
-   "lib/bundler/audit/scanner.rb",
-   "lib/bundler/audit/task.rb"
-  ],
+  "biblioteca": [],
   "alvos": [
    {
     "ficheiro": "lib/bundler/audit/advisory.rb",
@@ -2214,15 +2142,6 @@
     "metodos": 3
    },
    {
-    "ficheiro": "lib/bundler/audit/cli/formats/text.rb",
-    "modo": "com a biblioteca carregada",
-    "origem": "diversidade",
-    "componente": "bundler-audit#2",
-    "relacionado": false,
-    "vizinhos_no_corpus": 0,
-    "metodos": 3
-   },
-   {
     "ficheiro": "lib/bundler/audit/database.rb",
     "modo": "isolado",
     "origem": "grupo",
@@ -2230,15 +2149,6 @@
     "relacionado": true,
     "vizinhos_no_corpus": 2,
     "metodos": 17
-   },
-   {
-    "ficheiro": "lib/bundler/audit/task.rb",
-    "modo": "isolado",
-    "origem": "diversidade",
-    "componente": "bundler-audit#7",
-    "relacionado": false,
-    "vizinhos_no_corpus": 0,
-    "metodos": 5
    }
   ]
  },
@@ -2375,126 +2285,25 @@
    "lib/byebug/version.rb",
    "tasks/linter.rb"
   ],
-  "biblioteca": [
-   "docker/manager.rb",
-   "lib/byebug/attacher.rb",
-   "lib/byebug/breakpoint.rb",
-   "lib/byebug/command.rb",
-   "lib/byebug/command_list.rb",
-   "lib/byebug/commands/break.rb",
-   "lib/byebug/commands/catch.rb",
-   "lib/byebug/commands/condition.rb",
-   "lib/byebug/commands/continue.rb",
-   "lib/byebug/commands/debug.rb",
-   "lib/byebug/commands/delete.rb",
-   "lib/byebug/commands/display.rb",
-   "lib/byebug/commands/down.rb",
-   "lib/byebug/commands/edit.rb",
-   "lib/byebug/commands/enable/breakpoints.rb",
-   "lib/byebug/commands/enable/display.rb",
-   "lib/byebug/commands/finish.rb",
-   "lib/byebug/commands/frame.rb",
-   "lib/byebug/commands/help.rb",
-   "lib/byebug/commands/history.rb",
-   "lib/byebug/commands/info/breakpoints.rb",
-   "lib/byebug/commands/info/display.rb",
-   "lib/byebug/commands/info/file.rb",
-   "lib/byebug/commands/info/line.rb",
-   "lib/byebug/commands/info/program.rb",
-   "lib/byebug/commands/interrupt.rb",
-   "lib/byebug/commands/irb.rb",
-   "lib/byebug/commands/kill.rb",
-   "lib/byebug/commands/list.rb",
-   "lib/byebug/commands/method.rb",
-   "lib/byebug/commands/next.rb",
-   "lib/byebug/commands/pry.rb",
-   "lib/byebug/commands/quit.rb",
-   "lib/byebug/commands/restart.rb",
-   "lib/byebug/commands/save.rb",
-   "lib/byebug/commands/set.rb",
-   "lib/byebug/commands/show.rb",
-   "lib/byebug/commands/skip.rb",
-   "lib/byebug/commands/source.rb",
-   "lib/byebug/commands/step.rb",
-   "lib/byebug/commands/thread/current.rb",
-   "lib/byebug/commands/thread/list.rb",
-   "lib/byebug/commands/thread/resume.rb",
-   "lib/byebug/commands/thread/stop.rb",
-   "lib/byebug/commands/thread/switch.rb",
-   "lib/byebug/commands/tracevar.rb",
-   "lib/byebug/commands/undisplay.rb",
-   "lib/byebug/commands/untracevar.rb",
-   "lib/byebug/commands/up.rb",
-   "lib/byebug/commands/var/all.rb",
-   "lib/byebug/commands/var/args.rb",
-   "lib/byebug/commands/var/const.rb",
-   "lib/byebug/commands/var/global.rb",
-   "lib/byebug/commands/var/instance.rb",
-   "lib/byebug/commands/var/local.rb",
-   "lib/byebug/commands/where.rb",
-   "lib/byebug/context.rb",
-   "lib/byebug/core.rb",
-   "lib/byebug/errors.rb",
-   "lib/byebug/frame.rb",
-   "lib/byebug/helpers/bin.rb",
-   "lib/byebug/helpers/eval.rb",
-   "lib/byebug/helpers/file.rb",
-   "lib/byebug/helpers/frame.rb",
-   "lib/byebug/helpers/parse.rb",
-   "lib/byebug/helpers/path.rb",
-   "lib/byebug/helpers/string.rb",
-   "lib/byebug/helpers/thread.rb",
-   "lib/byebug/helpers/toggle.rb",
-   "lib/byebug/helpers/var.rb",
-   "lib/byebug/history.rb",
-   "lib/byebug/interface.rb",
-   "lib/byebug/interfaces/local_interface.rb",
-   "lib/byebug/interfaces/remote_interface.rb",
-   "lib/byebug/interfaces/script_interface.rb",
-   "lib/byebug/interfaces/test_interface.rb",
-   "lib/byebug/option_setter.rb",
-   "lib/byebug/printers/base.rb",
-   "lib/byebug/printers/plain.rb",
-   "lib/byebug/processors/command_processor.rb",
-   "lib/byebug/processors/script_processor.rb",
-   "lib/byebug/remote.rb",
-   "lib/byebug/remote/client.rb",
-   "lib/byebug/runner.rb",
-   "lib/byebug/setting.rb",
-   "lib/byebug/settings/autopry.rb",
-   "lib/byebug/settings/linetrace.rb",
-   "lib/byebug/settings/post_mortem.rb",
-   "lib/byebug/source_file_formatter.rb",
-   "lib/byebug/subcommands.rb",
-   "tasks/linter.rb"
-  ],
+  "biblioteca": [],
   "alvos": [
    {
-    "ficheiro": "lib/byebug/command_list.rb",
+    "ficheiro": "lib/byebug/commands/where.rb",
     "modo": "isolado",
     "origem": "diversidade",
-    "componente": "byebug#2",
+    "componente": "byebug#1",
     "relacionado": false,
     "vizinhos_no_corpus": 0,
     "metodos": 5
    },
    {
-    "ficheiro": "lib/byebug/commands/thread/current.rb",
-    "modo": "com a biblioteca carregada",
+    "ficheiro": "lib/byebug/helpers/string.rb",
+    "modo": "isolado",
     "origem": "diversidade",
     "componente": "byebug#1",
     "relacionado": false,
     "vizinhos_no_corpus": 0,
-    "metodos": 4
-   },
-   {
-    "ficheiro": "lib/byebug/interfaces/local_interface.rb",
-    "modo": "com a biblioteca carregada",
-    "origem": "diversidade",
-    "componente": "byebug#1",
-    "relacionado": false,
-    "vizinhos_no_corpus": 0,
-    "metodos": 4
+    "metodos": 3
    }
   ]
  },
@@ -2645,15 +2454,6 @@
   ],
   "biblioteca": [],
   "alvos": [
-   {
-    "ficheiro": "lib/capybara/result.rb",
-    "modo": "isolado",
-    "origem": "diversidade",
-    "componente": "capybara#12",
-    "relacionado": false,
-    "vizinhos_no_corpus": 0,
-    "metodos": 16
-   },
    {
     "ficheiro": "lib/capybara/rspec/matchers/match_selector.rb",
     "modo": "isolado",
@@ -2856,18 +2656,27 @@
     "modo": "isolado",
     "origem": "diversidade",
     "componente": "childprocess#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 1,
+    "relacionado": false,
+    "vizinhos_no_corpus": 0,
     "metodos": 17
    },
    {
-    "ficheiro": "lib/childprocess/process_spawn_process.rb",
+    "ficheiro": "lib/childprocess/abstract_io.rb",
     "modo": "isolado",
     "origem": "diversidade",
-    "componente": "childprocess#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 1,
-    "metodos": 7
+    "componente": "childprocess#1",
+    "relacionado": false,
+    "vizinhos_no_corpus": 0,
+    "metodos": 5
+   },
+   {
+    "ficheiro": "lib/childprocess/windows/io.rb",
+    "modo": "isolado",
+    "origem": "diversidade",
+    "componente": "childprocess#2",
+    "relacionado": false,
+    "vizinhos_no_corpus": 0,
+    "metodos": 3
    }
   ]
  },
@@ -2932,22 +2741,40 @@
     "metodos": 5
    },
    {
-    "ficheiro": "lib/chronic/handlers.rb",
+    "ficheiro": "lib/chronic/mini_date.rb",
     "modo": "isolado",
-    "origem": "diversidade",
-    "componente": "chronic#2",
-    "relacionado": false,
-    "vizinhos_no_corpus": 0,
-    "metodos": 46
+    "origem": "grupo",
+    "componente": "chronic#3",
+    "relacionado": true,
+    "vizinhos_no_corpus": 2,
+    "metodos": 4
    },
    {
-    "ficheiro": "lib/chronic/repeater.rb",
+    "ficheiro": "lib/chronic/repeaters/repeater_season.rb",
     "modo": "isolado",
-    "origem": "diversidade",
-    "componente": "chronic#6",
-    "relacionado": false,
-    "vizinhos_no_corpus": 0,
-    "metodos": 12
+    "origem": "grupo",
+    "componente": "chronic#3",
+    "relacionado": true,
+    "vizinhos_no_corpus": 3,
+    "metodos": 13
+   },
+   {
+    "ficheiro": "lib/chronic/repeaters/repeater_season_name.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "chronic#3",
+    "relacionado": true,
+    "vizinhos_no_corpus": 2,
+    "metodos": 4
+   },
+   {
+    "ficheiro": "lib/chronic/season.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "chronic#3",
+    "relacionado": true,
+    "vizinhos_no_corpus": 1,
+    "metodos": 4
    }
   ]
  },
@@ -3287,10 +3114,10 @@
   "biblioteca": [],
   "alvos": [
    {
-    "ficheiro": "lib/coderay/encoders/count.rb",
+    "ficheiro": "lib/coderay/helpers/plugin.rb",
     "modo": "isolado",
     "origem": "diversidade",
-    "componente": "coderay#0",
+    "componente": "coderay#11",
     "relacionado": false,
     "vizinhos_no_corpus": 0,
     "metodos": 4
@@ -3303,6 +3130,38 @@
     "relacionado": false,
     "vizinhos_no_corpus": 0,
     "metodos": 3
+   }
+  ]
+ },
+ "colorize": {
+  "repo": "fazibear/colorize",
+  "etiqueta": "",
+  "commit": "a252d8af6b76",
+  "raiz": ".",
+  "ambiente": "deps do gemspec",
+  "deps": [],
+  "load_paths": [
+   "lib"
+  ],
+  "entrada": "colorize",
+  "ficheiros_codigo": [
+   "lib/colorize.rb",
+   "lib/colorize/class_methods.rb",
+   "lib/colorize/errors.rb",
+   "lib/colorize/instance_methods.rb",
+   "lib/colorize/version.rb",
+   "lib/colorized_string.rb"
+  ],
+  "biblioteca": [],
+  "alvos": [
+   {
+    "ficheiro": "lib/colorize/class_methods.rb",
+    "modo": "isolado",
+    "origem": "diversidade",
+    "componente": "colorize#0",
+    "relacionado": false,
+    "vizinhos_no_corpus": 0,
+    "metodos": 20
    }
   ]
  },
@@ -3349,6 +3208,15 @@
     "relacionado": true,
     "vizinhos_no_corpus": 1,
     "metodos": 15
+   },
+   {
+    "ficheiro": "lib/commander/help_formatters/terminal.rb",
+    "modo": "isolado",
+    "origem": "diversidade",
+    "componente": "commander#3",
+    "relacionado": false,
+    "vizinhos_no_corpus": 0,
+    "metodos": 3
    },
    {
     "ficheiro": "lib/commander/runner.rb",
@@ -3755,7 +3623,7 @@
     "ficheiro": "lib/concurrent-ruby/concurrent/executor/java_thread_pool_executor.rb",
     "modo": "com a biblioteca carregada",
     "origem": "diversidade",
-    "componente": "concurrent-ruby#9",
+    "componente": "concurrent-ruby#8",
     "relacionado": false,
     "vizinhos_no_corpus": 0,
     "metodos": 15
@@ -3764,7 +3632,7 @@
     "ficheiro": "lib/concurrent-ruby/concurrent/synchronization/abstract_struct.rb",
     "modo": "isolado",
     "origem": "diversidade",
-    "componente": "concurrent-ruby#10",
+    "componente": "concurrent-ruby#9",
     "relacionado": false,
     "vizinhos_no_corpus": 0,
     "metodos": 17
@@ -3799,6 +3667,15 @@
     "relacionado": false,
     "vizinhos_no_corpus": 0,
     "metodos": 3
+   },
+   {
+    "ficheiro": "lib/connection_pool/wrapper.rb",
+    "modo": "isolado",
+    "origem": "diversidade",
+    "componente": "connection_pool#3",
+    "relacionado": false,
+    "vizinhos_no_corpus": 0,
+    "metodos": 9
    }
   ]
  },
@@ -3945,18 +3822,18 @@
     "modo": "isolado",
     "origem": "diversidade",
     "componente": "dalli#0",
-    "relacionado": false,
-    "vizinhos_no_corpus": 0,
+    "relacionado": true,
+    "vizinhos_no_corpus": 1,
     "metodos": 4
    },
    {
-    "ficheiro": "lib/dalli/protocol/request_formatter.rb",
+    "ficheiro": "lib/dalli/pipelined_getter.rb",
     "modo": "isolado",
     "origem": "diversidade",
-    "componente": "dalli#5",
-    "relacionado": false,
-    "vizinhos_no_corpus": 0,
-    "metodos": 17
+    "componente": "dalli#0",
+    "relacionado": true,
+    "vizinhos_no_corpus": 1,
+    "metodos": 15
    },
    {
     "ficheiro": "lib/dalli/servers_arg_normalizer.rb",
@@ -4123,6 +4000,60 @@
     "metodos": 7
    },
    {
+    "ficheiro": "lib/danger/ci_source/ci_source.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "danger#7",
+    "relacionado": true,
+    "vizinhos_no_corpus": 1,
+    "metodos": 7
+   },
+   {
+    "ficheiro": "lib/danger/ci_source/local_only_git_repo.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "danger#7",
+    "relacionado": true,
+    "vizinhos_no_corpus": 1,
+    "metodos": 6
+   },
+   {
+    "ficheiro": "lib/danger/commands/local.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "danger#7",
+    "relacionado": true,
+    "vizinhos_no_corpus": 1,
+    "metodos": 5
+   },
+   {
+    "ficheiro": "lib/danger/commands/mr.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "danger#7",
+    "relacionado": true,
+    "vizinhos_no_corpus": 1,
+    "metodos": 5
+   },
+   {
+    "ficheiro": "lib/danger/commands/pr.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "danger#7",
+    "relacionado": true,
+    "vizinhos_no_corpus": 1,
+    "metodos": 5
+   },
+   {
+    "ficheiro": "lib/danger/commands/staging.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "danger#7",
+    "relacionado": true,
+    "vizinhos_no_corpus": 1,
+    "metodos": 4
+   },
+   {
     "ficheiro": "lib/danger/danger_core/dangerfile.rb",
     "modo": "isolado",
     "origem": "grupo",
@@ -4130,6 +4061,24 @@
     "relacionado": true,
     "vizinhos_no_corpus": 2,
     "metodos": 22
+   },
+   {
+    "ficheiro": "lib/danger/danger_core/environment_manager.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "danger#7",
+    "relacionado": true,
+    "vizinhos_no_corpus": 14,
+    "metodos": 16
+   },
+   {
+    "ficheiro": "lib/danger/danger_core/executor.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "danger#7",
+    "relacionado": true,
+    "vizinhos_no_corpus": 1,
+    "metodos": 8
    },
    {
     "ficheiro": "lib/danger/danger_core/message_aggregator.rb",
@@ -4150,6 +4099,33 @@
     "metodos": 13
    },
    {
+    "ficheiro": "lib/danger/helpers/comment.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "danger#7",
+    "relacionado": true,
+    "vizinhos_no_corpus": 2,
+    "metodos": 5
+   },
+   {
+    "ficheiro": "lib/danger/helpers/comments_helper.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "danger#7",
+    "relacionado": true,
+    "vizinhos_no_corpus": 7,
+    "metodos": 14
+   },
+   {
+    "ficheiro": "lib/danger/helpers/comments_parsing_helper.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "danger#7",
+    "relacionado": true,
+    "vizinhos_no_corpus": 5,
+    "metodos": 6
+   },
+   {
     "ficheiro": "lib/danger/plugin_support/plugin.rb",
     "modo": "isolado",
     "origem": "grupo",
@@ -4159,13 +4135,40 @@
     "metodos": 7
    },
    {
+    "ficheiro": "lib/danger/request_sources/bitbucket_cloud.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "danger#7",
+    "relacionado": true,
+    "vizinhos_no_corpus": 2,
+    "metodos": 14
+   },
+   {
+    "ficheiro": "lib/danger/request_sources/bitbucket_server.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "danger#7",
+    "relacionado": true,
+    "vizinhos_no_corpus": 2,
+    "metodos": 19
+   },
+   {
     "ficheiro": "lib/danger/request_sources/github/github.rb",
     "modo": "isolado",
-    "origem": "diversidade",
+    "origem": "grupo",
     "componente": "danger#7",
-    "relacionado": false,
-    "vizinhos_no_corpus": 0,
+    "relacionado": true,
+    "vizinhos_no_corpus": 4,
     "metodos": 38
+   },
+   {
+    "ficheiro": "lib/danger/request_sources/github/github_review.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "danger#7",
+    "relacionado": true,
+    "vizinhos_no_corpus": 2,
+    "metodos": 14
    },
    {
     "ficheiro": "lib/danger/request_sources/github/github_review_unsupported.rb",
@@ -4175,6 +4178,42 @@
     "relacionado": false,
     "vizinhos_no_corpus": 0,
     "metodos": 7
+   },
+   {
+    "ficheiro": "lib/danger/request_sources/gitlab.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "danger#7",
+    "relacionado": true,
+    "vizinhos_no_corpus": 4,
+    "metodos": 34
+   },
+   {
+    "ficheiro": "lib/danger/request_sources/local_only.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "danger#7",
+    "relacionado": true,
+    "vizinhos_no_corpus": 1,
+    "metodos": 9
+   },
+   {
+    "ficheiro": "lib/danger/request_sources/request_source.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "danger#7",
+    "relacionado": true,
+    "vizinhos_no_corpus": 1,
+    "metodos": 19
+   },
+   {
+    "ficheiro": "lib/danger/request_sources/vsts.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "danger#7",
+    "relacionado": true,
+    "vizinhos_no_corpus": 3,
+    "metodos": 20
    }
   ]
  },
@@ -4210,15 +4249,6 @@
   ],
   "biblioteca": [],
   "alvos": [
-   {
-    "ficheiro": "lib/database_cleaner/cleaner.rb",
-    "modo": "isolado",
-    "origem": "diversidade",
-    "componente": "database_cleaner#0",
-    "relacionado": false,
-    "vizinhos_no_corpus": 0,
-    "metodos": 15
-   },
    {
     "ficheiro": "lib/database_cleaner/null_strategy.rb",
     "modo": "isolado",
@@ -4289,6 +4319,15 @@
     "relacionado": true,
     "vizinhos_no_corpus": 1,
     "metodos": 12
+   },
+   {
+    "ficheiro": "lib/debug/color.rb",
+    "modo": "isolado",
+    "origem": "diversidade",
+    "componente": "debug#2",
+    "relacionado": false,
+    "vizinhos_no_corpus": 0,
+    "metodos": 15
    },
    {
     "ficheiro": "lib/debug/config.rb",
@@ -4618,15 +4657,6 @@
     "metodos": 17
    },
    {
-    "ficheiro": "lib/devise/strategies/authenticatable.rb",
-    "modo": "isolado",
-    "origem": "diversidade",
-    "componente": "devise#12",
-    "relacionado": false,
-    "vizinhos_no_corpus": 0,
-    "metodos": 23
-   },
-   {
     "ficheiro": "lib/devise/token_generator.rb",
     "modo": "isolado",
     "origem": "grupo",
@@ -4883,6 +4913,15 @@
     "metodos": 3
    },
    {
+    "ficheiro": "lib/doorkeeper/orm/active_record/mixins/access_grant.rb",
+    "modo": "com a biblioteca carregada",
+    "origem": "diversidade",
+    "componente": "doorkeeper#22",
+    "relacionado": false,
+    "vizinhos_no_corpus": 0,
+    "metodos": 3
+   },
+   {
     "ficheiro": "lib/doorkeeper/request.rb",
     "modo": "isolado",
     "origem": "grupo",
@@ -4892,15 +4931,6 @@
     "metodos": 6
    },
    {
-    "ficheiro": "lib/doorkeeper/secret_storing/plain.rb",
-    "modo": "com a biblioteca carregada",
-    "origem": "diversidade",
-    "componente": "doorkeeper#34",
-    "relacionado": false,
-    "vizinhos_no_corpus": 0,
-    "metodos": 3
-   },
-   {
     "ficheiro": "lib/doorkeeper/server.rb",
     "modo": "isolado",
     "origem": "grupo",
@@ -4908,6 +4938,15 @@
     "relacionado": true,
     "vizinhos_no_corpus": 2,
     "metodos": 8
+   },
+   {
+    "ficheiro": "lib/doorkeeper/stale_records_cleaner.rb",
+    "modo": "isolado",
+    "origem": "diversidade",
+    "componente": "doorkeeper#35",
+    "relacionado": false,
+    "vizinhos_no_corpus": 0,
+    "metodos": 3
    }
   ]
  },
@@ -5060,6 +5099,24 @@
     "metodos": 12
    },
    {
+    "ficheiro": "lib/dry/types/constrained.rb",
+    "modo": "isolado",
+    "origem": "diversidade",
+    "componente": "dry-types#2",
+    "relacionado": false,
+    "vizinhos_no_corpus": 0,
+    "metodos": 12
+   },
+   {
+    "ficheiro": "lib/dry/types/constrained/coercible.rb",
+    "modo": "isolado",
+    "origem": "diversidade",
+    "componente": "dry-types#3",
+    "relacionado": false,
+    "vizinhos_no_corpus": 0,
+    "metodos": 3
+   },
+   {
     "ficheiro": "lib/dry/types/constructor/function.rb",
     "modo": "isolado",
     "origem": "diversidade",
@@ -5085,15 +5142,6 @@
     "relacionado": false,
     "vizinhos_no_corpus": 0,
     "metodos": 7
-   },
-   {
-    "ficheiro": "lib/dry/types/schema/key.rb",
-    "modo": "isolado",
-    "origem": "diversidade",
-    "componente": "dry-types#4",
-    "relacionado": false,
-    "vizinhos_no_corpus": 0,
-    "metodos": 12
    }
   ]
  },
@@ -5169,166 +5217,49 @@
   "biblioteca": [],
   "alvos": [
    {
-    "ficheiro": "examples/old/ex_channel.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "eventmachine#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 2,
-    "metodos": 4
-   },
-   {
-    "ficheiro": "lib/em/connection.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "eventmachine#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 11,
-    "metodos": 46
-   },
-   {
-    "ficheiro": "lib/em/deferrable.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "eventmachine#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 8,
-    "metodos": 9
-   },
-   {
     "ficheiro": "lib/em/iterator.rb",
     "modo": "isolado",
     "origem": "diversidade",
-    "componente": "eventmachine#7",
+    "componente": "eventmachine#5",
     "relacionado": false,
     "vizinhos_no_corpus": 0,
     "metodos": 9
    },
    {
-    "ficheiro": "lib/em/processes.rb",
+    "ficheiro": "lib/em/protocols/header_and_content.rb",
     "modo": "isolado",
     "origem": "grupo",
-    "componente": "eventmachine#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 3,
-    "metodos": 8
-   },
-   {
-    "ficheiro": "lib/em/protocols/httpclient.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "eventmachine#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 3,
-    "metodos": 9
-   },
-   {
-    "ficheiro": "lib/em/protocols/httpclient2.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "eventmachine#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 1,
-    "metodos": 22
-   },
-   {
-    "ficheiro": "lib/em/protocols/line_and_text.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "eventmachine#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 2,
-    "metodos": 5
-   },
-   {
-    "ficheiro": "lib/em/protocols/memcache.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "eventmachine#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 1,
-    "metodos": 14
-   },
-   {
-    "ficheiro": "lib/em/protocols/smtpclient.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "eventmachine#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 3,
-    "metodos": 25
-   },
-   {
-    "ficheiro": "lib/em/protocols/smtpserver.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "eventmachine#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 1,
-    "metodos": 37
-   },
-   {
-    "ficheiro": "lib/em/protocols/socks4.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "eventmachine#0",
+    "componente": "eventmachine#8",
     "relacionado": true,
     "vizinhos_no_corpus": 1,
     "metodos": 7
    },
    {
-    "ficheiro": "lib/em/protocols/tcptest.rb",
+    "ficheiro": "lib/em/protocols/linetext2.rb",
     "modo": "isolado",
     "origem": "grupo",
-    "componente": "eventmachine#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 3,
-    "metodos": 4
-   },
-   {
-    "ficheiro": "lib/em/pure_ruby.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "eventmachine#0",
+    "componente": "eventmachine#8",
     "relacionado": true,
     "vizinhos_no_corpus": 2,
-    "metodos": 114
+    "metodos": 9
    },
    {
-    "ficheiro": "lib/em/resolver.rb",
+    "ficheiro": "lib/em/protocols/stomp.rb",
     "modo": "isolado",
     "origem": "grupo",
-    "componente": "eventmachine#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 3,
-    "metodos": 26
-   },
-   {
-    "ficheiro": "lib/em/streamer.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "eventmachine#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 2,
-    "metodos": 5
-   },
-   {
-    "ficheiro": "lib/em/timers.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "eventmachine#0",
+    "componente": "eventmachine#8",
     "relacionado": true,
     "vizinhos_no_corpus": 1,
-    "metodos": 6
+    "metodos": 11
    },
    {
-    "ficheiro": "lib/eventmachine.rb",
+    "ficheiro": "lib/em/protocols/tcptest.rb",
     "modo": "isolado",
-    "origem": "grupo",
-    "componente": "eventmachine#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 9,
-    "metodos": 47
+    "origem": "diversidade",
+    "componente": "eventmachine#3",
+    "relacionado": false,
+    "vizinhos_no_corpus": 0,
+    "metodos": 4
    }
   ]
  },
@@ -5602,12 +5533,30 @@
     "metodos": 3
    },
    {
-    "ficheiro": "lib/eye/dsl.rb",
+    "ficheiro": "lib/eye/checker/socket.rb",
+    "modo": "isolado",
+    "origem": "diversidade",
+    "componente": "eye#4",
+    "relacionado": false,
+    "vizinhos_no_corpus": 0,
+    "metodos": 7
+   },
+   {
+    "ficheiro": "lib/eye/child_process.rb",
+    "modo": "com a biblioteca carregada",
+    "origem": "diversidade",
+    "componente": "eye#1",
+    "relacionado": false,
+    "vizinhos_no_corpus": 0,
+    "metodos": 14
+   },
+   {
+    "ficheiro": "lib/eye/dsl/application_opts.rb",
     "modo": "isolado",
     "origem": "diversidade",
     "componente": "eye#1",
-    "relacionado": true,
-    "vizinhos_no_corpus": 1,
+    "relacionado": false,
+    "vizinhos_no_corpus": 0,
     "metodos": 4
    },
    {
@@ -5615,27 +5564,18 @@
     "modo": "isolado",
     "origem": "diversidade",
     "componente": "eye#1",
-    "relacionado": true,
-    "vizinhos_no_corpus": 1,
+    "relacionado": false,
+    "vizinhos_no_corpus": 0,
     "metodos": 9
    },
    {
-    "ficheiro": "lib/eye/process/commands.rb",
-    "modo": "com a biblioteca carregada",
+    "ficheiro": "lib/eye/system.rb",
+    "modo": "isolado",
     "origem": "diversidade",
     "componente": "eye#1",
     "relacionado": false,
     "vizinhos_no_corpus": 0,
-    "metodos": 11
-   },
-   {
-    "ficheiro": "lib/eye/utils/alive_array.rb",
-    "modo": "com a biblioteca carregada",
-    "origem": "diversidade",
-    "componente": "eye#17",
-    "relacionado": false,
-    "vizinhos_no_corpus": 0,
-    "metodos": 10
+    "metodos": 8
    }
   ]
  },
@@ -5912,13 +5852,22 @@
   "biblioteca": [],
   "alvos": [
    {
-    "ficheiro": "lib/helpers/char.rb",
+    "ficheiro": "lib/faker/default/cosmere.rb",
+    "modo": "isolado",
+    "origem": "diversidade",
+    "componente": "faker#7",
+    "relacionado": false,
+    "vizinhos_no_corpus": 0,
+    "metodos": 10
+   },
+   {
+    "ficheiro": "lib/faker/default/omniauth.rb",
     "modo": "isolado",
     "origem": "diversidade",
     "componente": "faker#0",
     "relacionado": false,
     "vizinhos_no_corpus": 0,
-    "metodos": 3
+    "metodos": 14
    }
   ]
  },
@@ -5984,6 +5933,15 @@
     "relacionado": false,
     "vizinhos_no_corpus": 0,
     "metodos": 7
+   },
+   {
+    "ficheiro": "lib/faraday/options/ssl_options.rb",
+    "modo": "isolado",
+    "origem": "diversidade",
+    "componente": "faraday#11",
+    "relacionado": false,
+    "vizinhos_no_corpus": 0,
+    "metodos": 3
    }
   ]
  },
@@ -6919,40 +6877,49 @@
   "biblioteca": [],
   "alvos": [
    {
-    "ficheiro": "deliver/lib/deliver/setup.rb",
+    "ficheiro": "fastlane/lib/fastlane/actions/hockey.rb",
     "modo": "isolado",
     "origem": "diversidade",
     "componente": "fastlane#0",
     "relacionado": false,
     "vizinhos_no_corpus": 0,
-    "metodos": 7
+    "metodos": 14
    },
    {
-    "ficheiro": "fastlane/lib/fastlane/actions/setup_jenkins.rb",
+    "ficheiro": "fastlane_core/lib/fastlane_core/ipa_upload_package_builder.rb",
     "modo": "isolado",
     "origem": "diversidade",
     "componente": "fastlane#0",
     "relacionado": false,
     "vizinhos_no_corpus": 0,
-    "metodos": 8
+    "metodos": 3
    },
    {
     "ficheiro": "frameit/lib/frameit/device_types.rb",
     "modo": "isolado",
     "origem": "diversidade",
-    "componente": "fastlane#64",
+    "componente": "fastlane#61",
     "relacionado": false,
     "vizinhos_no_corpus": 0,
     "metodos": 4
    },
    {
-    "ficheiro": "precheck/lib/precheck/rules/custom_text_rule.rb",
+    "ficheiro": "match/lib/match/migrate.rb",
     "modo": "isolado",
     "origem": "diversidade",
-    "componente": "fastlane#77",
+    "componente": "fastlane#0",
     "relacionado": false,
     "vizinhos_no_corpus": 0,
-    "metodos": 7
+    "metodos": 3
+   },
+   {
+    "ficheiro": "precheck/lib/precheck/rules/other_platforms_rule.rb",
+    "modo": "isolado",
+    "origem": "diversidade",
+    "componente": "fastlane#74",
+    "relacionado": false,
+    "vizinhos_no_corpus": 0,
+    "metodos": 6
    },
    {
     "ficheiro": "produce/lib/produce/service.rb",
@@ -6964,15 +6931,6 @@
     "metodos": 10
    },
    {
-    "ficheiro": "spaceship/lib/spaceship/base.rb",
-    "modo": "isolado",
-    "origem": "diversidade",
-    "componente": "fastlane#83",
-    "relacionado": false,
-    "vizinhos_no_corpus": 0,
-    "metodos": 23
-   },
-   {
     "ficheiro": "spaceship/lib/spaceship/connect_api/file_uploader.rb",
     "modo": "isolado",
     "origem": "diversidade",
@@ -6982,40 +6940,40 @@
     "metodos": 3
    },
    {
-    "ficheiro": "spaceship/lib/spaceship/connect_api/models/app_store_version_phased_release.rb",
+    "ficheiro": "spaceship/lib/spaceship/connect_api/models/beta_group.rb",
     "modo": "isolado",
     "origem": "diversidade",
-    "componente": "fastlane#85",
+    "componente": "fastlane#0",
     "relacionado": false,
     "vizinhos_no_corpus": 0,
-    "metodos": 6
+    "metodos": 7
    },
    {
-    "ficheiro": "spaceship/lib/spaceship/portal/cloud_container.rb",
+    "ficheiro": "spaceship/lib/spaceship/portal/app_service.rb",
     "modo": "isolado",
     "origem": "diversidade",
-    "componente": "fastlane#105",
+    "componente": "fastlane#99",
     "relacionado": false,
     "vizinhos_no_corpus": 0,
     "metodos": 3
    },
    {
-    "ficheiro": "spaceship/lib/spaceship/tunes/app_version_history.rb",
+    "ficheiro": "spaceship/lib/spaceship/portal/cloud_container.rb",
     "modo": "isolado",
     "origem": "diversidade",
-    "componente": "fastlane#116",
+    "componente": "fastlane#100",
     "relacionado": false,
     "vizinhos_no_corpus": 0,
-    "metodos": 4
+    "metodos": 3
    },
    {
-    "ficheiro": "spaceship/lib/spaceship/tunes/build_train.rb",
+    "ficheiro": "spaceship/lib/spaceship/tunes/app_image.rb",
     "modo": "isolado",
     "origem": "diversidade",
-    "componente": "fastlane#119",
+    "componente": "fastlane#110",
     "relacionado": false,
     "vizinhos_no_corpus": 0,
-    "metodos": 4
+    "metodos": 3
    },
    {
     "ficheiro": "spaceship/lib/spaceship/tunes/tunes_client.rb",
@@ -7025,6 +6983,73 @@
     "relacionado": false,
     "vizinhos_no_corpus": 0,
     "metodos": 93
+   },
+   {
+    "ficheiro": "trainer/lib/trainer/xcresult/test_case.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "fastlane#125",
+    "relacionado": true,
+    "vizinhos_no_corpus": 2,
+    "metodos": 12
+   },
+   {
+    "ficheiro": "trainer/lib/trainer/xcresult/test_case_attributes.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "fastlane#125",
+    "relacionado": true,
+    "vizinhos_no_corpus": 1,
+    "metodos": 8
+   },
+   {
+    "ficheiro": "trainer/lib/trainer/xcresult/test_plan.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "fastlane#125",
+    "relacionado": true,
+    "vizinhos_no_corpus": 1,
+    "metodos": 4
+   },
+   {
+    "ficheiro": "trainer/lib/trainer/xcresult/test_suite.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "fastlane#125",
+    "relacionado": true,
+    "vizinhos_no_corpus": 2,
+    "metodos": 15
+   }
+  ]
+ },
+ "formatador": {
+  "repo": "geemus/formatador",
+  "etiqueta": "v1.2.3",
+  "commit": "1000476d1648",
+  "raiz": ".",
+  "ambiente": "deps do gemspec",
+  "deps": [
+   "reline"
+  ],
+  "load_paths": [
+   "lib"
+  ],
+  "entrada": "formatador",
+  "ficheiros_codigo": [
+   "lib/formatador.rb",
+   "lib/formatador/progressbar.rb",
+   "lib/formatador/table.rb"
+  ],
+  "biblioteca": [],
+  "alvos": [
+   {
+    "ficheiro": "lib/formatador/table.rb",
+    "modo": "isolado",
+    "origem": "diversidade",
+    "componente": "formatador#0",
+    "relacionado": false,
+    "vizinhos_no_corpus": 0,
+    "metodos": 4
    }
   ]
  },
@@ -7216,28 +7241,37 @@
     "ficheiro": "lib/geocoder.rb",
     "modo": "isolado",
     "origem": "diversidade",
-    "componente": "geocoder#2",
+    "componente": "geocoder#1",
     "relacionado": false,
     "vizinhos_no_corpus": 0,
     "metodos": 3
    },
    {
-    "ficheiro": "lib/geocoder/cache_stores/base.rb",
+    "ficheiro": "lib/geocoder/results/ipbase.rb",
     "modo": "isolado",
     "origem": "diversidade",
-    "componente": "geocoder#3",
+    "componente": "geocoder#49",
     "relacionado": false,
     "vizinhos_no_corpus": 0,
-    "metodos": 7
+    "metodos": 8
    },
    {
-    "ficheiro": "lib/geocoder/models/mongo_base.rb",
+    "ficheiro": "lib/geocoder/results/ipqualityscore.rb",
     "modo": "isolado",
     "origem": "diversidade",
-    "componente": "geocoder#34",
+    "componente": "geocoder#52",
     "relacionado": false,
     "vizinhos_no_corpus": 0,
-    "metodos": 4
+    "metodos": 3
+   },
+   {
+    "ficheiro": "lib/geocoder/stores/active_record.rb",
+    "modo": "isolado",
+    "origem": "diversidade",
+    "componente": "geocoder#1",
+    "relacionado": false,
+    "vizinhos_no_corpus": 0,
+    "metodos": 17
    }
   ]
  },
@@ -7379,15 +7413,6 @@
     "metodos": 4
    },
    {
-    "ficheiro": "lib/gitlab/file_response.rb",
-    "modo": "isolado",
-    "origem": "diversidade",
-    "componente": "gitlab#37",
-    "relacionado": false,
-    "vizinhos_no_corpus": 0,
-    "metodos": 7
-   },
-   {
     "ficheiro": "lib/gitlab/help.rb",
     "modo": "isolado",
     "origem": "grupo",
@@ -7465,22 +7490,13 @@
     "metodos": 9
    },
    {
-    "ficheiro": "lib/gli/gli_option_parser.rb",
+    "ficheiro": "lib/gli/options.rb",
     "modo": "isolado",
     "origem": "diversidade",
-    "componente": "gli#13",
+    "componente": "gli#14",
     "relacionado": false,
     "vizinhos_no_corpus": 0,
-    "metodos": 11
-   },
-   {
-    "ficheiro": "lib/gli/terminal.rb",
-    "modo": "isolado",
-    "origem": "diversidade",
-    "componente": "gli#6",
-    "relacionado": false,
-    "vizinhos_no_corpus": 0,
-    "metodos": 10
+    "metodos": 3
    }
   ]
  },
@@ -7590,6 +7606,15 @@
     "metodos": 27
    },
    {
+    "ficheiro": "lib/guard/dsl_describer.rb",
+    "modo": "isolado",
+    "origem": "diversidade",
+    "componente": "guard#0",
+    "relacionado": false,
+    "vizinhos_no_corpus": 0,
+    "metodos": 5
+   },
+   {
     "ficheiro": "lib/guard/internals/debugging.rb",
     "modo": "isolado",
     "origem": "diversidade",
@@ -7680,13 +7705,22 @@
   "biblioteca": [],
   "alvos": [
    {
-    "ficheiro": "lib/haml/parser.rb",
+    "ficheiro": "lib/haml/dynamic_merger.rb",
+    "modo": "isolado",
+    "origem": "diversidade",
+    "componente": "haml#7",
+    "relacionado": false,
+    "vizinhos_no_corpus": 0,
+    "metodos": 3
+   },
+   {
+    "ficheiro": "lib/haml/ruby_expression.rb",
     "modo": "isolado",
     "origem": "diversidade",
     "componente": "haml#0",
     "relacionado": false,
     "vizinhos_no_corpus": 0,
-    "metodos": 54
+    "metodos": 3
    }
   ]
  },
@@ -7908,22 +7942,13 @@
   "biblioteca": [],
   "alvos": [
    {
-    "ficheiro": "examples/party_foul_mode.rb",
-    "modo": "isolado",
-    "origem": "diversidade",
-    "componente": "httparty#1",
-    "relacionado": false,
-    "vizinhos_no_corpus": 0,
-    "metodos": 3
-   },
-   {
-    "ficheiro": "lib/httparty/module_inheritable_attributes.rb",
+    "ficheiro": "lib/httparty/hash_conversions.rb",
     "modo": "isolado",
     "origem": "diversidade",
     "componente": "httparty#0",
     "relacionado": false,
     "vizinhos_no_corpus": 0,
-    "metodos": 4
+    "metodos": 3
    }
   ]
  },
@@ -7985,13 +8010,13 @@
   "biblioteca": [],
   "alvos": [
    {
-    "ficheiro": "lib/httpclient/http.rb",
+    "ficheiro": "lib/httpclient/auth.rb",
     "modo": "isolado",
     "origem": "diversidade",
     "componente": "httpclient#0",
     "relacionado": false,
     "vizinhos_no_corpus": 0,
-    "metodos": 87
+    "metodos": 62
    }
   ]
  },
@@ -8211,15 +8236,66 @@
     "relacionado": false,
     "vizinhos_no_corpus": 0,
     "metodos": 3
-   },
+   }
+  ]
+ },
+ "kaminari": {
+  "repo": "kaminari/kaminari",
+  "etiqueta": "v1.2.2",
+  "commit": "508caf4653b2",
+  "raiz": ".",
+  "ambiente": "deps do gemspec",
+  "deps": [
+   "activesupport",
+   "kaminari-actionview",
+   "kaminari-activerecord",
+   "kaminari-core"
+  ],
+  "load_paths": [
+   "lib",
+   "kaminari-actionview/lib",
+   "kaminari-activerecord/lib",
+   "kaminari-core/lib"
+  ],
+  "entrada": "kaminari",
+  "ficheiros_codigo": [
+   "kaminari-actionview/lib/kaminari/actionview.rb",
+   "kaminari-actionview/lib/kaminari/actionview/action_view_extension.rb",
+   "kaminari-actionview/lib/kaminari/actionview/version.rb",
+   "kaminari-activerecord/lib/kaminari/activerecord.rb",
+   "kaminari-activerecord/lib/kaminari/activerecord/active_record_extension.rb",
+   "kaminari-activerecord/lib/kaminari/activerecord/active_record_model_extension.rb",
+   "kaminari-activerecord/lib/kaminari/activerecord/active_record_relation_methods.rb",
+   "kaminari-activerecord/lib/kaminari/activerecord/version.rb",
+   "kaminari-core/lib/generators/kaminari/config_generator.rb",
+   "kaminari-core/lib/generators/kaminari/templates/kaminari_config.rb",
+   "kaminari-core/lib/generators/kaminari/views_generator.rb",
+   "kaminari-core/lib/kaminari/config.rb",
+   "kaminari-core/lib/kaminari/core.rb",
+   "kaminari-core/lib/kaminari/core/version.rb",
+   "kaminari-core/lib/kaminari/engine.rb",
+   "kaminari-core/lib/kaminari/exceptions.rb",
+   "kaminari-core/lib/kaminari/helpers/helper_methods.rb",
+   "kaminari-core/lib/kaminari/helpers/paginator.rb",
+   "kaminari-core/lib/kaminari/helpers/tags.rb",
+   "kaminari-core/lib/kaminari/models/array_extension.rb",
+   "kaminari-core/lib/kaminari/models/configuration_methods.rb",
+   "kaminari-core/lib/kaminari/models/page_scope_methods.rb",
+   "kaminari-core/lib/kaminari/railtie.rb",
+   "lib/kaminari.rb",
+   "lib/kaminari/version.rb",
+   "misc/bug_report_template.rb"
+  ],
+  "biblioteca": [],
+  "alvos": [
    {
-    "ficheiro": "lib/jwt/jwa.rb",
+    "ficheiro": "kaminari-core/lib/kaminari/helpers/paginator.rb",
     "modo": "isolado",
     "origem": "diversidade",
-    "componente": "jwt#0",
+    "componente": "kaminari#0",
     "relacionado": false,
     "vizinhos_no_corpus": 0,
-    "metodos": 5
+    "metodos": 27
    }
   ]
  },
@@ -8325,22 +8401,22 @@
   ],
   "alvos": [
    {
-    "ficheiro": "lib/kramdown/element.rb",
+    "ficheiro": "lib/kramdown/converter/html.rb",
     "modo": "isolado",
     "origem": "diversidade",
-    "componente": "kramdown#6",
+    "componente": "kramdown#1",
     "relacionado": false,
     "vizinhos_no_corpus": 0,
-    "metodos": 7
+    "metodos": 43
    },
    {
-    "ficheiro": "lib/kramdown/parser/kramdown/html.rb",
+    "ficheiro": "lib/kramdown/parser/kramdown/list.rb",
     "modo": "com a biblioteca carregada",
     "origem": "diversidade",
     "componente": "kramdown#0",
     "relacionado": false,
     "vizinhos_no_corpus": 0,
-    "metodos": 3
+    "metodos": 4
    },
    {
     "ficheiro": "lib/kramdown/utils.rb",
@@ -8350,15 +8426,6 @@
     "relacionado": false,
     "vizinhos_no_corpus": 0,
     "metodos": 3
-   },
-   {
-    "ficheiro": "setup.rb",
-    "modo": "isolado",
-    "origem": "diversidade",
-    "componente": "kramdown#10",
-    "relacionado": false,
-    "vizinhos_no_corpus": 0,
-    "metodos": 181
    }
   ]
  },
@@ -8472,6 +8539,15 @@
     "metodos": 4
    },
    {
+    "ficheiro": "lib/liquid/standardfilters.rb",
+    "modo": "isolado",
+    "origem": "diversidade",
+    "componente": "liquid#0",
+    "relacionado": false,
+    "vizinhos_no_corpus": 0,
+    "metodos": 74
+   },
+   {
     "ficheiro": "lib/liquid/strainer_template.rb",
     "modo": "isolado",
     "origem": "diversidade",
@@ -8497,15 +8573,6 @@
     "relacionado": false,
     "vizinhos_no_corpus": 0,
     "metodos": 5
-   },
-   {
-    "ficheiro": "lib/liquid/template.rb",
-    "modo": "isolado",
-    "origem": "diversidade",
-    "componente": "liquid#0",
-    "relacionado": false,
-    "vizinhos_no_corpus": 0,
-    "metodos": 23
    }
   ]
  },
@@ -8563,13 +8630,13 @@
   "biblioteca": [],
   "alvos": [
    {
-    "ficheiro": "lib/listen/adapter/darwin.rb",
+    "ficheiro": "lib/listen/options.rb",
     "modo": "isolado",
     "origem": "diversidade",
-    "componente": "listen#0",
+    "componente": "listen#5",
     "relacionado": false,
     "vizinhos_no_corpus": 0,
-    "metodos": 6
+    "metodos": 3
    }
   ]
  },
@@ -8639,146 +8706,20 @@
    {
     "ficheiro": "lib/logging.rb",
     "modo": "isolado",
-    "origem": "grupo",
+    "origem": "diversidade",
     "componente": "logging#0",
     "relacionado": true,
-    "vizinhos_no_corpus": 13,
+    "vizinhos_no_corpus": 1,
     "metodos": 25
-   },
-   {
-    "ficheiro": "lib/logging/appender.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "logging#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 5,
-    "metodos": 16
-   },
-   {
-    "ficheiro": "lib/logging/appenders.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "logging#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 1,
-    "metodos": 5
-   },
-   {
-    "ficheiro": "lib/logging/appenders/buffering.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "logging#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 6,
-    "metodos": 24
-   },
-   {
-    "ficheiro": "lib/logging/appenders/console.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "logging#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 2,
-    "metodos": 5
-   },
-   {
-    "ficheiro": "lib/logging/appenders/file.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "logging#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 2,
-    "metodos": 7
-   },
-   {
-    "ficheiro": "lib/logging/appenders/io.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "logging#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 3,
-    "metodos": 6
-   },
-   {
-    "ficheiro": "lib/logging/appenders/rolling_file.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "logging#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 3,
-    "metodos": 21
-   },
-   {
-    "ficheiro": "lib/logging/appenders/string_io.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "logging#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 1,
-    "metodos": 5
-   },
-   {
-    "ficheiro": "lib/logging/appenders/syslog.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "logging#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 2,
-    "metodos": 8
-   },
-   {
-    "ficheiro": "lib/logging/color_scheme.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "logging#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 2,
-    "metodos": 13
-   },
-   {
-    "ficheiro": "lib/logging/diagnostic_context.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "logging#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 1,
-    "metodos": 24
-   },
-   {
-    "ficheiro": "lib/logging/layout.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "logging#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 2,
-    "metodos": 13
-   },
-   {
-    "ficheiro": "lib/logging/layouts/parseable.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "logging#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 1,
-    "metodos": 13
    },
    {
     "ficheiro": "lib/logging/layouts/pattern.rb",
     "modo": "isolado",
-    "origem": "grupo",
+    "origem": "diversidade",
     "componente": "logging#0",
     "relacionado": true,
-    "vizinhos_no_corpus": 2,
+    "vizinhos_no_corpus": 1,
     "metodos": 19
-   },
-   {
-    "ficheiro": "lib/logging/logger.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "logging#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 2,
-    "metodos": 26
    },
    {
     "ficheiro": "lib/logging/rails_compat.rb",
@@ -8788,33 +8729,6 @@
     "relacionado": false,
     "vizinhos_no_corpus": 0,
     "metodos": 3
-   },
-   {
-    "ficheiro": "lib/logging/repository.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "logging#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 1,
-    "metodos": 11
-   },
-   {
-    "ficheiro": "lib/logging/root_logger.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "logging#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 2,
-    "metodos": 3
-   },
-   {
-    "ficheiro": "lib/logging/utils.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "logging#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 1,
-    "metodos": 9
    }
   ]
  },
@@ -8951,12 +8865,21 @@
   "biblioteca": [],
   "alvos": [
    {
+    "ficheiro": "lib/mail/elements/received_element.rb",
+    "modo": "isolado",
+    "origem": "diversidade",
+    "componente": "mail#4",
+    "relacionado": false,
+    "vizinhos_no_corpus": 0,
+    "metodos": 3
+   },
+   {
     "ficheiro": "lib/mail/encodings.rb",
     "modo": "isolado",
     "origem": "diversidade",
     "componente": "mail#0",
     "relacionado": true,
-    "vizinhos_no_corpus": 2,
+    "vizinhos_no_corpus": 1,
     "metodos": 21
    },
    {
@@ -8967,15 +8890,6 @@
     "relacionado": false,
     "vizinhos_no_corpus": 0,
     "metodos": 5
-   },
-   {
-    "ficheiro": "lib/mail/fields/parameter_hash.rb",
-    "modo": "isolado",
-    "origem": "diversidade",
-    "componente": "mail#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 1,
-    "metodos": 3
    },
    {
     "ficheiro": "lib/mail/message.rb",
@@ -9713,6 +9627,96 @@
     "metodos": 3
    },
    {
+    "ficheiro": "lib/mongo/auth.rb",
+    "modo": "isolado",
+    "origem": "diversidade",
+    "componente": "mongo#4",
+    "relacionado": false,
+    "vizinhos_no_corpus": 0,
+    "metodos": 3
+   },
+   {
+    "ficheiro": "lib/mongo/auth/aws/conversation.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "mongo#5",
+    "relacionado": true,
+    "vizinhos_no_corpus": 2,
+    "metodos": 5
+   },
+   {
+    "ficheiro": "lib/mongo/auth/conversation_base.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "mongo#5",
+    "relacionado": true,
+    "vizinhos_no_corpus": 5,
+    "metodos": 4
+   },
+   {
+    "ficheiro": "lib/mongo/auth/gssapi/conversation.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "mongo#5",
+    "relacionado": true,
+    "vizinhos_no_corpus": 1,
+    "metodos": 5
+   },
+   {
+    "ficheiro": "lib/mongo/auth/sasl_conversation_base.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "mongo#5",
+    "relacionado": true,
+    "vizinhos_no_corpus": 3,
+    "metodos": 5
+   },
+   {
+    "ficheiro": "lib/mongo/auth/scram.rb",
+    "modo": "isolado",
+    "origem": "diversidade",
+    "componente": "mongo#10",
+    "relacionado": false,
+    "vizinhos_no_corpus": 0,
+    "metodos": 3
+   },
+   {
+    "ficheiro": "lib/mongo/auth/scram/conversation.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "mongo#5",
+    "relacionado": true,
+    "vizinhos_no_corpus": 1,
+    "metodos": 3
+   },
+   {
+    "ficheiro": "lib/mongo/auth/scram256/conversation.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "mongo#5",
+    "relacionado": true,
+    "vizinhos_no_corpus": 1,
+    "metodos": 3
+   },
+   {
+    "ficheiro": "lib/mongo/auth/scram_conversation_base.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "mongo#5",
+    "relacionado": true,
+    "vizinhos_no_corpus": 4,
+    "metodos": 26
+   },
+   {
+    "ficheiro": "lib/mongo/auth/x509/conversation.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "mongo#5",
+    "relacionado": true,
+    "vizinhos_no_corpus": 1,
+    "metodos": 3
+   },
+   {
     "ficheiro": "lib/mongo/collection.rb",
     "modo": "isolado",
     "origem": "diversidade",
@@ -9731,103 +9735,55 @@
     "metodos": 22
    },
    {
-    "ficheiro": "profile/driver_bench/base.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "mongo#125",
-    "relacionado": true,
-    "vizinhos_no_corpus": 6,
-    "metodos": 16
-   },
-   {
-    "ficheiro": "profile/driver_bench/crypto/decrypt.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "mongo#125",
-    "relacionado": true,
-    "vizinhos_no_corpus": 1,
-    "metodos": 9
-   },
-   {
-    "ficheiro": "profile/driver_bench/multi_doc/grid_fs/download.rb",
+    "ficheiro": "lib/mongo/server/description.rb",
     "modo": "isolado",
     "origem": "diversidade",
-    "componente": "mongo#128",
+    "componente": "mongo#109",
     "relacionado": false,
     "vizinhos_no_corpus": 0,
-    "metodos": 3
-   },
+    "metodos": 47
+   }
+  ]
+ },
+ "omniauth": {
+  "repo": "omniauth/omniauth",
+  "etiqueta": "v2.1.4",
+  "commit": "20ac5e05a39d",
+  "raiz": ".",
+  "ambiente": "deps do gemspec",
+  "deps": [
+   "hashie",
+   "logger",
+   "rack",
+   "rack-protection"
+  ],
+  "load_paths": [
+   "lib"
+  ],
+  "entrada": "omniauth",
+  "ficheiros_codigo": [
+   "lib/omniauth.rb",
+   "lib/omniauth/auth_hash.rb",
+   "lib/omniauth/authenticity_token_protection.rb",
+   "lib/omniauth/builder.rb",
+   "lib/omniauth/failure_endpoint.rb",
+   "lib/omniauth/form.rb",
+   "lib/omniauth/key_store.rb",
+   "lib/omniauth/strategies/developer.rb",
+   "lib/omniauth/strategy.rb",
+   "lib/omniauth/test.rb",
+   "lib/omniauth/version.rb"
+  ],
+  "biblioteca": [],
+  "alvos": [
    {
-    "ficheiro": "profile/driver_bench/parallel/base.rb",
+    "ficheiro": "lib/omniauth/strategy.rb",
     "modo": "isolado",
-    "origem": "grupo",
-    "componente": "mongo#125",
-    "relacionado": true,
-    "vizinhos_no_corpus": 1,
-    "metodos": 4
-   },
-   {
-    "ficheiro": "profile/driver_bench/parallel/gridfs/base.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "mongo#125",
-    "relacionado": true,
-    "vizinhos_no_corpus": 3,
-    "metodos": 4
-   },
-   {
-    "ficheiro": "profile/driver_bench/parallel/gridfs/download.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "mongo#125",
-    "relacionado": true,
-    "vizinhos_no_corpus": 1,
-    "metodos": 6
-   },
-   {
-    "ficheiro": "profile/driver_bench/parallel/gridfs/upload.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "mongo#125",
-    "relacionado": true,
-    "vizinhos_no_corpus": 1,
-    "metodos": 4
-   },
-   {
-    "ficheiro": "profile/driver_bench/parallel/ldjson/base.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "mongo#125",
-    "relacionado": true,
-    "vizinhos_no_corpus": 2,
-    "metodos": 4
-   },
-   {
-    "ficheiro": "profile/driver_bench/parallel/ldjson/export.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "mongo#125",
-    "relacionado": true,
-    "vizinhos_no_corpus": 1,
-    "metodos": 7
-   },
-   {
-    "ficheiro": "profile/driver_bench/single_doc/base.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "mongo#125",
-    "relacionado": true,
-    "vizinhos_no_corpus": 2,
-    "metodos": 6
-   },
-   {
-    "ficheiro": "profile/driver_bench/single_doc/run_command.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "mongo#125",
-    "relacionado": true,
-    "vizinhos_no_corpus": 2,
-    "metodos": 4
+    "origem": "diversidade",
+    "componente": "omniauth#0",
+    "relacionado": false,
+    "vizinhos_no_corpus": 0,
+    "metodos": 52
    }
   ]
  },
@@ -9934,18 +9890,18 @@
     "modo": "isolado",
     "origem": "diversidade",
     "componente": "paper_trail#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 1,
+    "relacionado": false,
+    "vizinhos_no_corpus": 0,
     "metodos": 10
    },
    {
-    "ficheiro": "lib/paper_trail/version_concern.rb",
+    "ficheiro": "lib/paper_trail/serializers/yaml.rb",
     "modo": "isolado",
     "origem": "diversidade",
-    "componente": "paper_trail#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 1,
-    "metodos": 36
+    "componente": "paper_trail#8",
+    "relacionado": false,
+    "vizinhos_no_corpus": 0,
+    "metodos": 5
    }
   ]
  },
@@ -10016,104 +9972,6 @@
     "relacionado": false,
     "vizinhos_no_corpus": 0,
     "metodos": 4
-   },
-   {
-    "ficheiro": "lib/pastel/detached.rb",
-    "modo": "isolado",
-    "origem": "diversidade",
-    "componente": "pastel#3",
-    "relacionado": false,
-    "vizinhos_no_corpus": 0,
-    "metodos": 7
-   }
-  ]
- },
- "pg": {
-  "repo": "ged/ruby-pg",
-  "etiqueta": "v1.6.3",
-  "commit": "d4539c25dcc8",
-  "raiz": ".",
-  "ambiente": "deps + a propria gem",
-  "deps": [],
-  "load_paths": [
-   "lib"
-  ],
-  "entrada": "pg",
-  "ficheiros_codigo": [
-   "ext/errorcodes.rb",
-   "ext/extconf.rb",
-   "lib/pg.rb",
-   "lib/pg/basic_type_map_based_on_result.rb",
-   "lib/pg/basic_type_map_for_queries.rb",
-   "lib/pg/basic_type_map_for_results.rb",
-   "lib/pg/basic_type_registry.rb",
-   "lib/pg/binary_decoder/date.rb",
-   "lib/pg/binary_decoder/timestamp.rb",
-   "lib/pg/binary_encoder/timestamp.rb",
-   "lib/pg/cancel_connection.rb",
-   "lib/pg/coder.rb",
-   "lib/pg/connection.rb",
-   "lib/pg/exceptions.rb",
-   "lib/pg/result.rb",
-   "lib/pg/text_decoder/date.rb",
-   "lib/pg/text_decoder/inet.rb",
-   "lib/pg/text_decoder/json.rb",
-   "lib/pg/text_decoder/numeric.rb",
-   "lib/pg/text_decoder/timestamp.rb",
-   "lib/pg/text_encoder/date.rb",
-   "lib/pg/text_encoder/inet.rb",
-   "lib/pg/text_encoder/json.rb",
-   "lib/pg/text_encoder/numeric.rb",
-   "lib/pg/text_encoder/timestamp.rb",
-   "lib/pg/tuple.rb",
-   "lib/pg/type_map_by_column.rb",
-   "lib/pg/version.rb",
-   "misc/glibc/glibc_spec.rb",
-   "misc/openssl-pg-segfault.rb",
-   "misc/postgres/lib/postgres.rb",
-   "misc/ruby-pg/lib/ruby/pg.rb",
-   "misc/yugabyte/pg-test.rb",
-   "rakelib/pg_gem_helper.rb",
-   "rakelib/task_extension.rb",
-   "sample/array_insert.rb",
-   "sample/async_api.rb",
-   "sample/async_copyto.rb",
-   "sample/async_mixed.rb",
-   "sample/check_conn.rb",
-   "sample/copydata.rb",
-   "sample/copyfrom.rb",
-   "sample/copyto.rb",
-   "sample/cursor.rb",
-   "sample/disk_usage_report.rb",
-   "sample/issue-119.rb",
-   "sample/losample.rb",
-   "sample/minimal-testcase.rb",
-   "sample/notify_wait.rb",
-   "sample/pg_statistics.rb",
-   "sample/replication_monitor.rb",
-   "sample/test_binary_values.rb",
-   "sample/wal_shipper.rb",
-   "sample/warehouse_partitions.rb"
-  ],
-  "biblioteca": [],
-  "alvos": [
-   {
-    "ficheiro": "rakelib/task_extension.rb",
-    "modo": "isolado",
-    "origem": "diversidade",
-    "componente": "pg#6",
-    "relacionado": false,
-    "vizinhos_no_corpus": 0,
-    "metodos": 3
-   },
-   {
-    "ficheiro": "sample/warehouse_partitions.rb",
-    "modo": "isolado",
-    "origem": "diversidade",
-    "componente": "pg#0",
-    "relacionado": false,
-    "vizinhos_no_corpus": 0,
-    "metodos": 5
    }
   ]
  },
@@ -10312,6 +10170,15 @@
     "metodos": 3
    },
    {
+    "ficheiro": "lib/prawn/graphics/patterns.rb",
+    "modo": "isolado",
+    "origem": "diversidade",
+    "componente": "prawn#11",
+    "relacionado": false,
+    "vizinhos_no_corpus": 0,
+    "metodos": 8
+   },
+   {
     "ficheiro": "lib/prawn/measurement_extensions.rb",
     "modo": "isolado",
     "origem": "diversidade",
@@ -10328,15 +10195,6 @@
     "relacionado": false,
     "vizinhos_no_corpus": 0,
     "metodos": 6
-   },
-   {
-    "ficheiro": "lib/prawn/text/formatted/wrap.rb",
-    "modo": "isolado",
-    "origem": "diversidade",
-    "componente": "prawn#26",
-    "relacionado": false,
-    "vizinhos_no_corpus": 0,
-    "metodos": 7
    },
    {
     "ficheiro": "lib/prawn/view.rb",
@@ -10583,13 +10441,22 @@
     "metodos": 5
    },
    {
-    "ficheiro": "lib/pry/commands/find_method.rb",
+    "ficheiro": "lib/pry/command.rb",
     "modo": "isolado",
     "origem": "diversidade",
     "componente": "pry#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 1,
-    "metodos": 13
+    "relacionado": false,
+    "vizinhos_no_corpus": 0,
+    "metodos": 48
+   },
+   {
+    "ficheiro": "lib/pry/commands/list_inspectors.rb",
+    "modo": "isolado",
+    "origem": "diversidade",
+    "componente": "pry#3",
+    "relacionado": false,
+    "vizinhos_no_corpus": 0,
+    "metodos": 4
    },
    {
     "ficheiro": "lib/pry/core_extensions.rb",
@@ -10610,31 +10477,66 @@
     "metodos": 3
    },
    {
-    "ficheiro": "lib/pry/method.rb",
+    "ficheiro": "lib/pry/wrapped_module/candidate.rb",
     "modo": "isolado",
     "origem": "diversidade",
     "componente": "pry#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 1,
-    "metodos": 51
-   },
-   {
-    "ficheiro": "lib/pry/method/disowned.rb",
-    "modo": "isolado",
-    "origem": "diversidade",
-    "componente": "pry#12",
     "relacionado": false,
     "vizinhos_no_corpus": 0,
-    "metodos": 6
-   },
+    "metodos": 9
+   }
+  ]
+ },
+ "pry-byebug": {
+  "repo": "deivid-rodriguez/pry-byebug",
+  "etiqueta": "v3.12.0",
+  "commit": "0b5aea2615fd",
+  "raiz": ".",
+  "ambiente": "deps do gemspec",
+  "deps": [
+   "byebug",
+   "pry"
+  ],
+  "load_paths": [
+   "lib"
+  ],
+  "entrada": "pry-byebug",
+  "ficheiros_codigo": [
+   "lib/byebug/processors/pry_processor.rb",
+   "lib/pry-byebug.rb",
+   "lib/pry-byebug/base.rb",
+   "lib/pry-byebug/cli.rb",
+   "lib/pry-byebug/commands.rb",
+   "lib/pry-byebug/commands/backtrace.rb",
+   "lib/pry-byebug/commands/breakpoint.rb",
+   "lib/pry-byebug/commands/continue.rb",
+   "lib/pry-byebug/commands/down.rb",
+   "lib/pry-byebug/commands/exit_all.rb",
+   "lib/pry-byebug/commands/finish.rb",
+   "lib/pry-byebug/commands/frame.rb",
+   "lib/pry-byebug/commands/next.rb",
+   "lib/pry-byebug/commands/step.rb",
+   "lib/pry-byebug/commands/up.rb",
+   "lib/pry-byebug/control_d_handler.rb",
+   "lib/pry-byebug/helpers/breakpoints.rb",
+   "lib/pry-byebug/helpers/location.rb",
+   "lib/pry-byebug/helpers/multiline.rb",
+   "lib/pry-byebug/helpers/navigation.rb",
+   "lib/pry-byebug/pry_ext.rb",
+   "lib/pry-byebug/pry_remote_ext.rb",
+   "lib/pry-byebug/version.rb",
+   "lib/pry/byebug/breakpoints.rb"
+  ],
+  "biblioteca": [],
+  "alvos": [
    {
-    "ficheiro": "lib/pry/testable.rb",
+    "ficheiro": "lib/pry-byebug/commands/breakpoint.rb",
     "modo": "isolado",
     "origem": "diversidade",
-    "componente": "pry#17",
+    "componente": "pry-byebug#1",
     "relacionado": false,
     "vizinhos_no_corpus": 0,
-    "metodos": 3
+    "metodos": 8
    }
   ]
  },
@@ -10714,19 +10616,10 @@
   "biblioteca": [],
   "alvos": [
    {
-    "ficheiro": "examples/generate_client_test.rb",
-    "modo": "isolado",
-    "origem": "diversidade",
-    "componente": "puma#2",
-    "relacionado": false,
-    "vizinhos_no_corpus": 0,
-    "metodos": 6
-   },
-   {
     "ficheiro": "lib/puma.rb",
     "modo": "isolado",
     "origem": "grupo",
-    "componente": "puma#3",
+    "componente": "puma#0",
     "relacionado": true,
     "vizinhos_no_corpus": 10,
     "metodos": 7
@@ -10735,7 +10628,7 @@
     "ficheiro": "lib/puma/app/status.rb",
     "modo": "isolado",
     "origem": "grupo",
-    "componente": "puma#3",
+    "componente": "puma#0",
     "relacionado": true,
     "vizinhos_no_corpus": 1,
     "metodos": 4
@@ -10744,7 +10637,7 @@
     "ficheiro": "lib/puma/binder.rb",
     "modo": "isolado",
     "origem": "grupo",
-    "componente": "puma#3",
+    "componente": "puma#0",
     "relacionado": true,
     "vizinhos_no_corpus": 1,
     "metodos": 23
@@ -10753,16 +10646,25 @@
     "ficheiro": "lib/puma/cli.rb",
     "modo": "isolado",
     "origem": "grupo",
-    "componente": "puma#3",
+    "componente": "puma#0",
     "relacionado": true,
     "vizinhos_no_corpus": 2,
     "metodos": 5
    },
    {
+    "ficheiro": "lib/puma/client_env.rb",
+    "modo": "isolado",
+    "origem": "diversidade",
+    "componente": "puma#1",
+    "relacionado": false,
+    "vizinhos_no_corpus": 0,
+    "metodos": 3
+   },
+   {
     "ficheiro": "lib/puma/configuration.rb",
     "modo": "isolado",
     "origem": "grupo",
-    "componente": "puma#3",
+    "componente": "puma#0",
     "relacionado": true,
     "vizinhos_no_corpus": 4,
     "metodos": 40
@@ -10771,7 +10673,7 @@
     "ficheiro": "lib/puma/dsl.rb",
     "modo": "isolado",
     "origem": "grupo",
-    "componente": "puma#3",
+    "componente": "puma#0",
     "relacionado": true,
     "vizinhos_no_corpus": 2,
     "metodos": 84
@@ -10780,7 +10682,7 @@
     "ficheiro": "lib/puma/events.rb",
     "modo": "isolado",
     "origem": "grupo",
-    "componente": "puma#3",
+    "componente": "puma#0",
     "relacionado": true,
     "vizinhos_no_corpus": 1,
     "metodos": 12
@@ -10789,7 +10691,7 @@
     "ficheiro": "lib/puma/json_serialization.rb",
     "modo": "isolado",
     "origem": "grupo",
-    "componente": "puma#3",
+    "componente": "puma#0",
     "relacionado": true,
     "vizinhos_no_corpus": 2,
     "metodos": 4
@@ -10798,7 +10700,7 @@
     "ficheiro": "lib/puma/launcher.rb",
     "modo": "isolado",
     "origem": "grupo",
-    "componente": "puma#3",
+    "componente": "puma#0",
     "relacionado": true,
     "vizinhos_no_corpus": 1,
     "metodos": 34
@@ -10807,7 +10709,7 @@
     "ficheiro": "lib/puma/log_writer.rb",
     "modo": "isolado",
     "origem": "grupo",
-    "componente": "puma#3",
+    "componente": "puma#0",
     "relacionado": true,
     "vizinhos_no_corpus": 4,
     "metodos": 18
@@ -10816,7 +10718,7 @@
     "ficheiro": "lib/puma/plugin.rb",
     "modo": "isolado",
     "origem": "grupo",
-    "componente": "puma#3",
+    "componente": "puma#0",
     "relacionado": true,
     "vizinhos_no_corpus": 1,
     "metodos": 11
@@ -10825,7 +10727,7 @@
     "ficheiro": "lib/puma/plugin/systemd.rb",
     "modo": "isolado",
     "origem": "grupo",
-    "componente": "puma#3",
+    "componente": "puma#0",
     "relacionado": true,
     "vizinhos_no_corpus": 1,
     "metodos": 8
@@ -10834,7 +10736,7 @@
     "ficheiro": "lib/puma/reactor.rb",
     "modo": "isolado",
     "origem": "grupo",
-    "componente": "puma#3",
+    "componente": "puma#0",
     "relacionado": true,
     "vizinhos_no_corpus": 1,
     "metodos": 7
@@ -10843,7 +10745,7 @@
     "ficheiro": "lib/puma/response.rb",
     "modo": "isolado",
     "origem": "grupo",
-    "componente": "puma#3",
+    "componente": "puma#0",
     "relacionado": true,
     "vizinhos_no_corpus": 1,
     "metodos": 9
@@ -10852,7 +10754,7 @@
     "ficheiro": "lib/puma/server.rb",
     "modo": "isolado",
     "origem": "grupo",
-    "componente": "puma#3",
+    "componente": "puma#0",
     "relacionado": true,
     "vizinhos_no_corpus": 3,
     "metodos": 39
@@ -10861,7 +10763,7 @@
     "ficheiro": "lib/puma/thread_pool.rb",
     "modo": "isolado",
     "origem": "grupo",
-    "componente": "puma#3",
+    "componente": "puma#0",
     "relacionado": true,
     "vizinhos_no_corpus": 1,
     "metodos": 34
@@ -10870,7 +10772,7 @@
     "ficheiro": "lib/rack/handler/puma.rb",
     "modo": "isolado",
     "origem": "grupo",
-    "componente": "puma#3",
+    "componente": "puma#0",
     "relacionado": true,
     "vizinhos_no_corpus": 2,
     "metodos": 4
@@ -10930,53 +10832,164 @@
    }
   ]
  },
- "rack-attack": {
-  "repo": "rack/rack-attack",
-  "etiqueta": "v6.8.0",
-  "commit": "65f1ead3bc64",
+ "rails-i18n": {
+  "repo": "svenfuchs/rails-i18n",
+  "etiqueta": "v8.1.0",
+  "commit": "32a4583d2111",
   "raiz": ".",
   "ambiente": "deps do gemspec",
   "deps": [
-   "rack"
+   "i18n",
+   "railties"
   ],
   "load_paths": [
    "lib"
   ],
-  "entrada": "rack/attack",
+  "entrada": "rails-i18n",
   "ficheiros_codigo": [
-   "examples/instrumentation.rb",
-   "examples/rack_attack.rb",
-   "lib/rack/attack.rb",
-   "lib/rack/attack/allow2ban.rb",
-   "lib/rack/attack/base_proxy.rb",
-   "lib/rack/attack/blocklist.rb",
-   "lib/rack/attack/cache.rb",
-   "lib/rack/attack/check.rb",
-   "lib/rack/attack/configuration.rb",
-   "lib/rack/attack/fail2ban.rb",
-   "lib/rack/attack/path_normalizer.rb",
-   "lib/rack/attack/railtie.rb",
-   "lib/rack/attack/request.rb",
-   "lib/rack/attack/safelist.rb",
-   "lib/rack/attack/store_proxy/dalli_proxy.rb",
-   "lib/rack/attack/store_proxy/mem_cache_store_proxy.rb",
-   "lib/rack/attack/store_proxy/redis_cache_store_proxy.rb",
-   "lib/rack/attack/store_proxy/redis_proxy.rb",
-   "lib/rack/attack/store_proxy/redis_store_proxy.rb",
-   "lib/rack/attack/throttle.rb",
-   "lib/rack/attack/track.rb",
-   "lib/rack/attack/version.rb"
+   "lib/rails-i18n.rb",
+   "lib/rails_i18n.rb",
+   "lib/rails_i18n/common_pluralizations/east_slavic.rb",
+   "lib/rails_i18n/common_pluralizations/one_few_other.rb",
+   "lib/rails_i18n/common_pluralizations/one_other.rb",
+   "lib/rails_i18n/common_pluralizations/one_two_other.rb",
+   "lib/rails_i18n/common_pluralizations/one_upto_two_other.rb",
+   "lib/rails_i18n/common_pluralizations/one_with_zero_other.rb",
+   "lib/rails_i18n/common_pluralizations/other.rb",
+   "lib/rails_i18n/common_pluralizations/romanian.rb",
+   "lib/rails_i18n/common_pluralizations/west_slavic.rb",
+   "lib/rails_i18n/pluralization.rb",
+   "lib/rails_i18n/railtie.rb",
+   "lib/rails_i18n/transliteration.rb",
+   "rails/ordinals/fr-CA.rb",
+   "rails/ordinals/fr-CH.rb",
+   "rails/ordinals/fr-FR.rb",
+   "rails/ordinals/fr.rb",
+   "rails/ordinals/gd.rb",
+   "rails/pluralization/ar.rb",
+   "rails/pluralization/az.rb",
+   "rails/pluralization/be.rb",
+   "rails/pluralization/bg.rb",
+   "rails/pluralization/bn.rb",
+   "rails/pluralization/bs.rb",
+   "rails/pluralization/ca.rb",
+   "rails/pluralization/cs.rb",
+   "rails/pluralization/da.rb",
+   "rails/pluralization/de-AT.rb",
+   "rails/pluralization/de-CH.rb",
+   "rails/pluralization/de-DE.rb",
+   "rails/pluralization/de.rb",
+   "rails/pluralization/el-CY.rb",
+   "rails/pluralization/el.rb",
+   "rails/pluralization/en-AU.rb",
+   "rails/pluralization/en-CA.rb",
+   "rails/pluralization/en-CY.rb",
+   "rails/pluralization/en-GB.rb",
+   "rails/pluralization/en-IE.rb",
+   "rails/pluralization/en-IN.rb",
+   "rails/pluralization/en-NZ.rb",
+   "rails/pluralization/en-TT.rb",
+   "rails/pluralization/en-US.rb",
+   "rails/pluralization/en-ZA.rb",
+   "rails/pluralization/en.rb",
+   "rails/pluralization/eo.rb",
+   "rails/pluralization/es-419.rb",
+   "rails/pluralization/es-AR.rb",
+   "rails/pluralization/es-CL.rb",
+   "rails/pluralization/es-CO.rb",
+   "rails/pluralization/es-CR.rb",
+   "rails/pluralization/es-EC.rb",
+   "rails/pluralization/es-ES.rb",
+   "rails/pluralization/es-MX.rb",
+   "rails/pluralization/es-NI.rb",
+   "rails/pluralization/es-PA.rb",
+   "rails/pluralization/es-PE.rb",
+   "rails/pluralization/es-US.rb",
+   "rails/pluralization/es-VE.rb",
+   "rails/pluralization/es.rb",
+   "rails/pluralization/et.rb",
+   "rails/pluralization/eu.rb",
+   "rails/pluralization/fa.rb",
+   "rails/pluralization/fi.rb",
+   "rails/pluralization/fr-CA.rb",
+   "rails/pluralization/fr-CH.rb",
+   "rails/pluralization/fr-FR.rb",
+   "rails/pluralization/fr.rb",
+   "rails/pluralization/fy.rb",
+   "rails/pluralization/gd.rb",
+   "rails/pluralization/gl.rb",
+   "rails/pluralization/he.rb",
+   "rails/pluralization/hi-IN.rb",
+   "rails/pluralization/hi.rb",
+   "rails/pluralization/hr.rb",
+   "rails/pluralization/hsb.rb",
+   "rails/pluralization/hu.rb",
+   "rails/pluralization/id.rb",
+   "rails/pluralization/is.rb",
+   "rails/pluralization/it-CH.rb",
+   "rails/pluralization/it.rb",
+   "rails/pluralization/ja.rb",
+   "rails/pluralization/ka.rb",
+   "rails/pluralization/kk.rb",
+   "rails/pluralization/km.rb",
+   "rails/pluralization/kn.rb",
+   "rails/pluralization/ko.rb",
+   "rails/pluralization/lo.rb",
+   "rails/pluralization/lt.rb",
+   "rails/pluralization/lv.rb",
+   "rails/pluralization/mg.rb",
+   "rails/pluralization/mk.rb",
+   "rails/pluralization/ml.rb",
+   "rails/pluralization/mn.rb",
+   "rails/pluralization/mr-IN.rb",
+   "rails/pluralization/ms.rb",
+   "rails/pluralization/nb.rb",
+   "rails/pluralization/ne.rb",
+   "rails/pluralization/nl.rb",
+   "rails/pluralization/nn.rb",
+   "rails/pluralization/oc.rb",
+   "rails/pluralization/or.rb",
+   "rails/pluralization/pa.rb",
+   "rails/pluralization/pap-AW.rb",
+   "rails/pluralization/pap-CW.rb",
+   "rails/pluralization/pl.rb",
+   "rails/pluralization/pt-BR.rb",
+   "rails/pluralization/pt.rb",
+   "rails/pluralization/ro.rb",
+   "rails/pluralization/ru.rb",
+   "rails/pluralization/sc.rb",
+   "rails/pluralization/sk.rb",
+   "rails/pluralization/sl.rb",
+   "rails/pluralization/sr.rb",
+   "rails/pluralization/st.rb",
+   "rails/pluralization/sv-SE.rb",
+   "rails/pluralization/sv.rb",
+   "rails/pluralization/sw.rb",
+   "rails/pluralization/ta.rb",
+   "rails/pluralization/th.rb",
+   "rails/pluralization/tl.rb",
+   "rails/pluralization/tr.rb",
+   "rails/pluralization/uk.rb",
+   "rails/pluralization/ur.rb",
+   "rails/pluralization/vi.rb",
+   "rails/pluralization/wo.rb",
+   "rails/pluralization/zh-CN.rb",
+   "rails/pluralization/zh-HK.rb",
+   "rails/pluralization/zh-TW.rb",
+   "rails/pluralization/zh-YUE.rb",
+   "rails/transliteration/ru.rb",
+   "rails/transliteration/uk.rb"
   ],
   "biblioteca": [],
   "alvos": [
    {
-    "ficheiro": "lib/rack/attack/store_proxy/mem_cache_store_proxy.rb",
+    "ficheiro": "lib/rails_i18n/pluralization.rb",
     "modo": "isolado",
     "origem": "diversidade",
-    "componente": "rack-attack#4",
+    "componente": "rails-i18n#0",
     "relacionado": false,
     "vizinhos_no_corpus": 0,
-    "metodos": 3
+    "metodos": 8
    }
   ]
  },
@@ -11041,139 +11054,13 @@
   "biblioteca": [],
   "alvos": [
    {
-    "ficheiro": "lib/rake/application.rb",
+    "ficheiro": "lib/rake/task_arguments.rb",
     "modo": "isolado",
-    "origem": "grupo",
-    "componente": "rake#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 3,
-    "metodos": 55
-   },
-   {
-    "ficheiro": "lib/rake/clean.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "rake#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 1,
-    "metodos": 4
-   },
-   {
-    "ficheiro": "lib/rake/cpu_counter.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "rake#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 1,
-    "metodos": 3
-   },
-   {
-    "ficheiro": "lib/rake/dsl_definition.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "rake#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 6,
-    "metodos": 9
-   },
-   {
-    "ficheiro": "lib/rake/file_list.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "rake#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 6,
-    "metodos": 31
-   },
-   {
-    "ficheiro": "lib/rake/file_task.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "rake#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 2,
-    "metodos": 4
-   },
-   {
-    "ficheiro": "lib/rake/file_utils.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "rake#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 2,
-    "metodos": 7
-   },
-   {
-    "ficheiro": "lib/rake/invocation_chain.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "rake#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 2,
-    "metodos": 8
-   },
-   {
-    "ficheiro": "lib/rake/linked_list.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "rake#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 1,
-    "metodos": 13
-   },
-   {
-    "ficheiro": "lib/rake/loaders/makefile.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "rake#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 1,
-    "metodos": 3
-   },
-   {
-    "ficheiro": "lib/rake/packagetask.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "rake#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 2,
-    "metodos": 12
-   },
-   {
-    "ficheiro": "lib/rake/rake_module.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "rake#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 7,
-    "metodos": 7
-   },
-   {
-    "ficheiro": "lib/rake/task.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "rake#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 6,
-    "metodos": 47
-   },
-   {
-    "ficheiro": "lib/rake/task_manager.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "rake#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 4,
-    "metodos": 26
-   },
-   {
-    "ficheiro": "lib/rake/testtask.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "rake#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 4,
-    "metodos": 10
+    "origem": "diversidade",
+    "componente": "rake#8",
+    "relacionado": false,
+    "vizinhos_no_corpus": 0,
+    "metodos": 16
    }
   ]
  },
@@ -11239,49 +11126,31 @@
     "metodos": 22
    },
    {
-    "ficheiro": "lib/ransack/nodes/attribute.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "ransack#7",
-    "relacionado": true,
-    "vizinhos_no_corpus": 1,
-    "metodos": 9
-   },
-   {
-    "ficheiro": "lib/ransack/nodes/bindable.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "ransack#7",
-    "relacionado": true,
-    "vizinhos_no_corpus": 2,
-    "metodos": 8
-   },
-   {
-    "ficheiro": "lib/ransack/nodes/node.rb",
+    "ficheiro": "lib/ransack/helpers/form_helper.rb",
     "modo": "isolado",
     "origem": "diversidade",
     "componente": "ransack#5",
-    "relacionado": false,
-    "vizinhos_no_corpus": 0,
-    "metodos": 4
-   },
-   {
-    "ficheiro": "lib/ransack/nodes/sort.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "ransack#7",
-    "relacionado": true,
-    "vizinhos_no_corpus": 2,
-    "metodos": 6
-   },
-   {
-    "ficheiro": "lib/ransack/search.rb",
-    "modo": "isolado",
-    "origem": "grupo",
-    "componente": "ransack#7",
     "relacionado": true,
     "vizinhos_no_corpus": 1,
-    "metodos": 12
+    "metodos": 37
+   },
+   {
+    "ficheiro": "lib/ransack/naming.rb",
+    "modo": "isolado",
+    "origem": "diversidade",
+    "componente": "ransack#6",
+    "relacionado": false,
+    "vizinhos_no_corpus": 0,
+    "metodos": 9
+   },
+   {
+    "ficheiro": "lib/ransack/translate.rb",
+    "modo": "isolado",
+    "origem": "diversidade",
+    "componente": "ransack#5",
+    "relacionado": true,
+    "vizinhos_no_corpus": 1,
+    "metodos": 16
    }
   ]
  },
@@ -11418,19 +11287,19 @@
   "biblioteca": [],
   "alvos": [
    {
-    "ficheiro": "lib/rdoc/code_object/single_class.rb",
+    "ficheiro": "lib/rdoc/code_object/normal_module.rb",
     "modo": "isolado",
     "origem": "diversidade",
-    "componente": "rdoc#1",
+    "componente": "rdoc#0",
     "relacionado": false,
     "vizinhos_no_corpus": 0,
-    "metodos": 4
+    "metodos": 6
    },
    {
     "ficheiro": "lib/rdoc/generator/darkfish.rb",
     "modo": "isolado",
     "origem": "diversidade",
-    "componente": "rdoc#1",
+    "componente": "rdoc#0",
     "relacionado": false,
     "vizinhos_no_corpus": 0,
     "metodos": 31
@@ -11439,37 +11308,69 @@
     "ficheiro": "lib/rdoc/markdown.rb",
     "modo": "isolado",
     "origem": "diversidade",
-    "componente": "rdoc#9",
+    "componente": "rdoc#8",
     "relacionado": false,
     "vizinhos_no_corpus": 0,
     "metodos": 304
    },
    {
+    "ficheiro": "lib/rdoc/markdown/literals.rb",
+    "modo": "isolado",
+    "origem": "diversidade",
+    "componente": "rdoc#9",
+    "relacionado": false,
+    "vizinhos_no_corpus": 0,
+    "metodos": 40
+   },
+   {
     "ficheiro": "lib/rdoc/parser.rb",
     "modo": "isolado",
     "origem": "diversidade",
-    "componente": "rdoc#1",
+    "componente": "rdoc#0",
     "relacionado": false,
     "vizinhos_no_corpus": 0,
     "metodos": 12
    },
    {
-    "ficheiro": "lib/rdoc/rd/block_parser.rb",
-    "modo": "isolado",
-    "origem": "diversidade",
-    "componente": "rdoc#26",
-    "relacionado": false,
-    "vizinhos_no_corpus": 0,
-    "metodos": 98
-   },
-   {
     "ficheiro": "lib/rdoc/rubygems_hook.rb",
     "modo": "isolado",
     "origem": "diversidade",
-    "componente": "rdoc#29",
+    "componente": "rdoc#28",
     "relacionado": false,
     "vizinhos_no_corpus": 0,
     "metodos": 21
+   }
+  ]
+ },
+ "redcarpet": {
+  "repo": "vmg/redcarpet",
+  "etiqueta": "v3.6.1",
+  "commit": "34c138e3f149",
+  "raiz": ".",
+  "ambiente": "deps + a propria gem",
+  "deps": [],
+  "load_paths": [
+   "lib"
+  ],
+  "entrada": "redcarpet",
+  "ficheiros_codigo": [
+   "ext/redcarpet/extconf.rb",
+   "lib/redcarpet.rb",
+   "lib/redcarpet/cli.rb",
+   "lib/redcarpet/compat.rb",
+   "lib/redcarpet/render_man.rb",
+   "lib/redcarpet/render_strip.rb"
+  ],
+  "biblioteca": [],
+  "alvos": [
+   {
+    "ficheiro": "lib/redcarpet/render_man.rb",
+    "modo": "isolado",
+    "origem": "diversidade",
+    "componente": "redcarpet#3",
+    "relacionado": false,
+    "vizinhos_no_corpus": 0,
+    "metodos": 10
    }
   ]
  },
@@ -11502,13 +11403,13 @@
   "biblioteca": [],
   "alvos": [
    {
-    "ficheiro": "lib/responders/flash_responder.rb",
+    "ficheiro": "lib/action_controller/respond_with.rb",
     "modo": "isolado",
     "origem": "diversidade",
-    "componente": "responders#2",
+    "componente": "responders#0",
     "relacionado": false,
     "vizinhos_no_corpus": 0,
-    "metodos": 11
+    "metodos": 5
    }
   ]
  },
@@ -12060,18 +11961,27 @@
     "modo": "isolado",
     "origem": "diversidade",
     "componente": "rouge#0",
-    "relacionado": false,
-    "vizinhos_no_corpus": 0,
+    "relacionado": true,
+    "vizinhos_no_corpus": 1,
     "metodos": 3
    },
    {
-    "ficheiro": "lib/rouge/lexers/cython.rb",
+    "ficheiro": "lib/rouge/lexer.rb",
     "modo": "isolado",
     "origem": "diversidade",
-    "componente": "rouge#10",
-    "relacionado": false,
-    "vizinhos_no_corpus": 0,
-    "metodos": 4
+    "componente": "rouge#0",
+    "relacionado": true,
+    "vizinhos_no_corpus": 2,
+    "metodos": 55
+   },
+   {
+    "ficheiro": "lib/rouge/lexers/http.rb",
+    "modo": "isolado",
+    "origem": "diversidade",
+    "componente": "rouge#0",
+    "relacionado": true,
+    "vizinhos_no_corpus": 1,
+    "metodos": 3
    },
    {
     "ficheiro": "lib/rouge/lexers/javascript.rb",
@@ -12105,8 +12015,8 @@
     "modo": "isolado",
     "origem": "diversidade",
     "componente": "rouge#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 1,
+    "relacionado": false,
+    "vizinhos_no_corpus": 0,
     "metodos": 3
    },
    {
@@ -12117,15 +12027,6 @@
     "relacionado": true,
     "vizinhos_no_corpus": 1,
     "metodos": 5
-   },
-   {
-    "ficheiro": "lib/rouge/regex_lexer.rb",
-    "modo": "isolado",
-    "origem": "diversidade",
-    "componente": "rouge#0",
-    "relacionado": true,
-    "vizinhos_no_corpus": 1,
-    "metodos": 47
    }
   ]
  },
@@ -12455,7 +12356,7 @@
     "ficheiro": "rspec-core/lib/rspec/core/configuration.rb",
     "modo": "isolado",
     "origem": "diversidade",
-    "componente": "rspec#1",
+    "componente": "rspec#0",
     "relacionado": true,
     "vizinhos_no_corpus": 1,
     "metodos": 136
@@ -12464,7 +12365,7 @@
     "ficheiro": "rspec-core/lib/rspec/core/example_group.rb",
     "modo": "isolado",
     "origem": "diversidade",
-    "componente": "rspec#1",
+    "componente": "rspec#0",
     "relacionado": true,
     "vizinhos_no_corpus": 1,
     "metodos": 63
@@ -12473,19 +12374,10 @@
     "ficheiro": "rspec-core/lib/rspec/core/option_parser.rb",
     "modo": "isolado",
     "origem": "diversidade",
-    "componente": "rspec#1",
+    "componente": "rspec#0",
     "relacionado": false,
     "vizinhos_no_corpus": 0,
     "metodos": 7
-   },
-   {
-    "ficheiro": "rspec-mocks/lib/rspec/mocks/error_generator.rb",
-    "modo": "isolado",
-    "origem": "diversidade",
-    "componente": "rspec#1",
-    "relacionado": false,
-    "vizinhos_no_corpus": 0,
-    "metodos": 49
    }
   ]
  },
@@ -13448,661 +13340,17 @@
    "lib/ruby_lsp/rubocop/runtime_adapter.rb",
    "tasks/changelog.rb"
   ],
-  "biblioteca": [
-   "lib/rubocop/cached_data.rb",
-   "lib/rubocop/cli.rb",
-   "lib/rubocop/cli/command/auto_generate_config.rb",
-   "lib/rubocop/cli/command/base.rb",
-   "lib/rubocop/cli/command/execute_runner.rb",
-   "lib/rubocop/cli/command/list_enabled_cops_for.rb",
-   "lib/rubocop/cli/command/show_cops.rb",
-   "lib/rubocop/cli/command/show_docs_url.rb",
-   "lib/rubocop/cli/command/suggest_extensions.rb",
-   "lib/rubocop/comment_config.rb",
-   "lib/rubocop/config.rb",
-   "lib/rubocop/config_finder.rb",
-   "lib/rubocop/config_loader.rb",
-   "lib/rubocop/config_loader_resolver.rb",
-   "lib/rubocop/config_obsoletion.rb",
-   "lib/rubocop/config_obsoletion/changed_enforced_styles.rb",
-   "lib/rubocop/config_obsoletion/cop_rule.rb",
-   "lib/rubocop/config_obsoletion/extracted_cop.rb",
-   "lib/rubocop/config_obsoletion/parameter_rule.rb",
-   "lib/rubocop/config_obsoletion/removed_cop.rb",
-   "lib/rubocop/config_obsoletion/renamed_cop.rb",
-   "lib/rubocop/config_obsoletion/rule.rb",
-   "lib/rubocop/config_obsoletion/split_cop.rb",
-   "lib/rubocop/config_regeneration.rb",
-   "lib/rubocop/config_store.rb",
-   "lib/rubocop/config_validator.rb",
-   "lib/rubocop/cop/autocorrect_logic.rb",
-   "lib/rubocop/cop/badge.rb",
-   "lib/rubocop/cop/base.rb",
-   "lib/rubocop/cop/bundler/duplicated_gem.rb",
-   "lib/rubocop/cop/bundler/duplicated_group.rb",
-   "lib/rubocop/cop/bundler/gem_comment.rb",
-   "lib/rubocop/cop/bundler/gem_filename.rb",
-   "lib/rubocop/cop/commissioner.rb",
-   "lib/rubocop/cop/cop.rb",
-   "lib/rubocop/cop/corrector.rb",
-   "lib/rubocop/cop/correctors/alignment_corrector.rb",
-   "lib/rubocop/cop/correctors/each_to_for_corrector.rb",
-   "lib/rubocop/cop/correctors/for_to_each_corrector.rb",
-   "lib/rubocop/cop/correctors/if_then_corrector.rb",
-   "lib/rubocop/cop/correctors/lambda_literal_to_method_corrector.rb",
-   "lib/rubocop/cop/correctors/line_break_corrector.rb",
-   "lib/rubocop/cop/correctors/multiline_literal_brace_corrector.rb",
-   "lib/rubocop/cop/correctors/parentheses_corrector.rb",
-   "lib/rubocop/cop/correctors/percent_literal_corrector.rb",
-   "lib/rubocop/cop/correctors/punctuation_corrector.rb",
-   "lib/rubocop/cop/correctors/space_corrector.rb",
-   "lib/rubocop/cop/documentation.rb",
-   "lib/rubocop/cop/exclude_limit.rb",
-   "lib/rubocop/cop/force.rb",
-   "lib/rubocop/cop/gemspec/attribute_assignment.rb",
-   "lib/rubocop/cop/gemspec/dependency_version.rb",
-   "lib/rubocop/cop/gemspec/deprecated_attribute_assignment.rb",
-   "lib/rubocop/cop/gemspec/development_dependencies.rb",
-   "lib/rubocop/cop/gemspec/duplicated_assignment.rb",
-   "lib/rubocop/cop/gemspec/ordered_dependencies.rb",
-   "lib/rubocop/cop/gemspec/require_mfa.rb",
-   "lib/rubocop/cop/gemspec/required_ruby_version.rb",
-   "lib/rubocop/cop/generator.rb",
-   "lib/rubocop/cop/generator/configuration_injector.rb",
-   "lib/rubocop/cop/generator/registration_injector.rb",
-   "lib/rubocop/cop/generator/require_file_injector.rb",
-   "lib/rubocop/cop/ignored_node.rb",
-   "lib/rubocop/cop/internal_affairs/cop_description.rb",
-   "lib/rubocop/cop/internal_affairs/cop_enabled.rb",
-   "lib/rubocop/cop/internal_affairs/example_description.rb",
-   "lib/rubocop/cop/internal_affairs/example_heredoc_delimiter.rb",
-   "lib/rubocop/cop/internal_affairs/location_exists.rb",
-   "lib/rubocop/cop/internal_affairs/node_matcher_directive.rb",
-   "lib/rubocop/cop/internal_affairs/node_pattern_groups.rb",
-   "lib/rubocop/cop/internal_affairs/node_pattern_groups/ast_processor.rb",
-   "lib/rubocop/cop/internal_affairs/node_pattern_groups/ast_walker.rb",
-   "lib/rubocop/cop/internal_affairs/node_type_group.rb",
-   "lib/rubocop/cop/internal_affairs/node_type_multiple_predicates.rb",
-   "lib/rubocop/cop/internal_affairs/on_send_without_on_csend.rb",
-   "lib/rubocop/cop/internal_affairs/plugin.rb",
-   "lib/rubocop/cop/internal_affairs/style_detected_api_use.rb",
-   "lib/rubocop/cop/internal_affairs/undefined_config.rb",
-   "lib/rubocop/cop/internal_affairs/useless_message_assertion.rb",
-   "lib/rubocop/cop/layout/access_modifier_indentation.rb",
-   "lib/rubocop/cop/layout/argument_alignment.rb",
-   "lib/rubocop/cop/layout/array_alignment.rb",
-   "lib/rubocop/cop/layout/assignment_indentation.rb",
-   "lib/rubocop/cop/layout/begin_end_alignment.rb",
-   "lib/rubocop/cop/layout/block_alignment.rb",
-   "lib/rubocop/cop/layout/block_end_newline.rb",
-   "lib/rubocop/cop/layout/case_indentation.rb",
-   "lib/rubocop/cop/layout/class_structure.rb",
-   "lib/rubocop/cop/layout/closing_heredoc_indentation.rb",
-   "lib/rubocop/cop/layout/closing_parenthesis_indentation.rb",
-   "lib/rubocop/cop/layout/comment_indentation.rb",
-   "lib/rubocop/cop/layout/condition_position.rb",
-   "lib/rubocop/cop/layout/def_end_alignment.rb",
-   "lib/rubocop/cop/layout/dot_position.rb",
-   "lib/rubocop/cop/layout/else_alignment.rb",
-   "lib/rubocop/cop/layout/empty_comment.rb",
-   "lib/rubocop/cop/layout/empty_line_after_guard_clause.rb",
-   "lib/rubocop/cop/layout/empty_line_after_magic_comment.rb",
-   "lib/rubocop/cop/layout/empty_line_after_multiline_condition.rb",
-   "lib/rubocop/cop/layout/empty_line_between_defs.rb",
-   "lib/rubocop/cop/layout/empty_lines.rb",
-   "lib/rubocop/cop/layout/empty_lines_after_module_inclusion.rb",
-   "lib/rubocop/cop/layout/empty_lines_around_access_modifier.rb",
-   "lib/rubocop/cop/layout/empty_lines_around_arguments.rb",
-   "lib/rubocop/cop/layout/empty_lines_around_attribute_accessor.rb",
-   "lib/rubocop/cop/layout/empty_lines_around_exception_handling_keywords.rb",
-   "lib/rubocop/cop/layout/empty_lines_around_method_body.rb",
-   "lib/rubocop/cop/layout/end_alignment.rb",
-   "lib/rubocop/cop/layout/end_of_line.rb",
-   "lib/rubocop/cop/layout/extra_spacing.rb",
-   "lib/rubocop/cop/layout/first_argument_indentation.rb",
-   "lib/rubocop/cop/layout/first_array_element_indentation.rb",
-   "lib/rubocop/cop/layout/first_array_element_line_break.rb",
-   "lib/rubocop/cop/layout/first_hash_element_indentation.rb",
-   "lib/rubocop/cop/layout/first_parameter_indentation.rb",
-   "lib/rubocop/cop/layout/hash_alignment.rb",
-   "lib/rubocop/cop/layout/heredoc_argument_closing_parenthesis.rb",
-   "lib/rubocop/cop/layout/heredoc_indentation.rb",
-   "lib/rubocop/cop/layout/indentation_consistency.rb",
-   "lib/rubocop/cop/layout/indentation_style.rb",
-   "lib/rubocop/cop/layout/indentation_width.rb",
-   "lib/rubocop/cop/layout/initial_indentation.rb",
-   "lib/rubocop/cop/layout/leading_comment_space.rb",
-   "lib/rubocop/cop/layout/line_continuation_leading_space.rb",
-   "lib/rubocop/cop/layout/line_continuation_spacing.rb",
-   "lib/rubocop/cop/layout/line_end_string_concatenation_indentation.rb",
-   "lib/rubocop/cop/layout/line_length.rb",
-   "lib/rubocop/cop/layout/multiline_assignment_layout.rb",
-   "lib/rubocop/cop/layout/multiline_block_layout.rb",
-   "lib/rubocop/cop/layout/multiline_hash_key_line_breaks.rb",
-   "lib/rubocop/cop/layout/multiline_method_call_brace_layout.rb",
-   "lib/rubocop/cop/layout/multiline_method_call_indentation.rb",
-   "lib/rubocop/cop/layout/multiline_operation_indentation.rb",
-   "lib/rubocop/cop/layout/parameter_alignment.rb",
-   "lib/rubocop/cop/layout/redundant_line_break.rb",
-   "lib/rubocop/cop/layout/rescue_ensure_alignment.rb",
-   "lib/rubocop/cop/layout/single_line_block_chain.rb",
-   "lib/rubocop/cop/layout/space_after_colon.rb",
-   "lib/rubocop/cop/layout/space_after_semicolon.rb",
-   "lib/rubocop/cop/layout/space_around_block_parameters.rb",
-   "lib/rubocop/cop/layout/space_around_equals_in_parameter_default.rb",
-   "lib/rubocop/cop/layout/space_around_method_call_operator.rb",
-   "lib/rubocop/cop/layout/space_around_operators.rb",
-   "lib/rubocop/cop/layout/space_before_block_braces.rb",
-   "lib/rubocop/cop/layout/space_before_first_arg.rb",
-   "lib/rubocop/cop/layout/space_in_lambda_literal.rb",
-   "lib/rubocop/cop/layout/space_inside_array_literal_brackets.rb",
-   "lib/rubocop/cop/layout/space_inside_array_percent_literal.rb",
-   "lib/rubocop/cop/layout/space_inside_block_braces.rb",
-   "lib/rubocop/cop/layout/space_inside_hash_literal_braces.rb",
-   "lib/rubocop/cop/layout/space_inside_parens.rb",
-   "lib/rubocop/cop/layout/space_inside_percent_literal_delimiters.rb",
-   "lib/rubocop/cop/layout/space_inside_reference_brackets.rb",
-   "lib/rubocop/cop/layout/space_inside_string_interpolation.rb",
-   "lib/rubocop/cop/layout/trailing_empty_lines.rb",
-   "lib/rubocop/cop/layout/trailing_whitespace.rb",
-   "lib/rubocop/cop/legacy/corrections_proxy.rb",
-   "lib/rubocop/cop/lint/ambiguous_block_association.rb",
-   "lib/rubocop/cop/lint/ambiguous_operator.rb",
-   "lib/rubocop/cop/lint/ambiguous_operator_precedence.rb",
-   "lib/rubocop/cop/lint/ambiguous_range.rb",
-   "lib/rubocop/cop/lint/ambiguous_regexp_literal.rb",
-   "lib/rubocop/cop/lint/array_literal_in_regexp.rb",
-   "lib/rubocop/cop/lint/assignment_in_condition.rb",
-   "lib/rubocop/cop/lint/circular_argument_reference.rb",
-   "lib/rubocop/cop/lint/constant_definition_in_block.rb",
-   "lib/rubocop/cop/lint/constant_reassignment.rb",
-   "lib/rubocop/cop/lint/constant_resolution.rb",
-   "lib/rubocop/cop/lint/debugger.rb",
-   "lib/rubocop/cop/lint/deprecated_class_methods.rb",
-   "lib/rubocop/cop/lint/deprecated_constants.rb",
-   "lib/rubocop/cop/lint/deprecated_open_ssl_constant.rb",
-   "lib/rubocop/cop/lint/deprecated_reference.rb",
-   "lib/rubocop/cop/lint/disjunctive_assignment_in_constructor.rb",
-   "lib/rubocop/cop/lint/duplicate_branch.rb",
-   "lib/rubocop/cop/lint/duplicate_magic_comment.rb",
-   "lib/rubocop/cop/lint/duplicate_methods.rb",
-   "lib/rubocop/cop/lint/duplicate_regexp_character_class_element.rb",
-   "lib/rubocop/cop/lint/else_layout.rb",
-   "lib/rubocop/cop/lint/empty_block.rb",
-   "lib/rubocop/cop/lint/empty_class.rb",
-   "lib/rubocop/cop/lint/empty_conditional_body.rb",
-   "lib/rubocop/cop/lint/empty_file.rb",
-   "lib/rubocop/cop/lint/erb_new_arguments.rb",
-   "lib/rubocop/cop/lint/float_comparison.rb",
-   "lib/rubocop/cop/lint/format_parameter_mismatch.rb",
-   "lib/rubocop/cop/lint/heredoc_method_call_position.rb",
-   "lib/rubocop/cop/lint/implicit_string_concatenation.rb",
-   "lib/rubocop/cop/lint/incompatible_io_select_with_fiber_scheduler.rb",
-   "lib/rubocop/cop/lint/ineffective_access_modifier.rb",
-   "lib/rubocop/cop/lint/inherit_exception.rb",
-   "lib/rubocop/cop/lint/interpolation_check.rb",
-   "lib/rubocop/cop/lint/literal_as_condition.rb",
-   "lib/rubocop/cop/lint/literal_assignment_in_condition.rb",
-   "lib/rubocop/cop/lint/literal_in_interpolation.rb",
-   "lib/rubocop/cop/lint/loop.rb",
-   "lib/rubocop/cop/lint/missing_cop_enable_directive.rb",
-   "lib/rubocop/cop/lint/missing_super.rb",
-   "lib/rubocop/cop/lint/mixed_case_range.rb",
-   "lib/rubocop/cop/lint/name_typo.rb",
-   "lib/rubocop/cop/lint/nested_method_definition.rb",
-   "lib/rubocop/cop/lint/nested_percent_literal.rb",
-   "lib/rubocop/cop/lint/non_atomic_file_operation.rb",
-   "lib/rubocop/cop/lint/non_deterministic_require_order.rb",
-   "lib/rubocop/cop/lint/non_local_exit_from_iterator.rb",
-   "lib/rubocop/cop/lint/number_conversion.rb",
-   "lib/rubocop/cop/lint/numeric_operation_with_constant_result.rb",
-   "lib/rubocop/cop/lint/ordered_magic_comments.rb",
-   "lib/rubocop/cop/lint/out_of_range_regexp_ref.rb",
-   "lib/rubocop/cop/lint/parentheses_as_grouped_expression.rb",
-   "lib/rubocop/cop/lint/percent_string_array.rb",
-   "lib/rubocop/cop/lint/percent_symbol_array.rb",
-   "lib/rubocop/cop/lint/raise_exception.rb",
-   "lib/rubocop/cop/lint/redundant_cop_disable_directive.rb",
-   "lib/rubocop/cop/lint/redundant_cop_enable_directive.rb",
-   "lib/rubocop/cop/lint/redundant_dir_glob_sort.rb",
-   "lib/rubocop/cop/lint/redundant_regexp_quantifiers.rb",
-   "lib/rubocop/cop/lint/redundant_safe_navigation.rb",
-   "lib/rubocop/cop/lint/redundant_splat_expansion.rb",
-   "lib/rubocop/cop/lint/redundant_string_coercion.rb",
-   "lib/rubocop/cop/lint/redundant_type_conversion.rb",
-   "lib/rubocop/cop/lint/redundant_with_index.rb",
-   "lib/rubocop/cop/lint/redundant_with_object.rb",
-   "lib/rubocop/cop/lint/require_parentheses.rb",
-   "lib/rubocop/cop/lint/rescue_type.rb",
-   "lib/rubocop/cop/lint/safe_navigation_chain.rb",
-   "lib/rubocop/cop/lint/safe_navigation_consistency.rb",
-   "lib/rubocop/cop/lint/script_permission.rb",
-   "lib/rubocop/cop/lint/self_assignment.rb",
-   "lib/rubocop/cop/lint/send_with_mixin_argument.rb",
-   "lib/rubocop/cop/lint/shadowed_argument.rb",
-   "lib/rubocop/cop/lint/shadowed_exception.rb",
-   "lib/rubocop/cop/lint/shadowing_outer_local_variable.rb",
-   "lib/rubocop/cop/lint/suppressed_exception.rb",
-   "lib/rubocop/cop/lint/suppressed_exception_in_number_conversion.rb",
-   "lib/rubocop/cop/lint/symbol_conversion.rb",
-   "lib/rubocop/cop/lint/syntax.rb",
-   "lib/rubocop/cop/lint/to_enum_arguments.rb",
-   "lib/rubocop/cop/lint/top_level_return_with_argument.rb",
-   "lib/rubocop/cop/lint/underscore_prefixed_variable_name.rb",
-   "lib/rubocop/cop/lint/unescaped_bracket_in_regexp.rb",
-   "lib/rubocop/cop/lint/unexpected_block_arity.rb",
-   "lib/rubocop/cop/lint/unmodified_reduce_accumulator.rb",
-   "lib/rubocop/cop/lint/unreachable_code.rb",
-   "lib/rubocop/cop/lint/unreachable_loop.rb",
-   "lib/rubocop/cop/lint/unused_block_argument.rb",
-   "lib/rubocop/cop/lint/unused_method_argument.rb",
-   "lib/rubocop/cop/lint/unused_private_method.rb",
-   "lib/rubocop/cop/lint/useless_access_modifier.rb",
-   "lib/rubocop/cop/lint/useless_assignment.rb",
-   "lib/rubocop/cop/lint/useless_constant_scoping.rb",
-   "lib/rubocop/cop/lint/useless_method_definition.rb",
-   "lib/rubocop/cop/lint/useless_numeric_operation.rb",
-   "lib/rubocop/cop/lint/useless_rescue.rb",
-   "lib/rubocop/cop/lint/useless_ruby2_keywords.rb",
-   "lib/rubocop/cop/lint/useless_setter_call.rb",
-   "lib/rubocop/cop/lint/useless_times.rb",
-   "lib/rubocop/cop/lint/utils/nil_receiver_checker.rb",
-   "lib/rubocop/cop/lint/void.rb",
-   "lib/rubocop/cop/message_annotator.rb",
-   "lib/rubocop/cop/metrics/block_length.rb",
-   "lib/rubocop/cop/metrics/block_nesting.rb",
-   "lib/rubocop/cop/metrics/class_length.rb",
-   "lib/rubocop/cop/metrics/collection_literal_length.rb",
-   "lib/rubocop/cop/metrics/method_length.rb",
-   "lib/rubocop/cop/metrics/module_length.rb",
-   "lib/rubocop/cop/metrics/parameter_lists.rb",
-   "lib/rubocop/cop/metrics/utils/abc_size_calculator.rb",
-   "lib/rubocop/cop/metrics/utils/code_length_calculator.rb",
-   "lib/rubocop/cop/metrics/utils/iterating_block.rb",
-   "lib/rubocop/cop/metrics/utils/repeated_attribute_discount.rb",
-   "lib/rubocop/cop/metrics/utils/repeated_csend_discount.rb",
-   "lib/rubocop/cop/migration/department_name.rb",
-   "lib/rubocop/cop/mixin/alignment.rb",
-   "lib/rubocop/cop/mixin/allowed_methods.rb",
-   "lib/rubocop/cop/mixin/allowed_pattern.rb",
-   "lib/rubocop/cop/mixin/allowed_receivers.rb",
-   "lib/rubocop/cop/mixin/annotation_comment.rb",
-   "lib/rubocop/cop/mixin/array_min_size.rb",
-   "lib/rubocop/cop/mixin/check_assignment.rb",
-   "lib/rubocop/cop/mixin/check_line_breakable.rb",
-   "lib/rubocop/cop/mixin/check_single_line_suitability.rb",
-   "lib/rubocop/cop/mixin/code_length.rb",
-   "lib/rubocop/cop/mixin/comments_help.rb",
-   "lib/rubocop/cop/mixin/configurable_enforced_style.rb",
-   "lib/rubocop/cop/mixin/configurable_formatting.rb",
-   "lib/rubocop/cop/mixin/documentation_comment.rb",
-   "lib/rubocop/cop/mixin/duplication.rb",
-   "lib/rubocop/cop/mixin/empty_lines_around_body.rb",
-   "lib/rubocop/cop/mixin/end_keyword_alignment.rb",
-   "lib/rubocop/cop/mixin/endless_method_rewriter.rb",
-   "lib/rubocop/cop/mixin/enforce_superclass.rb",
-   "lib/rubocop/cop/mixin/first_element_line_break.rb",
-   "lib/rubocop/cop/mixin/forbidden_pattern.rb",
-   "lib/rubocop/cop/mixin/frozen_string_literal.rb",
-   "lib/rubocop/cop/mixin/hash_alignment_styles.rb",
-   "lib/rubocop/cop/mixin/hash_shorthand_syntax.rb",
-   "lib/rubocop/cop/mixin/hash_subset.rb",
-   "lib/rubocop/cop/mixin/hash_transform_method.rb",
-   "lib/rubocop/cop/mixin/hash_transform_method/autocorrection.rb",
-   "lib/rubocop/cop/mixin/heredoc.rb",
-   "lib/rubocop/cop/mixin/line_length_help.rb",
-   "lib/rubocop/cop/mixin/method_complexity.rb",
-   "lib/rubocop/cop/mixin/method_preference.rb",
-   "lib/rubocop/cop/mixin/min_branches_count.rb",
-   "lib/rubocop/cop/mixin/multiline_element_indentation.rb",
-   "lib/rubocop/cop/mixin/multiline_expression_indentation.rb",
-   "lib/rubocop/cop/mixin/multiline_literal_brace_layout.rb",
-   "lib/rubocop/cop/mixin/ordered_gem_node.rb",
-   "lib/rubocop/cop/mixin/percent_array.rb",
-   "lib/rubocop/cop/mixin/percent_literal.rb",
-   "lib/rubocop/cop/mixin/preceding_following_alignment.rb",
-   "lib/rubocop/cop/mixin/preferred_delimiters.rb",
-   "lib/rubocop/cop/mixin/project_index_help.rb",
-   "lib/rubocop/cop/mixin/range_help.rb",
-   "lib/rubocop/cop/mixin/reparsed_equivalence.rb",
-   "lib/rubocop/cop/mixin/require_library.rb",
-   "lib/rubocop/cop/mixin/rescue_node.rb",
-   "lib/rubocop/cop/mixin/space_after_punctuation.rb",
-   "lib/rubocop/cop/mixin/space_before_punctuation.rb",
-   "lib/rubocop/cop/mixin/statement_modifier.rb",
-   "lib/rubocop/cop/mixin/string_help.rb",
-   "lib/rubocop/cop/mixin/string_literals_help.rb",
-   "lib/rubocop/cop/mixin/surrounding_space.rb",
-   "lib/rubocop/cop/mixin/target_ruby_version.rb",
-   "lib/rubocop/cop/mixin/trailing_body.rb",
-   "lib/rubocop/cop/mixin/trailing_comma.rb",
-   "lib/rubocop/cop/mixin/uncommunicative_name.rb",
-   "lib/rubocop/cop/mixin/visibility_help.rb",
-   "lib/rubocop/cop/naming/accessor_method_name.rb",
-   "lib/rubocop/cop/naming/ascii_identifiers.rb",
-   "lib/rubocop/cop/naming/block_forwarding.rb",
-   "lib/rubocop/cop/naming/constant_name.rb",
-   "lib/rubocop/cop/naming/file_name.rb",
-   "lib/rubocop/cop/naming/heredoc_delimiter_case.rb",
-   "lib/rubocop/cop/naming/heredoc_delimiter_naming.rb",
-   "lib/rubocop/cop/naming/inclusive_language.rb",
-   "lib/rubocop/cop/naming/memoized_instance_variable_name.rb",
-   "lib/rubocop/cop/naming/method_name.rb",
-   "lib/rubocop/cop/naming/predicate_method.rb",
-   "lib/rubocop/cop/naming/predicate_prefix.rb",
-   "lib/rubocop/cop/naming/rescued_exceptions_variable_name.rb",
-   "lib/rubocop/cop/naming/variable_name.rb",
-   "lib/rubocop/cop/naming/variable_number.rb",
-   "lib/rubocop/cop/offense.rb",
-   "lib/rubocop/cop/registry.rb",
-   "lib/rubocop/cop/security/compound_hash.rb",
-   "lib/rubocop/cop/security/open.rb",
-   "lib/rubocop/cop/severity.rb",
-   "lib/rubocop/cop/style/access_modifier_declarations.rb",
-   "lib/rubocop/cop/style/accessor_grouping.rb",
-   "lib/rubocop/cop/style/alias.rb",
-   "lib/rubocop/cop/style/ambiguous_endless_method_definition.rb",
-   "lib/rubocop/cop/style/and_or.rb",
-   "lib/rubocop/cop/style/arguments_forwarding.rb",
-   "lib/rubocop/cop/style/array_first_last.rb",
-   "lib/rubocop/cop/style/array_intersect.rb",
-   "lib/rubocop/cop/style/ascii_comments.rb",
-   "lib/rubocop/cop/style/attr.rb",
-   "lib/rubocop/cop/style/bare_percent_literals.rb",
-   "lib/rubocop/cop/style/bisected_attr_accessor.rb",
-   "lib/rubocop/cop/style/bisected_attr_accessor/macro.rb",
-   "lib/rubocop/cop/style/block_comments.rb",
-   "lib/rubocop/cop/style/block_delimiters.rb",
-   "lib/rubocop/cop/style/case_equality.rb",
-   "lib/rubocop/cop/style/case_like_if.rb",
-   "lib/rubocop/cop/style/character_literal.rb",
-   "lib/rubocop/cop/style/class_and_module_children.rb",
-   "lib/rubocop/cop/style/class_equality_comparison.rb",
-   "lib/rubocop/cop/style/class_methods_definitions.rb",
-   "lib/rubocop/cop/style/collection_compact.rb",
-   "lib/rubocop/cop/style/collection_methods.rb",
-   "lib/rubocop/cop/style/collection_querying.rb",
-   "lib/rubocop/cop/style/colon_method_call.rb",
-   "lib/rubocop/cop/style/combinable_defined.rb",
-   "lib/rubocop/cop/style/combinable_loops.rb",
-   "lib/rubocop/cop/style/command_literal.rb",
-   "lib/rubocop/cop/style/comment_annotation.rb",
-   "lib/rubocop/cop/style/commented_keyword.rb",
-   "lib/rubocop/cop/style/comparable_clamp.rb",
-   "lib/rubocop/cop/style/concat_array_literals.rb",
-   "lib/rubocop/cop/style/conditional_assignment.rb",
-   "lib/rubocop/cop/style/constant_visibility.rb",
-   "lib/rubocop/cop/style/copyright.rb",
-   "lib/rubocop/cop/style/data_inheritance.rb",
-   "lib/rubocop/cop/style/date_time.rb",
-   "lib/rubocop/cop/style/dig_chain.rb",
-   "lib/rubocop/cop/style/disable_cops_within_source_code_directive.rb",
-   "lib/rubocop/cop/style/document_dynamic_eval_definition.rb",
-   "lib/rubocop/cop/style/documentation.rb",
-   "lib/rubocop/cop/style/documentation_method.rb",
-   "lib/rubocop/cop/style/double_negation.rb",
-   "lib/rubocop/cop/style/each_with_object.rb",
-   "lib/rubocop/cop/style/empty_case_condition.rb",
-   "lib/rubocop/cop/style/empty_class_definition.rb",
-   "lib/rubocop/cop/style/empty_else.rb",
-   "lib/rubocop/cop/style/empty_literal.rb",
-   "lib/rubocop/cop/style/empty_method.rb",
-   "lib/rubocop/cop/style/empty_string_inside_interpolation.rb",
-   "lib/rubocop/cop/style/encoding.rb",
-   "lib/rubocop/cop/style/endless_method.rb",
-   "lib/rubocop/cop/style/eval_with_location.rb",
-   "lib/rubocop/cop/style/even_odd.rb",
-   "lib/rubocop/cop/style/exact_regexp_match.rb",
-   "lib/rubocop/cop/style/expand_path_arguments.rb",
-   "lib/rubocop/cop/style/explicit_block_argument.rb",
-   "lib/rubocop/cop/style/exponential_notation.rb",
-   "lib/rubocop/cop/style/fetch_env_var.rb",
-   "lib/rubocop/cop/style/file_null.rb",
-   "lib/rubocop/cop/style/file_open.rb",
-   "lib/rubocop/cop/style/file_read.rb",
-   "lib/rubocop/cop/style/file_write.rb",
-   "lib/rubocop/cop/style/float_division.rb",
-   "lib/rubocop/cop/style/for.rb",
-   "lib/rubocop/cop/style/format_string.rb",
-   "lib/rubocop/cop/style/format_string_token.rb",
-   "lib/rubocop/cop/style/frozen_string_literal_comment.rb",
-   "lib/rubocop/cop/style/global_std_stream.rb",
-   "lib/rubocop/cop/style/global_vars.rb",
-   "lib/rubocop/cop/style/guard_clause.rb",
-   "lib/rubocop/cop/style/hash_as_last_array_item.rb",
-   "lib/rubocop/cop/style/hash_conversion.rb",
-   "lib/rubocop/cop/style/hash_each_methods.rb",
-   "lib/rubocop/cop/style/hash_fetch_chain.rb",
-   "lib/rubocop/cop/style/hash_lookup_method.rb",
-   "lib/rubocop/cop/style/hash_syntax.rb",
-   "lib/rubocop/cop/style/identical_conditional_branches.rb",
-   "lib/rubocop/cop/style/if_inside_else.rb",
-   "lib/rubocop/cop/style/if_unless_modifier.rb",
-   "lib/rubocop/cop/style/if_with_boolean_literal_branches.rb",
-   "lib/rubocop/cop/style/if_with_semicolon.rb",
-   "lib/rubocop/cop/style/in_pattern_then.rb",
-   "lib/rubocop/cop/style/infinite_loop.rb",
-   "lib/rubocop/cop/style/inverse_methods.rb",
-   "lib/rubocop/cop/style/invertible_unless_condition.rb",
-   "lib/rubocop/cop/style/ip_addresses.rb",
-   "lib/rubocop/cop/style/it_block_parameter.rb",
-   "lib/rubocop/cop/style/keyword_parameters_order.rb",
-   "lib/rubocop/cop/style/lambda.rb",
-   "lib/rubocop/cop/style/lambda_call.rb",
-   "lib/rubocop/cop/style/line_end_concatenation.rb",
-   "lib/rubocop/cop/style/magic_comment_format.rb",
-   "lib/rubocop/cop/style/map_compact_with_conditional_block.rb",
-   "lib/rubocop/cop/style/map_into_array.rb",
-   "lib/rubocop/cop/style/map_join.rb",
-   "lib/rubocop/cop/style/map_to_hash.rb",
-   "lib/rubocop/cop/style/method_call_with_args_parentheses.rb",
-   "lib/rubocop/cop/style/method_call_with_args_parentheses/omit_parentheses.rb",
-   "lib/rubocop/cop/style/method_call_with_args_parentheses/require_parentheses.rb",
-   "lib/rubocop/cop/style/method_call_without_args_parentheses.rb",
-   "lib/rubocop/cop/style/method_def_parentheses.rb",
-   "lib/rubocop/cop/style/min_max.rb",
-   "lib/rubocop/cop/style/min_max_comparison.rb",
-   "lib/rubocop/cop/style/missing_else.rb",
-   "lib/rubocop/cop/style/missing_respond_to_missing.rb",
-   "lib/rubocop/cop/style/mixin_grouping.rb",
-   "lib/rubocop/cop/style/module_function.rb",
-   "lib/rubocop/cop/style/module_member_existence_check.rb",
-   "lib/rubocop/cop/style/multiline_if_modifier.rb",
-   "lib/rubocop/cop/style/multiline_if_then.rb",
-   "lib/rubocop/cop/style/multiline_memoization.rb",
-   "lib/rubocop/cop/style/multiline_method_signature.rb",
-   "lib/rubocop/cop/style/multiline_ternary_operator.rb",
-   "lib/rubocop/cop/style/multiple_comparison.rb",
-   "lib/rubocop/cop/style/mutable_constant.rb",
-   "lib/rubocop/cop/style/negated_if.rb",
-   "lib/rubocop/cop/style/negated_if_else_condition.rb",
-   "lib/rubocop/cop/style/negated_unless.rb",
-   "lib/rubocop/cop/style/negative_array_index.rb",
-   "lib/rubocop/cop/style/nested_file_dirname.rb",
-   "lib/rubocop/cop/style/nested_modifier.rb",
-   "lib/rubocop/cop/style/nested_parenthesized_calls.rb",
-   "lib/rubocop/cop/style/nested_ternary_operator.rb",
-   "lib/rubocop/cop/style/next.rb",
-   "lib/rubocop/cop/style/nil_comparison.rb",
-   "lib/rubocop/cop/style/non_nil_check.rb",
-   "lib/rubocop/cop/style/not.rb",
-   "lib/rubocop/cop/style/numbered_parameters_limit.rb",
-   "lib/rubocop/cop/style/numeric_literal_prefix.rb",
-   "lib/rubocop/cop/style/numeric_literals.rb",
-   "lib/rubocop/cop/style/numeric_predicate.rb",
-   "lib/rubocop/cop/style/object_then.rb",
-   "lib/rubocop/cop/style/one_class_per_file.rb",
-   "lib/rubocop/cop/style/one_line_conditional.rb",
-   "lib/rubocop/cop/style/operator_method_call.rb",
-   "lib/rubocop/cop/style/option_hash.rb",
-   "lib/rubocop/cop/style/optional_arguments.rb",
-   "lib/rubocop/cop/style/or_assignment.rb",
-   "lib/rubocop/cop/style/parallel_assignment.rb",
-   "lib/rubocop/cop/style/parentheses_around_condition.rb",
-   "lib/rubocop/cop/style/partition_instead_of_double_select.rb",
-   "lib/rubocop/cop/style/percent_literal_delimiters.rb",
-   "lib/rubocop/cop/style/percent_q_literals.rb",
-   "lib/rubocop/cop/style/perl_backrefs.rb",
-   "lib/rubocop/cop/style/predicate_with_kind.rb",
-   "lib/rubocop/cop/style/preferred_hash_methods.rb",
-   "lib/rubocop/cop/style/quoted_symbols.rb",
-   "lib/rubocop/cop/style/raise_args.rb",
-   "lib/rubocop/cop/style/random_with_offset.rb",
-   "lib/rubocop/cop/style/reduce_to_hash.rb",
-   "lib/rubocop/cop/style/redundant_argument.rb",
-   "lib/rubocop/cop/style/redundant_assignment.rb",
-   "lib/rubocop/cop/style/redundant_begin.rb",
-   "lib/rubocop/cop/style/redundant_capital_w.rb",
-   "lib/rubocop/cop/style/redundant_condition.rb",
-   "lib/rubocop/cop/style/redundant_conditional.rb",
-   "lib/rubocop/cop/style/redundant_constant_base.rb",
-   "lib/rubocop/cop/style/redundant_current_directory_in_path.rb",
-   "lib/rubocop/cop/style/redundant_double_splat_hash_braces.rb",
-   "lib/rubocop/cop/style/redundant_each.rb",
-   "lib/rubocop/cop/style/redundant_exception.rb",
-   "lib/rubocop/cop/style/redundant_fetch_block.rb",
-   "lib/rubocop/cop/style/redundant_file_extension_in_require.rb",
-   "lib/rubocop/cop/style/redundant_filter_chain.rb",
-   "lib/rubocop/cop/style/redundant_format.rb",
-   "lib/rubocop/cop/style/redundant_freeze.rb",
-   "lib/rubocop/cop/style/redundant_initialize.rb",
-   "lib/rubocop/cop/style/redundant_interpolation.rb",
-   "lib/rubocop/cop/style/redundant_line_continuation.rb",
-   "lib/rubocop/cop/style/redundant_min_max_by.rb",
-   "lib/rubocop/cop/style/redundant_parentheses.rb",
-   "lib/rubocop/cop/style/redundant_percent_q.rb",
-   "lib/rubocop/cop/style/redundant_regexp_argument.rb",
-   "lib/rubocop/cop/style/redundant_regexp_character_class.rb",
-   "lib/rubocop/cop/style/redundant_regexp_escape.rb",
-   "lib/rubocop/cop/style/redundant_return.rb",
-   "lib/rubocop/cop/style/redundant_self.rb",
-   "lib/rubocop/cop/style/redundant_self_assignment.rb",
-   "lib/rubocop/cop/style/redundant_self_assignment_branch.rb",
-   "lib/rubocop/cop/style/redundant_sort.rb",
-   "lib/rubocop/cop/style/redundant_sort_by.rb",
-   "lib/rubocop/cop/style/redundant_string_escape.rb",
-   "lib/rubocop/cop/style/redundant_struct_keyword_init.rb",
-   "lib/rubocop/cop/style/regexp_literal.rb",
-   "lib/rubocop/cop/style/require_order.rb",
-   "lib/rubocop/cop/style/rescue_modifier.rb",
-   "lib/rubocop/cop/style/rescue_standard_error.rb",
-   "lib/rubocop/cop/style/return_nil.rb",
-   "lib/rubocop/cop/style/return_nil_in_predicate_method_definition.rb",
-   "lib/rubocop/cop/style/safe_navigation.rb",
-   "lib/rubocop/cop/style/safe_navigation_chain_length.rb",
-   "lib/rubocop/cop/style/sample.rb",
-   "lib/rubocop/cop/style/select_by_kind.rb",
-   "lib/rubocop/cop/style/select_by_range.rb",
-   "lib/rubocop/cop/style/select_by_regexp.rb",
-   "lib/rubocop/cop/style/self_assignment.rb",
-   "lib/rubocop/cop/style/semicolon.rb",
-   "lib/rubocop/cop/style/send_with_literal_method_name.rb",
-   "lib/rubocop/cop/style/signal_exception.rb",
-   "lib/rubocop/cop/style/single_line_block_params.rb",
-   "lib/rubocop/cop/style/single_line_do_end_block.rb",
-   "lib/rubocop/cop/style/single_line_methods.rb",
-   "lib/rubocop/cop/style/slicing_with_range.rb",
-   "lib/rubocop/cop/style/sole_nested_conditional.rb",
-   "lib/rubocop/cop/style/special_global_vars.rb",
-   "lib/rubocop/cop/style/stabby_lambda_parentheses.rb",
-   "lib/rubocop/cop/style/static_class.rb",
-   "lib/rubocop/cop/style/stderr_puts.rb",
-   "lib/rubocop/cop/style/string_concatenation.rb",
-   "lib/rubocop/cop/style/string_literals.rb",
-   "lib/rubocop/cop/style/string_literals_in_interpolation.rb",
-   "lib/rubocop/cop/style/struct_inheritance.rb",
-   "lib/rubocop/cop/style/super_arguments.rb",
-   "lib/rubocop/cop/style/swap_values.rb",
-   "lib/rubocop/cop/style/symbol_array.rb",
-   "lib/rubocop/cop/style/symbol_proc.rb",
-   "lib/rubocop/cop/style/tally_method.rb",
-   "lib/rubocop/cop/style/ternary_parentheses.rb",
-   "lib/rubocop/cop/style/top_level_method_definition.rb",
-   "lib/rubocop/cop/style/trailing_comma_in_block_args.rb",
-   "lib/rubocop/cop/style/trailing_method_end_statement.rb",
-   "lib/rubocop/cop/style/trailing_underscore_variable.rb",
-   "lib/rubocop/cop/style/trivial_accessors.rb",
-   "lib/rubocop/cop/style/unless_else.rb",
-   "lib/rubocop/cop/style/unless_logical_operators.rb",
-   "lib/rubocop/cop/style/variable_interpolation.rb",
-   "lib/rubocop/cop/style/word_array.rb",
-   "lib/rubocop/cop/style/yoda_condition.rb",
-   "lib/rubocop/cop/style/yoda_expression.rb",
-   "lib/rubocop/cop/style/zero_length_predicate.rb",
-   "lib/rubocop/cop/team.rb",
-   "lib/rubocop/cop/util.rb",
-   "lib/rubocop/cop/utils/format_string.rb",
-   "lib/rubocop/cop/variable_force.rb",
-   "lib/rubocop/cop/variable_force/assignment.rb",
-   "lib/rubocop/cop/variable_force/branch.rb",
-   "lib/rubocop/cop/variable_force/scope.rb",
-   "lib/rubocop/cop/variable_force/variable.rb",
-   "lib/rubocop/cop/variable_force/variable_table.rb",
-   "lib/rubocop/cops_documentation_generator.rb",
-   "lib/rubocop/directive_comment.rb",
-   "lib/rubocop/error.rb",
-   "lib/rubocop/ext/regexp_node.rb",
-   "lib/rubocop/ext/regexp_parser.rb",
-   "lib/rubocop/feature_loader.rb",
-   "lib/rubocop/file_finder.rb",
-   "lib/rubocop/file_patterns.rb",
-   "lib/rubocop/formatter/base_formatter.rb",
-   "lib/rubocop/formatter/clang_style_formatter.rb",
-   "lib/rubocop/formatter/disabled_config_formatter.rb",
-   "lib/rubocop/formatter/formatter_set.rb",
-   "lib/rubocop/formatter/fuubar_style_formatter.rb",
-   "lib/rubocop/formatter/github_actions_formatter.rb",
-   "lib/rubocop/formatter/html_formatter.rb",
-   "lib/rubocop/formatter/json_formatter.rb",
-   "lib/rubocop/formatter/junit_formatter.rb",
-   "lib/rubocop/formatter/markdown_formatter.rb",
-   "lib/rubocop/formatter/offense_count_formatter.rb",
-   "lib/rubocop/formatter/pacman_formatter.rb",
-   "lib/rubocop/formatter/progress_formatter.rb",
-   "lib/rubocop/formatter/simple_text_formatter.rb",
-   "lib/rubocop/formatter/tap_formatter.rb",
-   "lib/rubocop/formatter/worst_offenders_formatter.rb",
-   "lib/rubocop/lockfile.rb",
-   "lib/rubocop/lsp/diagnostic.rb",
-   "lib/rubocop/lsp/disable_comment_edits.rb",
-   "lib/rubocop/lsp/routes.rb",
-   "lib/rubocop/lsp/runtime.rb",
-   "lib/rubocop/lsp/server.rb",
-   "lib/rubocop/lsp/stdin_runner.rb",
-   "lib/rubocop/magic_comment.rb",
-   "lib/rubocop/options.rb",
-   "lib/rubocop/path_util.rb",
-   "lib/rubocop/pending_cops_reporter.rb",
-   "lib/rubocop/plugin/configuration_integrator.rb",
-   "lib/rubocop/plugin/loader.rb",
-   "lib/rubocop/project_index_loader.rb",
-   "lib/rubocop/rake_task.rb",
-   "lib/rubocop/remote_config.rb",
-   "lib/rubocop/result_cache.rb",
-   "lib/rubocop/rspec/cop_helper.rb",
-   "lib/rubocop/rspec/expect_offense.rb",
-   "lib/rubocop/rspec/parallel_formatter.rb",
-   "lib/rubocop/rspec/shared_contexts.rb",
-   "lib/rubocop/runner.rb",
-   "lib/rubocop/server.rb",
-   "lib/rubocop/server/cache.rb",
-   "lib/rubocop/server/cli.rb",
-   "lib/rubocop/server/client_command/base.rb",
-   "lib/rubocop/server/client_command/exec.rb",
-   "lib/rubocop/server/client_command/start.rb",
-   "lib/rubocop/server/core.rb",
-   "lib/rubocop/server/server_command/base.rb",
-   "lib/rubocop/server/socket_reader.rb",
-   "lib/rubocop/string_interpreter.rb",
-   "lib/rubocop/target_finder.rb",
-   "lib/rubocop/target_ruby.rb",
-   "lib/rubocop/version.rb",
-   "lib/rubocop/yaml_duplication_checker.rb",
-   "lib/ruby_lsp/rubocop/addon.rb",
-   "lib/ruby_lsp/rubocop/runtime_adapter.rb",
-   "tasks/changelog.rb"
-  ],
+  "biblioteca": [],
   "alvos": [
+   {
+    "ficheiro": "lib/rubocop/cop/base.rb",
+    "modo": "isolado",
+    "origem": "diversidade",
+    "componente": "rubocop#1",
+    "relacionado": false,
+    "vizinhos_no_corpus": 0,
+    "metodos": 66
+   },
    {
     "ficheiro": "lib/rubocop/cop/correctors/space_corrector.rb",
     "modo": "isolado",
@@ -14111,24 +13359,6 @@
     "relacionado": false,
     "vizinhos_no_corpus": 0,
     "metodos": 3
-   },
-   {
-    "ficheiro": "lib/rubocop/cop/registry.rb",
-    "modo": "isolado",
-    "origem": "diversidade",
-    "componente": "rubocop#1",
-    "relacionado": false,
-    "vizinhos_no_corpus": 0,
-    "metodos": 50
-   },
-   {
-    "ficheiro": "lib/rubocop/cop/style/method_call_with_args_parentheses.rb",
-    "modo": "isolado",
-    "origem": "diversidade",
-    "componente": "rubocop#158",
-    "relacionado": false,
-    "vizinhos_no_corpus": 0,
-    "metodos": 5
    },
    {
     "ficheiro": "lib/rubocop/plugin/loader.rb",
@@ -14140,17 +13370,17 @@
     "metodos": 6
    },
    {
-    "ficheiro": "lib/rubocop/server.rb",
+    "ficheiro": "lib/rubocop/runner.rb",
     "modo": "isolado",
     "origem": "diversidade",
     "componente": "rubocop#1",
     "relacionado": false,
     "vizinhos_no_corpus": 0,
-    "metodos": 3
+    "metodos": 57
    },
    {
-    "ficheiro": "lib/rubocop/server/client_command/start.rb",
-    "modo": "com a biblioteca carregada",
+    "ficheiro": "lib/rubocop/server.rb",
+    "modo": "isolado",
     "origem": "diversidade",
     "componente": "rubocop#1",
     "relacionado": false,
@@ -14344,6 +13574,15 @@
     "metodos": 3
    },
    {
+    "ficheiro": "lib/rubocop/cop/rspec/stubbed_mock.rb",
+    "modo": "isolado",
+    "origem": "diversidade",
+    "componente": "rubocop-rspec#64",
+    "relacionado": false,
+    "vizinhos_no_corpus": 0,
+    "metodos": 4
+   },
+   {
     "ficheiro": "lib/rubocop/cop/rspec/variable_definition.rb",
     "modo": "isolado",
     "origem": "grupo",
@@ -14351,6 +13590,15 @@
     "relacionado": true,
     "vizinhos_no_corpus": 1,
     "metodos": 3
+   },
+   {
+    "ficheiro": "lib/rubocop/rspec/align_let_brace.rb",
+    "modo": "isolado",
+    "origem": "diversidade",
+    "componente": "rubocop-rspec#71",
+    "relacionado": false,
+    "vizinhos_no_corpus": 0,
+    "metodos": 8
    }
   ]
  },
@@ -14433,42 +13681,303 @@
    }
   ]
  },
- "sawyer": {
-  "repo": "lostisland/sawyer",
-  "etiqueta": "v0.9.3",
-  "commit": "7a60719e675f",
+ "savon": {
+  "repo": "savonrb/savon",
+  "etiqueta": "v2.17.4",
+  "commit": "69ab4149642b",
   "raiz": ".",
   "ambiente": "deps do gemspec",
   "deps": [
-   "addressable",
-   "faraday"
+   "akami",
+   "builder",
+   "gyoku",
+   "httpi",
+   "mail",
+   "nokogiri",
+   "nori",
+   "wasabi"
   ],
   "load_paths": [
    "lib"
   ],
-  "entrada": "sawyer",
+  "entrada": "savon",
   "ficheiros_codigo": [
-   "example/client.rb",
-   "example/server.rb",
-   "lib/sawyer.rb",
-   "lib/sawyer/agent.rb",
-   "lib/sawyer/link_parsers/hal.rb",
-   "lib/sawyer/link_parsers/simple.rb",
-   "lib/sawyer/relation.rb",
-   "lib/sawyer/resource.rb",
-   "lib/sawyer/response.rb",
-   "lib/sawyer/serializer.rb"
+   "lib/savon.rb",
+   "lib/savon/addressing.rb",
+   "lib/savon/block_interface.rb",
+   "lib/savon/builder.rb",
+   "lib/savon/client.rb",
+   "lib/savon/effective_options.rb",
+   "lib/savon/faraday_migration_hint.rb",
+   "lib/savon/header.rb",
+   "lib/savon/http_error.rb",
+   "lib/savon/log_message.rb",
+   "lib/savon/message.rb",
+   "lib/savon/mock.rb",
+   "lib/savon/mock/expectation.rb",
+   "lib/savon/mock/spec_helper.rb",
+   "lib/savon/model.rb",
+   "lib/savon/operation.rb",
+   "lib/savon/options.rb",
+   "lib/savon/qualified_message.rb",
+   "lib/savon/response.rb",
+   "lib/savon/soap_fault.rb",
+   "lib/savon/string_utils.rb",
+   "lib/savon/transport/faraday.rb",
+   "lib/savon/transport/httpi.rb",
+   "lib/savon/transport/logging.rb",
+   "lib/savon/transport/response.rb",
+   "lib/savon/version.rb"
   ],
   "biblioteca": [],
   "alvos": [
    {
-    "ficheiro": "lib/sawyer/resource.rb",
+    "ficheiro": "lib/savon/block_interface.rb",
     "modo": "isolado",
     "origem": "diversidade",
-    "componente": "sawyer#1",
+    "componente": "savon#2",
     "relacionado": false,
     "vizinhos_no_corpus": 0,
-    "metodos": 13
+    "metodos": 3
+   }
+  ]
+ },
+ "selenium-webdriver": {
+  "repo": "SeleniumHQ/selenium",
+  "etiqueta": "selenium-4.47.0",
+  "commit": "9175ed94d83e",
+  "raiz": "rb",
+  "ambiente": "deps do gemspec",
+  "deps": [
+   "base64",
+   "logger",
+   "rexml",
+   "rubyzip",
+   "websocket"
+  ],
+  "load_paths": [
+   "lib",
+   "sig/lib"
+  ],
+  "entrada": "selenium-webdriver",
+  "ficheiros_codigo": [
+   "lib/selenium-webdriver.rb",
+   "lib/selenium/devtools.rb",
+   "lib/selenium/devtools/support/cdp_client_generator.rb",
+   "lib/selenium/devtools/version.rb",
+   "lib/selenium/server.rb",
+   "lib/selenium/webdriver.rb",
+   "lib/selenium/webdriver/atoms.rb",
+   "lib/selenium/webdriver/bidi.rb",
+   "lib/selenium/webdriver/bidi/browser.rb",
+   "lib/selenium/webdriver/bidi/browsing_context.rb",
+   "lib/selenium/webdriver/bidi/error.rb",
+   "lib/selenium/webdriver/bidi/log_handler.rb",
+   "lib/selenium/webdriver/bidi/network.rb",
+   "lib/selenium/webdriver/bidi/network/cookies.rb",
+   "lib/selenium/webdriver/bidi/network/credentials.rb",
+   "lib/selenium/webdriver/bidi/network/headers.rb",
+   "lib/selenium/webdriver/bidi/network/intercepted_auth.rb",
+   "lib/selenium/webdriver/bidi/network/intercepted_item.rb",
+   "lib/selenium/webdriver/bidi/network/intercepted_request.rb",
+   "lib/selenium/webdriver/bidi/network/intercepted_response.rb",
+   "lib/selenium/webdriver/bidi/network/url_pattern.rb",
+   "lib/selenium/webdriver/bidi/protocol.rb",
+   "lib/selenium/webdriver/bidi/protocol/bluetooth.rb",
+   "lib/selenium/webdriver/bidi/protocol/browser.rb",
+   "lib/selenium/webdriver/bidi/protocol/browsing_context.rb",
+   "lib/selenium/webdriver/bidi/protocol/domain.rb",
+   "lib/selenium/webdriver/bidi/protocol/emulation.rb",
+   "lib/selenium/webdriver/bidi/protocol/error_code.rb",
+   "lib/selenium/webdriver/bidi/protocol/input.rb",
+   "lib/selenium/webdriver/bidi/protocol/log.rb",
+   "lib/selenium/webdriver/bidi/protocol/network.rb",
+   "lib/selenium/webdriver/bidi/protocol/permissions.rb",
+   "lib/selenium/webdriver/bidi/protocol/script.rb",
+   "lib/selenium/webdriver/bidi/protocol/session.rb",
+   "lib/selenium/webdriver/bidi/protocol/speculation.rb",
+   "lib/selenium/webdriver/bidi/protocol/storage.rb",
+   "lib/selenium/webdriver/bidi/protocol/user_agent_client_hints.rb",
+   "lib/selenium/webdriver/bidi/protocol/web_extension.rb",
+   "lib/selenium/webdriver/bidi/serialization.rb",
+   "lib/selenium/webdriver/bidi/serialization/record.rb",
+   "lib/selenium/webdriver/bidi/serialization/union.rb",
+   "lib/selenium/webdriver/bidi/session.rb",
+   "lib/selenium/webdriver/bidi/struct.rb",
+   "lib/selenium/webdriver/bidi/support/bidi_generate.rb",
+   "lib/selenium/webdriver/bidi/support/check_generated.rb",
+   "lib/selenium/webdriver/bidi/transport.rb",
+   "lib/selenium/webdriver/chrome.rb",
+   "lib/selenium/webdriver/chrome/driver.rb",
+   "lib/selenium/webdriver/chrome/features.rb",
+   "lib/selenium/webdriver/chrome/options.rb",
+   "lib/selenium/webdriver/chrome/profile.rb",
+   "lib/selenium/webdriver/chrome/service.rb",
+   "lib/selenium/webdriver/chromium.rb",
+   "lib/selenium/webdriver/chromium/driver.rb",
+   "lib/selenium/webdriver/chromium/features.rb",
+   "lib/selenium/webdriver/chromium/options.rb",
+   "lib/selenium/webdriver/chromium/profile.rb",
+   "lib/selenium/webdriver/common.rb",
+   "lib/selenium/webdriver/common/action_builder.rb",
+   "lib/selenium/webdriver/common/alert.rb",
+   "lib/selenium/webdriver/common/child_process.rb",
+   "lib/selenium/webdriver/common/client_config.rb",
+   "lib/selenium/webdriver/common/driver.rb",
+   "lib/selenium/webdriver/common/driver_extensions/downloads_files.rb",
+   "lib/selenium/webdriver/common/driver_extensions/full_page_screenshot.rb",
+   "lib/selenium/webdriver/common/driver_extensions/has_addons.rb",
+   "lib/selenium/webdriver/common/driver_extensions/has_apple_permissions.rb",
+   "lib/selenium/webdriver/common/driver_extensions/has_authentication.rb",
+   "lib/selenium/webdriver/common/driver_extensions/has_casting.rb",
+   "lib/selenium/webdriver/common/driver_extensions/has_cdp.rb",
+   "lib/selenium/webdriver/common/driver_extensions/has_context.rb",
+   "lib/selenium/webdriver/common/driver_extensions/has_debugger.rb",
+   "lib/selenium/webdriver/common/driver_extensions/has_devtools.rb",
+   "lib/selenium/webdriver/common/driver_extensions/has_fedcm_dialog.rb",
+   "lib/selenium/webdriver/common/driver_extensions/has_file_downloads.rb",
+   "lib/selenium/webdriver/common/driver_extensions/has_launching.rb",
+   "lib/selenium/webdriver/common/driver_extensions/has_log_events.rb",
+   "lib/selenium/webdriver/common/driver_extensions/has_logs.rb",
+   "lib/selenium/webdriver/common/driver_extensions/has_network_conditions.rb",
+   "lib/selenium/webdriver/common/driver_extensions/has_network_interception.rb",
+   "lib/selenium/webdriver/common/driver_extensions/has_permissions.rb",
+   "lib/selenium/webdriver/common/driver_extensions/has_pinned_scripts.rb",
+   "lib/selenium/webdriver/common/driver_extensions/has_session_events.rb",
+   "lib/selenium/webdriver/common/driver_extensions/has_session_id.rb",
+   "lib/selenium/webdriver/common/driver_extensions/prints_page.rb",
+   "lib/selenium/webdriver/common/driver_extensions/uploads_files.rb",
+   "lib/selenium/webdriver/common/driver_finder.rb",
+   "lib/selenium/webdriver/common/element.rb",
+   "lib/selenium/webdriver/common/error.rb",
+   "lib/selenium/webdriver/common/fedcm.rb",
+   "lib/selenium/webdriver/common/fedcm/account.rb",
+   "lib/selenium/webdriver/common/fedcm/dialog.rb",
+   "lib/selenium/webdriver/common/file_reaper.rb",
+   "lib/selenium/webdriver/common/interactions/input_device.rb",
+   "lib/selenium/webdriver/common/interactions/interaction.rb",
+   "lib/selenium/webdriver/common/interactions/interactions.rb",
+   "lib/selenium/webdriver/common/interactions/key_actions.rb",
+   "lib/selenium/webdriver/common/interactions/key_input.rb",
+   "lib/selenium/webdriver/common/interactions/none_input.rb",
+   "lib/selenium/webdriver/common/interactions/pause.rb",
+   "lib/selenium/webdriver/common/interactions/pointer_actions.rb",
+   "lib/selenium/webdriver/common/interactions/pointer_cancel.rb",
+   "lib/selenium/webdriver/common/interactions/pointer_event_properties.rb",
+   "lib/selenium/webdriver/common/interactions/pointer_input.rb",
+   "lib/selenium/webdriver/common/interactions/pointer_move.rb",
+   "lib/selenium/webdriver/common/interactions/pointer_press.rb",
+   "lib/selenium/webdriver/common/interactions/scroll.rb",
+   "lib/selenium/webdriver/common/interactions/scroll_origin.rb",
+   "lib/selenium/webdriver/common/interactions/typing_interaction.rb",
+   "lib/selenium/webdriver/common/interactions/wheel_actions.rb",
+   "lib/selenium/webdriver/common/interactions/wheel_input.rb",
+   "lib/selenium/webdriver/common/keys.rb",
+   "lib/selenium/webdriver/common/local_driver.rb",
+   "lib/selenium/webdriver/common/log_entry.rb",
+   "lib/selenium/webdriver/common/logger.rb",
+   "lib/selenium/webdriver/common/logs.rb",
+   "lib/selenium/webdriver/common/manager.rb",
+   "lib/selenium/webdriver/common/navigation.rb",
+   "lib/selenium/webdriver/common/network.rb",
+   "lib/selenium/webdriver/common/options.rb",
+   "lib/selenium/webdriver/common/platform.rb",
+   "lib/selenium/webdriver/common/port_prober.rb",
+   "lib/selenium/webdriver/common/print_options.rb",
+   "lib/selenium/webdriver/common/profile_helper.rb",
+   "lib/selenium/webdriver/common/proxy.rb",
+   "lib/selenium/webdriver/common/script.rb",
+   "lib/selenium/webdriver/common/search_context.rb",
+   "lib/selenium/webdriver/common/selenium_manager.rb",
+   "lib/selenium/webdriver/common/service.rb",
+   "lib/selenium/webdriver/common/service_manager.rb",
+   "lib/selenium/webdriver/common/shadow_root.rb",
+   "lib/selenium/webdriver/common/socket_lock.rb",
+   "lib/selenium/webdriver/common/socket_poller.rb",
+   "lib/selenium/webdriver/common/takes_screenshot.rb",
+   "lib/selenium/webdriver/common/target_locator.rb",
+   "lib/selenium/webdriver/common/timeouts.rb",
+   "lib/selenium/webdriver/common/virtual_authenticator/credential.rb",
+   "lib/selenium/webdriver/common/virtual_authenticator/virtual_authenticator.rb",
+   "lib/selenium/webdriver/common/virtual_authenticator/virtual_authenticator_options.rb",
+   "lib/selenium/webdriver/common/wait.rb",
+   "lib/selenium/webdriver/common/websocket_connection.rb",
+   "lib/selenium/webdriver/common/window.rb",
+   "lib/selenium/webdriver/common/zipper.rb",
+   "lib/selenium/webdriver/devtools.rb",
+   "lib/selenium/webdriver/devtools/console_event.rb",
+   "lib/selenium/webdriver/devtools/exception_event.rb",
+   "lib/selenium/webdriver/devtools/mutation_event.rb",
+   "lib/selenium/webdriver/devtools/network_interceptor.rb",
+   "lib/selenium/webdriver/devtools/pinned_script.rb",
+   "lib/selenium/webdriver/devtools/request.rb",
+   "lib/selenium/webdriver/devtools/response.rb",
+   "lib/selenium/webdriver/edge.rb",
+   "lib/selenium/webdriver/edge/driver.rb",
+   "lib/selenium/webdriver/edge/features.rb",
+   "lib/selenium/webdriver/edge/options.rb",
+   "lib/selenium/webdriver/edge/profile.rb",
+   "lib/selenium/webdriver/edge/service.rb",
+   "lib/selenium/webdriver/firefox.rb",
+   "lib/selenium/webdriver/firefox/driver.rb",
+   "lib/selenium/webdriver/firefox/extension.rb",
+   "lib/selenium/webdriver/firefox/features.rb",
+   "lib/selenium/webdriver/firefox/options.rb",
+   "lib/selenium/webdriver/firefox/profile.rb",
+   "lib/selenium/webdriver/firefox/profiles_ini.rb",
+   "lib/selenium/webdriver/firefox/service.rb",
+   "lib/selenium/webdriver/firefox/util.rb",
+   "lib/selenium/webdriver/ie.rb",
+   "lib/selenium/webdriver/ie/driver.rb",
+   "lib/selenium/webdriver/ie/features.rb",
+   "lib/selenium/webdriver/ie/options.rb",
+   "lib/selenium/webdriver/ie/service.rb",
+   "lib/selenium/webdriver/remote.rb",
+   "lib/selenium/webdriver/remote/bidi_bridge.rb",
+   "lib/selenium/webdriver/remote/bridge.rb",
+   "lib/selenium/webdriver/remote/bridge/commands.rb",
+   "lib/selenium/webdriver/remote/bridge/locator_converter.rb",
+   "lib/selenium/webdriver/remote/capabilities.rb",
+   "lib/selenium/webdriver/remote/driver.rb",
+   "lib/selenium/webdriver/remote/features.rb",
+   "lib/selenium/webdriver/remote/http/common.rb",
+   "lib/selenium/webdriver/remote/http/curb.rb",
+   "lib/selenium/webdriver/remote/http/default.rb",
+   "lib/selenium/webdriver/remote/response.rb",
+   "lib/selenium/webdriver/remote/server_error.rb",
+   "lib/selenium/webdriver/safari.rb",
+   "lib/selenium/webdriver/safari/driver.rb",
+   "lib/selenium/webdriver/safari/features.rb",
+   "lib/selenium/webdriver/safari/options.rb",
+   "lib/selenium/webdriver/safari/service.rb",
+   "lib/selenium/webdriver/support.rb",
+   "lib/selenium/webdriver/support/abstract_event_listener.rb",
+   "lib/selenium/webdriver/support/block_event_listener.rb",
+   "lib/selenium/webdriver/support/color.rb",
+   "lib/selenium/webdriver/support/escaper.rb",
+   "lib/selenium/webdriver/support/event_firing_bridge.rb",
+   "lib/selenium/webdriver/support/guards.rb",
+   "lib/selenium/webdriver/support/guards/guard.rb",
+   "lib/selenium/webdriver/support/guards/guard_condition.rb",
+   "lib/selenium/webdriver/support/relative_locator.rb",
+   "lib/selenium/webdriver/support/select.rb",
+   "lib/selenium/webdriver/version.rb",
+   "support/bundle.rb",
+   "support/generated_note.rb",
+   "support/nightly_version_generator.rb",
+   "support/rbs_collection_update.rb",
+   "support/steep_check.rb"
+  ],
+  "biblioteca": [],
+  "alvos": [
+   {
+    "ficheiro": "lib/selenium/webdriver/common/driver.rb",
+    "modo": "isolado",
+    "origem": "diversidade",
+    "componente": "selenium-webdriver#19",
+    "relacionado": false,
+    "vizinhos_no_corpus": 0,
+    "metodos": 29
    }
   ]
  },
@@ -14662,24 +14171,6 @@
   "biblioteca": [],
   "alvos": [
    {
-    "ficheiro": "sentry-rails/lib/sentry/rails/serializer.rb",
-    "modo": "isolado",
-    "origem": "diversidade",
-    "componente": "sentry-ruby#2",
-    "relacionado": false,
-    "vizinhos_no_corpus": 0,
-    "metodos": 3
-   },
-   {
-    "ficheiro": "sentry-rails/lib/sentry/rails/tracing.rb",
-    "modo": "isolado",
-    "origem": "diversidade",
-    "componente": "sentry-ruby#1",
-    "relacionado": true,
-    "vizinhos_no_corpus": 1,
-    "metodos": 10
-   },
-   {
     "ficheiro": "sentry-ruby/lib/sentry-ruby.rb",
     "modo": "isolado",
     "origem": "diversidade",
@@ -14694,17 +14185,8 @@
     "origem": "diversidade",
     "componente": "sentry-ruby#1",
     "relacionado": true,
-    "vizinhos_no_corpus": 2,
+    "vizinhos_no_corpus": 1,
     "metodos": 59
-   },
-   {
-    "ficheiro": "sentry-ruby/lib/sentry/interfaces/single_exception.rb",
-    "modo": "isolado",
-    "origem": "diversidade",
-    "componente": "sentry-ruby#1",
-    "relacionado": false,
-    "vizinhos_no_corpus": 0,
-    "metodos": 3
    },
    {
     "ficheiro": "sentry-ruby/lib/sentry/profiler.rb",
@@ -14716,13 +14198,22 @@
     "metodos": 8
    },
    {
-    "ficheiro": "sentry-ruby/lib/sentry/utils/argument_checking_helper.rb",
+    "ficheiro": "sentry-ruby/lib/sentry/profiler/helpers.rb",
+    "modo": "isolado",
+    "origem": "diversidade",
+    "componente": "sentry-ruby#13",
+    "relacionado": false,
+    "vizinhos_no_corpus": 0,
+    "metodos": 3
+   },
+   {
+    "ficheiro": "sentry-sidekiq/lib/sentry/sidekiq/cron/job.rb",
     "modo": "isolado",
     "origem": "diversidade",
     "componente": "sentry-ruby#1",
     "relacionado": true,
     "vizinhos_no_corpus": 1,
-    "metodos": 3
+    "metodos": 4
    }
   ]
  },
@@ -14883,19 +14374,10 @@
   "biblioteca": [],
   "alvos": [
    {
-    "ficheiro": "lib/shoulda/matchers/doublespeak.rb",
-    "modo": "isolado",
-    "origem": "diversidade",
-    "componente": "shoulda-matchers#46",
-    "relacionado": false,
-    "vizinhos_no_corpus": 0,
-    "metodos": 3
-   },
-   {
     "ficheiro": "lib/shoulda/matchers/error.rb",
     "modo": "isolado",
     "origem": "diversidade",
-    "componente": "shoulda-matchers#54",
+    "componente": "shoulda-matchers#52",
     "relacionado": false,
     "vizinhos_no_corpus": 0,
     "metodos": 4
@@ -15119,22 +14601,91 @@
   "biblioteca": [],
   "alvos": [
    {
-    "ficheiro": "benchmarks/collate/rss_sampler.rb",
+    "ficheiro": "lib/simplecov/combine/branches_combiner.rb",
     "modo": "isolado",
     "origem": "diversidade",
-    "componente": "simplecov#8",
+    "componente": "simplecov#14",
     "relacionado": false,
     "vizinhos_no_corpus": 0,
-    "metodos": 5
+    "metodos": 6
    },
    {
-    "ficheiro": "lib/simplecov/file_list.rb",
+    "ficheiro": "lib/simplecov/configuration/filters.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "simplecov#18",
+    "relacionado": true,
+    "vizinhos_no_corpus": 2,
+    "metodos": 15
+   },
+   {
+    "ficheiro": "lib/simplecov/configuration/groups.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "simplecov#18",
+    "relacionado": true,
+    "vizinhos_no_corpus": 1,
+    "metodos": 4
+   },
+   {
+    "ficheiro": "lib/simplecov/filter.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "simplecov#18",
+    "relacionado": true,
+    "vizinhos_no_corpus": 1,
+    "metodos": 18
+   },
+   {
+    "ficheiro": "lib/simplecov/formatter/html_formatter/viewer_data_validator.rb",
     "modo": "isolado",
     "origem": "diversidade",
-    "componente": "simplecov#29",
+    "componente": "simplecov#0",
     "relacionado": false,
     "vizinhos_no_corpus": 0,
-    "metodos": 23
+    "metodos": 8
+   },
+   {
+    "ficheiro": "lib/simplecov/parallel_adapters/generic.rb",
+    "modo": "isolado",
+    "origem": "diversidade",
+    "componente": "simplecov#25",
+    "relacionado": false,
+    "vizinhos_no_corpus": 0,
+    "metodos": 3
+   }
+  ]
+ },
+ "slop": {
+  "repo": "leejarvis/slop",
+  "etiqueta": "v4.10.1",
+  "commit": "7e720331b78d",
+  "raiz": ".",
+  "ambiente": "deps do gemspec",
+  "deps": [],
+  "load_paths": [
+   "lib"
+  ],
+  "entrada": "slop",
+  "ficheiros_codigo": [
+   "lib/slop.rb",
+   "lib/slop/error.rb",
+   "lib/slop/option.rb",
+   "lib/slop/options.rb",
+   "lib/slop/parser.rb",
+   "lib/slop/result.rb",
+   "lib/slop/types.rb"
+  ],
+  "biblioteca": [],
+  "alvos": [
+   {
+    "ficheiro": "lib/slop.rb",
+    "modo": "isolado",
+    "origem": "diversidade",
+    "componente": "slop#0",
+    "relacionado": false,
+    "vizinhos_no_corpus": 0,
+    "metodos": 4
    }
   ]
  },
@@ -15294,6 +14845,15 @@
   "biblioteca": [],
   "alvos": [
    {
+    "ficheiro": "lib/sprockets/base.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "sprockets#3",
+    "relacionado": true,
+    "vizinhos_no_corpus": 5,
+    "metodos": 11
+   },
+   {
     "ficheiro": "lib/sprockets/cache.rb",
     "modo": "isolado",
     "origem": "diversidade",
@@ -15303,30 +14863,147 @@
     "metodos": 19
    },
    {
-    "ficheiro": "lib/sprockets/cache/null_store.rb",
+    "ficheiro": "lib/sprockets/compressing.rb",
     "modo": "isolado",
-    "origem": "diversidade",
-    "componente": "sprockets#8",
-    "relacionado": false,
-    "vizinhos_no_corpus": 0,
-    "metodos": 4
+    "origem": "grupo",
+    "componente": "sprockets#3",
+    "relacionado": true,
+    "vizinhos_no_corpus": 1,
+    "metodos": 9
    },
    {
     "ficheiro": "lib/sprockets/configuration.rb",
     "modo": "isolado",
-    "origem": "diversidade",
+    "origem": "grupo",
     "componente": "sprockets#3",
     "relacionado": true,
     "vizinhos_no_corpus": 1,
     "metodos": 6
    },
    {
-    "ficheiro": "lib/sprockets/utils.rb",
+    "ficheiro": "lib/sprockets/digest_utils.rb",
     "modo": "isolado",
-    "origem": "diversidade",
+    "origem": "grupo",
     "componente": "sprockets#3",
     "relacionado": true,
-    "vizinhos_no_corpus": 1,
+    "vizinhos_no_corpus": 2,
+    "metodos": 12
+   },
+   {
+    "ficheiro": "lib/sprockets/http_utils.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "sprockets#3",
+    "relacionado": true,
+    "vizinhos_no_corpus": 2,
+    "metodos": 7
+   },
+   {
+    "ficheiro": "lib/sprockets/loader.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "sprockets#3",
+    "relacionado": true,
+    "vizinhos_no_corpus": 7,
+    "metodos": 8
+   },
+   {
+    "ficheiro": "lib/sprockets/mime.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "sprockets#3",
+    "relacionado": true,
+    "vizinhos_no_corpus": 2,
+    "metodos": 5
+   },
+   {
+    "ficheiro": "lib/sprockets/path_dependency_utils.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "sprockets#3",
+    "relacionado": true,
+    "vizinhos_no_corpus": 2,
+    "metodos": 3
+   },
+   {
+    "ficheiro": "lib/sprockets/path_digest_utils.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "sprockets#3",
+    "relacionado": true,
+    "vizinhos_no_corpus": 3,
+    "metodos": 3
+   },
+   {
+    "ficheiro": "lib/sprockets/path_utils.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "sprockets#3",
+    "relacionado": true,
+    "vizinhos_no_corpus": 6,
+    "metodos": 21
+   },
+   {
+    "ficheiro": "lib/sprockets/paths.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "sprockets#3",
+    "relacionado": true,
+    "vizinhos_no_corpus": 3,
+    "metodos": 7
+   },
+   {
+    "ficheiro": "lib/sprockets/processing.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "sprockets#3",
+    "relacionado": true,
+    "vizinhos_no_corpus": 4,
+    "metodos": 19
+   },
+   {
+    "ficheiro": "lib/sprockets/processor_utils.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "sprockets#3",
+    "relacionado": true,
+    "vizinhos_no_corpus": 3,
+    "metodos": 9
+   },
+   {
+    "ficheiro": "lib/sprockets/resolve.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "sprockets#3",
+    "relacionado": true,
+    "vizinhos_no_corpus": 4,
+    "metodos": 12
+   },
+   {
+    "ficheiro": "lib/sprockets/transformers.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "sprockets#3",
+    "relacionado": true,
+    "vizinhos_no_corpus": 3,
+    "metodos": 8
+   },
+   {
+    "ficheiro": "lib/sprockets/uri_utils.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "sprockets#3",
+    "relacionado": true,
+    "vizinhos_no_corpus": 4,
+    "metodos": 11
+   },
+   {
+    "ficheiro": "lib/sprockets/utils.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "sprockets#3",
+    "relacionado": true,
+    "vizinhos_no_corpus": 6,
     "metodos": 8
    }
   ]
@@ -15516,15 +15193,6 @@
     "metodos": 4
    },
    {
-    "ficheiro": "lib/state_machines/matcher.rb",
-    "modo": "isolado",
-    "origem": "diversidade",
-    "componente": "state_machines#15",
-    "relacionado": false,
-    "vizinhos_no_corpus": 0,
-    "metodos": 13
-   },
-   {
     "ficheiro": "lib/state_machines/node_collection.rb",
     "modo": "isolado",
     "origem": "grupo",
@@ -15655,6 +15323,15 @@
   "biblioteca": [],
   "alvos": [
    {
+    "ficheiro": "lib/rack/adapter/loader.rb",
+    "modo": "isolado",
+    "origem": "diversidade",
+    "componente": "thin#0",
+    "relacionado": false,
+    "vizinhos_no_corpus": 0,
+    "metodos": 3
+   },
+   {
     "ficheiro": "lib/thin/backends/unix_server.rb",
     "modo": "isolado",
     "origem": "diversidade",
@@ -15662,24 +15339,6 @@
     "relacionado": false,
     "vizinhos_no_corpus": 0,
     "metodos": 7
-   },
-   {
-    "ficheiro": "lib/thin/server.rb",
-    "modo": "isolado",
-    "origem": "diversidade",
-    "componente": "thin#0",
-    "relacionado": false,
-    "vizinhos_no_corpus": 0,
-    "metodos": 13
-   },
-   {
-    "ficheiro": "site/rdoc.rb",
-    "modo": "isolado",
-    "origem": "diversidade",
-    "componente": "thin#10",
-    "relacionado": false,
-    "vizinhos_no_corpus": 0,
-    "metodos": 4
    }
   ]
  },
@@ -16592,6 +16251,24 @@
   ],
   "alvos": [
    {
+    "ficheiro": "lib/twilio-ruby/framework/serialize.rb",
+    "modo": "isolado",
+    "origem": "diversidade",
+    "componente": "twilio-ruby#5",
+    "relacionado": true,
+    "vizinhos_no_corpus": 1,
+    "metodos": 9
+   },
+   {
+    "ficheiro": "lib/twilio-ruby/http/http_client.rb",
+    "modo": "com a biblioteca carregada",
+    "origem": "diversidade",
+    "componente": "twilio-ruby#8",
+    "relacionado": false,
+    "vizinhos_no_corpus": 0,
+    "metodos": 6
+   },
+   {
     "ficheiro": "lib/twilio-ruby/jwt/task_router.rb",
     "modo": "isolado",
     "origem": "diversidade",
@@ -16601,21 +16278,21 @@
     "metodos": 25
    },
    {
-    "ficheiro": "lib/twilio-ruby/rest/api.rb",
-    "modo": "com a biblioteca carregada",
+    "ficheiro": "lib/twilio-ruby/rest/api/v2010.rb",
+    "modo": "isolado",
     "origem": "diversidade",
-    "componente": "twilio-ruby#14",
+    "componente": "twilio-ruby#15",
     "relacionado": false,
     "vizinhos_no_corpus": 0,
-    "metodos": 26
+    "metodos": 29
    },
    {
     "ficheiro": "lib/twilio-ruby/rest/api/v2010/account/call/stream.rb",
     "modo": "isolado",
     "origem": "diversidade",
     "componente": "twilio-ruby#5",
-    "relacionado": false,
-    "vizinhos_no_corpus": 0,
+    "relacionado": true,
+    "vizinhos_no_corpus": 1,
     "metodos": 38
    }
   ]
@@ -16683,22 +16360,13 @@
   "biblioteca": [],
   "alvos": [
    {
-    "ficheiro": "lib/typhoeus/cache/dalli.rb",
+    "ficheiro": "lib/typhoeus.rb",
     "modo": "isolado",
     "origem": "diversidade",
-    "componente": "typhoeus#3",
+    "componente": "typhoeus#2",
     "relacionado": false,
     "vizinhos_no_corpus": 0,
-    "metodos": 3
-   },
-   {
-    "ficheiro": "lib/typhoeus/request.rb",
-    "modo": "isolado",
-    "origem": "diversidade",
-    "componente": "typhoeus#6",
-    "relacionado": false,
-    "vizinhos_no_corpus": 0,
-    "metodos": 9
+    "metodos": 4
    }
   ]
  },
@@ -16769,6 +16437,69 @@
   "biblioteca": [],
   "alvos": [
    {
+    "ficheiro": "lib/tzinfo/country.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "tzinfo#1",
+    "relacionado": true,
+    "vizinhos_no_corpus": 2,
+    "metodos": 18
+   },
+   {
+    "ficheiro": "lib/tzinfo/country_timezone.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "tzinfo#1",
+    "relacionado": true,
+    "vizinhos_no_corpus": 1,
+    "metodos": 6
+   },
+   {
+    "ficheiro": "lib/tzinfo/data_source.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "tzinfo#1",
+    "relacionado": true,
+    "vizinhos_no_corpus": 4,
+    "metodos": 23
+   },
+   {
+    "ficheiro": "lib/tzinfo/data_sources/ruby_data_source.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "tzinfo#1",
+    "relacionado": true,
+    "vizinhos_no_corpus": 1,
+    "metodos": 9
+   },
+   {
+    "ficheiro": "lib/tzinfo/data_sources/zoneinfo_data_source.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "tzinfo#1",
+    "relacionado": true,
+    "vizinhos_no_corpus": 1,
+    "metodos": 19
+   },
+   {
+    "ficheiro": "lib/tzinfo/data_sources/zoneinfo_reader.rb",
+    "modo": "isolado",
+    "origem": "diversidade",
+    "componente": "tzinfo#7",
+    "relacionado": false,
+    "vizinhos_no_corpus": 0,
+    "metodos": 13
+   },
+   {
+    "ficheiro": "lib/tzinfo/data_timezone.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "tzinfo#1",
+    "relacionado": true,
+    "vizinhos_no_corpus": 2,
+    "metodos": 4
+   },
+   {
     "ficheiro": "lib/tzinfo/format1/country_index_definition.rb",
     "modo": "isolado",
     "origem": "diversidade",
@@ -16776,6 +16507,87 @@
     "relacionado": false,
     "vizinhos_no_corpus": 0,
     "metodos": 3
+   },
+   {
+    "ficheiro": "lib/tzinfo/info_timezone.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "tzinfo#1",
+    "relacionado": true,
+    "vizinhos_no_corpus": 1,
+    "metodos": 3
+   },
+   {
+    "ficheiro": "lib/tzinfo/linked_timezone.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "tzinfo#1",
+    "relacionado": true,
+    "vizinhos_no_corpus": 1,
+    "metodos": 5
+   },
+   {
+    "ficheiro": "lib/tzinfo/timestamp.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "tzinfo#1",
+    "relacionado": true,
+    "vizinhos_no_corpus": 5,
+    "metodos": 26
+   },
+   {
+    "ficheiro": "lib/tzinfo/timestamp_with_offset.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "tzinfo#1",
+    "relacionado": true,
+    "vizinhos_no_corpus": 4,
+    "metodos": 4
+   },
+   {
+    "ficheiro": "lib/tzinfo/timezone.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "tzinfo#1",
+    "relacionado": true,
+    "vizinhos_no_corpus": 7,
+    "metodos": 48
+   },
+   {
+    "ficheiro": "lib/tzinfo/timezone_period.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "tzinfo#1",
+    "relacionado": true,
+    "vizinhos_no_corpus": 1,
+    "metodos": 15
+   },
+   {
+    "ficheiro": "lib/tzinfo/timezone_proxy.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "tzinfo#1",
+    "relacionado": true,
+    "vizinhos_no_corpus": 1,
+    "metodos": 9
+   },
+   {
+    "ficheiro": "lib/tzinfo/timezone_transition.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "tzinfo#1",
+    "relacionado": true,
+    "vizinhos_no_corpus": 1,
+    "metodos": 6
+   },
+   {
+    "ficheiro": "lib/tzinfo/transition_rule.rb",
+    "modo": "isolado",
+    "origem": "grupo",
+    "componente": "tzinfo#1",
+    "relacionado": true,
+    "vizinhos_no_corpus": 2,
+    "metodos": 32
    }
   ]
  },
@@ -16852,13 +16664,13 @@
     "metodos": 16
    },
    {
-    "ficheiro": "lib/vcr/cassette/serializers/syck.rb",
+    "ficheiro": "lib/vcr/cassette/serializers/json.rb",
     "modo": "isolado",
     "origem": "diversidade",
-    "componente": "vcr#10",
+    "componente": "vcr#8",
     "relacionado": false,
     "vizinhos_no_corpus": 0,
-    "metodos": 4
+    "metodos": 3
    },
    {
     "ficheiro": "lib/vcr/configuration.rb",
@@ -16922,6 +16734,15 @@
     "relacionado": true,
     "vizinhos_no_corpus": 3,
     "metodos": 10
+   },
+   {
+    "ficheiro": "lib/vcr/version.rb",
+    "modo": "isolado",
+    "origem": "diversidade",
+    "componente": "vcr#17",
+    "relacionado": false,
+    "vizinhos_no_corpus": 0,
+    "metodos": 5
    }
   ]
  },
@@ -16997,15 +16818,6 @@
     "metodos": 17
    },
    {
-    "ficheiro": "lib/virtus/attribute/accessor.rb",
-    "modo": "isolado",
-    "origem": "diversidade",
-    "componente": "virtus#1",
-    "relacionado": false,
-    "vizinhos_no_corpus": 0,
-    "metodos": 7
-   },
-   {
     "ficheiro": "lib/virtus/attribute/builder.rb",
     "modo": "isolado",
     "origem": "grupo",
@@ -17058,15 +16870,6 @@
     "relacionado": true,
     "vizinhos_no_corpus": 2,
     "metodos": 18
-   },
-   {
-    "ficheiro": "lib/virtus/class_inclusions.rb",
-    "modo": "isolado",
-    "origem": "diversidade",
-    "componente": "virtus#6",
-    "relacionado": false,
-    "vizinhos_no_corpus": 0,
-    "metodos": 3
    },
    {
     "ficheiro": "lib/virtus/class_methods.rb",
@@ -17160,15 +16963,6 @@
     "relacionado": false,
     "vizinhos_no_corpus": 0,
     "metodos": 3
-   },
-   {
-    "ficheiro": "lib/will_paginate/view_helpers/link_renderer_base.rb",
-    "modo": "isolado",
-    "origem": "diversidade",
-    "componente": "will_paginate#5",
-    "relacionado": false,
-    "vizinhos_no_corpus": 0,
-    "metodos": 5
    }
   ]
  },
@@ -17272,15 +17066,6 @@
   "biblioteca": [],
   "alvos": [
    {
-    "ficheiro": "lib/zeitwerk/cref.rb",
-    "modo": "isolado",
-    "origem": "diversidade",
-    "componente": "zeitwerk#0",
-    "relacionado": false,
-    "vizinhos_no_corpus": 0,
-    "metodos": 9
-   },
-   {
     "ficheiro": "lib/zeitwerk/gem_loader.rb",
     "modo": "isolado",
     "origem": "grupo",
@@ -17288,6 +17073,15 @@
     "relacionado": true,
     "vizinhos_no_corpus": 2,
     "metodos": 4
+   },
+   {
+    "ficheiro": "lib/zeitwerk/inflector.rb",
+    "modo": "isolado",
+    "origem": "diversidade",
+    "componente": "zeitwerk#3",
+    "relacionado": false,
+    "vizinhos_no_corpus": 0,
+    "metodos": 3
    },
    {
     "ficheiro": "lib/zeitwerk/loader.rb",
