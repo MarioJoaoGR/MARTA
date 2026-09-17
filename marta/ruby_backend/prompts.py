@@ -125,9 +125,42 @@ def first_dev_instruction(scenarios: List[dict]) -> str:
     )
 
 
+# Tamanho máximo do texto do erro no prompt de reparação, em caracteres (~2k
+# tokens). A janela do modelo é 16k e o prompt leva também o método e a ajuda.
+LIMITE_ERRO = 6000
+
+
+def resumir_erro(texto: str, limite: int = LIMITE_ERRO) -> str:
+    """O texto do erro num tamanho que caiba no prompt.
+
+    O pytest condensa uma recursão ("Recursion detected") e a MARTA Python podia
+    passar o texto inteiro; o RSpec não condensa. Um `stack level too deep` dá
+    milhões de caracteres (medido: 3,9 milhões, 21 810 linhas), o prompt passava a
+    janela de 16k tokens e o modelo recebia-o cortado e respondia 1 token (visto
+    no piloto do Deucalion). Dois passos:
+      1. linhas iguais seguidas passam a uma, com a contagem (o backtrace
+         repetido de uma recursão);
+      2. se ainda passar o limite, fica o início (a mensagem e a primeira falha)
+         e o fim (o resumo do RSpec), e diz-se quanto se omitiu.
+    """
+    linhas, fora = texto.splitlines(), []
+    i = 0
+    while i < len(linhas):
+        j = i
+        while j + 1 < len(linhas) and linhas[j + 1] == linhas[i]:
+            j += 1
+        fora.append(linhas[i] if j == i else f"{linhas[i]}  [linha repetida {j - i + 1} vezes]")
+        i = j + 1
+    texto = "\n".join(fora)
+    if len(texto) <= limite:
+        return texto
+    cabeca, cauda = texto[: limite * 3 // 4], texto[-(limite // 4):]
+    return f"{cabeca}\n[... {len(texto) - len(cabeca) - len(cauda)} caracteres omitidos ...]\n{cauda}"
+
+
 def repair_dev_instruction(last_error: str, similar_help: str = "") -> str:
     return (
-        f"PREVIOUS CODE FAILED.\nERROR MESSAGE:\n{last_error}"
+        f"PREVIOUS CODE FAILED.\nERROR MESSAGE:\n{resumir_erro(last_error)}"
         f"{similar_help}\n"
         f"TASK: Rewrite the ENTIRE spec file to fix this error. "
         f"Keep one independent `it` block per scenario."

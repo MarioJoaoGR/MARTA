@@ -153,7 +153,11 @@ def run_rspec(
     import tempfile
     fd, json_path = tempfile.mkstemp(prefix="marta_rspec_", suffix=".json")
     os.close(fd)
-    args = [rspec_bin(), "-O", os.devnull, "-f", "json", "-o", json_path, "-r", _GUARD]
+    # Dois formatos: o progress (texto legível, com as falhas e os backtraces) no
+    # stdout, para o erro que volta ao modelo; o json no ficheiro, para ler os
+    # resultados. O -o aplica-se ao formato anterior (o json).
+    args = [rspec_bin(), "-O", os.devnull, "-f", "progress", "-f", "json", "-o", json_path,
+            "-r", _GUARD]
     for p in load_paths or []:
         args += ["-I", p]
     for r in requires or []:
@@ -183,11 +187,14 @@ def run_rspec(
             pass
     # Fallback ao stdout: versões antigas do rspec, ou um -o que não pegou.
     data = _extract_json(bruto) or _extract_json(proc.stdout)
-    # O relatório JSON tem de ENTRAR no output: é daqui que sai o texto do erro
-    # que volta ao modelo na tentativa de reparação. Com o -o, o stdout passou a
-    # vir vazio e a reparação ficou sem saber o que tinha falhado.
+    # O texto do erro que volta ao modelo na reparação é o relatório legível do
+    # RSpec (stdout) e o stderr, o análogo do texto do pytest na MARTA Python.
+    # Antes ia o JSON inteiro: com os backtraces de todos os exemplos em JSON, uma
+    # falha grande enchia a janela de 16k tokens e o modelo recebia um prompt
+    # cortado (visto no piloto do Deucalion: prompt 16383 tokens, resposta 1).
+    # Se o stdout vier vazio (não devia, com o progress), fica o JSON.
     full_output = "\n".join(
-        x for x in (bruto.strip(), proc.stdout.strip(), proc.stderr.strip()) if x)
+        x for x in (proc.stdout.strip(), proc.stderr.strip()) if x) or bruto.strip()
 
     if data is None:
         # No parseable JSON: a hard failure (usually a load/require error).
