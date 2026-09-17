@@ -6,7 +6,6 @@
 #SBATCH --gpus=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=32
-#SBATCH --mem=200G
 #SBATCH --time=47:30:00
 #SBATCH --output=logs/ruby_%j.out
 #SBATCH --signal=B:SIGTERM@120
