@@ -31,7 +31,8 @@ GitHub com frequência.
 | 4 elegibilidade | ≥3 formas distintas **e** formas/métodos ≥0,4 | 6 343 |
 | 5 desduplicação | semelhança >0,50 descarta | 5 672 |
 | 6 carregamento | instala o declarado e tenta carregar | 5 217 |
-| 7 seleção | ranking de diversidade + grupos com chamadas garantidas | 500 |
+| porta RSpec | carrega pelo RSpec da própria ferramenta | 5 200 |
+| 7 seleção | ranking de diversidade + grupos com chamadas garantidas | 500 (99 gems, 8 690 métodos) |
 
 ## As constantes, e porquê
 
@@ -157,6 +158,26 @@ Regra que saiu disto: **preferir a declaração à suposição, e quando há dua
 declarações que discordam, arranjar um teste objetivo em vez de escolher em quem
 confiar.**
 
+## A porta RSpec, entre a camada 6 e a 7
+
+A camada 6 carrega os módulos com o seu próprio carregador. A ferramenta corre o
+RSpec. Verificados os 5 217 pela função que a ferramenta usa
+(`verifica_ambiente`), **17 falham**. Há de vários tipos:
+
+- um exemplo que instala gems ao carregar (`bundler/inline`);
+- um `require "bundler/setup"` que lê o Gemfile da pasta onde corre (spring);
+- *generators* que precisam do Rails (doorkeeper);
+- dependências só de desenvolvimento (o `benchmark/run.rb` do i18n pede o mocha);
+- ficheiros que definem ou arrancam o próprio minitest ou RSpec.
+
+Não falham sozinhos: carregados junto com os outros alvos da gem, **apagam a
+cobertura deles**. No puma e no spring, 49 módulos que carregavam ficavam sem
+cobertura por causa de 6. Sem os 17, os 239 módulos dessas quatro gems carregam
+e aparecem todos na cobertura.
+
+A lista fica em `6_carregamento/falham_rspec.csv`, e a camada 7 só escolhe entre
+os outros 5 200. O `porta_rspec.py` tem os três comandos para a refazer.
+
 ## Uma limitação medida, e o que a camada 7 faz com ela
 
 A MARTA constrói contexto **entre** módulos (a 2ª passagem dos sumários anexa o
@@ -194,10 +215,16 @@ resolver da ferramenta adivinha quando o nome é ambíguo (fica com a primeira
 classe com o mesmo nome curto) e aceita *duck typing* com até 5 candidatos; essas
 arestas dizem que **pode** chamar, e não contam.
 
-Com 500 módulos e fatia de 50% (as constantes atuais): 37 grupos com 259
-módulos, dos quais 38 já estavam entre os 500 melhores; saíram 221 do fim do
-ranking. No total, 286 módulos têm chamada garantida com outro módulo do corpus
-(27 deles vindos do ranking, por acaso). O corpus tem 99 gems e 59 categorias.
+Com 500 módulos e fatia de 50% (as constantes atuais), sobre os 5 200 que passam
+a porta RSpec: 32 grupos com 256 módulos, dos quais 41 já estavam entre os 500
+melhores; saíram 215 do fim do ranking. No total, 291 módulos têm chamada
+garantida com outro módulo do corpus (35 deles vindos do ranking, por acaso). O
+corpus tem 99 gems, 59 categorias e 8 690 métodos.
+
+O ranking é sensível à população: tirar os 17 módulos da porta mudou cerca de 30%
+de cada variante (no de 500, ficaram 348 dos 500). Não é defeito do critério, é o
+*farthest-first*: cada escolha depende das anteriores. Mas quer dizer que o corpus
+só se fixa depois de a população estar fechada.
 
 O tamanho e a fatia são decisão ainda por tomar. As alternativas estudam-se sem
 mexer no código:

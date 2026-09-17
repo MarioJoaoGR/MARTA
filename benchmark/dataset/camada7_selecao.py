@@ -38,6 +38,9 @@ Cada modulo leva `origem` (grupo ou diversidade), `posicao_ranking`,
 para a cobertura poder ser repartida no fim e responder com dados a "o contexto
 entre modulos ajuda?".
 
+Antes de tudo, a populacao perde os modulos que falham pelo RSpec da
+ferramenta (6_carregamento/falham_rspec.csv, ver porta_rspec.py).
+
 O tamanho e a fatia sao decisao do utilizador: MARTA_ORCAMENTO e
 MARTA_FATIA_GRUPOS estudam alternativas sem mexer nas constantes.
 
@@ -108,6 +111,21 @@ FATIA_GRUPOS = 0.5       # metade do orcamento vem de grupos inteiros
 ORCAMENTO = int(os.environ.get("MARTA_ORCAMENTO", ORCAMENTO))
 FATIA_GRUPOS = float(os.environ.get("MARTA_FATIA_GRUPOS", FATIA_GRUPOS))
 MIN_GRUPO, MAX_GRUPO = 3, 20
+
+
+
+def certificados():
+    """As linhas do carregam.csv que tambem passam na porta RSpec (porta_rspec.py).
+    Um modulo que falha pela ferramenta nao pode ser alvo, nem membro de grupo."""
+    fora = set()
+    porta = f"{D}/6_carregamento/falham_rspec.csv"
+    if os.path.exists(porta):
+        with open(porta, encoding="utf-8") as f:
+            fora = {(r["gem"], r["ficheiro"]) for r in csv.DictReader(f)}
+    with open(f"{D}/6_carregamento/carregam.csv", encoding="utf-8") as f:
+        linhas = list(csv.DictReader(f))
+    return [r for r in linhas if (r["gem"], r["ficheiro"]) not in fora], len(linhas)
+
 
 NUMERICAS = ["loc_medio", "pct_singleton", "pct_duck", "mixins_por_classe",
              "profundidade_heranca", "metaprog_por_100", "formas"]
@@ -184,9 +202,8 @@ def grafos():
     As componentes (para os grupos) usam so a certa.
     """
     carregam = defaultdict(set)
-    with open(f"{D}/6_carregamento/carregam.csv", encoding="utf-8") as f:
-        for r in csv.DictReader(f):
-            carregam[r["gem"]].add(r["ficheiro"])
+    for r in certificados()[0]:
+        carregam[r["gem"]].add(r["ficheiro"])
 
     porgem = defaultdict(list)
     with gzip.open(f"{D}/2_parser/analise_completa.jsonl.gz", "rt",
@@ -229,10 +246,10 @@ def grafos():
 
 def main() -> None:
     os.makedirs(OUT, exist_ok=True)
-    with open(f"{D}/6_carregamento/carregam.csv", encoding="utf-8") as f:
-        mods = list(csv.DictReader(f))
+    mods, n_carregam = certificados()
     por_chave = {(m["gem"], m["ficheiro"]): m for m in mods}
-    print(f"populacao: {len(mods)} modulos que carregam")
+    print(f"populacao: {len(mods)} modulos que carregam "
+          f"({n_carregam - len(mods)} barrados pela porta RSpec)")
 
     print("a construir os grafos por gem (certo e possivel)...", flush=True)
     gs = grafos()
@@ -440,6 +457,8 @@ def main() -> None:
         "data": str(date.today()),
         "orcamento": ORCAMENTO, "fatia_grupos": FATIA_GRUPOS,
         "grupo_min": MIN_GRUPO, "grupo_max": MAX_GRUPO,
+        "carregam_na_camada_6": n_carregam,
+        "barrados_pela_porta_rspec": n_carregam - len(mods),
         "populacao": len(mods),
         "componentes_elegiveis": len(grupos),
         "grupos_escolhidos": len(escolhidos_g),

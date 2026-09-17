@@ -11,10 +11,10 @@
 #SBATCH --output=logs/ruby_%j.out
 #SBATCH --signal=B:SIGTERM@120
 # ─────────────────────────────────────────────────────────────────────
-# Benchmark MARTA-Ruby sobre o corpus de 500 módulos / 107 gems.
+# Benchmark MARTA-Ruby sobre o corpus da camada 7 (tamanho por decidir).
 # Os alvos e o ambiente de cada gem vêm do projetos.json (camada 7); o harness
 # recusa-se a correr gems que não estejam lá E preparadas, para nunca acontecer
-# tomar a gem inteira como alvo (83 766 métodos em vez de 6 976).
+# tomar a gem inteira como alvo (dezenas de milhares de métodos em vez dos do corpus).
 #
 # Mesma engenharia do lado Python: auto-chain no SIGTERM, resume via state.json,
 # retry em OOM.

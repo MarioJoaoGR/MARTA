@@ -1,18 +1,19 @@
 componente,gem,categoria,modulos,escolhido
 state_machines#2,state_machines,state machines,20,True
 capybara#0,capybara,testing,19,False
-danger#7,danger,automation,19,True
-logging#0,logging,logging,19,False
-sprockets#3,sprockets,assets,17,True
-eventmachine#0,eventmachine,concurrency and parallelism,17,False
-activerecord#0,activerecord,orm/odm,16,False
+danger#7,danger,automation,19,False
+logging#0,logging,logging,19,True
+sprockets#3,sprockets,assets,17,False
+puma#3,puma,web servers,17,True
+eventmachine#0,eventmachine,concurrency and parallelism,17,True
+activerecord#0,activerecord,orm/odm,16,True
 jwt#0,jwt,authentication and oauth,16,False
 listen#0,listen,file system listener,16,False
-rake#0,rake,cli builder,15,False
-tzinfo#1,tzinfo,date and time processing,15,True
+rake#0,rake,cli builder,15,True
+tzinfo#1,tzinfo,date and time processing,15,False
 paper_trail#0,paper_trail,orm/odm extensions,15,False
 dalli#0,dalli,caching,15,False
-activerecord#116,activerecord,orm/odm,14,True
+activerecord#116,activerecord,orm/odm,14,False
 kramdown#0,kramdown,markdown processors,14,False
 debug#1,debug,developer tooling,14,True
 coderay#0,coderay,code highlighting,13,False
@@ -26,21 +27,21 @@ httpclient#0,httpclient,http clients and tools,11,False
 cocoapods#29,cocoapods,package management,11,False
 virtus#0,virtus,core extensions,11,True
 bootsnap#0,bootsnap,optimizations,10,True
-spring#0,spring,testing,10,True
 thin#0,thin,web servers,10,False
 mongo#125,mongo,database drivers,10,True
-rest-client#0,rest-client,http clients and tools,9,False
+rest-client#0,rest-client,http clients and tools,9,True
 haml#0,haml,template engine,9,False
-vcr#0,vcr,testing,9,False
-i18n#1,i18n,internationalization,8,False
+vcr#0,vcr,testing,9,True
+i18n#0,i18n,internationalization,8,False
 httparty#0,httparty,http clients and tools,8,False
 factory_bot#12,factory_bot,testing,8,False
 bullet#0,bullet,profiler and optimization,8,True
 gli#0,gli,cli builder,8,False
 mongo#5,mongo,database drivers,8,False
 prawn#0,prawn,pdf,8,False
-excon#0,excon,http clients and tools,7,True
+excon#0,excon,http clients and tools,7,False
 pg#0,pg,database drivers,7,False
+spring#0,spring,testing,7,False
 countries#0,countries,country data,7,False
 roo#2,roo,spreadsheets and documents,7,False
 mongo#77,mongo,database drivers,7,False
@@ -52,20 +53,19 @@ ransack#5,ransack,search,6,False
 minitest#1,minitest,testing,5,True
 rack-protection#0,rack-protection,security,5,False
 awesome_print#11,awesome_print,cli utilities,5,True
-kaminari#0,kaminari,pagination,5,True
+kaminari#0,kaminari,pagination,5,False
 parallel_tests#0,parallel_tests,testing,5,False
 rufus-scheduler#0,rufus-scheduler,scheduling,5,True
 wisper#0,wisper,business logic,5,False
 gitlab#7,gitlab,third-party apis,5,False
 better_errors#0,better_errors,error handling,5,False
-minitest#2,minitest,testing,4,False
-activerecord#12,activerecord,orm/odm,4,True
+activerecord#12,activerecord,orm/odm,4,False
 zeitwerk#2,zeitwerk,code loaders,4,True
 simplecov#26,simplecov,code analysis and metrics,4,False
 selenium-webdriver#1,selenium-webdriver,testing,4,False
-fastlane#130,fastlane,mobile development,4,True
+fastlane#130,fastlane,mobile development,4,False
 bundler-audit#0,bundler-audit,security,4,True
-chronic#3,chronic,date and time processing,4,True
+chronic#3,chronic,date and time processing,4,False
 danger#38,danger,automation,4,True
 ransack#7,ransack,search,4,True
 aasm#3,aasm,state machines,4,True
@@ -73,11 +73,13 @@ mongo#40,mongo,database drivers,4,False
 savon#0,savon,http clients and tools,4,False
 savon#12,savon,http clients and tools,4,False
 activesupport#80,activesupport,core extensions,3,False
+minitest#2,minitest,testing,3,False
 addressable#0,addressable,core extensions,3,True
 activerecord#2,activerecord,orm/odm,3,False
 activerecord#5,activerecord,orm/odm,3,True
 activerecord#86,activerecord,orm/odm,3,False
 rubocop#119,rubocop,code formatting,3,False
+puma#5,puma,web servers,3,False
 simplecov#27,simplecov,code analysis and metrics,3,False
 simplecov#30,simplecov,code analysis and metrics,3,False
 simplecov#55,simplecov,code analysis and metrics,3,False
@@ -86,7 +88,7 @@ sawyer#1,sawyer,http clients and tools,3,False
 knapsack#1,knapsack,testing,3,False
 selenium-webdriver#16,selenium-webdriver,testing,3,False
 selenium-webdriver#25,selenium-webdriver,testing,3,False
-eventmachine#10,eventmachine,concurrency and parallelism,3,True
+eventmachine#10,eventmachine,concurrency and parallelism,3,False
 rouge#19,rouge,code highlighting,3,True
 childprocess#0,childprocess,processes,3,False
 warden#3,warden,authentication and oauth,3,False
@@ -106,6 +108,6 @@ doorkeeper#12,doorkeeper,authentication and oauth,3,True
 gli#2,gli,cli builder,3,False
 gli#6,gli,cli builder,3,False
 aasm#1,aasm,state machines,3,False
-mongo#1,mongo,database drivers,3,True
+mongo#1,mongo,database drivers,3,False
 mongo#64,mongo,database drivers,3,False
 savon#7,savon,http clients and tools,3,False
