@@ -31,7 +31,7 @@ GitHub com frequência.
 | 4 elegibilidade | ≥3 formas distintas **e** formas/métodos ≥0,4 | 6 343 |
 | 5 desduplicação | semelhança >0,50 descarta | 5 672 |
 | 6 carregamento | instala o declarado e tenta carregar | 5 217 |
-| 7 seleção | grupos ligados + diversidade | 500 |
+| 7 seleção | ranking de diversidade + grupos com chamadas garantidas | 500 |
 
 ## As constantes, e porquê
 
@@ -44,9 +44,9 @@ varrimentos ficam gravados ao lado dos artefactos.
 | chão de formas | 3 | camada 4 | tira 30% dos ficheiros mas só 5% dos métodos |
 | proporção mínima | 0,4 | camada 4 | acima disso caem os módulos mais ricos |
 | limiar de semelhança | 0,50 | camada 5 | planalto entre 0,3 e 0,9; empate entra |
-| tamanho de grupo | 3 a 20 | camada 7 | com 2 há uma aresta só |
+| tamanho de grupo | 3 a 20 | camada 7 | com 2 há uma aresta só; acima de 20 é um subsistema inteiro |
 | orçamento | 500 | camada 7 | decisão do utilizador, perto dos 486 do CodaMosa |
-| fatia de grupos | 50% | camada 7 | decisão do utilizador |
+| fatia de grupos | 50% | camada 7 | decisão do utilizador (50% ou 75%, por decidir) |
 
 ## Reprodução verificada (2026-09-16)
 
@@ -176,16 +176,33 @@ E não é simétrico: uma ferramenta de busca gera por módulo e não perde nada
 módulos dispersos. A escolha da unidade, herdada por comparabilidade, prejudica
 especificamente a nossa.
 
-A camada 7 corrige isso sem partir o corpus em dois — o que tornaria a
-comparação confundida. Faz **um** corpus com duas origens e etiqueta cada
-módulo (`origem`, `componente`, `vizinhos_no_corpus`), para a diferença poder ser
-medida no fim dentro do mesmo conjunto. Resultado, com os mesmos 500 módulos:
+A camada 7 corrige isso sem partir o corpus em dois, o que tornaria a
+comparação confundida. Constrói **um** corpus em dois passos:
 
-```
-52,9%  mesmo módulo
-12,2%  outro módulo do corpus      (era 5,1%)
-34,9%  fora                        (era 45,0%)
-```
+1. **Os X melhores**: o ranking de diversidade da população inteira. A ordem do
+   *farthest-first* é o ranking, e "melhor" quer dizer "que mais acrescenta à
+   cobertura das oito características" (a adequação já vem das camadas 4 a 6).
+2. **Grupos ligados no lugar dos piores**: componentes de 3 a 20 módulos com
+   **chamadas garantidas** entre si, pela sua ordem de diversidade. Cada grupo
+   entra inteiro e acrescenta só os membros que ainda não estão no corpus; sai o
+   mesmo número de módulos do fim do ranking. Pára quando os módulos de grupos
+   chegam à fatia pedida.
 
-Dos 500, **410 têm pelo menos um vizinho no corpus e 90 não têm**. É essa divisão
-que o `cobertura_por_metodo.json` do harness permite comparar no fim.
+**Chamada garantida** quer dizer: recetor certo (sem recetor, `self`, constante,
+`self.class`), nome resolvido sem adivinhar, e o chamado é um método-alvo. O
+resolver da ferramenta adivinha quando o nome é ambíguo (fica com a primeira
+classe com o mesmo nome curto) e aceita *duck typing* com até 5 candidatos; essas
+arestas dizem que **pode** chamar, e não contam.
+
+Com 500 módulos e fatia de 50% (as constantes atuais): 37 grupos com 259
+módulos, dos quais 38 já estavam entre os 500 melhores; saíram 221 do fim do
+ranking. No total, 286 módulos têm chamada garantida com outro módulo do corpus
+(27 deles vindos do ranking, por acaso). O corpus tem 99 gems e 59 categorias.
+
+O tamanho e a fatia são decisão ainda por tomar. As alternativas estudam-se sem
+mexer no código:
+
+```bash
+MARTA_DATASET_DIR=/outra/pasta MARTA_ORCAMENTO=250 MARTA_FATIA_GRUPOS=0.75 \
+    python -m benchmark.dataset.camada7_selecao
+```
