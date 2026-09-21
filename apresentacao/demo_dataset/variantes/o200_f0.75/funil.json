@@ -1,0 +1,21 @@
+{
+  "data": "2026-09-18",
+  "orcamento": 200,
+  "fatia_grupos": 0.75,
+  "grupo_min": 3,
+  "grupo_max": 20,
+  "populacao": 5093,
+  "componentes_elegiveis": 109,
+  "grupos_escolhidos": 21,
+  "modulos_de_grupos": 156,
+  "membros_de_grupo_ja_entre_os_melhores": 7,
+  "sairam_do_fim_do_ranking": 149,
+  "modulos_do_ranking": 44,
+  "corpus": 200,
+  "gems": 48,
+  "categorias": 35,
+  "metodos": 3491,
+  "relacionados": 158,
+  "relacionados_vindos_do_ranking": 2,
+  "sem_chamada_garantida_no_corpus": 42
+}

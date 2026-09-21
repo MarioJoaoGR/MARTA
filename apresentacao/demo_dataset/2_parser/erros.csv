@@ -1,7 +1,4 @@
 gem,ficheiro,linha,mensagem,nao_ruby
-simplecov,test_projects/encodings/lib/euc_jp.rb,,Encoding::CompatibilityError: invalid byte sequence in EUC-JP,fixture de teste
-simplecov,test_projects/encodings/lib/euc_jp_not_declared_tracked.rb,8,unexpected character literal; expected a method name,fixture de teste
-simplecov,test_projects/encodings/lib/euc_jp_not_declared_tracked.rb,8,expected a delimiter to close the parameters,fixture de teste
 jbuilder,lib/generators/rails/templates/api_controller.rb,1,"unexpected '<', ignoring it",molde de gerador
 jbuilder,lib/generators/rails/templates/api_controller.rb,1,"unexpected method name, expecting end-of-input",molde de gerador
 jbuilder,lib/generators/rails/templates/api_controller.rb,2,"unexpected string literal, expecting end-of-input",molde de gerador

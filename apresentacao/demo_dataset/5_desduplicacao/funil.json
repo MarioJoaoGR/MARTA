@@ -1,10 +1,10 @@
 {
-  "data": "2026-09-07",
+  "data": "2026-09-17",
   "limiar": 0.5,
-  "entram": 6343,
-  "representantes": 5672,
-  "duplicados_removidos": 671,
-  "metodos": 67659,
+  "entram": 6202,
+  "representantes": 5543,
+  "duplicados_removidos": 659,
+  "metodos": 66637,
   "gems": 133,
   "categorias": 59,
   "maiores_quedas": [
@@ -15,13 +15,13 @@
     },
     {
       "gem": "fastlane",
-      "antes": 543,
-      "depois": 506
+      "antes": 537,
+      "depois": 500
     },
     {
       "gem": "rouge",
-      "antes": 85,
-      "depois": 65
+      "antes": 84,
+      "depois": 64
     },
     {
       "gem": "gitlab",
@@ -35,18 +35,13 @@
     },
     {
       "gem": "geocoder",
-      "antes": 123,
-      "depois": 115
+      "antes": 121,
+      "depois": 113
     },
     {
       "gem": "mongo",
-      "antes": 226,
-      "depois": 218
-    },
-    {
-      "gem": "concurrent-ruby",
-      "antes": 128,
-      "depois": 121
+      "antes": 207,
+      "depois": 201
     },
     {
       "gem": "danger",
@@ -60,8 +55,8 @@
     },
     {
       "gem": "activerecord",
-      "antes": 296,
-      "depois": 292
+      "antes": 295,
+      "depois": 291
     },
     {
       "gem": "sprockets",
@@ -70,18 +65,23 @@
     },
     {
       "gem": "byebug",
-      "antes": 95,
-      "depois": 91
+      "antes": 93,
+      "depois": 89
     },
     {
       "gem": "shoulda-matchers",
-      "antes": 102,
-      "depois": 98
+      "antes": 98,
+      "depois": 94
+    },
+    {
+      "gem": "concurrent-ruby",
+      "antes": 113,
+      "depois": 110
     },
     {
       "gem": "selenium-webdriver",
-      "antes": 120,
-      "depois": 118
+      "antes": 119,
+      "depois": 117
     }
   ]
 }

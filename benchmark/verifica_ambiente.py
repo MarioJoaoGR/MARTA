@@ -1,6 +1,6 @@
 """Verifica que cada módulo do corpus carrega COM A FERRAMENTA, antes do cluster.
 
-A camada 6 do dataset certificou que os 500 módulos carregam. Mas certificou-os
+A camada 6 do dataset certificou os módulos antes da seleção. Mas certificou-os
 com o seu próprio carregador, e a MARTA-Ruby chama o RSpec. Se os dois ambientes
 não forem o mesmo, um módulo certificado falha no cluster e o erro conta contra a
 ferramenta, sem ser culpa dela.

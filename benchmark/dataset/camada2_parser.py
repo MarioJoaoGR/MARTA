@@ -15,11 +15,19 @@ Quatro decisoes que custaram gems reais e por isso estao aqui explicadas:
    mudaram de casa; o `warden` declara no RubyGems o repo antigo). Juiz
    objectivo: quem tiver a etiqueta da versao publicada.
 
-3. A SUITE HUMANA sai, e tem de casar a QUALQUER profundidade: nos monorepos
+3. SO ENTRA O CODIGO QUE A GEM ENTREGA: o que esta nas pastas de codigo
+   (lib/, src/, app/ e, nos monorepos, <componente>/lib, as mesmas que a
+   ferramenta poe no load path). Fora delas ficam exemplos, benchmarks, tarefas
+   de rake, geradores de sites e configuracao de extensoes em C: vivem no
+   repositorio, mas nao sao o projeto, e gerar testes para eles nao diz nada
+   sobre ele. Numa gem sem nenhuma dessas pastas nao se corta nada.
+
+4. A SUITE HUMANA sai, e tem de casar a QUALQUER profundidade: nos monorepos
    esta em `fastlane/spec/`, `rspec-core/spec/`, nao na raiz. Sem isso entravam
    1182 ficheiros de teste como se fossem codigo.
 
-4. NAO SE EXCLUI POR `lib/` nem por ser aplicacao/framework. O benchmark do
+5. NAO SE EXCLUI UMA GEM por ser aplicacao ou framework (a regra 3 e sobre
+   ficheiros dentro da gem, nao sobre o tipo de projeto). O benchmark do
    CodaMosa, que seguimos, tem quase metade de aplicacoes (ansible, black,
    httpie, youtube-dl, e o thonny, que e um IDE). A restricao a bibliotecas nao
    e defensavel.
@@ -71,6 +79,31 @@ def ruby() -> str:
 
 def _e_suite(rel: str) -> bool:
     return any(p in SUITE for p in rel.split(os.sep))
+
+
+# As pastas onde vive o codigo que a gem entrega. Sao as mesmas que a ferramenta
+# poe no load path (a camada 6 calcula-as da mesma maneira): o "src" do Ruby.
+CODIGO = ("lib", "src", "app")
+
+
+def pastas_de_codigo(raiz: str):
+    """lib/, src/, app/ na raiz e, nos monorepos, <componente>/lib."""
+    out = [b for b in CODIGO if os.path.isdir(os.path.join(raiz, b))]
+    try:
+        for nome in sorted(os.listdir(raiz)):
+            if not nome.startswith(".") and os.path.isdir(os.path.join(raiz, nome, "lib")):
+                out.append(os.path.join(nome, "lib"))
+    except OSError:
+        pass
+    return out
+
+
+def _e_codigo(rel: str, pastas) -> bool:
+    """Sem nenhuma pasta de codigo (gem com tudo na raiz), nao se exclui nada:
+    o criterio so corta quando ha onde cortar."""
+    if not pastas:
+        return True
+    return any(rel == p or rel.startswith(p + os.sep) for p in pastas)
 
 
 def _nao_ruby(rel: str) -> str:
@@ -152,7 +185,14 @@ def clona(repo: str, ref: str, dest: str, tentativas: int = 3) -> bool:
 
 
 def lista_rb(root: str):
-    alvos, suite, por_pasta = [], [], {}
+    """Tres montes: o codigo da gem, a suite humana, e o resto.
+
+    O "resto" sao os .rb que vivem no repositorio mas que a gem nao entrega:
+    exemplos, benchmarks, tarefas de rake, geradores de sites, configuracao de
+    extensoes em C. Gerar testes para eles nao diz nada sobre o projeto.
+    """
+    pastas = pastas_de_codigo(root)
+    alvos, suite, fora, por_pasta = [], [], [], {}
     for dp, dns, fns in os.walk(root):
         dns[:] = [d for d in dns if d not in LIXO and not d.startswith(".")]
         rel_dir = os.path.relpath(dp, root)
@@ -161,9 +201,15 @@ def lista_rb(root: str):
             if not fn.endswith(".rb"):
                 continue
             p = os.path.join(dp, fn)
+            rel = os.path.relpath(p, root)
             por_pasta[topo] = por_pasta.get(topo, 0) + 1
-            (suite if _e_suite(os.path.relpath(p, root)) else alvos).append(p)
-    return alvos, suite, por_pasta
+            if _e_suite(rel):
+                suite.append(p)
+            elif not _e_codigo(rel, pastas):
+                fora.append(p)
+            else:
+                alvos.append(p)
+    return alvos, suite, fora, por_pasta, pastas
 
 
 def analisa(paths: list) -> list:
@@ -246,7 +292,8 @@ def main(continuar: bool = False, limite=None) -> None:
                    "repo_usado": repo_usado, "origem_repo": origem,
                    "etiqueta": tag, "ref_usada": "", "erro_clone": "",
                    "ramo": "", "commit": "", "raiz_codigo": sub or ".",
-                   "tem_lib": "", "rb_alvo": 0, "rb_suite": 0, "lidos": 0,
+                   "tem_lib": "", "pastas_de_codigo": "", "rb_alvo": 0,
+                   "rb_suite": 0, "rb_fora_do_codigo": 0, "lidos": 0,
                    "com_erro": 0, "com_erro_real": 0, "taxa": "",
                    "metodos": 0, "classes": 0}
 
@@ -262,8 +309,10 @@ def main(continuar: bool = False, limite=None) -> None:
             reg["ramo"] = git(dest, "rev-parse", "--abbrev-ref", "HEAD")
             reg["commit"] = git(dest, "rev-parse", "HEAD")[:12]
             reg["tem_lib"] = os.path.isdir(os.path.join(raiz, "lib"))
-            alvos, suite, por_pasta = lista_rb(raiz)
+            alvos, suite, fora, por_pasta, pastas = lista_rb(raiz)
             reg["rb_alvo"], reg["rb_suite"] = len(alvos), len(suite)
+            reg["rb_fora_do_codigo"] = len(fora)
+            reg["pastas_de_codigo"] = " ".join(pastas)
             for pasta, n in sorted(por_pasta.items(), key=lambda x: -x[1]):
                 onde.append({"gem": nome, "pasta": pasta, "rb": n,
                              "e_suite": pasta in SUITE})
@@ -332,6 +381,8 @@ def main(continuar: bool = False, limite=None) -> None:
                  sum(1 for L in com_rb if not int(L["com_erro_real"] or 0)),
              "ficheiros_rb_alvo": sum(int(L["rb_alvo"]) for L in com_rb),
              "ficheiros_da_suite_humana": sum(int(L["rb_suite"]) for L in com_rb),
+             "ficheiros_fora_das_pastas_de_codigo":
+                 sum(int(L["rb_fora_do_codigo"] or 0) for L in com_rb),
              "ficheiros_com_erro": sum(int(L["com_erro"]) for L in com_rb),
              "ficheiros_com_erro_que_sao_ruby": sum(int(L["com_erro_real"]) for L in com_rb),
              "metodos": sum(int(L["metodos"]) for L in com_rb),

@@ -1,0 +1,109 @@
+{
+  "gem": "commander",
+  "categoria": "cli builder",
+  "ficheiro": "lib/commander/help_formatters/base.rb",
+  "commit": "b4c6be4b149c",
+  "classes": [
+    {
+      "name": "Commander",
+      "qualified_name": "Commander",
+      "kind": "module",
+      "superclass": null,
+      "start_line": 3,
+      "end_line": 30,
+      "includes": [],
+      "extends": [],
+      "prepends": [],
+      "attributes": [],
+      "receiver_members": {},
+      "body_statements": []
+    },
+    {
+      "name": "HelpFormatter",
+      "qualified_name": "Commander::HelpFormatter",
+      "kind": "module",
+      "superclass": null,
+      "start_line": 4,
+      "end_line": 29,
+      "includes": [],
+      "extends": [],
+      "prepends": [],
+      "attributes": [],
+      "receiver_members": {},
+      "body_statements": []
+    },
+    {
+      "name": "Base",
+      "qualified_name": "Commander::HelpFormatter::Base",
+      "kind": "class",
+      "superclass": null,
+      "start_line": 11,
+      "end_line": 28,
+      "includes": [],
+      "extends": [],
+      "prepends": [],
+      "attributes": [],
+      "receiver_members": {},
+      "body_statements": []
+    }
+  ],
+  "metodos": [
+    {
+      "name": "initialize",
+      "owner": "Commander::HelpFormatter::Base",
+      "receiver": null,
+      "singleton": false,
+      "start_line": 12,
+      "end_line": 14,
+      "params": [
+        {
+          "name": "runner",
+          "kind": "req"
+        }
+      ],
+      "param_members": {
+        "runner": []
+      },
+      "calls": []
+    },
+    {
+      "name": "render",
+      "owner": "Commander::HelpFormatter::Base",
+      "receiver": null,
+      "singleton": false,
+      "start_line": 19,
+      "end_line": 21,
+      "params": [],
+      "param_members": {},
+      "calls": []
+    },
+    {
+      "name": "render_command",
+      "owner": "Commander::HelpFormatter::Base",
+      "receiver": null,
+      "singleton": false,
+      "start_line": 25,
+      "end_line": 27,
+      "params": [
+        {
+          "name": "command",
+          "kind": "req"
+        }
+      ],
+      "param_members": {
+        "command": [
+          "name"
+        ]
+      },
+      "calls": [
+        {
+          "name": "name",
+          "recv": "lvar",
+          "recv_name": "command",
+          "line": 26
+        }
+      ]
+    }
+  ],
+  "erros": []
+}

@@ -188,8 +188,14 @@ def main():
     print(f"A preparar {len(projetos)} gems em {out_dir}\n")
     for i, (gem, p) in enumerate(sorted(projetos.items()), 1):
         antes = feitos.get(gem)
+        # O --continuar so salta uma gem preparada com a MESMA receita e o MESMO
+        # commit. A receita muda quando a camada 6 muda de degrau (a doorkeeper
+        # passou de "deps do gemspec" para o Gemfile do projeto): saltar a gem
+        # deixava no disco um ambiente diferente do que o dataset certificou, e o
+        # verificador acusava um modulo que no cluster funcionaria.
         if args.continuar and antes and antes["estado"] == "pronto" \
-                and antes["commit"] == p["commit"]:
+                and antes["commit"] == p["commit"] \
+                and antes.get("ambiente") == p["ambiente"]:
             print(f"[{i}/{len(projetos)}] {gem}: já pronto")
             continue
         t0 = time.time()

@@ -1,13 +1,13 @@
 {
-  "data": "2026-09-07",
+  "data": "2026-09-17",
   "chao_formas": 3,
   "proporcao_minima": 0.4,
-  "entram": 9074,
-  "saem_pelo_chao": 2471,
+  "entram": 8776,
+  "saem_pelo_chao": 2317,
   "saem_pela_proporcao": 100,
-  "saem_por_ambos": 160,
-  "elegiveis": 6343,
-  "metodos_elegiveis": 87962,
+  "saem_por_ambos": 157,
+  "elegiveis": 6202,
+  "metodos_elegiveis": 86831,
   "gems": 133,
   "categorias": 59
 }

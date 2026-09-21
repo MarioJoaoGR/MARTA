@@ -16,18 +16,15 @@ twilio-ruby,lib/twilio-ruby/rest/api/v2010/account/available_phone_number_countr
 twilio-ruby,lib/twilio-ruby/rest/api/v2010/account/available_phone_number_country/machine_to_machine.rb,c58e213a6f04,third-party apis,7.9,32,0,71,0.0,2,0.0,34,11,15,0.441,twilio-ruby/lib/twilio-ruby/rest/api/v2010/account/available_phone_number_country/voip.rb,1.0
 bullet,lib/bullet/active_record72.rb,bc55c037d27a,profiler and optimization,28.6,303,5,89,0.0,0,10.5,19,3,18,0.947,bullet/lib/bullet/active_record80.rb,1.0
 twilio-ruby,lib/twilio-ruby/rest/voice/v1.rb,c58e213a6f04,third-party apis,10.2,16,0,67,0.0,2,0.0,9,4,5,0.556,twilio-ruby/lib/twilio-ruby/rest/lookups/v2.rb,1.0
-concurrent-ruby,docs-source/medium-example.in.rb,0b88d5ff75f6,concurrency and parallelism,10.2,33,50,83,0.0,0,0.0,6,2,6,1.0,concurrent-ruby/docs-source/medium-example.out.rb,1.0
 fastlane,fastlane/lib/fastlane/actions/team_name.rb,38d0ec404332,mobile development,4.7,11,100,33,0.0,1,0.0,6,4,4,0.667,fastlane/fastlane/lib/fastlane/actions/team_id.rb,1.0
 bullet,lib/bullet/mongoid5x.rb,bc55c037d27a,profiler and optimization,14.3,53,17,50,0.0,0,33.3,6,2,6,1.0,bullet/lib/bullet/mongoid4x.rb,1.0
 gitlab,lib/gitlab/client/labels.rb,4818c5712616,third-party apis,3,3,0,33,0.0,2,0.0,6,2,5,0.833,gitlab/lib/gitlab/client/group_labels.rb,1.0
-concurrent-ruby,docs-source/actor/supervision_tree.in.rb,0b88d5ff75f6,concurrency and parallelism,7.4,11,0,60,0.0,2,0.0,5,2,5,1.0,concurrent-ruby/docs-source/actor/supervision_tree.out.rb,1.0
 concurrent-ruby,lib/concurrent-ruby/concurrent/atomic/fiber_local_var.rb,0b88d5ff75f6,concurrency and parallelism,7.8,15,0,20,0.0,0,0.0,5,2,5,1.0,concurrent-ruby/lib/concurrent-ruby/concurrent/atomic/thread_local_var.rb,1.0
 shoulda-matchers,lib/shoulda/matchers/active_model/numericality_matchers/odd_number_matcher.rb,cf3b3685f2c0,testing,5.2,10,0,60,0.0,1,0.0,5,5,4,0.8,shoulda-matchers/lib/shoulda/matchers/active_model/numericality_matchers/even_number_matcher.rb,1.0
 shoulda-matchers,lib/shoulda/matchers/active_model/numericality_matchers/only_integer_matcher.rb,cf3b3685f2c0,testing,5,9,0,60,0.0,1,0.0,5,5,4,0.8,shoulda-matchers/lib/shoulda/matchers/active_model/numericality_matchers/even_number_matcher.rb,1.0
 bullet,lib/bullet/notification/unused_eager_loading.rb,bc55c037d27a,profiler and optimization,3.4,5,0,0,0.0,1,0.0,5,3,5,1.0,bullet/lib/bullet/notification/n_plus_one_query.rb,1.0
 geocoder,lib/geocoder/lookups/ipinfo_io.rb,d3515db46c57,geolocation,5.8,10,0,60,0.0,1,0.0,5,2,5,1.0,geocoder/lib/geocoder/lookups/ipinfo_io_lite.rb,1.0
 mongo,lib/mongo/operation/find/result.rb,049b718a2d47,database drivers,3,3,0,100,0.0,1,0.0,5,4,4,0.8,mongo/lib/mongo/operation/get_more/result.rb,1.0
-concurrent-ruby,docs-source/actor/io.in.rb,0b88d5ff75f6,concurrency and parallelism,3.5,5,0,0,0.0,2,0.0,4,2,3,0.75,concurrent-ruby/docs-source/actor/io.out.rb,1.0
 byebug,lib/byebug/settings/autolist.rb,aff644023372,debugging tools,3,3,0,0,0.0,1,0.0,4,2,4,1.0,byebug/lib/byebug/settings/autopry.rb,1.0
 byebug,lib/byebug/settings/autoirb.rb,aff644023372,debugging tools,3,3,0,0,0.0,1,0.0,4,2,4,1.0,byebug/lib/byebug/settings/autopry.rb,1.0
 byebug,lib/byebug/commands/disable/breakpoints.rb,aff644023372,debugging tools,4.8,10,75,25,0.33,1,0.0,4,3,3,0.75,byebug/lib/byebug/commands/enable/breakpoints.rb,1.0
@@ -44,8 +41,6 @@ twilio-ruby,lib/twilio-ruby/rest/bulkexports/v1.rb,c58e213a6f04,third-party apis
 twilio-ruby,lib/twilio-ruby/rest/preview/marketplace.rb,c58e213a6f04,third-party apis,7.8,11,0,50,0.0,2,0.0,4,4,3,0.75,twilio-ruby/lib/twilio-ruby/rest/ip_messaging/v2.rb,1.0
 twilio-ruby,lib/twilio-ruby/rest/preview/hosted_numbers.rb,c58e213a6f04,third-party apis,7.8,11,0,50,0.0,2,0.0,4,4,3,0.75,twilio-ruby/lib/twilio-ruby/rest/ip_messaging/v2.rb,1.0
 aasm,lib/generators/nobrainer/aasm_generator.rb,88061ec5104a,state machines,3,3,0,0,0.33,1,0.0,4,3,4,1.0,aasm/lib/generators/mongoid/aasm_generator.rb,1.0
-concurrent-ruby,docs-source/actor/define.in.rb,0b88d5ff75f6,concurrency and parallelism,6.7,12,0,67,0.0,2,0.0,3,1,3,1.0,concurrent-ruby/docs-source/actor/define.out.rb,1.0
-simplecov,test_projects/faked_project/minitest/some_test.rb,76a8e4e0f661,code analysis and metrics,3,3,0,67,0.0,1,0.0,3,1,3,1.0,simplecov/test_projects/faked_project/minitest/other_test.rb,1.0
 selenium-webdriver,lib/selenium/webdriver/chrome/driver.rb,9175ed94d83e,testing,3.7,5,0,33,0.25,1,0.0,3,4,3,1.0,selenium-webdriver/lib/selenium/webdriver/edge/driver.rb,1.0
 rouge,lib/rouge/lexers/idris.rb,afc3c52c2af0,code highlighting,9.3,15,100,0,0.0,2,0.0,3,3,3,1.0,rouge/lib/rouge/lexers/batchfile.rb,1.0
 rouge,lib/rouge/lexers/bicep.rb,afc3c52c2af0,code highlighting,7.3,13,100,0,0.0,2,0.0,3,3,3,1.0,rouge/lib/rouge/lexers/fsharp.rb,1.0
@@ -82,7 +77,6 @@ twilio-ruby,lib/twilio-ruby/rest/assistants/v1/knowledge/chunk.rb,c58e213a6f04,t
 twilio-ruby,lib/twilio-ruby/rest/knowledge/v1/knowledge/chunk.rb,c58e213a6f04,third-party apis,6.3,15,0,62,0.0,2,0.0,26,10,15,0.577,twilio-ruby/lib/twilio-ruby/rest/wireless/v1/sim/data_session.rb,0.875
 twilio-ruby,lib/twilio-ruby/rest/supersim/v1/sim/sim_ip_address.rb,c58e213a6f04,third-party apis,6.7,15,0,57,0.0,2,0.0,23,10,15,0.652,twilio-ruby/lib/twilio-ruby/rest/wireless/v1/sim/data_session.rb,0.875
 twilio-ruby,lib/twilio-ruby/rest/voice/v1/dialing_permissions/country/highrisk_special_prefix.rb,c58e213a6f04,third-party apis,6.8,15,0,55,0.0,2,0.0,22,11,15,0.682,twilio-ruby/lib/twilio-ruby/rest/wireless/v1/sim/data_session.rb,0.875
-eventmachine,examples/guides/getting_started/08_simple_chat_server_step_five.rb,9cb13a8a6236,concurrency and parallelism,5.4,13,0,53,0.0,1,0.0,15,1,13,0.867,eventmachine/examples/guides/getting_started/03_simple_chat_server.rb,0.867
 twilio-ruby,lib/twilio-ruby/rest/marketplace/v1/installed_add_on/installed_add_on_usage.rb,c58e213a6f04,third-party apis,6.5,22,0,52,0.0,2,0.0,21,11,13,0.619,twilio-ruby/lib/twilio-ruby/rest/content/v1/content/approval_create.rb,0.857
 mongo,lib/mongo/cluster/topology/load_balanced.rb,049b718a2d47,database drivers,3.6,8,0,20,0.0,1,0.0,10,4,6,0.6,mongo/lib/mongo/cluster/topology/single.rb,0.857
 geocoder,lib/geocoder/lookups/ipstack.rb,d3515db46c57,geolocation,5.8,14,0,67,0.0,1,0.0,6,2,6,1.0,geocoder/lib/geocoder/lookups/ipregistry.rb,0.857
@@ -94,8 +88,6 @@ twilio-ruby,lib/twilio-ruby/rest/api/v2010/account/new_key.rb,c58e213a6f04,third
 twilio-ruby,lib/twilio-ruby/rest/events/v1/sink/sink_validate.rb,c58e213a6f04,third-party apis,7.4,27,0,50,0.0,2,0.0,18,10,11,0.611,twilio-ruby/lib/twilio-ruby/rest/numbers/v2/regulatory_compliance/bundle/replace_items.rb,0.833
 activerecord,lib/arel/delete_manager.rb,3989ebf3473d,orm/odm,5,10,0,80,0.5,1,0.0,5,2,5,1.0,activerecord/lib/arel/update_manager.rb,0.833
 twilio-ruby,lib/twilio-ruby/rest/lookups/v2/bucket.rb,c58e213a6f04,third-party apis,6.5,23,0,65,0.0,2,0.0,46,13,25,0.543,twilio-ruby/lib/twilio-ruby/rest/lookups/v2/lookup_override.rb,0.828
-rubocop-performance,tasks/changelog.rb,c07064ddee3f,code formatting,5.4,12,12,62,0.0,0,0.0,24,1,24,1.0,rubocop/tasks/changelog.rb,0.815
-rubocop-rails,tasks/changelog.rb,2ccba590ec47,code formatting,5.4,12,12,62,0.0,0,0.0,24,1,24,1.0,rubocop/tasks/changelog.rb,0.815
 twilio-ruby,lib/twilio-ruby/rest/api/v2010/account/call/transcription.rb,c58e213a6f04,third-party apis,9.0,62,0,66,0.0,2,0.0,38,14,19,0.5,twilio-ruby/lib/twilio-ruby/rest/api/v2010/account/call/stream.rb,0.81
 twilio-ruby,lib/twilio-ruby/rest/accounts/v1/credential.rb,c58e213a6f04,third-party apis,5.8,15,0,29,0.0,2,0.0,17,9,9,0.529,twilio-ruby/lib/twilio-ruby/rest/numbers/v2/regulatory_compliance.rb,0.8
 twilio-ruby,lib/twilio-ruby/rest/pricing/v1/voice.rb,c58e213a6f04,third-party apis,5.8,15,0,29,0.0,2,0.0,17,9,9,0.529,twilio-ruby/lib/twilio-ruby/rest/numbers/v2/regulatory_compliance.rb,0.8
@@ -142,7 +134,7 @@ rdoc,lib/rdoc/ri/task.rb,4e303b392092,documentation,3.4,5,0,0,0.0,2,0.0,5,1,3,0.
 rouge,lib/rouge/lexers/freefem.rb,afc3c52c2af0,code highlighting,33.4,113,100,0,0.0,4,0.0,5,3,4,0.8,rouge/lib/rouge/lexers/ecl.rb,0.75
 activerecord,lib/active_record/encryption/null_encryptor.rb,3989ebf3473d,orm/odm,3,3,0,0,0.0,0,0.0,4,3,3,0.75,activerecord/lib/active_record/encryption/read_only_null_encryptor.rb,0.75
 rouge,lib/rouge/lexers/plsql.rb,afc3c52c2af0,code highlighting,108.2,358,100,0,0.0,2,0.0,4,3,3,0.75,rouge/lib/rouge/lexers/css.rb,0.75
-rouge,lib/rouge/lexers/m68k.rb,afc3c52c2af0,code highlighting,14.8,32,100,0,0.0,2,0.0,4,3,4,1.0,rouge/lib/rouge/lexers/ecl.rb,0.75
+rouge,lib/rouge/lexers/m68k.rb,afc3c52c2af0,code highlighting,14.8,32,100,0,0.0,2,0.0,4,3,4,1.0,rouge/lib/rouge/lexers/brightscript.rb,0.75
 twilio-ruby,lib/twilio-ruby/rest/preview_iam/v1.rb,c58e213a6f04,third-party apis,3.8,6,0,0,0.0,2,0.0,4,4,3,0.75,twilio-ruby/lib/twilio-ruby/rest/flex_api/v2.rb,0.75
 twilio-ruby,lib/twilio-ruby/rest/insights/v3.rb,c58e213a6f04,third-party apis,3.8,6,0,0,0.0,2,0.0,4,4,3,0.75,twilio-ruby/lib/twilio-ruby/rest/flex_api/v2.rb,0.75
 twilio-ruby,lib/twilio-ruby/rest/studio/v2.rb,c58e213a6f04,third-party apis,5.8,11,0,25,0.0,2,0.0,4,4,4,1.0,twilio-ruby/lib/twilio-ruby/rest/ip_messaging/v2.rb,0.75
@@ -231,7 +223,6 @@ selenium-webdriver,lib/selenium/webdriver/safari/features.rb,9175ed94d83e,testin
 rouge,lib/rouge/lexers/groovy.rb,afc3c52c2af0,code highlighting,5,7,100,20,0.0,2,0.0,5,3,4,0.8,rouge/lib/rouge/lexers/javascript.rb,0.667
 liquid,lib/liquid/tags/increment.rb,7a5e45fc4784,template engine,4.6,8,0,60,0.5,1,0.0,5,2,5,1.0,liquid/lib/liquid/tags/decrement.rb,0.667
 gitlab,lib/gitlab/client/project_clusters.rb,4818c5712616,third-party apis,3.2,4,0,0,0.0,2,0.0,5,2,5,1.0,gitlab/lib/gitlab/client/milestones.rb,0.667
-mongo,profile/driver_bench/multi_doc/base.rb,049b718a2d47,database drivers,4.6,8,0,40,0.0,1,0.0,5,4,5,1.0,mongo/profile/driver_bench/single_doc/base.rb,0.667
 twilio-ruby,lib/twilio-ruby/rest/knowledge/v2/knowledge_basis.rb,c58e213a6f04,third-party apis,7.5,24,0,70,0.0,2,0.0,60,16,33,0.55,twilio-ruby/lib/twilio-ruby/rest/intelligence/v3/operator.rb,0.659
 twilio-ruby,lib/twilio-ruby/rest/numbers/v2/hosted_number_order.rb,c58e213a6f04,third-party apis,8.3,56,0,76,0.0,2,0.0,68,12,31,0.456,twilio-ruby/lib/twilio-ruby/rest/wireless/v1/sim.rb,0.658
 twilio-ruby,lib/twilio-ruby/rest/preview/hosted_numbers/hosted_number_order.rb,c58e213a6f04,third-party apis,9.1,58,0,76,0.0,2,0.0,66,12,31,0.47,twilio-ruby/lib/twilio-ruby/rest/wireless/v1/sim.rb,0.658
@@ -381,7 +372,7 @@ fastlane,fastlane/lib/fastlane/actions/default_platform.rb,38d0ec404332,mobile d
 geocoder,lib/geocoder/lookups/tencent.rb,d3515db46c57,geolocation,6,20,0,29,0.0,1,0.0,7,2,4,0.571,geocoder/lib/geocoder/lookups/baidu.rb,0.6
 geocoder,lib/geocoder/results/postcode_anywhere_uk.rb,d3515db46c57,geolocation,3.4,6,0,57,0.0,1,0.0,7,2,4,0.571,geocoder/lib/geocoder/results/postcodes_io.rb,0.6
 rouge,lib/rouge/lexers/stan.rb,afc3c52c2af0,code highlighting,47.3,172,100,17,0.0,2,0.0,6,3,5,0.833,rouge/lib/rouge/lexers/brightscript.rb,0.6
-rouge,lib/rouge/lexers/nial.rb,afc3c52c2af0,code highlighting,15.8,64,100,0,0.0,2,0.0,6,3,5,0.833,rouge/lib/rouge/lexers/ecl.rb,0.6
+rouge,lib/rouge/lexers/nial.rb,afc3c52c2af0,code highlighting,15.8,64,100,0,0.0,2,0.0,6,3,5,0.833,rouge/lib/rouge/lexers/idlang.rb,0.6
 fastlane,fastlane/lib/fastlane/actions/debug.rb,38d0ec404332,mobile development,3.5,5,100,0,0.0,1,0.0,6,3,4,0.667,fastlane/fastlane/lib/fastlane/actions/git_branch.rb,0.6
 twilio-ruby,lib/twilio-ruby/rest/events/v1.rb,c58e213a6f04,third-party apis,9.2,11,0,67,0.0,2,0.0,6,4,3,0.5,twilio-ruby/lib/twilio-ruby/rest/lookups/v2.rb,0.6
 rouge,lib/rouge/lexers/actionscript.rb,afc3c52c2af0,code highlighting,5.6,8,100,0,0.0,2,0.0,5,3,3,0.6,rouge/lib/rouge/lexers/haxe.rb,0.6
@@ -397,7 +388,6 @@ twilio-ruby,lib/twilio-ruby/rest/preview/wireless.rb,c58e213a6f04,third-party ap
 twilio-ruby,lib/twilio-ruby/rest/pricing/v2.rb,c58e213a6f04,third-party apis,8.6,11,0,60,0.0,2,0.0,5,4,3,0.6,twilio-ruby/lib/twilio-ruby/rest/lookups/v2.rb,0.6
 twilio-ruby,lib/twilio-ruby/rest/routes/v2.rb,c58e213a6f04,third-party apis,8.6,11,0,60,0.0,2,0.0,5,4,3,0.6,twilio-ruby/lib/twilio-ruby/rest/lookups/v2.rb,0.6
 activerecord,lib/active_record/connection_adapters/postgresql/oid/xml.rb,3989ebf3473d,orm/odm,3.2,4,0,0,0.0,1,0.0,4,6,3,0.75,listen/lib/listen/event/queue.rb,0.6
-knapsack,test_examples/fast/unit_test.rb,f394c8470281,testing,3.8,4,0,0,0.0,1,0.0,4,1,4,1.0,knapsack/test_examples/fast/shared_examples_test.rb,0.6
 rouge,lib/rouge/lexers/hlsl.rb,afc3c52c2af0,code highlighting,30.2,65,100,0,0.0,3,0.0,4,3,3,0.75,rouge/lib/rouge/lexers/sas.rb,0.6
 rouge,lib/rouge/lexers/irb.rb,afc3c52c2af0,code highlighting,4.5,9,0,0,0.25,3,0.0,4,4,3,0.75,ransack/lib/ransack/naming.rb,0.6
 oauth2,lib/oauth2/strategy/auth_code.rb,63727352546e,authentication and oauth,4.8,9,0,100,0.0,1,0.0,4,3,4,1.0,oauth2/lib/oauth2/strategy/implicit.rb,0.6
@@ -420,7 +410,6 @@ danger,lib/danger/commands/dry_run.rb,c94d38b3ce68,automation,10.2,17,25,50,0.0,
 gitlab,lib/gitlab/client/merge_trains.rb,4818c5712616,third-party apis,3,3,0,0,0.0,2,0.0,4,2,3,0.75,gitlab/lib/gitlab/client/project_release_links.rb,0.6
 gitlab,lib/gitlab/client/protected_tags.rb,4818c5712616,third-party apis,3.2,4,0,0,0.0,2,0.0,4,2,3,0.75,gitlab/lib/gitlab/client/milestones.rb,0.6
 doorkeeper,lib/doorkeeper/oauth/token_response.rb,75a84fefe686,authentication and oauth,5.8,10,0,25,0.0,0,0.0,4,3,4,1.0,fastlane/fastlane/lib/fastlane/actions/is_ci.rb,0.6
-mongo,profile/driver_bench/parallel/ldjson/import.rb,049b718a2d47,database drivers,4.8,7,0,50,0.0,3,0.0,4,6,4,1.0,mongo/profile/driver_bench/parallel/gridfs/upload.rb,0.6
 concurrent-ruby,lib/concurrent-ruby/concurrent/synchronization/abstract_object.rb,0b88d5ff75f6,concurrency and parallelism,3,3,33,0,0.0,0,0.0,3,3,3,1.0,shoulda-matchers/lib/shoulda/matchers/active_model/numericality_matchers/numeric_type_matcher.rb,0.6
 rouge,lib/rouge/lexers/lustre.rb,afc3c52c2af0,code highlighting,5,7,100,0,0.0,2,0.0,3,3,3,1.0,rouge/lib/rouge/lexers/haxe.rb,0.6
 rouge,lib/rouge/lexers/fortran.rb,afc3c52c2af0,code highlighting,21.3,36,100,0,0.0,2,0.0,3,3,3,1.0,rouge/lib/rouge/lexers/sas.rb,0.6
@@ -464,7 +453,6 @@ twilio-ruby,lib/twilio-ruby/rest/api/v2010/account/conference/participant.rb,c58
 twilio-ruby,lib/twilio-ruby/rest/notify/v1/service/binding.rb,c58e213a6f04,third-party apis,7.8,39,0,74,0.0,2,0.0,54,13,28,0.519,twilio-ruby/lib/twilio-ruby/rest/api/v2010/account/incoming_phone_number.rb,0.59
 twilio-ruby,lib/twilio-ruby/rest/intelligence/v2/transcript/operator_result.rb,c58e213a6f04,third-party apis,6.4,28,0,73,0.0,2,0.0,51,13,23,0.451,twilio-ruby/lib/twilio-ruby/rest/messaging/v1/service/us_app_to_person.rb,0.588
 twilio-ruby,lib/twilio-ruby/rest/assistants/v1/assistant/message.rb,c58e213a6f04,third-party apis,6.3,22,0,62,0.0,2,0.0,26,11,13,0.5,twilio-ruby/lib/twilio-ruby/rest/verify/v2/service/new_verify_factor.rb,0.588
-eventmachine,examples/guides/getting_started/07_simple_chat_server_step_four.rb,9cb13a8a6236,concurrency and parallelism,5,13,0,42,0.0,1,0.0,12,1,12,1.0,eventmachine/examples/guides/getting_started/03_simple_chat_server.rb,0.588
 twilio-ruby,lib/twilio-ruby/rest/iam/v1/o_auth_app.rb,c58e213a6f04,third-party apis,6.6,25,0,64,0.0,2,0.0,59,18,27,0.458,twilio-ruby/lib/twilio-ruby/rest/messaging/v2/channels_sender.rb,0.585
 twilio-ruby,lib/twilio-ruby/rest/conversations/v1/user/user_conversation.rb,c58e213a6f04,third-party apis,7,32,0,76,0.0,2,0.0,59,13,29,0.492,twilio-ruby/lib/twilio-ruby/rest/api/v2010/account/sip/domain.rb,0.585
 twilio-ruby,lib/twilio-ruby/rest/api/v2010/account/connect_app.rb,c58e213a6f04,third-party apis,8.0,42,0,73,0.0,2,0.0,52,13,29,0.558,twilio-ruby/lib/twilio-ruby/rest/api/v2010/account/sip/domain.rb,0.585
@@ -534,8 +522,8 @@ fastlane,fastlane/lib/fastlane/actions/setup_circle_ci.rb,38d0ec404332,mobile de
 fastlane,fastlane/lib/fastlane/actions/rsync.rb,38d0ec404332,mobile development,6.2,20,100,12,0.0,1,0.0,8,4,5,0.625,fastlane/fastlane/lib/fastlane/actions/git_tag_exists.rb,0.571
 fastlane,fastlane/lib/fastlane/actions/opt_out_usage.rb,38d0ec404332,mobile development,4,7,100,0,0.0,1,0.0,7,3,5,0.714,fastlane/fastlane/lib/fastlane/actions/download.rb,0.571
 fastlane,fastlane/lib/fastlane/actions/git_pull.rb,38d0ec404332,mobile development,6.6,14,100,14,0.0,1,0.0,7,3,5,0.714,fastlane/fastlane/lib/fastlane/actions/make_changelog_from_jenkins.rb,0.571
-fastlane,fastlane/lib/fastlane/actions/add_extra_platforms.rb,38d0ec404332,mobile development,4.7,9,100,14,0.0,1,0.0,7,3,5,0.714,fastlane/fastlane/lib/fastlane/actions/number_of_commits.rb,0.571
-fastlane,fastlane/lib/fastlane/actions/xcode_select.rb,38d0ec404332,mobile development,5.6,14,100,14,0.0,1,0.0,7,3,5,0.714,fastlane/fastlane/lib/fastlane/actions/xcodes.rb,0.571
+fastlane,fastlane/lib/fastlane/actions/add_extra_platforms.rb,38d0ec404332,mobile development,4.7,9,100,14,0.0,1,0.0,7,3,5,0.714,fastlane/fastlane/lib/fastlane/actions/ensure_git_branch.rb,0.571
+fastlane,fastlane/lib/fastlane/actions/xcode_select.rb,38d0ec404332,mobile development,5.6,14,100,14,0.0,1,0.0,7,3,5,0.714,fastlane/fastlane/lib/fastlane/actions/match_nuke.rb,0.571
 fastlane,fastlane/lib/fastlane/actions/say.rb,38d0ec404332,mobile development,6.1,14,100,14,0.0,1,0.0,7,3,5,0.714,fastlane/fastlane/lib/fastlane/actions/make_changelog_from_jenkins.rb,0.571
 gitlab,lib/gitlab/client/pipeline_triggers.rb,4818c5712616,third-party apis,3.6,7,0,0,0.0,2,0.0,7,2,6,0.857,gitlab/lib/gitlab/client/pipelines.rb,0.571
 gitlab,lib/gitlab/client/project_badges.rb,4818c5712616,third-party apis,3.2,4,0,0,0.0,2,0.0,6,2,6,1.0,gitlab/lib/gitlab/client/pipelines.rb,0.571
@@ -658,11 +646,11 @@ twilio-ruby,lib/twilio-ruby/rest/preview/wireless/rate_plan.rb,c58e213a6f04,thir
 twilio-ruby,lib/twilio-ruby/rest/sync/v1/service/sync_list/sync_list_item.rb,c58e213a6f04,third-party apis,8.9,36,0,74,0.0,2,0.0,54,14,31,0.574,twilio-ruby/lib/twilio-ruby/rest/conversations/v1/service/conversation/participant.rb,0.512
 twilio-ruby,lib/twilio-ruby/rest/sync/v1/service/sync_map/sync_map_item.rb,c58e213a6f04,third-party apis,9.0,36,0,74,0.0,2,0.0,54,14,31,0.574,twilio-ruby/lib/twilio-ruby/rest/conversations/v1/service/conversation/participant.rb,0.512
 twilio-ruby,lib/twilio-ruby/rest/conversations/v1/role.rb,c58e213a6f04,third-party apis,8.0,30,0,69,0.0,2,0.0,52,12,31,0.596,twilio-ruby/lib/twilio-ruby/rest/video/v1/composition_hook.rb,0.512
-twilio-ruby,lib/twilio-ruby/rest/ip_messaging/v1/credential.rb,c58e213a6f04,third-party apis,9.0,38,0,69,0.0,2,0.0,51,12,31,0.608,twilio-ruby/lib/twilio-ruby/rest/supersim/v1/sim.rb,0.512
-twilio-ruby,lib/twilio-ruby/rest/ip_messaging/v2/credential.rb,c58e213a6f04,third-party apis,9.0,38,0,69,0.0,2,0.0,51,12,31,0.608,twilio-ruby/lib/twilio-ruby/rest/supersim/v1/sim.rb,0.512
-twilio-ruby,lib/twilio-ruby/rest/notify/v1/credential.rb,c58e213a6f04,third-party apis,9.0,38,0,69,0.0,2,0.0,51,12,31,0.608,twilio-ruby/lib/twilio-ruby/rest/supersim/v1/sim.rb,0.512
-twilio-ruby,lib/twilio-ruby/rest/chat/v1/credential.rb,c58e213a6f04,third-party apis,9.0,38,0,69,0.0,2,0.0,51,12,31,0.608,twilio-ruby/lib/twilio-ruby/rest/supersim/v1/sim.rb,0.512
-twilio-ruby,lib/twilio-ruby/rest/chat/v2/credential.rb,c58e213a6f04,third-party apis,9.0,38,0,69,0.0,2,0.0,51,12,31,0.608,twilio-ruby/lib/twilio-ruby/rest/supersim/v1/sim.rb,0.512
+twilio-ruby,lib/twilio-ruby/rest/ip_messaging/v1/credential.rb,c58e213a6f04,third-party apis,9.0,38,0,69,0.0,2,0.0,51,12,31,0.608,twilio-ruby/lib/twilio-ruby/rest/video/v1/composition_hook.rb,0.512
+twilio-ruby,lib/twilio-ruby/rest/ip_messaging/v2/credential.rb,c58e213a6f04,third-party apis,9.0,38,0,69,0.0,2,0.0,51,12,31,0.608,twilio-ruby/lib/twilio-ruby/rest/video/v1/composition_hook.rb,0.512
+twilio-ruby,lib/twilio-ruby/rest/notify/v1/credential.rb,c58e213a6f04,third-party apis,9.0,38,0,69,0.0,2,0.0,51,12,31,0.608,twilio-ruby/lib/twilio-ruby/rest/video/v1/composition_hook.rb,0.512
+twilio-ruby,lib/twilio-ruby/rest/chat/v1/credential.rb,c58e213a6f04,third-party apis,9.0,38,0,69,0.0,2,0.0,51,12,31,0.608,twilio-ruby/lib/twilio-ruby/rest/video/v1/composition_hook.rb,0.512
+twilio-ruby,lib/twilio-ruby/rest/chat/v2/credential.rb,c58e213a6f04,third-party apis,9.0,38,0,69,0.0,2,0.0,51,12,31,0.608,twilio-ruby/lib/twilio-ruby/rest/video/v1/composition_hook.rb,0.512
 twilio-ruby,lib/twilio-ruby/rest/conversations/v1/credential.rb,c58e213a6f04,third-party apis,9.1,39,0,69,0.0,2,0.0,51,12,31,0.608,twilio-ruby/lib/twilio-ruby/rest/video/v1/composition_hook.rb,0.512
 twilio-ruby,lib/twilio-ruby/rest/assistants/v1/assistant/assistants_tool.rb,c58e213a6f04,third-party apis,6.4,23,0,71,0.0,2,0.0,49,13,26,0.531,twilio-ruby/lib/twilio-ruby/rest/api/v2010/account/sip/domain.rb,0.512
 twilio-ruby,lib/twilio-ruby/rest/assistants/v1/assistant/assistants_knowledge.rb,c58e213a6f04,third-party apis,6.4,23,0,71,0.0,2,0.0,49,13,26,0.531,twilio-ruby/lib/twilio-ruby/rest/api/v2010/account/sip/domain.rb,0.512

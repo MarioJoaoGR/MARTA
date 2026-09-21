@@ -1,0 +1,110 @@
+componente,gem,categoria,modulos,escolhido
+state_machines#2,state_machines,state machines,20,False
+capybara#0,capybara,testing,19,False
+danger#7,danger,automation,19,True
+logging#0,logging,logging,19,False
+sprockets#3,sprockets,assets,17,True
+activerecord#0,activerecord,orm/odm,16,False
+jwt#0,jwt,authentication and oauth,16,False
+listen#0,listen,file system listener,16,False
+eventmachine#3,eventmachine,concurrency and parallelism,16,False
+rake#0,rake,cli builder,15,False
+tzinfo#1,tzinfo,date and time processing,15,False
+paper_trail#0,paper_trail,orm/odm extensions,15,False
+dalli#0,dalli,caching,15,False
+activerecord#116,activerecord,orm/odm,14,False
+kramdown#0,kramdown,markdown processors,14,False
+debug#1,debug,developer tooling,14,True
+coderay#0,coderay,code highlighting,13,False
+devise#0,devise,authentication and oauth,13,False
+brakeman#0,brakeman,code analysis and metrics,13,False
+active_model_serializers#0,active_model_serializers,api builder and discovery,13,False
+aasm#0,aasm,state machines,13,False
+knapsack#0,knapsack,testing,12,False
+carrierwave#0,carrierwave,file upload,12,False
+cocoapods#29,cocoapods,package management,11,False
+virtus#0,virtus,core extensions,11,False
+httpclient#0,httpclient,http clients and tools,10,False
+bootsnap#0,bootsnap,optimizations,10,False
+thin#0,thin,web servers,10,False
+rest-client#0,rest-client,http clients and tools,9,True
+haml#0,haml,template engine,9,False
+vcr#0,vcr,testing,9,False
+i18n#0,i18n,internationalization,8,False
+factory_bot#12,factory_bot,testing,8,False
+bullet#0,bullet,profiler and optimization,8,False
+gli#0,gli,cli builder,8,False
+mongo#5,mongo,database drivers,8,True
+prawn#0,prawn,pdf,8,False
+excon#0,excon,http clients and tools,7,False
+httparty#0,httparty,http clients and tools,7,False
+spring#0,spring,testing,7,False
+countries#0,countries,country data,7,False
+roo#2,roo,spreadsheets and documents,7,False
+mongo#77,mongo,database drivers,7,False
+activesupport#67,activesupport,core extensions,6,False
+capybara#35,capybara,testing,6,True
+rubocop-rails#0,rubocop-rails,code formatting,6,False
+omniauth#0,omniauth,authentication and oauth,6,False
+ransack#5,ransack,search,6,False
+minitest#1,minitest,testing,5,False
+rspec#11,rspec,testing,5,False
+rack-protection#0,rack-protection,security,5,False
+awesome_print#11,awesome_print,cli utilities,5,False
+kaminari#0,kaminari,pagination,5,False
+parallel_tests#0,parallel_tests,testing,5,True
+rufus-scheduler#0,rufus-scheduler,scheduling,5,False
+wisper#0,wisper,business logic,5,False
+gitlab#7,gitlab,third-party apis,5,False
+better_errors#0,better_errors,error handling,5,False
+activerecord#12,activerecord,orm/odm,4,False
+zeitwerk#2,zeitwerk,code loaders,4,False
+simplecov#17,simplecov,code analysis and metrics,4,False
+pg#0,pg,database drivers,4,False
+fastlane#126,fastlane,mobile development,4,False
+bundler-audit#0,bundler-audit,security,4,False
+chronic#3,chronic,date and time processing,4,False
+danger#38,danger,automation,4,False
+ransack#7,ransack,search,4,False
+aasm#3,aasm,state machines,4,True
+mongo#40,mongo,database drivers,4,False
+savon#0,savon,http clients and tools,4,False
+savon#12,savon,http clients and tools,4,False
+activesupport#80,activesupport,core extensions,3,False
+minitest#2,minitest,testing,3,False
+addressable#0,addressable,core extensions,3,True
+activerecord#2,activerecord,orm/odm,3,False
+activerecord#5,activerecord,orm/odm,3,True
+activerecord#86,activerecord,orm/odm,3,False
+rubocop#119,rubocop,code formatting,3,False
+simplecov#18,simplecov,code analysis and metrics,3,False
+simplecov#21,simplecov,code analysis and metrics,3,False
+simplecov#46,simplecov,code analysis and metrics,3,False
+hashie#7,hashie,core extensions,3,False
+sawyer#1,sawyer,http clients and tools,3,False
+knapsack#1,knapsack,testing,3,False
+selenium-webdriver#17,selenium-webdriver,testing,3,False
+selenium-webdriver#26,selenium-webdriver,testing,3,False
+eventmachine#8,eventmachine,concurrency and parallelism,3,False
+rouge#19,rouge,code highlighting,3,True
+childprocess#0,childprocess,processes,3,False
+warden#3,warden,authentication and oauth,3,False
+rubocop-rails#1,rubocop-rails,code formatting,3,False
+rubocop-rspec#27,rubocop-rspec,code formatting,3,False
+typhoeus#6,typhoeus,http clients and tools,3,False
+formatador#0,formatador,cli utilities,3,False
+timecop#0,timecop,testing,3,False
+activerecord-import#5,activerecord-import,orm/odm extensions,3,True
+rack-attack#0,rack-attack,security,3,False
+sentry-ruby#4,sentry-ruby,error handling,3,False
+commander#0,commander,cli builder,3,True
+danger#40,danger,automation,3,False
+gitlab#0,gitlab,third-party apis,3,True
+roo#0,roo,spreadsheets and documents,3,False
+doorkeeper#12,doorkeeper,authentication and oauth,3,False
+gli#2,gli,cli builder,3,False
+gli#6,gli,cli builder,3,False
+aasm#1,aasm,state machines,3,False
+mongo#1,mongo,database drivers,3,False
+mongo#64,mongo,database drivers,3,False
+savon#7,savon,http clients and tools,3,False

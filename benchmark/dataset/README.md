@@ -5,6 +5,21 @@ da anterior e escreve o seu em `apresentacao/demo_dataset/<n>_<nome>/`.
 
 A unidade é o **módulo** (ficheiro Ruby), como no CodaMosa e no CoverUp.
 
+## Duas contribuições no mesmo processo
+
+As três primeiras camadas produzem um **dataset Ruby geral**: projetos públicos
+relevantes, apenas o código entregue pela gem, representação estrutural extraída
+com o Prism e oito características por módulo. Este artefacto pode ser reutilizado
+sem a MARTA e não pressupõe que o módulo seja adequado para geração de testes.
+
+As camadas 4 a 7 refinam esse dataset para construir o **corpus experimental da
+MARTA-Ruby**. A elegibilidade, a desduplicação, a certificação do ambiente e a
+seleção de grupos respondem às necessidades desta avaliação. A camada 6 mantém-se
+depois da 5 porque certifica apenas os candidatos que ainda podem entrar no
+benchmark, no ambiente concreto da ferramenta. Certificar também toda a população
+da camada 3 seria um artefacto adicional de compatibilidade, não uma condição para
+o dataset descritivo existir.
+
 ```bash
 source scripts/ruby_env.sh          # obrigatório: as camadas 2 e 6 usam Ruby
 
@@ -13,8 +28,8 @@ python -m benchmark.dataset.camada2_parser              # ~5 min, clona 133 gems
 python -m benchmark.dataset.camada3_caracteristicas     # segundos
 python -m benchmark.dataset.camada4_elegibilidade       # segundos
 python -m benchmark.dataset.camada5_desduplicacao       # ~1 min
-python -m benchmark.dataset.camada6_carregamento        # ~20 min, instala
-python -m benchmark.dataset.camada7_selecao             # ~2 min
+python -m benchmark.dataset.camada6_carregamento        # ~1 h 20, instala e certifica
+python -m benchmark.dataset.camada7_selecao             # ~6 min
 ```
 
 As camadas 2 e 6 aceitam `--continuar` e retomam de onde ficaram: nenhuma cabe
@@ -26,13 +41,16 @@ GitHub com frequência.
 | camada | o que decide | resultado |
 |---|---|---|
 | 1 universo | awesome-ruby ∩ RubyGems, ≥100M descargas | 133 gems, 59 categorias |
-| 2 parser | clona a etiqueta da versão, lê com o Prism | 10 765 módulos, 96 440 métodos |
-| 3 características | mede as oito, não exclui nada | 9 074 com métodos |
-| 4 elegibilidade | ≥3 formas distintas **e** formas/métodos ≥0,4 | 6 343 |
-| 5 desduplicação | semelhança >0,50 descarta | 5 672 |
-| 6 carregamento | instala o declarado e tenta carregar | 5 217 |
-| só código + porta RSpec | dentro das pastas de código, e carrega pelo RSpec da ferramenta | 5 131 |
-| 7 seleção | ranking de diversidade + grupos com chamadas garantidas | 500 (107 gems, 7 685 métodos) |
+| 2 parser | clona a etiqueta da versão; lê com o Prism só o código do projeto | 9 786 módulos, 95 075 métodos |
+| 3 características | mede as oito, não exclui nada | 8 776 com métodos |
+| 4 elegibilidade | ≥3 formas distintas **e** formas/métodos ≥0,4 | 6 202 |
+| 5 desduplicação | semelhança >0,50 descarta | 5 543 |
+| 6 carregamento | instala o declarado; carrega num processo limpo **e** pelo RSpec da ferramenta | 5 093 |
+| 7 seleção | ranking de diversidade + grupos com chamadas garantidas | 250 (80 gems, 3 800 métodos-alvo) |
+
+A decisão experimental é **250 módulos, fatia alvo de 50% em grupos e
+Qwen2.5-Coder 32B**. Os custos medidos no piloto e a comparação das alternativas
+ficam em `apresentacao/construcao_dataset.docx`, secção *Decisão*.
 
 ## As constantes, e porquê
 
@@ -42,14 +60,17 @@ varrimentos ficam gravados ao lado dos artefactos.
 | constante | valor | onde | justificação |
 |---|---|---|---|
 | descargas mínimas | 100M | camada 1 | filtro objetivo de relevância |
-| chão de formas | 3 | camada 4 | tira 30% dos ficheiros mas só 5% dos métodos |
+| chão de formas | 3 | camada 4 | tira 28% dos ficheiros mas só 5% dos métodos |
 | proporção mínima | 0,4 | camada 4 | acima disso caem os módulos mais ricos |
 | limiar de semelhança | 0,50 | camada 5 | planalto entre 0,3 e 0,9; empate entra |
 | tamanho de grupo | 3 a 20 | camada 7 | com 2 há uma aresta só; acima de 20 é um subsistema inteiro |
-| orçamento | 500 | camada 7 | decisão do utilizador, perto dos 486 do CodaMosa |
-| fatia de grupos | 50% | camada 7 | decisão do utilizador (50% ou 75%, por decidir) |
+| orçamento | 250 | camada 7 | compromisso entre diversidade, ablação completa e orçamento do modelo 32B |
+| fatia de grupos | 50% | camada 7 | conserva mais diversidade do que 75% e ainda cria contexto intermodular suficiente |
 
 ## Reprodução verificada (2026-09-16)
+
+Feita na versão anterior da construção (com os dois filtros no início da camada 7). A 17–18 de setembro as camadas 2 a 7 voltaram a correr de raiz com a estrutura
+atual; a comparação camada a camada desta versão ainda não foi repetida.
 
 Cada camada foi corrida outra vez numa pasta à parte (`MARTA_DATASET_DIR`), com as
 entradas originais, e comparada com o artefacto guardado. **Nunca se verifica
@@ -128,11 +149,9 @@ quase metade de aplicações (`ansible`, `black`, `httpie`, `youtube-dl`, e o
 Também não se exclui por não haver `lib/`: das 133, as duas que não a têm são
 monorepos (`rspec`, `fastlane`), e o código está lá.
 
-Consequência assumida: cinco dos 500 alvos não são código de biblioteca
-(`kramdown/setup.rb`, `pg/rakelib/task_extension.rb`, `pg/sample/…`,
-`httparty/examples/…`, `concurrent-ruby/docs-source/…`). Passaram as camadas 3 a
-6 como qualquer outro módulo e carregam; ficam, porque excluí-los seria um
-critério por nome, que é precisamente o que esta secção recusa.
+O que se exclui é o que não é código do projeto (exemplos, benchmarks, tarefas de
+build), e isso decide-se pela pasta onde o ficheiro vive, não pelo nome nem pelo
+tipo de projeto: ver *Só código do projeto*, abaixo.
 
 ## Cinco bugs de assunção encontrados ao construir
 
@@ -158,47 +177,45 @@ Regra que saiu disto: **preferir a declaração à suposição, e quando há dua
 declarações que discordam, arranjar um teste objetivo em vez de escolher em quem
 confiar.**
 
-## Dois filtros entre a camada 6 e a 7
+## Só código do projeto (camada 2)
 
-### Só código do projeto
+A camada 2 tira a suíte humana (`spec/`, `test/`) e tudo o que está fora das
+**pastas de código da gem**, as mesmas que a ferramenta põe no *load path*
+(`lib/`, `src/`, `app/` e, nos monorepos, `<componente>/lib`), o equivalente Ruby
+ao `src`. Saem assim os scripts auxiliares que vivem no repositório: benchmarks
+(`mongo/profile/`), exemplos (`puma/examples/`), tarefas de rake (`pg/rakelib/`,
+`byebug/tasks/`), o gerador do site (`thin/site/`) e a configuração de extensões
+em C (`eventmachine/ext/extconf.rb`). **980 ficheiros.**
 
-A camada 2 tira a suíte humana (`spec/`, `test/`), os moldes, as *fixtures* e o
-`vendor`, mas deixa os scripts auxiliares que vivem no repositório: benchmarks
-(`mongo/profile/`, `puma/benchmarks/`), exemplos (`puma/examples/`), tarefas de
-rake (`pg/rakelib/`, `byebug/tasks/`), o gerador do site (`thin/site/`) e a
-configuração de extensões em C (`eventmachine/ext/extconf.rb`). Não é código que
-o projeto entregue, e testá-lo não diz nada sobre o projeto.
+Estava no início da camada 7; passou para a camada 2 porque o que não é código do
+projeto não deve contar em nenhuma camada (antes já tinha passado pela
+elegibilidade e pela desduplicação). Não é uma exclusão por tipo de projeto:
+aplicações e *frameworks* continuam.
 
-Critério: o módulo tem de estar dentro das **pastas de código da gem**, as
-mesmas que a ferramenta põe no *load path* (`lib/`, `src/`, `app/` e, nos
-monorepos, `<componente>/lib`). É o equivalente Ruby ao `src`. Saem **74 de
-5 217** (1,4%). Não interfere com a desduplicação: nenhum módulo de código foi
-descartado por ser cópia de um ficheiro de fora.
+## Duas fases na camada 6
 
-Não é uma exclusão por tipo de projeto: aplicações e *frameworks* continuam
-(ver camada 2).
+Um módulo só fica certificado se carregar num processo Ruby limpo **e** pelo
+executor de testes da ferramenta: um spec que só faz `require`, corrido pela
+mesma função que a MARTA usa, no mesmo clone e com as mesmas gems, e com o
+ficheiro a aparecer na cobertura. O RSpec traz os seus argumentos, já está
+carregado e corre dentro da pasta do projeto; na população, **51 módulos**
+passam na primeira fase e falham na segunda:
 
-### A porta RSpec
-
-A camada 6 carrega cada módulo num processo Ruby limpo. A ferramenta corre o
-RSpec: com os argumentos dele, com ele carregado e dentro da pasta do projeto.
-Verificados os 5 217 pela função que a ferramenta usa (`verifica_ambiente`),
-**17 falham**, por três causas:
-
-| causa | módulos | exemplo |
-|---|---|---|
-| o módulo interfere com o próprio *runner* | 6 | ativa o Minitest ou o Test::Unit, ou lê argumentos ao carregar, e recusa o `-O` do RSpec; ou redefine classes do próprio RSpec |
-| scripts de desenvolvimento | 7 | `bundler/inline` instala gems ao carregar (puma); `bundler/setup` lê o Gemfile e pede gems só de desenvolvimento (spring, i18n) |
-| falta o contexto do *framework* | 4 | *generators* e validadores do doorkeeper que só existem dentro de uma aplicação Rails |
+| causa | módulos |
+|---|---|
+| redefinem classes do próprio RSpec | 46 (rspec) |
+| a extensão em C não é encontrada pelo caminho do RSpec | 2 (mysql2) |
+| `bundler/setup` lê o Gemfile e termina o processo | 2 (spring) |
+| arranca o Minitest e recusa o `-O` do RSpec | 1 (minitest) |
 
 Não falham sozinhos: carregados junto com os outros alvos da gem, **apagam a
-cobertura deles**. No puma e no spring, 49 módulos que carregavam ficavam sem
-cobertura por causa de 6. Sem os 17, os 239 módulos dessas quatro gems carregam
-e aparecem todos na cobertura.
+cobertura deles**. Saem para `6_carregamento/falham_rspec.csv`. A camada
+confirma antes de clonar que o RSpec responde; sem isso barraria a população
+inteira por um erro de ambiente.
 
-5 dos 17 também estão fora das pastas de código; a porta tira mais 12. A lista
-fica em `6_carregamento/falham_rspec.csv`, e o `porta_rspec.py` tem os comandos
-para a refazer.
+O `ambiente` gravado no `gems.csv` é o degrau **em vigor** quando os módulos
+foram carregados, mesmo que a porta nunca abra (a doorkeeper carrega com o
+Gemfile do projeto); é esse que o `prepare_ruby_projects` reproduz no cluster.
 
 ## Uma limitação medida, e o que a camada 7 faz com ela
 
@@ -237,19 +254,19 @@ resolver da ferramenta adivinha quando o nome é ambíguo (fica com a primeira
 classe com o mesmo nome curto) e aceita *duck typing* com até 5 candidatos; essas
 arestas dizem que **pode** chamar, e não contam.
 
-Com 500 módulos e fatia de 50% (as constantes atuais), sobre os 5 131 módulos
-da população: 35 grupos com 252 módulos, dos quais 46 já estavam entre os 500
-melhores; saíram 206 do fim do ranking. No total, 282 módulos têm chamada
-garantida com outro módulo do corpus (30 deles vindos do ranking, por acaso). O
-corpus tem 107 gems, 59 categorias e 7 685 métodos.
+Com 250 módulos e fatia alvo de 50%, sobre os 5 093 módulos da população: entram
+19 grupos inteiros com 139 módulos, dos quais 11 já estavam entre os 250 melhores;
+saem 128 módulos do fim do ranking. A fatia real é 55,6%, porque um grupo nunca é
+partido para acertar exatamente nos 125. No total, 146 módulos têm uma chamada
+estática de alta confiança com outro módulo do corpus, incluindo 7 que já vinham
+do ranking. O corpus tem 80 gems, 55 categorias, 4 039 métodos analisados e
+3 800 métodos-alvo da ferramenta.
 
-O ranking é sensível à população: tirar os 17 módulos da porta mudou cerca de 30%
-de cada variante (no de 500, ficaram 348 dos 500). Não é defeito do critério, é o
-*farthest-first*: cada escolha depende das anteriores. Mas quer dizer que o corpus
-só se fixa depois de a população estar fechada.
+O ranking é sensível à população: cada escolha do *farthest-first* depende das
+anteriores, por isso mudar a população muda uma parte grande de cada variante.
+O corpus só se fixa depois de a população estar fechada.
 
-O tamanho e a fatia são decisão ainda por tomar. As alternativas estudam-se sem
-mexer no código:
+As alternativas continuam reproduzíveis sem mexer no código:
 
 ```bash
 MARTA_DATASET_DIR=/outra/pasta MARTA_ORCAMENTO=250 MARTA_FATIA_GRUPOS=0.75 \

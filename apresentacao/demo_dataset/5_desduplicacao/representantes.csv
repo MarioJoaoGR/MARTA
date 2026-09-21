@@ -59,7 +59,6 @@ active_model_serializers,lib/active_model_serializers/register_jsonapi_renderer.
 active_model_serializers,lib/active_model_serializers/serializable_resource.rb,6934c8bd31f4,api builder and discovery,4.5,12,0,80,0.5,0,0.0,10,2,9,0.9
 active_model_serializers,lib/active_model_serializers/serialization_context.rb,6934c8bd31f4,api builder and discovery,4.8,12,60,40,0.0,0,20.0,5,3,5,1.0
 active_model_serializers,lib/generators/rails/serializer_generator.rb,6934c8bd31f4,api builder and discovery,4.5,9,0,75,0.0,1,0.0,4,3,4,1.0
-activerecord,examples/performance.rb,3989ebf3473d,orm/odm,1.9,3,67,44,0.0,1,0.0,9,4,7,0.778
 activerecord,lib/active_record.rb,3989ebf3473d,orm/odm,7.9,21,100,33,0.86,0,5.6,18,7,18,1.0
 activerecord,lib/active_record/aggregations.rb,3989ebf3473d,orm/odm,10.3,24,0,71,0.33,0,71.4,7,3,7,1.0
 activerecord,lib/active_record/association_relation.rb,3989ebf3473d,orm/odm,3.7,7,0,71,0.0,1,0.0,7,2,7,1.0
@@ -568,7 +567,6 @@ bootsnap,lib/bootsnap/load_path_cache/loaded_features_index.rb,e099ec707644,opti
 bootsnap,lib/bootsnap/load_path_cache/path.rb,e099ec707644,optimizations,9.8,24,0,80,0.0,0,0.0,10,3,9,0.9
 bootsnap,lib/bootsnap/load_path_cache/path_scanner.rb,e099ec707644,optimizations,22.2,39,100,100,0.0,0,0.0,4,3,4,1.0
 bootsnap,lib/bootsnap/load_path_cache/store.rb,e099ec707644,optimizations,9.3,21,0,82,0.0,0,0.0,11,3,11,1.0
-brakeman,gem_common.rb,fffc4837becb,code analysis and metrics,8,11,100,100,0.0,0,0.0,3,2,3,1.0
 brakeman,lib/brakeman.rb,fffc4837becb,code analysis and metrics,16.1,39,100,78,0.0,1,0.0,32,5,30,0.938
 brakeman,lib/brakeman/app_tree.rb,fffc4837becb,code analysis and metrics,7.7,27,6,62,0.0,0,0.0,34,2,30,0.882
 brakeman,lib/brakeman/call_index.rb,fffc4837becb,code analysis and metrics,11.9,51,0,79,0.0,0,0.0,19,1,17,0.895
@@ -727,7 +725,6 @@ bundler-audit,lib/bundler/audit/results/insecure_source.rb,f8b06ebbefdd,security
 bundler-audit,lib/bundler/audit/results/unpatched_gem.rb,f8b06ebbefdd,security,6,10,0,75,0.0,1,0.0,4,4,4,1.0
 bundler-audit,lib/bundler/audit/scanner.rb,f8b06ebbefdd,security,11.2,21,0,75,0.0,0,0.0,8,3,8,1.0
 bundler-audit,lib/bundler/audit/task.rb,f8b06ebbefdd,security,8,21,0,0,0.0,1,0.0,5,4,4,0.8
-byebug,docker/manager.rb,aff644023372,debugging tools,5.5,15,50,19,0.0,0,0.0,26,2,23,0.885
 byebug,lib/byebug/attacher.rb,aff644023372,debugging tools,6.5,10,50,25,0.0,0,0.0,4,2,4,1.0
 byebug,lib/byebug/breakpoint.rb,aff644023372,debugging tools,4.3,8,89,33,0.0,0,11.1,9,2,9,1.0
 byebug,lib/byebug/command.rb,aff644023372,debugging tools,4,7,56,56,1.0,0,0.0,9,2,9,1.0
@@ -817,7 +814,6 @@ byebug,lib/byebug/settings/linetrace.rb,aff644023372,debugging tools,3,3,0,0,0.0
 byebug,lib/byebug/settings/post_mortem.rb,aff644023372,debugging tools,3,3,0,0,0.0,1,0.0,4,2,4,1.0
 byebug,lib/byebug/source_file_formatter.rb,aff644023372,debugging tools,4.1,12,0,36,0.5,0,0.0,11,2,11,1.0
 byebug,lib/byebug/subcommands.rb,aff644023372,debugging tools,4.5,9,25,75,0.67,0,0.0,4,3,4,1.0
-byebug,tasks/linter.rb,aff644023372,debugging tools,5.4,18,0,50,0.8,0,0.0,14,5,12,0.857
 capybara,lib/capybara.rb,a210c6e57872,testing,5.9,24,100,36,0.06,3,8.0,25,18,21,0.84
 capybara,lib/capybara/config.rb,a210c6e57872,testing,5.2,10,0,38,0.5,0,0.0,8,2,7,0.875
 capybara,lib/capybara/dsl.rb,a210c6e57872,testing,3.4,4,40,60,0.5,0,0.0,5,2,5,1.0
@@ -1093,7 +1089,6 @@ coderay,lib/coderay/scanners/ruby/string_state.rb,d30855fe96e3,code highlighting
 coderay,lib/coderay/scanners/scanner.rb,d30855fe96e3,code highlighting,6.1,20,24,59,0.67,1,0.0,29,3,28,0.966
 coderay,lib/coderay/tokens.rb,d30855fe96e3,code highlighting,9.2,64,0,33,0.0,1,0.0,9,2,6,0.667
 coderay,lib/coderay/tokens_proxy.rb,d30855fe96e3,code highlighting,4.7,7,0,67,0.0,0,16.7,6,2,6,1.0
-coderay,rake_tasks/code_statistics.rb,d30855fe96e3,code highlighting,11.3,53,0,82,0.0,0,0.0,11,1,10,0.909
 colorize,lib/colorize/class_methods.rb,a252d8af6b76,cli utilities,5.7,11,0,55,0.0,0,15.0,20,2,14,0.7
 colorize,lib/colorize/instance_methods.rb,a252d8af6b76,cli utilities,5.9,11,0,40,0.0,0,0.0,15,2,15,1.0
 commander,lib/commander/command.rb,b4c6be4b149c,cli builder,5.1,11,0,73,0.33,0,20.0,15,3,14,0.933
@@ -1102,17 +1097,6 @@ commander,lib/commander/help_formatters/base.rb,b4c6be4b149c,cli builder,3,3,0,3
 commander,lib/commander/help_formatters/terminal.rb,b4c6be4b149c,cli builder,3,3,0,0,0.0,1,0.0,3,3,3,1.0
 commander,lib/commander/runner.rb,b4c6be4b149c,cli builder,7.7,38,9,64,0.0,2,0.0,33,4,31,0.939
 commander,lib/commander/user_interaction.rb,b4c6be4b149c,cli builder,7.4,32,0,83,0.0,0,6.7,30,4,28,0.933
-concurrent-ruby,docs-source/actor/define.out.rb,0b88d5ff75f6,concurrency and parallelism,6.7,12,0,67,0.0,2,0.0,3,1,3,1.0
-concurrent-ruby,docs-source/actor/io.out.rb,0b88d5ff75f6,concurrency and parallelism,3.5,5,0,0,0.0,2,0.0,4,2,3,0.75
-concurrent-ruby,docs-source/actor/supervision_tree.out.rb,0b88d5ff75f6,concurrency and parallelism,7.4,11,0,60,0.0,2,0.0,5,2,5,1.0
-concurrent-ruby,docs-source/medium-example.init.rb,0b88d5ff75f6,concurrency and parallelism,3,4,67,0,0.0,0,0.0,3,0,3,1.0
-concurrent-ruby,docs-source/medium-example.out.rb,0b88d5ff75f6,concurrency and parallelism,10.2,33,50,83,0.0,0,0.0,6,2,6,1.0
-concurrent-ruby,docs-source/top-stock-scala/top-stock.rb,0b88d5ff75f6,concurrency and parallelism,10,13,0,67,0.0,0,0.0,3,0,3,1.0
-concurrent-ruby,examples/a-tour-of-go-channels/equivalent-binary-trees.rb,0b88d5ff75f6,concurrency and parallelism,16.7,26,0,100,0.0,0,0.0,3,0,3,1.0
-concurrent-ruby,examples/actor_stress_test.rb,0b88d5ff75f6,concurrency and parallelism,12.7,35,0,83,1.0,2,33.3,6,2,6,1.0
-concurrent-ruby,examples/benchmark_atomic_1.rb,0b88d5ff75f6,concurrency and parallelism,14,36,0,67,0.0,0,0.0,3,0,3,1.0
-concurrent-ruby,examples/benchmark_read_write_lock.rb,0b88d5ff75f6,concurrency and parallelism,8.6,44,0,56,0.0,0,0.0,9,3,9,1.0
-concurrent-ruby,examples/thread_local_memory_usage.rb,0b88d5ff75f6,concurrency and parallelism,7.7,10,0,100,0.0,0,0.0,3,0,3,1.0
 concurrent-ruby,lib/concurrent-ruby-edge/concurrent/actor.rb,0b88d5ff75f6,concurrency and parallelism,5.8,11,100,80,0.0,0,0.0,5,2,5,1.0
 concurrent-ruby,lib/concurrent-ruby-edge/concurrent/actor/behaviour.rb,0b88d5ff75f6,concurrency and parallelism,4.6,7,100,0,0.0,0,0.0,7,3,6,0.857
 concurrent-ruby,lib/concurrent-ruby-edge/concurrent/actor/behaviour/abstract.rb,0b88d5ff75f6,concurrency and parallelism,3.5,5,0,67,0.5,0,0.0,6,4,6,1.0
@@ -1383,7 +1367,6 @@ devise,app/controllers/devise/registrations_controller.rb,9ea459de9aec,authentic
 devise,app/controllers/devise/sessions_controller.rb,9ea459de9aec,authentication and oauth,5.4,8,0,60,0.0,2,0.0,10,1,10,1.0
 devise,app/controllers/devise/unlocks_controller.rb,9ea459de9aec,authentication and oauth,5.7,12,0,50,0.0,2,0.0,6,1,5,0.833
 devise,app/controllers/devise_controller.rb,9ea459de9aec,authentication and oauth,5.7,18,5,73,1.0,1,9.1,22,1,22,1.0
-devise,guides/bug_report_templates/integration_test.rb,9ea459de9aec,authentication and oauth,5.5,8,0,50,0.5,3,0.0,4,6,4,1.0
 devise,lib/devise.rb,9ea459de9aec,authentication and oauth,7.7,44,89,42,0.43,0,5.3,19,7,19,1.0
 devise,lib/devise/controllers/helpers.rb,9ea459de9aec,authentication and oauth,8.6,43,6,67,0.6,1,33.3,18,5,18,1.0
 devise,lib/devise/controllers/rememberable.rb,9ea459de9aec,authentication and oauth,4.9,8,14,86,0.0,0,0.0,7,3,7,1.0
@@ -1536,13 +1519,6 @@ dry-types,lib/dry/types/result.rb,1a13fb04926f,type signatures and type checking
 dry-types,lib/dry/types/schema.rb,1a13fb04926f,type signatures and type checking,8.2,46,0,71,0.33,2,0.0,24,3,24,1.0
 dry-types,lib/dry/types/schema/key.rb,1a13fb04926f,type signatures and type checking,4.2,13,0,92,1.5,2,0.0,12,4,12,1.0
 dry-types,lib/dry/types/sum.rb,1a13fb04926f,type signatures and type checking,4.8,11,12,75,0.33,0,0.0,8,3,8,1.0
-eventmachine,examples/guides/getting_started/03_simple_chat_server.rb,9cb13a8a6236,concurrency and parallelism,5.1,13,0,53,0.0,1,0.0,17,1,15,0.882
-eventmachine,examples/guides/getting_started/05_simple_chat_server_step_two.rb,9cb13a8a6236,concurrency and parallelism,3.7,4,0,0,0.0,1,0.0,3,1,3,1.0
-eventmachine,examples/guides/getting_started/06_simple_chat_server_step_three.rb,9cb13a8a6236,concurrency and parallelism,5,13,0,33,0.0,1,0.0,9,1,9,1.0
-eventmachine,examples/old/ex_channel.rb,9cb13a8a6236,concurrency and parallelism,3,3,50,25,0.0,1,0.0,4,1,4,1.0
-eventmachine,examples/old/ex_tick_loop_counter.rb,9cb13a8a6236,concurrency and parallelism,3.5,4,0,25,0.0,0,0.0,4,1,4,1.0
-eventmachine,ext/extconf.rb,9cb13a8a6236,concurrency and parallelism,6.7,19,0,71,0.0,0,0.0,7,0,7,1.0
-eventmachine,ext/fastfilereader/extconf.rb,9cb13a8a6236,concurrency and parallelism,3,3,0,67,0.0,0,0.0,3,0,3,1.0
 eventmachine,lib/em/buftok.rb,9cb13a8a6236,concurrency and parallelism,10.7,19,0,100,0.0,0,0.0,3,1,3,1.0
 eventmachine,lib/em/channel.rb,9cb13a8a6236,concurrency and parallelism,4.4,8,0,57,0.0,0,0.0,7,2,7,1.0
 eventmachine,lib/em/completion.rb,9cb13a8a6236,concurrency and parallelism,4.7,11,0,47,0.5,0,0.0,17,2,13,0.765
@@ -1577,7 +1553,6 @@ eventmachine,lib/em/tick_loop.rb,9cb13a8a6236,concurrency and parallelism,5.7,11
 eventmachine,lib/em/timers.rb,9cb13a8a6236,concurrency and parallelism,4.2,7,0,17,0.0,0,16.7,6,3,6,1.0
 eventmachine,lib/eventmachine.rb,9cb13a8a6236,concurrency and parallelism,12.9,96,100,64,1.0,0,17.0,47,1,46,0.979
 eventmachine,lib/jeventmachine.rb,9cb13a8a6236,concurrency and parallelism,3.9,36,91,56,0.0,1,0.0,54,8,40,0.741
-excon,benchmarks/httpbin.rb,ac022b6417d7,http clients and tools,2.8,6,0,0,0.0,0,0.0,5,1,3,0.6
 excon,lib/excon.rb,ac022b6417d7,http clients and tools,11.1,46,100,29,0.0,0,0.0,14,1,10,0.714
 excon,lib/excon/connection.rb,ac022b6417d7,http clients and tools,18.8,102,0,80,0.5,0,3.3,30,2,26,0.867
 excon,lib/excon/error.rb,ac022b6417d7,http clients and tools,15.4,45,43,43,0.0,4,14.3,7,63,6,0.857
@@ -1590,9 +1565,6 @@ excon,lib/excon/socket.rb,ac022b6417d7,http clients and tools,17.2,88,0,79,1.0,0
 excon,lib/excon/socks5.rb,ac022b6417d7,http clients and tools,23.3,31,0,100,0.0,0,0.0,6,2,6,1.0
 excon,lib/excon/ssl_socket.rb,ac022b6417d7,http clients and tools,32.7,161,0,83,0.0,1,0.0,6,2,5,0.833
 excon,lib/excon/utils.rb,ac022b6417d7,http clients and tools,9.5,21,0,100,0.0,0,0.0,12,2,12,1.0
-eye,examples/plugin/plugin.rb,300aa8793112,process management and monitoring,4.6,10,0,33,0.25,2,0.0,9,4,9,1.0
-eye,examples/processes/em.rb,300aa8793112,process management and monitoring,4.6,12,0,29,0.5,1,0.0,7,2,4,0.571
-eye,examples/processes/sample.rb,300aa8793112,process management and monitoring,11.2,16,0,75,0.0,0,0.0,4,1,4,1.0
 eye,lib/eye/application.rb,300aa8793112,process management and monitoring,3.7,6,0,58,0.0,0,0.0,12,1,11,0.917
 eye,lib/eye/checker.rb,300aa8793112,process management and monitoring,6.6,36,31,59,0.17,2,6.9,29,6,27,0.931
 eye,lib/eye/checker/children_count.rb,300aa8793112,process management and monitoring,6,9,0,100,0.0,2,0.0,4,1,4,1.0
@@ -1688,7 +1660,6 @@ factory_bot,lib/factory_bot/syntax/default.rb,5d399535578d,testing,4.4,12,25,50,
 factory_bot,lib/factory_bot/syntax/methods.rb,5d399535578d,testing,9,10,0,33,0.0,0,0.0,3,3,3,1.0
 factory_bot,lib/factory_bot/trait.rb,5d399535578d,testing,5.5,12,0,75,0.0,0,25.0,4,2,4,1.0
 factory_bot,lib/factory_bot/uri_manager.rb,5d399535578d,testing,8,11,25,100,0.0,0,0.0,4,2,4,1.0
-faker,benchmark/generators.rb,e48d35f4fa0d,testing,10.3,17,0,67,0.0,0,33.3,3,0,3,1.0
 faker,lib/faker.rb,e48d35f4fa0d,testing,7.4,28,100,45,0.0,0,9.7,31,3,28,0.903
 faker,lib/faker/books/lovecraft.rb,e48d35f4fa0d,testing,4.7,9,100,64,0.0,1,0.0,11,3,9,0.818
 faker,lib/faker/default/app.rb,e48d35f4fa0d,testing,3,3,100,0,0.0,1,0.0,4,2,3,0.75
@@ -1744,8 +1715,6 @@ faker,lib/helpers/char.rb,e48d35f4fa0d,testing,17.7,37,100,100,0.0,0,0.0,3,2,3,1
 faker,lib/helpers/deprecator.rb,e48d35f4fa0d,testing,9,27,71,43,0.0,0,0.0,7,2,7,1.0
 faker,lib/helpers/positional_generator.rb,e48d35f4fa0d,testing,6.2,20,0,72,0.0,0,3.1,32,9,24,0.75
 faker,lib/helpers/unique_generator.rb,e48d35f4fa0d,testing,5.1,14,25,75,0.0,1,12.5,8,3,8,1.0
-faraday,examples/client_spec.rb,f1ace878bae1,http clients and tools,4,5,0,67,0.0,0,0.0,3,1,3,1.0
-faraday,examples/client_test.rb,f1ace878bae1,http clients and tools,10.8,20,0,91,0.0,1,0.0,11,2,11,1.0
 faraday,lib/faraday.rb,f1ace878bae1,http clients and tools,4,7,100,29,0.0,0,14.3,7,1,7,1.0
 faraday,lib/faraday/adapter.rb,f1ace878bae1,http clients and tools,5.6,12,0,50,0.67,0,0.0,8,3,8,1.0
 faraday,lib/faraday/adapter/test.rb,f1ace878bae1,http clients and tools,8.6,38,0,54,0.0,1,0.0,24,5,19,0.792
@@ -1804,9 +1773,6 @@ fastlane,deliver/lib/deliver/upload_app_clip_default_experience_header_images.rb
 fastlane,deliver/lib/deliver/upload_app_clip_default_experience_metadata.rb,38d0ec404332,mobile development,20.6,53,0,100,0.0,0,0.0,9,2,9,1.0
 fastlane,deliver/lib/deliver/upload_metadata.rb,38d0ec404332,mobile development,39.3,268,0,94,0.0,0,5.6,18,2,18,1.0
 fastlane,deliver/lib/deliver/upload_screenshots.rb,38d0ec404332,mobile development,24.9,55,20,80,0.0,0,0.0,10,2,10,1.0
-fastlane,fastlane/actions/plugin_scores.rb,38d0ec404332,mobile development,8.3,21,100,29,0.0,1,0.0,7,3,6,0.857
-fastlane,fastlane/actions/test_sample_code.rb,38d0ec404332,mobile development,14.6,40,100,29,0.0,1,0.0,7,3,7,1.0
-fastlane,fastlane/helper/plugin_scores_helper.rb,38d0ec404332,mobile development,21,63,0,71,0.0,0,0.0,17,7,15,0.882
 fastlane,fastlane/lib/assets/custom_action_template.rb,38d0ec404332,mobile development,8.4,25,100,38,0.0,1,0.0,8,4,6,0.75
 fastlane,fastlane/lib/fastlane/action.rb,38d0ec404332,mobile development,4.3,10,74,4,0.33,0,0.0,27,3,19,0.704
 fastlane,fastlane/lib/fastlane/action_collector.rb,38d0ec404332,mobile development,8.3,14,33,33,0.0,0,33.3,3,2,3,1.0
@@ -2090,8 +2056,6 @@ fastlane,gym/lib/gym/generators/package_command_generator_xcode7.rb,38d0ec404332
 fastlane,gym/lib/gym/module.rb,38d0ec404332,mobile development,6.2,12,100,17,0.0,0,0.0,12,1,12,1.0
 fastlane,gym/lib/gym/runner.rb,38d0ec404332,mobile development,16.4,70,0,24,0.0,0,0.0,21,2,21,1.0
 fastlane,gym/lib/gym/xcode.rb,38d0ec404332,mobile development,3.8,6,100,25,0.0,0,0.0,4,2,4,1.0
-fastlane,internal/rubocop/fork_usage.rb,38d0ec404332,mobile development,4.2,5,0,25,0.0,1,0.0,4,3,4,1.0
-fastlane,internal/rubocop/missing_keys_on_shared_area.rb,38d0ec404332,mobile development,8.6,12,0,86,0.0,1,0.0,7,3,7,1.0
 fastlane,match/lib/match/encryption.rb,38d0ec404332,mobile development,13.3,20,100,100,0.0,0,0.0,3,2,3,1.0
 fastlane,match/lib/match/encryption/encryption.rb,38d0ec404332,mobile development,10.7,25,0,100,0.0,0,0.0,10,6,10,1.0
 fastlane,match/lib/match/encryption/openssl.rb,38d0ec404332,mobile development,8.9,23,9,55,0.0,1,0.0,11,3,11,1.0
@@ -2273,7 +2237,6 @@ fastlane,spaceship/lib/spaceship/tunes/members.rb,38d0ec404332,mobile developmen
 fastlane,spaceship/lib/spaceship/tunes/sandbox_tester.rb,38d0ec404332,mobile development,5,11,83,67,0.0,2,0.0,6,3,6,1.0
 fastlane,spaceship/lib/spaceship/tunes/tunes_client.rb,38d0ec404332,mobile development,14.8,87,2,73,0.0,1,0.0,93,2,79,0.849
 fastlane,spaceship/lib/spaceship/two_step_or_factor_client.rb,38d0ec404332,mobile development,20.4,107,0,88,0.0,0,0.0,17,2,17,1.0
-fastlane,spec_helper.rb,38d0ec404332,mobile development,7.8,16,83,33,0.0,0,16.7,6,4,6,1.0
 fastlane,supply/lib/supply/client.rb,38d0ec404332,mobile development,14.8,50,8,97,0.0,1,0.0,36,3,35,0.972
 fastlane,supply/lib/supply/commands_generator.rb,38d0ec404332,mobile development,17.7,47,33,67,0.5,0,0.0,3,2,3,1.0
 fastlane,supply/lib/supply/reader.rb,38d0ec404332,mobile development,12,15,0,75,0.0,0,0.0,4,2,4,1.0
@@ -2296,8 +2259,6 @@ foreman,lib/foreman/procfile.rb,3530b8e4a1b1,process management and monitoring,5
 formatador,lib/formatador.rb,1000476d1648,cli utilities,4.6,7,0,23,0.0,0,0.0,13,1,13,1.0
 formatador,lib/formatador/progressbar.rb,1000476d1648,cli utilities,14.2,40,0,100,0.0,0,0.0,5,2,5,1.0
 formatador,lib/formatador/table.rb,1000476d1648,cli utilities,23.5,69,0,100,0.0,0,0.0,4,1,4,1.0
-geocoder,examples/cache_bypass.rb,d3515db46c57,geolocation,4.5,11,0,67,0.0,0,0.0,6,1,6,1.0
-geocoder,examples/reverse_geocode_job.rb,d3515db46c57,geolocation,6.3,9,0,100,0.0,1,0.0,3,1,3,1.0
 geocoder,lib/easting_northing.rb,d3515db46c57,geolocation,17.2,84,0,56,0.0,0,0.0,9,2,8,0.889
 geocoder,lib/geocoder.rb,d3515db46c57,geolocation,4.7,5,100,100,0.0,0,0.0,3,1,3,1.0
 geocoder,lib/geocoder/cache.rb,d3515db46c57,geolocation,4.2,11,0,89,0.0,0,11.1,9,2,9,1.0
@@ -2519,7 +2480,6 @@ guard,lib/guard/watcher/pattern/deprecated_regexp.rb,170d63c6ca57,file system li
 guard,lib/guard/watcher/pattern/matcher.rb,170d63c6ca57,file system listener,3.5,5,0,75,0.0,0,0.0,4,4,4,1.0
 guard,lib/guard/watcher/pattern/simple_path.rb,170d63c6ca57,file system listener,3.7,5,0,33,0.0,0,0.0,3,4,3,1.0
 guard,lib/tasks/releaser.rb,170d63c6ca57,file system listener,10.1,26,0,90,0.0,0,0.0,10,1,10,1.0
-haml,benchmark/slim/run-benchmarks.rb,7f51ae709d96,template engine,8.5,13,0,75,0.0,0,25.0,4,1,4,1.0
 haml,lib/haml/attribute_builder.rb,7f51ae709d96,template engine,14,29,100,73,0.0,0,0.0,11,1,10,0.909
 haml,lib/haml/attribute_compiler.rb,7f51ae709d96,template engine,9.5,24,0,100,0.0,0,0.0,11,2,10,0.909
 haml,lib/haml/attribute_parser.rb,7f51ae709d96,template engine,7.6,20,25,75,0.0,0,0.0,8,2,8,1.0
@@ -2602,10 +2562,6 @@ http,lib/http/timeout/null.rb,942b1b36cea9,http clients and tools,5.5,13,0,92,0.
 http,lib/http/timeout/per_operation.rb,942b1b36cea9,http clients and tools,9.8,23,33,89,0.0,1,0.0,9,3,9,1.0
 http,lib/http/uri.rb,942b1b36cea9,http clients and tools,5.1,13,0,50,0.0,2,0.0,18,3,17,0.944
 http,lib/http/uri/parsing.rb,942b1b36cea9,http clients and tools,8.4,14,73,91,0.0,0,0.0,11,2,11,1.0
-httparty,examples/microsoft_graph.rb,9c89e55ce357,http clients and tools,11,16,0,67,0.0,0,0.0,3,1,3,1.0
-httparty,examples/party_foul_mode.rb,9c89e55ce357,http clients and tools,16.7,34,100,67,1.0,0,0.0,3,1,3,1.0
-httparty,examples/tripit_sign_in.rb,9c89e55ce357,http clients and tools,6.8,16,0,100,1.0,0,0.0,4,1,4,1.0
-httparty,examples/twitter.rb,9c89e55ce357,http clients and tools,3.7,4,0,33,1.0,0,0.0,3,1,3,1.0
 httparty,lib/httparty.rb,9c89e55ce357,http clients and tools,4.0,10,19,60,0.33,0,8.1,62,3,36,0.581
 httparty,lib/httparty/connection_adapter.rb,9c89e55ce357,http clients and tools,13,63,18,73,0.0,0,0.0,11,2,11,1.0
 httparty,lib/httparty/decompressor.rb,9c89e55ce357,http clients and tools,6.9,11,0,25,0.0,0,12.5,8,2,8,1.0
@@ -2637,10 +2593,6 @@ httpclient,lib/httpclient/util.rb,5bc7b0d383c4,http clients and tools,6.3,14,0,6
 httpclient,lib/httpclient/webagent-cookie.rb,5bc7b0d383c4,http clients and tools,11.4,37,3,65,0.33,1,0.0,31,9,25,0.806
 httpclient,lib/jsonclient.rb,5bc7b0d383c4,http clients and tools,5.4,8,0,50,0.0,1,0.0,8,1,6,0.75
 httpclient,lib/oauthclient.rb,5bc7b0d383c4,http clients and tools,8.5,14,0,67,0.0,1,0.0,6,3,6,1.0
-httpclient,sample/dav.rb,5bc7b0d383c4,http clients and tools,5.1,13,0,67,0.0,0,0.0,15,2,14,0.933
-httpclient,sample/generate_test_keys.rb,5bc7b0d383c4,http clients and tools,20.7,24,0,100,0.0,0,0.0,3,0,3,1.0
-httpclient,sample/jsonclient.rb,5bc7b0d383c4,http clients and tools,4.6,7,0,62,0.0,1,0.0,8,4,7,0.875
-i18n,benchmark/run.rb,8beba7876163,internationalization,5.3,8,100,100,0.5,0,0.0,3,2,3,1.0
 i18n,lib/i18n.rb,8beba7876163,internationalization,8.4,23,13,83,0.5,0,4.3,23,2,23,1.0
 i18n,lib/i18n/backend/base.rb,8beba7876163,internationalization,10.2,42,0,68,0.33,0,4.5,22,3,20,0.909
 i18n,lib/i18n/backend/cache.rb,8beba7876163,internationalization,3.7,7,58,33,0.0,0,0.0,12,3,8,0.667
@@ -2723,7 +2675,6 @@ knapsack,lib/knapsack/logger.rb,f394c8470281,testing,5.8,11,0,75,0.0,0,25.0,4,2,
 knapsack,lib/knapsack/presenter.rb,f394c8470281,testing,7.7,32,100,20,0.0,0,0.0,10,2,10,1.0
 knapsack,lib/knapsack/report.rb,f394c8470281,testing,4,6,0,67,0.5,0,0.0,6,2,5,0.833
 knapsack,lib/knapsack/tracker.rb,f394c8470281,testing,4.4,11,0,47,0.5,0,0.0,15,2,14,0.933
-knapsack,test_examples/fast/shared_examples_test.rb,f394c8470281,testing,3.5,4,0,0,1.0,1,0.0,4,1,4,1.0
 kramdown,lib/kramdown/converter/base.rb,12b3d2e75279,markdown processors,7,17,18,76,0.0,0,17.6,17,3,16,0.941
 kramdown,lib/kramdown/converter/html.rb,12b3d2e75279,markdown processors,9.6,45,0,84,0.67,1,4.7,43,3,41,0.953
 kramdown,lib/kramdown/converter/kramdown.rb,12b3d2e75279,markdown processors,8.8,33,0,86,0.33,1,2.4,42,3,40,0.952
@@ -2747,11 +2698,8 @@ kramdown,lib/kramdown/utils.rb,12b3d2e75279,markdown processors,4.3,7,100,67,0.0
 kramdown,lib/kramdown/utils/html.rb,12b3d2e75279,markdown processors,7.5,15,0,100,0.0,0,0.0,4,3,4,1.0
 kramdown,lib/kramdown/utils/lru_cache.rb,12b3d2e75279,markdown processors,4,5,0,67,0.0,0,0.0,3,3,3,1.0
 kramdown,lib/kramdown/utils/string_scanner.rb,12b3d2e75279,markdown processors,6,10,0,40,0.0,1,0.0,5,3,5,1.0
-kramdown,setup.rb,12b3d2e75279,markdown processors,6.2,111,4,55,0.21,1,2.8,181,19,148,0.818
 letter_opener,lib/letter_opener/delivery_method.rb,f6a925b0232b,email,8.3,9,0,100,0.0,1,0.0,3,3,3,1.0
 letter_opener,lib/letter_opener/message.rb,f6a925b0232b,email,5.3,24,5,85,0.0,0,0.0,20,2,15,0.75
-liquid,example/server/example_servlet.rb,7a5e45fc4784,template engine,3.8,7,0,33,0.0,2,0.0,9,2,9,1.0
-liquid,example/server/liquid_servlet.rb,7a5e45fc4784,template engine,5.2,12,0,25,0.0,1,25.0,4,1,3,0.75
 liquid,lib/liquid/block.rb,7a5e45fc4784,template engine,6.1,22,8,58,0.0,1,0.0,12,2,11,0.917
 liquid,lib/liquid/block_body.rb,7a5e45fc4784,template engine,10.0,48,24,67,0.0,0,0.0,21,2,20,0.952
 liquid,lib/liquid/condition.rb,7a5e45fc4784,template engine,7.7,21,11,42,0.0,1,10.5,19,5,15,0.789
@@ -2796,12 +2744,6 @@ liquid,lib/liquid/tokenizer.rb,7a5e45fc4784,template engine,14.8,32,0,89,0.0,0,0
 liquid,lib/liquid/utils.rb,7a5e45fc4784,template engine,17,27,100,100,0.0,0,0.0,10,2,10,1.0
 liquid,lib/liquid/variable.rb,7a5e45fc4784,template engine,8.3,17,0,74,0.33,1,0.0,19,3,17,0.895
 liquid,lib/liquid/variable_lookup.rb,7a5e45fc4784,template engine,12.7,45,14,71,0.0,1,14.3,7,3,7,1.0
-liquid,performance/memory_profile.rb,7a5e45fc4784,template engine,7.6,16,20,60,0.0,0,0.0,5,1,5,1.0
-liquid,performance/shopify/comment_form.rb,7a5e45fc4784,template engine,9.7,16,0,100,0.0,2,0.0,3,1,3,1.0
-liquid,performance/shopify/paginate.rb,7a5e45fc4784,template engine,16,52,0,60,0.0,2,0.0,5,1,5,1.0
-liquid,performance/shopify/shop_filter.rb,7a5e45fc4784,template engine,5.6,17,0,27,0.0,0,0.0,15,1,10,0.667
-liquid,performance/shopify/tag_filter.rb,7a5e45fc4784,template engine,4.5,7,0,100,0.0,0,0.0,4,1,4,1.0
-liquid,performance/theme_runner.rb,7a5e45fc4784,template engine,7.6,14,0,85,0.0,0,0.0,13,2,13,1.0
 listen,lib/listen/adapter.rb,2fa1a742d8c2,file system listener,6.7,13,100,67,0.0,0,0.0,3,2,3,1.0
 listen,lib/listen/adapter/base.rb,2fa1a742d8c2,file system listener,9.3,26,10,70,0.0,0,20.0,10,3,10,1.0
 listen,lib/listen/adapter/bsd.rb,2fa1a742d8c2,file system listener,7,17,11,78,0.0,1,11.1,9,3,9,1.0
@@ -2910,7 +2852,6 @@ mail,lib/mail/part.rb,d645d7b5b7d0,email,4,10,0,53,0.0,1,0.0,19,2,15,0.789
 mail,lib/mail/parts_list.rb,d645d7b5b7d0,email,6.7,15,0,67,0.0,1,0.0,15,2,14,0.933
 mail,lib/mail/smtp_envelope.rb,d645d7b5b7d0,email,7.8,11,0,80,0.0,0,0.0,5,2,5,1.0
 mail,lib/mail/utilities.rb,d645d7b5b7d0,email,6.8,59,49,75,0.25,0,1.8,55,4,49,0.891
-minitest,design_rationale.rb,f6180b07ea6e,testing,3.5,4,0,0,0.0,4,0.0,4,2,3,0.75
 minitest,lib/hoe/minitest.rb,f6180b07ea6e,testing,6.7,14,0,0,0.0,0,0.0,3,2,3,1.0
 minitest,lib/minitest.rb,f6180b07ea6e,testing,7.1,126,30,39,0.12,3,2.2,92,17,72,0.783
 minitest,lib/minitest/assertions.rb,f6180b07ea6e,testing,8.3,34,6,61,0.0,0,11.1,54,2,52,0.963
@@ -3136,27 +3077,9 @@ mongo,lib/mongo/uri/options_mapper.rb,049b718a2d47,database drivers,7.8,32,2,58,
 mongo,lib/mongo/uri/srv_protocol.rb,049b718a2d47,database drivers,9,26,0,78,0.0,1,0.0,9,3,9,1.0
 mongo,lib/mongo/utils.rb,049b718a2d47,database drivers,4.9,10,0,75,0.33,0,0.0,8,3,8,1.0
 mongo,lib/mongo/write_concern/acknowledged.rb,049b718a2d47,database drivers,3.7,5,0,0,0.0,1,0.0,3,3,3,1.0
-mongo,profile/driver_bench/base.rb,049b718a2d47,database drivers,5.1,28,6,25,0.0,0,0.0,16,3,13,0.812
-mongo,profile/driver_bench/crypto/decrypt.rb,049b718a2d47,database drivers,8.4,17,0,33,0.0,1,0.0,9,4,9,1.0
-mongo,profile/driver_bench/multi_doc/bulk_insert/base.rb,049b718a2d47,database drivers,3.5,4,0,75,0.0,2,0.0,4,5,4,1.0
-mongo,profile/driver_bench/multi_doc/find_many.rb,049b718a2d47,database drivers,5.7,9,0,67,0.0,2,0.0,3,4,3,1.0
-mongo,profile/driver_bench/multi_doc/grid_fs/download.rb,049b718a2d47,database drivers,4.7,6,0,100,0.0,3,0.0,3,5,3,1.0
-mongo,profile/driver_bench/parallel/base.rb,049b718a2d47,database drivers,3.2,4,0,50,0.0,1,0.0,4,4,4,1.0
-mongo,profile/driver_bench/parallel/counter.rb,049b718a2d47,database drivers,5.4,7,0,60,0.0,0,0.0,5,4,5,1.0
-mongo,profile/driver_bench/parallel/dispatcher.rb,049b718a2d47,database drivers,7.8,16,0,75,0.0,0,0.0,4,4,4,1.0
-mongo,profile/driver_bench/parallel/gridfs/base.rb,049b718a2d47,database drivers,4.2,5,0,50,0.0,2,0.0,4,5,4,1.0
-mongo,profile/driver_bench/parallel/gridfs/download.rb,049b718a2d47,database drivers,6.7,11,0,83,0.0,3,0.0,6,6,6,1.0
-mongo,profile/driver_bench/parallel/gridfs/upload.rb,049b718a2d47,database drivers,4.8,7,0,50,0.0,3,0.0,4,6,4,1.0
-mongo,profile/driver_bench/parallel/ldjson/base.rb,049b718a2d47,database drivers,6.5,13,0,50,0.0,2,0.0,4,5,4,1.0
-mongo,profile/driver_bench/parallel/ldjson/export.rb,049b718a2d47,database drivers,5.6,11,0,57,0.0,3,0.0,7,6,7,1.0
-mongo,profile/driver_bench/single_doc/base.rb,049b718a2d47,database drivers,4.3,8,0,33,0.0,1,0.0,6,4,5,0.833
-mongo,profile/driver_bench/single_doc/find_one_by_id.rb,049b718a2d47,database drivers,5.3,8,0,67,0.0,2,0.0,3,4,3,1.0
-mongo,profile/driver_bench/single_doc/run_command.rb,049b718a2d47,database drivers,3.8,5,0,25,0.0,2,0.0,4,4,4,1.0
-mongo,profile/driver_bench/suite.rb,049b718a2d47,database drivers,10.6,20,12,100,0.0,0,0.0,8,3,8,1.0
 mysql2,lib/mysql2/client.rb,c79b3c14fd47,database drivers,14.5,73,18,64,0.0,0,63.6,11,2,11,1.0
 mysql2,lib/mysql2/em.rb,c79b3c14fd47,database drivers,6.2,11,0,50,0.0,1,0.0,6,4,5,0.833
 mysql2,lib/mysql2/error.rb,c79b3c14fd47,database drivers,6,7,33,100,0.0,1,0.0,3,2,3,1.0
-oauth2,examples/e2e.rb,63727352546e,authentication and oauth,13.1,25,0,71,0.0,0,0.0,7,2,7,1.0
 oauth2,lib/oauth2/access_token.rb,63727352546e,authentication and oauth,9.9,35,24,71,0.5,0,4.8,21,2,17,0.81
 oauth2,lib/oauth2/authenticator.rb,63727352546e,authentication and oauth,5.9,14,14,57,0.5,0,0.0,7,2,7,1.0
 oauth2,lib/oauth2/client.rb,63727352546e,authentication and oauth,10.0,38,0,80,0.5,0,0.0,30,2,25,0.833
@@ -3171,7 +3094,6 @@ omniauth,lib/omniauth/builder.rb,20ac5e05a39d,authentication and oauth,4.3,13,0,
 omniauth,lib/omniauth/failure_endpoint.rb,20ac5e05a39d,authentication and oauth,4.5,7,12,62,0.0,0,0.0,8,2,8,1.0
 omniauth,lib/omniauth/form.rb,20ac5e05a39d,authentication and oauth,6.4,16,7,64,0.0,0,14.3,14,2,12,0.857
 omniauth,lib/omniauth/strategy.rb,20ac5e05a39d,authentication and oauth,7.7,33,2,75,0.0,2,9.6,52,5,52,1.0
-optimist,examples/types_custom.rb,ecd4d8573b46,cli builder,5,8,0,67,0.0,1,0.0,3,2,3,1.0
 optimist,lib/optimist.rb,ecd4d8573b46,cli builder,8.3,126,6,54,0.0,2,1.0,100,23,66,0.66
 paper_trail,lib/generators/paper_trail/install/install_generator.rb,0c511ed46c08,orm/odm extensions,6.7,13,0,50,0.0,2,0.0,6,2,5,0.833
 paper_trail,lib/generators/paper_trail/migration_generator.rb,0c511ed46c08,orm/odm extensions,8.2,19,20,40,0.5,1,0.0,5,2,5,1.0
@@ -3220,7 +3142,6 @@ pastel,lib/pastel/color_parser.rb,afd82952076e,cli utilities,16.2,48,100,75,0.5,
 pastel,lib/pastel/decorator_chain.rb,afd82952076e,cli utilities,3.5,7,12,62,0.5,0,0.0,8,2,8,1.0
 pastel,lib/pastel/delegator.rb,afd82952076e,cli utilities,4.2,11,11,67,0.5,0,11.1,9,2,9,1.0
 pastel,lib/pastel/detached.rb,afd82952076e,cli utilities,3.4,5,0,71,0.0,0,0.0,7,2,7,1.0
-pg,ext/extconf.rb,d4539c25dcc8,database drivers,5.5,13,0,15,0.0,1,0.0,13,1,11,0.846
 pg,lib/pg.rb,d4539c25dcc8,database drivers,3.5,6,83,17,0.0,0,0.0,6,6,6,1.0
 pg,lib/pg/basic_type_map_for_queries.rb,d4539c25dcc8,database drivers,10.3,42,11,89,0.25,1,0.0,9,4,9,1.0
 pg,lib/pg/basic_type_map_for_results.rb,d4539c25dcc8,database drivers,9,12,0,67,0.5,1,0.0,3,2,3,1.0
@@ -3229,13 +3150,6 @@ pg,lib/pg/coder.rb,d4539c25dcc8,database drivers,5.8,11,0,54,0.0,1,7.7,13,6,13,1
 pg,lib/pg/connection.rb,d4539c25dcc8,database drivers,15.0,81,32,68,0.5,0,20.6,34,2,34,1.0
 pg,lib/pg/result.rb,d4539c25dcc8,database drivers,5.7,9,0,33,0.0,0,0.0,3,1,3,1.0
 pg,lib/pg/tuple.rb,d4539c25dcc8,database drivers,4,7,0,100,0.0,0,0.0,4,1,4,1.0
-pg,rakelib/pg_gem_helper.rb,d4539c25dcc8,database drivers,7.3,13,0,43,0.0,1,0.0,7,1,6,0.857
-pg,rakelib/task_extension.rb,d4539c25dcc8,database drivers,10,16,0,67,0.0,0,66.7,3,1,3,1.0
-pg,sample/pg_statistics.rb,d4539c25dcc8,database drivers,39.8,67,0,100,0.0,0,0.0,4,1,4,1.0
-pg,sample/replication_monitor.rb,d4539c25dcc8,database drivers,26.6,60,0,100,0.0,0,0.0,5,1,5,1.0
-pg,sample/wal_shipper.rb,d4539c25dcc8,database drivers,20.7,49,0,82,0.67,1,27.3,11,3,11,1.0
-pg,sample/warehouse_partitions.rb,d4539c25dcc8,database drivers,44.6,81,0,100,0.0,0,0.0,5,1,5,1.0
-prawn,bench/table_bench.rb,f82783b1d020,pdf,6,12,33,33,0.0,0,0.0,3,1,3,1.0
 prawn,lib/prawn/document.rb,f82783b1d020,pdf,9.6,54,9,65,5.5,0,8.8,34,2,30,0.882
 prawn,lib/prawn/document/bounding_box.rb,f82783b1d020,pdf,5.5,32,3,37,0.0,1,8.6,35,4,27,0.771
 prawn,lib/prawn/document/column_box.rb,f82783b1d020,pdf,4.7,11,0,73,0.0,1,0.0,15,3,13,0.867
@@ -3278,8 +3192,6 @@ prawn,lib/prawn/text/formatted/wrap.rb,f82783b1d020,pdf,17.4,34,0,100,0.0,0,0.0,
 prawn,lib/prawn/transformation_stack.rb,f82783b1d020,pdf,6,13,0,100,0.0,0,0.0,4,2,4,1.0
 prawn,lib/prawn/utilities.rb,f82783b1d020,pdf,3.3,4,0,67,0.0,0,0.0,3,2,3,1.0
 prawn,lib/prawn/view.rb,f82783b1d020,pdf,3.4,5,0,60,0.0,0,40.0,5,2,5,1.0
-prawn,manual/basic_concepts/view.rb,f82783b1d020,pdf,3.7,5,0,0,1.0,0,0.0,3,1,3,1.0
-prawn,manual/text/formatted_callbacks.rb,f82783b1d020,pdf,4.2,6,0,100,0.0,0,0.0,4,2,3,0.75
 premailer-rails,lib/premailer/rails/css_helper.rb,33287e89f7a3,email,6.9,14,0,14,0.33,0,0.0,7,3,7,1.0
 premailer-rails,lib/premailer/rails/css_loaders/asset_pipeline_loader.rb,33287e89f7a3,email,8,10,0,0,0.25,0,0.0,3,4,3,1.0
 premailer-rails,lib/premailer/rails/css_loaders/file_system_loader.rb,33287e89f7a3,email,6,7,0,25,0.25,0,0.0,4,4,4,1.0
@@ -3382,13 +3294,6 @@ pry-rails,lib/pry-rails/commands/show_middleware.rb,d8d0c6d87a5b,debugging tools
 pry-rails,lib/pry-rails/commands/show_models.rb,d8d0c6d87a5b,debugging tools,9.7,25,0,86,0.0,1,0.0,7,1,7,1.0
 pry-rails,lib/pry-rails/commands/show_routes.rb,d8d0c6d87a5b,debugging tools,10.1,20,0,57,0.0,1,0.0,7,1,6,0.857
 pry-rails,lib/pry-rails/model_formatter.rb,d8d0c6d87a5b,debugging tools,12,36,0,88,0.0,0,0.0,8,2,8,1.0
-puma,benchmarks/local/bench_base.rb,8085b75e79e3,web servers,29.7,82,8,75,0.0,1,0.0,12,3,12,1.0
-puma,benchmarks/local/long_tail_hey.rb,8085b75e79e3,web servers,44,79,0,100,0.0,2,0.0,4,2,4,1.0
-puma,benchmarks/local/puma_info.rb,8085b75e79e3,web servers,34.4,83,0,100,0.0,0,0.0,5,2,5,1.0
-puma,benchmarks/local/response_time_wrk.rb,8085b75e79e3,web servers,37,67,0,100,0.0,2,0.0,5,2,5,1.0
-puma,benchmarks/local/sleep_fibonacci_test.rb,8085b75e79e3,web servers,18,27,100,67,0.0,0,33.3,3,1,3,1.0
-puma,examples/generate_chain_test.rb,8085b75e79e3,web servers,13.3,25,100,67,0.0,0,0.0,6,1,6,1.0
-puma,examples/generate_client_test.rb,8085b75e79e3,web servers,15.7,22,100,67,0.0,0,16.7,6,1,6,1.0
 puma,lib/puma.rb,8085b75e79e3,web servers,4.7,13,100,43,0.0,1,0.0,7,3,7,1.0
 puma,lib/puma/app/status.rb,8085b75e79e3,web servers,19.8,62,0,75,0.0,0,25.0,4,3,4,1.0
 puma,lib/puma/binder.rb,8085b75e79e3,web servers,18.5,158,0,96,0.5,0,0.0,23,2,23,1.0
@@ -3501,7 +3406,6 @@ ransack,lib/ransack/predicate.rb,383c5dd9aa8f,search,5.3,12,40,70,0.0,0,0.0,10,2
 ransack,lib/ransack/search.rb,383c5dd9aa8f,search,12.9,30,0,75,0.5,0,33.3,12,2,12,1.0
 ransack,lib/ransack/translate.rb,383c5dd9aa8f,search,7.9,37,100,75,0.0,0,0.0,16,2,15,0.938
 ransack,lib/ransack/visitor.rb,383c5dd9aa8f,search,5.8,12,0,82,0.0,0,18.2,11,2,11,1.0
-rdoc,doc/rdoc/example.rb,4e303b392092,documentation,2.7,3,17,0,0.0,0,0.0,6,3,3,0.5
 rdoc,lib/rdoc.rb,4e303b392092,documentation,12.5,21,100,25,0.0,1,0.0,4,2,4,1.0
 rdoc,lib/rdoc/code_object.rb,4e303b392092,documentation,6.8,18,0,48,1.0,0,0.0,23,1,18,0.783
 rdoc,lib/rdoc/code_object/alias.rb,4e303b392092,documentation,4.1,8,0,33,0.0,1,0.0,9,1,7,0.778
@@ -3692,15 +3596,7 @@ rouge,lib/rouge/theme.rb,afc3c52c2af0,code highlighting,5.3,15,37,47,0.2,1,3.3,3
 rouge,lib/rouge/themes/gruvbox.rb,afc3c52c2af0,code highlighting,14.8,26,100,0,0.33,2,0.0,4,3,3,0.75
 rouge,lib/rouge/token.rb,afc3c52c2af0,code highlighting,4.2,10,100,42,0.0,0,25.0,12,3,10,0.833
 rouge,lib/rouge/util.rb,afc3c52c2af0,code highlighting,5.1,18,0,57,0.25,1,0.0,14,4,11,0.786
-rouge,tasks/task_helper.rb,afc3c52c2af0,code highlighting,4.9,9,14,29,0.0,0,0.0,7,1,5,0.714
-rqrcode,benchmark/benchmark_helper.rb,f0d65004f2b5,qr,14.2,42,100,38,0.0,0,0.0,13,1,13,1.0
 rqrcode,lib/rqrcode/export/svg.rb,f0d65004f2b5,qr,49.5,130,0,75,0.0,1,0.0,4,6,4,1.0
-rspec,rspec-core/benchmarks/capture_block_vs_yield.rb,79a280d76e10,testing,3,3,0,50,0.0,0,0.0,8,0,8,1.0
-rspec,rspec-core/benchmarks/module_inclusion_filtering.rb,79a280d76e10,testing,5.2,6,25,50,0.0,0,50.0,4,1,4,1.0
-rspec,rspec-core/benchmarks/shuffle_vs_sort_by_for_random_ordering.rb,79a280d76e10,testing,6,18,20,100,0.0,0,0.0,5,1,4,0.8
-rspec,rspec-core/benchmarks/singleton_example_groups/helper.rb,79a280d76e10,testing,12.6,41,71,29,0.0,0,42.9,7,1,6,0.857
-rspec,rspec-core/benchmarks/threadsafe_let_block.rb,79a280d76e10,testing,10,21,62,88,0.83,1,112.5,8,6,8,1.0
-rspec,rspec-core/benchmarks/to_proc_v_not_to_proc.rb,79a280d76e10,testing,4.4,10,0,60,0.0,0,0.0,5,0,4,0.8
 rspec,rspec-core/lib/rspec/core.rb,79a280d76e10,testing,4.5,15,100,9,0.33,0,9.1,11,3,8,0.727
 rspec,rspec-core/lib/rspec/core/backtrace_formatter.rb,79a280d76e10,testing,6.4,15,0,71,0.0,0,0.0,7,3,7,1.0
 rspec,rspec-core/lib/rspec/core/bisect/coordinator.rb,79a280d76e10,testing,7.4,18,20,60,0.0,0,0.0,5,4,5,1.0
@@ -3762,7 +3658,6 @@ rspec,rspec-core/lib/rspec/core/shared_example_group.rb,79a280d76e10,testing,7.7
 rspec,rspec-core/lib/rspec/core/shell_escape.rb,79a280d76e10,testing,5,10,0,50,0.0,0,0.0,4,3,4,1.0
 rspec,rspec-core/lib/rspec/core/warnings.rb,79a280d76e10,testing,7.3,11,0,67,0.0,0,0.0,3,3,3,1.0
 rspec,rspec-core/lib/rspec/core/world.rb,79a280d76e10,testing,5.3,32,19,69,0.0,0,0.0,32,4,27,0.844
-rspec,rspec-expectations/benchmarks/include_matcher.rb,79a280d76e10,testing,4.8,15,0,56,0.0,1,12.5,16,4,14,0.875
 rspec,rspec-expectations/lib/rspec/expectations/block_snippet_extractor.rb,79a280d76e10,testing,4.7,12,3,68,0.0,0,2.6,38,3,36,0.947
 rspec,rspec-expectations/lib/rspec/expectations/configuration.rb,79a280d76e10,testing,4.7,13,11,22,0.0,0,0.0,18,3,16,0.889
 rspec,rspec-expectations/lib/rspec/expectations/expectation_target.rb,79a280d76e10,testing,5.4,14,8,15,0.17,1,0.0,13,6,10,0.769
@@ -3840,7 +3735,6 @@ rspec,rspec-mocks/lib/rspec/mocks/test_double.rb,79a280d76e10,testing,5.4,30,20,
 rspec,rspec-mocks/lib/rspec/mocks/verifying_double.rb,79a280d76e10,testing,8,16,0,50,0.86,1,12.5,8,7,7,0.875
 rspec,rspec-mocks/lib/rspec/mocks/verifying_message_expectation.rb,79a280d76e10,testing,9,15,0,67,0.0,1,0.0,3,3,3,1.0
 rspec,rspec-mocks/lib/rspec/mocks/verifying_proxy.rb,79a280d76e10,testing,5.2,13,4,56,0.27,3,0.0,25,11,22,0.88
-rspec,rspec-support/benchmarks/caller_vs_caller_locations_vs_raise.rb,79a280d76e10,testing,4,5,0,67,0.0,0,0.0,3,0,3,1.0
 rspec,rspec-support/lib/rspec/support.rb,79a280d76e10,testing,6.5,18,100,67,0.0,0,33.3,12,3,12,1.0
 rspec,rspec-support/lib/rspec/support/comparable_version.rb,79a280d76e10,testing,11,21,0,67,0.33,0,0.0,3,3,3,1.0
 rspec,rspec-support/lib/rspec/support/differ.rb,79a280d76e10,testing,6.1,27,0,45,0.0,0,0.0,31,3,26,0.839
@@ -4509,7 +4403,6 @@ rubocop,lib/rubocop/version.rb,65854e6bbfe4,code formatting,11.1,35,100,45,0.0,0
 rubocop,lib/rubocop/yaml_duplication_checker.rb,65854e6bbfe4,code formatting,7.3,12,33,67,0.0,1,0.0,3,3,3,1.0
 rubocop,lib/ruby_lsp/rubocop/addon.rb,65854e6bbfe4,code formatting,8,24,0,50,0.0,1,0.0,8,3,6,0.75
 rubocop,lib/ruby_lsp/rubocop/runtime_adapter.rb,65854e6bbfe4,code formatting,9.5,18,0,75,0.0,0,0.0,8,3,8,1.0
-rubocop,tasks/changelog.rb,65854e6bbfe4,code formatting,5.5,12,12,60,0.0,0,0.0,25,1,25,1.0
 rubocop-performance,lib/rubocop/cop/mixin/regexp_metacharacter.rb,c07064ddee3f,code formatting,6.3,9,0,56,0.0,0,0.0,9,3,7,0.778
 rubocop-performance,lib/rubocop/cop/performance/bind_call.rb,c07064ddee3f,code formatting,7.2,15,0,100,0.75,1,0.0,4,4,4,1.0
 rubocop-performance,lib/rubocop/cop/performance/case_when_splat.rb,c07064ddee3f,code formatting,7.5,16,0,93,1.0,1,0.0,14,4,14,1.0
@@ -4871,7 +4764,6 @@ selenium-webdriver,lib/selenium/webdriver/support/event_firing_bridge.rb,9175ed9
 selenium-webdriver,lib/selenium/webdriver/support/guards.rb,9175ed94d83e,testing,6.3,18,0,89,0.0,0,0.0,9,4,9,1.0
 selenium-webdriver,lib/selenium/webdriver/support/guards/guard.rb,9175ed94d83e,testing,6.9,23,0,100,0.0,0,0.0,8,5,6,0.75
 selenium-webdriver,lib/selenium/webdriver/support/select.rb,9175ed94d83e,testing,6.9,18,0,95,0.0,0,0.0,22,4,22,1.0
-selenium-webdriver,support/generated_note.rb,9175ed94d83e,testing,4.7,6,100,67,0.0,0,0.0,3,1,3,1.0
 sentry-ruby,bin/lib/matrix.rb,a940dfdb5a64,error handling,7.5,24,0,54,0.0,0,0.0,13,1,12,0.923
 sentry-ruby,sentry-delayed_job/lib/sentry/delayed_job/plugin.rb,a940dfdb5a64,error handling,10.4,27,100,88,0.0,1,0.0,8,3,8,1.0
 sentry-ruby,sentry-opentelemetry/lib/sentry/opentelemetry/otlp_setup.rb,a940dfdb5a64,error handling,9.7,30,100,83,0.0,0,0.0,6,3,6,1.0
@@ -4964,9 +4856,6 @@ sentry-ruby,sentry-sidekiq/lib/sentry/sidekiq/cron/job.rb,a940dfdb5a64,error han
 sentry-ruby,sentry-sidekiq/lib/sentry/sidekiq/error_handler.rb,a940dfdb5a64,error handling,24.3,46,0,100,0.0,0,0.0,3,3,3,1.0
 sentry-ruby,sentry-sidekiq/lib/sentry/sidekiq/sentry_context_middleware.rb,a940dfdb5a64,error handling,10.6,42,0,89,0.4,0,0.0,9,5,9,1.0
 sentry-ruby,sentry-yabeda/lib/sentry/yabeda/adapter.rb,a940dfdb5a64,error handling,4.6,10,0,25,0.0,1,0.0,12,3,8,0.667
-shoulda-matchers,custom_plan.rb,cf3b3685f2c0,testing,7.7,22,8,50,0.0,1,8.3,12,2,11,0.917
-shoulda-matchers,doc_config/yard/templates/default/fulldoc/html/setup.rb,cf3b3685f2c0,testing,12.3,30,0,67,0.0,0,0.0,3,0,3,1.0
-shoulda-matchers,doc_config/yard/templates/default/layout/html/setup.rb,cf3b3685f2c0,testing,9.8,19,0,75,0.0,0,0.0,4,0,4,1.0
 shoulda-matchers,lib/shoulda/matchers/action_controller/callback_matcher.rb,cf3b3685f2c0,testing,4,6,0,44,0.0,0,0.0,9,4,6,0.667
 shoulda-matchers,lib/shoulda/matchers/action_controller/filter_param_matcher.rb,cf3b3685f2c0,testing,4,10,0,25,0.0,0,0.0,8,4,7,0.875
 shoulda-matchers,lib/shoulda/matchers/action_controller/flash_store.rb,cf3b3685f2c0,testing,4.1,7,14,64,0.0,0,42.9,14,4,12,0.857
@@ -5061,17 +4950,6 @@ shoulda-matchers,lib/shoulda/matchers/matcher_context.rb,cf3b3685f2c0,testing,3.
 shoulda-matchers,lib/shoulda/matchers/rails_shim.rb,cf3b3685f2c0,testing,8.1,25,100,53,0.0,0,0.0,19,4,16,0.842
 shoulda-matchers,lib/shoulda/matchers/util.rb,cf3b3685f2c0,testing,10.1,22,100,89,0.0,0,0.0,9,3,9,1.0
 shoulda-matchers,lib/shoulda/matchers/util/word_wrap.rb,cf3b3685f2c0,testing,6.5,27,0,59,0.14,1,0.0,22,7,21,0.955
-shoulda-matchers,tasks/documentation.rb,cf3b3685f2c0,testing,12.2,88,27,40,0.25,0,0.0,15,4,12,0.8
-simplecov,benchmarks/collate/artifact_writer.rb,76a8e4e0f661,code analysis and metrics,6.8,11,0,80,0.0,0,0.0,10,2,10,1.0
-simplecov,benchmarks/collate/breakdown.rb,76a8e4e0f661,code analysis and metrics,6.1,11,0,71,0.0,0,28.6,7,2,6,0.857
-simplecov,benchmarks/collate/cli.rb,76a8e4e0f661,code analysis and metrics,5.7,10,100,83,0.0,0,0.0,6,2,6,1.0
-simplecov,benchmarks/collate/distribution.rb,76a8e4e0f661,code analysis and metrics,6.7,13,0,100,0.0,0,0.0,7,2,7,1.0
-simplecov,benchmarks/collate/file_structure.rb,76a8e4e0f661,code analysis and metrics,6.1,11,0,87,0.0,0,0.0,15,2,15,1.0
-simplecov,benchmarks/collate/fixture.rb,76a8e4e0f661,code analysis and metrics,7.1,10,0,60,0.0,0,0.0,10,2,10,1.0
-simplecov,benchmarks/collate/format.rb,76a8e4e0f661,code analysis and metrics,5,5,0,100,0.0,0,0.0,3,2,3,1.0
-simplecov,benchmarks/collate/report.rb,76a8e4e0f661,code analysis and metrics,6.5,12,0,75,0.0,0,0.0,16,2,16,1.0
-simplecov,benchmarks/collate/rss_sampler.rb,76a8e4e0f661,code analysis and metrics,4.8,6,20,20,0.0,0,0.0,5,2,5,1.0
-simplecov,benchmarks/collate/runner.rb,76a8e4e0f661,code analysis and metrics,7.8,12,0,82,0.0,0,0.0,11,2,11,1.0
 simplecov,lib/simplecov.rb,76a8e4e0f661,code analysis and metrics,7.4,18,100,40,0.0,1,0.0,15,2,13,0.867
 simplecov,lib/simplecov/atomic_file.rb,76a8e4e0f661,code analysis and metrics,11.5,18,100,50,0.0,0,0.0,4,2,4,1.0
 simplecov,lib/simplecov/cli.rb,76a8e4e0f661,code analysis and metrics,12.4,67,0,38,0.0,0,0.0,8,2,6,0.75
@@ -5165,8 +5043,6 @@ simplecov,lib/simplecov/static_coverage_extractor/value_position.rb,76a8e4e0f661
 simplecov,lib/simplecov/static_coverage_extractor/visitor.rb,76a8e4e0f661,code analysis and metrics,5.5,9,0,65,1.0,1,0.0,17,3,15,0.882
 simplecov,lib/simplecov/unloaded_file_injector.rb,76a8e4e0f661,code analysis and metrics,8.7,13,0,100,0.0,0,0.0,3,2,3,1.0
 simplecov,lib/simplecov/useless_results_remover.rb,76a8e4e0f661,code analysis and metrics,4.3,7,100,67,0.0,0,0.0,3,2,3,1.0
-simplecov,test_projects/faked_project/lib/faked_project/some_class.rb,76a8e4e0f661,code analysis and metrics,4.5,9,0,50,0.0,0,0.0,4,1,4,1.0
-simplecov,test_projects/faked_project/minitest/other_test.rb,76a8e4e0f661,code analysis and metrics,3,3,0,67,0.0,1,0.0,3,1,3,1.0
 slack-notifier,lib/slack-notifier.rb,29e51132ce0e,third-party apis,7.2,12,0,60,0.0,0,20.0,5,2,4,0.8
 slack-notifier,lib/slack-notifier/config.rb,29e51132ce0e,third-party apis,8,10,0,75,0.0,0,0.0,4,3,4,1.0
 slack-notifier,lib/slack-notifier/payload_middleware/at.rb,29e51132ce0e,third-party apis,6,8,0,33,0.0,1,0.0,3,4,3,1.0
@@ -5249,7 +5125,6 @@ sprockets,lib/sprockets/utils/gzip.rb,73c5a5316bd1,assets,6.5,8,33,83,0.0,0,0.0,
 stackprof,lib/stackprof/middleware.rb,4367efa4b8bc,profiler and optimization,14.5,19,50,100,0.0,0,0.0,4,2,4,1.0
 stackprof,lib/stackprof/report.rb,4367efa4b8bc,profiler and optimization,19.2,171,9,85,0.0,0,0.0,34,2,32,0.941
 stackprof,lib/stackprof/truffleruby.rb,4367efa4b8bc,profiler and optimization,3.1,4,100,0,0.0,0,0.0,8,1,4,0.5
-stackprof,sample.rb,4367efa4b8bc,profiler and optimization,4.2,5,25,0,0.0,0,0.0,4,1,4,1.0
 state_machines,lib/state_machines/async_mode/async_events.rb,219b43ea588f,state machines,12.9,25,0,87,0.0,0,13.3,15,3,15,1.0
 state_machines,lib/state_machines/async_mode/async_machine.rb,219b43ea588f,state machines,8,9,0,80,0.0,0,0.0,5,3,5,1.0
 state_machines,lib/state_machines/async_mode/async_transition_collection.rb,219b43ea588f,state machines,21.8,36,0,100,0.0,2,40.0,5,4,5,1.0
@@ -5294,29 +5169,26 @@ terminal-table,lib/terminal-table/row.rb,ba051e6f8aae,cli utilities,4.7,8,0,100,
 terminal-table,lib/terminal-table/separator.rb,ba051e6f8aae,cli utilities,13.7,31,0,33,0.0,1,0.0,3,3,3,1.0
 terminal-table,lib/terminal-table/style.rb,ba051e6f8aae,cli utilities,4.3,28,6,83,0.11,2,16.7,36,9,30,0.833
 terminal-table,lib/terminal-table/table.rb,ba051e6f8aae,cli utilities,10.5,126,0,74,0.0,0,7.4,27,2,27,1.0
-thin,benchmark/benchmarker.rb,84a5188612d8,web servers,9.1,21,0,43,0.0,0,14.3,7,1,6,0.857
 thin,lib/rack/adapter/loader.rb,84a5188612d8,web servers,15.7,37,100,33,0.0,1,0.0,3,3,3,1.0
 thin,lib/rack/adapter/rails.rb,84a5188612d8,web servers,8.6,37,7,73,0.0,1,0.0,15,5,14,0.933
-thin,lib/thin/backends/base.rb,84a5188612d8,web servers,6.8,19,0,47,0.0,1,0.0,15,3,12,0.8
+thin,lib/thin/backends/base.rb,84a5188612d8,web servers,6.8,19,0,47,0.0,0,0.0,15,3,12,0.8
 thin,lib/thin/backends/swiftiply_client.rb,84a5188612d8,web servers,4.6,13,0,56,0.0,2,0.0,9,4,8,0.889
 thin,lib/thin/backends/tcp_server.rb,84a5188612d8,web servers,4.8,8,0,25,0.0,1,0.0,4,3,4,1.0
 thin,lib/thin/backends/unix_server.rb,84a5188612d8,web servers,4.6,12,0,14,0.0,2,14.3,7,4,6,0.857
-thin,lib/thin/command.rb,84a5188612d8,web servers,8.2,17,25,50,0.5,1,0.0,4,2,4,1.0
+thin,lib/thin/command.rb,84a5188612d8,web servers,8.2,17,25,50,0.5,0,0.0,4,2,4,1.0
 thin,lib/thin/connection.rb,84a5188612d8,web servers,8.8,38,0,47,0.5,1,0.0,17,2,15,0.882
 thin,lib/thin/controllers/cluster.rb,84a5188612d8,web servers,4.9,19,0,58,0.0,1,0.0,26,4,17,0.654
 thin,lib/thin/controllers/controller.rb,84a5188612d8,web servers,13.5,52,0,91,0.17,2,9.1,11,6,11,1.0
 thin,lib/thin/controllers/service.rb,84a5188612d8,web servers,6.8,26,0,38,0.0,1,0.0,8,3,6,0.75
 thin,lib/thin/daemonizing.rb,84a5188612d8,web servers,8.5,24,6,41,0.0,1,0.0,17,6,17,1.0
-thin,lib/thin/env.rb,84a5188612d8,web servers,6.7,9,100,33,0.0,1,0.0,3,4,3,1.0
+thin,lib/thin/env.rb,84a5188612d8,web servers,6.7,9,100,33,0.0,0,0.0,3,4,3,1.0
 thin,lib/thin/headers.rb,84a5188612d8,web servers,6.8,17,0,75,0.0,1,0.0,4,3,4,1.0
 thin,lib/thin/logging.rb,84a5188612d8,web servers,5.3,17,60,50,0.0,1,0.0,20,3,16,0.8
 thin,lib/thin/request.rb,84a5188612d8,web servers,7.1,24,0,92,0.0,1,0.0,12,3,11,0.917
-thin,lib/thin/response.rb,84a5188612d8,web servers,5,13,0,41,0.0,1,0.0,17,3,12,0.706
-thin,lib/thin/runner.rb,84a5188612d8,web servers,19.5,93,10,80,0.0,1,10.0,10,2,10,1.0
-thin,lib/thin/server.rb,84a5188612d8,web servers,11.1,38,8,77,1.5,1,0.0,13,2,13,1.0
-thin,lib/thin/stats.rb,84a5188612d8,web servers,9.5,12,0,50,0.33,1,0.0,4,3,4,1.0
-thin,site/rdoc.rb,84a5188612d8,web servers,13.2,17,0,100,0.0,0,25.0,4,4,4,1.0
-thin,site/thin.rb,84a5188612d8,web servers,42.8,81,0,67,0.0,1,0.0,6,1,6,1.0
+thin,lib/thin/response.rb,84a5188612d8,web servers,5,13,0,41,0.0,0,0.0,17,3,12,0.706
+thin,lib/thin/runner.rb,84a5188612d8,web servers,19.5,93,10,80,0.0,0,10.0,10,2,10,1.0
+thin,lib/thin/server.rb,84a5188612d8,web servers,11.1,38,8,77,1.5,0,0.0,13,2,13,1.0
+thin,lib/thin/stats.rb,84a5188612d8,web servers,9.5,12,0,50,0.33,0,0.0,4,3,4,1.0
 tilt,lib/tilt.rb,f0d75c60e3a6,template engine,4.3,19,79,79,0.5,0,0.0,14,2,13,0.929
 tilt,lib/tilt/builder.rb,f0d75c60e3a6,template engine,5,13,0,40,0.0,1,0.0,5,2,5,1.0
 tilt,lib/tilt/csv.rb,f0d75c60e3a6,template engine,4.7,7,0,67,0.0,1,0.0,3,2,3,1.0
@@ -5628,7 +5500,6 @@ webmock,lib/webmock/util/query_mapper.rb,ee409ac0a5f0,testing,19.2,47,100,100,0.
 webmock,lib/webmock/util/uri.rb,ee409ac0a5f0,testing,6.3,20,100,82,0.0,0,0.0,11,4,11,1.0
 webmock,lib/webmock/util/version_checker.rb,ee409ac0a5f0,testing,5.3,15,0,46,0.0,0,0.0,13,2,11,0.846
 webmock,lib/webmock/webmock.rb,ee409ac0a5f0,testing,5.4,19,96,30,2.0,0,4.3,23,1,21,0.913
-webmock,minitest/test_helper.rb,ee409ac0a5f0,testing,4.7,8,0,33,0.0,0,0.0,3,0,3,1.0
 will_paginate,lib/will_paginate/active_record.rb,50017c3eb071,pagination,10.2,36,0,88,0.2,0,0.0,16,5,16,1.0
 will_paginate,lib/will_paginate/collection.rb,50017c3eb071,pagination,4.3,11,11,89,0.33,1,0.0,9,3,9,1.0
 will_paginate,lib/will_paginate/core_ext.rb,50017c3eb071,pagination,4.7,7,0,33,0.0,0,0.0,3,0,3,1.0

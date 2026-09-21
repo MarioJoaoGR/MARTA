@@ -18,6 +18,11 @@ Tres armadilhas que esta camada tem de tratar, e que custaram gems reais:
    de desistir: mongo-ruby-driver -> mongo, CocoaPods -> cocoapods. Sem isto
    perdiam-se gems com mais de 100 milhoes de descargas por um palpite de nome.
 
+4. O link da lista pode estar desactualizado. A resposta do RubyGems traz tambem
+   o repositorio declarado pela gem; ambos ficam registados. A camada 2 procura a
+   etiqueta da versao publicada primeiro no repo da lista e, se nao existir, no
+   repo declarado. Foi assim que se recuperaram a `tilt` e a `kaminari`.
+
     python -m benchmark.dataset.camada1_universo
     python -m benchmark.dataset.camada1_universo --dry   # so conta, nao consulta
 """
@@ -60,6 +65,17 @@ def _limpo(s: str) -> str:
     """Nome de exibicao -> nome plausivel de gem."""
     return (s.strip().lower().replace("::", "-").replace(" ", "-")
             .replace("_", "-"))
+
+
+def _repo_github(*urls: str | None) -> str:
+    """Primeiro `dono/repo` GitHub presente nos metadados do RubyGems."""
+    for url in urls:
+        if not url:
+            continue
+        m = re.search(r"github\.com/([^/#?]+)/([^/#?]+)", str(url), re.I)
+        if m:
+            return f"{m.group(1)}/{m.group(2).removesuffix('.git')}"
+    return ""
 
 
 def extrai(md: str):
@@ -109,13 +125,21 @@ def variantes(gem: str, repo: str):
 def rubygems(gem: str):
     try:
         d = json.loads(get(f"https://rubygems.org/api/v1/gems/{gem}.json", 15))
+        meta = d.get("metadata") or {}
+        repo = _repo_github(d.get("source_code_uri"),
+                            meta.get("source_code_uri"),
+                            d.get("homepage_uri"),
+                            meta.get("homepage_uri"),
+                            d.get("project_uri"))
         return {"existe": True, "downloads": d.get("downloads", 0),
                 "versao": d.get("version"),
-                "licenca": (d.get("licenses") or [None])[0], "erro": ""}
+                "licenca": (d.get("licenses") or [None])[0],
+                "repo_declarado": repo, "erro": ""}
     except Exception as e:
         cod = getattr(e, "code", None)
         return {"existe": False, "downloads": None, "versao": None,
-                "licenca": None, "erro": f"HTTP {cod}" if cod else type(e).__name__}
+                "licenca": None, "repo_declarado": "",
+                "erro": f"HTTP {cod}" if cod else type(e).__name__}
 
 
 def main(dry: bool = False) -> None:
@@ -169,6 +193,22 @@ def main(dry: bool = False) -> None:
                                           "versao", "licenca"], extrasaction="ignore")
         w.writeheader()
         w.writerows(universo)
+
+    # A camada 2 precisa dos dois candidatos para encontrar a etiqueta da versao
+    # publicada. Este ficheiro existia no artefacto, mas a primeira reconstrução
+    # da camada 1 nao o voltava a produzir, quebrando a reproducibilidade de raiz.
+    with open(f"{OUT}/repos_declarados.csv", "w", newline="", encoding="utf-8") as f:
+        campos_repo = ["gem", "repo_lista", "repo_declarado", "difere", "erro"]
+        w = csv.DictWriter(f, fieldnames=campos_repo)
+        w.writeheader()
+        for r in universo:
+            repo_lista = r["repo"].split("/tree/", 1)[0]
+            repo_declarado = r.get("repo_declarado", "")
+            w.writerow({"gem": r["gem"], "repo_lista": r["repo"],
+                        "repo_declarado": repo_declarado,
+                        "difere": bool(repo_declarado and
+                                       repo_declarado.lower() != repo_lista.lower()),
+                        "erro": r.get("erro", "")})
     json.dump({"fonte": AWESOME, "data": str(date.today()),
                "min_downloads": MIN_DOWNLOADS, "total": len(universo),
                "gems": [{k: r[k] for k in ("gem", "repo", "categoria",

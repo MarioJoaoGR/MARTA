@@ -184,7 +184,6 @@ money,lib/money/money/constructors.rb,26e2829c34f1,money,3,3,0,0,0.0,0,0.0,5,2,2
 rouge,lib/rouge/lexers/bbcbasic.rb,afc3c52c2af0,code highlighting,6.8,10,100,0,0.0,2,0.0,5,3,2,0.4,menos de 3 formas distintas
 rouge,lib/rouge/lexers/hcl.rb,afc3c52c2af0,code highlighting,3,3,100,0,0.0,2,0.0,5,3,2,0.4,menos de 3 formas distintas
 rouge,lib/rouge/lexers/ocl.rb,afc3c52c2af0,code highlighting,7.4,15,100,0,0.0,2,0.0,5,3,2,0.4,menos de 3 formas distintas
-rspec,rspec-support/benchmarks/class_exec_vs_klass_exec.rb,79a280d76e10,testing,2.8,3,0,0,0.0,0,0.0,5,0,2,0.4,menos de 3 formas distintas
 shoulda-matchers,lib/shoulda/matchers/integrations/test_frameworks/active_support_test_case.rb,cf3b3685f2c0,testing,2.8,3,0,20,0.0,0,0.0,5,5,2,0.4,menos de 3 formas distintas
 shoulda-matchers,lib/shoulda/matchers/integrations/test_frameworks/minitest_4.rb,cf3b3685f2c0,testing,3.4,6,0,20,0.4,0,20.0,5,5,2,0.4,menos de 3 formas distintas
 shoulda-matchers,lib/shoulda/matchers/integrations/test_frameworks/minitest_5.rb,cf3b3685f2c0,testing,3.4,6,0,20,0.4,0,20.0,5,5,2,0.4,menos de 3 formas distintas
@@ -332,27 +331,20 @@ fastlane,spaceship/lib/spaceship/connect_api/models/app_category.rb,38d0ec404332
 foreman,lib/foreman.rb,3530b8e4a1b1,process management and monitoring,3,3,100,0,0.0,0,0.0,3,1,2,0.667,menos de 3 formas distintas
 gitlab,lib/gitlab/client/events.rb,4818c5712616,third-party apis,3,3,0,0,0.0,2,0.0,3,2,2,0.667,menos de 3 formas distintas
 gli,lib/gli/argument.rb,4029b76c888a,cli builder,3.3,4,0,67,0.0,0,0.0,3,2,2,0.667,menos de 3 formas distintas
-haml,benchmark/etc/real_sample.rb,7f51ae709d96,template engine,3,3,0,0,0.0,0,0.0,3,0,2,0.667,menos de 3 formas distintas
 haml,lib/haml/filters/css.rb,7f51ae709d96,template engine,7.3,8,0,67,0.0,2,0.0,3,3,2,0.667,menos de 3 formas distintas
 haml,lib/haml/filters/javascript.rb,7f51ae709d96,template engine,7.3,8,0,67,0.0,2,0.0,3,3,2,0.667,menos de 3 formas distintas
 haml,lib/haml/force_escape.rb,7f51ae709d96,template engine,3.7,5,0,33,0.0,2,0.0,3,3,2,0.667,menos de 3 formas distintas
-httparty,examples/custom_parsers.rb,9c89e55ce357,http clients and tools,3,3,0,67,0.57,1,0.0,3,7,2,0.667,menos de 3 formas distintas
-httparty,examples/delicious.rb,9c89e55ce357,http clients and tools,3.7,4,0,67,1.0,0,0.0,3,1,2,0.667,menos de 3 formas distintas
-httparty,examples/stackexchange.rb,9c89e55ce357,http clients and tools,3,3,0,0,1.0,0,0.0,3,1,2,0.667,menos de 3 formas distintas
 httpclient,lib/hexdump.rb,5bc7b0d383c4,http clients and tools,11.7,29,67,33,0.0,0,0.0,3,1,2,0.667,menos de 3 formas distintas
 jbuilder,lib/jbuilder/errors.rb,31eb6e909968,api builder and discovery,4,4,100,100,0.0,1,0.0,3,4,2,0.667,menos de 3 formas distintas
 jwt,lib/jwt/jwa/none.rb,db560b769a07,authentication and oauth,3,3,0,0,0.33,0,0.0,3,3,2,0.667,menos de 3 formas distintas
 jwt,lib/jwt/version.rb,db560b769a07,authentication and oauth,3.7,5,100,0,0.0,0,0.0,3,2,2,0.667,menos de 3 formas distintas
 knapsack,lib/knapsack/config/tracker.rb,f394c8470281,testing,3,3,100,0,0.0,0,0.0,3,3,2,0.667,menos de 3 formas distintas
-knapsack,test_examples/slow/slow_test.rb,f394c8470281,testing,3,3,0,0,0.0,1,0.0,3,1,1,0.333,menos de 3 formas distintas; proporcao 0.333 abaixo de 0.4
-liquid,performance/shopify/money_filter.rb,7a5e45fc4784,template engine,3.7,4,0,67,0.0,0,0.0,3,1,2,0.667,menos de 3 formas distintas
 listen,lib/listen/monotonic_time.rb,2fa1a742d8c2,file system listener,3,3,100,0,0.0,0,0.0,3,2,2,0.667,menos de 3 formas distintas
 lograge,lib/lograge/rails_ext/action_cable/connection/base.rb,e5caed777529,logging,3,3,0,33,0.0,0,0.0,3,3,2,0.667,menos de 3 formas distintas
 mail,lib/mail/encodings/identity.rb,d645d7b5b7d0,email,3,3,100,0,0.0,1,0.0,3,3,1,0.333,menos de 3 formas distintas; proporcao 0.333 abaixo de 0.4
 mongo,lib/mongo/error/invalid_transaction_operation.rb,049b718a2d47,database drivers,3,3,67,0,0.0,2,0.0,3,3,2,0.667,menos de 3 formas distintas
 mongo,lib/mongo/error/unsupported_option.rb,049b718a2d47,database drivers,5.7,11,100,33,0.0,2,0.0,3,3,2,0.667,menos de 3 formas distintas
 mongo,lib/mongo/write_concern/unacknowledged.rb,049b718a2d47,database drivers,3,3,0,0,0.0,1,0.0,3,3,2,0.667,menos de 3 formas distintas
-mongo,profile/driver_bench/multi_doc/grid_fs/base.rb,049b718a2d47,database drivers,3,3,0,0,0.0,2,0.0,3,5,2,0.667,menos de 3 formas distintas
 parallel_tests,lib/parallel_tests/spinach/runner.rb,e4870a1632aa,testing,3.3,4,100,0,0.0,2,0.0,3,3,2,0.667,menos de 3 formas distintas
 pastel,lib/pastel/ansi.rb,afd82952076e,cli utilities,3,3,0,100,0.0,0,0.0,3,2,1,0.333,menos de 3 formas distintas; proporcao 0.333 abaixo de 0.4
 pg,lib/pg/binary_decoder/timestamp.rb,d4539c25dcc8,database drivers,4,4,0,100,0.0,1,0.0,3,5,1,0.333,menos de 3 formas distintas; proporcao 0.333 abaixo de 0.4
@@ -393,11 +385,7 @@ selenium-webdriver,lib/selenium/webdriver/common/interactions/key_input.rb,9175e
 sentry-ruby,sentry-rails/lib/sentry/rails/log_subscribers/parameter_filter.rb,a940dfdb5a64,error handling,4.7,8,67,33,0.0,0,0.0,3,4,2,0.667,menos de 3 formas distintas
 sentry-ruby,sentry-ruby/lib/sentry/metrics.rb,a940dfdb5a64,error handling,10.7,11,100,0,0.0,0,0.0,3,2,2,0.667,menos de 3 formas distintas
 shoulda-matchers,lib/shoulda/matchers/integrations/libraries/action_controller.rb,cf3b3685f2c0,testing,6.3,13,0,33,0.4,0,0.0,3,5,2,0.667,menos de 3 formas distintas
-simplecov,benchmarks/collate/shape.rb,76a8e4e0f661,code analysis and metrics,3,3,100,100,0.0,0,0.0,3,2,1,0.333,menos de 3 formas distintas; proporcao 0.333 abaixo de 0.4
 simplecov,lib/simplecov/deprecation.rb,76a8e4e0f661,code analysis and metrics,4.7,8,0,33,0.0,0,0.0,3,2,2,0.667,menos de 3 formas distintas
-simplecov,test_projects/faked_project/lib/faked_project/framework_specific.rb,76a8e4e0f661,code analysis and metrics,3,3,100,0,0.0,0,0.0,3,1,1,0.333,menos de 3 formas distintas; proporcao 0.333 abaixo de 0.4
-simplecov,test_projects/faked_project/lib/faked_project/meta_magic.rb,76a8e4e0f661,code analysis and metrics,5.3,10,33,33,0.0,0,133.3,3,3,2,0.667,menos de 3 formas distintas
-simplecov,test_projects/subprocesses/lib/subprocesses.rb,76a8e4e0f661,code analysis and metrics,5.7,11,0,0,0.0,0,0.0,3,1,2,0.667,menos de 3 formas distintas
 slop,lib/slop/error.rb,7e720331b78d,cli builder,4,4,0,0,0.0,2,0.0,3,7,1,0.333,menos de 3 formas distintas; proporcao 0.333 abaixo de 0.4
 state_machines,lib/state_machines/machine/scoping.rb,219b43ea588f,state machines,6.3,17,0,0,0.0,0,33.3,3,3,2,0.667,menos de 3 formas distintas
 tilt,lib/tilt/coffee.rb,f0d75c60e3a6,template engine,4.3,7,67,33,0.0,3,0.0,3,3,2,0.667,menos de 3 formas distintas
@@ -584,12 +572,6 @@ coderay,lib/coderay/scanners/json.rb,d30855fe96e3,code highlighting,35.5,68,0,50
 coderay,lib/coderay/scanners/lua.rb,d30855fe96e3,code highlighting,110,216,0,50,0.0,2,0.0,2,3,2,1.0,menos de 3 formas distintas
 coderay,lib/coderay/scanners/raydebug.rb,d30855fe96e3,code highlighting,26.5,49,0,50,0.0,2,0.0,2,3,2,1.0,menos de 3 formas distintas
 coderay,lib/coderay/scanners/sass.rb,d30855fe96e3,code highlighting,107.5,212,0,50,0.0,1,0.0,2,3,2,1.0,menos de 3 formas distintas
-concurrent-ruby,docs-source/actor/celluloid_benchmark.rb,0b88d5ff75f6,concurrency and parallelism,5.5,7,0,50,1.0,0,0.0,2,1,2,1.0,menos de 3 formas distintas
-concurrent-ruby,docs-source/actor/quick.in.rb,0b88d5ff75f6,concurrency and parallelism,6,9,0,0,0.0,2,0.0,2,1,2,1.0,menos de 3 formas distintas
-concurrent-ruby,docs-source/actor/quick.out.rb,0b88d5ff75f6,concurrency and parallelism,6,9,0,0,0.0,2,0.0,2,1,2,1.0,menos de 3 formas distintas
-concurrent-ruby,examples/benchmark_async.rb,0b88d5ff75f6,concurrency and parallelism,3,3,0,100,1.0,0,0.0,2,2,1,0.5,menos de 3 formas distintas
-concurrent-ruby,examples/benchmark_atomic.rb,0b88d5ff75f6,concurrency and parallelism,18.5,32,0,100,0.0,0,0.0,2,0,2,1.0,menos de 3 formas distintas
-concurrent-ruby,examples/go-by-example-channels/channel-directions.rb,0b88d5ff75f6,concurrency and parallelism,3.5,4,0,100,0.0,0,0.0,2,0,2,1.0,menos de 3 formas distintas
 concurrent-ruby,lib/concurrent-ruby-edge/concurrent/actor/behaviour/executes_context.rb,0b88d5ff75f6,concurrency and parallelism,3.5,4,0,100,0.0,1,0.0,2,4,2,1.0,menos de 3 formas distintas
 concurrent-ruby,lib/concurrent-ruby-edge/concurrent/actor/behaviour/sets_results.rb,0b88d5ff75f6,concurrency and parallelism,12.5,21,0,50,0.0,1,0.0,2,4,2,1.0,menos de 3 formas distintas
 concurrent-ruby,lib/concurrent-ruby-edge/concurrent/actor/behaviour/supervising.rb,0b88d5ff75f6,concurrency and parallelism,12.5,13,0,50,0.0,1,0.0,2,4,2,1.0,menos de 3 formas distintas
@@ -610,11 +592,9 @@ concurrent-ruby,lib/concurrent-ruby/concurrent/executor/java_single_thread_execu
 concurrent-ruby,lib/concurrent-ruby/concurrent/executor/safe_task_executor.rb,0b88d5ff75f6,concurrency and parallelism,10.5,16,0,100,0.0,2,0.0,2,2,2,1.0,menos de 3 formas distintas
 concurrent-ruby,lib/concurrent-ruby/concurrent/executor/serialized_execution_delegator.rb,0b88d5ff75f6,concurrency and parallelism,5,5,0,50,0.5,1,0.0,2,2,2,1.0,menos de 3 formas distintas
 concurrent-ruby,lib/concurrent-ruby/concurrent/options.rb,0b88d5ff75f6,concurrency and parallelism,10.5,14,100,50,0.0,0,0.0,2,2,2,1.0,menos de 3 formas distintas
-concurrent-ruby,support/yard_full_types.rb,0b88d5ff75f6,concurrency and parallelism,20,27,0,100,0.0,0,0.0,2,3,2,1.0,menos de 3 formas distintas
 countries,lib/countries/country/conversion_methods.rb,8c026f5b49da,country data,3,3,0,0,0.0,0,0.0,2,2,2,1.0,menos de 3 formas distintas
 countries,lib/countries/sources/cldr/downloader.rb,8c026f5b49da,country data,8.5,14,0,50,0.0,0,0.0,2,3,2,1.0,menos de 3 formas distintas
 countries,lib/countries/sources/cldr/subdivision_updater.rb,8c026f5b49da,country data,13,21,0,100,0.0,0,0.0,2,3,2,1.0,menos de 3 formas distintas
-dalli,scripts/changelog_section.rb,fc1b590e462a,caching,7.5,9,0,100,0.0,0,0.0,2,0,2,1.0,menos de 3 formas distintas
 danger,lib/danger.rb,c94d38b3ce68,automation,9.5,12,100,0,0.0,0,0.0,2,1,2,1.0,menos de 3 formas distintas
 danger,lib/danger/ci_source/support/find_repo_info_from_url.rb,c94d38b3ce68,automation,8.5,14,0,50,0.0,0,0.0,2,2,2,1.0,menos de 3 formas distintas
 danger,lib/danger/ci_source/support/local_pull_request.rb,c94d38b3ce68,automation,3.5,4,0,50,0.0,0,0.0,2,2,2,1.0,menos de 3 formas distintas
@@ -661,14 +641,7 @@ dry-types,lib/dry/types/coercions/json.rb,1a13fb04926f,type signatures and type 
 dry-types,lib/dry/types/constraints.rb,1a13fb04926f,type signatures and type checking,6,9,100,50,0.0,0,0.0,2,2,2,1.0,menos de 3 formas distintas
 dry-types,lib/dry/types/options.rb,1a13fb04926f,type signatures and type checking,5.5,7,0,100,0.0,0,0.0,2,3,2,1.0,menos de 3 formas distintas
 dry-types,lib/dry/types/type.rb,1a13fb04926f,type signatures and type checking,5.5,7,0,0,0.33,0,0.0,2,3,2,1.0,menos de 3 formas distintas
-eventmachine,examples/guides/getting_started/04_simple_chat_server_step_one.rb,9cb13a8a6236,concurrency and parallelism,3,3,0,0,0.0,1,0.0,2,1,1,0.5,menos de 3 formas distintas
 eventmachine,lib/em/protocols/line_protocol.rb,9cb13a8a6236,concurrency and parallelism,5,7,0,50,0.0,0,0.0,2,3,2,1.0,menos de 3 formas distintas
-excon,benchmarks/class_vs_lambda.rb,ac022b6417d7,http clients and tools,3,3,0,50,0.0,0,0.0,2,1,2,1.0,menos de 3 formas distintas
-excon,benchmarks/excon.rb,ac022b6417d7,http clients and tools,12,16,50,0,0.0,1,0.0,2,2,2,1.0,menos de 3 formas distintas
-excon,benchmarks/excon_vs.rb,ac022b6417d7,http clients and tools,12,16,50,0,0.0,1,0.0,2,2,2,1.0,menos de 3 formas distintas
-excon,benchmarks/headers_case_sensitivity.rb,ac022b6417d7,http clients and tools,12,12,0,100,0.0,0,0.0,2,0,1,0.5,menos de 3 formas distintas
-excon,benchmarks/implicit_block-vs-explicit_block.rb,ac022b6417d7,http clients and tools,4,4,0,50,0.0,0,0.0,2,0,2,1.0,menos de 3 formas distintas
-excon,benchmarks/vs_stdlib.rb,ac022b6417d7,http clients and tools,12,16,50,0,0.0,1,0.0,2,2,2,1.0,menos de 3 formas distintas
 excon,lib/excon/middlewares/decompress.rb,ac022b6417d7,http clients and tools,13.5,20,0,100,0.0,1,0.0,2,3,2,1.0,menos de 3 formas distintas
 excon,lib/excon/middlewares/expects.rb,ac022b6417d7,http clients and tools,8.5,12,50,50,0.0,1,0.0,2,3,2,1.0,menos de 3 formas distintas
 excon,lib/excon/middlewares/mock.rb,ac022b6417d7,http clients and tools,26.5,46,50,50,0.0,1,0.0,2,3,2,1.0,menos de 3 formas distintas
@@ -730,7 +703,6 @@ fastimage,lib/fastimage/fastimage_parsing/png.rb,7a0dcf780e6d,image processing,1
 fastimage,lib/fastimage/fastimage_parsing/tiff.rb,7a0dcf780e6d,image processing,5.5,8,0,50,0.0,1,0.0,2,2,2,1.0,menos de 3 formas distintas
 fastimage,lib/fastimage/fastimage_parsing/type_parser.rb,7a0dcf780e6d,image processing,34,65,0,50,0.0,0,0.0,2,2,2,1.0,menos de 3 formas distintas
 fastlane,cert/lib/cert/commands_generator.rb,38d0ec404332,mobile development,21.5,40,50,50,0.5,0,0.0,2,2,2,1.0,menos de 3 formas distintas
-fastlane,fastlane/helper/tool_name_formatting_helper.rb,38d0ec404332,mobile development,15,26,0,50,0.0,0,0.0,2,3,2,1.0,menos de 3 formas distintas
 fastlane,fastlane/lib/fastlane.rb,38d0ec404332,mobile development,6,9,100,0,0.0,0,0.0,2,1,2,1.0,menos de 3 formas distintas
 fastlane,fastlane/lib/fastlane/auto_complete.rb,38d0ec404332,mobile development,35,59,100,100,0.0,0,0.0,2,2,2,1.0,menos de 3 formas distintas
 fastlane,fastlane/lib/fastlane/command_line_handler.rb,38d0ec404332,mobile development,19,31,100,100,0.0,0,0.0,2,2,2,1.0,menos de 3 formas distintas
@@ -853,8 +825,6 @@ guard,lib/guard/internals/tracing.rb,170d63c6ca57,file system listener,13,14,100
 guard,lib/guard/options.rb,170d63c6ca57,file system listener,3,3,0,100,0.0,1,0.0,2,2,2,1.0,menos de 3 formas distintas
 guard,lib/guard/ui/logger.rb,170d63c6ca57,file system listener,3,3,0,0,0.0,2,0.0,2,4,2,1.0,menos de 3 formas distintas
 guard,lib/guard/watcher/pattern/match_result.rb,170d63c6ca57,file system listener,4.5,5,0,50,0.0,0,0.0,2,4,2,1.0,menos de 3 formas distintas
-haml,benchmark/slim/context.rb,7f51ae709d96,template engine,4,5,0,0,0.0,0,0.0,2,1,2,1.0,menos de 3 formas distintas
-haml,benchmark/utils/benchmark_ips_extension.rb,7f51ae709d96,template engine,14.5,17,0,100,0.2,0,0.0,2,5,2,1.0,menos de 3 formas distintas
 haml,lib/haml/ambles.rb,7f51ae709d96,template engine,6,7,0,100,0.0,1,0.0,2,2,2,1.0,menos de 3 formas distintas
 haml,lib/haml/compiler/silent_script_compiler.rb,7f51ae709d96,template engine,7,7,0,100,0.0,0,0.0,2,3,2,1.0,menos de 3 formas distintas
 haml,lib/haml/engine.rb,7f51ae709d96,template engine,3,3,0,50,0.0,2,0.0,2,3,2,1.0,menos de 3 formas distintas
@@ -879,11 +849,9 @@ http,lib/http/headers/normalizer.rb,942b1b36cea9,http clients and tools,7,7,0,10
 http,lib/http/mime_type/adapter.rb,942b1b36cea9,http clients and tools,3,3,0,0,0.67,0,0.0,2,3,1,0.5,menos de 3 formas distintas
 http,lib/http/mime_type/json.rb,942b1b36cea9,http clients and tools,3,3,0,50,0.0,1,0.0,2,3,2,1.0,menos de 3 formas distintas
 http,lib/http/uri/normalizer.rb,942b1b36cea9,http clients and tools,9.5,10,100,100,0.0,0,0.0,2,2,2,1.0,menos de 3 formas distintas
-httparty,examples/aaws.rb,9c89e55ce357,http clients and tools,7,11,0,50,0.5,0,0.0,2,2,2,1.0,menos de 3 formas distintas
 httparty,lib/httparty/cookie_hash.rb,9c89e55ce357,http clients and tools,8,13,0,100,0.0,1,0.0,2,1,2,1.0,menos de 3 formas distintas
 httparty,lib/httparty/response/headers.rb,9c89e55ce357,http clients and tools,11,15,0,100,0.33,1,100.0,2,3,2,1.0,menos de 3 formas distintas
 httparty,lib/httparty/response_fragment.rb,9c89e55ce357,http clients and tools,4.5,6,0,50,0.0,1,0.0,2,2,2,1.0,menos de 3 formas distintas
-httpclient,bench/bm_common.rb,5bc7b0d383c4,http clients and tools,13.5,20,0,50,0.0,0,0.0,2,2,2,1.0,menos de 3 formas distintas
 i18n,lib/i18n/backend/cache_file.rb,8beba7876163,internationalization,7.5,9,0,50,0.0,0,0.0,2,3,2,1.0,menos de 3 formas distintas
 i18n,lib/i18n/gettext.rb,8beba7876163,internationalization,4,5,100,100,0.0,0,0.0,2,2,2,1.0,menos de 3 formas distintas
 i18n,lib/i18n/gettext/po_parser.rb,8beba7876163,internationalization,3,3,0,0,0.0,1,0.0,2,2,2,1.0,menos de 3 formas distintas
@@ -914,7 +882,6 @@ jwt,lib/jwt/jwa/unsupported.rb,db560b769a07,authentication and oauth,3,3,100,0,0
 jwt,lib/jwt/jwa/verifier_context.rb,db560b769a07,authentication and oauth,4.5,5,0,50,0.0,0,0.0,2,3,2,1.0,menos de 3 formas distintas
 jwt,lib/jwt/jwk/kid_as_key_digest.rb,db560b769a07,authentication and oauth,3,3,0,50,0.0,0,0.0,2,3,2,1.0,menos de 3 formas distintas
 jwt,lib/jwt/jwk/thumbprint.rb,db560b769a07,authentication and oauth,6,9,0,50,0.0,0,0.0,2,3,2,1.0,menos de 3 formas distintas
-knapsack,test_examples/fast/spec_test.rb,f394c8470281,testing,3,3,0,100,0.0,0,0.0,2,1,2,1.0,menos de 3 formas distintas
 kramdown,lib/kramdown/converter/remove_html_tags.rb,12b3d2e75279,markdown processors,13,22,0,100,0.0,1,0.0,2,3,2,1.0,menos de 3 formas distintas
 kramdown,lib/kramdown/parser/kramdown/block_boundary.rb,12b3d2e75279,markdown processors,4,5,0,100,0.0,1,0.0,2,3,2,1.0,menos de 3 formas distintas
 kramdown,lib/kramdown/parser/kramdown/codeblock.rb,12b3d2e75279,markdown processors,12,16,0,100,0.0,1,0.0,2,3,2,1.0,menos de 3 formas distintas
@@ -927,10 +894,8 @@ letter_opener,lib/letter_opener.rb,f6a925b0232b,email,3,3,100,0,0.0,0,0.0,2,1,2,
 liquid,lib/liquid/errors.rb,7a5e45fc4784,template engine,14.5,17,0,100,0.0,1,0.0,2,2,2,1.0,menos de 3 formas distintas
 liquid,lib/liquid/lexer.rb,7a5e45fc4784,template engine,36.5,68,100,100,0.0,0,0.0,2,2,2,1.0,menos de 3 formas distintas
 liquid,lib/liquid/tag/disableable.rb,7a5e45fc4784,template engine,6.5,7,0,100,0.0,0,0.0,2,3,2,1.0,menos de 3 formas distintas
-liquid,performance/shopify/weight_filter.rb,7a5e45fc4784,template engine,3,3,0,50,0.0,0,0.0,2,1,2,1.0,menos de 3 formas distintas
 listen,lib/listen.rb,2fa1a742d8c2,file system listener,7,9,100,100,0.0,0,0.0,2,1,2,1.0,menos de 3 formas distintas
 listen,lib/listen/file.rb,2fa1a742d8c2,file system listener,40,72,100,100,0.0,0,0.0,2,2,2,1.0,menos de 3 formas distintas
-logging,examples/classes.rb,aec306300d18,logging,1,1,0,0,0.0,0,0.0,2,2,1,0.5,menos de 3 formas distintas
 logging,lib/logging/filter.rb,aec306300d18,logging,3,3,0,0,0.0,0,0.0,2,2,2,1.0,menos de 3 formas distintas
 logging,lib/logging/filters/level.rb,aec306300d18,logging,4,5,0,100,0.0,1,0.0,2,3,2,1.0,menos de 3 formas distintas
 logging,lib/logging/layouts/basic.rb,aec306300d18,logging,4.5,5,50,100,0.0,1,0.0,2,2,2,1.0,menos de 3 formas distintas
@@ -1012,17 +977,6 @@ mongo,lib/mongo/server/description/features.rb,049b718a2d47,database drivers,12.
 mongo,lib/mongo/server_selector.rb,049b718a2d47,database drivers,4.5,6,0,50,0.5,0,0.0,2,2,2,1.0,menos de 3 formas distintas
 mongo,lib/mongo/session/server_session/dirtyable.rb,049b718a2d47,database drivers,3,3,0,0,0.0,0,0.0,2,4,2,1.0,menos de 3 formas distintas
 mongo,lib/mongo/socket/unix.rb,049b718a2d47,database drivers,4.5,6,0,0,0.0,1,0.0,2,3,2,1.0,menos de 3 formas distintas
-mongo,profile/driver_bench/bson/base.rb,049b718a2d47,database drivers,4.5,6,0,0,0.0,1,0.0,2,4,2,1.0,menos de 3 formas distintas
-mongo,profile/driver_bench/bson/decodable.rb,049b718a2d47,database drivers,4.5,6,0,50,0.0,0,0.0,2,4,2,1.0,menos de 3 formas distintas
-mongo,profile/driver_bench/bson/encodable.rb,049b718a2d47,database drivers,3,3,0,50,0.0,0,0.0,2,4,2,1.0,menos de 3 formas distintas
-mongo,profile/driver_bench/multi_doc/bulk_insert/large_doc.rb,049b718a2d47,database drivers,3.5,4,0,0,0.0,3,0.0,2,5,2,1.0,menos de 3 formas distintas
-mongo,profile/driver_bench/multi_doc/bulk_insert/small_doc.rb,049b718a2d47,database drivers,3.5,4,0,0,0.0,3,0.0,2,5,2,1.0,menos de 3 formas distintas
-mongo,profile/driver_bench/multi_doc/grid_fs/upload.rb,049b718a2d47,database drivers,5.5,8,0,100,0.0,3,0.0,2,5,2,1.0,menos de 3 formas distintas
-mongo,profile/driver_bench/percentiles.rb,049b718a2d47,database drivers,3.5,4,0,100,0.0,0,0.0,2,3,2,1.0,menos de 3 formas distintas
-mongo,profile/driver_bench/single_doc/insert_one/base.rb,049b718a2d47,database drivers,4.5,5,0,100,0.0,2,0.0,2,5,2,1.0,menos de 3 formas distintas
-mongo,profile/driver_bench/single_doc/insert_one/large_doc.rb,049b718a2d47,database drivers,3.5,4,0,0,0.0,3,0.0,2,5,2,1.0,menos de 3 formas distintas
-mongo,profile/driver_bench/single_doc/insert_one/small_doc.rb,049b718a2d47,database drivers,3.5,4,0,0,0.0,3,0.0,2,5,2,1.0,menos de 3 formas distintas
-mysql2,ext/mysql2/extconf.rb,c79b3c14fd47,database drivers,11.5,14,0,50,0.0,0,0.0,2,0,2,1.0,menos de 3 formas distintas
 oauth2,lib/oauth2.rb,63727352546e,authentication and oauth,3,3,100,0,0.0,0,0.0,2,1,2,1.0,menos de 3 formas distintas
 oauth2,lib/oauth2/strategy/client_credentials.rb,63727352546e,authentication and oauth,3.5,4,0,50,0.0,1,0.0,2,3,2,1.0,menos de 3 formas distintas
 oauth2,lib/oauth2/strategy/password.rb,63727352546e,authentication and oauth,5.5,8,0,50,0.0,1,0.0,2,3,2,1.0,menos de 3 formas distintas
@@ -1036,10 +990,8 @@ pastel,lib/pastel/color_resolver.rb,afd82952076e,cli utilities,5,7,0,50,0.0,0,0.
 pg,lib/pg/binary_encoder/timestamp.rb,d4539c25dcc8,database drivers,4,4,0,100,0.0,1,0.0,2,4,1,0.5,menos de 3 formas distintas
 pg,lib/pg/cancel_connection.rb,d4539c25dcc8,database drivers,10,16,0,50,1.0,0,0.0,2,1,2,1.0,menos de 3 formas distintas
 pg,lib/pg/type_map_by_column.rb,d4539c25dcc8,database drivers,3.5,4,0,100,0.0,0,0.0,2,1,2,1.0,menos de 3 formas distintas
-pg,sample/disk_usage_report.rb,d4539c25dcc8,database drivers,72,82,0,100,0.0,0,0.0,2,0,2,1.0,menos de 3 formas distintas
 prawn,lib/prawn/font_metric_cache.rb,f82783b1d020,pdf,14.5,24,0,50,0.0,0,0.0,2,2,2,1.0,menos de 3 formas distintas
 prawn,lib/prawn/soft_mask.rb,f82783b1d020,pdf,29.5,56,0,50,0.0,0,0.0,2,2,2,1.0,menos de 3 formas distintas
-prawn,manual/bounding_box/recursive_boxes.rb,f82783b1d020,pdf,8,11,0,100,0.0,0,0.0,2,0,2,1.0,menos de 3 formas distintas
 pry,lib/pry/block_command.rb,5a267df08ad6,irb,3,3,0,50,0.0,1,50.0,2,2,2,1.0,menos de 3 formas distintas
 pry,lib/pry/commands/change_inspector.rb,5a267df08ad6,irb,5.5,8,0,50,0.0,2,0.0,2,3,2,1.0,menos de 3 formas distintas
 pry,lib/pry/commands/edit/exception_patcher.rb,5a267df08ad6,irb,6.5,8,0,50,0.0,2,0.0,2,4,2,1.0,menos de 3 formas distintas
@@ -1140,19 +1092,12 @@ rouge,lib/rouge/lexers/zig.rb,afc3c52c2af0,code highlighting,16.5,21,100,0,0.0,2
 rouge,lib/rouge/plugins/redcarpet.rb,afc3c52c2af0,code highlighting,11.5,20,0,50,0.0,0,0.0,2,3,2,1.0,menos de 3 formas distintas
 rouge,lib/rubocop/cop/rouge/no_building_alternation_pattern_in_regexp.rb,afc3c52c2af0,code highlighting,7,7,0,100,0.0,1,0.0,2,4,2,1.0,menos de 3 formas distintas
 rouge,lib/rubocop/cop/rouge/no_huge_collections.rb,afc3c52c2af0,code highlighting,6.5,8,0,100,0.0,1,0.0,2,4,2,1.0,menos de 3 formas distintas
-rspec,rspec-core/benchmarks/call_v_yield.rb,79a280d76e10,testing,3,3,0,50,0.0,0,0.0,2,0,2,1.0,menos de 3 formas distintas
-rspec,rspec-core/benchmarks/define_method_v_attr_reader_v_def.rb,79a280d76e10,testing,4,5,0,0,0.0,0,0.0,2,1,2,1.0,menos de 3 formas distintas
-rspec,rspec-core/benchmarks/flat_map_vs_inject.rb,79a280d76e10,testing,3,3,0,100,0.0,0,0.0,2,0,2,1.0,menos de 3 formas distintas
-rspec,rspec-core/benchmarks/hash_functions.rb,79a280d76e10,testing,17,18,0,100,0.0,0,0.0,2,0,2,1.0,menos de 3 formas distintas
 rspec,rspec-core/lib/rspec/core/flat_map.rb,79a280d76e10,testing,3,3,0,100,0.0,0,0.0,2,3,2,1.0,menos de 3 formas distintas
 rspec,rspec-core/lib/rspec/core/formatters/bisect_drb_formatter.rb,79a280d76e10,testing,4.5,6,0,100,0.0,1,0.0,2,4,2,1.0,menos de 3 formas distintas
 rspec,rspec-core/lib/rspec/core/formatters/fallback_message_formatter.rb,79a280d76e10,testing,3,3,0,50,0.0,0,0.0,2,4,2,1.0,menos de 3 formas distintas
-rspec,rspec-expectations/benchmarks/method_to_proc.rb,79a280d76e10,testing,1,1,0,0,0.0,0,0.0,2,0,1,0.5,menos de 3 formas distintas
 rspec,rspec-expectations/lib/rspec/expectations/fail_with.rb,79a280d76e10,testing,8,10,100,0,0.0,0,0.0,2,3,2,1.0,menos de 3 formas distintas
 rspec,rspec-expectations/lib/rspec/matchers/built_in/be_instance_of.rb,79a280d76e10,testing,5,7,0,50,0.0,1,0.0,2,4,2,1.0,menos de 3 formas distintas
-rspec,rspec-mocks/benchmarks/allocations/lambda_vs_block_with_select.rb,79a280d76e10,testing,4,5,0,100,0.0,0,0.0,2,0,2,1.0,menos de 3 formas distintas
 rspec,rspec-mocks/lib/rspec/mocks/matchers/expectation_customization.rb,79a280d76e10,testing,4,5,0,50,0.0,0,50.0,2,4,2,1.0,menos de 3 formas distintas
-rspec,rspec-support/benchmarks/map_hash.rb,79a280d76e10,testing,4.5,6,0,100,0.0,0,0.0,2,0,2,1.0,menos de 3 formas distintas
 rspec,rspec-support/lib/rspec/support/caller_filter.rb,79a280d76e10,testing,15.5,28,100,100,0.0,0,0.0,2,2,2,1.0,menos de 3 formas distintas
 rspec,rspec-support/lib/rspec/support/source/location.rb,79a280d76e10,testing,4,5,50,100,0.33,0,0.0,2,3,2,1.0,menos de 3 formas distintas
 rspec,rspec-support/lib/rspec/support/spec.rb,79a280d76e10,testing,15.5,18,100,50,0.0,0,50.0,2,3,2,1.0,menos de 3 formas distintas
@@ -1372,11 +1317,9 @@ sentry-ruby,sentry-rails/lib/sentry/rails/error_reporter_context.rb,a940dfdb5a64
 sentry-ruby,sentry-rails/lib/sentry/rails/log_subscribers/action_mailer_subscriber.rb,a940dfdb5a64,error handling,28.5,29,0,100,0.25,2,0.0,2,4,2,1.0,menos de 3 formas distintas
 sentry-ruby,sentry-rails/lib/sentry/rails/structured_logging.rb,a940dfdb5a64,error handling,7.5,8,100,100,0.0,0,0.0,2,3,2,1.0,menos de 3 formas distintas
 sentry-ruby,sentry-rails/lib/sentry/rails/tracing/active_support_subscriber.rb,a940dfdb5a64,error handling,14,14,100,50,0.0,1,0.0,2,4,2,1.0,menos de 3 formas distintas
-sentry-ruby,sentry-ruby/benchmarks/exception_locals_capturing.rb,a940dfdb5a64,error handling,10.5,15,0,100,0.0,0,100.0,2,0,2,1.0,menos de 3 formas distintas
 sentry-ruby,sentry-ruby/lib/sentry/check_in_event.rb,a940dfdb5a64,error handling,12.5,16,0,50,0.0,1,0.0,2,2,2,1.0,menos de 3 formas distintas
 sentry-ruby,sentry-ruby/lib/sentry/transport/configuration.rb,a940dfdb5a64,error handling,6.5,7,0,50,0.0,0,0.0,2,3,2,1.0,menos de 3 formas distintas
 sentry-ruby,sentry-yabeda/lib/sentry/yabeda/collector.rb,a940dfdb5a64,error handling,4.5,5,0,100,0.0,1,0.0,2,3,2,1.0,menos de 3 formas distintas
-shoulda-matchers,doc_config/yard/setup.rb,cf3b3685f2c0,testing,3.5,4,0,50,0.0,0,50.0,2,4,2,1.0,menos de 3 formas distintas
 shoulda-matchers,lib/shoulda/matchers/active_model/allow_value_matcher/attribute_changed_value_error.rb,cf3b3685f2c0,testing,15,27,0,50,0.0,2,0.0,2,5,2,1.0,menos de 3 formas distintas
 shoulda-matchers,lib/shoulda/matchers/active_model/allow_value_matcher/attribute_does_not_exist_error.rb,cf3b3685f2c0,testing,4.5,6,0,50,0.0,2,0.0,2,5,2,1.0,menos de 3 formas distintas
 shoulda-matchers,lib/shoulda/matchers/active_model/qualifiers/ignoring_interference_by_writer.rb,cf3b3685f2c0,testing,3.5,4,0,50,0.0,0,0.0,2,5,2,1.0,menos de 3 formas distintas
@@ -1395,12 +1338,6 @@ simplecov,lib/simplecov/process.rb,76a8e4e0f661,code analysis and metrics,13,22,
 simplecov,lib/simplecov/report_stamp.rb,76a8e4e0f661,code analysis and metrics,5,7,100,0,0.0,0,0.0,2,2,2,1.0,menos de 3 formas distintas
 simplecov,lib/simplecov/source_file/builder_context.rb,76a8e4e0f661,code analysis and metrics,4,5,0,50,0.0,0,0.0,2,3,2,1.0,menos de 3 formas distintas
 simplecov,lib/simplecov/static_coverage_extractor/prism_compat.rb,76a8e4e0f661,code analysis and metrics,3,3,0,100,0.0,0,100.0,2,3,2,1.0,menos de 3 formas distintas
-simplecov,test_projects/faked_project/lib/faked_project/untested_class.rb,76a8e4e0f661,code analysis and metrics,4,5,0,50,0.0,0,0.0,2,1,2,1.0,menos de 3 formas distintas
-simplecov,test_projects/monorepo/base/lib/monorepo/base.rb,76a8e4e0f661,code analysis and metrics,3,3,0,50,0.0,0,0.0,2,2,2,1.0,menos de 3 formas distintas
-simplecov,test_projects/monorepo/extra/lib/monorepo/extra.rb,76a8e4e0f661,code analysis and metrics,3,3,0,0,0.0,0,0.0,2,2,2,1.0,menos de 3 formas distintas
-simplecov,test_projects/parallel_tests/lib/a.rb,76a8e4e0f661,code analysis and metrics,5,7,0,0,0.0,0,0.0,2,1,2,1.0,menos de 3 formas distintas
-simplecov,test_projects/parallel_tests/lib/b.rb,76a8e4e0f661,code analysis and metrics,3,3,0,0,0.0,0,0.0,2,1,1,0.5,menos de 3 formas distintas
-simplecov,test_projects/screenshot/support/source_generator.rb,76a8e4e0f661,code analysis and metrics,7.5,12,0,50,0.0,0,0.0,2,2,2,1.0,menos de 3 formas distintas
 slack-notifier,lib/slack-notifier/payload_middleware.rb,29e51132ce0e,third-party apis,3,3,100,50,0.0,0,0.0,2,3,2,1.0,menos de 3 formas distintas
 slack-notifier,lib/slack-notifier/payload_middleware/format_attachments.rb,29e51132ce0e,third-party apis,13.5,18,0,100,0.0,1,0.0,2,4,2,1.0,menos de 3 formas distintas
 spring,lib/spring/client.rb,b7f3fd04b2ed,testing,5.5,8,100,50,0.0,0,0.0,2,2,2,1.0,menos de 3 formas distintas
@@ -1419,7 +1356,7 @@ sprockets,lib/sprockets/source_map_processor.rb,73c5a5316bd1,assets,19,27,100,50
 state_machines,lib/state_machines/helper_module.rb,219b43ea588f,state machines,4.5,5,0,50,0.0,1,0.0,2,2,2,1.0,menos de 3 formas distintas
 state_machines,lib/state_machines/machine/rendering.rb,219b43ea588f,state machines,3,3,0,50,0.0,0,0.0,2,3,2,1.0,menos de 3 formas distintas
 state_machines,lib/state_machines/matcher_helpers.rb,219b43ea588f,state machines,3,3,0,0,0.0,0,0.0,2,2,1,0.5,menos de 3 formas distintas
-thin,lib/thin/rackup/handler.rb,84a5188612d8,web servers,11,13,100,100,0.0,1,0.0,2,3,2,1.0,menos de 3 formas distintas
+thin,lib/thin/rackup/handler.rb,84a5188612d8,web servers,11,13,100,100,0.0,0,0.0,2,3,2,1.0,menos de 3 formas distintas
 thin,lib/thin/version.rb,84a5188612d8,web servers,3,3,100,0,0.0,1,0.0,2,2,1,0.5,menos de 3 formas distintas
 tilt,lib/tilt/pipeline.rb,f0d75c60e3a6,template engine,7,11,0,100,0.0,1,0.0,2,2,2,1.0,menos de 3 formas distintas
 twilio-ruby,lib/twilio-ruby.rb,c58e213a6f04,third-party apis,3,3,100,0,1.0,0,0.0,2,1,2,1.0,menos de 3 formas distintas
@@ -1654,24 +1591,6 @@ commander,lib/commander/core_ext/object.rb,b4c6be4b149c,cli builder,3,3,0,0,0.0,
 commander,lib/commander/delegates.rb,b4c6be4b149c,cli builder,3,3,0,0,0.0,0,0.0,1,2,1,1.0,menos de 3 formas distintas
 commander,lib/commander/help_formatters/terminal_compact.rb,b4c6be4b149c,cli builder,3,3,0,0,0.0,2,0.0,1,3,1,1.0,menos de 3 formas distintas
 commander,lib/commander/platform.rb,b4c6be4b149c,cli builder,3,3,100,0,0.0,0,0.0,1,2,1,1.0,menos de 3 formas distintas
-concurrent-ruby,docs-source/actor/messaging.in.rb,0b88d5ff75f6,concurrency and parallelism,12,12,0,100,1.0,2,0.0,1,1,1,1.0,menos de 3 formas distintas
-concurrent-ruby,docs-source/actor/messaging.out.rb,0b88d5ff75f6,concurrency and parallelism,12,12,0,100,1.0,2,0.0,1,1,1,1.0,menos de 3 formas distintas
-concurrent-ruby,docs-source/cancellation.init.rb,0b88d5ff75f6,concurrency and parallelism,4,4,0,0,0.0,0,0.0,1,0,1,1.0,menos de 3 formas distintas
-concurrent-ruby,docs-source/channel.init.rb,0b88d5ff75f6,concurrency and parallelism,4,4,0,0,0.0,0,0.0,1,0,1,1.0,menos de 3 formas distintas
-concurrent-ruby,docs-source/erlang_actor.init.rb,0b88d5ff75f6,concurrency and parallelism,4,4,0,0,0.0,0,0.0,1,0,1,1.0,menos de 3 formas distintas
-concurrent-ruby,docs-source/future.rb,0b88d5ff75f6,concurrency and parallelism,15,15,0,100,0.0,0,0.0,1,1,1,1.0,menos de 3 formas distintas
-concurrent-ruby,docs-source/promises.init.rb,0b88d5ff75f6,concurrency and parallelism,4,4,0,0,0.0,0,0.0,1,0,1,1.0,menos de 3 formas distintas
-concurrent-ruby,docs-source/throttle.init.rb,0b88d5ff75f6,concurrency and parallelism,4,4,0,0,0.0,0,0.0,1,0,1,1.0,menos de 3 formas distintas
-concurrent-ruby,examples/a-tour-of-go-channels/channels.rb,0b88d5ff75f6,concurrency and parallelism,4,4,0,100,0.0,0,0.0,1,0,1,1.0,menos de 3 formas distintas
-concurrent-ruby,examples/a-tour-of-go-channels/range-and-close.rb,0b88d5ff75f6,concurrency and parallelism,8,8,0,100,0.0,0,0.0,1,0,1,1.0,menos de 3 formas distintas
-concurrent-ruby,examples/a-tour-of-go-channels/select.rb,0b88d5ff75f6,concurrency and parallelism,12,12,0,100,0.0,0,0.0,1,0,1,1.0,menos de 3 formas distintas
-concurrent-ruby,examples/benchmark_atomic_boolean.rb,0b88d5ff75f6,concurrency and parallelism,20,20,0,100,0.0,0,0.0,1,0,1,1.0,menos de 3 formas distintas
-concurrent-ruby,examples/benchmark_atomic_fixnum.rb,0b88d5ff75f6,concurrency and parallelism,20,20,0,100,0.0,0,0.0,1,0,1,1.0,menos de 3 formas distintas
-concurrent-ruby,examples/go-by-example-channels/channel-synchronization.rb,0b88d5ff75f6,concurrency and parallelism,7,7,0,100,0.0,0,0.0,1,0,1,1.0,menos de 3 formas distintas
-concurrent-ruby,examples/go-by-example-channels/worker-pools.rb,0b88d5ff75f6,concurrency and parallelism,7,7,0,100,0.0,0,0.0,1,0,1,1.0,menos de 3 formas distintas
-concurrent-ruby,examples/init.rb,0b88d5ff75f6,concurrency and parallelism,3,3,0,0,0.0,0,0.0,1,0,1,1.0,menos de 3 formas distintas
-concurrent-ruby,examples/thread_local_var_bench.rb,0b88d5ff75f6,concurrency and parallelism,12,12,0,100,0.0,0,0.0,1,0,1,1.0,menos de 3 formas distintas
-concurrent-ruby,examples/who.rb,0b88d5ff75f6,concurrency and parallelism,4,4,0,0,0.0,0,0.0,1,0,1,1.0,menos de 3 formas distintas
 concurrent-ruby,lib/concurrent-ruby-edge/concurrent/actor/behaviour/awaits.rb,0b88d5ff75f6,concurrency and parallelism,7,7,0,100,0.0,1,0.0,1,4,1,1.0,menos de 3 formas distintas
 concurrent-ruby,lib/concurrent-ruby-edge/concurrent/actor/behaviour/errors_on_unknown_message.rb,0b88d5ff75f6,concurrency and parallelism,3,3,0,0,0.0,1,0.0,1,4,1,1.0,menos de 3 formas distintas
 concurrent-ruby,lib/concurrent-ruby-edge/concurrent/actor/behaviour/removes_child.rb,0b88d5ff75f6,concurrency and parallelism,7,7,0,100,0.0,1,0.0,1,4,1,1.0,menos de 3 formas distintas
@@ -1688,14 +1607,10 @@ concurrent-ruby,lib/concurrent-ruby/concurrent/executor/serial_executor_service.
 concurrent-ruby,lib/concurrent-ruby/concurrent/synchronization/safe_initialization.rb,0b88d5ff75f6,concurrency and parallelism,5,5,0,0,0.0,0,0.0,1,3,1,1.0,menos de 3 formas distintas
 concurrent-ruby,lib/concurrent-ruby/concurrent/thread_safe/util/volatile.rb,0b88d5ff75f6,concurrency and parallelism,39,39,0,100,0.25,0,200.0,1,4,1,1.0,menos de 3 formas distintas
 concurrent-ruby,lib/concurrent-ruby/concurrent/utility/monotonic_time.rb,0b88d5ff75f6,concurrency and parallelism,3,3,0,0,0.0,0,0.0,1,1,1,1.0,menos de 3 formas distintas
-concurrent-ruby,support/generate_docs.rb,0b88d5ff75f6,concurrency and parallelism,7,7,0,100,0.0,0,0.0,1,0,1,1.0,menos de 3 formas distintas
-concurrent-ruby,yard-template/default/module/setup.rb,0b88d5ff75f6,concurrency and parallelism,8,8,0,100,0.0,0,0.0,1,0,1,1.0,menos de 3 formas distintas
 countries,lib/countries/country/currency_methods.rb,8c026f5b49da,country data,3,3,0,100,0.0,0,0.0,1,2,1,1.0,menos de 3 formas distintas
 countries,lib/countries/country/emoji.rb,8c026f5b49da,country data,3,3,0,100,0.0,0,0.0,1,2,1,1.0,menos de 3 formas distintas
 countries,lib/countries/timezones.rb,8c026f5b49da,country data,3,3,0,0,0.0,0,0.0,1,2,1,1.0,menos de 3 formas distintas
 countries,lib/countries/translations.rb,8c026f5b49da,country data,6,6,0,100,0.0,1,0.0,1,2,1,1.0,menos de 3 formas distintas
-danger,danger_plugins/protect_files.rb,c94d38b3ce68,automation,9,9,0,100,0.0,1,0.0,1,2,1,1.0,menos de 3 formas distintas
-danger,docs/yard_support.rb,c94d38b3ce68,automation,4,4,0,100,0.0,1,0.0,1,1,1,1.0,menos de 3 formas distintas
 danger,lib/danger/ci_source/support/no_pull_request.rb,c94d38b3ce68,automation,3,3,0,0,0.0,0,0.0,1,2,1,1.0,menos de 3 formas distintas
 danger,lib/danger/ci_source/support/repo_info.rb,c94d38b3ce68,automation,4,4,0,0,0.0,0,0.0,1,2,1,1.0,menos de 3 formas distintas
 danger,lib/danger/clients/rubygems_client.rb,c94d38b3ce68,automation,7,7,100,100,0.0,0,0.0,1,2,1,1.0,menos de 3 formas distintas
@@ -1725,12 +1640,8 @@ doorkeeper,lib/generators/doorkeeper/views_generator.rb,75a84fefe686,authenticat
 dotenv,lib/dotenv/missing_keys.rb,34156bf400cd,configuration,4,4,0,100,0.0,2,0.0,1,3,1,1.0,menos de 3 formas distintas
 dotenv,lib/dotenv/substitutions/command.rb,34156bf400cd,configuration,15,15,100,100,0.0,0,0.0,1,3,1,1.0,menos de 3 formas distintas
 dotenv,lib/dotenv/substitutions/variable.rb,34156bf400cd,configuration,13,13,100,100,0.0,0,0.0,1,3,1,1.0,menos de 3 formas distintas
-dry-types,benchmarks/hash_schemas.rb,1a13fb04926f,type signatures and type checking,13,13,100,0,0.0,0,200.0,1,1,1,1.0,menos de 3 formas distintas
-dry-types,benchmarks/setup.rb,1a13fb04926f,type signatures and type checking,3,3,0,0,0.0,0,0.0,1,0,1,1.0,menos de 3 formas distintas
 dry-types,lib/dry/types/extensions/monads.rb,1a13fb04926f,type signatures and type checking,7,7,0,0,0.33,0,0.0,1,3,1,1.0,menos de 3 formas distintas
 dry-types,lib/dry/types/printable.rb,1a13fb04926f,type signatures and type checking,1,1,0,0,0.0,0,0.0,1,3,1,1.0,menos de 3 formas distintas
-eventmachine,examples/guides/getting_started/01_eventmachine_echo_server.rb,9cb13a8a6236,concurrency and parallelism,3,3,0,0,0.0,1,0.0,1,1,1,1.0,menos de 3 formas distintas
-eventmachine,examples/guides/getting_started/02_eventmachine_echo_server_that_recognizes_exit_command.rb,9cb13a8a6236,concurrency and parallelism,7,7,0,100,0.0,1,0.0,1,1,1,1.0,menos de 3 formas distintas
 eventmachine,lib/em/callback.rb,9cb13a8a6236,concurrency and parallelism,11,11,100,100,0.0,0,100.0,1,1,1,1.0,menos de 3 formas distintas
 eventmachine,lib/em/future.rb,9cb13a8a6236,concurrency and parallelism,14,14,100,100,0.0,0,0.0,1,2,1,1.0,menos de 3 formas distintas
 excon,lib/excon/extensions/uri.rb,ac022b6417d7,http clients and tools,4,4,0,0,0.0,0,0.0,1,2,1,1.0,menos de 3 formas distintas
@@ -1741,7 +1652,6 @@ excon,lib/excon/middlewares/response_parser.rb,ac022b6417d7,http clients and too
 excon,lib/excon/pretty_printer.rb,ac022b6417d7,http clients and tools,34,34,100,100,0.0,0,0.0,1,2,1,1.0,menos de 3 formas distintas
 excon,lib/excon/resolver_factory.rb,ac022b6417d7,http clients and tools,3,3,100,0,0.0,0,0.0,1,2,1,1.0,menos de 3 formas distintas
 excon,lib/excon/unix_socket.rb,ac022b6417d7,http clients and tools,33,33,0,100,0.0,1,0.0,1,2,1,1.0,menos de 3 formas distintas
-eye,examples/process_thin.rb,300aa8793112,process management and monitoring,28,28,0,100,0.0,0,0.0,1,0,1,1.0,menos de 3 formas distintas
 eye,lib/eye/checker/children_memory.rb,300aa8793112,process management and monitoring,5,5,0,100,0.0,2,0.0,1,1,1,1.0,menos de 3 formas distintas
 eye,lib/eye/checker/nop.rb,300aa8793112,process management and monitoring,1,1,0,0,0.0,1,0.0,1,1,1,1.0,menos de 3 formas distintas
 eye,lib/eye/dsl/chain.rb,300aa8793112,process management and monitoring,8,8,0,100,0.0,0,0.0,1,1,1,1.0,menos de 3 formas distintas
@@ -1822,7 +1732,6 @@ fastlane,fastlane_core/lib/fastlane_core/ui/errors/fastlane_crash.rb,38d0ec40433
 fastlane,fastlane_core/lib/fastlane_core/ui/help_formatter.rb,38d0ec404332,mobile development,6,6,0,100,0.0,1,0.0,1,2,1,1.0,menos de 3 formas distintas
 fastlane,frameit/lib/frameit/options.rb,38d0ec404332,mobile development,100,100,100,100,0.0,0,0.0,1,2,1,1.0,menos de 3 formas distintas
 fastlane,gym/lib/gym/manager.rb,38d0ec404332,mobile development,14,14,0,100,0.0,0,0.0,1,2,1,1.0,menos de 3 formas distintas
-fastlane,internal/rubocop/is_string_usage.rb,38d0ec404332,mobile development,13,13,0,100,0.0,1,0.0,1,4,1,1.0,menos de 3 formas distintas
 fastlane,pem/lib/pem/options.rb,38d0ec404332,mobile development,102,102,100,100,0.0,0,0.0,1,2,1,1.0,menos de 3 formas distintas
 fastlane,pilot/lib/pilot/options.rb,38d0ec404332,mobile development,350,350,100,100,0.0,0,0.0,1,2,1,1.0,menos de 3 formas distintas
 fastlane,pilot/lib/pilot/tester_importer.rb,38d0ec404332,mobile development,45,45,0,100,0.0,1,0.0,1,2,1,1.0,menos de 3 formas distintas
@@ -1934,31 +1843,22 @@ http,lib/http/base64.rb,942b1b36cea9,http clients and tools,3,3,0,0,0.0,0,0.0,1,
 http,lib/http/errors.rb,942b1b36cea9,http clients and tools,5,5,0,100,0.0,2,0.0,1,15,1,1.0,menos de 3 formas distintas
 http,lib/http/form_data/part.rb,942b1b36cea9,http clients and tools,5,5,0,100,0.33,0,0.0,1,3,1,1.0,menos de 3 formas distintas
 http,lib/http/retriable/errors.rb,942b1b36cea9,http clients and tools,3,3,0,0,0.0,1,0.0,1,2,1,1.0,menos de 3 formas distintas
-httparty,examples/nokogiri_html_parser.rb,9c89e55ce357,http clients and tools,3,3,0,0,0.5,1,0.0,1,2,1,1.0,menos de 3 formas distintas
-httparty,examples/rubyurl.rb,9c89e55ce357,http clients and tools,3,3,100,0,1.0,0,0.0,1,1,1,1.0,menos de 3 formas distintas
 httparty,lib/httparty/exceptions.rb,9c89e55ce357,http clients and tools,4,4,0,0,0.0,4,0.0,1,10,1,1.0,menos de 3 formas distintas
 httparty,lib/httparty/request/multipart_boundary.rb,9c89e55ce357,http clients and tools,3,3,100,0,0.0,0,0.0,1,3,1,1.0,menos de 3 formas distintas
 httparty,lib/httparty/utils.rb,9c89e55ce357,http clients and tools,7,7,100,100,0.0,0,0.0,1,2,1,1.0,menos de 3 formas distintas
-httpclient,bench/bm.rb,5bc7b0d383c4,http clients and tools,11,11,0,100,1.0,0,0.0,1,1,1,1.0,menos de 3 formas distintas
-httpclient,bench/bm_download.rb,5bc7b0d383c4,http clients and tools,11,11,0,100,1.0,0,0.0,1,1,1,1.0,menos de 3 formas distintas
-httpclient,bench/bm_upload.rb,5bc7b0d383c4,http clients and tools,11,11,0,100,0.0,0,0.0,1,0,1,1.0,menos de 3 formas distintas
 httpclient,lib/httpclient/include_client.rb,5bc7b0d383c4,http clients and tools,39,39,0,100,0.0,0,400.0,1,2,1,1.0,menos de 3 formas distintas
 i18n,lib/i18n/backend/cascade.rb,8beba7876163,internationalization,18,18,0,100,0.0,0,0.0,1,3,1,1.0,menos de 3 formas distintas
 image_processing,lib/image_processing.rb,1611c00ed4eb,image processing,7,7,100,100,0.0,0,0.0,1,1,1,1.0,menos de 3 formas distintas
-jaro_winkler,benchmark/env.rb,9d7b6c110fa8,scientific,3,3,0,0,0.0,0,0.0,1,0,1,1.0,menos de 3 formas distintas
 jwt,lib/jwt/claims/decode_verifier.rb,db560b769a07,authentication and oauth,8,8,100,100,0.0,0,0.0,1,3,1,1.0,menos de 3 formas distintas
 jwt,lib/jwt/claims/issued_at.rb,db560b769a07,authentication and oauth,7,7,0,100,0.0,0,0.0,1,3,1,1.0,menos de 3 formas distintas
 kaminari,kaminari-actionview/lib/kaminari/actionview/action_view_extension.rb,508caf4653b2,pagination,3,3,0,0,0.0,0,0.0,1,3,1,1.0,menos de 3 formas distintas
 kaminari,kaminari-activerecord/lib/kaminari/activerecord/active_record_extension.rb,508caf4653b2,pagination,4,4,0,100,0.33,0,100.0,1,3,1,1.0,menos de 3 formas distintas
 kaminari,kaminari-core/lib/generators/kaminari/config_generator.rb,508caf4653b2,pagination,3,3,0,0,0.0,1,0.0,1,3,1,1.0,menos de 3 formas distintas
-kaminari,misc/bug_report_template.rb,508caf4653b2,pagination,7,7,0,100,0.0,1,0.0,1,3,1,1.0,menos de 3 formas distintas
 knapsack,lib/knapsack/runners/cucumber_runner.rb,f394c8470281,testing,16,16,100,100,0.0,0,0.0,1,3,1,1.0,menos de 3 formas distintas
 knapsack,lib/knapsack/runners/minitest_runner.rb,f394c8470281,testing,26,26,100,100,0.0,0,0.0,1,3,1,1.0,menos de 3 formas distintas
 knapsack,lib/knapsack/runners/rspec_runner.rb,f394c8470281,testing,15,15,100,100,0.0,0,0.0,1,3,1,1.0,menos de 3 formas distintas
 knapsack,lib/knapsack/runners/spinach_runner.rb,f394c8470281,testing,16,16,100,100,0.0,0,0.0,1,3,1,1.0,menos de 3 formas distintas
 knapsack,lib/knapsack/task_loader.rb,f394c8470281,testing,3,3,0,0,0.5,0,0.0,1,2,1,1.0,menos de 3 formas distintas
-kramdown,benchmark/benchmark.rb,12b3d2e75279,markdown processors,2,2,0,0,0.0,0,0.0,1,1,1,1.0,menos de 3 formas distintas
-kramdown,benchmark/generate_data.rb,12b3d2e75279,markdown processors,2,2,0,0,0.0,0,0.0,1,1,1,1.0,menos de 3 formas distintas
 kramdown,lib/kramdown/converter/hash_ast.rb,12b3d2e75279,markdown processors,11,11,0,100,0.0,1,0.0,1,3,1,1.0,menos de 3 formas distintas
 kramdown,lib/kramdown/converter/math_engine/mathjax.rb,12b3d2e75279,markdown processors,11,11,100,100,0.0,0,0.0,1,2,1,1.0,menos de 3 formas distintas
 kramdown,lib/kramdown/converter/syntax_highlighter/minted.rb,12b3d2e75279,markdown processors,19,19,100,100,0.0,0,0.0,1,2,1,1.0,menos de 3 formas distintas
@@ -1988,11 +1888,8 @@ liquid,lib/liquid/tags/ifchanged.rb,7a5e45fc4784,template engine,11,11,0,100,0.0
 liquid,lib/liquid/tags/unless.rb,7a5e45fc4784,template engine,24,24,0,100,0.0,3,0.0,1,2,1,1.0,menos de 3 formas distintas
 liquid,lib/liquid/template_factory.rb,7a5e45fc4784,template engine,3,3,0,0,0.0,0,0.0,1,2,1,1.0,menos de 3 formas distintas
 liquid,lib/liquid/usage.rb,7a5e45fc4784,template engine,2,2,100,0,0.0,0,0.0,1,2,1,1.0,menos de 3 formas distintas
-liquid,performance/shopify/database.rb,7a5e45fc4784,template engine,41,41,100,100,0.0,0,0.0,1,1,1,1.0,menos de 3 formas distintas
-liquid,performance/shopify/json_filter.rb,7a5e45fc4784,template engine,3,3,0,100,0.0,0,0.0,1,1,1,1.0,menos de 3 formas distintas
 listen,lib/listen/adapter/config.rb,2fa1a742d8c2,file system listener,19,19,0,100,0.0,0,0.0,1,3,1,1.0,menos de 3 formas distintas
 listen,lib/listen/backend.rb,2fa1a742d8c2,file system listener,15,15,0,100,0.5,0,0.0,1,2,1,1.0,menos de 3 formas distintas
-logging,examples/lazy.rb,aec306300d18,logging,4,4,0,0,0.0,0,0.0,1,0,1,1.0,menos de 3 formas distintas
 logging,lib/logging/log_event.rb,aec306300d18,logging,22,22,0,100,0.0,0,0.0,1,2,1,1.0,menos de 3 formas distintas
 logging,lib/logging/version.rb,aec306300d18,logging,3,3,100,0,0.0,0,0.0,1,1,1,1.0,menos de 3 formas distintas
 logging,lib/rspec/logging_helper.rb,aec306300d18,logging,21,21,0,100,0.33,0,0.0,1,3,1,1.0,menos de 3 formas distintas
@@ -2032,7 +1929,6 @@ money,lib/money/bank/single_currency.rb,26e2829c34f1,money,3,3,0,100,0.0,2,0.0,1
 money,lib/money/currency/heuristics.rb,26e2829c34f1,money,3,3,0,0,0.0,0,0.0,1,3,1,1.0,menos de 3 formas distintas
 money,lib/money/locale_backend/currency.rb,26e2829c34f1,money,3,3,0,100,0.0,1,100.0,1,3,1,1.0,menos de 3 formas distintas
 money,lib/money/money/locale_backend.rb,26e2829c34f1,money,5,5,100,0,0.0,0,0.0,1,2,1,1.0,menos de 3 formas distintas
-mongo,gemfiles/standard.rb,049b718a2d47,database drivers,70,70,0,0,0.0,0,0.0,1,0,1,1.0,menos de 3 formas distintas
 mongo,lib/mongo/auth/aws.rb,049b718a2d47,database drivers,6,6,0,0,0.0,1,0.0,1,3,1,1.0,menos de 3 formas distintas
 mongo,lib/mongo/auth/aws/credentials.rb,049b718a2d47,database drivers,9,9,0,100,0.0,1,0.0,1,3,1,1.0,menos de 3 formas distintas
 mongo,lib/mongo/auth/cr.rb,049b718a2d47,database drivers,3,3,0,0,0.0,1,0.0,1,3,1,1.0,menos de 3 formas distintas
@@ -2152,14 +2048,6 @@ mongo,lib/mongo/timeout.rb,049b718a2d47,database drivers,11,11,0,0,0.0,0,0.0,1,2
 mongo,lib/mongo/tracing.rb,049b718a2d47,database drivers,7,7,0,0,0.0,0,0.0,1,2,1,1.0,menos de 3 formas distintas
 mongo,lib/mongo/write_concern.rb,049b718a2d47,database drivers,11,11,0,100,0.5,0,0.0,1,2,1,1.0,menos de 3 formas distintas
 mongo,lib/mongo/write_concern/base.rb,049b718a2d47,database drivers,23,23,0,100,0.0,0,0.0,1,3,1,1.0,menos de 3 formas distintas
-mongo,profile/connection_pool_fairness.rb,049b718a2d47,database drivers,3,3,0,0,0.0,0,0.0,1,0,1,1.0,menos de 3 formas distintas
-mongo,profile/driver_bench/bson/deep/base.rb,049b718a2d47,database drivers,3,3,0,0,0.0,2,0.0,1,5,1,1.0,menos de 3 formas distintas
-mongo,profile/driver_bench/bson/flat/base.rb,049b718a2d47,database drivers,3,3,0,0,0.0,2,0.0,1,5,1,1.0,menos de 3 formas distintas
-mongo,profile/driver_bench/bson/full/base.rb,049b718a2d47,database drivers,3,3,0,0,0.0,2,0.0,1,5,1,1.0,menos de 3 formas distintas
-mysql2,benchmark/allocations.rb,c79b3c14fd47,database drivers,9,9,0,100,0.0,1,0.0,1,1,1,1.0,menos de 3 formas distintas
-mysql2,benchmark/escape.rb,c79b3c14fd47,database drivers,21,21,0,100,0.0,0,0.0,1,0,1,1.0,menos de 3 formas distintas
-mysql2,benchmark/query_with_mysql_casting.rb,c79b3c14fd47,database drivers,23,23,0,100,1.0,0,0.0,1,1,1,1.0,menos de 3 formas distintas
-mysql2,benchmark/setup_db.rb,c79b3c14fd47,database drivers,20,20,0,100,0.0,0,0.0,1,0,1,1.0,menos de 3 formas distintas
 mysql2,lib/mysql2.rb,c79b3c14fd47,database drivers,5,5,100,100,0.0,0,0.0,1,3,1,1.0,menos de 3 formas distintas
 mysql2,lib/mysql2/statement.rb,c79b3c14fd47,database drivers,5,5,0,0,0.0,0,0.0,1,2,1,1.0,menos de 3 formas distintas
 oauth2,lib/oauth2/strategy/base.rb,63727352546e,authentication and oauth,3,3,0,0,0.0,0,0.0,1,3,1,1.0,menos de 3 formas distintas
@@ -2176,7 +2064,6 @@ parallel_tests,lib/parallel_tests/gherkin/runtime_logger.rb,e4870a1632aa,testing
 parallel_tests,lib/parallel_tests/rspec/failures_logger.rb,e4870a1632aa,testing,10,10,0,100,0.0,2,0.0,1,1,1,1.0,menos de 3 formas distintas
 parallel_tests,lib/parallel_tests/rspec/summary_logger.rb,e4870a1632aa,testing,4,4,0,100,0.0,2,0.0,1,1,1,1.0,menos de 3 formas distintas
 pastel,lib/pastel.rb,afd82952076e,cli utilities,10,10,0,100,0.0,0,0.0,1,1,1,1.0,menos de 3 formas distintas
-pg,ext/errorcodes.rb,d4539c25dcc8,database drivers,3,3,0,100,0.0,0,0.0,1,0,1,1.0,menos de 3 formas distintas
 pg,lib/pg/basic_type_map_based_on_result.rb,d4539c25dcc8,database drivers,8,8,0,100,1.0,1,0.0,1,1,1,1.0,menos de 3 formas distintas
 pg,lib/pg/exceptions.rb,d4539c25dcc8,database drivers,5,5,0,0,0.0,2,0.0,1,6,1,1.0,menos de 3 formas distintas
 pg,lib/pg/text_decoder/date.rb,d4539c25dcc8,database drivers,7,7,0,100,0.0,1,0.0,1,3,1,1.0,menos de 3 formas distintas
@@ -2184,21 +2071,10 @@ pg,lib/pg/text_decoder/json.rb,d4539c25dcc8,database drivers,3,3,0,0,0.0,1,0.0,1
 pg,lib/pg/text_encoder/date.rb,d4539c25dcc8,database drivers,3,3,0,100,0.0,1,0.0,1,3,1,1.0,menos de 3 formas distintas
 pg,lib/pg/text_encoder/inet.rb,d4539c25dcc8,database drivers,17,17,0,100,0.0,1,0.0,1,3,1,1.0,menos de 3 formas distintas
 pg,lib/pg/text_encoder/json.rb,d4539c25dcc8,database drivers,3,3,0,0,0.0,1,0.0,1,3,1,1.0,menos de 3 formas distintas
-pg,sample/async_api.rb,d4539c25dcc8,database drivers,3,3,0,0,0.0,0,0.0,1,0,1,1.0,menos de 3 formas distintas
-pg,sample/async_mixed.rb,d4539c25dcc8,database drivers,3,3,0,0,0.0,0,0.0,1,0,1,1.0,menos de 3 formas distintas
-pg,sample/check_conn.rb,d4539c25dcc8,database drivers,8,8,0,100,0.0,0,0.0,1,0,1,1.0,menos de 3 formas distintas
 prawn,lib/prawn.rb,f82783b1d020,pdf,9,9,0,100,0.0,0,0.0,1,1,1,1.0,menos de 3 formas distintas
 prawn,lib/prawn/document/span.rb,f82783b1d020,pdf,33,33,0,100,0.0,0,0.0,1,2,1,1.0,menos de 3 formas distintas
 prawn,lib/prawn/images/image.rb,f82783b1d020,pdf,32,32,0,100,0.0,0,0.0,1,3,1,1.0,menos de 3 formas distintas
 prawn,lib/prawn/text/formatted.rb,f82783b1d020,pdf,3,3,0,100,0.0,0,0.0,1,3,1,1.0,menos de 3 formas distintas
-prawn,manual/bounding_box/bounds.rb,f82783b1d020,pdf,13,13,0,100,0.0,0,0.0,1,0,1,1.0,menos de 3 formas distintas
-prawn,manual/bounding_box/nesting.rb,f82783b1d020,pdf,4,4,0,0,0.0,0,0.0,1,0,1,1.0,menos de 3 formas distintas
-prawn,manual/contents.rb,f82783b1d020,pdf,29,29,0,0,0.0,0,0.0,1,0,1,1.0,menos de 3 formas distintas
-prawn,manual/text/text_box_extensions.rb,f82783b1d020,pdf,3,3,0,100,0.0,0,0.0,1,1,1,1.0,menos de 3 formas distintas
-premailer-rails,examples/rails5/app/mailers/example_mailer.rb,33287e89f7a3,email,3,3,0,0,0.0,1,0.0,1,1,1,1.0,menos de 3 formas distintas
-premailer-rails,examples/rails6/app/mailers/example_mailer.rb,33287e89f7a3,email,3,3,0,0,0.0,1,0.0,1,1,1,1.0,menos de 3 formas distintas
-premailer-rails,examples/rails7-propshaft/app/mailers/example_mailer.rb,33287e89f7a3,email,3,3,0,0,0.0,1,0.0,1,1,1,1.0,menos de 3 formas distintas
-premailer-rails,examples/rails7-sprockets/app/mailers/example_mailer.rb,33287e89f7a3,email,3,3,0,0,0.0,1,0.0,1,1,1,1.0,menos de 3 formas distintas
 premailer-rails,lib/premailer/rails.rb,33287e89f7a3,email,7,7,100,0,0.0,0,0.0,1,2,1,1.0,menos de 3 formas distintas
 premailer-rails,lib/premailer/rails/customized_premailer.rb,33287e89f7a3,email,14,14,0,100,0.0,1,100.0,1,3,1,1.0,menos de 3 formas distintas
 pry,lib/pry/commands/bang.rb,5a267df08ad6,irb,4,4,0,100,0.0,2,0.0,1,3,1,1.0,menos de 3 formas distintas
@@ -2240,11 +2116,7 @@ pry-byebug,lib/pry-byebug/helpers/multiline.rb,0b5aea2615fd,debugging tools,6,6,
 pry-byebug,lib/pry-byebug/helpers/navigation.rb,0b5aea2615fd,debugging tools,5,5,0,100,0.0,0,0.0,1,3,1,1.0,menos de 3 formas distintas
 pry-byebug,lib/pry-byebug/pry_ext.rb,0b5aea2615fd,debugging tools,10,10,0,100,0.0,0,0.0,1,0,1,1.0,menos de 3 formas distintas
 pry-rails,lib/pry-rails/railtie.rb,d8d0c6d87a5b,debugging tools,4,4,0,0,0.0,1,0.0,1,2,1,1.0,menos de 3 formas distintas
-puma,cops/tests_puma.rb,8085b75e79e3,web servers,7,7,0,100,0.25,1,0.0,1,4,1,1.0,menos de 3 formas distintas
-puma,examples/generate_server_test.rb,8085b75e79e3,web servers,29,29,100,100,0.0,0,0.0,1,1,1,1.0,menos de 3 formas distintas
-puma,examples/plugins/redis_stop_puma.rb,8085b75e79e3,web servers,20,20,0,100,0.0,0,0.0,1,0,1,1.0,menos de 3 formas distintas
 puma,lib/puma/plugin/tmp_restart.rb,8085b75e79e3,web servers,30,30,0,100,0.0,0,0.0,1,0,1,1.0,menos de 3 formas distintas
-puma,tools/trickletest.rb,8085b75e79e3,web servers,23,23,0,100,0.0,0,0.0,1,0,1,1.0,menos de 3 formas distintas
 pundit,lib/generators/pundit/install/install_generator.rb,2d665d67a26f,authorization,3,3,0,0,0.0,1,0.0,1,3,1,1.0,menos de 3 formas distintas
 pundit,lib/generators/pundit/policy/policy_generator.rb,2d665d67a26f,authorization,3,3,0,0,0.0,1,0.0,1,3,1,1.0,menos de 3 formas distintas
 pundit,lib/generators/rspec/policy_generator.rb,2d665d67a26f,authorization,3,3,0,0,0.0,1,0.0,1,3,1,1.0,menos de 3 formas distintas
@@ -2255,10 +2127,6 @@ pundit,lib/pundit/helper.rb,2d665d67a26f,authorization,3,3,0,0,0.0,0,0.0,1,2,1,1
 rack-attack,lib/rack/attack/blocklist.rb,65f1ead3bc64,security,4,4,0,0,0.0,1,0.0,1,3,1,1.0,menos de 3 formas distintas
 rack-attack,lib/rack/attack/path_normalizer.rb,65f1ead3bc64,security,3,3,100,0,0.0,0,0.0,1,3,1,1.0,menos de 3 formas distintas
 rack-attack,lib/rack/attack/safelist.rb,65f1ead3bc64,security,4,4,0,0,0.0,1,0.0,1,3,1,1.0,menos de 3 formas distintas
-rack-cors,examples/rails5/app/controllers/cors_controller.rb,f73bcd39b91c,http clients and tools,3,3,0,0,0.0,2,0.0,1,1,1,1.0,menos de 3 formas distintas
-rack-cors,examples/rails5/app/controllers/welcome_controller.rb,f73bcd39b91c,http clients and tools,3,3,0,0,0.0,2,0.0,1,1,1,1.0,menos de 3 formas distintas
-rack-cors,examples/rails6/app/controllers/cors_controller.rb,f73bcd39b91c,http clients and tools,3,3,0,0,0.0,2,0.0,1,1,1,1.0,menos de 3 formas distintas
-rack-cors,examples/rails6/app/controllers/welcome_controller.rb,f73bcd39b91c,http clients and tools,3,3,0,0,0.0,2,0.0,1,1,1,1.0,menos de 3 formas distintas
 rack-cors,lib/rack/cors/resources/cors_misconfiguration_error.rb,f73bcd39b91c,http clients and tools,4,4,0,0,0.0,1,0.0,1,4,1,1.0,menos de 3 formas distintas
 rack-protection,lib/rack/protection.rb,599a007a779d,security,31,31,100,100,0.0,0,0.0,1,2,1,1.0,menos de 3 formas distintas
 rack-protection,lib/rack/protection/form_token.rb,599a007a779d,security,3,3,0,100,0.0,2,0.0,1,3,1,1.0,menos de 3 formas distintas
@@ -2288,8 +2156,6 @@ rdoc,lib/rdoc/rd.rb,4e303b392092,documentation,16,16,100,100,0.0,0,0.0,1,1,1,1.0
 responders,lib/responders/collection_responder.rb,b20fdd24befe,decorators,11,11,0,100,0.0,0,0.0,1,2,1,1.0,menos de 3 formas distintas
 responders,lib/responders/controller_method.rb,b20fdd24befe,decorators,16,16,0,100,0.0,0,200.0,1,2,1,1.0,menos de 3 formas distintas
 rest-client,lib/restclient/version.rb,cf3e5a115bcd,http clients and tools,3,3,100,0,0.0,0,0.0,1,1,1,1.0,menos de 3 formas distintas
-roo,examples/roo_soap_client.rb,20d424f8bf96,spreadsheets and documents,23,23,0,100,0.0,0,0.0,1,0,1,1.0,menos de 3 formas distintas
-roo,examples/roo_soap_server.rb,20d424f8bf96,spreadsheets and documents,13,13,0,0,0.0,1,0.0,1,1,1,1.0,menos de 3 formas distintas
 roo,lib/roo.rb,20d424f8bf96,spreadsheets and documents,12,12,100,0,0.0,0,0.0,1,1,1,1.0,menos de 3 formas distintas
 roo,lib/roo/formatters/base.rb,20d424f8bf96,spreadsheets and documents,8,8,0,100,0.0,0,0.0,1,3,1,1.0,menos de 3 formas distintas
 roo,lib/roo/formatters/matrix.rb,20d424f8bf96,spreadsheets and documents,16,16,0,100,0.0,0,0.0,1,3,1,1.0,menos de 3 formas distintas
@@ -2346,15 +2212,9 @@ rqrcode,lib/rqrcode/export/ansi.rb,f0d65004f2b5,qr,55,55,0,100,0.0,0,0.0,1,3,1,1
 rqrcode,lib/rqrcode/export/html.rb,f0d65004f2b5,qr,19,19,0,100,0.0,0,0.0,1,3,1,1.0,menos de 3 formas distintas
 rqrcode,lib/rqrcode/export/png.rb,f0d65004f2b5,qr,81,81,0,100,0.0,0,0.0,1,3,1,1.0,menos de 3 formas distintas
 rqrcode,lib/rqrcode/qrcode/qrcode.rb,f0d65004f2b5,qr,3,3,0,0,0.5,0,0.0,1,2,1,1.0,menos de 3 formas distintas
-rspec,rspec-core/benchmarks/allocations/helper.rb,79a280d76e10,testing,26,26,0,100,0.0,0,0.0,1,0,1,1.0,menos de 3 formas distintas
-rspec,rspec-core/benchmarks/eager_vs_lazy_metadata.rb,79a280d76e10,testing,20,20,0,100,0.0,0,0.0,1,0,1,1.0,menos de 3 formas distintas
-rspec,rspec-core/benchmarks/map_then_flatten_vs_flat_map_benchmarks.rb,79a280d76e10,testing,10,10,0,100,0.0,0,0.0,1,0,1,1.0,menos de 3 formas distintas
-rspec,rspec-core/benchmarks/several_regexps_v_one_big_one.rb,79a280d76e10,testing,11,11,0,100,0.0,0,0.0,1,0,1,1.0,menos de 3 formas distintas
 rspec,rspec-core/lib/rspec/core/minitest_assertions_adapter.rb,79a280d76e10,testing,3,3,0,0,0.67,0,0.0,1,3,1,1.0,menos de 3 formas distintas
 rspec,rspec-core/lib/rspec/core/sandbox.rb,79a280d76e10,testing,14,14,100,0,0.0,0,0.0,1,3,1,1.0,menos de 3 formas distintas
-rspec,rspec-expectations/benchmarks/caller_vs_raise_for_backtrace.rb,79a280d76e10,testing,4,4,0,100,0.0,0,0.0,1,0,1,1.0,menos de 3 formas distintas
 rspec,rspec-expectations/lib/rspec/matchers/built_in/be_kind_of.rb,79a280d76e10,testing,7,7,0,100,0.0,1,0.0,1,4,1,1.0,menos de 3 formas distintas
-rspec,rspec-mocks/benchmarks/allocations/helper.rb,79a280d76e10,testing,13,13,0,100,0.0,0,0.0,1,0,1,1.0,menos de 3 formas distintas
 rubocop,lib/rubocop/arguments_env.rb,65854e6bbfe4,code formatting,9,9,100,0,0.0,0,0.0,1,2,1,1.0,menos de 3 formas distintas
 rubocop,lib/rubocop/arguments_file.rb,65854e6bbfe4,code formatting,9,9,100,0,0.0,0,0.0,1,2,1,1.0,menos de 3 formas distintas
 rubocop,lib/rubocop/cli/command/init_dotfile.rb,65854e6bbfe4,code formatting,28,28,0,0,0.0,1,0.0,1,4,1,1.0,menos de 3 formas distintas
@@ -2570,9 +2430,7 @@ rubocop-rspec,lib/rubocop/cop/rspec/skip_block_inside_example.rb,2488441eb70a,co
 rubocop-rspec,lib/rubocop/rspec/cop/generator.rb,2488441eb70a,code formatting,10,10,0,0,0.0,1,0.0,1,4,1,1.0,menos de 3 formas distintas
 rubocop-rspec,lib/rubocop/rspec/node.rb,2488441eb70a,code formatting,8,8,0,100,0.0,0,0.0,1,3,1,1.0,menos de 3 formas distintas
 rubocop-rspec,lib/rubocop/rspec/shared_contexts/default_rspec_language_config_context.rb,2488441eb70a,code formatting,10,10,0,100,0.0,0,0.0,1,0,1,1.0,menos de 3 formas distintas
-rufus-scheduler,misc/six_field_cronline_test.rb,ec048146d12d,scheduling,10,10,0,100,0.0,0,0.0,1,0,1,1.0,menos de 3 formas distintas
 savon,lib/savon/string_utils.rb,69ab4149642b,http clients and tools,10,10,100,100,0.0,0,0.0,1,2,1,1.0,menos de 3 formas distintas
-sawyer,example/server.rb,7a60719e675f,http clients and tools,3,3,0,0,0.0,0,0.0,1,0,1,1.0,menos de 3 formas distintas
 sawyer,lib/sawyer/link_parsers/hal.rb,7a60719e675f,http clients and tools,5,5,0,100,0.0,0,0.0,1,3,1,1.0,menos de 3 formas distintas
 sawyer,lib/sawyer/link_parsers/simple.rb,7a60719e675f,http clients and tools,11,11,0,100,0.0,0,0.0,1,3,1,1.0,menos de 3 formas distintas
 selenium-webdriver,lib/selenium/webdriver/bidi/error.rb,9175ed94d83e,testing,4,4,100,0,0.0,0,100.0,1,6,1,1.0,menos de 3 formas distintas
@@ -2598,8 +2456,6 @@ selenium-webdriver,lib/selenium/webdriver/remote/server_error.rb,9175ed94d83e,te
 selenium-webdriver,lib/selenium/webdriver/support/escaper.rb,9175ed94d83e,testing,16,16,100,100,0.0,0,0.0,1,4,1,1.0,menos de 3 formas distintas
 sentry-ruby,sentry-delayed_job/lib/sentry/delayed_job/configuration.rb,a940dfdb5a64,error handling,3,3,0,0,0.0,0,0.0,1,4,1,1.0,menos de 3 formas distintas
 sentry-ruby,sentry-opentelemetry/lib/sentry/opentelemetry/configuration.rb,a940dfdb5a64,error handling,6,6,0,0,0.0,0,0.0,1,4,1,1.0,menos de 3 formas distintas
-sentry-ruby,sentry-rails/app/jobs/sentry/send_event_job.rb,a940dfdb5a64,error handling,3,3,0,0,0.0,1,0.0,1,4,1,1.0,menos de 3 formas distintas
-sentry-ruby,sentry-rails/benchmarks/application.rb,a940dfdb5a64,error handling,8,8,0,100,0.0,0,0.0,1,0,1,1.0,menos de 3 formas distintas
 sentry-ruby,sentry-rails/lib/sentry/rails/background_worker.rb,a940dfdb5a64,error handling,9,9,0,0,0.0,0,0.0,1,3,1,1.0,menos de 3 formas distintas
 sentry-ruby,sentry-rails/lib/sentry/rails/backtrace_cleaner.rb,a940dfdb5a64,error handling,15,15,0,100,0.0,1,0.0,1,3,1,1.0,menos de 3 formas distintas
 sentry-ruby,sentry-rails/lib/sentry/rails/error_subscriber.rb,a940dfdb5a64,error handling,23,23,0,100,0.0,0,0.0,1,3,1,1.0,menos de 3 formas distintas
@@ -2633,7 +2489,6 @@ shoulda-matchers,lib/shoulda/matchers/integrations/inclusion.rb,cf3b3685f2c0,tes
 shoulda-matchers,lib/shoulda/matchers/integrations/libraries/rails.rb,cf3b3685f2c0,testing,9,9,0,100,0.2,0,0.0,1,5,1,1.0,menos de 3 formas distintas
 shoulda-matchers,lib/shoulda/matchers/integrations/rails.rb,cf3b3685f2c0,testing,3,3,0,0,0.0,0,0.0,1,4,1,1.0,menos de 3 formas distintas
 shoulda-matchers,lib/shoulda/matchers/routing.rb,cf3b3685f2c0,testing,3,3,0,0,0.0,0,0.0,1,3,1,1.0,menos de 3 formas distintas
-simplecov,benchmarks/result.rb,76a8e4e0f661,code analysis and metrics,6,6,0,100,0.0,0,0.0,1,1,1,1.0,menos de 3 formas distintas
 simplecov,lib/minitest/simplecov_plugin.rb,76a8e4e0f661,code analysis and metrics,10,10,100,0,0.0,0,0.0,1,1,1,1.0,menos de 3 formas distintas
 simplecov,lib/simplecov/cli/serve/report_preparer.rb,76a8e4e0f661,code analysis and metrics,14,14,100,100,0.0,0,0.0,1,4,1,1.0,menos de 3 formas distintas
 simplecov,lib/simplecov/combine/identity_interner.rb,76a8e4e0f661,code analysis and metrics,7,7,0,100,0.0,0,0.0,1,3,1,1.0,menos de 3 formas distintas
@@ -2641,16 +2496,6 @@ simplecov,lib/simplecov/combine/interned_counts.rb,76a8e4e0f661,code analysis an
 simplecov,lib/simplecov/combine/results_combiner.rb,76a8e4e0f661,code analysis and metrics,5,5,0,100,0.0,0,0.0,1,3,1,1.0,menos de 3 formas distintas
 simplecov,lib/simplecov/coverage_json.rb,76a8e4e0f661,code analysis and metrics,11,11,100,100,0.0,1,0.0,1,3,1,1.0,menos de 3 formas distintas
 simplecov,lib/simplecov/exit_codes.rb,76a8e4e0f661,code analysis and metrics,7,7,100,0,0.0,0,0.0,1,2,1,1.0,menos de 3 formas distintas
-simplecov,test_projects/encodings/lib/euc_jp_not_declared.rb,76a8e4e0f661,code analysis and metrics,3,3,0,0,0.0,0,0.0,1,1,1,1.0,menos de 3 formas distintas
-simplecov,test_projects/encodings/lib/euc_jp_not_declared_tracked.rb,76a8e4e0f661,code analysis and metrics,3,3,0,0,0.0,0,0.0,1,1,1,1.0,menos de 3 formas distintas
-simplecov,test_projects/encodings/lib/utf8.rb,76a8e4e0f661,code analysis and metrics,3,3,0,0,0.0,0,0.0,1,1,1,1.0,menos de 3 formas distintas
-simplecov,test_projects/faked_project/lib/faked_project.rb,76a8e4e0f661,code analysis and metrics,3,3,100,0,0.0,0,0.0,1,1,1,1.0,menos de 3 formas distintas
-simplecov,test_projects/old_coverage_json/lib/code.rb,76a8e4e0f661,code analysis and metrics,7,7,0,100,0.0,0,0.0,1,1,1,1.0,menos de 3 formas distintas
-simplecov,test_projects/parallel_tests/lib/c.rb,76a8e4e0f661,code analysis and metrics,5,5,0,100,0.0,0,0.0,1,1,1,1.0,menos de 3 formas distintas
-simplecov,test_projects/parallel_tests/lib/d.rb,76a8e4e0f661,code analysis and metrics,12,12,0,0,0.0,0,0.0,1,1,1,1.0,menos de 3 formas distintas
-simplecov,test_projects/rails/minitest_rails/app/models/order.rb,76a8e4e0f661,code analysis and metrics,3,3,0,100,0.0,0,0.0,1,1,1,1.0,menos de 3 formas distintas
-simplecov,test_projects/rails/minitest_rails/app/models/receipt.rb,76a8e4e0f661,code analysis and metrics,3,3,0,0,0.0,0,0.0,1,1,1,1.0,menos de 3 formas distintas
-simplecov,test_projects/rails/rspec_rails/app/models/foo.rb,76a8e4e0f661,code analysis and metrics,3,3,0,0,0.0,0,0.0,1,1,1,1.0,menos de 3 formas distintas
 slack-notifier,lib/slack-notifier/payload_middleware/channels.rb,29e51132ce0e,third-party apis,9,9,0,100,0.0,1,0.0,1,4,1,1.0,menos de 3 formas distintas
 slack-notifier,lib/slack-notifier/payload_middleware/format_message.rb,29e51132ce0e,third-party apis,6,6,0,100,0.0,1,0.0,1,4,1,1.0,menos de 3 formas distintas
 slack-notifier,lib/slack-notifier/util/escape.rb,29e51132ce0e,third-party apis,3,3,100,100,0.0,0,0.0,1,4,1,1.0,menos de 3 formas distintas
@@ -2665,7 +2510,6 @@ state_machines,lib/state_machines/machine/validation.rb,219b43ea588f,state machi
 state_machines,lib/state_machines/macro_methods.rb,219b43ea588f,state machines,3,3,0,0,0.0,0,0.0,1,2,1,1.0,menos de 3 formas distintas
 terminal-table,lib/terminal-table/table_helper.rb,ba051e6f8aae,cli utilities,3,3,0,100,0.0,0,0.0,1,3,1,1.0,menos de 3 formas distintas
 terminal-table,lib/terminal-table/util.rb,ba051e6f8aae,cli utilities,5,5,0,100,0.0,0,0.0,1,3,1,1.0,menos de 3 formas distintas
-thin,example/adapter.rb,84a5188612d8,web servers,8,8,0,0,0.0,0,0.0,1,1,1,1.0,menos de 3 formas distintas
 tilt,lib/tilt/cli.rb,f0d75c60e3a6,template engine,94,94,100,100,0.0,0,0.0,1,1,1,1.0,menos de 3 formas distintas
 twilio-ruby,lib/twilio-ruby/credential/auth_type.rb,c58e213a6f04,third-party apis,3,3,0,0,0.0,0,0.0,1,3,1,1.0,menos de 3 formas distintas
 twilio-ruby,lib/twilio-ruby/credential/credential_provider.rb,c58e213a6f04,third-party apis,3,3,0,0,0.0,0,0.0,1,3,1,1.0,menos de 3 formas distintas
@@ -2692,7 +2536,6 @@ typhoeus,lib/typhoeus/hydra/stubbable.rb,d7aba1bbfa8d,http clients and tools,9,9
 typhoeus,lib/typhoeus/request/before.rb,d7aba1bbfa8d,http clients and tools,9,9,0,100,0.0,0,0.0,1,3,1,1.0,menos de 3 formas distintas
 typhoeus,lib/typhoeus/request/stubbable.rb,d7aba1bbfa8d,http clients and tools,9,9,0,100,0.0,0,0.0,1,3,1,1.0,menos de 3 formas distintas
 typhoeus,lib/typhoeus/response/cacheable.rb,d7aba1bbfa8d,http clients and tools,3,3,0,100,0.0,0,0.0,1,3,1,1.0,menos de 3 formas distintas
-typhoeus,perf/vs_nethttp.rb,d7aba1bbfa8d,http clients and tools,3,3,0,100,0.0,0,0.0,1,0,1,1.0,menos de 3 formas distintas
 tzinfo,lib/tzinfo.rb,d5893c99bbcd,date and time processing,3,3,100,0,0.0,0,0.0,1,1,1,1.0,menos de 3 formas distintas
 tzinfo,lib/tzinfo/format1/country_definer.rb,d5893c99bbcd,date and time processing,3,3,0,0,0.0,1,0.0,1,3,1,1.0,menos de 3 formas distintas
 vcr,lib/vcr/library_hooks/excon.rb,5dcacdf69bd6,testing,7,7,100,100,0.0,0,0.0,1,3,1,1.0,menos de 3 formas distintas
