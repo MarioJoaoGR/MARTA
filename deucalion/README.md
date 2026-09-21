@@ -33,7 +33,7 @@ mkdir -p /projects/F202407648IACDCF2/mario/{containers,ollama_models,results_rub
 singularity build containers/marta_benchmark.sif deucalion/Singularity.def
 
 # 3. Modelo do Ollama (no nó de LOGIN, tem rede)
-OLLAMA_MODELS=/projects/.../ollama_models ollama pull deepseek-coder-v2:16b
+OLLAMA_MODELS=/projects/.../ollama_models ollama pull qwen2.5-coder:32b
 ```
 
 ### 4. As deps pesadas (`pydeps`) — obrigatório
@@ -120,17 +120,14 @@ grava são os que o job vai ver. Três passos, e pára no primeiro que falhe:
 ## Correr
 
 ```bash
-sbatch deucalion/run_ruby_benchmark.sh                        # 16B, 1× A100 40GB
-
-MODEL=qwen2.5-coder:32b sbatch --export=ALL \
-    deucalion/run_ruby_benchmark.sh                           # 32B
+sbatch deucalion/run_ruby_benchmark.sh       # Qwen2.5-Coder 32B, 1× A100 40GB
 ```
 
 Variáveis de ambiente que o script aceita:
 
 | Variável | Omissão | Para quê |
 |---|---|---|
-| `MODEL` | `deepseek-coder-v2:16b` | qual o modelo |
+| `MODEL` | `qwen2.5-coder:32b` | qual o modelo |
 | `PHASE` | `all` | `generate` (precisa de GPU) ou `measure` (só CPU) |
 | `NUM_ROUNDS` | `3` | rondas do ciclo de cobertura |
 | `PROJECTS` | todas | subconjunto, separado por vírgulas |
@@ -138,9 +135,11 @@ Variáveis de ambiente que o script aceita:
 | `OLLAMA_CTX` | `16384` | janela de contexto do Ollama |
 | `MARTA_SEM_GRAFO` | `0` | `1` corre o braço da ablação do grafo |
 
-**O modelo ainda não está decidido**, 16B ou 32B. Medido nos mesmos 10 projetos
-do lado Python: o 32B é 3,4× mais lento a gerar, e o corpus inteiro a 32B rondaria
-340 GPU-h, que não cabe nas horas disponíveis. O 236B está fora (4 GPUs).
+A decisão experimental é **Qwen2.5-Coder 32B sobre 250 módulos, com uma fatia
+alvo de 50% em grupos ligados**. A projeção discutida para a execução normal e a
+ablação completa é de 219 a 245 GPU-h, com estimativa central próxima de 240.
+Como esta margem é curta, confirma-se o saldo da conta antes de submeter a
+execução completa.
 
 **A fase `measure` não precisa de GPU.** Corre-se a geração com `PHASE=generate`
 neste job, e a medição no job de CPU (conta `...cf2x`, partição `dev-x86`):
@@ -172,7 +171,11 @@ decisão), uma por cada caminho de maior risco:
 | thin | 9 | 3 | receita "deps + a própria gem" (extensão em C) |
 | i18n | 14 | 9 | origem diversidade, gem simples |
 
-Estimativa a 16B: ~3,7 GPU-h a execução normal, ~2 GPU-h o braço sem grafo.
+O piloto terminou com sucesso a 16B: 3,33 GPU-h para a execução normal, 49,8 s
+por método, 3 305 chamadas ao modelo, zero chamadas cortadas e zero erros. A
+cobertura de linhas somada foi 59,74%. Estes dados validam o *pipeline* e medem o
+16B; o custo do 32B continua a ser uma projeção até à primeira gem da execução
+final.
 
 ```bash
 export PROJECTS=aasm,commander,activesupport,doorkeeper,thin,i18n
@@ -187,7 +190,7 @@ No fim, o consumo medido e a extrapolação para o corpus:
 
 ```bash
 python -m benchmark.resumo_consumo \
-    --results /projects/F202407648IACDCF2/mario/results_ruby/deepseek-coder-v2_16b
+    --results /projects/F202407648IACDCF2/mario/results_ruby/qwen2.5-coder_32b
 ```
 
 Três coisas a ver antes de lançar o corpus: se as GPU-h extrapoladas cabem no
@@ -208,7 +211,7 @@ Esse conjunto calcula-se localmente, sem modelo:
 python -m benchmark.alvos_ablacao      # escreve 7_selecao/ablacao.json
 ```
 
-Medido: **4601 dos 6898 métodos-alvo (66,7%)**. Corre-se depois da execução
+No corpus final, são **2 677 dos 3 800 métodos-alvo (70,4%)**. Corre-se depois da execução
 normal, com o mesmo modelo:
 
 ```bash
@@ -228,7 +231,7 @@ Tudo o que o cluster precisa de saber sobre o corpus está num ficheiro só,
 escrito pela última camada da construção do dataset:
 
 ```
-apresentacao/demo_dataset/7_selecao/projetos.json     500 módulos, 107 gems
+apresentacao/demo_dataset/7_selecao/projetos.json     250 módulos, 80 gems
 ```
 
 Por gem traz de onde vem o código (repositório, etiqueta, *commit*, raiz), o
@@ -241,7 +244,7 @@ versões do ambiente e nenhuma era a que tinha certificado os módulos.
 
 Não há modo "sem alvos": o harness só corre gems que estejam no `projetos.json`
 **e** preparadas. Sem essa trava, a ferramenta tomava a gem inteira como alvo,
-83 766 métodos em vez de 6 976.
+83 766 métodos em vez dos 3 800 alvos do corpus.
 
 Ver `benchmark/dataset/README.md` para como o corpus é construído. Se o corpus
 mudar, correr a camada 7 outra vez, e depois o `prepare` e o verificador.

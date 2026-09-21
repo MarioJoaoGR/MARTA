@@ -22,7 +22,7 @@
 # ficheiro já comeu resultados no lado Python). Mede o que já estiver gerado.
 #
 #   PHASE da geração e da medição com o MESMO modelo e o MESMO braço:
-#     MODEL=deepseek-coder-v2:16b sbatch --export=ALL deucalion/run_ruby_measure_cpu.sh
+#     MODEL=qwen2.5-coder:32b sbatch --export=ALL deucalion/run_ruby_measure_cpu.sh
 #     MARTA_SEM_GRAFO=1 sbatch --export=ALL deucalion/run_ruby_measure_cpu.sh
 #
 #   ACOMPANHAR=1: ao terminar, se a geração ainda tiver gems por acabar, volta a
@@ -43,7 +43,7 @@ RUBY_ROOT="${RUBY_ROOT:-/projects/F202407648IACDCF2/mario/ruby-3.4.10}"
 SCRATCH_DIR=/projects/F202407648IACDCF2/mario/scratch_cov
 
 # O MODEL só escolhe a pasta de resultados: tem de ser o da geração a medir.
-export MODEL="${MODEL:-deepseek-coder-v2:16b}"
+export MODEL="${MODEL:-qwen2.5-coder:32b}"
 export PROJECTS="${PROJECTS:-}"
 export MARTA_SEM_GRAFO="${MARTA_SEM_GRAFO:-0}"
 export ACOMPANHAR="${ACOMPANHAR:-0}"

@@ -10,7 +10,7 @@
 #SBATCH --output=logs/ruby_%j.out
 #SBATCH --signal=B:SIGTERM@120
 # ─────────────────────────────────────────────────────────────────────
-# Benchmark MARTA-Ruby sobre o corpus da camada 7 (tamanho por decidir).
+# Benchmark MARTA-Ruby sobre o corpus final da camada 7 (250 módulos, 50%).
 # Os alvos e o ambiente de cada gem vêm do projetos.json (camada 7); o harness
 # recusa-se a correr gems que não estejam lá E preparadas, para nunca acontecer
 # tomar a gem inteira como alvo (dezenas de milhares de métodos em vez dos do corpus).
@@ -18,11 +18,8 @@
 # Mesma engenharia do lado Python: auto-chain no SIGTERM, resume via state.json,
 # retry em OOM.
 #
-# MODELO POR DECIDIR (16B vs 32B). Medido nos mesmos 10 projetos do lado Python:
-# o 32B é 3,4x mais lento na geração, e o corpus inteiro a 32B (~340 GPU-h) não
-# cabe nas horas disponíveis. O 236B está fora (4 GPUs e muito mais lento).
-#   16B:  sbatch deucalion/run_ruby_benchmark.sh
-#   32B:  MODEL=qwen2.5-coder:32b sbatch --export=ALL deucalion/run_ruby_benchmark.sh
+# Decisão experimental: Qwen2.5-Coder 32B. O modelo fica explícito como omissão
+# para um comando sem variáveis não lançar por engano o piloto de 16B.
 #
 # FASES: `generate` precisa de GPU, `measure` não. Para não gastar horas de GPU a
 # medir cobertura, correr PHASE=generate aqui e PHASE=measure na conta de CPU.
@@ -46,7 +43,7 @@ RUBY_PROJECTS="/projects/F202407648IACDCF2/mario/ruby_projects"
 # Ruby 3.4.10 compilado para o container pelo deucalion/setup_ruby.sh.
 RUBY_ROOT="${RUBY_ROOT:-/projects/F202407648IACDCF2/mario/ruby-3.4.10}"
 
-export MODEL="${MODEL:-deepseek-coder-v2:16b}"
+export MODEL="${MODEL:-qwen2.5-coder:32b}"
 export PROJECTS="${PROJECTS:-}"     # vazio = todas as gems do corpus preparadas
 export NUM_ROUNDS="${NUM_ROUNDS:-3}"
 export LIMIT="${LIMIT:-}"           # p/ smoke run (ex.: LIMIT=5)
@@ -67,7 +64,7 @@ PORT_SUFFIX="${SLURM_JOB_ID: -4}"
 OLLAMA_PORT="1${PORT_SUFFIX}"
 
 echo "================================================================="
-echo " MARTA-Ruby Benchmark — corpus de 500 módulos (camada 7)"
+echo " MARTA-Ruby Benchmark — corpus de 250 módulos, alvo 50% grupos (camada 7)"
 echo "  Job ID:    $SLURM_JOB_ID"
 echo "  Model:     $MODEL   (contexto $OLLAMA_CTX)"
 echo "  Fase:      $PHASE   Ablação (sem grafo): $MARTA_SEM_GRAFO"
