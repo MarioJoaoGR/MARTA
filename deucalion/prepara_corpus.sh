@@ -32,6 +32,7 @@ singularity exec \
     --bind "$BASE/pydeps:/data/pydeps" \
     --bind "$RUBY_PROJECTS:/data/ruby_projects" \
     --bind "$RUBY_ROOT:/opt/ruby" \
+    --bind "/usr/share/zoneinfo:/usr/share/zoneinfo:ro" \
     --env "PROJECTS=$PROJECTS" \
     "$SIF" bash -c '
         set -euo pipefail

@@ -110,6 +110,7 @@ srun -n1 singularity exec --nv \
     --bind "$HF_CACHE_DIR:/data/hf_cache" \
     --bind "$RUBY_PROJECTS:/data/ruby_projects" \
     --bind "$RUBY_ROOT:/opt/ruby" \
+    --bind "/usr/share/zoneinfo:/usr/share/zoneinfo:ro" \
     --env "MODEL=$MODEL" \
     --env "OLLAMA_MODELS=/data/ollama" \
     --env "OLLAMA_HOST=127.0.0.1:$OLLAMA_PORT" \

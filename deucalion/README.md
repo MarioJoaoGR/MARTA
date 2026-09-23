@@ -107,6 +107,11 @@ Corre dentro do container e com **as mesmas montagens dos jobs**: as gems com
 extensões em C compilam contra a glibc do container, e os caminhos que o bundler
 grava são os que o job vai ver. Três passos, e pára no primeiro que falhe:
 
+Os três scripts montam também `/usr/share/zoneinfo` do nó, só para leitura. O
+container não traz a base de fusos horários; sem esta montagem, gems que usam
+`tzinfo`, como `rufus-scheduler`, falham com `TZInfo::DataSourceNotFound` apesar
+de o mesmo código carregar num sistema Ruby normal.
+
 1. `verifica_pydeps.py`: os `pydeps` têm as versões do `requirements.txt`. Uma
    versão diferente não dá erro no arranque, dá comportamento diferente a meio.
 2. `prepare_ruby_projects`: clona cada gem na etiqueta da versão publicada,
