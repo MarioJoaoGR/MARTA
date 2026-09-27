@@ -169,6 +169,10 @@ def token_tracking_ask(ask, score: RubyScore, recorder: Optional["RubyRecorder"]
         segundos = time.time() - t0
         depois = _python_side_tokens()
         detalhe = _detalhe_da_ultima_chamada()
+        if detalhe.get("cache_hit"):
+            if recorder is not None:
+                recorder.evento(tipo="llm_cache_hit", fase=fase, segundos=round(segundos, 3))
+            return out
         entrada, saida = depois[0] - antes[0], depois[1] - antes[1]
         cortada = detalhe.get("finish_reason") == "length"
         erro = bool(detalhe.get("erro"))

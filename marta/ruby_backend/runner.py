@@ -134,6 +134,9 @@ def run_rspec(
     cwd: Optional[str] = None,
     timeout: int = 60,
     requires: Optional[List[str]] = None,
+    use_bundle: bool = False,
+    isolated: bool = True,
+    use_guard: bool = True,
 ) -> RSpecResult:
     """Run one spec file under ``rspec -f json`` and parse the results.
 
@@ -156,8 +159,12 @@ def run_rspec(
     # Dois formatos: o progress (texto legível, com as falhas e os backtraces) no
     # stdout, para o erro que volta ao modelo; o json no ficheiro, para ler os
     # resultados. O -o aplica-se ao formato anterior (o json).
-    args = [rspec_bin(), "-O", os.devnull, "-f", "progress", "-f", "json", "-o", json_path,
-            "-r", _GUARD]
+    args = ["bundle", "exec", "rspec"] if use_bundle else [rspec_bin()]
+    if isolated:
+        args += ["-O", os.devnull]
+    args += ["-f", "progress", "-f", "json", "-o", json_path]
+    if use_guard:
+        args += ["-r", _GUARD]
     for p in load_paths or []:
         args += ["-I", p]
     for r in requires or []:

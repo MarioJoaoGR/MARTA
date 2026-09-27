@@ -13,18 +13,23 @@ Load-path / require resolution (the ``PYTHONPATH``/import-root analogue):
 from __future__ import annotations
 
 import glob
+import hashlib
 import json
 import os
 import re
-from dataclasses import dataclass, field
+from collections import Counter
+from dataclasses import dataclass, field, replace
 from typing import Dict, List, Optional
 
 from . import cache, coverage_runner, param_types, rag, readme, recorder as rec, ruby_ast, summaries
 from .backend import LanguageBackend, RubyBackend
 from .generate import AskFn, GenOutcome, _default_ask, generate_spec_for_method
 
-# Methods we never target directly: exercised indirectly as construction context.
+# Default generation skips constructors; exact task selectors may request them.
 SKIP_METHODS = {"initialize"}
+
+# Bump when analysis prompts, definition identities, or cache semantics change.
+ANALYSIS_SCHEMA = 2
 
 
 def _slice_lines(path: str, start: int, end: int) -> str:
@@ -80,6 +85,14 @@ class MethodTarget:
     what_todo: str = ""       # requirement-view summary, from README (item 7)
     summary: str = ""         # final merged summary, fed to the Planner context
     judge: str = ""           # inferred parameter types hint (item 5)
+    task_id: Optional[str | int] = None
+
+    @property
+    def analysis_id(self) -> str:
+        """Definition identity, independent of generation tasks/selectors."""
+        return json.dumps([self.source_rel, self.method.qualified_name,
+                           self.method.start_line, self.method.end_line],
+                          ensure_ascii=True, separators=(",", ":"))
 
     @property
     def planner_summary(self) -> str:
@@ -134,7 +147,7 @@ class MethodTarget:
         parts = [f"# --- contexto: a classe onde o método vive (sem corpos) ---\n"
                  f"{self.class_code}"]
         init = next((m for m in self.siblings if m.name == "initialize"), None)
-        if init is not None:
+        if init is not None and self.method.name != "initialize":
             parts.append("# --- construtor ---\n"
                          + _slice_lines(self.file_path, init.start_line, init.end_line))
         parts.append(f"# --- MÉTODO A ANALISAR: {self.method.qualified_name} ---\n{alvo}")
@@ -147,7 +160,12 @@ class MethodTarget:
     def _spec_stem(self) -> str:
         stem = os.path.splitext(os.path.basename(self.file_path))[0]
         owner = _sanitize(self.owner_class.qualified_name) if self.owner_class else "toplevel"
-        return f"{stem}__{owner}__{_sanitize(self.method.name)}"
+        base = f"{stem}__{owner}__{_sanitize(self.method.name)}"
+        if self.task_id is not None:
+            digest = hashlib.sha256(
+                json.dumps([self.task_id, self.analysis_id]).encode()).hexdigest()[:20]
+            return f"{base}__task_{digest}"
+        return base
 
     @property
     def spec_path(self) -> str:
@@ -166,6 +184,20 @@ class MethodTarget:
         load_paths os dois separam-se (`deliver/lib/deliver/setup.rb` pede-se por
         `deliver/setup`), e aí vale o ``rel_path``."""
         return self.rel_path or (self.require_target + ".rb")
+
+
+class _AnalysisFunctionDatabase(rag.RubyFunctionDatabase):
+    """Keep definition IDs in RAG without changing Ruby qualified names."""
+
+    def _select(self, targets):
+        docs, _ = super()._select(targets)
+        # Keep the positional prefix expected by RubyFunctionDatabase.query.
+        return docs, [f"{i}|{t.analysis_id}" for i, t in enumerate(self.targets)]
+
+    def _pick(self, order, k, exclude):
+        return [self.targets[i] for i in order
+                if self.targets[i].analysis_id != exclude
+                and self.targets[i].method.qualified_name != exclude][:k]
 
 
 @dataclass
@@ -207,6 +239,14 @@ class RubyProject:
     # Só os specs DESTES alvos pagam o carregamento; os outros não mudam.
     library_files: Optional[List[str]] = None
     library_targets: Optional[List[str]] = None
+
+    # Analyze all supplied production definitions, irrespective of generation.
+    full_context: bool = False
+    # Authoritative generation selectors: source-relative file, exact Ruby
+    # method name, 1-based inclusive definition lines, and opaque task_id.
+    target_selectors: Optional[List[dict]] = None
+    analysis_targets: List[MethodTarget] = field(default_factory=list)
+    _ambiguous_qns: set = field(default_factory=set, init=False, repr=False)
 
     files: List[str] = field(default_factory=list)          # absolute .rb paths
     targets: List[MethodTarget] = field(default_factory=list)
@@ -322,15 +362,25 @@ class RubyProject:
         return self.backend.module_ref(rel)
 
     def discover(self) -> "RubyProject":
-        """Find *.rb under source_dir (excluding spec/) and build method targets."""
+        """Parse supplied production files and separate analysis from generation.
+
+        Full context retains every parsed method, including constructors.
+        Exact selectors are authoritative; otherwise legacy generation filters
+        and the default constructor skip apply.
+        """
         self.files = []
         self.targets = []
+        self.analysis_targets = []
+        self.class_files = {}
+        self.class_summaries = {}
+        self.rag_db = self.class_db = None
         self.type_index = param_types.ProjectTypeIndex()
         self._apply_environment()
         # Métodos de TODOS os ficheiros (não só dos alvos): o grafo precisa do
         # projeto inteiro, e assim reaproveita-se este parse em vez de o repetir.
         all_methods: List = []
-        for path in self._code_paths():
+        candidates = []
+        for path in sorted(set(self._code_paths())):
             rel = os.path.relpath(path, self.abs_source)
             self.files.append(path)
             fp = self.backend.parse_file(path)
@@ -340,36 +390,43 @@ class RubyProject:
             for c in fp.classes:
                 self.class_files.setdefault(c.qualified_name, path)
             require_target = self._require_for(rel)
-            # Fora da seleção de alvos? O ficheiro continua a ser PARSEADO
-            # (alimenta o grafo e o índice de tipos), mas não gera alvos.
-            if self.target_files is not None and rel not in self.target_files:
-                continue
             by_owner: Dict[str, List] = {}
             for m in fp.methods:
                 if m.owner:
                     by_owner.setdefault(m.owner, []).append(m)
             for m in fp.methods:
-                if m.name in SKIP_METHODS:
-                    continue
-                # Filtro por método (braço da ablação): o ficheiro continua alvo,
-                # mas só estes métodos geram specs.
-                if self.method_names is not None and m.qualified_name not in self.method_names:
-                    continue
-                self.targets.append(
-                    MethodTarget(
-                        method=m,
-                        owner_class=classes_by_qn.get(m.owner) if m.owner else None,
-                        file_path=path,
-                        require_target=require_target,
-                        rel_path=rel,
-                        spec_dir=self._spec_dir(),
-                        siblings=[s for s in by_owner.get(m.owner or "", [])
-                                  if s is not m],
-                    )
-                )
+                candidates.append(MethodTarget(
+                    method=m,
+                    owner_class=classes_by_qn.get(m.owner) if m.owner else None,
+                    file_path=path,
+                    require_target=require_target,
+                    rel_path=rel,
+                    spec_dir=self._spec_dir(),
+                    siblings=[s for s in by_owner.get(m.owner or "", []) if s is not m],
+                ))
+        counts = Counter(m.qualified_name for m in all_methods)
+        self._ambiguous_qns = {qn for qn, count in counts.items() if count > 1}
+        if self.target_selectors is not None:
+            self.targets = self._select_tasks(candidates)
+        else:
+            self.targets = [t for t in candidates
+                            if t.method.name not in SKIP_METHODS
+                            and (self.target_files is None or t.source_rel in self.target_files)
+                            and (self.method_names is None
+                                 or t.method.qualified_name in self.method_names)]
+        selected = {t.analysis_id for t in self.targets}
+        self.analysis_targets = (candidates if self.full_context else
+                                 [t for t in candidates if t.analysis_id in selected])
+        identities = Counter(t.analysis_id for t in self.analysis_targets)
+        duplicates = [identity for identity, count in identities.items() if count > 1]
+        if duplicates:
+            # The parser has no column positions: repeated same-name defs on
+            # one line cannot be safely distinguished by this identity format.
+            raise ValueError(f"Ambiguous analysis definition identities: {duplicates!r}")
         # Judge needs the full index (cross-file classes), so compute after.
-        for t in self.targets:
+        for t in self.analysis_targets:
             t.judge = self.type_index.judge_for_method(t.method)
+        self._sync_generation_analysis()
         # Static call graph (item 6) — feeds cross-method done_what enrichment.
         # Cache keyed by source hash + RESOLVER_VERSION .
         from .call_graph import RESOLVER_VERSION
@@ -387,6 +444,81 @@ class RubyProject:
             if self.call_graph is not None:
                 cache.save_call_graph(cg_path, src_hash, self.call_graph.to_json())
         return self
+
+    def _select_tasks(self, candidates: List[MethodTarget]) -> List[MethodTarget]:
+        """Resolve every selector before analysis; never silently drop a task."""
+        if not isinstance(self.target_selectors, list):
+            raise ValueError("target_selectors must be a list")
+        selected, task_ids = [], set()
+        for selector in self.target_selectors:
+            required = {"file", "start_line", "end_line", "name", "task_id"}
+            if not isinstance(selector, dict) or not required <= selector.keys():
+                raise ValueError(f"Invalid target selector: {selector!r}")
+            file, name, task_id = (selector[k] for k in ("file", "name", "task_id"))
+            start, end = selector["start_line"], selector["end_line"]
+            if (not all(isinstance(v, str) and v for v in (file, name))
+                    or type(task_id) not in (str, int) or str(task_id) == ""
+                    or type(start) is not int or type(end) is not int
+                    or start < 1 or end < start):
+                raise ValueError(f"Invalid target selector: {selector!r}")
+            file = os.path.normpath(file)
+            if os.path.isabs(file) or file == ".." or file.startswith(".." + os.sep):
+                raise ValueError(f"Task file must be source-relative: {file!r}")
+            if str(task_id) in task_ids:
+                raise ValueError(f"Duplicate task_id: {task_id!r}")
+            task_ids.add(str(task_id))
+            matches = [t for t in candidates if t.source_rel == file
+                       and t.method.name == name
+                       and t.method.start_line == start and t.method.end_line == end]
+            if len(matches) != 1:
+                raise ValueError(f"Task {task_id!r}: expected exactly one definition, "
+                                 f"found {len(matches)} for {selector!r}")
+            # Separate task wrappers allow two tasks for the same definition.
+            selected.append(replace(matches[0], task_id=task_id))
+        return selected
+
+    def _sync_generation_analysis(self) -> None:
+        by_id = {t.analysis_id: t for t in self.analysis_targets}
+        for t in self.targets:
+            source = by_id.get(t.analysis_id)
+            if source is not None and source is not t:
+                for attr in ("done_what", "what_todo", "summary", "judge"):
+                    setattr(t, attr, getattr(source, attr))
+
+    def _analysis_path(self, model: str, enrich: bool) -> str:
+        path = cache.cache_path(self.out_root(), model if enrich else f"{model}_sem_grafo")
+        return path[:-5] + ".full_context.json" if self.full_context else path
+
+    def _analysis_fingerprint(self, targets: List[MethodTarget], max_classes=50) -> str:
+        from .call_graph import RESOLVER_VERSION
+        readmes = {readme.nearest_readme(t.file_path, self.abs_source) for t in targets}
+        payload = {
+            "schema": ANALYSIS_SCHEMA,
+            "scope": "full" if self.full_context else "targets",
+            "methods": sorted(t.analysis_id for t in targets),
+            "max_context_chars": MAX_CONTEXT_CHARS,
+            "max_classes": None if self.full_context else max_classes,
+            "resolver": RESOLVER_VERSION,
+            "readmes": cache.compute_source_hash(sorted(p for p in readmes if p)),
+        }
+        return hashlib.sha256(json.dumps(payload, sort_keys=True).encode()).hexdigest()
+
+    @staticmethod
+    def _load_analysis_bundle(path, source_hash, model, fingerprint, enrich):
+        try:
+            with open(path, encoding="utf-8") as f:
+                data = json.load(f)
+        except (OSError, ValueError):
+            return None
+        if (not isinstance(data, dict) or data.get("source_hash") != source_hash
+                or data.get("model") != model or data.get("fingerprint") != fingerprint
+                or data.get("enrich") is not enrich
+                or not isinstance(data.get("targets"), dict)
+                or not isinstance(data.get("classes"), dict)):
+            return None
+        if not all(isinstance(e, dict) for e in data["targets"].values()):
+            return None
+        return data
 
     async def generate_all(
         self,
@@ -433,26 +565,43 @@ class RubyProject:
         generation — the context-building phase MARTA runs in ``init()``.
         ``done_what`` is source-only until the call graph enriches it.
 
-        Cached by source hash + model: on an unchanged project the whole LLM
-        summary phase is skipped (``load_analysis_cache`` analogue).
+        Full context ignores limit and max_class_summaries; those bounds only
+        apply to legacy targeted analysis. Generation still uses self.targets.
+        Cache validity includes sources, model, scope, exact analysis identities,
+        README contents, schema and context limits. Graph arms use separate files.
 
         ``enrich=False`` é o braço da ablação: desliga os DOIS sítios onde o grafo
         entra (a 2ª passagem do done_what e a propagação do what_todo do chamador),
         que é tudo o que o grafo faz nesta fase. O resto do fluxo fica igual. A
         cache vai para um ficheiro próprio, senão um braço comia a do outro.
         """
-        targets = self.targets[:limit] if limit else self.targets
+        targets = self.analysis_targets
+        if limit and not self.full_context:
+            targets = targets[:limit]
         model = os.getenv("MODEL", "default")
         src_hash = cache.compute_source_hash(self.files)
-        path = cache.cache_path(self.out_root(), model if enrich else f"{model}_sem_grafo")
+        fingerprint = self._analysis_fingerprint(targets, max_class_summaries)
+        path = self._analysis_path(model, enrich)
 
+        # A fresh analysis (including a different graph arm) cannot inherit
+        # requirements or semantic hints from an earlier analysis on this object.
+        self.class_summaries = {}
+        self.rag_db = self.class_db = None
+        for t in self.analysis_targets:
+            t.done_what = t.what_todo = t.summary = ""
+            t.judge = self.type_index.judge_for_method(t.method) if self.type_index else ""
         if use_cache:
-            cached = cache.load_analysis(path, src_hash, model)
-            if cached is not None and all(t.method.qualified_name in cached for t in targets):
+            bundle = self._load_analysis_bundle(path, src_hash, model, fingerprint, enrich)
+            cached = bundle["targets"] if bundle else {}
+            if bundle is not None and all(t.analysis_id in cached for t in targets):
                 for t in targets:
-                    self._apply_cached(t, cached[t.method.qualified_name])
-                self.class_summaries = cache.load_class_analysis(path, src_hash, model) or {}
+                    self._apply_cached(t, cached[t.analysis_id])
+                self.class_summaries = bundle["classes"]
+                self._sync_generation_analysis()
                 return
+        if not targets:
+            self._sync_generation_analysis()
+            return
 
         r = self._recorder()
         ask = ask or _default_ask()
@@ -470,20 +619,22 @@ class RubyProject:
         # reaproveita o que bate certo com as mesmas fontes e o mesmo modelo.
         reaproveitada: Dict[str, str] = {}
         if reaproveitar_passagem1_de:
-            normal = cache.load_analysis(reaproveitar_passagem1_de, src_hash, model) or {}
+            normal_bundle = self._load_analysis_bundle(
+                reaproveitar_passagem1_de, src_hash, model, fingerprint, True)
+            normal = normal_bundle["targets"] if normal_bundle else {}
             reaproveitada = {qn: e["done_what_passagem1"] for qn, e in normal.items()
                              if e.get("done_what_passagem1")}
         passagem1: Dict[str, str] = {}
         with r.fase("sumarios_passagem1"):
             for t in targets:
                 qn = t.method.qualified_name
-                if qn in reaproveitada:
-                    t.done_what = reaproveitada[qn]
+                if t.analysis_id in reaproveitada:
+                    t.done_what = reaproveitada[t.analysis_id]
                 else:
                     with r.contexto(metodo=qn):
                         t.done_what = await summaries.analyze_done_what(ask, t.context_source)
-                passagem1[qn] = t.done_what
-        n_reap = sum(1 for t in targets if t.method.qualified_name in reaproveitada)
+                passagem1[t.analysis_id] = t.done_what
+        n_reap = sum(1 for t in targets if t.analysis_id in reaproveitada)
         if n_reap:
             print(f"♻️  [Ablação] passagem 1 reaproveitada da execução normal em "
                   f"{n_reap}/{len(targets)} métodos")
@@ -492,14 +643,21 @@ class RubyProject:
         # Pass 2: enrich done_what of callers with their callees' done_what,
         # following the static call graph (the PyCG-driven enrichment). Only
         # methods that actually call project methods pay the extra LLM call.
+        # Graph nodes only have qualified names. Omit ambiguous definitions
+        # in BOTH directions rather than silently merging reopened methods.
+        counts = Counter(t.method.qualified_name for t in targets)
+        by_qn = {t.method.qualified_name: t for t in targets
+                 if counts[t.method.qualified_name] == 1
+                 and t.method.qualified_name not in self._ambiguous_qns}
         if self.call_graph is not None and enrich:
-            by_qn = {t.method.qualified_name: t for t in targets}
             # Esta é a fase que a ablação do grafo desliga: é aqui que o contexto
             # de um método passa a incluir o que os métodos chamados fazem.
             with r.fase("sumarios_passagem2"):
                 for t in targets:
+                    if t.method.qualified_name not in by_qn:
+                        continue
                     called = [
-                        f"{by_qn[c].method.qualified_name}: {by_qn[c].done_what}"
+                        f"{c}: {passagem1[by_qn[c].analysis_id]}"
                         for c in self.call_graph.callees(t.method.qualified_name)
                         if c in by_qn and by_qn[c].done_what
                     ]
@@ -513,12 +671,11 @@ class RubyProject:
         # what_todo: raízes (sem callers) a partir do README; métodos chamados
         # herdam a perspetiva de requisito do chamador via grafo (porta do ramo
         # de propagação do analyze_what_todo). Ciclos/soltos caem no README.
-        by_qn = {t.method.qualified_name: t for t in targets}
-
         def _callers_of(t: MethodTarget) -> List[MethodTarget]:
             # A outra metade da ablação: sem grafo não há chamadores, logo todos os
             # métodos são raiz e o what_todo vem do README para todos.
-            if self.call_graph is None or not enrich:
+            if (self.call_graph is None or not enrich
+                    or t.method.qualified_name not in by_qn):
                 return []
             return [by_qn[c] for c in self.call_graph.callers(t.method.qualified_name) if c in by_qn]
 
@@ -566,10 +723,8 @@ class RubyProject:
                         ask, t.context_source, t.done_what, t.what_todo
                     )
 
-        # Summaries de classes (análogo leve do analyze_each_class): base do RAG
-        # semântico de tipos. ATENÇÃO ao âmbito: só as classes DONAS dos targets
-        # em análise (+ cap), nunca o projeto inteiro — a faker tem 260 classes,
-        # o que dava ~1h de LLM mesmo com --limit 2.
+        # Class summaries follow the analysis pool. Full context intentionally
+        # has no class-count cap; legacy smoke runs retain their existing cap.
         owner_qns = []
         for t in targets:
             qn = t.owner_class.qualified_name if t.owner_class else None
@@ -589,7 +744,7 @@ class RubyProject:
                 _slice_lines(t.file_path, t.method.start_line, t.method.start_line).strip())
 
         with r.fase("sumarios_de_classe"):
-            for qn in owner_qns[:max_class_summaries]:
+            for qn in (owner_qns if self.full_context else owner_qns[:max_class_summaries]):
                 cls = (self.type_index.classes if self.type_index else {}).get(qn)
                 if cls is None or cls.kind != "class" or qn in self.class_summaries:
                     continue
@@ -604,16 +759,20 @@ class RubyProject:
                     self.class_summaries[qn] = await summaries.analyze_class(ask, class_src)
 
         if use_cache:
-            cache.save_analysis(path, src_hash, model, {
-                t.method.qualified_name: {
+            entries = {
+                t.analysis_id: {
                     "done_what": t.done_what, "what_todo": t.what_todo,
                     "summary": t.summary, "judge": t.judge,
-                    # guardada à parte: o done_what final já vem enriquecido pela
-                    # passagem 2, e o braço da ablação precisa da versão de antes
-                    "done_what_passagem1": passagem1.get(t.method.qualified_name, ""),
+                    "done_what_passagem1": passagem1.get(t.analysis_id, ""),
                 }
                 for t in targets
-            }, classes=self.class_summaries)
+            }
+            os.makedirs(os.path.dirname(path), exist_ok=True)
+            with open(path, "w", encoding="utf-8") as f:
+                json.dump({"source_hash": src_hash, "model": model,
+                           "fingerprint": fingerprint, "enrich": enrich,
+                           "targets": entries, "classes": self.class_summaries}, f, indent=2)
+        self._sync_generation_analysis()
 
     @staticmethod
     def _apply_cached(t: MethodTarget, entry: dict) -> None:
@@ -624,36 +783,45 @@ class RubyProject:
             t.judge = entry["judge"]
 
     def build_rag(self, embed_documents=None, embed_query=None, persist=True) -> None:
-        """Index target summaries for retrieval. Call after analyze_summaries.
+        """Index analysis-pool summaries for retrieval. Call after analyze_summaries.
         A custom embedder can be injected (tests); default is the real bge one.
         Also indexes class summaries and adds semantic type hints to ambiguous
         judges (the ``find_type_by_RAG`` analogue).
 
-        The collections are persisted under ``.marta_ruby_cache/vectors`` and
-        keyed on sources + LLM + embedder, so an unchanged project skips the
-        embedding pass entirely on a re-run. ``persist=False`` keeps them in
+        Collections are persisted under ``.marta_ruby_cache/vectors/<scope>``.
+        Sources, analysis settings, definition IDs, actual indexed text and the
+        LLM/embedder identify reusable vectors. ``persist=False`` keeps them in
         memory (tests)."""
         pdir = key = None
         if persist:
-            pdir = cache.vectors_path(self.out_root())
+            pdir = os.path.join(cache.vectors_path(self.out_root()),
+                                "full_context" if self.full_context else "targets")
+            documents = [(t.analysis_id, t.summary or t.done_what)
+                         for t in self.analysis_targets]
+            text_hash = hashlib.sha256(json.dumps(
+                [documents, sorted(self.class_summaries.items())],
+                ensure_ascii=True).encode()).hexdigest()
             key = cache.vectors_key(
-                cache.compute_source_hash(self.files),
+                cache.compute_source_hash(self.files) + ":"
+                + self._analysis_fingerprint(self.analysis_targets) + ":" + text_hash,
                 os.getenv("MODEL", "default"),
                 os.getenv("TRANSFORMER_PATH", "default"),
             )
         # Fase à parte: embeber os sumários é o custo que a cache de vetores veio
         # poupar, e no cluster corre em CPU (EMBED_DEVICE=cpu, para o Ollama ficar
         # com a GPU). Sem etiqueta própria, não havia como mostrar a poupança.
+        self.class_db = None
         with self._recorder().fase("rag"):
-            self.rag_db = rag.RubyFunctionDatabase(
+            self.rag_db = _AnalysisFunctionDatabase(
                 embed_documents, embed_query, persist_dir=pdir, name="functions", key=key or "")
-            self.rag_db.init(self.targets)
+            self.rag_db.init(self.analysis_targets)
             if self.class_summaries:
                 # Classes em NumPy, como o find_topK_message da Python (ver rag.py).
                 self.class_db = rag.RubyClassIndex(
                     embed_documents, embed_query, persist_dir=pdir, key=key or "")
                 self.class_db.init([_ClassEntry(qn, s) for qn, s in self.class_summaries.items()])
                 self._augment_judge_semantic()
+        self._sync_generation_analysis()
         if persist and self.rag_db.reused:
             print("[rag] vetores reaproveitados do disco (sem re-embedding)")
 
@@ -662,7 +830,8 @@ class RubyProject:
         append the semantically closest class from the class-summary embeddings."""
         if self.class_db is None or self.type_index is None:
             return
-        for t in self.targets:
+        for t in self.analysis_targets:
+            t.judge = self.type_index.judge_for_method(t.method)
             extra = []
             for pname, members in (t.method.param_members or {}).items():
                 if not members:
@@ -688,7 +857,7 @@ class RubyProject:
         query = t.summary or t.done_what
         if not query:
             return None
-        return self.rag_db.related_lines(query, k=3, exclude=t.method.qualified_name) or None
+        return self.rag_db.related_lines(query, k=3, exclude=t.analysis_id) or None
 
     def _example_passing_spec(self, t: MethodTarget) -> Optional[str]:
         """First spec already on disk for this target (kept specs are green)."""
@@ -709,7 +878,7 @@ class RubyProject:
             return None
 
         def helper(error: str) -> str:
-            hits = self.rag_db.query(error[:400], k=3, exclude=t.method.qualified_name)[:2]
+            hits = self.rag_db.query(error[:400], k=3, exclude=t.analysis_id)[:2]
             if not hits:
                 return ""
             blocks = ["SIMILAR TESTED METHODS THAT MIGHT HELP:"]

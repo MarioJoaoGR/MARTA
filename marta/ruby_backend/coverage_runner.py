@@ -95,6 +95,7 @@ def run_line_coverage(
     minitest: bool = False,
     load_paths: Optional[List[str]] = None,
     requires: Optional[List[str]] = None,
+    use_bundle: bool = False,
 ) -> CoverageResult:
     """Run specs under Coverage and return per-file per-line hit arrays.
 
@@ -111,7 +112,7 @@ def run_line_coverage(
     # de caminhos no helper compara absolutos — absolutizar SEMPRE.
     cwd = os.path.abspath(cwd)
     abs_source = source_dir if os.path.isabs(source_dir) else os.path.join(cwd, source_dir)
-    args = [ruby_bin(), _HELPER]
+    args = ["bundle", "exec", "ruby", _HELPER] if use_bundle else [ruby_bin(), _HELPER]
     if isolated:
         args.append("--isolated")
     if minitest:
