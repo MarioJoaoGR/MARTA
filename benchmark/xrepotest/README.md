@@ -4,8 +4,16 @@ Estado em 27-09-2026: integração implementada e testada localmente; ambiente
 derivado construído; os dez bundles e os dez diagnósticos RSpec passam offline.
 As duas falhas confirmadas no avaliador de cobertura foram corrigidas na imagem
 `marta-xrepotest:repaired-v2`, com autorização do utilizador (detalhes abaixo).
-Nenhuma nova
-geração LLM foi iniciada e nenhum job foi submetido ao Deucalion.
+Nenhuma nova geração LLM foi iniciada. No Deucalion, o job CPU 1956251
+converteu a imagem e confirmou os imports Python, mas o preflight encontrou
+recusas de proprietário do Git em Hanami e RSpec-core. A adaptação em
+`runtime.py` autoriza apenas os caminhos exatos do repositório e das suas
+dependências Git, por variáveis de ambiente do processo (`safe.directory`).
+Não escreve na configuração global da conta nem altera fontes, dependências
+ou o avaliador. O erro foi reproduzido em Docker com UID 12345; com esta
+adaptação, os bundles afetados, os dez diagnósticos RSpec, os sete casos de
+cobertura e a mutação Hashie passam offline com esse UID sem privilégios.
+A verificação no cluster tem de voltar a passar.
 
 ## Protocolo e âmbito
 
@@ -108,9 +116,9 @@ em `mario/xrepotest/repaired-v2.sif`, reutiliza o Python existente e verifica
 o ambiente em CPU. O arquivo tem de ser transferido previamente; não há fallback
 silencioso para a imagem original incompleta.
 `deucalion/run_xrepotest_prepare_cpu.sh` é o job correspondente. Estes
-scripts ainda precisam de validação no cluster pelo utilizador; não foram
-executados por SSH nesta sessão. A cópia do Python entre containers também
-precisa de passar a verificação de imports incluída no script.
+scripts são executados pelo utilizador via SSH. A conversão da imagem e a
+cópia do Python já passaram; a validação integral do ambiente no cluster
+continua pendente.
 
 ## Métricas e comparabilidade
 

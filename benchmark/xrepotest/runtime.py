@@ -19,6 +19,27 @@ def validate_evaluator(actual_hashes):
         raise ValueError("Evaluator files differ from the documented repaired environment")
 
 
+def _trust_project_git(root, env):
+    """Trust exact image/workspace repositories for this subprocess tree only.
+
+    Singularity keeps the caller's UID while image files belong to root.
+    Bundler reads Git gemspecs even with a frozen, fully installed bundle.
+    Resolve vendor symlinks so disposable workspaces trust the shared snapshot,
+    without disabling ownership checks for unrelated repositories.
+    """
+    root = Path(root).resolve()
+    repositories = {root} if (root / ".git").exists() else set()
+    for marker in root.glob("vendor/bundle/ruby/*/bundler/gems/*/.git"):
+        repositories.add(marker.parent.resolve())
+    count = int(env.get("GIT_CONFIG_COUNT", "0"))
+    for repository in sorted(repositories):
+        env[f"GIT_CONFIG_KEY_{count}"] = "safe.directory"
+        env[f"GIT_CONFIG_VALUE_{count}"] = str(repository)
+        count += 1
+    if repositories:
+        env["GIT_CONFIG_COUNT"] = str(count)
+
+
 def project_env(root, name, base=None):
     env = dict(os.environ if base is None else base)
     manifest = environment_manifest()
@@ -38,6 +59,7 @@ def project_env(root, name, base=None):
     # Resolve against the task's disposable copy, never the original project.
     env["BUNDLE_GEMFILE"] = str(Path(root).resolve() / project["gemfile"])
     env["BUNDLE_FROZEN"] = "true"
+    _trust_project_git(root, env)
     return env
 
 

@@ -48,6 +48,28 @@ def test_runtime_rejects_modified_lock(repaired):
         runtime.project_env(repaired, "hanami")
 
 
+def test_git_trust_is_scoped_and_resolves_shared_vendor(repaired, tmp_path):
+    (repaired / ".git").mkdir()
+    vendor = tmp_path / "image-vendor"
+    snapshot = vendor / "bundle/ruby/3.2.0/bundler/gems/example-abc"
+    (snapshot / ".git").mkdir(parents=True)
+    (repaired / "vendor").symlink_to(vendor, target_is_directory=True)
+    unrelated = tmp_path / "unrelated/.git"
+    unrelated.mkdir(parents=True)
+    base = {"GIT_CONFIG_COUNT": "1", "GIT_CONFIG_KEY_0": "core.autocrlf",
+            "GIT_CONFIG_VALUE_0": "false"}
+    env = runtime.project_env(repaired, "hanami", base)
+    assert env["GIT_CONFIG_COUNT"] == "3"
+    assert env["GIT_CONFIG_KEY_0"] == "core.autocrlf"
+    assert env["GIT_CONFIG_VALUE_0"] == "false"
+    assert {env[f"GIT_CONFIG_VALUE_{i}"] for i in (1, 2)} == {
+        str(repaired.resolve()), str(snapshot.resolve())}
+    assert all(env[f"GIT_CONFIG_KEY_{i}"] == "safe.directory" for i in (1, 2))
+    assert base == {"GIT_CONFIG_COUNT": "1", "GIT_CONFIG_KEY_0": "core.autocrlf",
+                    "GIT_CONFIG_VALUE_0": "false"}
+    assert not (tmp_path / ".gitconfig").exists()
+
+
 def test_original_image_environment_is_preserved(tmp_path, monkeypatch):
     monkeypatch.setattr(runtime, "MANIFEST", tmp_path / "absent.json")
     base = {"PATH": "/old/bin", "GEM_HOME": "/old/gems"}
