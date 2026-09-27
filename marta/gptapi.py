@@ -117,10 +117,20 @@ class MyGPT:
                 messages=messages,
                 temperature=self.temperature,
                 stream=False,
-                timeout=500.0,  # modelos locais podem ser lentos
+                timeout=getattr(self, 'request_timeout', 500.0),
             )
             if self.max_tokens is not None:
                 kwargs['max_tokens'] = self.max_tokens
+            # Optional per-client setting; legacy runs leave it unspecified.
+            effort = getattr(self, 'reasoning_effort', None)
+            if effort is not None:
+                # openai 1.42 (the pinned environment) predates this named
+                # argument. extra_body sends the same JSON without an upgrade.
+                kwargs['extra_body'] = {'reasoning_effort': effort}
+            for parameter in ('top_p', 'presence_penalty'):
+                value = getattr(self, parameter, None)
+                if value is not None:
+                    kwargs[parameter] = value
 
             chat = self.client.chat.completions.create(**kwargs)
             output = chat.choices[0].message.content

@@ -534,6 +534,7 @@ def test_pipeline_isolates_task_rounds_and_resumes_without_generation(parsed_rep
     monkeypatch.setattr(backend.XRepoProject, "generate_rounds", generate)
     args = SimpleNamespace(repos=parsed_repo.parent, output=tmp_path / "output",
                            work=tmp_path / "work", temperature=0.0, no_graph=True,
+                           thinking="on", top_p=0.95, presence_penalty=0.0, request_timeout=1800,
                            rounds=2, attempts=1, reuse_analysis_from=None)
     asyncio.run(run.pipeline(args, rows, inventories))
     assert generated == [42, 674]

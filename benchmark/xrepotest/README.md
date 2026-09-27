@@ -13,7 +13,9 @@ Não escreve na configuração global da conta nem altera fontes, dependências
 ou o avaliador. O erro foi reproduzido em Docker com UID 12345; com esta
 adaptação, os bundles afetados, os dez diagnósticos RSpec, os sete casos de
 cobertura e a mutação Hashie passam offline com esse UID sem privilégios.
-A verificação no cluster tem de voltar a passar.
+A verificação foi repetida no job CPU **1956272**, que terminou `COMPLETED`,
+`0:0`, em 2 min 40 s. Os dez projetos e todos estes diagnósticos passaram
+também no Deucalion.
 
 ## Protocolo e âmbito
 
@@ -117,8 +119,80 @@ o ambiente em CPU. O arquivo tem de ser transferido previamente; não há fallba
 silencioso para a imagem original incompleta.
 `deucalion/run_xrepotest_prepare_cpu.sh` é o job correspondente. Estes
 scripts são executados pelo utilizador via SSH. A conversão da imagem e a
-cópia do Python já passaram; a validação integral do ambiente no cluster
-continua pendente.
+cópia do Python e os diagnósticos do ambiente passaram no cluster.
+
+## Execução no Deucalion
+
+Decisão atual: **Qwen3.6:35b com thinking ligado**, instalado pelo utilizador
+via Ollama 0.30.7. Geração e avaliação usam jobs distintos:
+
+- `deucalion/run_xrepotest_generate_gpu.sh`: uma GPU, Ollama no container antigo
+  e MARTA no ambiente Ruby XRepoTest validado. As duas aplicações comunicam por
+  HTTP local. Embeddings em CPU. Não descarrega modelos automaticamente.
+- `deucalion/run_xrepotest_evaluate_cpu.sh`: avaliador XRepoTest corrigido,
+  incluindo mutação, após existir o export completo das 675 tarefas.
+- `deucalion/xrepotest_job_common.sh`: montagens, isolamento e retoma dos jobs.
+- `cluster.py`: exige os dois relatórios aprovados e regista o digest do modelo,
+  metadados `/api/show` e versão do servidor, sem fazer inferência.
+
+Os scripts foram testados localmente com substitutos de Slurm/Singularity;
+a inferência deste modelo e os novos scripts GPU/CPU ainda precisam de ser
+observados no cluster. As verificações anteriores certificam o ambiente Ruby,
+não a memória ou a velocidade do modelo na GPU.
+A suite atual passou 234 testes, com 1 ignorado. Inclui o envio de thinking
+através do cliente OpenAI 1.42.0 real com HTTP simulado, falha sem resubmissão,
+cancelamento sem resubmissão e continuação por sinal de walltime. Os argumentos
+da geração foram também validados offline na imagem, sobre as 675 tarefas,
+com `--validate-only`. Não foram instalados pacotes nem chamadas LLM para isto.
+
+Configuração inicial: três rondas, três tentativas, contexto de 32 768 tokens,
+limite de saída de 16 384 tokens (raciocínio e resposta), timeout de 1 800 s por
+pedido, temperatura 0,6, top-p 0,95 e presence penalty 0. Estes três parâmetros
+de amostragem seguem a recomendação Qwen para código em modo thinking.
+O limite de saída é uma escolha operacional nossa, inferior aos 32 768 tokens
+recomendados genericamente pelo fabricante; não foi ainda medido neste corpus.
+Se um sumário atingir o limite, a execução para e não propaga esse sumário.
+As escolhas são guardadas no manifesto e não podem mudar durante uma retoma.
+O modo thinking é enviado via `reasoning_effort=high`; `none` desliga-o.
+Só o conteúdo final entra nos sumários e testes; os tokens de saída reportados
+pelo servidor são contabilizados, incluindo raciocínio, sem inferir uma divisão
+que o servidor não forneça.
+
+Referências: [parâmetros Qwen](https://huggingface.co/Qwen/Qwen3.6-35B-A3B#best-practices),
+[controlo de thinking no Ollama](https://docs.ollama.com/api/openai-compatibility).
+
+Submeter a geração a partir do repositório no cluster:
+
+```bash
+git pull --ff-only
+mkdir -p logs
+export MODEL=qwen3.6:35b XREPO_THINKING=on
+export XREPO_RUN=qwen36_35b_thinking_v1
+export OLLAMA_CTX=32768 XREPO_MAX_TOKENS=16384
+export XREPO_TEMPERATURE=0.6 XREPO_TOP_P=0.95 XREPO_PRESENCE_PENALTY=0
+export XREPO_REQUEST_TIMEOUT=1800 XREPO_NO_GRAPH=0
+sbatch --parsable --export=ALL deucalion/run_xrepotest_generate_gpu.sh
+```
+
+Tudo fica em `mario/xrepotest/runs/$XREPO_RUN/`, com `generation/`,
+`evaluation/`, `work/`, `metadata/` e `logs/`. Nada é lido dos resultados
+cancelados em `results_ruby/`. O nome de experiência e o modelo são obrigatórios.
+O sinal antecipado de walltime (`USR1`) agenda uma continuação dependente da
+saída do job atual. Cancelamento (`TERM`) ou erro não agenda automaticamente
+outro job. A retoma preserva tarefas concluídas e chamadas de análise em cache;
+uma tarefa interrompida pode repetir parte da geração. Não editar o código
+durante a experiência: a retoma recusa outro hash de implementação.
+
+Só quando existir `generation/processed.jsonl` completo, submeter a avaliação:
+
+```bash
+export XREPO_RUN=qwen36_35b_thinking_v1
+sbatch --parsable --export=ALL deucalion/run_xrepotest_evaluate_cpu.sh
+```
+
+A avaliação retoma os resultados já gravados por tarefa. Não ligar o job CPU
+ao ID inicial da geração com `afterok`: se houver continuação por walltime,
+esse ID não corresponde ao final da geração. O script CPU recusa export ausente.
 
 ## Métricas e comparabilidade
 
@@ -266,9 +340,9 @@ publicado permite terminar a construção mesmo quando a instalação de um proj
 falha. Isto comprova limitações da imagem fixada, não que os autores tenham usado
 esta mesma configuração incompleta nas experiências do paper.
 
-Antes de GPU: transferir/converter a imagem no cluster, validar o Python
-reutilizado, consultar a quota atual e concluir/validar os scripts GPU/CPU da
-execução. Não reutilizar os jobs do corpus antigo.
+Imagem, Python e ambiente já validados no cluster. Os scripts GPU/CPU são os
+descritos acima; a execução do novo modelo ainda não foi medida. Não reutilizar
+os jobs do corpus antigo.
 
 Verificações realizadas: 227 testes passaram e 1 foi ignorado na suite local.
 A descoberta real da MARTA dentro da imagem selecionou exatamente 675 alvos e
@@ -309,7 +383,7 @@ uma única imagem `linux/amd64`. O `setup_xrepotest.sh` espera estes ficheiros e
 `mario/xrepotest/downloads/` no cluster. A imagem original e a derivada anterior
 continuam disponíveis no Docker para comparação; nenhuma foi substituída.
 
-## Modelos: candidatos, não uma nova decisão
+## Pesquisa de modelos e decisão posterior
 
 Consulta a fontes oficiais em 26-09-2026:
 
@@ -324,7 +398,10 @@ e ser rápido depende da janela, quantização e runtime. Os resultados publicad
 dos candidatos noutros benchmarks não provam superioridade nesta tarefa. A
 recomendação prática inicial é testar compatibilidade do Qwen3-Coder-30B; o
 Qwen3.6-35B merece consideração se o objetivo for privilegiar capacidade recente.
-Nenhum novo modelo foi descarregado ou escolhido automaticamente.
+Posteriormente, o utilizador escolheu e descarregou `qwen3.6:35b` no
+Deucalion, Q4_K_M, através de Ollama 0.30.7, e escolheu thinking ligado.
+A tabela acima documenta a pesquisa anterior; a configuração de execução
+atual está na secção Deucalion.
 
 Fontes: [Ollama Qwen3-Coder](https://ollama.com/library/qwen3-coder:30b),
 [model card Qwen3-Coder](https://huggingface.co/Qwen/Qwen3-Coder-30B-A3B-Instruct),

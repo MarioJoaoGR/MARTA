@@ -78,6 +78,10 @@ async def pipeline(args, tasks, inventories):
     from .runtime import project_environment
 
     model.temperature = args.temperature
+    model.reasoning_effort = {"off": "none", "on": "high", "default": None}[args.thinking]
+    model.top_p = args.top_p
+    model.presence_penalty = args.presence_penalty
+    model.request_timeout = args.request_timeout
     grouped = defaultdict(list)
     for t in tasks:
         grouped[t["file_path"].split("/", 1)[0]].append(t)
@@ -158,15 +162,24 @@ def main():
     p.add_argument("--rounds", type=int, default=3)
     p.add_argument("--attempts", type=int, default=3)
     p.add_argument("--temperature", type=float, default=0.0)
+    p.add_argument("--top-p", type=float)
+    p.add_argument("--presence-penalty", type=float)
+    p.add_argument("--request-timeout", type=float, default=500.0)
     p.add_argument("--max-tokens", type=int, default=4096)
+    p.add_argument("--thinking", choices=("off", "on", "default"), default="default",
+                   help="Ollama boolean thinking: none disables, high enables; recorded in the experiment")
     p.add_argument("--no-graph", action="store_true")
     p.add_argument("--export-only", action="store_true")
     p.add_argument("--validate-only", action="store_true", help="Check inputs without invoking the model or creating a run")
     p.add_argument("--reuse-analysis-from", type=Path, help="Normal experiment: reuse only source-only pass one")
     args = p.parse_args()
     args.output, args.work, args.repos = (p.resolve() for p in (args.output, args.work, args.repos))
-    if args.rounds < 1 or args.attempts < 1 or args.max_tokens < 1:
+    if args.rounds < 1 or args.attempts < 1 or args.max_tokens < 1 or args.request_timeout <= 0:
         p.error("rounds, attempts and max-tokens must be positive")
+    if args.top_p is not None and not 0 < args.top_p <= 1:
+        p.error("top-p must be in (0, 1]")
+    if args.presence_penalty is not None and not -2 <= args.presence_penalty <= 2:
+        p.error("presence-penalty must be in [-2, 2]")
     if args.work == args.output or args.work in args.output.parents or args.output in args.work.parents:
         p.error("Work and results must be separate directory trees")
     tasks = load_tasks(args.dataset)
@@ -196,6 +209,9 @@ def main():
               "environment": environment_manifest(),
               "marta_code": digest(code_hashes), "model": args.model, "model_digest": args.model_digest,
               "rounds": args.rounds, "attempts": args.attempts, "temperature": args.temperature,
+              "thinking": args.thinking,
+              "top_p": args.top_p, "presence_penalty": args.presence_penalty,
+              "request_timeout": args.request_timeout,
               "max_tokens": args.max_tokens, "no_graph": args.no_graph,
               "context": "production-project", "generation": "independent-task",
               "input_hashes": {n: x["source_digest"] for n, x in inventories.items()},
