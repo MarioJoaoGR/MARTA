@@ -1,12 +1,11 @@
 #!/bin/bash
-# Download and validate CPU-only assets. Does not install in the shared home.
+# Validate transferred CPU-only assets offline. Never installs in shared home.
 set -euo pipefail
 BASE=${MARTA_CLUSTER_BASE:-/projects/F202407648IACDCF2/mario}
 CODE="$BASE/MARTA"
 XROOT="$BASE/xrepotest"
 IMAGE="$XROOT/repaired-v2.sif"
 REF=dungxg502/xrepotest-ruby@sha256:e7e857ff5c73345a9492a5352a52262da9796a3cb29c5f18053e0be1e8b6924d
-REV=39fb6ab3173136d3dac2d38ed7c98baf6c470270
 mkdir -p "$XROOT/home" "$XROOT/tmp" "$XROOT/downloads" "$XROOT/reports"
 export SINGULARITY_CACHEDIR="$XROOT/downloads/cache"
 export SINGULARITY_TMPDIR="$XROOT/tmp"
@@ -28,11 +27,8 @@ if [ ! -f "$IMAGE" ]; then
 fi
 printf '%s\n' "$REF" > "$XROOT/image-reference.txt"
 sha256sum "$IMAGE" > "$XROOT/image-sha256.txt"
-if [ ! -d "$XROOT/XRepoTest-$REV" ]; then
-    curl --fail --location --retry 3 "https://codeload.github.com/solis-team/XRepoTest/tar.gz/$REV" \
-        --output "$XROOT/downloads/upstream.tar.gz"
-    tar -xzf "$XROOT/downloads/upstream.tar.gz" -C "$XROOT"
-fi
+# The image already contains the pinned evaluator, dataset and repositories.
+# No network access is needed or expected from the CPU job.
 
 # Reuse only the existing Python runtime and MARTA dependencies. Ruby and the
 # project bundles come from the documented repaired image; no old result is bound.
