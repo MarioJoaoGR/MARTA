@@ -25,6 +25,18 @@ def summarize(root):
                 item["seconds"] += event.get("segundos", 0)
             if event.get("tipo") in {"llm_infrastructure_failure", "summary_truncated"}:
                 failures.append({"file": str(path.relative_to(root)), **event})
+                # Before summary retries, an exception bypassed the outer LLM
+                # event. Recover the known token usage without rewriting logs.
+                if not event.get("llm_event_recorded"):
+                    detail = event.get("detail", {})
+                    row["calls"] += 1
+                    row["input_tokens"] += detail.get("prompt_tokens", 0) or 0
+                    row["output_tokens"] += detail.get("completion_tokens", 0) or 0
+                    row["truncated"] += detail.get("finish_reason") == "length"
+                    row["errors"] += bool(detail.get("erro"))
+                    # The legacy event did not contain call duration or phase.
+                    row.setdefault("calls_without_timing", 0)
+                    row["calls_without_timing"] += 1
             if event.get("tipo") == "llm_cache_hit":
                 row["cache_hits"] += 1
             elif event.get("tipo") == "llm":

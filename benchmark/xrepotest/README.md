@@ -1,10 +1,10 @@
 # MARTA no XRepoTest Ruby
 
-Estado em 27-09-2026: integração implementada e testada localmente; ambiente
+Estado em 28-09-2026: integração implementada e testada localmente; ambiente
 derivado construído; os dez bundles e os dez diagnósticos RSpec passam offline.
 As duas falhas confirmadas no avaliador de cobertura foram corrigidas na imagem
 `marta-xrepotest:repaired-v2`, com autorização do utilizador (detalhes abaixo).
-Nenhuma nova geração LLM foi iniciada. No Deucalion, o job CPU 1956251
+No Deucalion, o job CPU 1956251
 converteu a imagem e confirmou os imports Python, mas o preflight encontrou
 recusas de proprietário do Git em Hanami e RSpec-core. A adaptação em
 `runtime.py` autoriza apenas os caminhos exatos do repositório e das suas
@@ -16,6 +16,49 @@ cobertura e a mutação Hashie passam offline com esse UID sem privilégios.
 A verificação foi repetida no job CPU **1956272**, que terminou `COMPLETED`,
 `0:0`, em 2 min 40 s. Os dez projetos e todos estes diagnósticos passaram
 também no Deucalion.
+
+O job GPU **1956495** iniciou a análise com Qwen3.6:35b e thinking ligado.
+Parou após 7 h 56 min na fase `what_todo_raiz` de Capybara, antes de gerar
+testes: a chamada para `Capybara::Driver::Base#go_back` atingiu 16 384 tokens
+de saída sem texto final (`finish_reason=length`, HTTP 200). Não foi um timeout.
+Ficaram guardadas **1 908 respostas válidas**: 1 196 chamadas da primeira
+passagem, 686 da segunda e 26 na fase `what_todo_raiz`.
+
+### Retoma após esgotamento de tokens nos sumários
+
+Um sumário com `finish_reason=length` é rejeitado, mesmo que contenha texto
+parcial. O executor repete o mesmo pedido até **três tentativas no total**,
+mantendo modelo, thinking, temperatura, contexto e limite de saída. Se as três
+forem cortadas, para e preserva os checkpoints. Erros de transporte e respostas
+vazias sem `length` continuam a parar a execução; não são aceites como sumários.
+A política aplica-se aos sumários, não acrescenta tentativas de geração de
+testes e fica registada como `summary_truncation_attempts=3` no manifesto.
+
+Cada pedido real, incluindo tentativas cortadas, é contado uma vez nos tokens,
+tempos e eventos. `summary_truncated` é um diagnóstico associado ao evento
+`llm`, não uma segunda chamada. O relatório também recupera os tokens das
+falhas antigas que só tinham `detail`, sem inventar o tempo ou a fase ausentes.
+No evento antigo deste job, isso recupera 356 tokens de entrada e 16 384 de saída.
+
+A mudança de código é deliberadamente incompatível com uma retoma silenciosa.
+O comando abaixo aceita apenas o fingerprint exato da versão `a7bfb697a`,
+com análise iniciada mas nenhuma tarefa de geração registada. Guarda o manifesto
+original e hashes dos checkpoints em `summary_retry_upgrade.json`; depois
+atualiza apenas o fingerprint do código e a política de repetição. A configuração
+de modelo, dados, ambiente e restantes parâmetros é preservada e volta a ser
+verificada pela execução normal. Os sumários só são reutilizados para a mesma
+fase e os mesmos prompts completos.
+
+Executar no Deucalion, com o job parado, depois de atualizar o código:
+
+```bash
+python3 -B -m benchmark.xrepotest.upgrade_summary_retry \
+  ../xrepotest/runs/qwen36_35b_thinking_v1/generation
+```
+
+O comando é idempotente e não apaga nem reescreve checkpoints ou logs. Esta
+correção e o custo das tentativas adicionais devem ser declarados no protocolo
+experimental. Não há fallback automático para thinking desligado.
 
 ## Protocolo e âmbito
 
@@ -135,11 +178,10 @@ via Ollama 0.30.7. Geração e avaliação usam jobs distintos:
 - `cluster.py`: exige os dois relatórios aprovados e regista o digest do modelo,
   metadados `/api/show` e versão do servidor, sem fazer inferência.
 
-Os scripts foram testados localmente com substitutos de Slurm/Singularity;
-a inferência deste modelo e os novos scripts GPU/CPU ainda precisam de ser
-observados no cluster. As verificações anteriores certificam o ambiente Ruby,
-não a memória ou a velocidade do modelo na GPU.
-A suite atual passou 234 testes, com 1 ignorado. Inclui o envio de thinking
+Os scripts foram testados localmente com substitutos de Slurm/Singularity.
+O job 1956495 confirmou a inferência no cluster e o carregamento das 42 camadas
+do modelo na A100 de 40 GB; a geração completa e a avaliação continuam pendentes.
+A validação anterior passou 234 testes, com 1 ignorado. Inclui o envio de thinking
 através do cliente OpenAI 1.42.0 real com HTTP simulado, falha sem resubmissão,
 cancelamento sem resubmissão e continuação por sinal de walltime. Os argumentos
 da geração foram também validados offline na imagem, sobre as 675 tarefas,
@@ -150,8 +192,10 @@ limite de saída de 16 384 tokens (raciocínio e resposta), timeout de 1 800 s p
 pedido, temperatura 0,6, top-p 0,95 e presence penalty 0. Estes três parâmetros
 de amostragem seguem a recomendação Qwen para código em modo thinking.
 O limite de saída é uma escolha operacional nossa, inferior aos 32 768 tokens
-recomendados genericamente pelo fabricante; não foi ainda medido neste corpus.
-Se um sumário atingir o limite, a execução para e não propaga esse sumário.
+recomendados genericamente pelo fabricante. A primeira execução encontrou uma
+chamada cortada após 1 908 respostas válidas. Se um sumário atingir o limite,
+repete-se até três tentativas no total, sem propagar respostas incompletas;
+a execução para se o corte persistir, conforme a política documentada acima.
 As escolhas são guardadas no manifesto e não podem mudar durante uma retoma.
 O modo thinking é enviado via `reasoning_effort=high`; `none` desliga-o.
 Só o conteúdo final entra nos sumários e testes; os tokens de saída reportados

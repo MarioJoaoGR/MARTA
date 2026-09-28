@@ -161,6 +161,11 @@ def token_tracking_ask(ask, score: RubyScore, recorder: Optional["RubyRecorder"]
     """Envolve um ``ask`` para creditar chamada, tokens, segundos, fase, respostas
     cortadas e erros. Aditivo: o gptapi não é tocado. Com um ``ask`` de mentira os
     tokens ficam a 0 e o resto continua a ser medido."""
+    # XRepoTest checkpoints record every physical summary attempt themselves.
+    # Wrapping their retries would count the aggregate request a second time.
+    if getattr(ask, "records_llm_attempts", False) is True:
+        return ask
+
     async def wrapped(system: str, user: str) -> str:
         fase = recorder.fase_atual if recorder is not None else "?"
         antes = _python_side_tokens()

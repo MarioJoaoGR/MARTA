@@ -14,8 +14,10 @@ from pathlib import Path
 import shutil
 import time
 
-from .protocol import (DATA_SHA256, IMAGE, UPSTREAM_COMMIT, atomic_json, digest,
+from .protocol import (DATA_SHA256, IMAGE, UPSTREAM_COMMIT, atomic_json, code_fingerprint, digest,
                        export_responses, locked_run, load_tasks, selectors, source_inventory)
+
+SUMMARY_TRUNCATION_ATTEMPTS = 3
 
 
 def workspace(source: Path, destination: Path) -> None:
@@ -43,6 +45,9 @@ def workspace(source: Path, destination: Path) -> None:
 
 class SummaryCheckpoints:
     """Cache exact phase prompts, so walltime restarts do not repay phase one."""
+    # Each physical request is recorded here, including failures and retries.
+    records_llm_attempts = True
+
     def __init__(self, root, client, recorder, shared_root=None):
         self.root, self.client, self.recorder = root, client, recorder
         self.shared_root = shared_root
@@ -55,20 +60,57 @@ class SummaryCheckpoints:
             shared = self.shared_root / (key + ".json")
             if shared.exists():
                 self.client.last_call = {"cache_hit": True}
+                self.recorder.evento(tipo="llm_cache_hit", fase=self.recorder.fase_atual)
                 return json.loads(shared.read_text())["response"]
         if path.exists():
             self.client.last_call = {"cache_hit": True}
+            self.recorder.evento(tipo="llm_cache_hit", fase=self.recorder.fase_atual)
             return json.loads(path.read_text())["response"]
-        out = await self.client.aask(system, user)
-        detail = self.client.last_call or {}
-        if detail.get("erro") or not out or not out.strip():
-            self.recorder.evento(tipo="llm_infrastructure_failure", detail=detail)
-            raise RuntimeError("LLM request failed or returned no text; stopping without marking tasks complete")
-        if detail.get("finish_reason") == "length":
-            self.recorder.evento(tipo="summary_truncated", detail=detail)
-            raise RuntimeError("Summary hit the output/context limit; do not propagate an incomplete summary")
-        atomic_json(path, {"response": out})
-        return out
+        for attempt in range(1, SUMMARY_TRUNCATION_ATTEMPTS + 1):
+            start = time.monotonic()
+            try:
+                out = await self.client.aask(system, user)
+            except Exception as exc:
+                detail = {"erro": repr(exc)[:200]}
+                self._record_attempt(detail, None, time.monotonic() - start, attempt)
+                self.recorder.evento(tipo="llm_infrastructure_failure", fase=self.recorder.fase_atual,
+                                     detail=detail, llm_event_recorded=True)
+                raise
+            detail = dict(self.client.last_call or {})
+            self._record_attempt(detail, out, time.monotonic() - start, attempt)
+            # Thinking may exhaust all output tokens before producing content.
+            # Classify the finish reason before checking for an empty answer.
+            if detail.get("finish_reason") == "length":
+                retry = attempt < SUMMARY_TRUNCATION_ATTEMPTS
+                self.recorder.evento(tipo="summary_truncated", fase=self.recorder.fase_atual,
+                                     detail=detail, summary_attempt=attempt, retry=retry,
+                                     llm_event_recorded=True)
+                print(f"  summary truncated ({self.recorder.fase_atual}, "
+                      f"attempt {attempt}/{SUMMARY_TRUNCATION_ATTEMPTS}); "
+                      + ("retrying the same request" if retry else "stopping; checkpoints preserved"),
+                      flush=True)
+                if retry:
+                    continue
+                raise RuntimeError("Summary hit the output/context limit in all 3 attempts; checkpoints preserved")
+            if detail.get("erro") or not out or not out.strip():
+                self.recorder.evento(tipo="llm_infrastructure_failure", fase=self.recorder.fase_atual,
+                                     detail=detail, llm_event_recorded=True)
+                raise RuntimeError("LLM request failed or returned no text; stopping without marking tasks complete")
+            atomic_json(path, {"response": out})
+            return out
+
+    def _record_attempt(self, detail, out, seconds, attempt):
+        phase = self.recorder.fase_atual
+        truncated = detail.get("finish_reason") == "length"
+        error = detail.get("erro") or ("empty_response" if not truncated and not (out or "").strip() else None)
+        incoming, outgoing = detail.get("prompt_tokens", 0) or 0, detail.get("completion_tokens", 0) or 0
+        if hasattr(self.recorder, "score"):
+            self.recorder.score.add_llm_call(incoming, outgoing, fase=phase, segundos=seconds,
+                                              cortada=truncated, erro=bool(error))
+        self.recorder.evento(tipo="llm", fase=phase, summary_attempt=attempt,
+                             prompt_tokens=incoming, completion_tokens=outgoing,
+                             segundos=round(seconds, 3), cortada=truncated, erro=error,
+                             caracteres_resposta=len(out or ""), finish_reason=detail.get("finish_reason"))
 
 
 async def pipeline(args, tasks, inventories):
@@ -199,15 +241,10 @@ def main():
             p.error(f"{name}: inputs changed since preflight")
         if inventories[name]["runtime_digest"] != ready["projects"][name].get("runtime_digest"):
             p.error(f"{name}: runtime files changed since preflight")
-    code_root = Path(__file__).resolve().parents[2]
-    code_hashes = {str(f.relative_to(code_root)): f.read_text()
-                   for folder in (code_root / "marta/ruby_backend", code_root / "benchmark/xrepotest")
-                   for f in folder.rglob("*") if f.is_file() and f.suffix in {".py", ".rb"}}
-    for rel in ("marta/gptapi.py", "marta/embedding.py"):
-        code_hashes[rel] = (code_root / rel).read_text()
     config = {"dataset": DATA_SHA256, "image": IMAGE, "evaluator": UPSTREAM_COMMIT,
               "environment": environment_manifest(),
-              "marta_code": digest(code_hashes), "model": args.model, "model_digest": args.model_digest,
+              "marta_code": code_fingerprint(), "model": args.model, "model_digest": args.model_digest,
+              "summary_truncation_attempts": SUMMARY_TRUNCATION_ATTEMPTS,
               "rounds": args.rounds, "attempts": args.attempts, "temperature": args.temperature,
               "thinking": args.thinking,
               "top_p": args.top_p, "presence_penalty": args.presence_penalty,

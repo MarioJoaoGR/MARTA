@@ -266,7 +266,8 @@ def test_summary_checkpoint_reuses_exact_phase_and_prompts_after_restart(tmp_pat
     assert asyncio.run(resumed("system", "source")) == "summary"
     fresh_client.aask.assert_not_awaited()
     assert fresh_client.last_call.get("cache_hit") is True
-    recorder.evento.assert_not_called()
+    assert sum(c.kwargs.get("tipo") == "llm" for c in recorder.evento.call_args_list) == 1
+    assert sum(c.kwargs.get("tipo") == "llm_cache_hit" for c in recorder.evento.call_args_list) == 1
 
 
 @pytest.mark.parametrize("phase,system,user", [
@@ -299,7 +300,7 @@ def test_failed_or_truncated_summaries_are_not_checkpointed(tmp_path, response, 
     assert recorder.evento.called
     client.aask.return_value, client.last_call = "recovered summary", {}
     assert asyncio.run(cached("system", "source")) == "recovered summary"
-    assert client.aask.await_count == 2
+    assert client.aask.await_count == (4 if detail.get("finish_reason") == "length" else 2)
 
 
 def test_exception_from_summary_client_is_not_cached(tmp_path):

@@ -18,6 +18,16 @@ def digest(value) -> str:
     return hashlib.sha256(json.dumps(value, sort_keys=True, ensure_ascii=False).encode()).hexdigest()
 
 
+def code_fingerprint() -> str:
+    root = Path(__file__).resolve().parents[2]
+    sources = {str(f.relative_to(root)): f.read_text()
+               for folder in (root / "marta/ruby_backend", root / "benchmark/xrepotest")
+               for f in folder.rglob("*") if f.is_file() and f.suffix in {".py", ".rb"}}
+    for rel in ("marta/gptapi.py", "marta/embedding.py"):
+        sources[rel] = (root / rel).read_text()
+    return digest(sources)
+
+
 def atomic_json(path: Path, value) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     tmp = path.with_suffix(path.suffix + ".tmp")
