@@ -133,18 +133,18 @@ class FullContextTests(unittest.TestCase):
     def rag(self, proj):
         proj.build_rag(self.embed, lambda text: [float(len(text)), 1.0])
 
-    def test_legacy_selection_and_initialize_skip_remain_default(self):
+    def test_default_analysis_includes_helpers_and_constructors_outside_generation(self):
         proj = self.make(target_files=["a.rb"], method_names=["A#x", "A#initialize"])
-        self.assertFalse(proj.full_context)
         self.assertEqual([t.method.qualified_name for t in proj.targets], ["A#x"])
-        self.assertEqual(proj.analysis_targets, proj.targets)
-        self.assertIs(proj.analysis_targets[0], proj.targets[0])
+        self.assertEqual({t.method.qualified_name for t in proj.analysis_targets},
+                         {"A#initialize", "A#x", "B#y"})
+        self.assertIs(proj.analysis_targets[1], proj.targets[0])
         self.assertEqual(proj.targets[0].spec_path, "marta_specs/a__A__x_spec.rb")
         self.assertEqual(len(proj.files), 2)
 
     def test_full_pool_context_reaches_selected_generation(self):
-        proj = self.make(full_context=True, target_files=["a.rb"], method_names=["A#x"])
-        self.analyze(proj, limit=1, max_class_summaries=0)
+        proj = self.make(target_files=["a.rb"], method_names=["A#x"])
+        self.analyze(proj)
         self.assertEqual(len(proj.analysis_targets), 3)
         self.assertEqual([t.method.qualified_name for t in proj.targets], ["A#x"])
         self.assertTrue(all(t.summary and t.what_todo for t in proj.analysis_targets))
@@ -165,7 +165,7 @@ class FullContextTests(unittest.TestCase):
     def test_exact_constructor_selectors_override_legacy_filters(self):
         selectors = [self.selector(name="initialize", start=2, end=4, task_id=42),
                      self.selector(name="initialize", start=2, end=4, task_id="second")]
-        proj = self.make(full_context=True, target_selectors=selectors,
+        proj = self.make(target_selectors=selectors,
                          target_files=[], method_names=[])
         self.assertEqual([t.task_id for t in proj.targets], [42, "second"])
         self.assertEqual(len(proj.analysis_targets), 3)
@@ -176,7 +176,7 @@ class FullContextTests(unittest.TestCase):
         self.analyze(proj)
         init = proj.analysis_targets[0]
         self.assertTrue(all(t.summary == init.summary for t in proj.targets))
-        again = self.make(full_context=True, target_selectors=selectors)
+        again = self.make(target_selectors=selectors)
         self.analyze(again)
         self.assertEqual([t.spec_path for t in again.targets], [t.spec_path for t in proj.targets])
         self.assertEqual([t.summary for t in again.targets], [init.summary, init.summary])
@@ -187,7 +187,7 @@ class FullContextTests(unittest.TestCase):
             selector = self.selector()
             selector.update(changed)
             with self.subTest(changed=changed), self.assertRaisesRegex(ValueError, "found 0"):
-                self.make(full_context=True, target_selectors=[self.selector(),
+                self.make(target_selectors=[self.selector(),
                           dict(selector, task_id="bad")])
         self.assertFalse(self.calls)
         proj = self.make(target_selectors=[self.selector(file="./a.rb")])
@@ -209,59 +209,57 @@ class FullContextTests(unittest.TestCase):
                 self.make(target_selectors=selectors)
 
     def test_empty_selectors_still_allow_full_analysis(self):
-        proj = self.make(full_context=True, target_selectors=[])
+        proj = self.make(target_selectors=[])
         self.assertEqual(proj.targets, [])
         self.analyze(proj)
         self.assertTrue(all(t.summary for t in proj.analysis_targets))
-        empty = self.make(target_selectors=[])
+        empty = self.make(code_files=[], target_selectors=[])
         self.assertEqual(empty.analysis_targets, [])
         before = len(self.calls)
         self.analyze(empty)
         self.assertEqual(len(self.calls), before)
 
-    def test_cache_scope_and_actual_analysis_set_are_isolated(self):
-        legacy = self.make(method_names=["A#x"])
-        self.analyze(legacy)
-        first = len(self.calls)
-        full = self.make(full_context=True, method_names=["A#x"])
-        self.analyze(full)
-        self.assertGreater(len(self.calls), first)
-        self.assertNotEqual(full._analysis_path("fake-model", True),
-                            legacy._analysis_path("fake-model", True))
+    def test_generation_selection_changes_reuse_complete_analysis(self):
+        first = self.make(method_names=["A#x"])
+        self.analyze(first)
         before = len(self.calls)
-        # Changing generation tasks leaves a complete full-context cache valid.
-        changed_tasks = self.make(full_context=True, target_selectors=[
+        changed = self.make(target_selectors=[
             self.selector(file="b.rb", name="y", start=2, end=4)])
-        self.analyze(changed_tasks)
+        self.analyze(changed)
         self.assertEqual(len(self.calls), before)
-        self.assertTrue(changed_tasks.targets[0].summary)
+        self.assertTrue(changed.targets[0].summary)
+        self.assertEqual({t.method.qualified_name for t in changed.analysis_targets},
+                         {"A#initialize", "A#x", "B#y"})
         self.analyze(self.make(method_names=["B#y"]))
-        self.assertGreater(len(self.calls), before)
+        self.assertEqual(len(self.calls), before)
 
-    def test_legacy_limit_changes_invalidate_subset_analysis(self):
-        proj = self.make()
-        self.analyze(proj, limit=1)
+    def test_narrower_production_inventory_cannot_supply_complete_cache(self):
+        narrow = self.make(code_files=["a.rb"])
+        self.analyze(narrow)
+        self.assertEqual(len(narrow.analysis_targets), 2)
         before = len(self.calls)
-        self.assertEqual(sum(bool(t.summary) for t in proj.analysis_targets), 1)
-        self.analyze(self.make())
+        complete = self.make()
+        self.analyze(complete)
         self.assertGreater(len(self.calls), before)
+        self.assertEqual(len(complete.analysis_targets), 3)
+        self.assertTrue(all(t.summary for t in complete.analysis_targets))
 
     def test_cache_invalidates_for_schema_context_readme_and_source(self):
-        self.analyze(self.make(full_context=True))
+        self.analyze(self.make())
         for attr in ("ANALYSIS_SCHEMA", "MAX_CONTEXT_CHARS"):
             before = len(self.calls)
             with patch.object(project, attr, getattr(project, attr) + 1):
-                self.analyze(self.make(full_context=True))
+                self.analyze(self.make())
             self.assertGreater(len(self.calls), before)
-            self.analyze(self.make(full_context=True))
+            self.analyze(self.make())
         before = len(self.calls)
         (self.root / "lib/README.md").write_text("New project requirements")
-        self.analyze(self.make(full_context=True))
+        self.analyze(self.make())
         self.assertGreater(len(self.calls), before)
         before = len(self.calls)
         source = self.root / "lib/b.rb"
         source.write_text(source.read_text().replace(":b", ":changed"))
-        self.analyze(self.make(full_context=True))
+        self.analyze(self.make())
         self.assertGreater(len(self.calls), before)
 
     def test_legacy_unversioned_cache_is_not_accepted(self):
@@ -274,7 +272,7 @@ class FullContextTests(unittest.TestCase):
         self.assertTrue(all(t.summary != "stale" for t in proj.targets))
 
     def test_graph_arms_separate_files_and_reset_requirements(self):
-        proj = self.make(full_context=True)
+        proj = self.make()
         self.analyze(proj)
         first = {t.analysis_id: t.what_todo for t in proj.analysis_targets}
         before = len(self.calls)
@@ -288,25 +286,58 @@ class FullContextTests(unittest.TestCase):
         self.assertEqual(len(self.calls), before)
 
     def test_full_context_pass_one_reuse_is_validated(self):
-        normal = self.make(full_context=True)
+        normal = self.make()
         self.analyze(normal)
-        other = self.make(full_context=True)
+        other = self.make()
         self.analyze(other, enrich=False,
                      reaproveitar_passagem1_de=normal._analysis_path("fake-model", True))
         self.assertEqual(other.recorder.score.por_fase.get(
             "sumarios_passagem1", {}).get("chamadas", 0), 0)
-        # A targeted cache cannot masquerade as a full-context pass-one cache.
-        legacy = self.make(method_names=["A#x"])
+        # A smaller production inventory cannot supply a complete pass-one cache.
+        legacy = self.make(code_files=["a.rb"])
         self.analyze(legacy)
-        fresh = self.make(full_context=True)
+        fresh = self.make()
         self.analyze(fresh, use_cache=False, enrich=False,
                      reaproveitar_passagem1_de=legacy._analysis_path("fake-model", True))
         self.assertEqual(fresh.recorder.score.por_fase["sumarios_passagem1"]["chamadas"], 3)
 
+    def test_cli_ablation_reuses_default_full_analysis_from_normal_output(self):
+        from marta.ruby_backend import runner, start_react
+
+        output = self.root / "outputs"
+        normal = self.make(output_root=str(output / "sample"), method_names=["A#x"])
+        self.analyze(normal)
+        ablation = self.make(output_root=str(output / "sample_sem_grafo"),
+                             method_names=["A#x"])
+        analyze = ablation.analyze_summaries
+
+        async def with_fake_model(**kwargs):
+            await analyze(ask=self.ask, **kwargs)
+
+        argv = ["marta", "--project_path", str(self.root), "--source_path", "lib",
+                "--project_name", "sample", "--output_dir", str(output),
+                "--no_graph_enrich", "--no_rag", "--limit", "1"]
+        with patch("sys.argv", argv), patch.object(start_react, "load_dotenv"), \
+                patch.object(project, "RubyProject", return_value=ablation), \
+                patch.object(ablation, "discover", return_value=ablation), \
+                patch.object(runner, "syntax_check", return_value=None), \
+                patch.object(ablation, "analyze_summaries", side_effect=with_fake_model) as summary_call, \
+                patch.object(ablation, "generate_rounds", new_callable=AsyncMock,
+                             return_value=[]) as generation:
+            start_react.main()
+
+        self.assertEqual(summary_call.call_args.kwargs["reaproveitar_passagem1_de"],
+                         normal._analysis_path("fake-model", True))
+        self.assertEqual(ablation.recorder.score.por_fase.get(
+            "sumarios_passagem1", {}).get("chamadas", 0), 0)
+        self.assertEqual(len(ablation.analysis_targets), 3)
+        self.assertTrue(all(t.summary for t in ablation.analysis_targets))
+        generation.assert_awaited_once_with(rounds=3, limit=1)
+
     def test_duplicate_names_do_not_merge_cache_graph_or_rag(self):
         self.add_file("c.rb", "B", [("y", 2, 4)])
         self.backend.edges.append(CallEdge("B#y", "A#initialize", 3, "const"))
-        proj = self.make(full_context=True)
+        proj = self.make()
         self.analyze(proj)
         entries = json.loads(Path(proj._analysis_path("fake-model", True)).read_text())["targets"]
         self.assertEqual(len(entries), 4)
@@ -315,7 +346,7 @@ class FullContextTests(unittest.TestCase):
         duplicate = [t for t in proj.analysis_targets if t.method.qualified_name == "B#y"]
         self.assertEqual(len({t.summary for t in duplicate}), 2)
         before = len(self.calls)
-        again = self.make(full_context=True)
+        again = self.make()
         self.analyze(again)
         self.assertEqual(len(self.calls), before)
         self.assertEqual([t.summary for t in again.analysis_targets],
@@ -328,7 +359,7 @@ class FullContextTests(unittest.TestCase):
         self.assertNotIn(duplicate[0].analysis_id, [t.analysis_id for t in hits])
         self.assertIn(duplicate[1].analysis_id, [t.analysis_id for t in hits])
 
-    def test_duplicate_names_outside_legacy_selection_are_also_ambiguous(self):
+    def test_duplicate_names_outside_generation_selection_are_also_ambiguous(self):
         self.add_file("c.rb", "B", [("y", 2, 4)])
         proj = self.make(target_files=["a.rb", "b.rb"])
         self.analyze(proj)
@@ -338,18 +369,18 @@ class FullContextTests(unittest.TestCase):
         self.add_file("c.rb", "C", [("go", 2, 4), ("go", 5, 7, True)])
         selectors = [self.selector("c.rb", "go", 2, 4, "a/b"),
                      self.selector("c.rb", "go", 5, 7, "a_b")]
-        proj = self.make(full_context=True, target_selectors=selectors)
+        proj = self.make(target_selectors=selectors)
         self.assertEqual([t.method.qualified_name for t in proj.targets], ["C#go", "C.go"])
         self.assertEqual(len({t.spec_path_for_round(0) for t in proj.targets}), 2)
 
     def test_focal_initialize_never_includes_another_initialize(self):
         self.add_file("c.rb", "C", [("initialize", 2, 4), ("initialize", 5, 7)])
-        proj = self.make(full_context=True, target_selectors=[
+        proj = self.make(target_selectors=[
             self.selector("c.rb", "initialize", 5, 7)])
         self.assertEqual(proj.targets[0].context_source.count("def initialize"), 1)
 
     def test_vectors_reuse_only_when_text_and_identity_match(self):
-        proj = self.make(full_context=True)
+        proj = self.make()
         self.analyze(proj)
         self.rag(proj)
         first = len(self.embed_calls)
@@ -373,7 +404,7 @@ class FullContextTests(unittest.TestCase):
 
     def test_full_context_respects_supplied_production_inventory(self):
         self.add_file("unselected.rb", "Outside", [("other", 2, 4)])
-        proj = self.make(full_context=True, code_files=["a.rb", "b.rb"],
+        proj = self.make(code_files=["a.rb", "b.rb"],
                          target_selectors=[self.selector()])
         self.assertEqual(len(proj.files), 2)
         self.assertEqual(len(proj.analysis_targets), 3)
@@ -383,12 +414,12 @@ class FullContextTests(unittest.TestCase):
         fp = self.backend.parsed[str(self.root / "lib/b.rb")]
         fp.methods.append(MethodInfo("y", "B", False, 2, 4))
         with self.assertRaisesRegex(ValueError, "Ambiguous analysis definition"):
-            self.make(full_context=True, target_selectors=[self.selector()])
+            self.make(target_selectors=[self.selector()])
 
     def test_rounds_and_limit_only_generate_selected_tasks_in_selector_order(self):
-        proj = self.make(full_context=True, target_selectors=[
+        proj = self.make(target_selectors=[
             self.selector("b.rb", "y", 2, 4, "first"), self.selector(task_id="second")])
-        self.analyze(proj, limit=1)
+        self.analyze(proj)
         fake_generate = AsyncMock(return_value=project.GenOutcome("B#y", True, 1))
         with patch.object(project, "generate_spec_for_method", fake_generate), \
                 patch.object(proj, "measure_coverage", return_value={}):
@@ -403,7 +434,7 @@ class FullContextTests(unittest.TestCase):
         for fp in self.backend.parsed.values():
             for method in fp.methods:
                 method.param_members = {"node": ["unknown_member"]}
-        proj = self.make(full_context=True, target_selectors=[self.selector()])
+        proj = self.make(target_selectors=[self.selector()])
         self.analyze(proj)
         self.rag(proj)
         self.assertTrue(all("semantically closest class" in t.judge for t in proj.analysis_targets))
@@ -416,7 +447,7 @@ class FullContextTests(unittest.TestCase):
     def test_enrichment_uses_frozen_pass_one_summaries(self):
         self.backend.edges = [CallEdge("A#initialize", "A#x", 3, "self"),
                               CallEdge("A#x", "A#initialize", 6, "self")]
-        proj = self.make(full_context=True)
+        proj = self.make()
         self.analyze(proj)
         enriched_prompts = [u for system, u in self.calls if "other methods it calls" in system]
         self.assertEqual(len(enriched_prompts), 2)

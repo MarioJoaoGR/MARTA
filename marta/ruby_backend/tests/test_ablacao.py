@@ -90,7 +90,7 @@ def test_braco_sem_grafo_reaproveita_a_passagem1(tmp_path, monkeypatch):
     monkeypatch.setenv("MODEL", "modelo_de_teste")
     normal = _projeto(tmp_path)
     asyncio.run(normal.analyze_summaries(ask=_ask, use_cache=True, enrich=True))
-    cache_normal = cache.cache_path(normal.out_root(), "modelo_de_teste")
+    cache_normal = normal._analysis_path("modelo_de_teste", True)
 
     guardado = cache.load_analysis(cache_normal, cache.compute_source_hash(normal.files),
                                    "modelo_de_teste")
@@ -130,5 +130,5 @@ def test_os_dois_bracos_nao_partilham_cache(tmp_path, monkeypatch):
     asyncio.run(proj.analyze_summaries(ask=_ask, use_cache=True, enrich=False))
 
     caches = sorted(p.name for p in (tmp_path / ".marta_ruby_cache").glob("analysis_*.json"))
-    assert caches == ["analysis_modelo_de_teste.json",
-                      "analysis_modelo_de_teste_sem_grafo.json"]
+    assert caches == ["analysis_modelo_de_teste.full_context.json",
+                      "analysis_modelo_de_teste_sem_grafo.full_context.json"]

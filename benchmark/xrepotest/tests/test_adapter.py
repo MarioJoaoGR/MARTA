@@ -467,7 +467,7 @@ def discover(root, output, rows):
     return backend.XRepoProject(
         root_dir=str(root), source_dir=".", output_root=str(output),
         code_files=inventory["code_files"], load_paths=inventory["load_paths"],
-        full_context=True, target_selectors=protocol.selectors(rows),
+        target_selectors=protocol.selectors(rows),
         backend=backend.XRepoBackend()).discover()
 
 

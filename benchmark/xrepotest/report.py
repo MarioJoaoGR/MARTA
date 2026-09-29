@@ -49,7 +49,10 @@ def summarize(root):
     states = defaultdict(int)
     for path in root.glob("tasks/*/state.json"):
         states[json.loads(path.read_text()).get("status", "unknown")] += 1
+    audit = root / "generation_empty_upgrade.json"
+    historical_note = json.loads(audit.read_text()).get("telemetry_note") if audit.exists() else None
     return {"tasks": dict(states), "llm_by_phase": dict(phases), "ruby_subprocesses": dict(subprocesses),
+            "historical_telemetry_note": historical_note,
             "infrastructure_failures": failures, "unreadable_event_lines": malformed,
             "note": "LLM seconds exclude Ruby/embedding/idle time; GPU billing must come from Slurm."}
 

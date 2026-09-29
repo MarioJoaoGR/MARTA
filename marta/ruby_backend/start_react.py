@@ -30,7 +30,8 @@ def main():
     parser.add_argument("--project_path", type=str, required=True, help="Project root (cwd for RSpec)")
     parser.add_argument("--source_path", type=str, required=True, help="Source dir relative to project root")
     parser.add_argument("--num", type=int, default=3, help="Number of coverage-guided rounds")
-    parser.add_argument("--limit", type=int, default=None, help="Only the first N method targets (smoke runs)")
+    parser.add_argument("--limit", type=int, default=None,
+                        help="Generate tests for only the first N targets; all production methods are still analyzed")
     parser.add_argument("--no_rag", action="store_true", help="Skip embeddings/RAG (faster start, less context)")
     parser.add_argument("--no_cache", action="store_true", help="Ignore the analysis cache (recompute summaries)")
     parser.add_argument(
@@ -40,9 +41,9 @@ def main():
              "Escreve numa cache própria, para não comer a da execução normal.")
     parser.add_argument(
         "--targets", type=str, default=None,
-        help="Ficheiro JSON com a lista dos ficheiros-alvo deste projeto, relativos "
+        help="Ficheiro JSON com a lista dos ficheiros-alvo de geração deste projeto, relativos "
              "a --source_path. Escrito pelo harness a partir do projetos.json da "
-             "camada 7. Sem ele, todos os ficheiros são alvo.")
+             "camada 7. Não restringe os sumários. Sem ele, todos os ficheiros são alvo.")
     parser.add_argument(
         "--methods", type=str, default=None,
         help="Ficheiro JSON com nomes qualificados de métodos. Restringe a geração a "
@@ -119,7 +120,8 @@ def main():
                            library_files=env.get("library_files"),
                            library_targets=env.get("library_targets"),
                            method_names=method_names).discover()
-        print(f"🔍 [Contexto] {len(proj.files)} ficheiros, {len(proj.targets)} métodos-alvo; "
+        print(f"🔍 [Contexto] {len(proj.files)} ficheiros, "
+              f"{len(proj.analysis_targets)} métodos de análise, {len(proj.targets)} métodos-alvo; "
               f"grafo: {len(proj.call_graph.edges) if proj.call_graph else 0} arestas "
               f"({'source inalterado' if not proj.code_changed else 'source novo/alterado'})")
         if not proj.targets:
@@ -143,12 +145,11 @@ def main():
             # normal, que vive em <output_dir>/<nome sem sufixo>.
             reap = None
             if args.no_graph_enrich and args.output_dir and not args.no_cache:
-                from marta.ruby_backend import cache as _cache
                 nome_normal = project_name[: -len("_sem_grafo")]
-                reap = _cache.cache_path(
-                    os.path.join(os.path.abspath(args.output_dir), nome_normal),
-                    os.getenv("MODEL", "default"))
-            await proj.analyze_summaries(limit=args.limit, use_cache=not args.no_cache,
+                reap = proj._analysis_path(
+                    os.getenv("MODEL", "default"), True,
+                    root_dir=os.path.join(os.path.abspath(args.output_dir), nome_normal))
+            await proj.analyze_summaries(use_cache=not args.no_cache,
                                          enrich=not args.no_graph_enrich,
                                          reaproveitar_passagem1_de=reap)
             if not args.no_rag:

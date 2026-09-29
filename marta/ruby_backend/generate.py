@@ -152,6 +152,12 @@ async def generate_spec_for_method(
                 prompts.dev_user(instruction, method_source, require_target, describe_subject),
             )
             spec_code = prompts.get_ruby_code(raw_dev)
+            if not spec_code.strip():
+                # An empty model response consumes this existing Dev attempt.
+                # Never let an empty Ruby file become a successful test suite.
+                last_error = "No test code was returned. Return a complete RSpec test file."
+                last_res = None
+                continue
             _write(spec_code)
 
             # Cheap gate first: ruby -c. Only run RSpec if it parses.

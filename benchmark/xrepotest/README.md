@@ -1,6 +1,6 @@
 # MARTA no XRepoTest Ruby
 
-Estado em 28-09-2026: integração implementada e testada localmente; ambiente
+Estado em 29-09-2026: integração implementada e testada localmente; ambiente
 derivado construído; os dez bundles e os dez diagnósticos RSpec passam offline.
 As duas falhas confirmadas no avaliador de cobertura foram corrigidas na imagem
 `marta-xrepotest:repaired-v2`, com autorização do utilizador (detalhes abaixo).
@@ -60,6 +60,70 @@ O comando é idempotente e não apaga nem reescreve checkpoints ou logs. Esta
 correção e o custo das tentativas adicionais devem ser declarados no protocolo
 experimental. Não há fallback automático para thinking desligado.
 
+### Retoma após resposta vazia na geração (job 1959036)
+
+O job seguinte terminou com erro após 12 h 50 min 17 s, durante a tarefa 14
+(`Capybara::Session#visit`). Ficaram dez tarefas `complete` e quatro `no_tests`
+(8, 11, 12 e 13). `complete` significa que existe uma suite exportada, não que
+tenha passado a avaliação final do XRepoTest. Os quatro resultados sem testes
+permanecem no denominador e não são repetidos para tentar melhorar o resultado.
+
+A última chamada registada pelo Ollama recebeu HTTP 200 e consumiu exatamente
+16 384 tokens de saída. O cliente devolveu conteúdo vazio, que o adaptador
+classificou genericamente como erro de transporte. Os logs são compatíveis com
+thinking a esgotar o limite antes da resposta final, mas não preservaram o
+conteúdo nem o `finish_reason` dessa resposta. `truncated=0` no log do servidor
+não demonstra que o limite de saída não foi atingido.
+
+`GenerationRequests` regista cada chamada antes de tratar o resultado, incluindo
+o `finish_reason`, os tokens e os erros. Uma resposta vazia com `length` passa
+ao fluxo normal: o Planner usa o seu plano de recurso já existente; no Dev,
+consome uma das **três tentativas existentes** e fornece uma mensagem de erro
+para a reparação seguinte. Na última tentativa, termina sem um novo teste
+nessa ronda. Não acrescenta repetições escondidas, não aumenta os limites e
+não desliga thinking. Texto parcial não vazio continua sujeito às verificações
+de sintaxe e RSpec habituais. Erros de transporte e respostas vazias sem
+`length` continuam a interromper a tarefa, agora com telemetria.
+
+A geração interrompida reinicia por tarefa, não por pedido. Antes de reiniciar,
+move os ficheiros da tarefa `running` para `interrupted_tasks/<id>/<tentativa>/`.
+Assim, um spec escrito durante uma reparação não é tratado como uma ronda já
+validada. As tarefas `complete` e `no_tests` são preservadas. `report.py` inclui
+os eventos arquivados no consumo total, embora apenas `tasks/*/state.json`
+conte para o estado atual. `generation.json` resume cada tentativa local;
+os eventos e os ficheiros arquivados sustentam a contabilidade das retomas.
+
+A migração `upgrade_generation_empty.py` aceita apenas o fingerprint da versão
+`74c02124a`. Guarda o manifesto anterior, os estados e os SHA-256 dos ficheiros
+de análise e geração em `generation_empty_upgrade.json`. Só altera o fingerprint
+de código e acrescenta `generation_empty_length_policy=counts-as-attempt-v1`.
+Inclui a simplificação de contexto completo já pedida: no XRepoTest, o âmbito,
+as identidades e as caches continuam iguais ao anterior `full_context=True`.
+As tarefas e parâmetros do benchmark não são alterados. A correção do executor
+e o reinício da tarefa interrompida devem ser declarados na experiência.
+
+Com o job parado e o código atualizado, executar **esta migração**, não voltar
+a executar a migração antiga de sumários:
+
+```bash
+cd /projects/F202407648IACDCF2/mario/MARTA
+export XREPO_RUN=qwen36_35b_thinking_v1
+XROOT=/projects/F202407648IACDCF2/mario/xrepotest
+GOMAXPROCS=2 singularity exec --cleanenv \
+  --home "$XROOT/runs/$XREPO_RUN/home:/home/marta" \
+  --bind "$PWD:/opt/marta:ro" --bind "$XROOT:/data/xrepo" \
+  --env PYTHONPATH=/opt/marta --env GOMAXPROCS=2 \
+  "$XROOT/repaired-v2.sif" \
+  python3 -B -m benchmark.xrepotest.upgrade_generation_empty \
+  "/data/xrepo/runs/$XREPO_RUN/generation"
+```
+
+Depois, submeter o job GPU com os mesmos parâmetros. O comando de migração é
+idempotente, recusa outra versão e não altera os ficheiros cujos hashes guarda.
+A chamada que causou esta interrupção não entrou nos eventos do cliente antigo:
+os totais históricos de LLM têm essa lacuna. O relatório assinala-a; os logs
+Ollama e os registos Slurm devem ser conservados, sem inventar telemetria.
+
 ## Protocolo e âmbito
 
 Usamos as 675 tarefas Ruby oficiais, mantendo os identificadores 0–674, os
@@ -81,7 +145,9 @@ coordenadas são linhas começadas em 1, com ambos os extremos incluídos. O
 | shoryuken | 50 | 270 |
 | Total | 675 | 5 132 |
 
-`RubyProject(full_context=True)` separa `analysis_targets` de `targets`. O
+`RubyProject` separa sempre `analysis_targets` de `targets`, também fora do
+adaptador XRepoTest. Os filtros de ficheiros,
+métodos e o limite de geração não reduzem o conjunto de sumários. O
 primeiro conjunto inclui métodos de produção nas árvores `lib/`, incluindo
 construtores; o segundo corresponde exatamente às tarefas por ficheiro, nome e
 intervalo de linhas. Os 48 alvos `initialize` não são excluídos. Construtores
@@ -90,7 +156,7 @@ para satisfazer a heurística de invocação do avaliador.
 
 Os testes humanos, fixtures, exemplos, dependências instaladas e templates não
 entram no conjunto de sumários. Podem continuar a fazer parte do ambiente de
-execução oficial. `full_context` significa este âmbito de análise estática:
+execução oficial. Contexto completo significa este âmbito de análise estática:
 metaprogramação, resoluções ambíguas e truncagens de prompts continuam a limitar
 o contexto efetivamente disponível. Não significa enviar o projeto inteiro em
 cada pedido ao modelo. Em particular, mantém-se o limite de código por método
@@ -106,7 +172,22 @@ A segunda passagem de `done_what` lê os sumários originais da primeira passage
 evitando que a ordem de processamento determine se um callee já foi enriquecido.
 Definições com nomes qualificados repetidos mantêm identidades próprias no
 armazenamento e no RAG; a propagação pelo grafo omite esses nomes ambíguos.
-O limite antigo de 50 sumários de classes deixa de se aplicar no modo full context.
+Não há um limite de 50 classes para a produção de sumários.
+
+Já não existe a opção `full_context`: a análise do código de produção fornecido
+é o único comportamento. Os objetos `MethodTarget` são criados diretamente em
+`analysis_targets`; a lista intermédia `candidates` foi removida. A geração usa
+`targets`, selecionada por tarefas exatas ou por filtros de ficheiros e métodos.
+As caches mantêm o nome `.full_context.json` para identificar o âmbito completo
+e não aceitar as caches antigas restritas aos alvos.
+A CLI normal também analisa todo o código de produção fornecido; `--limit` limita
+os testes, não o custo inicial dos sumários. O log apresenta ambos os totais.
+
+Esta simplificação não altera o âmbito da execução XRepoTest já
+iniciada com `full_context=True`. Contudo, os ficheiros Python fazem parte da
+assinatura de retoma: não atualizar o checkout dessa execução enquanto estiver
+em curso, nem reutilizar o diretório com uma assinatura diferente sem uma
+migração verificada.
 
 ## Versões verificadas
 

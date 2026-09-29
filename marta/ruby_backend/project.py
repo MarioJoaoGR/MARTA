@@ -210,8 +210,8 @@ class RubyProject:
     output_root: Optional[str] = None
     # Ficheiros-alvo (caminhos relativos a source_dir). Se definido, só os
     # métodos DESTES ficheiros viram alvos — o análogo do `modules` do
-    # projects.json na MARTA Python (_targeted_file_messages). A análise
-    # estática continua a ver o projeto inteiro (o grafo precisa disso).
+    # projects.json na MARTA Python (_targeted_file_messages). Por omissão,
+    # os sumários e a análise estática continuam a ver todo o código fornecido.
     target_files: Optional[List[str]] = None
     # Ambiente de execução certificado pela camada 6 do dataset (vem do
     # `projetos.json` da camada 7). Sem ele, o comportamento de sempre: um só -I
@@ -240,8 +240,6 @@ class RubyProject:
     library_files: Optional[List[str]] = None
     library_targets: Optional[List[str]] = None
 
-    # Analyze all supplied production definitions, irrespective of generation.
-    full_context: bool = False
     # Authoritative generation selectors: source-relative file, exact Ruby
     # method name, 1-based inclusive definition lines, and opaque task_id.
     target_selectors: Optional[List[dict]] = None
@@ -379,7 +377,6 @@ class RubyProject:
         # Métodos de TODOS os ficheiros (não só dos alvos): o grafo precisa do
         # projeto inteiro, e assim reaproveita-se este parse em vez de o repetir.
         all_methods: List = []
-        candidates = []
         for path in sorted(set(self._code_paths())):
             rel = os.path.relpath(path, self.abs_source)
             self.files.append(path)
@@ -395,7 +392,7 @@ class RubyProject:
                 if m.owner:
                     by_owner.setdefault(m.owner, []).append(m)
             for m in fp.methods:
-                candidates.append(MethodTarget(
+                self.analysis_targets.append(MethodTarget(
                     method=m,
                     owner_class=classes_by_qn.get(m.owner) if m.owner else None,
                     file_path=path,
@@ -407,16 +404,19 @@ class RubyProject:
         counts = Counter(m.qualified_name for m in all_methods)
         self._ambiguous_qns = {qn for qn, count in counts.items() if count > 1}
         if self.target_selectors is not None:
-            self.targets = self._select_tasks(candidates)
+            # The benchmark identifies exact methods by file, name and lines.
+            self.targets = self._select_tasks(self.analysis_targets)
         else:
-            self.targets = [t for t in candidates
-                            if t.method.name not in SKIP_METHODS
-                            and (self.target_files is None or t.source_rel in self.target_files)
-                            and (self.method_names is None
-                                 or t.method.qualified_name in self.method_names)]
-        selected = {t.analysis_id for t in self.targets}
-        self.analysis_targets = (candidates if self.full_context else
-                                 [t for t in candidates if t.analysis_id in selected])
+            # Otherwise, file/name filters select which methods receive tests.
+            # Every method remains in analysis_targets for context construction.
+            for target in self.analysis_targets:
+                if target.method.name in SKIP_METHODS:
+                    continue
+                if self.target_files is not None and target.source_rel not in self.target_files:
+                    continue
+                if self.method_names is not None and target.method.qualified_name not in self.method_names:
+                    continue
+                self.targets.append(target)
         identities = Counter(t.analysis_id for t in self.analysis_targets)
         duplicates = [identity for identity, count in identities.items() if count > 1]
         if duplicates:
@@ -445,7 +445,7 @@ class RubyProject:
                 cache.save_call_graph(cg_path, src_hash, self.call_graph.to_json())
         return self
 
-    def _select_tasks(self, candidates: List[MethodTarget]) -> List[MethodTarget]:
+    def _select_tasks(self, analysis_targets: List[MethodTarget]) -> List[MethodTarget]:
         """Resolve every selector before analysis; never silently drop a task."""
         if not isinstance(self.target_selectors, list):
             raise ValueError("target_selectors must be a list")
@@ -467,7 +467,7 @@ class RubyProject:
             if str(task_id) in task_ids:
                 raise ValueError(f"Duplicate task_id: {task_id!r}")
             task_ids.add(str(task_id))
-            matches = [t for t in candidates if t.source_rel == file
+            matches = [t for t in analysis_targets if t.source_rel == file
                        and t.method.name == name
                        and t.method.start_line == start and t.method.end_line == end]
             if len(matches) != 1:
@@ -485,19 +485,21 @@ class RubyProject:
                 for attr in ("done_what", "what_todo", "summary", "judge"):
                     setattr(t, attr, getattr(source, attr))
 
-    def _analysis_path(self, model: str, enrich: bool) -> str:
-        path = cache.cache_path(self.out_root(), model if enrich else f"{model}_sem_grafo")
-        return path[:-5] + ".full_context.json" if self.full_context else path
+    def _analysis_path(self, model: str, enrich: bool, *, root_dir: Optional[str] = None) -> str:
+        path = cache.cache_path(root_dir if root_dir is not None else self.out_root(),
+                                model if enrich else f"{model}_sem_grafo")
+        # Keep the established full-analysis cache name for compatible results.
+        return path[:-5] + ".full_context.json"
 
-    def _analysis_fingerprint(self, targets: List[MethodTarget], max_classes=50) -> str:
+    def _analysis_fingerprint(self, targets: List[MethodTarget]) -> str:
         from .call_graph import RESOLVER_VERSION
         readmes = {readme.nearest_readme(t.file_path, self.abs_source) for t in targets}
         payload = {
             "schema": ANALYSIS_SCHEMA,
-            "scope": "full" if self.full_context else "targets",
+            "scope": "full",
             "methods": sorted(t.analysis_id for t in targets),
             "max_context_chars": MAX_CONTEXT_CHARS,
-            "max_classes": None if self.full_context else max_classes,
+            "max_classes": None,
             "resolver": RESOLVER_VERSION,
             "readmes": cache.compute_source_hash(sorted(p for p in readmes if p)),
         }
@@ -555,9 +557,7 @@ class RubyProject:
     async def analyze_summaries(
         self,
         ask: Optional[AskFn] = None,
-        limit: Optional[int] = None,
         use_cache: bool = True,
-        max_class_summaries: int = 50,
         enrich: bool = True,
         reaproveitar_passagem1_de: Optional[str] = None,
     ) -> None:
@@ -565,8 +565,8 @@ class RubyProject:
         generation — the context-building phase MARTA runs in ``init()``.
         ``done_what`` is source-only until the call graph enriches it.
 
-        Full context ignores limit and max_class_summaries; those bounds only
-        apply to legacy targeted analysis. Generation still uses self.targets.
+        Every supplied production method is analyzed, independently of the
+        generation selection and limits. Generation uses self.targets.
         Cache validity includes sources, model, scope, exact analysis identities,
         README contents, schema and context limits. Graph arms use separate files.
 
@@ -575,12 +575,9 @@ class RubyProject:
         que é tudo o que o grafo faz nesta fase. O resto do fluxo fica igual. A
         cache vai para um ficheiro próprio, senão um braço comia a do outro.
         """
-        targets = self.analysis_targets
-        if limit and not self.full_context:
-            targets = targets[:limit]
         model = os.getenv("MODEL", "default")
         src_hash = cache.compute_source_hash(self.files)
-        fingerprint = self._analysis_fingerprint(targets, max_class_summaries)
+        fingerprint = self._analysis_fingerprint(self.analysis_targets)
         path = self._analysis_path(model, enrich)
 
         # A fresh analysis (including a different graph arm) cannot inherit
@@ -593,13 +590,13 @@ class RubyProject:
         if use_cache:
             bundle = self._load_analysis_bundle(path, src_hash, model, fingerprint, enrich)
             cached = bundle["targets"] if bundle else {}
-            if bundle is not None and all(t.analysis_id in cached for t in targets):
-                for t in targets:
+            if bundle is not None and all(t.analysis_id in cached for t in self.analysis_targets):
+                for t in self.analysis_targets:
                     self._apply_cached(t, cached[t.analysis_id])
                 self.class_summaries = bundle["classes"]
                 self._sync_generation_analysis()
                 return
-        if not targets:
+        if not self.analysis_targets:
             self._sync_generation_analysis()
             return
 
@@ -626,7 +623,7 @@ class RubyProject:
                              if e.get("done_what_passagem1")}
         passagem1: Dict[str, str] = {}
         with r.fase("sumarios_passagem1"):
-            for t in targets:
+            for t in self.analysis_targets:
                 qn = t.method.qualified_name
                 if t.analysis_id in reaproveitada:
                     t.done_what = reaproveitada[t.analysis_id]
@@ -634,26 +631,26 @@ class RubyProject:
                     with r.contexto(metodo=qn):
                         t.done_what = await summaries.analyze_done_what(ask, t.context_source)
                 passagem1[t.analysis_id] = t.done_what
-        n_reap = sum(1 for t in targets if t.analysis_id in reaproveitada)
+        n_reap = sum(1 for t in self.analysis_targets if t.analysis_id in reaproveitada)
         if n_reap:
             print(f"♻️  [Ablação] passagem 1 reaproveitada da execução normal em "
-                  f"{n_reap}/{len(targets)} métodos")
-            r.evento(tipo="passagem1_reaproveitada", metodos=n_reap, alvos=len(targets))
+                  f"{n_reap}/{len(self.analysis_targets)} métodos")
+            r.evento(tipo="passagem1_reaproveitada", metodos=n_reap, alvos=len(self.analysis_targets))
 
         # Pass 2: enrich done_what of callers with their callees' done_what,
         # following the static call graph (the PyCG-driven enrichment). Only
         # methods that actually call project methods pay the extra LLM call.
         # Graph nodes only have qualified names. Omit ambiguous definitions
         # in BOTH directions rather than silently merging reopened methods.
-        counts = Counter(t.method.qualified_name for t in targets)
-        by_qn = {t.method.qualified_name: t for t in targets
+        counts = Counter(t.method.qualified_name for t in self.analysis_targets)
+        by_qn = {t.method.qualified_name: t for t in self.analysis_targets
                  if counts[t.method.qualified_name] == 1
                  and t.method.qualified_name not in self._ambiguous_qns}
         if self.call_graph is not None and enrich:
             # Esta é a fase que a ablação do grafo desliga: é aqui que o contexto
             # de um método passa a incluir o que os métodos chamados fazem.
             with r.fase("sumarios_passagem2"):
-                for t in targets:
+                for t in self.analysis_targets:
                     if t.method.qualified_name not in by_qn:
                         continue
                     called = [
@@ -680,7 +677,7 @@ class RubyProject:
             return [by_qn[c] for c in self.call_graph.callers(t.method.qualified_name) if c in by_qn]
 
         with r.fase("what_todo_raiz"):
-            for t in targets:
+            for t in self.analysis_targets:
                 if not _callers_of(t):  # raiz
                     with r.contexto(metodo=t.method.qualified_name):
                         overview = await overviews.overview_for(ask, t.file_path)
@@ -693,7 +690,7 @@ class RubyProject:
             changed = True
             while changed:  # propaga pelas arestas até fixpoint
                 changed = False
-                for t in targets:
+                for t in self.analysis_targets:
                     if t.what_todo:
                         continue
                     ready = [c for c in _callers_of(t) if c.what_todo]
@@ -708,7 +705,7 @@ class RubyProject:
                         changed = True
 
         with r.fase("what_todo_fallback"):
-            for t in targets:
+            for t in self.analysis_targets:
                 if not t.what_todo:  # ciclo sem raiz processada — fallback README
                     with r.contexto(metodo=t.method.qualified_name):
                         overview = await overviews.overview_for(ask, t.file_path)
@@ -717,16 +714,15 @@ class RubyProject:
 
         # Merge final das duas perspetivas.
         with r.fase("sumario_final"):
-            for t in targets:
+            for t in self.analysis_targets:
                 with r.contexto(metodo=t.method.qualified_name):
                     t.summary = await summaries.generate_summary(
                         ask, t.context_source, t.done_what, t.what_todo
                     )
 
-        # Class summaries follow the analysis pool. Full context intentionally
-        # has no class-count cap; legacy smoke runs retain their existing cap.
+        # Class summaries follow the whole analysis pool, without a class-count cap.
         owner_qns = []
-        for t in targets:
+        for t in self.analysis_targets:
             qn = t.owner_class.qualified_name if t.owner_class else None
             if qn and qn not in owner_qns:
                 owner_qns.append(qn)
@@ -735,7 +731,7 @@ class RubyProject:
         # métodos. Enviar a classe inteira estourava a janela de contexto em
         # classes grandes (fpm/Deb: 43k chars).
         stub_by_qn, sigs_by_qn = {}, {}
-        for t in targets:
+        for t in self.analysis_targets:
             if t.owner_class is None:
                 continue
             q = t.owner_class.qualified_name
@@ -744,7 +740,7 @@ class RubyProject:
                 _slice_lines(t.file_path, t.method.start_line, t.method.start_line).strip())
 
         with r.fase("sumarios_de_classe"):
-            for qn in (owner_qns if self.full_context else owner_qns[:max_class_summaries]):
+            for qn in owner_qns:
                 cls = (self.type_index.classes if self.type_index else {}).get(qn)
                 if cls is None or cls.kind != "class" or qn in self.class_summaries:
                     continue
@@ -765,7 +761,7 @@ class RubyProject:
                     "summary": t.summary, "judge": t.judge,
                     "done_what_passagem1": passagem1.get(t.analysis_id, ""),
                 }
-                for t in targets
+                for t in self.analysis_targets
             }
             os.makedirs(os.path.dirname(path), exist_ok=True)
             with open(path, "w", encoding="utf-8") as f:
@@ -795,7 +791,7 @@ class RubyProject:
         pdir = key = None
         if persist:
             pdir = os.path.join(cache.vectors_path(self.out_root()),
-                                "full_context" if self.full_context else "targets")
+                                "full_context")
             documents = [(t.analysis_id, t.summary or t.done_what)
                          for t in self.analysis_targets]
             text_hash = hashlib.sha256(json.dumps(

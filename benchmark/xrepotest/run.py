@@ -18,6 +18,29 @@ from .protocol import (DATA_SHA256, IMAGE, UPSTREAM_COMMIT, atomic_json, code_fi
                        export_responses, locked_run, load_tasks, selectors, source_inventory)
 
 SUMMARY_TRUNCATION_ATTEMPTS = 3
+GENERATION_EMPTY_LENGTH_POLICY = "counts-as-attempt-v1"
+
+
+def archive_incomplete_task(root: Path, tid) -> None:
+    """Retain interrupted attempts, but never resume an unvalidated spec file.
+
+    The ordinary round-resume check uses file existence, which is insufficient
+    after a crash during repair. Finished tasks are skipped by the caller.
+    Events in this archive remain included in report.py's recursive accounting.
+    """
+    out = root / "tasks" / str(tid)
+    if not out.exists():
+        return
+    state = out / "state.json"
+    if not state.is_file() or json.loads(state.read_text()).get("status") != "running":
+        raise ValueError(f"Refusing to restart a task without a running state: {tid}")
+    history = root / "interrupted_tasks" / str(tid)
+    history.mkdir(parents=True, exist_ok=True)
+    attempt = 1
+    while (history / str(attempt)).exists():
+        attempt += 1
+    out.rename(history / str(attempt))
+    print(f"  task {tid}: interrupted attempt archived; restarting its generation", flush=True)
 
 
 def workspace(source: Path, destination: Path) -> None:
@@ -43,7 +66,52 @@ def workspace(source: Path, destination: Path) -> None:
         (destination / "vendor").symlink_to(vendor, target_is_directory=True)
 
 
-class SummaryCheckpoints:
+class GenerationRequests:
+    """Record physical calls, including the one that aborts a task.
+
+    Output exhaustion with no final content is an unsuccessful model attempt,
+    not a transport failure. Return it to the existing Planner/Dev flow; never
+    add hidden retries or enlarge its attempt/token budgets.
+    """
+    records_llm_attempts = True
+
+    def __init__(self, client, recorder):
+        self.client, self.recorder = client, recorder
+
+    async def __call__(self, system, user):
+        start = time.monotonic()
+        try:
+            out = await self.client.aask(system, user)
+        except Exception as exc:
+            self._record_attempt({"erro": repr(exc)[:200]}, None, time.monotonic() - start)
+            raise
+        detail = dict(self.client.last_call or {})
+        self._record_attempt(detail, out, time.monotonic() - start)
+        if detail.get("erro"):
+            raise RuntimeError(f"LLM request failed: {detail['erro']}; task remains incomplete")
+        if not (out or "").strip():
+            if detail.get("finish_reason") == "length":
+                self.recorder.evento(tipo="generation_empty_length", fase=self.recorder.fase_atual,
+                                     llm_event_recorded=True)
+                return ""
+            raise RuntimeError("LLM returned no text without an output-limit finish reason; task remains incomplete")
+        return out
+
+    def _record_attempt(self, detail, out, seconds, **fields):
+        phase = self.recorder.fase_atual
+        truncated = detail.get("finish_reason") == "length"
+        error = detail.get("erro") or ("empty_response" if not truncated and not (out or "").strip() else None)
+        incoming, outgoing = detail.get("prompt_tokens", 0) or 0, detail.get("completion_tokens", 0) or 0
+        if hasattr(self.recorder, "score"):
+            self.recorder.score.add_llm_call(incoming, outgoing, fase=phase, segundos=seconds,
+                                            cortada=truncated, erro=bool(error))
+        self.recorder.evento(tipo="llm", fase=phase, **fields,
+                             prompt_tokens=incoming, completion_tokens=outgoing,
+                             segundos=round(seconds, 3), cortada=truncated, erro=error,
+                             caracteres_resposta=len(out or ""), finish_reason=detail.get("finish_reason"))
+
+
+class SummaryCheckpoints(GenerationRequests):
     """Cache exact phase prompts, so walltime restarts do not repay phase one."""
     # Each physical request is recorded here, including failures and retries.
     records_llm_attempts = True
@@ -72,12 +140,12 @@ class SummaryCheckpoints:
                 out = await self.client.aask(system, user)
             except Exception as exc:
                 detail = {"erro": repr(exc)[:200]}
-                self._record_attempt(detail, None, time.monotonic() - start, attempt)
+                self._record_attempt(detail, None, time.monotonic() - start, summary_attempt=attempt)
                 self.recorder.evento(tipo="llm_infrastructure_failure", fase=self.recorder.fase_atual,
                                      detail=detail, llm_event_recorded=True)
                 raise
             detail = dict(self.client.last_call or {})
-            self._record_attempt(detail, out, time.monotonic() - start, attempt)
+            self._record_attempt(detail, out, time.monotonic() - start, summary_attempt=attempt)
             # Thinking may exhaust all output tokens before producing content.
             # Classify the finish reason before checking for an empty answer.
             if detail.get("finish_reason") == "length":
@@ -98,20 +166,6 @@ class SummaryCheckpoints:
                 raise RuntimeError("LLM request failed or returned no text; stopping without marking tasks complete")
             atomic_json(path, {"response": out})
             return out
-
-    def _record_attempt(self, detail, out, seconds, attempt):
-        phase = self.recorder.fase_atual
-        truncated = detail.get("finish_reason") == "length"
-        error = detail.get("erro") or ("empty_response" if not truncated and not (out or "").strip() else None)
-        incoming, outgoing = detail.get("prompt_tokens", 0) or 0, detail.get("completion_tokens", 0) or 0
-        if hasattr(self.recorder, "score"):
-            self.recorder.score.add_llm_call(incoming, outgoing, fase=phase, segundos=seconds,
-                                              cortada=truncated, erro=bool(error))
-        self.recorder.evento(tipo="llm", fase=phase, summary_attempt=attempt,
-                             prompt_tokens=incoming, completion_tokens=outgoing,
-                             segundos=round(seconds, 3), cortada=truncated, erro=error,
-                             caracteres_resposta=len(out or ""), finish_reason=detail.get("finish_reason"))
-
 
 async def pipeline(args, tasks, inventories):
     from marta.gptapi import model
@@ -134,7 +188,7 @@ async def pipeline(args, tasks, inventories):
         with project_environment(source, name):
             proj = XRepoProject(root_dir=str(source), source_dir=".", output_root=str(analysis_root),
                                 code_files=env["code_files"], load_paths=env["load_paths"],
-                                full_context=True, target_selectors=selectors(rows),
+                                target_selectors=selectors(rows),
                                 backend=XRepoBackend()).discover()
         all_targets = list(proj.targets)
         proj.recorder = RubyRecorder(str(analysis_root / "events.jsonl"))
@@ -153,6 +207,7 @@ async def pipeline(args, tasks, inventories):
             status_file = out / "state.json"
             if status_file.exists() and json.loads(status_file.read_text()).get("status") in {"complete", "no_tests"}:
                 continue
+            archive_incomplete_task(args.output, tid)
             work = args.work / "tasks" / str(tid) / "repo"
             workspace(source, work)
             proj.targets = [target]
@@ -167,12 +222,7 @@ async def pipeline(args, tasks, inventories):
             atomic_json(status_file, {"status": "running", "task_id": tid})
             print(f"  task {tid}: {target.method.qualified_name}", flush=True)
 
-            async def generate_ask(system, user):
-                text = await model.aask(system, user)
-                if (model.last_call or {}).get("erro") or not text:
-                    raise RuntimeError("LLM transport/empty response; task remains incomplete")
-                return text
-
+            generate_ask = GenerationRequests(model, proj.recorder)
             try:
                 with project_environment(work, name):
                     await proj.generate_rounds(rounds=args.rounds, max_attempts=args.attempts, ask=generate_ask)
@@ -245,6 +295,7 @@ def main():
               "environment": environment_manifest(),
               "marta_code": code_fingerprint(), "model": args.model, "model_digest": args.model_digest,
               "summary_truncation_attempts": SUMMARY_TRUNCATION_ATTEMPTS,
+              "generation_empty_length_policy": GENERATION_EMPTY_LENGTH_POLICY,
               "rounds": args.rounds, "attempts": args.attempts, "temperature": args.temperature,
               "thinking": args.thinking,
               "top_p": args.top_p, "presence_penalty": args.presence_penalty,
