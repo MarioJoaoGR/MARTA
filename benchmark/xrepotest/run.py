@@ -277,6 +277,7 @@ def main():
     tasks = load_tasks(args.dataset)
     ready = json.loads(args.preflight.read_text())
     from .runtime import environment_manifest
+    from marta.ruby_backend.loading import LOADING_POLICY
     if ready.get("environment") != environment_manifest():
         p.error("Container environment differs from the certified preflight")
     if not ready.get("ready") or not ready.get("runtime_checked"):
@@ -296,6 +297,7 @@ def main():
               "marta_code": code_fingerprint(), "model": args.model, "model_digest": args.model_digest,
               "summary_truncation_attempts": SUMMARY_TRUNCATION_ATTEMPTS,
               "generation_empty_length_policy": GENERATION_EMPTY_LENGTH_POLICY,
+              "generation_loading_policy": LOADING_POLICY,
               "rounds": args.rounds, "attempts": args.attempts, "temperature": args.temperature,
               "thinking": args.thinking,
               "top_p": args.top_p, "presence_penalty": args.presence_penalty,

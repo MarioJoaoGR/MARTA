@@ -119,10 +119,25 @@ def test_generation_wrapper_keeps_old_results_out_and_failure_does_not_chain(fak
     calls = [json.loads(l) for l in (tmp / "calls.jsonl").read_text().splitlines()]
     assert not any(c[0] == "sbatch" for c in calls)
     invocation = next(c for c in calls if "benchmark.xrepotest.run" in c)
+    loading_gate = next(c for c in calls if "--require-loading" in c)
+    server = next(c for c in calls if "serve" in c)
+    assert calls.index(loading_gate) < calls.index(server) < calls.index(invocation)
     assert invocation[invocation.index("--model-digest") + 1] == "sha256:abc"
     assert invocation[invocation.index("--thinking") + 1] == "on"
     assert "/data/xrepo/runs/new-experiment/generation" in invocation
     assert not any("results_ruby" in arg or "ruby_projects" in arg for arg in invocation)
+
+
+def test_loading_cpu_wrapper_only_runs_diagnostics(fake_cluster):
+    root, tmp, env = fake_cluster
+    proc = subprocess.run(["bash", str(root / "deucalion/run_xrepotest_loading_cpu.sh")],
+                          env=env, capture_output=True, text=True, timeout=20)
+    assert proc.returncode == 0, proc.stderr
+    calls = [json.loads(l) for l in (tmp / "calls.jsonl").read_text().splitlines()]
+    assert len(calls) == 2
+    assert "benchmark.xrepotest.environment.verify_loading" in calls[0]
+    assert "--require-loading" in calls[1]
+    assert not any("serve" in c or "benchmark.xrepotest.run" in c for c in calls)
 
 
 @pytest.mark.parametrize("sig,chains", [(signal.SIGTERM, False), (signal.SIGUSR1, True)])

@@ -8,7 +8,7 @@ from urllib.request import Request, urlopen
 from .protocol import atomic_json
 
 
-def certified(root):
+def certified(root, require_loading=False):
     preflight = json.loads((root / "reports/preflight.json").read_text())
     diagnostics = json.loads((root / "reports/environment-diagnostics.json").read_text())
     if not (preflight.get("ready") and preflight.get("runtime_checked")
@@ -16,6 +16,28 @@ def certified(root):
         raise ValueError("XRepoTest preparation and environment diagnostics must both pass")
     if preflight.get("environment") != diagnostics.get("environment"):
         raise ValueError("Diagnostic and preflight environments differ")
+    if require_loading:
+        from .environment.verify_loading import loading_fingerprint
+        from .protocol import DATA_SHA256
+        from marta.ruby_backend.loading import LOADING_POLICY
+        path = root / "reports/loading-diagnostics.json"
+        if not path.is_file():
+            raise ValueError("Run production loading diagnostics before allocating model inference")
+        loading = json.loads(path.read_text())
+        if (not loading.get("ready") or loading.get("dataset") != DATA_SHA256
+                or loading.get("policy") != LOADING_POLICY
+                or loading.get("loading_code") != loading_fingerprint()
+                or loading.get("environment") != preflight.get("environment")
+                or len(loading.get("checks", {})) != 302
+                or not all(c.get("passed") for c in loading["checks"].values())
+                or not loading.get("session_regression", {}).get("passed")):
+            raise ValueError("Production loading diagnostics are missing, failed or stale")
+        if set(loading.get("projects", {})) != set(preflight.get("projects", {})):
+            raise ValueError("Loading certification must cover every project")
+        for name, hashes in loading["projects"].items():
+            if any(not hashes.get(k) or hashes.get(k) != preflight["projects"][name].get(k)
+                   for k in ("source_digest", "runtime_digest")):
+                raise ValueError(f"{name}: loading certification belongs to other sources")
 
 
 def model_metadata(host, model):
@@ -38,8 +60,9 @@ def main():
     parser.add_argument("--model")
     parser.add_argument("--host", default="http://127.0.0.1:11434")
     parser.add_argument("--metadata", type=Path)
+    parser.add_argument("--require-loading", action="store_true")
     args = parser.parse_args()
-    certified(args.root)
+    certified(args.root, args.require_loading)
     if args.model:
         if args.metadata is None:
             parser.error("--model requires --metadata")

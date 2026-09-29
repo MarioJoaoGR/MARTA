@@ -96,8 +96,14 @@ def source_inventory(root: Path, tasks: list[dict]) -> dict:
               for p in code + readmes}
     runtime_hashes = {p.relative_to(root).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
                       for p in sorted(files) if p.is_file()}
-    loads = sorted({str(PurePosixPath(r).parent) for r in rels
-                    if PurePosixPath(r).parent.name == "lib"}, key=lambda x: (x.count("/"), x))
+    # A lib tree remains a load path when every Ruby file is nested (RSpec-core
+    # has lib/rspec/core.rb but no lib/*.rb). Do not require a direct child file.
+    load_roots = set()
+    for rel in rels:
+        parts = PurePosixPath(rel).parts
+        lib_index = parts.index("lib")
+        load_roots.add(str(PurePosixPath(*parts[:lib_index + 1])))
+    loads = sorted(load_roots, key=lambda x: (x.count("/"), x))
     return {"code_files": sorted(rels), "load_paths": loads,
             "input_hashes": hashes, "source_digest": digest(hashes),
             "runtime_digest": digest(runtime_hashes)}

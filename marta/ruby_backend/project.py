@@ -339,6 +339,11 @@ class RubyProject:
             return [script] if script else None
         return None
 
+    def _generation_loading_for(self, t: "MethodTarget") -> str:
+        from .loading import loading_plan, loading_context
+        rel = os.path.join(self.source_dir, t.source_rel)
+        return loading_context(loading_plan(self.root_dir, rel, t.require_target))
+
     def _code_paths(self) -> List[str]:
         """Ficheiros a analisar: os do manifesto quando existe (exatamente os que
         a camada 2 leu, para o grafo ver o que a camada 7 viu), senão a descoberta
@@ -550,6 +555,7 @@ class RubyProject:
 
                 error_help_fn=self._error_help_fn(t),
                 extra_requires=self._extra_requires_for(t),
+                loading_context=self._generation_loading_for(t),
             )
             outcomes.append(outcome)
         return outcomes
@@ -971,7 +977,8 @@ class RubyProject:
                     backend=self.backend,
 
                     error_help_fn=self._error_help_fn(t),
-                extra_requires=self._extra_requires_for(t),
+                    extra_requires=self._extra_requires_for(t),
+                    loading_context=self._generation_loading_for(t),
                 )
                 outcomes.append(outcome)
             recorder.end_count_time(f"round_{rnd}")

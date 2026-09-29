@@ -65,6 +65,7 @@ def dev_user(
     method_source: str,
     require_target: str,
     describe_subject: str,
+    loading_context: str = "",
 ) -> str:
     return f"""
 {instruction}
@@ -74,9 +75,11 @@ METHOD UNDER TEST:
 {method_source}
 ```
 
+{loading_context}
+
 RULES:
 1. Output ONLY Ruby code in a ```ruby``` block (a complete, self-contained spec file).
-2. Start the file with: require "{require_target}"
+2. {('Start the file with the ordered requires in PRODUCTION LOADING CONTEXT.' if loading_context else f'Start the file with: require "{require_target}"')}
 3. Use RSpec: `RSpec.describe {describe_subject} do ... end` with one independent `it "..." do ... end` block per scenario.
 4. Use `expect(...).to eq(...)` / `raise_error(...)` matchers. Do NOT use any other test framework.
 5. AVOID MOCKS unless strictly necessary: prefer constructing REAL objects with simple values. Only stub true external I/O (network, filesystem, subprocess, environment). NEVER mock the class under test, plain value objects, or anything you can instantiate directly. A wrong double fails the test without testing anything.

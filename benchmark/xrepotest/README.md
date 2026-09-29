@@ -17,6 +17,13 @@ A verificação foi repetida no job CPU **1956272**, que terminou `COMPLETED`,
 `0:0`, em 2 min 40 s. Os dez projetos e todos estes diagnósticos passaram
 também no Deucalion.
 
+Atualização: a geração antiga foi interrompida para corrigir o contexto de
+carregamento. A validação local agora executa os **302 ficheiros focais**, cada
+um num processo RSpec separado: todos passaram na imagem `repaired-v2`, offline,
+assim como a construção de uma sessão real do Capybara. A suite local tem
+294 testes aprovados e 1 ignorado. A validação equivalente no Deucalion ainda
+tem de correr antes da nova geração, conforme os comandos abaixo.
+
 O job GPU **1956495** iniciou a análise com Qwen3.6:35b e thinking ligado.
 Parou após 7 h 56 min na fase `what_todo_raiz` de Capybara, antes de gerar
 testes: a chamada para `Capybara::Driver::Base#go_back` atingiu 16 384 tokens
@@ -123,6 +130,107 @@ idempotente, recusa outra versão e não altera os ficheiros cujos hashes guarda
 A chamada que causou esta interrupção não entrou nos eventos do cliente antigo:
 os totais históricos de LLM têm essa lacuna. O relatório assinala-a; os logs
 Ollama e os registos Slurm devem ser conservados, sem inventar telemetria.
+
+### Nova geração após correção do contexto de carregamento
+
+O job 1959846 foi parado após 45 tarefas finalizadas: 14 com suite exportada e
+31 sem testes. As seis respostas vazias cortadas observadas desde a retoma não
+explicam esse total. As falhas incluíam inicialização incompleta de Capybara,
+constantes inexistentes, configuração inventada e chamadas a métodos privados.
+Não atribuímos tudo ao modelo nem ao limite de tokens.
+
+A instrução antiga dizia para começar apenas com o `require` do ficheiro focal.
+Foi reproduzido offline que `require "capybara/session"` permite carregar o
+ficheiro, mas construir uma sessão falha porque a entrada `capybara.rb` ainda
+não inicializou a configuração. `require "capybara"` antes desse ficheiro
+resolve essa inicialização. Não resolve, por exemplo, uma classe inventada pelo
+modelo ou uma asserção errada. Os dois specs recolhidos foram diagnosticados,
+não corrigidos para serem contabilizados como respostas da MARTA.
+
+`marta/ruby_backend/loading.py` acrescenta contexto de produção ao Planner e
+a todas as tentativas Dev. Procura a gemspec mais próxima do alvo, verifica os
+ficheiros de entrada convencionais existentes e escolhe uma entrada compatível
+com o namespace, ou a única candidata. Não executa a gemspec e não adivinha entre
+entradas ambíguas. Inclui os ficheiros de namespace existentes, do exterior para
+o interior, antes do ficheiro focal, evitando ciclos de autoload como o do
+provider SQL do Hanami.
+
+Há três aliases explícitos para integrações opcionais: `Rails` → dependência
+`railties`, require `rails`; `Selenium::WebDriver` → `selenium-webdriver`;
+`Dry::System` → `dry-system`, require `dry/system`. Só entram se a dependência
+estiver declarada na gemspec e a referência aparecer no código de produção
+focal, num ficheiro ancestral ou numa classe referenciada por constante
+qualificada com caminho convencional em `lib/`. Esta é uma heurística de
+carregamento documentada, não um resolvedor geral de Ruby. Não lê testes humanos,
+fixtures ou respostas do benchmark. As receitas constam dos prompts; o executor
+não acrescenta preloads ocultos nem modifica a resposta gerada.
+
+A configuração real da biblioteca é recomendada no prompt, sem fornecer um
+teste ou objeto de configuração específico. Tarefas, fontes, avaliador, rondas,
+tentativas, modelo, thinking e limites permanecem iguais. Os sumários não recebem
+estas instruções de geração. A política fica no manifesto como
+`generation_loading_policy=gemspec-entry-before-focal-v1`.
+
+`environment/verify_loading.py` exercita as receitas nos 302 ficheiros usando
+cópias descartáveis, Bundler, a configuração RSpec original e `spec/temp_spec.rb`.
+Confirma o caminho exato em `$LOADED_FEATURES` e inclui a regressão de construção
+de uma sessão Capybara. É um diagnóstico fixo, sem LLM, sem métricas de benchmark.
+Não garante que os testes gerados sejam corretos. Foi ainda corrigida a deteção
+de load paths para árvores `lib` só com ficheiros aninhados, como RSpec-core.
+
+O job GPU exige agora `reports/loading-diagnostics.json` aprovado, com os hashes
+de código de carregamento, fontes e ambiente correspondentes ao preflight,
+antes de iniciar o modelo. Executar primeiro no Deucalion:
+
+```bash
+cd /projects/F202407648IACDCF2/mario/MARTA
+git pull --ff-only
+mkdir -p logs
+sbatch --parsable deucalion/run_xrepotest_loading_cpu.sh
+```
+
+Depois de confirmar `COMPLETED`, `0:0` e `Loading ready: True; 302 focal files`,
+preparar **uma nova experiência**. Não atualizar o manifesto da experiência
+antiga nem juntar as suas respostas aos novos resultados:
+
+```bash
+cd /projects/F202407648IACDCF2/mario/MARTA
+export XREPO_RUN=qwen36_35b_thinking_loading_v2
+XROOT=/projects/F202407648IACDCF2/mario/xrepotest
+mkdir -p "$XROOT/runs/$XREPO_RUN/home"
+GOMAXPROCS=2 singularity exec --cleanenv \
+  --home "$XROOT/runs/$XREPO_RUN/home:/home/marta" \
+  --bind "$PWD:/opt/marta:ro" --bind "$XROOT:/data/xrepo" \
+  --env PYTHONPATH=/opt/marta --env GOMAXPROCS=2 \
+  "$XROOT/repaired-v2.sif" \
+  python3 -B -m benchmark.xrepotest.fork_loading_run \
+  /data/xrepo/runs/qwen36_35b_thinking_v1/generation \
+  "/data/xrepo/runs/$XREPO_RUN/generation"
+
+export MODEL=qwen3.6:35b XREPO_THINKING=on
+export OLLAMA_CTX=32768 XREPO_MAX_TOKENS=16384
+export XREPO_TEMPERATURE=0.6 XREPO_TOP_P=0.95 XREPO_PRESENCE_PENALTY=0
+export XREPO_REQUEST_TIMEOUT=1800 XREPO_NO_GRAPH=0
+sbatch --parsable --export=ALL deucalion/run_xrepotest_generate_gpu.sh
+```
+
+`fork_loading_run.py` aceita apenas a implementação predecessora `9c3696d12`,
+com contexto de produção completo e grafo ligado, e exige ambas as execuções
+paradas. Copia apenas checkpoints válidos, caches e vetores de análise. Guarda
+hashes, manifestos e consumo herdado em `analysis_reuse.json`; preserva a origem
+e recusa ficheiros estranhos no destino. Não copia testes, estados de tarefas,
+totais de análise ou eventos antigos. Todas as tarefas de geração recomeçam.
+A comparação local com o código predecessor confirmou prompts, identidades,
+fingerprints e caches de sumários iguais nos dois braços do grafo, com zero
+chamadas LLM ao reutilizar uma análise completa.
+
+`report.py` apresenta o custo herdado em `inherited_analysis`, separado das
+novas chamadas. Para custo total da abordagem, considerar ambos e declarar a
+reutilização; para novo consumo GPU, consultar Slurm. As chamadas já gastas na
+geração antiga continuam no seu diretório e pertencem ao custo de diagnóstico.
+Cada tentativa de geração passa agora a guardar código e erro em eventos
+`generation_validation`, incluindo sintaxe, RSpec e salvage, mesmo que o spec
+seja depois descartado. São evidência de diagnóstico, não novas chamadas LLM.
 
 ## Protocolo e âmbito
 
@@ -258,6 +366,8 @@ via Ollama 0.30.7. Geração e avaliação usam jobs distintos:
 - `deucalion/xrepotest_job_common.sh`: montagens, isolamento e retoma dos jobs.
 - `cluster.py`: exige os dois relatórios aprovados e regista o digest do modelo,
   metadados `/api/show` e versão do servidor, sem fazer inferência.
+- `deucalion/run_xrepotest_loading_cpu.sh`: certifica os 302 ficheiros focais
+  para a política de carregamento da nova geração, sem consumir GPU.
 
 Os scripts foram testados localmente com substitutos de Slurm/Singularity.
 O job 1956495 confirmou a inferência no cluster e o carregamento das 42 camadas
@@ -286,13 +396,14 @@ que o servidor não forneça.
 Referências: [parâmetros Qwen](https://huggingface.co/Qwen/Qwen3.6-35B-A3B#best-practices),
 [controlo de thinking no Ollama](https://docs.ollama.com/api/openai-compatibility).
 
-Submeter a geração a partir do repositório no cluster:
+Após a certificação de carregamento e a cópia auditada da análise descritas
+acima, submeter a geração a partir do repositório no cluster:
 
 ```bash
 git pull --ff-only
 mkdir -p logs
 export MODEL=qwen3.6:35b XREPO_THINKING=on
-export XREPO_RUN=qwen36_35b_thinking_v1
+export XREPO_RUN=qwen36_35b_thinking_loading_v2
 export OLLAMA_CTX=32768 XREPO_MAX_TOKENS=16384
 export XREPO_TEMPERATURE=0.6 XREPO_TOP_P=0.95 XREPO_PRESENCE_PENALTY=0
 export XREPO_REQUEST_TIMEOUT=1800 XREPO_NO_GRAPH=0
@@ -311,7 +422,7 @@ durante a experiência: a retoma recusa outro hash de implementação.
 Só quando existir `generation/processed.jsonl` completo, submeter a avaliação:
 
 ```bash
-export XREPO_RUN=qwen36_35b_thinking_v1
+export XREPO_RUN=qwen36_35b_thinking_loading_v2
 sbatch --parsable --export=ALL deucalion/run_xrepotest_evaluate_cpu.sh
 ```
 

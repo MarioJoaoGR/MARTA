@@ -24,6 +24,8 @@ export XREPO_REQUEST_TIMEOUT=${XREPO_REQUEST_TIMEOUT:-1800}
 export XREPO_NO_GRAPH=${XREPO_NO_GRAPH:-0}
 [[ "$XREPO_NO_GRAPH" == 0 || "$XREPO_NO_GRAPH" == 1 ]] || exit 2
 source "$BASE/MARTA/deucalion/xrepotest_job_common.sh"
+"${CONTAINER[@]}" "$IMAGE" python3 -B -m benchmark.xrepotest.cluster \
+    --root /data/xrepo --require-loading
 CONTINUATION="$CODE/deucalion/run_xrepotest_generate_gpu.sh"
 # A duplicate job exits before loading the GPU/model.
 exec 9>"$RUN/generation-job.lock"

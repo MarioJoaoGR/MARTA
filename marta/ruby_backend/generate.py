@@ -78,6 +78,7 @@ async def generate_spec_for_method(
     backend: Optional[LanguageBackend] = None,
     error_help_fn: Optional[Callable[[str], str]] = None,
     extra_requires: Optional[List[str]] = None,
+    loading_context: str = "",
 ) -> GenOutcome:
     """Generate, self-heal and validate one spec file for one method.
 
@@ -100,6 +101,8 @@ async def generate_spec_for_method(
     context_block = prompts.build_context_block(
         method_qualified_name, require_target, method_source, summary, coverage_info, related
     )
+    if loading_context:
+        context_block += "\n\n" + loading_context
     if recorder is not None:
         with recorder.contexto(metodo=method_qualified_name):
             with recorder.fase("plano"):
@@ -149,7 +152,8 @@ async def generate_spec_for_method(
                 _tel(recorder.fase if recorder else None, fase):
             raw_dev = await ask(
                 prompts.DEV_SYS,
-                prompts.dev_user(instruction, method_source, require_target, describe_subject),
+                prompts.dev_user(instruction, method_source, require_target, describe_subject,
+                                 **({"loading_context": loading_context} if loading_context else {})),
             )
             spec_code = prompts.get_ruby_code(raw_dev)
             if not spec_code.strip():
@@ -157,12 +161,18 @@ async def generate_spec_for_method(
                 # Never let an empty Ruby file become a successful test suite.
                 last_error = "No test code was returned. Return a complete RSpec test file."
                 last_res = None
+                if recorder is not None:
+                    recorder.evento(tipo="generation_validation", fase=fase, etapa="empty",
+                                    code=spec_code, output=last_error, valid=False)
                 continue
             _write(spec_code)
 
             # Cheap gate first: ruby -c. Only run RSpec if it parses.
             with _tel(recorder.medir if recorder else None, "ruby -c"):
                 syntax_err = backend.syntax_check(spec_code)
+            if recorder is not None and syntax_err is not None:
+                recorder.evento(tipo="generation_validation", fase=fase, etapa="syntax",
+                                code=spec_code, output=syntax_err, valid=False)
         if score is not None:
             (score.add_syntax_error if syntax_err else score.add_syntax_pass)()
             if syntax_err is None and attempt > 1:
@@ -175,6 +185,11 @@ async def generate_spec_for_method(
         with _tel(recorder.medir if recorder else None, "rspec"):
             res = backend.run_tests(spec_path, load_paths, cwd, **_extra)
         results = res.results
+        if recorder is not None:
+            recorder.evento(tipo="generation_validation", fase=fase, etapa="rspec",
+                            tentativa=attempt, metodo=method_qualified_name,
+                            code=spec_code, output=res.output, valid=res.all_passed,
+                            load_error=res.load_error)
         last_res = res
         if res.all_passed:
             success = True
@@ -202,6 +217,11 @@ async def generate_spec_for_method(
                 _write(new_code)
                 with _tel(recorder.medir if recorder else None, "rspec"):
                     recheck = backend.run_tests(spec_path, load_paths, cwd, **_extra)
+                if recorder is not None:
+                    recorder.evento(tipo="generation_validation", fase="salvage", etapa="rspec",
+                                    tentativa=attempt, metodo=method_qualified_name,
+                                    code=new_code, output=recheck.output, valid=recheck.all_passed,
+                                    load_error=recheck.load_error)
                 if recheck.all_passed and recheck.examples:
                     success = True
                     salvaged = True

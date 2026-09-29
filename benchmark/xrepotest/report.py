@@ -51,8 +51,12 @@ def summarize(root):
         states[json.loads(path.read_text()).get("status", "unknown")] += 1
     audit = root / "generation_empty_upgrade.json"
     historical_note = json.loads(audit.read_text()).get("telemetry_note") if audit.exists() else None
+    reuse_path = root / "analysis_reuse.json"
+    reused = json.loads(reuse_path.read_text()) if reuse_path.exists() else None
     return {"tasks": dict(states), "llm_by_phase": dict(phases), "ruby_subprocesses": dict(subprocesses),
             "historical_telemetry_note": historical_note,
+            "inherited_analysis": ({"source": reused["source"], "checkpoint_count": reused["checkpoint_count"],
+                                    "usage": reused["source_analysis_usage"], "note": reused["note"]} if reused else None),
             "infrastructure_failures": failures, "unreadable_event_lines": malformed,
             "note": "LLM seconds exclude Ruby/embedding/idle time; GPU billing must come from Slurm."}
 
