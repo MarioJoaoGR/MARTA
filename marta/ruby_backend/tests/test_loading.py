@@ -43,20 +43,31 @@ def test_ambiguous_entries_are_not_guessed(tmp_path):
     assert loading.loading_plan(tmp_path, "lib/beta/child.rb", "beta/child")["entry"] == "beta"
 
 
-@pytest.mark.parametrize("declared,references,expected", [
-    (False, True, []), (True, False, []), (True, True, ["dry/system"]),
+@pytest.mark.parametrize("dependency,namespace,require_name", [
+    ("railties", "Rails", "rails"),
+    ("selenium-webdriver", "Selenium::WebDriver", "selenium-webdriver"),
+    ("dry-system", "Dry::System", "dry/system"),
 ])
-def test_optional_integration_requires_both_declared_dependency_and_production_reference(
-        tmp_path, declared, references, expected):
-    write(tmp_path, "sample.gemspec", "s.add_dependency 'dry-system'" if declared else "")
+def test_dependency_names_and_constant_references_do_not_inject_manual_recipes(
+        tmp_path, dependency, namespace, require_name):
+    write(tmp_path, "sample.gemspec", f"s.add_dependency '{dependency}'")
     write(tmp_path, "lib/sample.rb")
-    write(tmp_path, "lib/sample/provider.rb", "class Sample::Provider < Dry::System::Provider; end" if references else "")
+    write(tmp_path, "lib/sample/provider.rb", f"class Sample::Provider < {namespace}::Provider; end")
     write(tmp_path, "lib/sample/child.rb", "class Sample::Child < Sample::Provider; end")
-    # A test reference alone must not supply a production integration.
-    write(tmp_path, "spec/spec_helper.rb", "require 'dry/system'; Dry::System")
+    write(tmp_path, "spec/spec_helper.rb", f"require '{require_name}'")
     plan = loading.loading_plan(tmp_path, "lib/sample/child.rb", "sample/child")
-    assert plan["integrations"] == expected
-    assert plan["requires"] == expected + ["sample", "sample/child"]
+    assert plan["requires"] == ["sample", "sample/child"]
+    assert require_name not in plan["requires"]
+
+
+def test_loading_context_contains_only_loading_guidance(tmp_path):
+    write(tmp_path, "sample.gemspec")
+    write(tmp_path, "lib/sample.rb")
+    write(tmp_path, "lib/sample/child.rb")
+    text = loading.loading_context(loading.loading_plan(tmp_path, "lib/sample/child.rb", "sample/child"))
+    assert 'require "sample"' in text and 'require "sample/child"' in text
+    for recommendation in ("OpenStruct", "double", "guessed fields", "configuration objects", "stubs", "removed"):
+        assert recommendation not in text
 
 
 def test_target_outside_project_rejected(tmp_path):

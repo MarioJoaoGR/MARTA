@@ -17,12 +17,13 @@ A verificação foi repetida no job CPU **1956272**, que terminou `COMPLETED`,
 `0:0`, em 2 min 40 s. Os dez projetos e todos estes diagnósticos passaram
 também no Deucalion.
 
-Atualização: a geração antiga foi interrompida para corrigir o contexto de
-carregamento. A validação local agora executa os **302 ficheiros focais**, cada
-um num processo RSpec separado: todos passaram na imagem `repaired-v2`, offline,
-assim como a construção de uma sessão real do Capybara. A suite local tem
-294 testes aprovados e 1 ignorado. A validação equivalente no Deucalion ainda
-tem de correr antes da nova geração, conforme os comandos abaixo.
+Atualização em 30-09-2026: foram retirados os três mapeamentos manuais de
+dependências e os conselhos de configuração introduzidos nos prompts após
+observar falhas. A política atual só infere entradas e ficheiros de namespace
+existentes no próprio projeto. O resultado anterior de **302/302** pertence à
+política retirada, com os mapeamentos, e não certifica a versão atual. A nova
+validação e as suas limitações são descritas abaixo. Não submeter nova geração
+GPU enquanto a certificação atual não passar.
 
 O job GPU **1956495** iniciou a análise com Qwen3.6:35b e thinking ligado.
 Parou após 7 h 56 min na fase `what_todo_raiz` de Capybara, antes de gerar
@@ -155,21 +156,26 @@ entradas ambíguas. Inclui os ficheiros de namespace existentes, do exterior par
 o interior, antes do ficheiro focal, evitando ciclos de autoload como o do
 provider SQL do Hanami.
 
-Há três aliases explícitos para integrações opcionais: `Rails` → dependência
-`railties`, require `rails`; `Selenium::WebDriver` → `selenium-webdriver`;
-`Dry::System` → `dry-system`, require `dry/system`. Só entram se a dependência
-estiver declarada na gemspec e a referência aparecer no código de produção
-focal, num ficheiro ancestral ou numa classe referenciada por constante
-qualificada com caminho convencional em `lib/`. Esta é uma heurística de
-carregamento documentada, não um resolvedor geral de Ruby. Não lê testes humanos,
-fixtures ou respostas do benchmark. As receitas constam dos prompts; o executor
-não acrescenta preloads ocultos nem modifica a resposta gerada.
+Na versão `98f6f254d`, esta informação vinha acompanhada de três mapeamentos
+manuais para Rails, Selenium e Dry::System e de recomendações sobre configurações
+e classes inventadas pelo modelo. Foram introduzidos após observar falhas neste
+benchmark. Embora não fornecessem respostas ou asserções, eram conhecimento
+manual sobre bibliotecas específicas e ajustes de prompt motivados pelos
+resultados. Foram **retirados** a pedido do utilizador. Não foram transferidos
+para preloads ocultos, para o executor nem para a imagem.
 
-A configuração real da biblioteca é recomendada no prompt, sem fornecer um
-teste ou objeto de configuração específico. Tarefas, fontes, avaliador, rondas,
-tentativas, modelo, thinking e limites permanecem iguais. Os sumários não recebem
-estas instruções de geração. A política fica no manifesto como
-`generation_loading_policy=gemspec-entry-before-focal-v1`.
+O contexto atual limita-se à entrada da gem, aos ficheiros de namespace
+existentes e ao ficheiro focal. Não contém tabelas por framework nem conselhos
+específicos motivados pelos erros observados. Esta é uma heurística estrutural
+de carregamento, não um resolvedor geral de dependências Ruby. Não lê testes
+humanos, fixtures ou respostas do benchmark. Os requires constam do próprio
+spec gerado; o executor não modifica a resposta.
+
+Tarefas, fontes, avaliador, rondas, tentativas, modelo, thinking e limites
+permanecem iguais. Os sumários não recebem estas instruções de geração. A
+política atual fica no manifesto como
+`generation_loading_policy=gemspec-entry-before-focal-v2`, de modo a recusar
+a retoma silenciosa de uma geração feita com os mapeamentos manuais.
 
 `environment/verify_loading.py` exercita as receitas nos 302 ficheiros usando
 cópias descartáveis, Bundler, a configuração RSpec original e `spec/temp_spec.rb`.
@@ -177,6 +183,24 @@ Confirma o caminho exato em `$LOADED_FEATURES` e inclui a regressão de constru�
 de uma sessão Capybara. É um diagnóstico fixo, sem LLM, sem métricas de benchmark.
 Não garante que os testes gerados sejam corretos. Foi ainda corrigida a deteção
 de load paths para árvores `lib` só com ficheiros aninhados, como RSpec-core.
+
+A validação offline da política atual, sem os mapeamentos manuais, terminou
+com **294/302 ficheiros a carregar**. A regressão de construção de sessão
+Capybara continua a passar. As oito falhas são uma integração Selenium do
+Capybara, a integração Rails do dotenv e seis providers Hanami: os ficheiros
+esperam que `Selenium`, `Rails` ou `Dry::System` estejam carregados. Não demonstra
+que as dependências estejam em falta nem que o modelo não possa gerar os
+requires necessários. Demonstra que a heurística estrutural atual não basta
+para inicializar essas integrações. Não foram excluídas tarefas, acrescentadas
+exceções ou alterado o avaliador para fazer passar este diagnóstico. O relatório
+local é `~/.cache/marta-xrepotest/generic-loading-diagnostics.json` e regista
+`ready=false`; o resultado anterior de 302/302 não pode substituí-lo. A suite
+de regressão atual passou **295 testes, com 1 ignorado**.
+
+O bloqueio de inferência continua ativo. Os comandos de geração abaixo são
+referência para uma certificação futura aprovada; neste estado, o job GPU
+recusaria iniciar o modelo. A resolução genérica destas integrações e a
+adequação deste diagnóstico como requisito de geração continuam por resolver.
 
 O job GPU exige agora `reports/loading-diagnostics.json` aprovado, com os hashes
 de código de carregamento, fontes e ambiente correspondentes ao preflight,
@@ -195,7 +219,7 @@ antiga nem juntar as suas respostas aos novos resultados:
 
 ```bash
 cd /projects/F202407648IACDCF2/mario/MARTA
-export XREPO_RUN=qwen36_35b_thinking_loading_v2
+export XREPO_RUN=qwen36_35b_thinking_generic_loading_v3
 XROOT=/projects/F202407648IACDCF2/mario/xrepotest
 mkdir -p "$XROOT/runs/$XREPO_RUN/home"
 GOMAXPROCS=2 singularity exec --cleanenv \
@@ -403,7 +427,7 @@ acima, submeter a geração a partir do repositório no cluster:
 git pull --ff-only
 mkdir -p logs
 export MODEL=qwen3.6:35b XREPO_THINKING=on
-export XREPO_RUN=qwen36_35b_thinking_loading_v2
+export XREPO_RUN=qwen36_35b_thinking_generic_loading_v3
 export OLLAMA_CTX=32768 XREPO_MAX_TOKENS=16384
 export XREPO_TEMPERATURE=0.6 XREPO_TOP_P=0.95 XREPO_PRESENCE_PENALTY=0
 export XREPO_REQUEST_TIMEOUT=1800 XREPO_NO_GRAPH=0
@@ -422,7 +446,7 @@ durante a experiência: a retoma recusa outro hash de implementação.
 Só quando existir `generation/processed.jsonl` completo, submeter a avaliação:
 
 ```bash
-export XREPO_RUN=qwen36_35b_thinking_loading_v2
+export XREPO_RUN=qwen36_35b_thinking_generic_loading_v3
 sbatch --parsable --export=ALL deucalion/run_xrepotest_evaluate_cpu.sh
 ```
 
