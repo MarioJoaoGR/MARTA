@@ -18,6 +18,7 @@ import json
 import os
 import re
 from collections import Counter
+from contextlib import nullcontext
 from dataclasses import dataclass, field, replace
 from typing import Dict, List, Optional
 
@@ -245,6 +246,7 @@ class RubyProject:
     target_selectors: Optional[List[dict]] = None
     analysis_targets: List[MethodTarget] = field(default_factory=list)
     _ambiguous_qns: set = field(default_factory=set, init=False, repr=False)
+    _loading_dependency_index: Optional[dict] = field(default=None, init=False, repr=False)
 
     files: List[str] = field(default_factory=list)          # absolute .rb paths
     targets: List[MethodTarget] = field(default_factory=list)
@@ -341,8 +343,16 @@ class RubyProject:
 
     def _generation_loading_for(self, t: "MethodTarget") -> str:
         from .loading import loading_plan, loading_context
-        rel = os.path.join(self.source_dir, t.source_rel)
-        return loading_context(loading_plan(self.root_dir, rel, t.require_target))
+        from .dependencies import bundle_index
+        timer = self.recorder.medir("production_dependencies") if self.recorder else nullcontext()
+        with timer:
+            if self._loading_dependency_index is None:
+                self._loading_dependency_index = bundle_index(self.root_dir)
+            rel = os.path.join(self.source_dir, t.source_rel)
+            plan = loading_plan(self.root_dir, rel, t.require_target, self._loading_dependency_index)
+        if self.recorder is not None:
+            self.recorder.evento(tipo="production_loading", metodo=t.method.qualified_name, plan=plan)
+        return loading_context(plan)
 
     def _code_paths(self) -> List[str]:
         """Ficheiros a analisar: os do manifesto quando existe (exatamente os que

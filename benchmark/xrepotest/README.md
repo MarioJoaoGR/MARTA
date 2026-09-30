@@ -164,17 +164,55 @@ manual sobre bibliotecas específicas e ajustes de prompt motivados pelos
 resultados. Foram **retirados** a pedido do utilizador. Não foram transferidos
 para preloads ocultos, para o executor nem para a imagem.
 
-O contexto atual limita-se à entrada da gem, aos ficheiros de namespace
-existentes e ao ficheiro focal. Não contém tabelas por framework nem conselhos
-específicos motivados pelos erros observados. Esta é uma heurística estrutural
-de carregamento, não um resolvedor geral de dependências Ruby. Não lê testes
-humanos, fixtures ou respostas do benchmark. Os requires constam do próprio
-spec gerado; o executor não modifica a resposta.
+O contexto atual também identifica dependências através de uma regra geral,
+implementada em `marta/ruby_backend/dependencies.py` e
+`rb/marta_dependencies.rb`:
+
+1. Consulta o bundle já instalado do projeto com Bundler. Usa as versões e os
+   require paths selecionados pelo ambiente; não instala nem descarrega gems.
+2. Lê com Prism as referências a constantes no ficheiro focal e nos ficheiros
+   de namespace existentes. Segue referências qualificadas a ficheiros locais
+   de produção, incluindo uma classe base definida noutro ficheiro.
+3. Nas gems desse bundle, procura ficheiros de namespace existentes segundo
+   as convenções `snake_case` e minúsculas compactas. Só aceita uma correspondência
+   se Prism confirmar a declaração do namespace exato nesse ficheiro. Comentários,
+   strings e reaberturas de classes em ficheiros não correspondentes não bastam.
+4. Seleciona o namespace correspondente mais específico. Se houver vários
+   fornecedores ou entradas possíveis, regista a ambiguidade e não escolhe um.
+5. Sugere os requires das dependências identificadas antes da entrada da gem,
+   dos namespaces locais e do ficheiro focal. Junta uma evidência concreta por
+   dependência ao contexto do Planner e Dev: gem, versão, referência e ficheiros.
+
+Não há tabela Rails/Selenium/Dry::System nem instruções sobre configurações ou
+asserções. Os mesmos critérios aplicam-se a qualquer gem com essa estrutura.
+Não lê testes humanos, fixtures ou respostas do benchmark. Os requires constam
+do próprio spec gerado; o executor não modifica a resposta. O plano completo,
+incluindo ambiguidades, fica nos eventos `production_loading`; o tempo da
+inspeção fica em `production_dependencies`.
+Esta informação de carregamento é a mesma nos braços com e sem grafo: não usa
+arestas do grafo nem sumários LLM para escolher dependências.
+
+É uma heurística de dependências baseada em metadados e declarações reais,
+não uma resolução completa da semântica Ruby. Constantes construídas dinamicamente,
+organizações de ficheiros não convencionais ou ambiguidades podem ficar sem
+sugestão. Um require correto não garante objetos, configuração ou asserções corretos.
+Sem Gemfile do próprio projeto, não procura gems no ambiente global do utilizador.
+
+A comparação com `/Users/mario/Desktop/GECAD/MARTA-artifact` confirmou que a
+versão Python prepara a raiz de importação (`marta/message_react.py:31–45`),
+escreve o `conftest.py` com esse caminho (`:242–256`) e devolve ao Dev o erro e
+o nome do módulo a importar (`:1153–1174`). `marta/testcase_react.py:563–590`
+prepara `PYTHONPATH` e executa pytest. Não foi encontrado nesse fluxo um catálogo
+manual de dependências ou um mecanismo equivalente a esta inferência Ruby.
+Importar um módulo Python inicializa os pacotes que o contêm; carregar diretamente
+um ficheiro Ruby interno pode deixar a entrada da biblioteca por inicializar.
+A inferência agora introduzida é uma melhoria da MARTA Ruby, não uma funcionalidade
+que a versão Python já tivesse e que simplesmente tivesse sido recuperada.
 
 Tarefas, fontes, avaliador, rondas, tentativas, modelo, thinking e limites
 permanecem iguais. Os sumários não recebem estas instruções de geração. A
 política atual fica no manifesto como
-`generation_loading_policy=gemspec-entry-before-focal-v2`, de modo a recusar
+`generation_loading_policy=gemspec-bundle-namespaces-v3`, de modo a recusar
 a retoma silenciosa de uma geração feita com os mapeamentos manuais.
 
 `environment/verify_loading.py` exercita as receitas nos 302 ficheiros usando
@@ -184,23 +222,22 @@ de uma sessão Capybara. É um diagnóstico fixo, sem LLM, sem métricas de benc
 Não garante que os testes gerados sejam corretos. Foi ainda corrigida a deteção
 de load paths para árvores `lib` só com ficheiros aninhados, como RSpec-core.
 
-A validação offline da política atual, sem os mapeamentos manuais, terminou
-com **294/302 ficheiros a carregar**. A regressão de construção de sessão
-Capybara continua a passar. As oito falhas são uma integração Selenium do
-Capybara, a integração Rails do dotenv e seis providers Hanami: os ficheiros
-esperam que `Selenium`, `Rails` ou `Dry::System` estejam carregados. Não demonstra
-que as dependências estejam em falta nem que o modelo não possa gerar os
-requires necessários. Demonstra que a heurística estrutural atual não basta
-para inicializar essas integrações. Não foram excluídas tarefas, acrescentadas
-exceções ou alterado o avaliador para fazer passar este diagnóstico. O relatório
-local é `~/.cache/marta-xrepotest/generic-loading-diagnostics.json` e regista
-`ready=false`; o resultado anterior de 302/302 não pode substituí-lo. A suite
-de regressão atual passou **295 testes, com 1 ignorado**.
+A política estrutural anterior, sem mapeamentos nem inferência de dependências,
+carregou **294/302 ficheiros**. As oito falhas eram namespaces de dependências
+não inicializados. Esse diagnóstico foi preservado em
+`~/.cache/marta-xrepotest/generic-loading-diagnostics.json` (`ready=false`).
 
-O bloqueio de inferência continua ativo. Os comandos de geração abaixo são
-referência para uma certificação futura aprovada; neste estado, o job GPU
-recusaria iniciar o modelo. A resolução genérica destas integrações e a
-adequação deste diagnóstico como requisito de geração continuam por resolver.
+A política atual, com a inferência geral, passou **302/302 ficheiros**, nos dez
+projetos, e a regressão de construção de sessão Capybara. O diagnóstico foi feito
+na imagem `marta-xrepotest:repaired-v2`, sem rede, instalações ou chamadas ao modelo.
+O relatório é `~/.cache/marta-xrepotest/bundle-loading-diagnostics.json`. Não foram
+excluídas tarefas nem alterados fontes ou avaliador. A suite de regressão passou
+**303 testes, com 1 ignorado**, incluindo namespaces ambíguos, declarações reais,
+strings/comentários, ciclos locais e exclusão de testes humanos da inspeção.
+
+O bloqueio de inferência continua ativo até repetir esta certificação no
+Deucalion com o código atual. Passar o diagnóstico confirma o carregamento
+nesse ambiente; não é um resultado de qualidade de testes da MARTA.
 
 O job GPU exige agora `reports/loading-diagnostics.json` aprovado, com os hashes
 de código de carregamento, fontes e ambiente correspondentes ao preflight,
@@ -219,7 +256,7 @@ antiga nem juntar as suas respostas aos novos resultados:
 
 ```bash
 cd /projects/F202407648IACDCF2/mario/MARTA
-export XREPO_RUN=qwen36_35b_thinking_generic_loading_v3
+export XREPO_RUN=qwen36_35b_thinking_bundle_loading_v4
 XROOT=/projects/F202407648IACDCF2/mario/xrepotest
 mkdir -p "$XROOT/runs/$XREPO_RUN/home"
 GOMAXPROCS=2 singularity exec --cleanenv \
@@ -427,7 +464,7 @@ acima, submeter a geração a partir do repositório no cluster:
 git pull --ff-only
 mkdir -p logs
 export MODEL=qwen3.6:35b XREPO_THINKING=on
-export XREPO_RUN=qwen36_35b_thinking_generic_loading_v3
+export XREPO_RUN=qwen36_35b_thinking_bundle_loading_v4
 export OLLAMA_CTX=32768 XREPO_MAX_TOKENS=16384
 export XREPO_TEMPERATURE=0.6 XREPO_TOP_P=0.95 XREPO_PRESENCE_PENALTY=0
 export XREPO_REQUEST_TIMEOUT=1800 XREPO_NO_GRAPH=0
@@ -446,7 +483,7 @@ durante a experiência: a retoma recusa outro hash de implementação.
 Só quando existir `generation/processed.jsonl` completo, submeter a avaliação:
 
 ```bash
-export XREPO_RUN=qwen36_35b_thinking_generic_loading_v3
+export XREPO_RUN=qwen36_35b_thinking_bundle_loading_v4
 sbatch --parsable --export=ALL deucalion/run_xrepotest_evaluate_cpu.sh
 ```
 

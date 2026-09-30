@@ -7,10 +7,10 @@ from pathlib import Path
 import json
 import re
 
-LOADING_POLICY = "gemspec-entry-before-focal-v2"
+LOADING_POLICY = "gemspec-bundle-namespaces-v3"
 
 
-def loading_plan(root, source_rel, focal_require):
+def loading_plan(root, source_rel, focal_require, dependency_index=None):
     root = Path(root).resolve()
     source = (root / source_rel).resolve()
     if not source.is_relative_to(root) or not source.is_file():
@@ -50,21 +50,33 @@ def loading_plan(root, source_rel, focal_require):
             break
         ancestor = ancestor.parent
     parents.reverse()
-    requires = list(dict.fromkeys(([entry] if entry else []) + parents + [focal_require]))
+    dependencies = {"resolved": [], "ambiguous": {}, "production_files": []}
+    if dependency_index and dependency_index["entries"]:
+        from .dependencies import source_references, resolve
+        dependencies = resolve(dependency_index,
+                               source_references(root, source, package, parents), root)
+    requires = list(dict.fromkeys([d["require"] for d in dependencies["resolved"]]
+                                 + ([entry] if entry else []) + parents + [focal_require]))
     return {"policy": LOADING_POLICY, "entry": entry, "focal": focal_require,
             "requires": requires, "entry_file": candidates.get(entry),
-            "package": str(package.relative_to(root)), "candidates": candidates}
+            "package": str(package.relative_to(root)), "candidates": candidates,
+            "dependencies": dependencies}
 
 
 def loading_context(plan):
     if not plan["entry"]:
         return ""
     code = "\n".join("require " + json.dumps(r) for r in plan["requires"])
+    evidence = "\n".join(
+        f"{d['gem']} {d['version']}: {e['reference']} is declared as {e['namespace']} "
+        f"in {e['definition_files'][0]}; entry file: {d['path']}."
+        for d in plan["dependencies"]["resolved"] for e in d["evidence"][:1])
     return (
         "PRODUCTION LOADING CONTEXT:\n"
         f"The owning gem has an entry file at {plan['entry_file']}. "
         "An internal source file may not initialize the library on its own.\n"
         "Begin the exported spec with these requires, in this order:\n"
         f"```ruby\n{code}\n```\n"
+        + ("Dependency evidence from the installed bundle's production files:\n" + evidence + "\n" if evidence else "") +
         "These requires must be in the spec itself; the executor does not preload them."
     )
