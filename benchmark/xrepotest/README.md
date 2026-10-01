@@ -552,6 +552,41 @@ esse ID não corresponde ao final da geração. O script CPU recusa export ausen
 
 ## Métricas e comparabilidade
 
+### Prévia para apresentação, sem esperar pela geração completa
+
+`deucalion/xrepotest_preview.py` mede um snapshot das suites finais de projetos
+cuja geração já terminou. Exige **todas** as tarefas oficiais desses projetos,
+incluindo `no_tests`, e recusa uma seleção com tarefas interrompidas. Usa o
+mesmo `RubyEvaluator` e `calculate_summary` do ambiente corrigido, mas grava os
+resultados em `runs/<experiência>/previews/<nome>/`, sem escrever em `generation/`
+ou em `evaluation/`. Não faz chamadas LLM e não altera o fingerprint da geração.
+O snapshot, os IDs, as respostas e o manifesto de origem ficam registados.
+
+O job `deucalion/run_xrepotest_preview_cpu.sh` usa CPU e, por omissão, avalia
+Capybara (155 tarefas) e Dotenv (11), **sem mutação**. Mede primeiro o projeto
+menor. Assim que um projeto fica inteiramente medido, grava
+`project_summaries/<projeto>.json`; no fim grava `report.json`, `summary.json`,
+`detailed_results.jsonl` e uma tabela `presentation.md`. Tem checkpoints por
+tarefa e continua por walltime; não modifica nem repete a geração GPU.
+
+```bash
+export XREPO_RUN=qwen36_35b_thinking_bundle_loading_v4
+export XREPO_PREVIEW=capybara_dotenv_20261001
+export XREPO_PREVIEW_PROJECTS=capybara,dotenv
+sbatch --parsable --export=ALL deucalion/run_xrepotest_preview_cpu.sh
+```
+
+Estes são **resultados preliminares de um subconjunto**, não resultados para
+as 675 tarefas Ruby. Não comparar diretamente com agregados do paper para
+o corpus inteiro. Uma comparação controlada exige os mesmos IDs e o mesmo
+avaliador para as abordagens comparadas. A prévia não mede mutação nem é uma
+ablação do grafo. Validação: testes locais de seleção, denominadores, checkpoints
+e wrapper, mais um diagnóstico fixo Hashie no container, sem LLM ou mutação.
+O diagnóstico conservou 28 posições (uma suite fixa e 27 sem testes), executou
+compilação/RSpec/cobertura oficiais e confirmou que a retoma não os repetiu.
+
+### Avaliação final
+
 Mantemos compilação, execução, invocação, cobertura focal e mutação do avaliador.
 Todos os 675 IDs têm de constar dos resultados, incluindo falhas. Uma tarefa
 interrompida não é uma tarefa concluída sem testes. O export recusa conjuntos
