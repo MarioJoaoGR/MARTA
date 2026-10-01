@@ -430,6 +430,25 @@ via Ollama 0.30.7. Geração e avaliação usam jobs distintos:
 - `deucalion/run_xrepotest_loading_cpu.sh`: certifica os 302 ficheiros focais
   para a política de carregamento da nova geração, sem consumir GPU.
 
+O template GPU pede **32 CPUs por GPU**, conforme o
+[guia oficial do Deucalion](https://docs.macc.fccn.pt/jobs/gpu/). O pedido anterior
+de oito CPUs foi corrigido em 1 de outubro de 2026. Não é especificado um valor
+manual de `--mem`; a alocação efetiva do Slurm fica guardada em
+`runs/<experiência>/metadata/slurm_<job>.txt`, antes de arrancar o Ollama.
+
+O job `1960971` terminou como `OUT_OF_MEMORY`, após 32 h 06 min, com 191 tarefas
+finalizadas (148 suites exportadas, 43 sem testes) e a tarefa 522 interrompida.
+O log também regista uma resposta LLM vazia sem `finish_reason=length`. O Slurm
+confirma falta de RAM no job, mas estes dados não identificam o processo morto
+nem provam que a alocação de CPUs tenha causado a falha. Antes de retomar,
+comparar `ReqMem`, `AllocTRES`, `MaxRSS` e o fim do log do Ollama. Não se aumentam
+tokens, tentativas ou rondas em resposta ao OOM.
+
+A correção de recursos e o registo Slurm não alteram o fingerprint de geração.
+A retoma usa a mesma experiência: conserva tarefas `complete`/`no_tests` e
+checkpoints compatíveis; arquiva a tentativa interrompida antes de a recomeçar.
+O custo das tentativas arquivadas continua incluído nos relatórios.
+
 Os scripts foram testados localmente com substitutos de Slurm/Singularity.
 O job 1956495 confirmou a inferência no cluster e o carregamento das 42 camadas
 do modelo na A100 de 40 GB; a geração completa e a avaliação continuam pendentes.

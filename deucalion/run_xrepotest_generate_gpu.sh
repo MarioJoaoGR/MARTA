@@ -5,7 +5,7 @@
 #SBATCH --nodes=1
 #SBATCH --gpus=1
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=8
+#SBATCH --cpus-per-task=32
 #SBATCH --time=47:30:00
 #SBATCH --output=logs/xrepo_generate_%j.out
 #SBATCH --signal=B:USR1@120
@@ -30,6 +30,9 @@ CONTINUATION="$CODE/deucalion/run_xrepotest_generate_gpu.sh"
 # A duplicate job exits before loading the GPU/model.
 exec 9>"$RUN/generation-job.lock"
 flock -n 9 || { echo "Generation already running for $XREPO_RUN"; exit 2; }
+# Retain the scheduler's effective CPU/RAM allocation, including site defaults.
+# A diagnostic failure must not prevent generation.
+scontrol show job "$SLURM_JOB_ID" > "$RUN/metadata/slurm_$SLURM_JOB_ID.txt" 2>&1 || true
 PORT=$((20000 + SLURM_JOB_ID % 20000))
 HOST="127.0.0.1:$PORT"
 ml OpenMPI/5.0.3-GCC-13.3.0 CUDA/11.8.0 NCCL/2.20.5-GCCcore-13.3.0-CUDA-12.4.0
