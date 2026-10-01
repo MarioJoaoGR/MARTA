@@ -6,7 +6,7 @@
 #SBATCH --gpus=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=32
-#SBATCH --time=47:30:00
+#SBATCH --time=08:00:00
 #SBATCH --output=logs/xrepo_generate_%j.out
 #SBATCH --signal=B:USR1@120
 set -euo pipefail
@@ -33,6 +33,13 @@ flock -n 9 || { echo "Generation already running for $XREPO_RUN"; exit 2; }
 # Retain the scheduler's effective CPU/RAM allocation, including site defaults.
 # A diagnostic failure must not prevent generation.
 scontrol show job "$SLURM_JOB_ID" > "$RUN/metadata/slurm_$SLURM_JOB_ID.txt" 2>&1 || true
+# Host-side diagnostics: no model calls, packages or shared-account cmdlines.
+python3 -B "$CODE/deucalion/monitor_memory.py" \
+    --job-id "$SLURM_JOB_ID" --root-pid "$$" \
+    --output "$RUN/metadata/memory_$SLURM_JOB_ID.jsonl" \
+    > "$RUN/logs/memory_$SLURM_JOB_ID.log" 2>&1 &
+MONITOR_PID=$!
+echo "Memory diagnostics: $RUN/metadata/memory_$SLURM_JOB_ID.jsonl"
 PORT=$((20000 + SLURM_JOB_ID % 20000))
 HOST="127.0.0.1:$PORT"
 ml OpenMPI/5.0.3-GCC-13.3.0 CUDA/11.8.0 NCCL/2.20.5-GCCcore-13.3.0-CUDA-12.4.0

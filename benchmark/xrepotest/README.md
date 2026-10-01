@@ -429,6 +429,8 @@ via Ollama 0.30.7. Geração e avaliação usam jobs distintos:
   metadados `/api/show` e versão do servidor, sem fazer inferência.
 - `deucalion/run_xrepotest_loading_cpu.sh`: certifica os 302 ficheiros focais
   para a política de carregamento da nova geração, sem consumir GPU.
+- `deucalion/monitor_memory.py`: regista RAM dos processos do job e dos seus
+  cgroups Linux, a cada 30 segundos, sem dependências nem chamadas ao modelo.
 
 O template GPU pede **32 CPUs por GPU**, conforme o
 [guia oficial do Deucalion](https://docs.macc.fccn.pt/jobs/gpu/). O pedido anterior
@@ -439,15 +441,41 @@ manual de `--mem`; a alocação efetiva do Slurm fica guardada em
 O job `1960971` terminou como `OUT_OF_MEMORY`, após 32 h 06 min, com 191 tarefas
 finalizadas (148 suites exportadas, 43 sem testes) e a tarefa 522 interrompida.
 O log também regista uma resposta LLM vazia sem `finish_reason=length`. O Slurm
-confirma falta de RAM no job, mas estes dados não identificam o processo morto
-nem provam que a alocação de CPUs tenha causado a falha. Antes de retomar,
-comparar `ReqMem`, `AllocTRES`, `MaxRSS` e o fim do log do Ollama. Não se aumentam
-tokens, tentativas ou rondas em resposta ao OOM.
+confirma falta de RAM no job. A consulta posterior mostrou **32 CPUs e 121 GB
+de RAM já atribuídos**, apesar do pedido anterior de oito CPUs. Portanto, a
+correção do pedido não aumenta a RAM disponível nesta execução. O `MaxRSS`
+do step foi 109,59 GB; é uma medição amostrada e não identifica o processo
+morto nem necessariamente o pico agregado que desencadeou o OOM. O cache
+de prompts do Ollama mostrava cerca de 8 GB, insuficiente para atribuir-lhe
+todo o consumo observado. A origem do OOM permanece por identificar.
 
-A correção de recursos e o registo Slurm não alteram o fingerprint de geração.
+Para a retoma, o template usa **jobs de 8 horas**, com a continuação por sinal
+de walltime já existente. Isto limita a duração dos processos e recolhe dados
+para diagnosticar crescimento de memória; não garante que um novo OOM seja
+evitado. Cada reinício tem algum custo de arranque e pode repetir a tarefa
+interrompida. Um OOM continua a parar a execução, sem resubmissão automática.
+Não se aumentam tokens, tentativas ou rondas em resposta ao OOM.
+
+Os registos ficam em `runs/<experiência>/metadata/memory_<job>.jsonl` e o stderr
+do monitor em `logs/memory_<job>.log`. Incluem PID, PPID, nome do processo,
+RSS, memória virtual e, quando expostos pelo sistema, uso/limite/pico e eventos
+OOM dos cgroups v1/v2 do job e do step. A soma de RSS conta páginas partilhadas
+em cada processo e **não é o consumo agregado do cgroup**. O monitor não lê
+argumentos nem variáveis de ambiente e não regista processos de outros jobs
+da conta partilhada. A recolha é amostrada; um pico entre amostras pode não
+aparecer nos RSS, embora os contadores de pico do cgroup possam registá-lo.
+
+As alterações de infraestrutura e os registos não alteram o fingerprint de geração.
 A retoma usa a mesma experiência: conserva tarefas `complete`/`no_tests` e
 checkpoints compatíveis; arquiva a tentativa interrompida antes de a recomeçar.
 O custo das tentativas arquivadas continua incluído nos relatórios.
+
+Validação da alteração de infraestrutura em 01-10: 14 testes passaram e um
+teste exclusivo Linux foi ignorado no macOS. A leitura real de `/proc`, escrita
+dos registos, saída por SIGTERM e saída quando o processo pai desaparece foram
+também verificadas num container Linux existente, sem rede nem instalações.
+Os testes de cgroups v1/v2 usam dados controlados; a disponibilidade desses
+contadores no Deucalion será confirmada pelo primeiro registo do novo job.
 
 Os scripts foram testados localmente com substitutos de Slurm/Singularity.
 O job 1956495 confirmou a inferência no cluster e o carregamento das 42 camadas

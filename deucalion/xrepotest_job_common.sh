@@ -22,9 +22,14 @@ CONTAINER=(singularity exec --cleanenv --home "$RUN/home:/home/marta"
 "${CONTAINER[@]}" "$IMAGE" python3 -B -m benchmark.xrepotest.cluster --root /data/xrepo
 STEP_PID=""
 OLLAMA_PID=""
+MONITOR_PID=""
 cleanup() {
     if [ -n "$STEP_PID" ]; then kill "$STEP_PID" 2>/dev/null || true; fi
     if [ -n "$OLLAMA_PID" ]; then kill "$OLLAMA_PID" 2>/dev/null || true; fi
+    if [ -n "$MONITOR_PID" ]; then
+        kill "$MONITOR_PID" 2>/dev/null || true
+        wait "$MONITOR_PID" 2>/dev/null || true
+    fi
 }
 trap cleanup EXIT
 trap 'exit 143' TERM INT
