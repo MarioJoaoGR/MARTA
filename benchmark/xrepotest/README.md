@@ -477,6 +477,18 @@ também verificadas num container Linux existente, sem rede nem instalações.
 Os testes de cgroups v1/v2 usam dados controlados; a disponibilidade desses
 contadores no Deucalion será confirmada pelo primeiro registo do novo job.
 
+O primeiro arranque do monitor no job 1963173 falhou porque o Python do nó
+é 3.6.8 e o script usava `from __future__ import annotations` (Python 3.7+).
+A falha foi do monitor adicionado por nós; a geração MARTA continuou a correr.
+Removemos essa importação e acrescentámos uma verificação da sintaxe 3.6 aos
+testes locais. O script usa apenas a biblioteca standard; não requer atualizar
+o Python do cluster. A validação passou 15 testes, com um teste Linux ignorado
+no macOS, e o script corrigido voltou a arrancar no container Linux existente.
+Essas verificações não substituem a execução no Python 3.6 real: confirmar com
+`python3 -B deucalion/monitor_memory.py --help` no cluster antes de o anexar ao
+job já em execução. Um passo `srun --jobid=<ID> --overlap --gres=none` permite
+iniciar essa recolha dentro da alocação existente, sem reiniciar a geração.
+
 Os scripts foram testados localmente com substitutos de Slurm/Singularity.
 O job 1956495 confirmou a inferência no cluster e o carregamento das 42 camadas
 do modelo na A100 de 40 GB; a geração completa e a avaliação continuam pendentes.

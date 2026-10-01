@@ -1,3 +1,4 @@
+import ast
 import json
 from pathlib import Path
 import signal
@@ -9,6 +10,14 @@ import pytest
 
 from deucalion import monitor_memory as monitor
 from benchmark.xrepotest.tests.test_cluster import fake_cluster
+
+
+def test_host_monitor_keeps_python36_syntax_and_no_future_annotations():
+    source = Path(monitor.__file__).read_text()
+    tree = ast.parse(source, feature_version=(3, 6))
+    assert not any(isinstance(node, ast.ImportFrom) and node.module == "__future__"
+                   and any(alias.name == "annotations" for alias in node.names)
+                   for node in ast.walk(tree))
 
 
 def process(proc, pid, ppid, *, group="", rss=12):

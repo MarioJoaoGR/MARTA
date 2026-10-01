@@ -4,8 +4,7 @@ Read only this Slurm job's cgroups/processes. Never record command lines or
 environment variables: the cluster account is shared. RSS sums double-count
 shared pages; cgroup usage is the authoritative aggregate when available.
 """
-from __future__ import annotations
-
+# Runs with the compute node's Python 3.6 as well as the container's newer Python.
 import argparse
 from datetime import datetime, timezone
 import json
