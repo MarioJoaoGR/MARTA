@@ -51,8 +51,8 @@ async def recover(generation, repos, dataset, project, method, work):
     if not tasks:
         raise ValueError("Project has no official tasks")
     inventory = source_inventory(source, tasks)
-    for field in ("source", "runtime"):
-        if inventory[field + "_digest"] != manifest[field + "_hashes"][project]:
+    for field, manifest_key in (("source", "input_hashes"), ("runtime", "runtime_hashes")):
+        if inventory[field + "_digest"] != manifest[manifest_key][project]:
             raise ValueError("Pinned project " + field + " differs from the experiment")
     with project_environment(source, project):
         proj = XRepoProject(root_dir=str(source), source_dir=".", output_root=str(work),

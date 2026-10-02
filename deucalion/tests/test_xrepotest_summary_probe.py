@@ -2,6 +2,7 @@ import asyncio
 import io
 import json
 from pathlib import Path
+import sys
 from types import SimpleNamespace
 
 import pytest
@@ -93,20 +94,45 @@ def test_interrupted_stream_retains_partial_thinking_without_success(tmp_path, m
     assert not (tmp_path / "result.json").exists()
 
 
-def test_recover_uses_original_readme_and_method_without_model_or_checkpoint_write(tmp_path,monkeypatch):
-    from benchmark.xrepotest import backend, runtime
+@pytest.mark.parametrize("changed", [None, "source", "runtime"])
+def test_recover_uses_generation_writer_manifest_without_checkpoint_write(tmp_path,monkeypatch,changed):
+    from benchmark.xrepotest import backend, protocol, run, runtime
     from marta.ruby_backend import readme
     generation=tmp_path / "generation"
     calls=generation / "analysis/repo/calls"
-    calls.mkdir(parents=True)
     source=tmp_path / "repos/repo"
     (source / "lib").mkdir(parents=True)
     focal=source / "lib/a.rb"
     focal.write_text("def foo; end")
     (source / "README.md").write_text("Original README")
-    original={**capture()["original_manifest"],"marta_code":"code","thinking":"on","no_graph":False,
-              "source_hashes":{"repo":"source"},"runtime_hashes":{"repo":"runtime"}}
-    (generation / "experiment.json").write_text(json.dumps(original))
+    # Use the actual generation entry point to write the manifest. Mock only
+    # external inputs/model work, never the manifest's field names or schema.
+    tasks = [{"file_path":"repo/lib/a.rb"}]
+    inventory = {"source_digest":"source","runtime_digest":"runtime",
+                 "code_files":["lib/a.rb"],"load_paths":["lib"]}
+    ready = tmp_path / "preflight.json"
+    ready.write_text(json.dumps({"ready":True,"runtime_checked":True,"environment":None,
+        "dataset_sha256":protocol.DATA_SHA256,"image":protocol.IMAGE,"projects":{"repo":inventory}}))
+    monkeypatch.setattr(runtime,"environment_manifest",lambda:None)
+    monkeypatch.setattr(run,"load_tasks",lambda _:tasks)
+    monkeypatch.setattr(run,"source_inventory",lambda *a:inventory)
+    monkeypatch.setattr(run,"code_fingerprint",lambda:"code")
+    async def no_model(*args): pass
+    monkeypatch.setattr(run,"pipeline",no_model)
+    monkeypatch.setenv("OLLAMA_CTX","32768")
+    monkeypatch.setenv("MODEL","qwen3.6:35b")
+    monkeypatch.setenv("LLM_MAX_TOKENS","16384")
+    monkeypatch.setattr(sys,"argv",["run","--dataset","unused","--repos",str(tmp_path / "repos"),
+        "--output",str(generation),"--work",str(tmp_path / "writer-work"),"--preflight",str(ready),
+        "--model","qwen3.6:35b","--model-digest","original-model","--thinking","on",
+        "--max-tokens","16384","--temperature","0.6","--top-p","0.95",
+        "--presence-penalty","0","--request-timeout","1800"])
+    run.main()
+    original = json.loads((generation / "experiment.json").read_text())
+    assert original["input_hashes"] == {"repo":"source"}
+    assert original["runtime_hashes"] == {"repo":"runtime"}
+    assert "source_hashes" not in original
+    calls.mkdir(parents=True)
     failures=[{"tipo":"llm","fase":"what_todo_raiz","metodo":"A#foo","finish_reason":"length",
                "completion_tokens":16384,"caracteres_resposta":0,"prompt_tokens":374}]*3
     (calls.parent / "events.jsonl").write_text("".join(json.dumps(e)+"\n" for e in failures))
@@ -115,10 +141,12 @@ def test_recover_uses_original_readme_and_method_without_model_or_checkpoint_wri
             json.dumps({"response":"Cached original overview"}))
     asyncio.run(readme.analyze_readme(save_overview,"Original README"))
     monkeypatch.setattr(probe,"code_fingerprint",lambda:"code")
-    monkeypatch.setattr(probe,"load_tasks",lambda _: [{"file_path":"repo/lib/a.rb"}])
+    monkeypatch.setattr(probe,"load_tasks",lambda _:tasks)
     monkeypatch.setattr(probe,"selectors",lambda _: [])
-    monkeypatch.setattr(probe,"source_inventory",lambda *a:{"source_digest":"source","runtime_digest":"runtime",
-                        "code_files":["lib/a.rb"],"load_paths":["lib"]})
+    recovered_inventory = dict(inventory)
+    if changed:
+        recovered_inventory[changed + "_digest"] = "different"
+    monkeypatch.setattr(probe,"source_inventory",lambda *a:recovered_inventory)
     target=SimpleNamespace(method=SimpleNamespace(qualified_name="A#foo"),file_path=str(focal),
                            context_source="EXACT METHOD CONTEXT",analysis_id="identity")
     class Project:
@@ -127,6 +155,11 @@ def test_recover_uses_original_readme_and_method_without_model_or_checkpoint_wri
     monkeypatch.setattr(backend,"XRepoProject",Project)
     monkeypatch.setattr(runtime,"project_environment",lambda *a:__import__('contextlib').nullcontext())
     before={str(p):p.read_bytes() for p in generation.rglob('*') if p.is_file()}
+    if changed:
+        with pytest.raises(ValueError,match="Pinned project " + changed):
+            asyncio.run(probe.recover(generation,tmp_path/'repos',Path('unused'),'repo','A#foo',tmp_path/'work'))
+        assert before == {str(p):p.read_bytes() for p in generation.rglob('*') if p.is_file()}
+        return
     result=asyncio.run(probe.recover(generation,tmp_path/'repos',Path('unused'),'repo','A#foo',tmp_path/'work'))
     assert "Cached original overview" in result["messages"][1]["content"]
     assert "EXACT METHOD CONTEXT" in result["messages"][1]["content"]

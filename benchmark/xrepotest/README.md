@@ -609,10 +609,18 @@ O resultado não entra nas métricas nem nas caches da experiência. Não há
 repetição automática nem continuação por walltime. Limite do job: 20 minutos,
 uma GPU. Código do diagnóstico fica fora do fingerprint da geração.
 
-Validação local: 26 testes passaram (diagnóstico, preview e controlos do
+O primeiro arranque do diagnóstico no cluster falhou antes de iniciar o modelo:
+o diagnóstico lia `source_hashes`, mas o executor grava as fontes em
+`input_hashes` (e as dependências em `runtime_hashes`). A leitura foi corrigida;
+o manifesto da experiência não foi alterado. O teste de recuperação passou a
+usar um manifesto gravado pelo próprio `benchmark.xrepotest.run.main`, em vez
+de construir manualmente os nomes dos campos.
+
+Validação local: 28 testes passaram (diagnóstico, preview e controlos do
 cluster), além da verificação de sintaxe do wrapper. No Docker, sem rede,
-o Hashie e o Prism reais reconstruíram o pedido com um checkpoint de README
-de teste; os ficheiros originais desse ensaio permaneceram byte a byte iguais.
+o executor real gravou o manifesto e o Hashie e o Prism reais reconstruíram
+o pedido com um checkpoint de README de teste; os ficheiros originais desse
+ensaio permaneceram byte a byte iguais.
 Esse ensaio não chamou o modelo e não substitui o diagnóstico GPU com a cache
 real da experiência. O fingerprint da geração continua inalterado.
 
