@@ -585,6 +585,46 @@ e wrapper, mais um diagnóstico fixo Hashie no container, sem LLM ou mutação.
 O diagnóstico conservou 28 posições (uma suite fixa e 27 sem testes), executou
 compilação/RSpec/cobertura oficiais e confirmou que a retoma não os repetiu.
 
+### Diagnóstico isolado de thinking sem resposta final
+
+Em 2 de outubro, a execução parou com 344 tarefas concluídas ao resumir
+`Hashie::Hash#to_mash`, na fase `what_todo_raiz`. Cada uma das três tentativas
+recebeu 374 tokens de entrada, gerou exatamente 16 384 tokens e terminou com
+`finish_reason=length`, sem conteúdo final. Os registos antigos não contêm o
+texto do thinking; por isso não distinguem raciocínio longo de repetição.
+
+`deucalion/xrepotest_summary_probe.py` reconstrói esse pedido usando o código
+de produção certificado e o overview original do README em cache. Recusa
+fontes, código ou modelo diferentes; não faz novas chamadas para reconstruir
+o contexto. O job `run_xrepotest_summary_probe_gpu.sh` faz **uma só chamada**,
+com o mesmo modelo, prompts, thinking e amostragem. O diagnóstico aumenta o
+contexto para 65 536 e a saída para 32 768 tokens e usa streaming para preservar
+o thinking e a resposta, mesmo se for interrompido. Caracteres são medidos
+separadamente; não se inventa uma divisão de tokens que o servidor não reporte.
+
+O original `generation/` fica montado em modo de leitura. O diagnóstico grava
+`request.json`, `model.json`, `stream.jsonl`, `thinking.txt`, `answer.txt` e
+`result.json` em `runs/<experiência>/diagnostics/summary_budget_<job>/`.
+O resultado não entra nas métricas nem nas caches da experiência. Não há
+repetição automática nem continuação por walltime. Limite do job: 20 minutos,
+uma GPU. Código do diagnóstico fica fora do fingerprint da geração.
+
+Validação local: 26 testes passaram (diagnóstico, preview e controlos do
+cluster), além da verificação de sintaxe do wrapper. No Docker, sem rede,
+o Hashie e o Prism reais reconstruíram o pedido com um checkpoint de README
+de teste; os ficheiros originais desse ensaio permaneceram byte a byte iguais.
+Esse ensaio não chamou o modelo e não substitui o diagnóstico GPU com a cache
+real da experiência. O fingerprint da geração continua inalterado.
+
+```bash
+export XREPO_RUN=qwen36_35b_thinking_bundle_loading_v4
+sbatch --parsable --export=ALL deucalion/run_xrepotest_summary_probe_gpu.sh
+```
+
+Uma mudança posterior dos limites da execução completa exige uma configuração
+auditada; este diagnóstico não altera o manifesto nem decide essa mudança.
+Não repetir tarefas concluídas ou selecionar respostas para melhorar métricas.
+
 ### Avaliação final
 
 Mantemos compilação, execução, invocação, cobertura focal e mutação do avaliador.
