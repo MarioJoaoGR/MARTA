@@ -942,14 +942,23 @@ class RubyProject:
         ask: Optional[AskFn] = None,
         max_attempts: int = 3,
         limit: Optional[int] = None,
+        reuse_first_round: bool = False,
     ) -> List[GenOutcome]:
         """Coverage-guided multi-round generation — the Fase 2 loop.
 
         Round 0 generates for every target; after each round coverage is
         measured over all accumulated specs, and later rounds regenerate only
         methods with missing lines, feeding those lines back to the Planner.
-        Returns the flat list of per-round outcomes.
+        Returns newly generated outcomes. Explicit first-round reuse is only
+        for a certified paired coverage ablation, including a no-spec seed;
+        the adapter retains inherited outcomes/cost separately.
         """
+        if reuse_first_round and (not self.ablation_options.no_coverage_feedback
+                                 or len(self.targets) != 1
+                                 or self.ablation_options.no_repair
+                                 or self.ablation_options.no_type_hints
+                                 or self.ablation_options.no_method_retrieval):
+            raise ValueError("First-round reuse requires one coverage-ablation target")
         targets = list(enumerate(self.targets))
         if limit:
             targets = targets[:limit]
@@ -962,6 +971,10 @@ class RubyProject:
             recorder.start_count_time(f"round_{rnd}")
             recorder.define_contexto(ronda=rnd)
             for idx, t in targets:
+                # The XRepo adapter has certified this completed normal round,
+                # including a failed round with no spec. Do not retry either.
+                if reuse_first_round and rnd == 0:
+                    continue
                 mc = cov.get(idx)
                 if (not self.ablation_options.no_coverage_feedback
                         and rnd > 0 and mc is not None and mc.fully_covered):

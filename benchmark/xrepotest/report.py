@@ -11,12 +11,19 @@ def summarize(root):
     malformed = 0
     subprocesses = defaultdict(lambda: {"calls": 0, "seconds": 0.0})
     failures = []
+    inherited_rounds = {}
     for path in sorted(root.glob("**/events.jsonl")):
         for line in path.read_text().splitlines():
             try:
                 event = json.loads(line)
             except json.JSONDecodeError:
                 malformed += 1
+                continue
+            if event.get("tipo") == "generation_round_reused":
+                # Interrupted ablation attempts may inherit the same seed again.
+                # Charge that common round once; count all new physical calls.
+                inherited_rounds[event["reuse_id"]] = {
+                    k: event[k] for k in ("source", "task_id", "round", "no_spec", "usage")}
                 continue
             row = phases[event.get("fase", "unlabelled")]
             if event.get("tipo") in {"ruby -c", "rspec", "cobertura"}:
@@ -53,12 +60,15 @@ def summarize(root):
     historical_note = json.loads(audit.read_text()).get("telemetry_note") if audit.exists() else None
     reuse_path = root / "analysis_reuse.json"
     reused = json.loads(reuse_path.read_text()) if reuse_path.exists() else None
-    return {"tasks": dict(states), "llm_by_phase": dict(phases), "ruby_subprocesses": dict(subprocesses),
+    result = {"tasks": dict(states), "llm_by_phase": dict(phases), "ruby_subprocesses": dict(subprocesses),
             "historical_telemetry_note": historical_note,
             "inherited_analysis": ({"source": reused["source"], "checkpoint_count": reused["checkpoint_count"],
                                     "usage": reused["source_analysis_usage"], "note": reused["note"]} if reused else None),
             "infrastructure_failures": failures, "unreadable_event_lines": malformed,
             "note": "LLM seconds exclude Ruby/embedding/idle time; GPU billing must come from Slurm."}
+    if inherited_rounds:
+        result["inherited_first_rounds"] = list(inherited_rounds.values())
+    return result
 
 
 def main():

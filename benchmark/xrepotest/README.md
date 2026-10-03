@@ -853,3 +853,10 @@ As opções, a seleção futura do subset e as regras de reutilização estão e
 [ABLATIONS.md](ABLATIONS.md). Todas as opções novas estão desligadas por omissão.
 Estas alterações são preparadas numa cópia separada; não atualizar o código
 da execução normal congelada enquanto ainda precisar de retomas.
+
+A ablação que retira apenas o feedback de cobertura pode também partilhar a
+primeira ronda normal já concluída, usando `XREPO_REUSE_FIRST_ROUND_FROM` igual
+à referência de análise. Preservam-se tanto os testes aprovados dessa ronda
+como uma eventual ausência de testes; só as rondas posteriores são novas.
+Os requisitos de compatibilidade, a comparação emparelhada e o consumo herdado
+estão descritos em [ABLATIONS.md](ABLATIONS.md#primeira-ronda-partilhada-no-braço-sem-feedback-de-cobertura).

@@ -54,3 +54,30 @@ def test_cluster_rejects_invalid_ablation_switches(fake_cluster, value):
     assert result.returncode != 0
     calls = [json.loads(line) for line in (tmp/"calls.jsonl").read_text().splitlines()]
     assert not any("benchmark.xrepotest.run" in call for call in calls)
+
+
+def test_cluster_explicitly_forwards_paired_first_round_only_for_coverage(fake_cluster):
+    root, tmp, env = fake_cluster
+    env.update(XREPO_NO_COVERAGE_FEEDBACK='1',
+               XREPO_REUSE_ANALYSIS_FROM='/data/xrepo/runs/reference/generation',
+               XREPO_REUSE_FIRST_ROUND_FROM='/data/xrepo/runs/reference/generation')
+    result = subprocess.run(['bash', str(root/'deucalion/run_xrepotest_generate_gpu.sh')],
+                            env=env, capture_output=True, text=True, timeout=20)
+    assert result.returncode==0, result.stderr
+    calls=[json.loads(line) for line in (tmp/'calls.jsonl').read_text().splitlines()]
+    invocation=next(c for c in calls if 'benchmark.xrepotest.run' in c)
+    assert invocation[invocation.index('--reuse-first-round-from')+1]==env['XREPO_REUSE_FIRST_ROUND_FROM']
+
+
+@pytest.mark.parametrize('change', [{'XREPO_NO_REPAIR':'1'}, {'XREPO_NO_TYPE_HINTS':'1'},
+                                   {'XREPO_NO_COVERAGE_FEEDBACK':'0'},
+                                   {'XREPO_REUSE_FIRST_ROUND_FROM':'/data/xrepo/runs/other/generation'}])
+def test_cluster_refuses_invalid_first_round_pairing(fake_cluster, change):
+    root, tmp, env = fake_cluster
+    env.update(XREPO_NO_COVERAGE_FEEDBACK='1',
+               XREPO_REUSE_ANALYSIS_FROM='/data/xrepo/runs/reference/generation',
+               XREPO_REUSE_FIRST_ROUND_FROM='/data/xrepo/runs/reference/generation')
+    env.update(change)
+    result=subprocess.run(['bash', str(root/'deucalion/run_xrepotest_generate_gpu.sh')],
+                          env=env, capture_output=True, text=True, timeout=20)
+    assert result.returncode!=0

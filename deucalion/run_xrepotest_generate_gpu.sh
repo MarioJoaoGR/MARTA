@@ -41,7 +41,14 @@ if [[ -n "${XREPO_REUSE_ANALYSIS_FROM:-}" ]]; then
     [[ "$XREPO_REUSE_ANALYSIS_FROM" == /data/xrepo/runs/* ]] || exit 2
     EXTRA+=(--reuse-analysis-from "$XREPO_REUSE_ANALYSIS_FROM")
 fi
-export XREPO_ROUNDS XREPO_ATTEMPTS XREPO_TASK_IDS XREPO_REUSE_ANALYSIS_FROM
+if [[ -n "${XREPO_REUSE_FIRST_ROUND_FROM:-}" ]]; then
+    [[ "$XREPO_REUSE_FIRST_ROUND_FROM" == "${XREPO_REUSE_ANALYSIS_FROM:-}" ]] || exit 2
+    [[ "${XREPO_NO_COVERAGE_FEEDBACK:-0}" == 1 && "$XREPO_NO_GRAPH" == 0 &&
+       "${XREPO_NO_TYPE_HINTS:-0}" == 0 && "${XREPO_NO_METHOD_RETRIEVAL:-0}" == 0 &&
+       "${XREPO_NO_REPAIR:-0}" == 0 ]] || exit 2
+    EXTRA+=(--reuse-first-round-from "$XREPO_REUSE_FIRST_ROUND_FROM")
+fi
+export XREPO_ROUNDS XREPO_ATTEMPTS XREPO_TASK_IDS XREPO_REUSE_ANALYSIS_FROM XREPO_REUSE_FIRST_ROUND_FROM
 if [ "$XREPO_NO_GRAPH" == 1 ]; then EXTRA+=(--no-graph); fi
 "${CONTAINER[@]}" "$IMAGE" python3 -B -m benchmark.xrepotest.cluster \
     --root /data/xrepo --require-loading

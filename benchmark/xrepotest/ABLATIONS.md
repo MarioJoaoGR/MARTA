@@ -109,7 +109,7 @@ grafo. Apenas textos novos recebem novos embeddings. A extração do ChromaDB
 ocorre numa cópia temporária, nunca sobre o original. As consultas novas de
 embeddings ficam em cache no braço para as retomas seguintes.
 
-Não se copiam testes nem estados de tarefas entre braços. Os diretórios da
+A partilha de análise não copia testes nem estados de tarefas entre braços. A exceção opcional da primeira ronda está descrita abaixo. Os diretórios da
 referência são apenas lidos. `reference_artifacts.json`, por projeto, regista os
 hashes dos ficheiros partilhados e a disponibilidade de vetores. O custo herdado
 continua separado das novas chamadas.
@@ -128,6 +128,35 @@ nem ao número efetivamente reutilizado. Os eventos `llm_cache_hit` com
 `source=analysis_reference` identificam as leituras efetivas. Comparar custo marginal e custo completo exige
 explicitar esta partilha, sem apresentar contexto previamente calculado como grátis.
 
+## Primeira ronda partilhada no braço sem feedback de cobertura
+
+`--reuse-first-round-from` (job: `XREPO_REUSE_FIRST_ROUND_FROM`) permite usar a
+primeira ronda normal já concluída como ponto inicial comum. Deve apontar para
+a mesma pasta `generation` de `--reuse-analysis-from`. Só é permitido no braço
+que retira **apenas** o feedback de cobertura: grafo, tipos, recuperação de métodos,
+reparação, modelo, parâmetros e ambiente têm de coincidir. O limite de tentativas
+Dev também tem de ser igual ao da referência.
+
+Os ficheiros terminados em `_r0_spec.rb` e os eventos com `ronda: 0` distinguem
+a primeira ronda. Só se copia esse ficheiro, incluindo o eventual salvamento
+normal; não se copiam as rondas posteriores, `final_spec.rb` ou estados de conclusão.
+Se essa ronda falhou e não deixou testes, mantém-se exatamente essa ausência.
+Exigem-se uma tarefa normal concluída, o temporizador `round_0`, chamadas
+Planner/Dev do método correto e o evento de medição que terminou a ronda. Se
+faltarem essas provas, a execução para em vez de repetir a ronda silenciosamente.
+
+As restantes rondas são novas gerações sem linhas em falta nem decisões de
+saltar métodos totalmente cobertos. A cobertura continua medida. A referência
+não é escrita; cada tarefa regista `first_round_reuse.json` com hashes e consumo
+herdado. O relatório apresenta `inherited_first_rounds` separado das chamadas
+novas e conta uma ronda herdada apenas uma vez, mesmo após interrupções.
+
+Esta é uma comparação emparelhada: ambos os braços partem dos mesmos testes da
+primeira ronda, e o estudo isola o efeito do feedback nas rondas seguintes.
+O paper deve declarar esta partilha. O custo completo inclui a ronda comum;
+a poupança de execução é um custo marginal, não um custo zero dessa ronda.
+A opção está desligada por omissão e não se aplica aos outros braços.
+
 ## Onde está implementado
 
 - `marta/ruby_backend/ablation.py`: opções com valores por omissão e limite de tentativas.
@@ -135,6 +164,7 @@ explicitar esta partilha, sem apresentar contexto previamente calculado como gr�
 - `marta/ruby_backend/start_react.py`: flags da ferramenta normal; novas ablações exigem `--output_dir` separado e têm sufixos próprios.
 - `benchmark/xrepotest/ablation.py`: seleção de IDs e compatibilidade da referência.
 - `benchmark/xrepotest/run.py`: aplicação das opções, checkpoints e registo de consumo herdado.
+- `benchmark/xrepotest/round_reuse.py`: certificação e partilha da primeira ronda para a ablação de cobertura.
 - `benchmark/xrepotest/reuse.py`: bundles e vetores compatíveis, sem copiar respostas de geração.
 - `benchmark/xrepotest/evaluate.py`: avaliação do mesmo conjunto de IDs.
 - `deucalion/run_xrepotest_generate_gpu.sh` e `run_xrepotest_evaluate_cpu.sh`: passagem das opções aos executores.
@@ -154,7 +184,10 @@ execução existente continuam intactas.
 Verificação: **383 testes passaram e 2 foram ignorados** nas suites Ruby,
 XRepoTest e Deucalion, em container temporário. Após acrescentar a partilha do
 grafo estático, passaram também **109 testes focados** de reutilização e
-integração. Nenhum pacote foi instalado no computador.
+integração. Com a partilha da primeira ronda, passaram **415 testes e 2 foram
+ignorados** nas suites gerais, seguidos de **50 testes focados**, incluindo
+exportação e retoma com uma ronda inicial aprovada ou sem testes. Nenhum pacote
+foi instalado no computador.
 
 A verificação offline usa respostas LLM fixas, Ruby/RSpec reais onde relevante,
 Slurm simulado e índices vetoriais de teste. Inclui comparação literal dos

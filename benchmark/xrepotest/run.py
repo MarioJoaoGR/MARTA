@@ -15,7 +15,7 @@ import shutil
 import time
 
 from marta.ruby_backend.ablation import POLICY, add_arguments, from_args
-from .ablation import select_tasks, verify_analysis_reference
+from .ablation import select_tasks, verify_analysis_reference, verify_first_round_reference
 
 from .protocol import (DATA_SHA256, IMAGE, UPSTREAM_COMMIT, atomic_json, code_fingerprint, digest,
                        export_responses, locked_run, load_tasks, selectors, source_inventory)
@@ -255,8 +255,15 @@ async def pipeline(args, tasks, inventories):
 
             generate_ask = GenerationRequests(model, proj.recorder)
             try:
+                reuse_round = getattr(args, "reuse_first_round_from", None)
+                if reuse_round:
+                    from .round_reuse import prepare_first_round
+                    prepare_first_round(reuse_round, out, target, name, proj.recorder,
+                                        expected_manifest=args.first_round_manifest)
                 with project_environment(work, name):
-                    await proj.generate_rounds(rounds=args.rounds, max_attempts=args.attempts, ask=generate_ask)
+                    reuse_kw = {"reuse_first_round": True} if reuse_round else {}
+                    await proj.generate_rounds(rounds=args.rounds, max_attempts=args.attempts,
+                                               ask=generate_ask, **reuse_kw)
                 specs = [Path(p) for p in proj._all_spec_paths()]
                 specs = [p if p.is_absolute() else work / p for p in specs]
                 code = joined_specs(specs)
@@ -297,6 +304,8 @@ def main():
     p.add_argument("--export-only", action="store_true")
     p.add_argument("--validate-only", action="store_true", help="Check inputs without invoking the model or creating a run")
     p.add_argument("--reuse-analysis-from", type=Path, help="Read exact summary checkpoints from a compatible normal run; reuse only compatible analysis artifacts")
+    p.add_argument("--reuse-first-round-from", type=Path,
+                   help="Share completed normal round zero only with pure no-coverage-feedback")
     args = p.parse_args()
     args.output, args.work, args.repos = (p.resolve() for p in (args.output, args.work, args.repos))
     if args.rounds < 1 or args.attempts < 1 or args.max_tokens < 1 or args.request_timeout <= 0:
@@ -358,6 +367,15 @@ def main():
             p.error("Reference and ablation results must be separate directory trees")
         try:
             config["analysis_reference"] = verify_analysis_reference(args.reuse_analysis_from, config)
+        except (ValueError, OSError) as exc:
+            p.error(str(exc))
+    if args.reuse_first_round_from:
+        args.reuse_first_round_from = args.reuse_first_round_from.resolve()
+        if args.reuse_first_round_from != args.reuse_analysis_from:
+            p.error("First-round reference must also be the analysis reference")
+        try:
+            config["first_round_reference"] = verify_first_round_reference(args.reuse_first_round_from, config)
+            args.first_round_manifest = config["first_round_reference"]["manifest_digest"]
         except (ValueError, OSError) as exc:
             p.error(str(exc))
     if args.validate_only:

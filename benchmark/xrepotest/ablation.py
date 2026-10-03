@@ -5,7 +5,8 @@ from pathlib import Path
 from .protocol import SCHEMA, digest
 
 # The existing v4 run. This compatibility exception allows only exact-prompt
-# analysis reuse after compatibility checks; no tests or task states are copied.
+# analysis reuse after compatibility checks. Paired round-zero reuse has a
+# separate, stricter guard; no completed task states are copied.
 FROZEN_NORMAL_CODE = "5f731f30e02f62264900a96b2c7efc5f33d4dfff08cbc33c41dab25eb0720d85"
 
 
@@ -33,7 +34,7 @@ def verify_analysis_reference(path, config):
     if previous.get("marta_code") not in {config["marta_code"], FROZEN_NORMAL_CODE}:
         raise ValueError("Analysis reference uses an unverified MARTA code version")
     independent = {"marta_code", "no_graph", "rounds", "attempts", "effective_attempts",
-                   "ablations", "task_selection", "analysis_reference", "input_hashes", "runtime_hashes"}
+                   "ablations", "task_selection", "analysis_reference", "input_hashes", "runtime_hashes", "first_round_reference"}
     for key, value in config.items():
         if key not in independent and previous.get(key) != value:
             raise ValueError(f"Analysis reference differs in {key}")
@@ -44,3 +45,17 @@ def verify_analysis_reference(path, config):
     return {"source": str(reference), "manifest_digest": digest(previous),
             "source_code": previous["marta_code"],
             "scope": "exact-local-prompts-and-vectors" if config["no_graph"] else "compatible-production-analysis"}
+
+
+def verify_first_round_reference(path, config):
+    """Round zero is shared only for a pure coverage-feedback removal."""
+    provenance = verify_analysis_reference(path, config)
+    options = config.get("ablations", {})
+    if (config.get("no_graph") or not options.get("no_coverage_feedback")
+            or any(options.get(k) for k in
+                   ("no_type_hints", "no_method_retrieval", "no_repair"))):
+        raise ValueError("First-round reuse requires only no-coverage-feedback")
+    previous = json.loads((Path(path) / "experiment.json").read_text())
+    if config["attempts"] != previous["attempts"]:
+        raise ValueError("First-round reuse requires the same repair attempt budget")
+    return {**provenance, "scope": "paired-first-round-v1"}

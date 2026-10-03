@@ -150,3 +150,45 @@ def test_default_prompts_calls_specs_and_results_match_the_frozen_project(tmp_pa
     assert [(o.success, o.attempts, o.salvaged, o.results) for o in before[2]] == [
         (o.success, o.attempts, o.salvaged, o.results) for o in after[2]]
     assert before[3:] == after[3:]
+
+
+@pytest.mark.parametrize('has_spec', [True, False])
+def test_shared_first_round_only_generates_later_rounds_even_after_a_failed_seed(tmp_path, has_spec):
+    root = _make_project(tmp_path)
+    obj = project.RubyProject(str(root), 'src',
+        ablation_options=AblationOptions(no_coverage_feedback=True)).discover()
+    target = obj.targets[0]
+    spec = Path(target.spec_path_for_round(0))
+    if not spec.is_absolute(): spec = root/spec
+    if has_spec:
+        spec.parent.mkdir(parents=True, exist_ok=True)
+        spec.write_text(GOOD_SPEC)
+    before = spec.read_bytes() if has_spec else None
+    calls = []
+    queue = [PLAN_RESPONSE, GOOD_SPEC]*2
+    async def ask(system, user):
+        calls.append(obj._recorder()._contexto['ronda'])
+        return queue.pop(0)
+    obj.measure_coverage = Mock(return_value={0:SimpleNamespace(fully_covered=True, covered_lines=[2])})
+    outcomes = asyncio.run(obj.generate_rounds(3, ask=ask, reuse_first_round=True))
+    assert calls == [1,1,2,2] and len(outcomes)==2
+    assert obj.measure_coverage.call_count==3
+    assert (spec.read_bytes() if has_spec else None)==before
+    if not has_spec: assert not spec.exists()
+
+
+def test_default_tool_refuses_unscoped_round_reuse(tmp_path):
+    obj = project.RubyProject(str(_make_project(tmp_path)), 'src').discover()
+    with pytest.raises(ValueError, match='coverage-ablation'):
+        asyncio.run(obj.generate_rounds(reuse_first_round=True))
+
+
+def test_normal_and_coverage_ablation_have_identical_first_round_prompts(tmp_path):
+    import shutil
+    before = _run_project(tmp_path, responses=[PLAN_RESPONSE, GOOD_SPEC]*3, fully_covered=False)
+    shutil.rmtree(tmp_path/'marta_specs')
+    after = _run_project(tmp_path, options=AblationOptions(no_coverage_feedback=True),
+                         responses=[PLAN_RESPONSE, GOOD_SPEC]*3, fully_covered=False)
+    assert before[1][:2] == after[1][:2]
+    assert before[4][next(name for name in before[4] if '_r0_' in name)] == after[4][
+        next(name for name in after[4] if '_r0_' in name)]
