@@ -5,7 +5,7 @@ from pathlib import Path
 from .protocol import SCHEMA, digest
 
 # The existing v4 run. This compatibility exception allows only exact-prompt
-# checkpoint reads; no tests, task states, vectors or analysis bundles are copied.
+# analysis reuse after compatibility checks; no tests or task states are copied.
 FROZEN_NORMAL_CODE = "5f731f30e02f62264900a96b2c7efc5f33d4dfff08cbc33c41dab25eb0720d85"
 
 
@@ -43,4 +43,4 @@ def verify_analysis_reference(path, config):
                 raise ValueError(f"Analysis reference differs in {project} {key}")
     return {"source": str(reference), "manifest_digest": digest(previous),
             "source_code": previous["marta_code"],
-            "scope": "pass-one-only" if config["no_graph"] else "exact-summary-prompts"}
+            "scope": "exact-local-prompts-and-vectors" if config["no_graph"] else "compatible-production-analysis"}

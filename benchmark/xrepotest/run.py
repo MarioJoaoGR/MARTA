@@ -129,12 +129,20 @@ class SummaryCheckpoints(GenerationRequests):
         path = self.root / (key + ".json")
         if (not path.exists() and self.shared_root is not None
                 and (self.share_all_phases or self.recorder.fase_atual == "sumarios_passagem1")):
-            shared = self.shared_root / (key + ".json")
-            if shared.exists():
-                self.client.last_call = {"cache_hit": True}
-                self.recorder.evento(tipo="llm_cache_hit", fase=self.recorder.fase_atual,
-                                     source="analysis_reference", checkpoint=key)
-                return json.loads(shared.read_text())["response"]
+            phases = [self.recorder.fase_atual]
+            # Both labels execute the same local README function. The label is
+            # telemetry, not part of the request actually sent to the model.
+            if self.share_all_phases and phases[0] in {"what_todo_raiz", "what_todo_fallback"}:
+                phases.append("what_todo_fallback" if phases[0] == "what_todo_raiz" else "what_todo_raiz")
+            for phase in phases:
+                shared_key = digest([phase, system, user])
+                shared = self.shared_root / (shared_key + ".json")
+                if shared.exists():
+                    self.client.last_call = {"cache_hit": True}
+                    self.recorder.evento(tipo="llm_cache_hit", fase=self.recorder.fase_atual,
+                                         source="analysis_reference", checkpoint=shared_key,
+                                         reference_phase=phase)
+                    return json.loads(shared.read_text())["response"]
         if path.exists():
             self.client.last_call = {"cache_hit": True}
             self.recorder.evento(tipo="llm_cache_hit", fase=self.recorder.fase_atual)
@@ -191,6 +199,10 @@ async def pipeline(args, tasks, inventories):
         source = args.repos / name
         analysis_root = args.output / "analysis" / name
         env = inventories[name]
+        if args.reuse_analysis_from:
+            from .reuse import prepare_graph_reuse
+            prepare_graph_reuse([str(source / f) for f in env["code_files"]],
+                                args.reuse_analysis_from / "analysis" / name, analysis_root)
         with project_environment(source, name):
             proj = XRepoProject(root_dir=str(source), source_dir=".", output_root=str(analysis_root),
                                 code_files=env["code_files"], load_paths=env["load_paths"],
@@ -200,12 +212,20 @@ async def pipeline(args, tasks, inventories):
         proj.recorder = RubyRecorder(str(analysis_root / "events.jsonl"))
         shared = args.reuse_analysis_from / "analysis" / name / "calls" if args.reuse_analysis_from else None
         checkpointed = SummaryCheckpoints(analysis_root / "calls", model, proj.recorder, shared,
-                                         share_all_phases=not args.no_graph)
+                                         share_all_phases=True)
         print(f"{name}: {len(proj.analysis_targets)} context methods; {len(all_targets)} test targets", flush=True)
         start = time.monotonic()
         try:
-            await proj.analyze_summaries(ask=checkpointed, enrich=not args.no_graph)
-            proj.build_rag()
+            if args.reuse_analysis_from:
+                from .reuse import prepare_analysis_reuse
+                with proj.recorder.medir("analysis_reuse"):
+                    embeddings = prepare_analysis_reuse(proj, args.reuse_analysis_from / "analysis" / name,
+                                                        enrich=not args.no_graph)
+                await proj.analyze_summaries(ask=checkpointed, enrich=not args.no_graph)
+                proj.build_rag(embed_documents=embeddings.documents, embed_query=embeddings.query)
+            else:
+                await proj.analyze_summaries(ask=checkpointed, enrich=not args.no_graph)
+                proj.build_rag()
         finally:
             proj.recorder.end(str(analysis_root), "analysis")
         for target in all_targets:
@@ -276,7 +296,7 @@ def main():
     p.add_argument("--task-ids", type=Path, help="JSON list of official IDs; production context stays complete")
     p.add_argument("--export-only", action="store_true")
     p.add_argument("--validate-only", action="store_true", help="Check inputs without invoking the model or creating a run")
-    p.add_argument("--reuse-analysis-from", type=Path, help="Read exact summary checkpoints from a compatible normal run; graph ablation reuses only pass one")
+    p.add_argument("--reuse-analysis-from", type=Path, help="Read exact summary checkpoints from a compatible normal run; reuse only compatible analysis artifacts")
     args = p.parse_args()
     args.output, args.work, args.repos = (p.resolve() for p in (args.output, args.work, args.repos))
     if args.rounds < 1 or args.attempts < 1 or args.max_tokens < 1 or args.request_timeout <= 0:
@@ -353,7 +373,7 @@ def main():
                     (args.reuse_analysis_from / "analysis").glob("*/calls/*.json"))),
                     "source_analysis_usage": summarize(args.reuse_analysis_from / "analysis"),
                     "upstream_reuse": json.loads(inherited.read_text()) if inherited.exists() else None,
-                    "note": "Reference cost is separate from new physical calls; only exact prompts are reused."})
+                    "note": "Compatible production analysis is reused; reference cost is separate from new physical calls."})
         if args.export_only:
             export_responses(tasks, args.output, args.output / "processed.jsonl")
         else:

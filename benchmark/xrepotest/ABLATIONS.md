@@ -62,7 +62,10 @@ selecionado; tarefas `no_tests` continuam no denominador com resposta `[]`.
 As fórmulas, fontes Ruby e tarefas oficiais não são alteradas.
 
 A comparação normal deverá usar **os mesmos IDs** do subset, retirando esses
-resultados da execução completa. A seleção deverá ser definida antes de observar
+resultados da execução completa. As métricas já medidas por tarefa são lidas
+dos resultados normais; não é preciso gerar ou avaliar novamente essas tarefas.
+Uma avaliação preliminar sem mutação não substitui uma medição de mutação que
+ainda não tenha sido feita. A seleção deverá ser definida antes de observar
 os ganhos das ablações, e os critérios documentados quando for escolhida.
 
 ## Reutilização da análise e separação dos resultados
@@ -78,11 +81,38 @@ pesos, thinking, parâmetros, políticas, ambiente, fontes e ficheiros de runtim
 As opções de geração e a quantidade de tarefas podem diferir porque não entram
 nos prompts da análise de produção.
 
-Só se reutiliza uma resposta quando a fase, o prompt de sistema e o prompt de
-utilizador coincidem exatamente. No braço `no-graph`, só a primeira passagem é
-partilhada. Nos outros braços, podem ser reutilizadas as restantes fases cujos
-prompts coincidam. Não se copiam testes, estados de tarefas, bundles de análise
-ou vetores da execução de referência. Os seus diretórios são apenas lidos.
+Só se reutiliza uma resposta quando o prompt de sistema e o prompt de
+utilizador coincidem exatamente. A fase deve também coincidir, com uma exceção
+explícita: `what_todo_raiz` e `what_todo_fallback` executam a mesma função local
+de README. Podem partilhar respostas a pedidos idênticos, registando a fase
+de origem. Isto vale também para o braço `no-graph`: a
+primeira passagem é comum, e pedidos locais de README ou sumários de classes
+podem igualmente ser comuns. A segunda passagem com callees e a propagação com
+callers não são executadas nesse braço. Reutilizar uma resposta local idêntica
+não reintroduz o grafo.
+
+O grafo estático já registado é copiado quando coincidem as fontes e a versão
+do resolvedor. No braço sem grafo, as duas utilizações desse grafo para os
+sumários continuam desligadas. A descoberta volta a ler o código para resolver
+os alvos: não existe uma cache de resultados Prism na execução de referência.
+
+Nos braços que conservam o grafo, copia-se o bundle completo de análise quando
+fontes, modelo e fingerprint da análise coincidem. Assim não é necessário voltar
+a percorrer as passagens LLM para encontrar todos os checkpoints. O bundle
+enriquecido nunca é aplicado ao braço sem grafo.
+
+Os índices vetoriais compatíveis são copiados para o diretório do novo braço e
+validados pelas mesmas chaves e IDs. Preserva-se também o índice HNSW dos métodos.
+Quando o texto muda, podem ainda ser reutilizados vetores individuais de textos
+que continuam exatamente iguais, por exemplo sumários de classes no braço sem
+grafo. Apenas textos novos recebem novos embeddings. A extração do ChromaDB
+ocorre numa cópia temporária, nunca sobre o original. As consultas novas de
+embeddings ficam em cache no braço para as retomas seguintes.
+
+Não se copiam testes nem estados de tarefas entre braços. Os diretórios da
+referência são apenas lidos. `reference_artifacts.json`, por projeto, regista os
+hashes dos ficheiros partilhados e a disponibilidade de vetores. O custo herdado
+continua separado das novas chamadas.
 
 Existe uma exceção explícita de compatibilidade para o código normal congelado
 com fingerprint
@@ -105,6 +135,7 @@ explicitar esta partilha, sem apresentar contexto previamente calculado como gr�
 - `marta/ruby_backend/start_react.py`: flags da ferramenta normal; novas ablações exigem `--output_dir` separado e têm sufixos próprios.
 - `benchmark/xrepotest/ablation.py`: seleção de IDs e compatibilidade da referência.
 - `benchmark/xrepotest/run.py`: aplicação das opções, checkpoints e registo de consumo herdado.
+- `benchmark/xrepotest/reuse.py`: bundles e vetores compatíveis, sem copiar respostas de geração.
 - `benchmark/xrepotest/evaluate.py`: avaliação do mesmo conjunto de IDs.
 - `deucalion/run_xrepotest_generate_gpu.sh` e `run_xrepotest_evaluate_cpu.sh`: passagem das opções aos executores.
 
@@ -120,9 +151,10 @@ precisar de retomas. Alterar qualquer fonte coberta pelo fingerprint produz uma
 versão diferente, mesmo quando todas as flags estão desligadas. As proteções da
 execução existente continuam intactas.
 
-Verificação concluída: **375 testes passaram e 2 foram ignorados** nas suites
-Ruby, XRepoTest e Deucalion, em container temporário. Nenhum pacote foi instalado
-no computador.
+Verificação: **383 testes passaram e 2 foram ignorados** nas suites Ruby,
+XRepoTest e Deucalion, em container temporário. Após acrescentar a partilha do
+grafo estático, passaram também **109 testes focados** de reutilização e
+integração. Nenhum pacote foi instalado no computador.
 
 A verificação offline usa respostas LLM fixas, Ruby/RSpec reais onde relevante,
 Slurm simulado e índices vetoriais de teste. Inclui comparação literal dos

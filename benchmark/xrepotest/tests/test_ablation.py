@@ -53,10 +53,10 @@ def _reference(tmp_path):
 def test_subset_can_reuse_verified_normal_context_with_separate_generation_options(tmp_path):
     path, before, config = _reference(tmp_path)
     provenance = ablation.verify_analysis_reference(path, config)
-    assert provenance["scope"] == "exact-summary-prompts"
+    assert provenance["scope"] == "compatible-production-analysis"
     assert json.loads((path / "experiment.json").read_text()) == before
     config["no_graph"] = True
-    assert ablation.verify_analysis_reference(path, config)["scope"] == "pass-one-only"
+    assert ablation.verify_analysis_reference(path, config)["scope"] == "exact-local-prompts-and-vectors"
 
 
 @pytest.mark.parametrize("change", [
@@ -113,3 +113,17 @@ def test_selected_response_contract_keeps_no_tests_and_rejects_other_denominator
     responses.write_text("\n".join(json.dumps(r) for r in rows + [{"task_id":1,"response":[]}]))
     with pytest.raises(ValueError, match="every official task"):
         load_responses(responses, selected)
+
+
+def test_identical_local_readme_request_can_reuse_fallback_as_root(tmp_path):
+    source = tmp_path / "reference"
+    recorder = SimpleNamespace(fase_atual="what_todo_fallback", evento=Mock())
+    producer = SimpleNamespace(aask=AsyncMock(return_value="same local intent"), last_call={})
+    asyncio.run(run.SummaryCheckpoints(source, producer, recorder)("local", "exact request"))
+    recorder.fase_atual = "what_todo_raiz"
+    consumer = SimpleNamespace(aask=AsyncMock(side_effect=AssertionError("no new call")), last_call={})
+    result = asyncio.run(run.SummaryCheckpoints(tmp_path/"new", consumer, recorder, source,
+                                               share_all_phases=True)("local", "exact request"))
+    assert result == "same local intent"
+    assert recorder.evento.call_args.kwargs["reference_phase"] == "what_todo_fallback"
+    consumer.aask.assert_not_awaited()
