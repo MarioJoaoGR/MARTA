@@ -14,7 +14,8 @@ from unittest.mock import AsyncMock, Mock
 
 import pytest
 
-from benchmark.xrepotest import backend, protocol, run
+from benchmark.xrepotest import backend, protocol, run, runtime
+from marta.ruby_backend.ablation import AblationOptions
 from marta.ruby_backend.ruby_ast import ClassInfo, FileParse, MethodInfo
 from marta.ruby_backend.runner import ExampleResult, RSpecResult
 
@@ -498,9 +499,13 @@ def test_all_675_ids_remain_independent_even_for_the_same_focal_method(parsed_re
     assert len(project.analysis_targets) == 4
 
 
-def test_pipeline_isolates_task_rounds_and_resumes_without_generation(parsed_repo, tmp_path, monkeypatch):
+@pytest.mark.parametrize("options", [AblationOptions(),
+    AblationOptions(no_type_hints=True), AblationOptions(no_method_retrieval=True),
+    AblationOptions(no_coverage_feedback=True), AblationOptions(no_repair=True)])
+def test_pipeline_isolates_task_rounds_and_resumes_without_generation(parsed_repo, tmp_path, monkeypatch, options):
     # Exercise real discovery, workspaces, final-state writes and export. Only
     # model/embedding work and generation's Ruby subprocesses are substituted.
+    monkeypatch.setattr(runtime, "environment_manifest", lambda: None)
     rows = [task(42), task(674, name="other", start=8, end=10)]
     inventories = {"repo": protocol.source_inventory(parsed_repo, rows)}
     model = SimpleNamespace(temperature=None,
@@ -512,9 +517,11 @@ def test_pipeline_isolates_task_rounds_and_resumes_without_generation(parsed_rep
     analyzed, generated = [], []
 
     async def analyze(self, **kwargs):
+        assert self.ablation_options == options
         analyzed.append({t.method.qualified_name for t in self.analysis_targets})
 
     async def generate(self, **kwargs):
+        assert self.ablation_options == options
         assert len(self.targets) == 1
         target = self.targets[0]
         work, output = Path(self.root_dir), Path(self.output_root)
@@ -536,7 +543,7 @@ def test_pipeline_isolates_task_rounds_and_resumes_without_generation(parsed_rep
     args = SimpleNamespace(repos=parsed_repo.parent, output=tmp_path / "output",
                            work=tmp_path / "work", temperature=0.0, no_graph=True,
                            thinking="on", top_p=0.95, presence_penalty=0.0, request_timeout=1800,
-                           rounds=2, attempts=1, reuse_analysis_from=None)
+                           rounds=2, attempts=1, reuse_analysis_from=None, **options.as_dict())
     asyncio.run(run.pipeline(args, rows, inventories))
     assert generated == [42, 674]
     assert analyzed == [{"Widget#initialize", "Widget#value", "Widget#other", "Helper#value"}]

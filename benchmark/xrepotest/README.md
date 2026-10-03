@@ -846,3 +846,10 @@ Fontes: [Ollama Qwen3-Coder](https://ollama.com/library/qwen3-coder:30b),
 [model card Qwen3-Coder](https://huggingface.co/Qwen/Qwen3-Coder-30B-A3B-Instruct),
 [Ollama Qwen3.6](https://ollama.com/library/qwen3.6),
 [model card Qwen3.6](https://huggingface.co/Qwen/Qwen3.6-35B-A3B).
+
+## Ablações adicionais
+
+As opções, a seleção futura do subset e as regras de reutilização estão em
+[ABLATIONS.md](ABLATIONS.md). Todas as opções novas estão desligadas por omissão.
+Estas alterações são preparadas numa cópia separada; não atualizar o código
+da execução normal congelada enquanto ainda precisar de retomas.

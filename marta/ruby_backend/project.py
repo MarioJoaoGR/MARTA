@@ -23,6 +23,7 @@ from dataclasses import dataclass, field, replace
 from typing import Dict, List, Optional
 
 from . import cache, coverage_runner, param_types, rag, readme, recorder as rec, ruby_ast, summaries
+from .ablation import AblationOptions
 from .backend import LanguageBackend, RubyBackend
 from .generate import AskFn, GenOutcome, _default_ask, generate_spec_for_method
 
@@ -259,6 +260,10 @@ class RubyProject:
     class_summaries: Dict[str, str] = field(default_factory=dict)  # class qn -> summary
     class_db: Optional[rag.RubyClassIndex] = None
     backend: LanguageBackend = field(default_factory=RubyBackend)
+    ablation_options: AblationOptions = field(default_factory=AblationOptions)
+
+    def _planner_summary(self, target: MethodTarget) -> str:
+        return target.summary if self.ablation_options.no_type_hints else target.planner_summary
 
     def _recorder(self) -> rec.RubyRecorder:
         if self.recorder is None:
@@ -557,9 +562,9 @@ class RubyProject:
                 spec_path=t.spec_path,
                 cwd=self.root_dir,
                 ask=ask,
-                summary=t.planner_summary,
+                summary=self._planner_summary(t),
                 related=self._related_for(t),
-                max_attempts=max_attempts,
+                max_attempts=self.ablation_options.attempts(max_attempts),
                 recorder=recorder,
                 backend=self.backend,
 
@@ -824,17 +829,19 @@ class RubyProject:
         # com a GPU). Sem etiqueta própria, não havia como mostrar a poupança.
         self.class_db = None
         with self._recorder().fase("rag"):
-            self.rag_db = _AnalysisFunctionDatabase(
-                embed_documents, embed_query, persist_dir=pdir, name="functions", key=key or "")
-            self.rag_db.init(self.analysis_targets)
-            if self.class_summaries:
+            self.rag_db = None
+            if not self.ablation_options.no_method_retrieval:
+                self.rag_db = _AnalysisFunctionDatabase(
+                    embed_documents, embed_query, persist_dir=pdir, name="functions", key=key or "")
+                self.rag_db.init(self.analysis_targets)
+            if self.class_summaries and not self.ablation_options.no_type_hints:
                 # Classes em NumPy, como o find_topK_message da Python (ver rag.py).
                 self.class_db = rag.RubyClassIndex(
                     embed_documents, embed_query, persist_dir=pdir, key=key or "")
                 self.class_db.init([_ClassEntry(qn, s) for qn, s in self.class_summaries.items()])
                 self._augment_judge_semantic()
         self._sync_generation_analysis()
-        if persist and self.rag_db.reused:
+        if persist and self.rag_db is not None and self.rag_db.reused:
             print("[rag] vetores reaproveitados do disco (sem re-embedding)")
 
     def _augment_judge_semantic(self) -> None:
@@ -864,7 +871,7 @@ class RubyProject:
                 t.judge = prefix + "\n".join(extra)
 
     def _related_for(self, t: MethodTarget) -> Optional[List[str]]:
-        if self.rag_db is None:
+        if self.ablation_options.no_method_retrieval or self.rag_db is None:
             return None
         query = t.summary or t.done_what
         if not query:
@@ -886,7 +893,7 @@ class RubyProject:
         """Error-directed RAG for the self-heal loop (generate_react_flow port):
         given the failure output, retrieve similar methods and, when available,
         one of their passing specs as a concrete example."""
-        if self.rag_db is None:
+        if self.ablation_options.no_method_retrieval or self.rag_db is None:
             return None
 
         def helper(error: str) -> str:
@@ -956,7 +963,8 @@ class RubyProject:
             recorder.define_contexto(ronda=rnd)
             for idx, t in targets:
                 mc = cov.get(idx)
-                if rnd > 0 and mc is not None and mc.fully_covered:
+                if (not self.ablation_options.no_coverage_feedback
+                        and rnd > 0 and mc is not None and mc.fully_covered):
                     continue  # already fully covered — skip, like the Python loop
                 # Skip resume-safe (porta o skip round-aware do Python): se o
                 # código não mudou e o spec DESTA ronda já existe (run retomado),
@@ -966,7 +974,7 @@ class RubyProject:
                 if not self.code_changed and os.path.exists(round_spec):
                     print(f"[SKIP] Spec de '{t.method.qualified_name}' já existe (ronda {rnd}), a saltar...")
                     continue
-                if rnd == 0 or mc is None:
+                if self.ablation_options.no_coverage_feedback or rnd == 0 or mc is None:
                     coverage_info = "First pass: Try to achieve maximum coverage."
                 else:
                     coverage_info = f"MISSING LINES TO COVER: {mc.format_missing_lines()}"
@@ -979,9 +987,9 @@ class RubyProject:
                     spec_path=t.spec_path_for_round(rnd),
                     cwd=self.root_dir,
                     ask=ask,
-                    summary=t.planner_summary,
+                    summary=self._planner_summary(t),
                     related=self._related_for(t),
-                    max_attempts=max_attempts,
+                    max_attempts=self.ablation_options.attempts(max_attempts),
                     coverage_info=coverage_info,
                     recorder=recorder,
                     backend=self.backend,

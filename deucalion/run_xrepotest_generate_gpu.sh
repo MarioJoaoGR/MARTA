@@ -24,6 +24,25 @@ export XREPO_REQUEST_TIMEOUT=${XREPO_REQUEST_TIMEOUT:-1800}
 export XREPO_NO_GRAPH=${XREPO_NO_GRAPH:-0}
 [[ "$XREPO_NO_GRAPH" == 0 || "$XREPO_NO_GRAPH" == 1 ]] || exit 2
 source "$BASE/MARTA/deucalion/xrepotest_job_common.sh"
+EXTRA=(--rounds "${XREPO_ROUNDS:-3}" --attempts "${XREPO_ATTEMPTS:-3}")
+for pair in "XREPO_NO_TYPE_HINTS:no-type-hints" "XREPO_NO_METHOD_RETRIEVAL:no-method-retrieval" \
+            "XREPO_NO_COVERAGE_FEEDBACK:no-coverage-feedback" "XREPO_NO_REPAIR:no-repair"; do
+    variable=${pair%%:*}
+    value=${!variable:-0}
+    [[ "$value" == 0 || "$value" == 1 ]] || { echo "Invalid $variable"; exit 2; }
+    if [[ "$value" == 1 ]]; then EXTRA+=("--${pair#*:}"); fi
+    export "$variable=$value"
+done
+if [[ -n "${XREPO_TASK_IDS:-}" ]]; then
+    [[ "$XREPO_TASK_IDS" == /data/xrepo/* && -f "$XROOT/${XREPO_TASK_IDS#/data/xrepo/}" ]] || exit 2
+    EXTRA+=(--task-ids "$XREPO_TASK_IDS")
+fi
+if [[ -n "${XREPO_REUSE_ANALYSIS_FROM:-}" ]]; then
+    [[ "$XREPO_REUSE_ANALYSIS_FROM" == /data/xrepo/runs/* ]] || exit 2
+    EXTRA+=(--reuse-analysis-from "$XREPO_REUSE_ANALYSIS_FROM")
+fi
+export XREPO_ROUNDS XREPO_ATTEMPTS XREPO_TASK_IDS XREPO_REUSE_ANALYSIS_FROM
+if [ "$XREPO_NO_GRAPH" == 1 ]; then EXTRA+=(--no-graph); fi
 "${CONTAINER[@]}" "$IMAGE" python3 -B -m benchmark.xrepotest.cluster \
     --root /data/xrepo --require-loading
 CONTINUATION="$CODE/deucalion/run_xrepotest_generate_gpu.sh"
@@ -61,8 +80,6 @@ curl --fail --silent "http://$HOST/api/version" || exit 2
 DIGEST=$("${CONTAINER[@]}" "$IMAGE" python3 -B -m benchmark.xrepotest.cluster \
     --root /data/xrepo --model "$MODEL" --host "http://$HOST" \
     --metadata "/data/xrepo/runs/$XREPO_RUN/metadata/model_$SLURM_JOB_ID.json")
-EXTRA=(--rounds 3 --attempts 3)
-if [ "$XREPO_NO_GRAPH" == 1 ]; then EXTRA+=(--no-graph); fi
 echo "XRepoTest: $MODEL ($DIGEST); thinking=$XREPO_THINKING; run=$XREPO_RUN"
 "${CONTAINER[@]}" \
     --bind "$XROOT/python:/opt/conda/envs/test4py_env:ro" \
