@@ -9,6 +9,9 @@ from .protocol import SCHEMA, digest
 # separate, stricter guard; no completed task states are copied.
 FROZEN_NORMAL_CODE = "5f731f30e02f62264900a96b2c7efc5f33d4dfff08cbc33c41dab25eb0720d85"
 
+# Same normal experiment after the stdout coverage-report repair; prompts unchanged.
+COVERAGE_OUTPUT_NORMAL_CODE = "a228546b373026930b1bfdb44bb8f4cd342a25da87a16ac99503496180529031"
+
 
 def select_tasks(tasks, path=None):
     if path is None:
@@ -31,7 +34,7 @@ def verify_analysis_reference(path, config):
     if (previous.get("schema") != SCHEMA or previous.get("no_graph") is not False
             or previous.get("ablations")):
         raise ValueError("Analysis reference must be a guarded normal full-context experiment")
-    if previous.get("marta_code") not in {config["marta_code"], FROZEN_NORMAL_CODE}:
+    if previous.get("marta_code") not in {config["marta_code"], FROZEN_NORMAL_CODE, COVERAGE_OUTPUT_NORMAL_CODE}:
         raise ValueError("Analysis reference uses an unverified MARTA code version")
     independent = {"marta_code", "no_graph", "rounds", "attempts", "effective_attempts",
                    "ablations", "task_selection", "analysis_reference", "input_hashes", "runtime_hashes", "first_round_reference"}

@@ -117,6 +117,14 @@ continua separado das novas chamadas.
 Existe uma exceção explícita de compatibilidade para o código normal congelado
 com fingerprint
 `5f731f30e02f62264900a96b2c7efc5f33d4dfff08cbc33c41dab25eb0720d85`.
+A versão corrigida do transporte do relatório de cobertura também é aceite:
+`a228546b373026930b1bfdb44bb8f4cd342a25da87a16ac99503496180529031`.
+A branch de ablação inclui a mesma correção do executor, que preserva o canal
+JSON quando o código testado redireciona stdout. Os prompts e os sumários não
+mudam. A migração auditada da execução normal deve ser feita em `main`, seguindo
+[as instruções da correção](../../deucalion/COVERAGE_OUTPUT_REPAIR.md), antes de
+usar essa execução como referência. As verificações de modelo, parâmetros,
+fontes e ambiente continuam obrigatórias, incluindo na partilha da primeira ronda.
 Outras versões desconhecidas são recusadas. Isto permite poupar a análise já
 realizada sem afirmar que configurações diferentes são a mesma experiência.
 

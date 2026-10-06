@@ -34,8 +34,8 @@ def test_invalid_subset_is_refused(tmp_path, ids):
         ablation.select_tasks([task(0)], path)
 
 
-def _reference(tmp_path):
-    base = {"schema": protocol.SCHEMA, "marta_code": ablation.FROZEN_NORMAL_CODE,
+def _reference(tmp_path, code=ablation.FROZEN_NORMAL_CODE):
+    base = {"schema": protocol.SCHEMA, "marta_code": code,
             "no_graph": False, "model": "local:model", "model_digest": "fixed-weights",
             "rounds": 3, "attempts": 3, "thinking": "on", "max_tokens": 16384,
             "input_hashes": {"a": "source-a", "b": "source-b"},
@@ -50,8 +50,9 @@ def _reference(tmp_path):
     return path, base, config
 
 
-def test_subset_can_reuse_verified_normal_context_with_separate_generation_options(tmp_path):
-    path, before, config = _reference(tmp_path)
+@pytest.mark.parametrize("code", [ablation.FROZEN_NORMAL_CODE, ablation.COVERAGE_OUTPUT_NORMAL_CODE])
+def test_subset_can_reuse_verified_normal_context_with_separate_generation_options(tmp_path, code):
+    path, before, config = _reference(tmp_path, code)
     provenance = ablation.verify_analysis_reference(path, config)
     assert provenance["scope"] == "compatible-production-analysis"
     assert json.loads((path / "experiment.json").read_text()) == before
@@ -65,8 +66,9 @@ def test_subset_can_reuse_verified_normal_context_with_separate_generation_optio
     {"input_hashes": {"a":"changed-source"}}, {"runtime_hashes": {"a":"changed-runtime"}},
     {"ablations": {"no_type_hints": True}},
 ])
-def test_incompatible_analysis_reference_is_rejected(tmp_path, change):
-    path, base, config = _reference(tmp_path)
+@pytest.mark.parametrize("code", [ablation.FROZEN_NORMAL_CODE, ablation.COVERAGE_OUTPUT_NORMAL_CODE])
+def test_incompatible_analysis_reference_is_rejected(tmp_path, change, code):
+    path, base, config = _reference(tmp_path, code)
     (path / "experiment.json").write_text(json.dumps({**base, **change}))
     with pytest.raises(ValueError):
         ablation.verify_analysis_reference(path, config)
@@ -127,3 +129,13 @@ def test_identical_local_readme_request_can_reuse_fallback_as_root(tmp_path):
     assert result == "same local intent"
     assert recorder.evento.call_args.kwargs["reference_phase"] == "what_todo_fallback"
     consumer.aask.assert_not_awaited()
+
+
+def test_repaired_normal_reference_allows_paired_first_round(tmp_path):
+    path, before, config = _reference(tmp_path, ablation.COVERAGE_OUTPUT_NORMAL_CODE)
+    config.update(ablations={"no_coverage_feedback": True}, effective_attempts=3)
+    assert ablation.verify_first_round_reference(path, config)["scope"] == "paired-first-round-v1"
+    assert json.loads((path / "experiment.json").read_text()) == before
+    config["attempts"] = 1
+    with pytest.raises(ValueError, match="same repair attempt budget"):
+        ablation.verify_first_round_reference(path, config)
