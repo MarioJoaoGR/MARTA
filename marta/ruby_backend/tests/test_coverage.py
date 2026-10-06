@@ -82,3 +82,46 @@ def test_run_line_coverage_and_synthesize(tmp_path):
     assert not mc.fully_covered
     assert mc.missing_lines  # the elsif/else bodies
     assert mc.covered_lines >= 2
+
+
+@pytest.mark.parametrize("redirect", [
+    '$stdout.reopen("application.log", "a"); $stderr.reopen("application.log", "a")',
+    '$stdout = StringIO.new',
+    'STDOUT.close',
+])
+@pytest.mark.parametrize("minitest", [False, True])
+@pytest.mark.skipif(not _toolchain_ok(), reason="no Ruby/RSpec toolchain")
+def test_coverage_survives_application_stream_changes(tmp_path, redirect, minitest):
+    (tmp_path / "calc.rb").write_text(
+        "class Calc\n  def self.double(n)\n    n * 2\n  end\nend\n")
+    spec = tmp_path / "calc_spec.rb"
+    source = '''require "stringio"
+require "calc"
+RSpec.describe Calc do
+  it "doubles" do
+    expect(Calc.double(3)).to eq(6)
+    %s
+  end
+end
+'''
+    if minitest:
+        source = '''require "stringio"
+require "minitest/autorun"
+require "calc"
+class CalcTest < Minitest::Test
+  def test_doubles
+    assert_equal 6, Calc.double(3)
+    %s
+  end
+end
+'''
+    spec.write_text(source % "# ordinary output")
+    baseline = cov.run_line_coverage(".", [str(spec)], cwd=str(tmp_path),
+                                     isolated=True, minitest=minitest)
+    spec.write_text(source % redirect)
+    redirected = cov.run_line_coverage(".", [str(spec)], cwd=str(tmp_path),
+                                       isolated=True, minitest=minitest)
+    assert redirected.files["calc.rb"] == baseline.files["calc.rb"]
+    assert redirected.branches["calc.rb"] == baseline.branches["calc.rb"]
+    assert redirected.methods["calc.rb"] == baseline.methods["calc.rb"]
+    assert sum(hit or 0 for hit in redirected.files["calc.rb"]) > 0

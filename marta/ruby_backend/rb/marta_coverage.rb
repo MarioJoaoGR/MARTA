@@ -25,6 +25,12 @@ Coverage.start(lines: true, branches: true, methods: true)
 
 require "json"
 
+# Keep the reporting pipe independent of the streams exposed to tested code.
+# Reopening/closing STDOUT or replacing $stdout must not redirect the coverage
+# payload. IO#dup preserves the original descriptor without changing the stream
+# seen by the application or its tests. Retain it in a local, not on $stdout.
+report_io = STDOUT.dup
+
 # --isolated: ignora o .rspec do projeto (specs gerados sao auto-contidos);
 # sem a flag, corre com a config do projeto (medicao de suites humanas).
 isolated = ARGV.delete("--isolated") ? true : false
@@ -77,7 +83,7 @@ $LOAD_PATH.unshift(source_dir)
   $LOAD_PATH.unshift(p) if File.directory?(p)
 end
 
-def emit_coverage(source_dir)
+def emit_coverage(source_dir, report_io)
   # Mesma proteção do marta_rspec_guard.rb: se o código sob teste substituiu o
   # to_json pelo do ActiveSupport sem carregar o encoder, o JSON.generate abaixo
   # rebentava e a medição saía vazia.
@@ -107,7 +113,8 @@ def emit_coverage(source_dir)
     files[path[prefix.length..]] = { "lines" => data[:lines], "branches" => branches,
                                      "methods" => methods }
   end
-  $stdout.write(JSON.generate({ "source_dir" => source_dir, "files" => files }))
+  report_io.write(JSON.generate({ "source_dir" => source_dir, "files" => files }))
+  report_io.flush
 end
 
 # A porta de entrada vai DEPOIS do Coverage.start, como qualquer código sob
@@ -133,7 +140,7 @@ if minitest_mode
     end
   end
   Minitest.extensions << "marta_cov"
-  Minitest.after_run { emit_coverage(source_dir) }
+  Minitest.after_run { emit_coverage(source_dir, report_io) }
   ARGV.clear
   specs.each { |f| require File.expand_path(f) }
 else
@@ -141,5 +148,5 @@ else
   # Keep stdout clean for JSON — send RSpec's report to stderr.
   rspec_args = isolated ? ["-O", "/dev/null", *specs] : specs
   RSpec::Core::Runner.run(rspec_args, $stderr, $stderr)
-  emit_coverage(source_dir)
+  emit_coverage(source_dir, report_io)
 end
