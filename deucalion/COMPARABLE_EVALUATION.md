@@ -94,3 +94,35 @@ corrigida e voltar a medir as suites congeladas de todas as abordagens. A
 comparação de mutação da ablação deverá apresentar o efeito sobre disponibilidade
 e sobre qualidade: MS sobre os mesmos IDs e, se se comparar scores condicionais,
 um conjunto comum de medições válidas para a comparação emparelhada.
+
+## Auditoria da diferença de IR
+
+A mesma heurística pode falhar em ambas as abordagens; isso, sozinho, não explica
+uma diferença de IR. A MARTA termina com 284/675 IR positivos, 157 tarefas sem
+suite e 234 suites não vazias com IR negativo. Mesmo atribuindo um positivo a
+cada tarefa sem suite, chegaria apenas a 441/675 (65,33%). Não é uma correção da
+métrica, mas um limite que mostra que a ausência de suites não explica tudo.
+
+Há uma diferença de etapa: o XRepoTest standard mede a resposta do modelo, mesmo
+que não compile ou passe; a MARTA repara, descarta tentativas falhadas e pode
+remover exemplos que falham, antes de exportar a suite. Na reprodução local
+Qwen3-8B sem thinking, IR=583/675 (86,37%), mas somente uma suite passa; 220 dos
+583 positivos nem compilam. Isto prova que um IR alto pode coexistir com testes
+inutilizáveis, mas não quantifica a causa dos 42,07% da MARTA, nem constitui uma
+comparação controlada entre modelos diferentes.
+
+`run_xrepotest_ir_audit_cpu.sh` / `xrepotest_ir_audit.py` aplicam o detector
+publicado ao código já guardado, sem testes Ruby nem chamadas LLM. Reconfirmam
+cada IR final contra a avaliação congelada, classificam os negativos conforme
+existem ou não candidatos anteriores positivos, e mostram transições observadas
+nas reparações e no salvage. A primeira tentativa da ronda 0 é distinta do
+máximo sobre todas as tentativas. Este máximo é apenas diagnóstico, nunca um
+novo score para substituir o resultado final.
+
+Os inputs são montados só para leitura; a saída vai para diagnostics/ir_JOBID.
+Mantêm-se os 675 IDs e as tarefas sem testes. Eventos em tentativas interrompidas
+arquivadas são excluídos. Código anterior/final e exemplos ficam no relatório
+para inspeção. Transições positivas para negativas são perda de reconhecimento
+sintático; não provam que uma chamada realmente executável foi removida. Os
+negativos sem essa evidência continuam a exigir inspeção, incluindo a hipótese
+de suites que efetivamente não testam o alvo.
