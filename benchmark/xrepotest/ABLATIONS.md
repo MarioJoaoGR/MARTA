@@ -3,8 +3,8 @@
 Estas opções preparam as experiências de remoção de componentes. Todas estão
 **desligadas por omissão**. Não existe uma opção `no summaries`: o estudo dos
 sumários enriquecidos faz parte da ablação do grafo já definida.
-O subset ainda não foi escolhido. Nenhuma execução experimental é iniciada
-pela implementação destas opções.
+O subset foi fixado em 7 de outubro de 2026: 97 tarefas, até 10 por projeto,
+com seleção pseudoaleatória reproduzível. A implementação não submete jobs.
 
 ## O que cada braço retira
 
@@ -201,3 +201,50 @@ A verificação offline usa respostas LLM fixas, Ruby/RSpec reais onde relevante
 Slurm simulado e índices vetoriais de teste. Inclui comparação literal dos
 prompts, chamadas, specs e resultados da geração normal com o `project.py`
 anterior. Não constitui medição de qualidade dos braços nem escolha do subset.
+
+
+## Checkout separado no Deucalion
+
+A execução normal e a avaliação CPU podem continuar em `mario/MARTA` na branch
+`main`. Para gerar ablações em paralelo, usar outro checkout da branch
+`codex/ablation-options`, por exemplo `mario/MARTA-ablation`, e exportar
+`MARTA_CLUSTER_CODE=/projects/F202407648IACDCF2/mario/MARTA-ablation`.
+Os jobs montam esse checkout e as continuações por walltime usam os scripts
+nesse mesmo caminho. `MARTA_CLUSTER_BASE` continua a apontar para `mario`,
+onde estão os modelos, a imagem e as pastas de resultados. Os nomes de execução
+são distintos por braço. Não atualizar nenhum dos checkouts enquanto um job
+que o utiliza estiver ativo ou puder precisar de retoma.
+
+
+## Subset fixado: 97 tarefas equilibradas por projeto
+
+`deucalion/xrepotest_ablation_subset.py --dataset ... --per-project 10 --output .../ids.json`
+verifica a release oficial e fixa até 10 IDs por projeto. Nove projetos contribuem
+10 tarefas e o Pundit contribui todas as suas 7. Não se redistribuem as três vagas:
+o tamanho final é 97, dentro do orçamento de cerca de 100 tarefas aprovado.
+Dentro de cada projeto, ordena por SHA256 da seed, nome do projeto e ID, e retira
+os primeiros 10, sem reposição. A seed é `marta-xrepo-ablation-v1`.
+
+O script só lê o dataset, sem consultar suites geradas, invocação, cobertura ou
+mutação. Guarda a lista e uma auditoria com os critérios, contagens por projeto
+e hash da seleção; recusa alterar uma seleção já existente. Todos os braços
+usam essa mesma lista, incluindo tarefas sem testes na execução normal. A lista
+fixada e a auditoria estão em `deucalion/selections/xrepotest_ablation97_v1.json`
+e no ficheiro `.audit.json` correspondente. No Deucalion, o script reconstrói a
+mesma seleção a partir da release certificada antes de qualquer geração.
+
+O §5.4 e o apêndice F do [paper XRepoTest](https://arxiv.org/html/2608.25939v2#A6)
+usam até 5 tarefas fáceis e 5 difíceis por projeto, baseadas no Claude Sonnet 4.5.
+O seletor oficial classifica como fácil a tarefa cujo teste compila, passa e invoca
+o método focal. Em 6 de outubro, as árvores completas do GitHub (commit publicado
+`39fb6ab3173136d3dac2d38ed7c98baf6c470270` e `main`) e do Hugging Face
+`solis-soict/xrepotest` não disponibilizavam os IDs desse subset nem os resultados
+Claude por tarefa necessários. Esta amostra usa equilíbrio por projeto e seleção
+pseudoaleatória independente; não reproduz a estratificação fácil/difícil deles.
+A escolha foi autorizada antes de observar resultados dos braços de ablação.
+
+A comparação emparelhada usa os resultados normais nos mesmos 97 IDs. O agregado
+representa este subset equilibrado, não a distribuição das 675 tarefas. Reportar
+contagens e métricas por projeto juntamente com o agregado. Os braços retiram um
+componente de cada vez: grafo, sugestões de tipos, recuperação de métodos,
+feedback de cobertura ou reparação. Não há braço adicional sem sumários.

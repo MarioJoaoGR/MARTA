@@ -23,7 +23,8 @@ export XREPO_PRESENCE_PENALTY=${XREPO_PRESENCE_PENALTY:-0}
 export XREPO_REQUEST_TIMEOUT=${XREPO_REQUEST_TIMEOUT:-1800}
 export XREPO_NO_GRAPH=${XREPO_NO_GRAPH:-0}
 [[ "$XREPO_NO_GRAPH" == 0 || "$XREPO_NO_GRAPH" == 1 ]] || exit 2
-source "$BASE/MARTA/deucalion/xrepotest_job_common.sh"
+export MARTA_CLUSTER_CODE=${MARTA_CLUSTER_CODE:-$BASE/MARTA}
+source "$MARTA_CLUSTER_CODE/deucalion/xrepotest_job_common.sh"
 EXTRA=(--rounds "${XREPO_ROUNDS:-3}" --attempts "${XREPO_ATTEMPTS:-3}")
 for pair in "XREPO_NO_TYPE_HINTS:no-type-hints" "XREPO_NO_METHOD_RETRIEVAL:no-method-retrieval" \
             "XREPO_NO_COVERAGE_FEEDBACK:no-coverage-feedback" "XREPO_NO_REPAIR:no-repair"; do

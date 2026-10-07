@@ -81,3 +81,40 @@ def test_cluster_refuses_invalid_first_round_pairing(fake_cluster, change):
     result=subprocess.run(['bash', str(root/'deucalion/run_xrepotest_generate_gpu.sh')],
                           env=env, capture_output=True, text=True, timeout=20)
     assert result.returncode!=0
+
+
+@pytest.mark.parametrize("evaluate", [False, True])
+def test_ablation_checkout_is_used_for_container_and_walltime_continuation(fake_cluster, evaluate):
+    root, tmp, env = fake_cluster
+    import signal
+    import time
+    copy = tmp / "MARTA-ablation"
+    copy.symlink_to(root, target_is_directory=True)
+    env.update(MARTA_CLUSTER_CODE=str(copy), HOLD="1")
+    script = "run_xrepotest_evaluate_cpu.sh" if evaluate else "run_xrepotest_generate_gpu.sh"
+    export = tmp / "xrepotest/runs/new-experiment/generation/processed.jsonl"
+    export.parent.mkdir(parents=True)
+    export.write_text("fake export")
+    proc = subprocess.Popen(["bash", str(copy / "deucalion" / script)], env=env,
+                            stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    try:
+        for _ in range(100):
+            if (tmp / "started").exists():
+                break
+            if proc.poll() is not None:
+                pytest.fail(str(proc.communicate()))
+            time.sleep(.05)
+        assert (tmp / "started").exists()
+        proc.send_signal(signal.SIGUSR1)
+        proc.communicate(timeout=10)
+        calls = [json.loads(line) for line in (tmp / "calls.jsonl").read_text().splitlines()]
+        runner = "benchmark.xrepotest.evaluate" if evaluate else "benchmark.xrepotest.run"
+        invocation = next(c for c in calls if runner in c)
+        assert str(copy) + ":/opt/marta:ro" in invocation
+        submission = next(c for c in calls if c[0] == "sbatch")
+        assert submission[-1] == str(copy / "deucalion" / script)
+        assert "--export=ALL" in submission
+    finally:
+        if proc.poll() is None:
+            proc.terminate()
+            proc.communicate(timeout=10)
