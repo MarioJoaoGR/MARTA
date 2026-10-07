@@ -126,3 +126,21 @@ para inspeção. Transições positivas para negativas são perda de reconhecime
 sintático; não provam que uma chamada realmente executável foi removida. Os
 negativos sem essa evidência continuam a exigir inspeção, incluindo a hipótese
 de suites que efetivamente não testam o alvo.
+
+## Medição das ablações enquanto a mutação é validada
+
+O braço sem feedback de cobertura terminou no job 1987576: export completo dos
+97 IDs, 81 suites e 16 tarefas sem suite. Estas contagens são resultados da
+geração, não diferenças medidas de cobertura ou qualidade.
+
+`run_xrepotest_core_evaluate_cpu.sh` executa o mesmo adaptador e avaliador para
+CSR, TPR, cobertura focal e IR, sem solicitar mutação. A saída fica em
+`evaluation_core_v1/`, separada de qualquer avaliação anterior e da futura
+mutação corrigida. Os checkpoints permitem retoma; os jobs podem continuar por
+walltime. `XREPO_TASK_IDS` deve apontar para a mesma seleção usada na geração.
+
+A referência normal das 97 tarefas é extraída dos resultados por tarefa já
+medidos na execução completa. A medição de mutação ocorre depois, sobre estas
+mesmas suites congeladas, com a versão final validada do executor. Esta medição
+core não corrige os problemas do executor de mutação nem altera prompts, tarefas,
+políticas de geração ou o fingerprint da MARTA.
