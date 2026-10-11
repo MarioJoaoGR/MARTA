@@ -30,7 +30,7 @@ ablação também podem ser extraídos posteriormente dos resultados completos, 
 | Modelo | `qwen3.6:35b`, digest `096fdbd02fe620fc10cbeb6537e080f8041aece851e5d696aed024d4f70f2e47` |
 | Ollama | `0.30.7` |
 | Thinking | ligado, `reasoning_effort=high` |
-| Contexto | escolha explícita em `XREPO_OFFICIAL_CTX`, sem default no job |
+| Contexto | 32 768 tokens, fixo e igual à MARTA |
 | Saída máxima, incluindo thinking | 16 384 tokens |
 | Temperature / top_p / presence_penalty | 0,6 / 0,95 / 0 |
 | Timeout por pedido SDK | 1 800 segundos |
@@ -42,23 +42,39 @@ limite da API pelos usados na MARTA. Não há igualdade de orçamento total:
 a MARTA faz análise, pesquisa e geração/reparação iterativa; cada modo XRepoTest
 faz um pedido lógico por tarefa, com os retries de transporte oficiais.
 
-### Janela necessária para preservar os contextos
+### Mesma janela e comportamento quando a entrada excede o limite
+
+Decisão do utilizador em 11 de outubro: **manter todos os parâmetros usados na
+MARTA**, incluindo a janela de 32 768. A proposta anterior de 65 536 não foi
+adotada. Os jobs e o adaptador rejeitam outra janela, antes da inferência.
 
 A auditoria `vendor/xrepotest-context-token-budget.json` usa o tokenizer oficial
 Qwen3.6, revision `995ad96eacd98c81ed38be0c5b274b04031597b0`, sobre o texto das
-mensagens, sem o template de chat. É uma estimativa offline; o usage real do
-Ollama fica nos logs da execução. Reservámos 1 024 tokens conservadores para o
-enquadramento das mensagens e 16 384 para a resposta, incluindo thinking.
+mensagens, sem o template de chat. É uma estimativa offline, não o usage exato do
+Ollama. O maior prompt RAG denso (tarefa 80) tem cerca de 36 107 tokens de texto,
+ultrapassando a janela antes da geração. Vinte prompts de ficheiro têm uma soma
+de entrada e saída máxima superior à janela. O limite de saída é um teto;
+**não representa uma reserva garantida de espaço na janela**.
 
-O maior prompt RAG denso (tarefa 80) tem cerca de 36 107 tokens de texto, acima da
-janela MARTA de 32 768 mesmo antes de gerar. Vinte prompts de ficheiro completo
-não deixam os 16 384 tokens de saída inteiramente disponíveis nessa janela.
-Todos os prompts cabem com esta reserva numa janela de 65 536. A proposta é usar
-65 536 uniformemente nos cinco modos, mantendo prompts, limite de saída e os
-restantes parâmetros. Esta escolha exige confirmação antes da submissão.
-Se adotada, **a janela difere da MARTA normal**: não se deve afirmar igualdade de
-todos os limites de contexto. Cortar ou reescrever os prompts publicados não é
-uma operação implementada por estes scripts.
+Enviamos os prompts publicados sem corte próprio, sem reduzir o número de
+excertos e sem excluir tarefas. Mantemos a política nativa do Ollama 0.30.7,
+como na MARTA: a entrada excessiva pode ser truncada pelo servidor e a gestão da
+janela durante a geração permanece a do backend. Isto significa que fornecer o
+prompt completo à API **não garante que todo o contexto seja visto pelo modelo**.
+Não ligamos `truncate=false` nem implementamos outra política de overflow.
+
+O código fixado de [chatPrompt](https://github.com/ollama/ollama/blob/v0.30.7/server/prompt.go)
+preserva mensagens de sistema e a última mensagem ao reduzir o histórico. O
+[runner](https://github.com/ollama/ollama/blob/v0.30.7/llm/llama_server.go)
+trunca tokens acima de `num_ctx - 1`, preservando o prefixo `num_keep` e o fim da
+entrada, e emite `truncating input prompt`. Guardamos pedidos originais, usage,
+finish_reason e logs Ollama por job para auditar estas ocorrências. O diagnóstico
+offline não é contado como confirmação de truncagem real de uma tarefa.
+
+As 675 tarefas de cada modo permanecem no denominador, incluindo cortes,
+respostas vazias e erros terminais. A comparação usa os mesmos limites; a
+limitação de contexto deve acompanhar os resultados, sem atribuir automaticamente
+um resultado fraco a essa limitação.
 
 ## Código deles e código nosso
 
@@ -134,7 +150,7 @@ Nenhuma análise, cache RAG ou suite da MARTA é reutilizada pelo XRepoTest.
 
 ## Comandos no Deucalion
 
-Após confirmar a janela, preparar em CPU, mesmo durante a ablação GPU:
+Preparar em CPU, mesmo durante a ablação GPU:
 
 ```bash
 (
@@ -145,7 +161,7 @@ git pull --ff-only
 export MARTA_CLUSTER_BASE=/projects/F202407648IACDCF2/mario
 export MARTA_CLUSTER_CODE="$PWD"
 export XREPO_RUN=qwen36_35b_xrepotest_contexts_thinking_v1
-export XREPO_OFFICIAL_CTX=65536 # proposta, confirmar antes de submeter
+export XREPO_OFFICIAL_CTX=32768
 unset XREPO_TASK_IDS XREPO_REUSE_ANALYSIS_FROM XREPO_REUSE_FIRST_ROUND_FROM
 mkdir -p logs
 sbatch --parsable --export=ALL deucalion/run_xrepotest_official_prepare_cpu.sh
@@ -162,7 +178,7 @@ cd /projects/F202407648IACDCF2/mario/MARTA-evaluation
 export MARTA_CLUSTER_BASE=/projects/F202407648IACDCF2/mario
 export MARTA_CLUSTER_CODE="$PWD"
 export XREPO_RUN=qwen36_35b_xrepotest_contexts_thinking_v1
-export XREPO_OFFICIAL_CTX=65536 # proposta, confirmar antes de submeter
+export XREPO_OFFICIAL_CTX=32768
 unset XREPO_TASK_IDS XREPO_REUSE_ANALYSIS_FROM XREPO_REUSE_FIRST_ROUND_FROM
 sbatch --parsable --export=ALL deucalion/run_xrepotest_official_generate_gpu.sh
 )
@@ -177,7 +193,7 @@ cd /projects/F202407648IACDCF2/mario/MARTA-evaluation
 export MARTA_CLUSTER_BASE=/projects/F202407648IACDCF2/mario
 export MARTA_CLUSTER_CODE="$PWD"
 export XREPO_RUN=qwen36_35b_xrepotest_contexts_thinking_v1
-export XREPO_OFFICIAL_CTX=65536 # proposta, confirmar antes de submeter
+export XREPO_OFFICIAL_CTX=32768
 unset XREPO_TASK_IDS
 sbatch --parsable --export=ALL deucalion/run_xrepotest_official_evaluate_cpu.sh
 )

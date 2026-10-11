@@ -89,8 +89,8 @@ def assets(destination):
 
 
 def prepare(destination, dataset, reference, environment=None, mode='standard', context_length=32768):
-    if context_length not in (32768, 65536):
-        raise ValueError('Unsupported official context length')
+    if context_length != 32768:
+        raise ValueError('Official context must match the MARTA reference: 32768')
     if mode not in MODES:
         raise ValueError('Unknown official context mode')
     descriptor = assets(destination)
@@ -117,7 +117,8 @@ def prepare(destination, dataset, reference, environment=None, mode='standard', 
             raise ValueError('Generator imported outside the verified official source asset')
     versions = {name: importlib.metadata.version(name) for name in ('openai', 'httpx', 'pydantic')}
     report = {'ready': True, 'tasks': 675, 'mode': mode, 'prompt_source': info, 'asset': descriptor, 'parameters': PARAMETERS,
-              'context_length': context_length, 'reference_context_length': 32768, 'reference_manifest_sha256': sha(reference / 'experiment.json'),
+              'context_length': context_length, 'reference_context_length': 32768,
+              'input_overflow_policy': 'unchanged-prompts-native-ollama-v0.30.7', 'reference_manifest_sha256': sha(reference / 'experiment.json'),
               'packages': versions, 'python': sys.version,
               'adapter_sha256': sha(Path(__file__)), 'environment': normal.get('environment')}
     return rows, report, UnifiedProcessor, preprocess_response_records
@@ -196,7 +197,7 @@ def write_jsonl(path, rows):
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--mode', choices=MODES, required=True)
-    p.add_argument('--context-length', type=int, choices=(32768, 65536), default=32768)
+    p.add_argument('--context-length', type=int, choices=(32768,), default=32768)
     p.add_argument('--assets-dir', type=Path, required=True)
     p.add_argument('--dataset', type=Path, required=True)
     p.add_argument('--reference', type=Path, required=True)

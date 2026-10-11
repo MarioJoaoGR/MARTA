@@ -151,7 +151,7 @@ A preparação de 11 de outubro está em [XREPOTEST_OFFICIAL_35B.md](XREPOTEST_O
 Usa os cinco modos publicados (standard, LSP, ficheiro, BM25 e UniXcoder), cada
 um nas mesmas 675 tarefas, com resultados isolados e retoma que conserva também
 os erros terminais. Os parâmetros de amostragem, thinking e saída seguem a MARTA.
-A janela de contexto é explícita: o contexto denso publicado contém um prompt
-maior que os 32 768 tokens da MARTA, pelo que a proposta de 65 536 e a diferença
-de protocolo estão documentadas antes da submissão.
+A janela fica fixada nos mesmos 32 768 tokens da MARTA. Os prompts são enviados
+intactos; a política nativa de truncagem do Ollama é mantida e a limitação
+dos contextos que excedem essa janela está documentada.
 O primeiro job CPU valida o ambiente e os imports, sem reservar GPU.

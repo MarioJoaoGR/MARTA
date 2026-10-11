@@ -89,6 +89,8 @@ class OfficialGenerationTests(unittest.TestCase):
         for mode in ('rag_bm25', 'rag_dense'):
             self.assertEqual(descriptor['modes'][mode]['retrieval']['used_k'], 10)
             self.assertEqual(descriptor['modes'][mode]['retrieval']['window_lines'], 50)
+        with self.assertRaisesRegex(ValueError, 'Official context must match'):
+            adapter.prepare(self.assets, self.root / 'unused', self.root / 'unused', context_length=65536)
         with self.assertRaisesRegex(ValueError, 'Unknown official context mode'):
             adapter.prepare(self.assets, self.root / 'unused', self.root / 'unused', mode='combined')
 
@@ -223,18 +225,18 @@ class OfficialGenerationTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, 'Configuration changed'):
                 adapter.main()
         self.assertEqual(len(calls), 675)
-        args.extend(['--context-length', '65536'])
+        args.extend(['--context-length', '32768'])
         for mode in adapter.MODES:
             args[2] = mode
             output = self.root / ('full-mode-' + mode)
             args[args.index('--output') + 1] = str(output)
-            with patch.dict(os.environ, {'OLLAMA_CTX': '65536'}), patch.object(sys, 'argv', args), \
+            with patch.dict(os.environ, {'OLLAMA_CTX': '32768'}), patch.object(sys, 'argv', args), \
                  patch.object(upstream, 'OpenAI', factory), contextlib.redirect_stdout(io.StringIO()):
                 adapter.main()
                 adapter.main()
             report = json.loads((output / 'experiment.json').read_text())
             self.assertEqual(report['mode'], mode)
-            self.assertEqual(report['context_length'], 65536)
+            self.assertEqual(report['context_length'], 32768)
             self.assertEqual(report['reference_context_length'], 32768)
             self.assertEqual(json.loads((output / 'complete.json').read_text())['tasks'], 675)
         self.assertEqual(len(calls), 675 * 6)  # original standard plus all five independent modes

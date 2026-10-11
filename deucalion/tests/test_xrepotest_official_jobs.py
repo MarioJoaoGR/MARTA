@@ -45,7 +45,7 @@ if name == 'curl':
                 complete.parent.mkdir(parents=True)
                 complete.write_text('{}')
             env = dict(os.environ, MARTA_CLUSTER_BASE=str(root), MARTA_CLUSTER_CODE=str(CODE),
-                       XREPO_RUN=COHORT, XREPO_OFFICIAL_CTX='65536', SLURM_JOB_ID='12345',
+                       XREPO_RUN=COHORT, XREPO_OFFICIAL_CTX='32768', SLURM_JOB_ID='12345',
                        XREPO_TASK_IDS='stale-selection-must-not-be-used',
                        FAKE_COMMAND_LOG=str(log), PATH=str(binaries) + ':' + os.environ['PATH'])
             for phase in ('prepare_cpu', 'generate_gpu', 'evaluate_cpu'):
@@ -57,12 +57,12 @@ if name == 'curl':
             commands = [json.loads(line) for line in log.read_text().splitlines()]
             servers = [c for c in commands if c[-2:] == ['ollama', 'serve']]
             self.assertEqual(len(servers), 1)
-            self.assertIn('OLLAMA_CONTEXT_LENGTH=65536', servers[0])
+            self.assertIn('OLLAMA_CONTEXT_LENGTH=32768', servers[0])
             generations = [c for c in commands if 'xrepotest_official_generate.py' in ' '.join(c)
                            and '--output' in c]
             self.assertEqual(len(generations), 5)
             self.assertEqual([c[c.index('--mode') + 1] for c in generations], list(MODES))
-            self.assertTrue(all(c[c.index('--context-length') + 1] == '65536' for c in generations))
+            self.assertTrue(all(c[c.index('--context-length') + 1] == '32768' for c in generations))
             self.assertEqual(len({c[c.index('--output') + 1] for c in generations}), 5)
             evaluations = [c for c in commands if 'benchmark.xrepotest.evaluate' in c]
             self.assertEqual(len(evaluations), 5)
@@ -72,6 +72,13 @@ if name == 'curl':
                 self.assertIn('/modes/' + mode + '/generation/processed.jsonl',
                               command[command.index('--processed') + 1])
                 self.assertNotIn('\\', command)
+            bad_env = dict(env, XREPO_OFFICIAL_CTX='65536')
+            for phase in ('prepare_cpu', 'generate_gpu'):
+                rejected = subprocess.run(['bash', str(CODE / 'deucalion' /
+                    ('run_xrepotest_official_' + phase + '.sh'))], env=bad_env,
+                    text=True, capture_output=True, timeout=20)
+                self.assertEqual(rejected.returncode, 2)
+                self.assertIn('Context must match MARTA', rejected.stdout)
             preflights = [c for c in commands if '--preflight-output' in c]
             self.assertEqual(len(preflights), 5)
 
