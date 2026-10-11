@@ -1,4 +1,4 @@
-"""Offline official XRepoTest standard generation; orchestration, not a baseline.
+"""Offline official XRepoTest generation, in the five published context modes; orchestration, not a baseline.
 
 Upstream owns prompts, generation result semantics and code extraction. This
 adapter sets the controlled model parameters, records API responses and keeps
@@ -27,7 +27,8 @@ PARAMETERS = {'model': 'qwen3.6:35b', 'model_digest': MODEL_DIGEST,
               'thinking': 'on', 'temperature': 0.6, 'top_p': 0.95,
               'presence_penalty': 0.0, 'max_tokens': 16384,
               'request_timeout': 1800.0}
-ASSET = Path(__file__).parent / 'vendor/xrepotest-standard-39fb6ab.tar.gz'
+MODES = ('standard', 'lsp_context', 'file_context', 'rag_bm25', 'rag_dense')
+ASSET = Path(__file__).parent / 'vendor/xrepotest-contexts-39fb6ab.tar.gz'
 
 
 def sha(path):
@@ -68,7 +69,9 @@ def assets(destination):
     manifest = json.loads(contents.pop('manifest.json'))
     actual = {n: hashlib.sha256(raw).hexdigest() for n, raw in contents.items()}
     if (actual != manifest['files'] or manifest['upstream_commit'] != COMMIT
-            or actual['prompts.jsonl'] != descriptor['prompts_sha256']):
+            or manifest['modes'] != descriptor['modes']
+            or set(descriptor['modes']) != set(MODES)
+            or any(actual[info['path']] != info['prompts_sha256'] for info in descriptor['modes'].values())):
         raise ValueError('Official sources/prompts changed')
     expected = {**contents, 'manifest.json': (json.dumps(manifest, indent=2) + '\n').encode()}
     for name, raw in expected.items():
@@ -85,11 +88,16 @@ def assets(destination):
     return descriptor
 
 
-def prepare(destination, dataset, reference, environment=None):
+def prepare(destination, dataset, reference, environment=None, mode='standard', context_length=32768):
+    if context_length not in (32768, 65536):
+        raise ValueError('Unsupported official context length')
+    if mode not in MODES:
+        raise ValueError('Unknown official context mode')
     descriptor = assets(destination)
     if sha(dataset) != DATA:
         raise ValueError('Pinned Ruby dataset differs')
-    rows = [json.loads(l) for l in (destination / 'prompts.jsonl').read_text().splitlines()]
+    info = descriptor['modes'][mode]
+    rows = [json.loads(l) for l in (destination / info['path']).read_text().splitlines()]
     if (len(rows) != 675 or any(type(r['task_id']) is not int for r in rows)
             or {r['task_id'] for r in rows} != set(range(675))):
         raise ValueError('Official prompts must cover exactly 675 IDs')
@@ -108,8 +116,8 @@ def prepare(destination, dataset, reference, environment=None):
         if Path(inspect.getfile(function)).resolve() != (destination / 'src' / relative).resolve():
             raise ValueError('Generator imported outside the verified official source asset')
     versions = {name: importlib.metadata.version(name) for name in ('openai', 'httpx', 'pydantic')}
-    report = {'ready': True, 'tasks': 675, 'asset': descriptor, 'parameters': PARAMETERS,
-              'context_length': 32768, 'reference_manifest_sha256': sha(reference / 'experiment.json'),
+    report = {'ready': True, 'tasks': 675, 'mode': mode, 'prompt_source': info, 'asset': descriptor, 'parameters': PARAMETERS,
+              'context_length': context_length, 'reference_context_length': 32768, 'reference_manifest_sha256': sha(reference / 'experiment.json'),
               'packages': versions, 'python': sys.version,
               'adapter_sha256': sha(Path(__file__)), 'environment': normal.get('environment')}
     return rows, report, UnifiedProcessor, preprocess_response_records
@@ -187,6 +195,8 @@ def write_jsonl(path, rows):
 
 def main():
     p = argparse.ArgumentParser(description=__doc__)
+    p.add_argument('--mode', choices=MODES, required=True)
+    p.add_argument('--context-length', type=int, choices=(32768, 65536), default=32768)
     p.add_argument('--assets-dir', type=Path, required=True)
     p.add_argument('--dataset', type=Path, required=True)
     p.add_argument('--reference', type=Path, required=True)
@@ -196,11 +206,11 @@ def main():
     p.add_argument('--api-base')
     p.add_argument('--model-metadata', type=Path)
     a = p.parse_args()
-    prompts, report, factory, preprocess = prepare(a.assets_dir, a.dataset, a.reference, a.environment_manifest)
+    prompts, report, factory, preprocess = prepare(a.assets_dir, a.dataset, a.reference, a.environment_manifest, a.mode, a.context_length)
     if a.preflight_output:
         atomic(a.preflight_output, report)
     if a.output is None:
-        print(json.dumps(report, indent=2))
+        print(json.dumps({k: report[k] for k in ('ready', 'mode', 'tasks', 'context_length', 'reference_context_length', 'prompt_source', 'packages')}, indent=2))
         return
     url = urlparse(a.api_base or '')
     if url.scheme != 'http' or url.hostname != '127.0.0.1' or url.path != '/v1':
@@ -209,8 +219,8 @@ def main():
     if (metadata['model']['digest'] != MODEL_DIGEST or metadata['model']['name'] != PARAMETERS['model']
             or metadata['ollama']['version'] != '0.30.7'):
         raise ValueError('Model weights or Ollama version differ from MARTA')
-    if os.getenv('OLLAMA_CTX') != '32768':
-        raise ValueError('Ollama context must be 32768')
+    if os.getenv('OLLAMA_CTX') != str(a.context_length):
+        raise ValueError('Ollama context does not match the registered official context length')
     root = a.output.resolve()
     reference = a.reference.resolve()
     if root == reference or root in reference.parents or reference in root.parents:
@@ -218,7 +228,7 @@ def main():
     root.mkdir(parents=True, exist_ok=True)
     with (root / 'run.lock').open('a') as lock:
         fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
-        config = {'schema': 'official-xrepotest-standard-controlled-v1', **report,
+        config = {'schema': 'official-xrepotest-context-mode-controlled-v2', **report,
                   'model_digest': MODEL_DIGEST, 'ollama_version': '0.30.7',
                   'samples_per_task': 1, 'upstream_network_attempts': 3,
                   'checkpoint_policy': 'terminal-success-and-error-v1'}

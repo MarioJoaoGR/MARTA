@@ -58,14 +58,39 @@ class OfficialGenerationTests(unittest.TestCase):
     def test_all_pinned_prompts_and_license_are_present_and_tampering_fails(self):
         dest = self.root / 'assets'
         info = adapter.assets(dest)
-        rows = [json.loads(l) for l in (dest / 'prompts.jsonl').read_text().splitlines()]
-        self.assertEqual(len(rows), 675)
-        self.assertEqual({r['task_id'] for r in rows}, set(range(675)))
-        self.assertEqual(adapter.sha(dest / 'prompts.jsonl'), info['prompts_sha256'])
+        for mode in adapter.MODES:
+            source = info['modes'][mode]
+            rows = [json.loads(l) for l in (dest / source['path']).read_text().splitlines()]
+            self.assertEqual(len(rows), 675)
+            self.assertEqual({r['task_id'] for r in rows}, set(range(675)))
+            self.assertEqual(adapter.sha(dest / source['path']), source['prompts_sha256'])
         self.assertIn('MIT License', (dest / 'LICENSE').read_text())
         (dest / 'src/xrepotest/config.py').write_text('changed')
         with self.assertRaisesRegex(ValueError, 'Changed extracted'):
             adapter.assets(dest)
+
+    def test_contexts_preserve_focal_task_and_published_retrieval_policy(self):
+        import re
+        descriptor = adapter.assets(self.assets)
+        modes = {mode: {row['task_id']: row for row in map(json.loads,
+                 (self.assets / info['path']).read_text().splitlines())}
+                 for mode, info in descriptor['modes'].items()}
+        for mode, rows in modes.items():
+            changed = 0
+            for tid, row in rows.items():
+                base = modes['standard'][tid]
+                self.assertEqual(row['system_prompt'], base['system_prompt'])
+                self.assertTrue(row['prompt'].endswith(base['prompt']))
+                changed += row['prompt'] != base['prompt']
+                if mode.startswith('rag_'):
+                    self.assertLessEqual(len(re.findall(r'^Example \d+:', row['prompt'], re.M)), 10)
+            self.assertEqual(changed, descriptor['modes'][mode]['changed_from_standard'])
+        self.assertEqual(descriptor['modes']['lsp_context']['changed_from_standard'], 170)
+        for mode in ('rag_bm25', 'rag_dense'):
+            self.assertEqual(descriptor['modes'][mode]['retrieval']['used_k'], 10)
+            self.assertEqual(descriptor['modes'][mode]['retrieval']['window_lines'], 50)
+        with self.assertRaisesRegex(ValueError, 'Unknown official context mode'):
+            adapter.prepare(self.assets, self.root / 'unused', self.root / 'unused', mode='combined')
 
     def test_sampler_override_preserves_official_messages_and_records_separate_reasoning(self):
         processor, recorded, requests = self.processor([{'content': '```ruby\nRSpec.describe {}\n```'}])
@@ -174,7 +199,7 @@ class OfficialGenerationTests(unittest.TestCase):
         generation = self.root / 'official-generation'
         environment = self.root / 'environment.json'
         adapter.atomic(environment, None)
-        args = ['adapter', '--environment-manifest', str(environment), '--assets-dir', str(self.assets), '--dataset', str(dataset),
+        args = ['adapter', '--mode', 'standard', '--environment-manifest', str(environment), '--assets-dir', str(self.assets), '--dataset', str(dataset),
                 '--reference', str(reference), '--output', str(generation),
                 '--api-base', 'http://127.0.0.1:11434/v1', '--model-metadata', str(metadata)]
         with patch.dict(os.environ, {'OLLAMA_CTX': '32768'}), patch.object(sys, 'argv', args), \
@@ -192,6 +217,27 @@ class OfficialGenerationTests(unittest.TestCase):
         self.assertEqual(len((generation / 'http_responses.jsonl').read_text().splitlines()), 675)
         self.assertEqual(len((generation / 'api_calls.jsonl').read_text().splitlines()), 675)
         self.assertFalse((reference / 'tasks').exists())
+        args[2] = 'lsp_context'
+        with patch.dict(os.environ, {'OLLAMA_CTX': '32768'}), patch.object(sys, 'argv', args), \
+             contextlib.redirect_stdout(io.StringIO()):
+            with self.assertRaisesRegex(ValueError, 'Configuration changed'):
+                adapter.main()
+        self.assertEqual(len(calls), 675)
+        args.extend(['--context-length', '65536'])
+        for mode in adapter.MODES:
+            args[2] = mode
+            output = self.root / ('full-mode-' + mode)
+            args[args.index('--output') + 1] = str(output)
+            with patch.dict(os.environ, {'OLLAMA_CTX': '65536'}), patch.object(sys, 'argv', args), \
+                 patch.object(upstream, 'OpenAI', factory), contextlib.redirect_stdout(io.StringIO()):
+                adapter.main()
+                adapter.main()
+            report = json.loads((output / 'experiment.json').read_text())
+            self.assertEqual(report['mode'], mode)
+            self.assertEqual(report['context_length'], 65536)
+            self.assertEqual(report['reference_context_length'], 32768)
+            self.assertEqual(json.loads((output / 'complete.json').read_text())['tasks'], 675)
+        self.assertEqual(len(calls), 675 * 6)  # original standard plus all five independent modes
 
 if __name__ == '__main__':
     print('SDK under test:', importlib.metadata.version('openai'))

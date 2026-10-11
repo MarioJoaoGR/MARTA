@@ -1,0 +1,67 @@
+{
+  "upstream_commit": "39fb6ab3173136d3dac2d38ed7c98baf6c470270",
+  "dataset": "811639c4291d3bd14ff58d8b2976bfffbf4df08cbf7d7aab22080c88165747dd",
+  "tasks": 675,
+  "modes": {
+    "standard": {
+      "path": "prompts/standard.jsonl",
+      "tasks": 675,
+      "prompts_sha256": "4d3fc5a62d0ebb2a5a1309bf36d2c99a69a9446a89971d12d8ade5d41a3792c2",
+      "changed_from_standard": 0,
+      "max_prompt_bytes": 4537,
+      "retrieval": null
+    },
+    "lsp_context": {
+      "path": "prompts/lsp_context.jsonl",
+      "tasks": 675,
+      "prompts_sha256": "cc032895eb992dbd63071a3c615674be83d7a66fecea9401bc057f4f2426cd5a",
+      "changed_from_standard": 170,
+      "max_prompt_bytes": 11796,
+      "retrieval": null
+    },
+    "file_context": {
+      "path": "prompts/file_context.jsonl",
+      "tasks": 675,
+      "prompts_sha256": "37f336a26d64e0dd503d01de4fd371f1985e849bdbabcd84188439bf7eb80e81",
+      "changed_from_standard": 675,
+      "max_prompt_bytes": 92656,
+      "retrieval": null
+    },
+    "rag_bm25": {
+      "path": "prompts/rag_bm25.jsonl",
+      "tasks": 675,
+      "prompts_sha256": "c8fe9b50b28d4b1cefc30c797ea2024a8d10302957e0b3833fca70923527f91c",
+      "changed_from_standard": 675,
+      "max_prompt_bytes": 27355,
+      "retrieval": {
+        "window_lines": 50,
+        "stride_lines": 10,
+        "available_k": 20,
+        "used_k": 10
+      }
+    },
+    "rag_dense": {
+      "path": "prompts/rag_dense.jsonl",
+      "tasks": 675,
+      "prompts_sha256": "2c9a9a6c3895567a3e46eed8e5c56e240d951f34ae227b2cbb17d277e464a64c",
+      "changed_from_standard": 675,
+      "max_prompt_bytes": 109930,
+      "retrieval": {
+        "window_lines": 50,
+        "stride_lines": 10,
+        "available_k": 20,
+        "used_k": 10
+      }
+    }
+  },
+  "source_data": {
+    "hf_revision": "cd694c00d20951aef189a406abac980a6b1c49d4",
+    "files": {
+      "data/base/ruby_functions.jsonl": "811639c4291d3bd14ff58d8b2976bfffbf4df08cbf7d7aab22080c88165747dd",
+      "data/lsp/ruby_functions_enriched.jsonl": "9f6b9aaab20196758fbf435b3fc189c1d63f32f551306f5caf339901d8bbba04",
+      "data/rag/ruby_functions_ws50_ss10_k20_enriched_bm25.jsonl": "a65da6a8c6a8c88f36cbf814b6319be3fdb832a4956ee7f33a5c451d380d90c0",
+      "data/rag/ruby_functions_ws50_ss10_k20_enriched_unixcoder.jsonl": "6e047a122f912e5be7e599b9ed2abc65440b2e0fb213b6ca50b284e693407c36"
+    }
+  },
+  "archive_sha256": "bf7bd48001734fcda354c684ac42e23742e119a7fff73feeb78f73695b83786f"
+}
