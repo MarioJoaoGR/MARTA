@@ -144,3 +144,10 @@ medidos na execução completa. A medição de mutação ocorre depois, sobre es
 mesmas suites congeladas, com a versão final validada do executor. Esta medição
 core não corrige os problemas do executor de mutação nem altera prompts, tarefas,
 políticas de geração ou o fingerprint da MARTA.
+
+## Execução oficial controlada no Qwen3.6:35b
+
+A preparação de 11 de outubro está em [XREPOTEST_OFFICIAL_35B.md](XREPOTEST_OFFICIAL_35B.md).
+Usa os prompts standard e o cliente publicados, com parâmetros iguais aos da
+MARTA, resultados isolados e retoma que conserva também os erros terminais.
+O primeiro job CPU valida o ambiente e os imports, sem reservar GPU.
