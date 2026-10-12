@@ -287,3 +287,28 @@ A avaliação CPU final usa `run_xrepotest_official_evaluate_cpu.sh` com este me
 XREPO_RUN após os cinco exports completos. Pode extrair depois os 97 IDs das
 ablações, sem gerar testes adicionais. A ablação MARTA sem grafo continua
 incompleta e não é retomada por estes comandos.
+
+## Diagnóstico da primeira execução CPU (job 2008484)
+
+A execução foi cancelada após 4h40: três tarefas terminaram por timeout, sem
+respostas válidas, e a quarta foi interrompida. Os logs confirmam três pedidos
+HTTP por chamada do SDK, 30 minutos cada, e cerca de 0,1 token/s no runner.
+O runner detetou 128 threads; OMP_NUM_THREADS=32 não limitou as threads llama.
+O papel das threads na lentidão ainda precisa de medição, não está demonstrado.
+Os erros/checkpoints desta tentativa ficam preservados; não são resultados
+concluídos dos cinco modos nem evidência de qualidade do modelo.
+
+`run_xrepotest_cpu_threads_probe.sh` é um diagnóstico CPU separado, sem
+encadeamento nem GPU. Recupera as mensagens originais da tarefa 0 e testa
+8, 16 e 32 threads explicitamente através de `options.num_thread`. Mantém
+pesos, thinking=high, contexto 32768, limite de saída 16384 e amostragem.
+Usa o endpoint nativo com streaming apenas para medir o runtime; cada medição
+é interrompida aos 180s se ainda não terminou. Isso não constitui uma execução
+do benchmark com o timeout de 1800s. Não gera métricas de testes, exports ou
+checkpoints de tarefas, nem altera os prompts/resultados anteriores.
+
+Os relatórios ficam em `diagnostics/cpu_threads_<JOBID>/report.json`. Taxas de
+tokens vêm exclusivamente das métricas finais do runner ou dos seus logs;
+chunks e caracteres de streaming não são contabilizados como tokens.
+Mesmo havendo melhoria, validar viabilidade antes de submeter novamente os
+3375 pedidos. Este diagnóstico não retoma a execução completa.
