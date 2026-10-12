@@ -241,6 +241,28 @@ class OfficialGenerationTests(unittest.TestCase):
             self.assertEqual(json.loads((output / 'complete.json').read_text())['tasks'], 675)
         self.assertEqual(len(calls), 675 * 6)  # original standard plus all five independent modes
 
+        args[2] = 'standard'
+        output = self.root / 'cpu-standard'
+        args[args.index('--output') + 1] = str(output)
+        proof_path = self.root / 'cpu-proof.json'
+        proof = {'backend': 'cpu', 'model_digest': adapter.MODEL_DIGEST, 'size_vram': 0,
+                 'context_length': 32768, 'ollama_version': '0.30.7',
+                 'host': 'http://127.0.0.1:11434', 'slurm_job_id': os.getenv('SLURM_JOB_ID')}
+        adapter.atomic(proof_path, proof)
+        args.extend(['--backend', 'cpu', '--cpu-proof', str(proof_path)])
+        with patch.dict(os.environ, {'OLLAMA_CTX': '32768'}), patch.object(sys, 'argv', args), \
+             patch.object(upstream, 'OpenAI', factory), contextlib.redirect_stdout(io.StringIO()):
+            adapter.main()
+            adapter.main()
+        self.assertEqual(len(calls), 675 * 7)
+        self.assertEqual(calls[0], calls[675 * 6])  # sampler and messages identical across CPU/GPU
+        self.assertEqual(json.loads((output / 'experiment.json').read_text())['execution_backend'], 'cpu')
+        adapter.atomic(proof_path, {**proof, 'size_vram': 1})
+        with patch.dict(os.environ, {'OLLAMA_CTX': '32768'}), patch.object(sys, 'argv', args):
+            with self.assertRaisesRegex(ValueError, 'CPU proof differs'):
+                adapter.main()
+        self.assertEqual(len(calls), 675 * 7)
+
 if __name__ == '__main__':
     print('SDK under test:', importlib.metadata.version('openai'))
     unittest.main()

@@ -196,6 +196,8 @@ def write_jsonl(path, rows):
 
 def main():
     p = argparse.ArgumentParser(description=__doc__)
+    p.add_argument('--backend', choices=('gpu', 'cpu'), default='gpu')
+    p.add_argument('--cpu-proof', type=Path)
     p.add_argument('--mode', choices=MODES, required=True)
     p.add_argument('--context-length', type=int, choices=(32768,), default=32768)
     p.add_argument('--assets-dir', type=Path, required=True)
@@ -208,10 +210,11 @@ def main():
     p.add_argument('--model-metadata', type=Path)
     a = p.parse_args()
     prompts, report, factory, preprocess = prepare(a.assets_dir, a.dataset, a.reference, a.environment_manifest, a.mode, a.context_length)
+    report['execution_backend'] = a.backend
     if a.preflight_output:
         atomic(a.preflight_output, report)
     if a.output is None:
-        print(json.dumps({k: report[k] for k in ('ready', 'mode', 'tasks', 'context_length', 'reference_context_length', 'prompt_source', 'packages')}, indent=2))
+        print(json.dumps({k: report[k] for k in ('ready', 'mode', 'execution_backend', 'tasks', 'context_length', 'reference_context_length', 'prompt_source', 'packages')}, indent=2))
         return
     url = urlparse(a.api_base or '')
     if url.scheme != 'http' or url.hostname != '127.0.0.1' or url.path != '/v1':
@@ -220,6 +223,16 @@ def main():
     if (metadata['model']['digest'] != MODEL_DIGEST or metadata['model']['name'] != PARAMETERS['model']
             or metadata['ollama']['version'] != '0.30.7'):
         raise ValueError('Model weights or Ollama version differ from MARTA')
+    if a.backend == 'cpu':
+        if not a.cpu_proof:
+            raise ValueError('CPU execution requires a verified loaded CPU runner')
+        proof = json.loads(a.cpu_proof.read_text())
+        if (proof.get('backend') != 'cpu' or proof.get('model_digest') != MODEL_DIGEST
+                or proof.get('context_length') != a.context_length or proof.get('size_vram') != 0
+                or proof.get('host') != url.scheme + '://' + url.netloc
+                or proof.get('ollama_version') != '0.30.7'
+                or proof.get('slurm_job_id') != os.getenv('SLURM_JOB_ID')):
+            raise ValueError('CPU proof differs from this job/model/context/server')
     if os.getenv('OLLAMA_CTX') != str(a.context_length):
         raise ValueError('Ollama context does not match the registered official context length')
     root = a.output.resolve()
@@ -231,6 +244,7 @@ def main():
         fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
         config = {'schema': 'official-xrepotest-context-mode-controlled-v2', **report,
                   'model_digest': MODEL_DIGEST, 'ollama_version': '0.30.7',
+                  'execution_backend': a.backend,
                   'samples_per_task': 1, 'upstream_network_attempts': 3,
                   'checkpoint_policy': 'terminal-success-and-error-v1'}
         manifest = root / 'experiment.json'

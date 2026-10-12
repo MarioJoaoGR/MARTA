@@ -155,3 +155,8 @@ A janela fica fixada nos mesmos 32 768 tokens da MARTA. Os prompts são enviados
 intactos; a política nativa de truncagem do Ollama é mantida e a limitação
 dos contextos que excedem essa janela está documentada.
 O primeiro job CPU valida o ambiente e os imports, sem reservar GPU.
+
+A alternativa de geração só em CPU, preparada em 12 de outubro, usa um run
+isolado, os mesmos parâmetros e uma prova do runner CPU. A medição de velocidade
+e a quota x86 determinam a duração das retomas; a primeira submissão proposta
+está limitada a uma hora e não se encadeia automaticamente.

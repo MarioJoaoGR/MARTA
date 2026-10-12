@@ -206,8 +206,84 @@ heurística. Mutação permanece fora desta avaliação até estar validada para
 todas as abordagens; os scores antigos não são tratados como comparação final.
 
 Validação local: nove testes de geração passaram com os SDKs já instalados
-1.42.0 (o usado pela MARTA) e 3.24.0; um teste adicional verifica os três scripts
-Slurm. Incluem os cinco conjuntos de prompts, exportação de 675 tarefas e retoma
+1.42.0 (o usado pela MARTA) e 3.24.0; testes adicionais verificam os scripts
+Slurm e a prova de CPU (13 testes no SDK 1.42.0 após a alternativa CPU). Incluem os cinco conjuntos de prompts, exportação de 675 tarefas e retoma
 com API simulada. Na imagem Docker repaired-v2, offline, confirmámos os hashes
 do dataset e das fontes e os 675 prompts de cada modo. Não houve inferência nem
 instalação de pacotes. A validação real no Deucalion é o primeiro job CPU acima.
+
+## Geração exclusivamente CPU (12 de outubro)
+
+A quota GPU restante reportada é de 11 horas. É possível gerar os cinco modos
+em CPU, mantendo as 675 tarefas por modo, mesmos prompts, mesmo digest Q4_K_M,
+Ollama 0.30.7, thinking, amostragem, contexto 32768 e saída máxima 16384.
+**Não aumentamos o timeout de 1800 segundos**. Se CPU atingir esse timeout, as
+regras oficiais de retries/erro mantêm-se. Esses casos terão de ser reportados,
+não tratados como medida pura da qualidade do modelo. A velocidade real no
+Deucalion e a adequação do timeout ainda não foram medidas.
+
+A CPU muda o backend de cálculo. Não prometemos respostas iguais às da GPU:
+implementações numéricas e amostragem podem diferir. As métricas core continuam
+a avaliar testes pelo mesmo protocolo; o hardware deve ser declarado e tempos
+CPU/GPU não são uma comparação controlada de eficiência da ferramenta.
+
+O novo run é `qwen36_35b_xrepotest_contexts_thinking_cpu_v1`, separado do run GPU.
+O adaptador regista execution_backend e recusa uma prova de CPU que pertença a
+outro modelo, janela, versão, job ou servidor. Não misturamos respostas de
+hardware diferente num run existente. A mesma política de retoma conserva
+sucessos e erros terminais; uma resposta interrompida é arquivada e reiniciada.
+
+`run_xrepotest_official_generate_cpu.sh` usa conta x86, normal-x86, um nó,
+32 CPUs e 64 GiB de RAM solicitada. Não pede GPUs, não usa --nv nem módulos
+CUDA. CUDA/ROCm/Vulkan ficam ocultos/desligados. `verify_ollama_cpu.py` carrega
+os pesos já existentes com prompt vazio (load-only, sem uma resposta gerada)
+e verifica em /api/ps que o modelo está carregado, usa VRAM zero e contexto
+32768. A prova, lscpu, dados Slurm, memória e logs ficam guardados por job.
+O runtime e os pacotes usados já existem; não há instalação nem downloads.
+
+[Ollama documenta o modo CPU](https://github.com/ollama/ollama/blob/v0.30.7/docs/gpu.mdx).
+Segundo o [guia Deucalion](https://docs.macc.fccn.pt/start/), a quota CPU é separada
+e nós CPU x86 exclusivos são faturados por 128 cores, mesmo que o pedido use
+menos. **Uma hora num nó pode consumir 128 core-h, não uma hora da quota GPU**.
+Confirmar `billing` antes de ampliar a duração ou ligar retomas automáticas.
+
+### Começar uma hora de trabalho aproveitável
+
+Não é um novo subset nem um piloto cujos resultados serão descartados. O job
+começa a geração oficial em standard, nos 675 IDs, seguida dos outros quatro
+modos. Cada tarefa terminada fica guardada para a continuação da mesma execução.
+Uma hora não implica conclusão de standard, e muito menos dos cinco modos.
+
+```bash
+billing
+(
+set -e
+cd /projects/F202407648IACDCF2/mario/MARTA-evaluation
+test "$(git branch --show-current)" = codex/xrepo-comparable-evaluation
+git pull --ff-only
+export MARTA_CLUSTER_BASE=/projects/F202407648IACDCF2/mario
+export MARTA_CLUSTER_CODE="$PWD"
+export XREPO_RUN=qwen36_35b_xrepotest_contexts_thinking_cpu_v1
+export XREPO_OFFICIAL_CTX=32768 XREPO_CPU_CHAIN=0
+unset XREPO_TASK_IDS XREPO_REUSE_ANALYSIS_FROM XREPO_REUSE_FIRST_ROUND_FROM
+mkdir -p logs
+PRE=$(sbatch --parsable --export=ALL deucalion/run_xrepotest_official_prepare_cpu.sh)
+GEN=$(sbatch --parsable --export=ALL --dependency="afterok:$PRE" \
+    --partition=dev-x86 --time=01:00:00 deucalion/run_xrepotest_official_generate_cpu.sh)
+echo "Preparação CPU: $PRE; geração CPU: $GEN"
+squeue -j "$PRE,$GEN"
+)
+```
+
+O script tem 24 horas em normal-x86 como duração para trabalhos longos, mas
+este comando limita a primeira execução a uma hora em dev-x86. O aviso de
+walltime termina o job antes do limite conservando checkpoints. A opção
+XREPO_CPU_CHAIN=0 é a omissão e impede nova submissão automática. Para ampliar,
+verificar tempo por tarefa e quota CPU; uma retoma manual em normal-x86 mantém
+o run e todos os resultados anteriores. Só XREPO_CPU_CHAIN=1 permite encadear
+jobs de 24h automaticamente. Não ativar sem orçamento suficiente.
+
+A avaliação CPU final usa `run_xrepotest_official_evaluate_cpu.sh` com este mesmo
+XREPO_RUN após os cinco exports completos. Pode extrair depois os 97 IDs das
+ablações, sem gerar testes adicionais. A ablação MARTA sem grafo continua
+incompleta e não é retomada por estes comandos.
