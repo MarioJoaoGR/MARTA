@@ -125,3 +125,29 @@ end
     assert redirected.branches["calc.rb"] == baseline.branches["calc.rb"]
     assert redirected.methods["calc.rb"] == baseline.methods["calc.rb"]
     assert sum(hit or 0 for hit in redirected.files["calc.rb"]) > 0
+
+
+@pytest.mark.parametrize("exit_code", [0, 7])
+@pytest.mark.skipif(not _toolchain_ok(), reason="no Ruby/RSpec toolchain")
+def test_coverage_emitted_when_rspec_propagates_application_exit(tmp_path, exit_code):
+    import json
+    import subprocess
+
+    (tmp_path / "app.rb").write_text(
+        "module App\n  def self.stop(code)\n    puts 'application message'\n"
+        "    exit(code)\n  end\nend\n")
+    spec = tmp_path / "exit_spec.rb"
+    prefix = 'require "app"\nRSpec.describe App do\n  it "exits" do\n'
+    suffix = "  end\nend\n"
+    # Both execute the same application statements. Only the control flow in
+    # the test differs: handled SystemExit versus propagation through RSpec.
+    spec.write_text(prefix + f"    expect {{ App.stop({exit_code}) }}.to raise_error(SystemExit)\n" + suffix)
+    baseline = cov.run_line_coverage(".", [str(spec)], cwd=str(tmp_path), isolated=True)
+    spec.write_text(prefix + f"    App.stop({exit_code})\n" + suffix)
+    proc = subprocess.run([cov.ruby_bin(), cov._HELPER, "--isolated", str(tmp_path), str(spec)],
+                          cwd=tmp_path, capture_output=True, text=True)
+    assert proc.returncode == exit_code  # no swallowed SystemExit
+    data, _ = json.JSONDecoder().raw_decode(proc.stdout[proc.stdout.index('{"source_dir"'):])
+    assert data["files"]["app.rb"]["lines"] == baseline.files["app.rb"]
+    assert data["files"]["app.rb"]["branches"] == baseline.branches["app.rb"]
+    assert data["files"]["app.rb"]["methods"] == baseline.methods["app.rb"]

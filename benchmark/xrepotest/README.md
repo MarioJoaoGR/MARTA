@@ -860,3 +860,10 @@ primeira ronda normal já concluída, usando `XREPO_REUSE_FIRST_ROUND_FROM` igua
 como uma eventual ausência de testes; só as rondas posteriores são novas.
 Os requisitos de compatibilidade, a comparação emparelhada e o consumo herdado
 estão descritos em [ABLATIONS.md](ABLATIONS.md#primeira-ronda-partilhada-no-braço-sem-feedback-de-cobertura).
+
+### Application exit and internal coverage feedback
+
+The no-graph Dotenv stop of 12 October and its generic RSpec ensure repair are
+documented in [COVERAGE_SYSTEM_EXIT_REPAIR.md](../../deucalion/COVERAGE_SYSTEM_EXIT_REPAIR.md).
+The CPU job audits the saved experiment without running the model or resuming GPU
+generation. The final evaluator, prompt policies and model budgets are unchanged.
