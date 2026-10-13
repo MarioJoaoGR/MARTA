@@ -6,7 +6,7 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=32
 #SBATCH --mem=64G
-#SBATCH --time=24:00:00
+#SBATCH --time=48:00:00
 #SBATCH --output=logs/xrepo_official_generate_cpu_%j.out
 #SBATCH --signal=B:USR1@120
 set -euo pipefail
@@ -16,6 +16,8 @@ export MODEL=qwen3.6:35b XREPO_THINKING=on
 export XREPO_OFFICIAL_CTX=${XREPO_OFFICIAL_CTX:-32768}
 [[ "$XREPO_OFFICIAL_CTX" == 32768 ]] || { echo "Context must match MARTA: 32768"; exit 2; }
 export OLLAMA_CTX="$XREPO_OFFICIAL_CTX"
+export XREPO_AUTO_EVALUATE=${XREPO_AUTO_EVALUATE:-0}
+[[ "$XREPO_AUTO_EVALUATE" == 0 || "$XREPO_AUTO_EVALUATE" == 1 ]] || exit 2
 export XREPO_OFFICIAL_MODE=${XREPO_OFFICIAL_MODE:-all}
 case "$XREPO_OFFICIAL_MODE" in
     all) MODES=(standard lsp_context file_context rag_bm25 rag_dense) ;;
@@ -106,5 +108,19 @@ for mode in "${MODES[@]}"; do
     STEP_PID=$!
     wait "$STEP_PID"
     STEP_PID=""
+    if [[ "$XREPO_AUTO_EVALUATE" == 1 ]]; then
+        test -s "$RUN/modes/$mode/generation/complete.json" || {
+            echo "Generator returned without a complete export: $mode"; exit 2;
+        }
+        EVAL_MARKER="$RUN/modes/$mode/metadata/automatic_core_evaluation.job"
+        if [[ ! -s "$RUN/modes/$mode/evaluation_core_v1/summary.json" && ! -s "$EVAL_MARKER" ]]; then
+            # Export is sealed already; afterany also handles a late walltime signal.
+            EVAL_JOB=$(sbatch --parsable --dependency="afterany:$SLURM_JOB_ID" \
+                --export="ALL,XREPO_EVALUATE_MODE=$mode" \
+                "$CODE/deucalion/run_xrepotest_official_evaluate_cpu.sh")
+            printf '%s\n' "$EVAL_JOB" > "$EVAL_MARKER"
+            echo "Automatic core evaluation $mode: $EVAL_JOB"
+        fi
+    fi
 done
 echo "Official CPU mode(s) complete: ${MODES[*]}; $RUN/modes"

@@ -17,10 +17,24 @@ source "$MARTA_CLUSTER_CODE/deucalion/xrepotest_job_common.sh"
    "$XREPO_RUN" == qwen36_35b_xrepotest_contexts_thinking_cpu_v1 ||
    "$XREPO_RUN" == qwen36_35b_xrepotest_contexts_thinking_cpu_threads8_v2 ]] || exit 2
 CONTINUATION="$CODE/deucalion/run_xrepotest_official_evaluate_cpu.sh"
-for mode in standard lsp_context file_context rag_bm25 rag_dense; do
+export XREPO_EVALUATE_MODE=${XREPO_EVALUATE_MODE:-all}
+case "$XREPO_EVALUATE_MODE" in
+    all) MODES=(standard lsp_context file_context rag_bm25 rag_dense) ;;
+    standard|lsp_context|file_context|rag_bm25|rag_dense) MODES=("$XREPO_EVALUATE_MODE") ;;
+    *) echo "Unknown evaluation context mode: $XREPO_EVALUATE_MODE"; exit 2 ;;
+esac
+exec 9>"$RUN/evaluation-job.lock"
+if [[ "$XREPO_EVALUATE_MODE" == all ]]; then
+    flock -n 9 || { echo "Official evaluation already running"; exit 2; }
+else
+    flock -sn 9 || { echo "All-mode evaluation already running"; exit 2; }
+    exec 8>"$RUN/evaluation-$XREPO_EVALUATE_MODE-job.lock"
+    flock -n 8 || { echo "Evaluation already running: $XREPO_EVALUATE_MODE"; exit 2; }
+fi
+for mode in "${MODES[@]}"; do
     test -s "$RUN/modes/$mode/generation/complete.json" || { echo "Generation incomplete: $mode"; exit 2; }
 done
-for mode in standard lsp_context file_context rag_bm25 rag_dense; do
+for mode in "${MODES[@]}"; do
     echo "=== Evaluate official mode: $mode; all 675 tasks ==="
     "${CONTAINER[@]}" --pwd /home/marta "$IMAGE" python3 -B \
         -m benchmark.xrepotest.evaluate --dataset /app/xrepotest/ruby_functions.jsonl \
@@ -31,4 +45,4 @@ for mode in standard lsp_context file_context rag_bm25 rag_dense; do
     wait "$STEP_PID"
     STEP_PID=""
 done
-echo "All five official modes evaluated: $RUN/modes"
+echo "Official mode(s) evaluated: ${MODES[*]}; $RUN/modes"

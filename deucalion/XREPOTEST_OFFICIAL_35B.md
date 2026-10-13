@@ -409,3 +409,88 @@ done
 squeue -j "$PRE,$JOB_IDS"
 )
 ```
+
+## Continuação sustentada para o prazo de 30 de outubro
+
+Depois das primeiras respostas reais dos cinco modos, deixar de limitar cada
+janela a 2h. As continuações usam normal-x86, 48h por job/mode,
+XREPO_CPU_CHAIN=1 e XREPO_AUTO_EVALUATE=1. Não cancelar os jobs atuais de 2h:
+submeter cada continuação com afterany do respetivo job, se ainda estiver
+ativo. Se já terminou, a retoma pode começar diretamente dos checkpoints.
+
+O sinal de walltime agenda o próximo job do mesmo modo, com os mesmos
+parâmetros e resultados. Falhas inesperadas param e precisam de diagnóstico;
+não são repetidas indefinidamente. Jobs completos acabam naturalmente.
+A retoma conserva todos os sucessos e erros terminais e reinicia apenas
+pedidos incompletos segundo a política existente. A fila Slurm pode introduzir
+intervalos entre jobs; não prometemos execução ininterrupta nem uma data de
+conclusão com base numa única resposta.
+
+Ao completar as 675 tarefas de um modo, o job agenda a avaliação core desse
+modo, com afterany do próprio job e XREPO_EVALUATE_MODE=<modo>. O export já
+está fechado; a avaliação verifica-o antes de executar. Um marcador em
+modes/<modo>/metadata/automatic_core_evaluation.job guarda o ID submetido
+e impede submissão duplicada numa retoma manual. Se a avaliação falhar,
+inspecionar esse ID e retomar a avaliação explicitamente. Os locks da avaliação
+permitem modos diferentes simultâneos e impedem duplicados ou sobreposição
+com a avaliação de todos os modos. As métricas e o avaliador não mudam.
+
+Os jobs de geração iniciais foram standard=2028644, lsp_context=2028646,
+file_context=2028647, rag_bm25=2028648 e rag_dense=2028649. Conferir quais
+continuam ativos com squeue antes de criar dependências, pois IDs antigos
+podem sair do registo ativo Slurm. Esta operação é exclusivamente CPU.
+Cinco nós de 48h representam até 30720 core-h por janela; a quota reportada
+é suficiente para essa janela, mas verificar billing nas retomas longas.
+
+Lançar as cinco continuações sem interromper os jobs atuais:
+
+```bash
+(
+set -e
+cd /projects/F202407648IACDCF2/mario/MARTA-evaluation
+test "$(git branch --show-current)" = codex/xrepo-comparable-evaluation
+git pull --ff-only
+mkdir -p logs
+python3 - <<'PYLAUNCH'
+import os, subprocess
+from pathlib import Path
+
+usage = subprocess.check_output(["billing"], universal_newlines=True)
+print(usage)
+row = next(line for line in usage.splitlines() if "f202407648iacdcf2x" in line.lower())
+used, limit, percent = [float(x.strip().rstrip("%")) for x in row.split("│")[2:5]]
+assert min(limit - used - 1, limit * (100 - percent - 0.01) / 100) >= 30720, "Quota CPU insuficiente para cinco jobs de 48h"
+
+active = set(subprocess.check_output(
+    ["squeue", "-h", "-u", os.environ["USER"], "-o", "%i"],
+    universal_newlines=True).split())
+base = Path("/projects/F202407648IACDCF2/mario")
+env = dict(os.environ, MARTA_CLUSTER_BASE=str(base), MARTA_CLUSTER_CODE=os.getcwd(),
+           XREPO_RUN="qwen36_35b_xrepotest_contexts_thinking_cpu_threads8_v2",
+           XREPO_OFFICIAL_CTX="32768", XREPO_CPU_CHAIN="1", XREPO_AUTO_EVALUATE="1")
+for key in ("XREPO_TASK_IDS", "XREPO_REUSE_ANALYSIS_FROM", "XREPO_REUSE_FIRST_ROUND_FROM", "XREPO_EVALUATE_MODE"):
+    env.pop(key, None)
+
+parents = {"standard": "2028644", "lsp_context": "2028646",
+           "file_context": "2028647", "rag_bm25": "2028648", "rag_dense": "2028649"}
+submitted = []
+for mode, parent in sorted(parents.items()):
+    args = ["sbatch", "--parsable", "--export=ALL", "--partition=normal-x86",
+            "--time=48:00:00", "--job-name=xrepo_" + mode]
+    if parent in active:
+        args.append("--dependency=afterany:" + parent)
+    args.append("deucalion/run_xrepotest_official_generate_cpu.sh")
+    job = subprocess.check_output(args, env=dict(env, XREPO_OFFICIAL_MODE=mode),
+                                  universal_newlines=True).strip()
+    submitted.append(job)
+    print(mode, ":", job, "(após " + parent + ")" if parent in active else "(retoma direta)")
+subprocess.call(["squeue", "-j", ",".join(submitted)])
+PYLAUNCH
+)
+```
+
+Executar uma vez para este conjunto de pais. A retoma automática é feita pelos
+jobs novos; não repetir a submissão inicial enquanto houver uma continuação
+ativa para o mesmo modo. Os locks impedem dois writers, mas um job duplicado
+terá alocado recursos antes de ser recusado. As submissões e os resultados
+dos testes de orchestration não são resultados de inferência ou de avaliação.
