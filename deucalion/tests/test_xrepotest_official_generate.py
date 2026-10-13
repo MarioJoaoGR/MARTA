@@ -247,6 +247,7 @@ class OfficialGenerationTests(unittest.TestCase):
         proof_path = self.root / 'cpu-proof.json'
         proof = {'backend': 'cpu', 'model_digest': adapter.MODEL_DIGEST, 'size_vram': 0,
                  'context_length': 32768, 'ollama_version': '0.30.7',
+                 'cpu_threads': 8, 'thread_control': 'LLAMA_ARG_THREADS',
                  'host': 'http://127.0.0.1:11434', 'slurm_job_id': os.getenv('SLURM_JOB_ID')}
         adapter.atomic(proof_path, proof)
         args.extend(['--backend', 'cpu', '--cpu-proof', str(proof_path)])
@@ -256,11 +257,14 @@ class OfficialGenerationTests(unittest.TestCase):
             adapter.main()
         self.assertEqual(len(calls), 675 * 7)
         self.assertEqual(calls[0], calls[675 * 6])  # sampler and messages identical across CPU/GPU
-        self.assertEqual(json.loads((output / 'experiment.json').read_text())['execution_backend'], 'cpu')
-        adapter.atomic(proof_path, {**proof, 'size_vram': 1})
-        with patch.dict(os.environ, {'OLLAMA_CTX': '32768'}), patch.object(sys, 'argv', args):
-            with self.assertRaisesRegex(ValueError, 'CPU proof differs'):
-                adapter.main()
+        cpu_manifest = json.loads((output / 'experiment.json').read_text())
+        self.assertEqual(cpu_manifest['execution_backend'], 'cpu')
+        self.assertEqual(cpu_manifest['cpu_runtime'], {'threads': 8, 'thread_control': 'LLAMA_ARG_THREADS'})
+        for field, value in (('size_vram', 1), ('cpu_threads', 128), ('thread_control', 'unverified')):
+            adapter.atomic(proof_path, {**proof, field: value})
+            with patch.dict(os.environ, {'OLLAMA_CTX': '32768'}), patch.object(sys, 'argv', args):
+                with self.assertRaisesRegex(ValueError, 'CPU proof differs'):
+                    adapter.main()
         self.assertEqual(len(calls), 675 * 7)
 
 if __name__ == '__main__':

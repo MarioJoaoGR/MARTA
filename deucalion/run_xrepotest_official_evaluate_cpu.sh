@@ -14,7 +14,8 @@ BASE=${MARTA_CLUSTER_BASE:-/projects/F202407648IACDCF2/mario}
 export MARTA_CLUSTER_CODE=${MARTA_CLUSTER_CODE:-$BASE/MARTA-evaluation}
 source "$MARTA_CLUSTER_CODE/deucalion/xrepotest_job_common.sh"
 [[ "$XREPO_RUN" == qwen36_35b_xrepotest_contexts_thinking_v1 ||
-   "$XREPO_RUN" == qwen36_35b_xrepotest_contexts_thinking_cpu_v1 ]] || exit 2
+   "$XREPO_RUN" == qwen36_35b_xrepotest_contexts_thinking_cpu_v1 ||
+   "$XREPO_RUN" == qwen36_35b_xrepotest_contexts_thinking_cpu_threads8_v2 ]] || exit 2
 CONTINUATION="$CODE/deucalion/run_xrepotest_official_evaluate_cpu.sh"
 for mode in standard lsp_context file_context rag_bm25 rag_dense; do
     test -s "$RUN/modes/$mode/generation/complete.json" || { echo "Generation incomplete: $mode"; exit 2; }

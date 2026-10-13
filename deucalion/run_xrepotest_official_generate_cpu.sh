@@ -17,7 +17,10 @@ export XREPO_OFFICIAL_CTX=${XREPO_OFFICIAL_CTX:-32768}
 [[ "$XREPO_OFFICIAL_CTX" == 32768 ]] || { echo "Context must match MARTA: 32768"; exit 2; }
 export OLLAMA_CTX="$XREPO_OFFICIAL_CTX"
 source "$MARTA_CLUSTER_CODE/deucalion/xrepotest_job_common.sh"
-[[ "$XREPO_RUN" == qwen36_35b_xrepotest_contexts_thinking_cpu_v1 ]] || exit 2
+[[ "$XREPO_RUN" == qwen36_35b_xrepotest_contexts_thinking_cpu_threads8_v2 ]] || {
+    echo "Use the fresh CPU threads8 v2 run; v1 is preserved as a failed runtime trial"
+    exit 2
+}
 CONTINUATION="$CODE/deucalion/run_xrepotest_official_generate_cpu.sh"
 # CPU quota is separate. No chain unless explicitly enabled after billing check.
 export XREPO_CPU_CHAIN=${XREPO_CPU_CHAIN:-0}
@@ -54,7 +57,7 @@ HOST="127.0.0.1:$PORT"
 lscpu > "$RUN/metadata/cpu_$SLURM_JOB_ID.txt" 2>&1 || true
 singularity exec --cleanenv --home "$RUN/home:/home/marta" \
     --bind "$BASE/ollama_models:/data/ollama:ro" \
-    --env GOMAXPROCS=4 --env "OLLAMA_HOST=$HOST" \
+    --env GOMAXPROCS=4 --env LLAMA_ARG_THREADS=8 --env "OLLAMA_HOST=$HOST" \
     --env CUDA_VISIBLE_DEVICES=-1 --env ROCR_VISIBLE_DEVICES=-1 \
     --env GGML_VK_VISIBLE_DEVICES=-1 --env OLLAMA_VULKAN=0 \
     --env "OMP_NUM_THREADS=${SLURM_CPUS_PER_TASK:-32}" \
@@ -74,7 +77,8 @@ curl --fail --silent "http://$HOST/api/version" || exit 2
     --root /data/xrepo --model "$MODEL" --host "http://$HOST" \
     --metadata "/data/xrepo/runs/$XREPO_RUN/metadata/model_$SLURM_JOB_ID.json"
 "${CONTAINER[@]}" "$IMAGE" python3 -B /opt/marta/deucalion/verify_ollama_cpu.py \
-    --host "http://$HOST" --model "$MODEL" --context 32768 \
+    --host "http://$HOST" --model "$MODEL" --context 32768 --threads 8 \
+    --server-log "/data/xrepo/runs/$XREPO_RUN/logs/ollama_$SLURM_JOB_ID.log" \
     --output "/data/xrepo/runs/$XREPO_RUN/metadata/cpu_proof_$SLURM_JOB_ID.json"
 for mode in standard lsp_context file_context rag_bm25 rag_dense; do
     echo "=== Official XRepoTest CPU mode: $mode; 675 tasks ==="

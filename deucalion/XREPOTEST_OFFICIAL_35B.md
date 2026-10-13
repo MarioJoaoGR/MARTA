@@ -212,10 +212,10 @@ com API simulada. Na imagem Docker repaired-v2, offline, confirmámos os hashes
 do dataset e das fontes e os 675 prompts de cada modo. Não houve inferência nem
 instalação de pacotes. A validação real no Deucalion é o primeiro job CPU acima.
 
-## Geração exclusivamente CPU (12 de outubro)
+## Geração exclusivamente CPU (proposta de 12 de outubro, atualizada em 13 de outubro)
 
-A quota GPU restante reportada é de 11 horas. É possível gerar os cinco modos
-em CPU, mantendo as 675 tarefas por modo, mesmos prompts, mesmo digest Q4_K_M,
+A quota GPU reportada em 12 de outubro era de 11 horas; confirmar a quota atual.
+Foi preparada uma alternativa para gerar os cinco modos em CPU, mantendo as 675 tarefas por modo, mesmos prompts, mesmo digest Q4_K_M,
 Ollama 0.30.7, thinking, amostragem, contexto 32768 e saída máxima 16384.
 **Não aumentamos o timeout de 1800 segundos**. Se CPU atingir esse timeout, as
 regras oficiais de retries/erro mantêm-se. Esses casos terão de ser reportados,
@@ -227,7 +227,8 @@ implementações numéricas e amostragem podem diferir. As métricas core contin
 a avaliar testes pelo mesmo protocolo; o hardware deve ser declarado e tempos
 CPU/GPU não são uma comparação controlada de eficiência da ferramenta.
 
-O novo run é `qwen36_35b_xrepotest_contexts_thinking_cpu_v1`, separado do run GPU.
+A configuração corrigida usa `qwen36_35b_xrepotest_contexts_thinking_cpu_threads8_v2`,
+separada do run GPU e da tentativa CPU v1 falhada (preservada para auditoria).
 O adaptador regista execution_backend e recusa uma prova de CPU que pertença a
 outro modelo, janela, versão, job ou servidor. Não misturamos respostas de
 hardware diferente num run existente. A mesma política de retoma conserva
@@ -240,6 +241,8 @@ os pesos já existentes com prompt vazio (load-only, sem uma resposta gerada)
 e verifica em /api/ps que o modelo está carregado, usa VRAM zero e contexto
 32768. A prova, lscpu, dados Slurm, memória e logs ficam guardados por job.
 O runtime e os pacotes usados já existem; não há instalação nem downloads.
+LLAMA_ARG_THREADS=8 limita o executor; a prova deve confirmar 8 threads de
+geração e de batch no log real, além dos campos de /api/ps.
 
 [Ollama documenta o modo CPU](https://github.com/ollama/ollama/blob/v0.30.7/docs/gpu.mdx).
 Segundo o [guia Deucalion](https://docs.macc.fccn.pt/start/), a quota CPU é separada
@@ -247,10 +250,11 @@ e nós CPU x86 exclusivos são faturados por 128 cores, mesmo que o pedido use
 menos. **Uma hora num nó pode consumir 128 core-h, não uma hora da quota GPU**.
 Confirmar `billing` antes de ampliar a duração ou ligar retomas automáticas.
 
-### Começar uma hora de trabalho aproveitável
+### Começar uma hora na nova coorte, após validar um pedido inteiro
 
-Não é um novo subset nem um piloto cujos resultados serão descartados. O job
-começa a geração oficial em standard, nos 675 IDs, seguida dos outros quatro
+Executar esta etapa só depois de verificar a resposta do diagnóstico de
+pedido inteiro abaixo. Os resultados desta coorte seguem o protocolo oficial
+e conservam-se, incluindo erros terminais. O job começa a geração oficial em standard, nos 675 IDs, seguida dos outros quatro
 modos. Cada tarefa terminada fica guardada para a continuação da mesma execução.
 Uma hora não implica conclusão de standard, e muito menos dos cinco modos.
 
@@ -263,7 +267,7 @@ test "$(git branch --show-current)" = codex/xrepo-comparable-evaluation
 git pull --ff-only
 export MARTA_CLUSTER_BASE=/projects/F202407648IACDCF2/mario
 export MARTA_CLUSTER_CODE="$PWD"
-export XREPO_RUN=qwen36_35b_xrepotest_contexts_thinking_cpu_v1
+export XREPO_RUN=qwen36_35b_xrepotest_contexts_thinking_cpu_threads8_v2
 export XREPO_OFFICIAL_CTX=32768 XREPO_CPU_CHAIN=0
 unset XREPO_TASK_IDS XREPO_REUSE_ANALYSIS_FROM XREPO_REUSE_FIRST_ROUND_FROM
 mkdir -p logs
@@ -312,3 +316,35 @@ tokens vêm exclusivamente das métricas finais do runner ou dos seus logs;
 chunks e caracteres de streaming não são contabilizados como tokens.
 Mesmo havendo melhoria, validar viabilidade antes de submeter novamente os
 3375 pedidos. Este diagnóstico não retoma a execução completa.
+
+## Resultado do diagnóstico CPU e validação do endpoint OpenAI
+
+Job 2026463: 8 threads ~9,5 tokens/s, 16 threads ~9,5 tokens/s e
+32 threads ~3,6 tokens/s. A primeira execução com 128 threads tinha ~0,1
+token/s. Nenhum dos três pedidos de 180s terminou uma resposta: eram medições
+de velocidade, não validação da viabilidade ou qualidade do benchmark.
+
+A configuração inicial passa a 8 threads (16 não teve vantagem clara nesta
+medição única). O runner é limitado com LLAMA_ARG_THREADS=8, que atua no
+llama-server mesmo quando o endpoint OpenAI não fornece num_thread. O log
+de arranque deve confirmar 8 threads de geração e de batch; o verificador
+recusa outros valores, antes de fazer qualquer pedido do benchmark.
+
+`run_xrepotest_cpu_request_probe.sh` executa UMA vez o corpo HTTP original
+da tarefa 0 no endpoint /v1/chat/completions, sem streaming, com thinking
+high, contexto 32768, saída 16384 e timeout 1800s. Recupera e compara o
+corpo HTTP efetivamente registado com a chamada SDK, não reescreve o prompt.
+É um diagnóstico sem métricas nem retries do SDK. Guarda a resposta e o
+relatório em diagnostics/cpu_request_threads8_<JOBID>; preserva todos os
+checkpoints anteriores. Só depois de verificar uma resposta inteira se deve
+ampliar a execução. Uma resposta não demonstra a viabilidade de todos os
+contextos (os prompts de ficheiro completo podem ser muito maiores).
+
+A execução oficial corrigida é uma coorte nova:
+`qwen36_35b_xrepotest_contexts_thinking_cpu_threads8_v2`. Recomeça as mesmas
+675 tarefas em cada um dos cinco modos, com o protocolo fixado, sem importar
+os três erros da v1 nem a resposta do diagnóstico. A v1 inteira é mantida
+como tentativa de runtime falhada, não como benchmark concluído. O manifesto
+CPU regista threads=8 e o controlo LLAMA_ARG_THREADS; cada job tem prova do
+runner CPU, do modelo, contexto e threads. Não alterar timeout ou parâmetros
+para acelerar; não ativar encadeamento antes de medir duração útil.

@@ -42,7 +42,7 @@ if name == 'curl':
             fake.chmod(0o755)
             for name in ('singularity', 'curl', 'ml', 'scontrol', 'flock'):
                 (binaries / name).symlink_to(fake)
-            cohort = COHORT if backend == 'gpu' else 'qwen36_35b_xrepotest_contexts_thinking_cpu_v1'
+            cohort = COHORT if backend == 'gpu' else 'qwen36_35b_xrepotest_contexts_thinking_cpu_threads8_v2'
             run = root / 'xrepotest/runs' / cohort
             for mode in MODES:
                 preflight = run / 'modes' / mode / 'metadata/official_preflight.json'
@@ -68,6 +68,7 @@ if name == 'curl':
             if backend == 'cpu':
                 self.assertNotIn('--nv', servers[0])
                 self.assertIn('CUDA_VISIBLE_DEVICES=-1', servers[0])
+                self.assertIn('LLAMA_ARG_THREADS=8', servers[0])
                 self.assertIn('ROCR_VISIBLE_DEVICES=-1', servers[0])
                 script = CODE / 'deucalion/run_xrepotest_official_generate_cpu.sh'
                 self.assertIn('#SBATCH --account=f202407648iacdcf2x', script.read_text())

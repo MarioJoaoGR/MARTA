@@ -13,11 +13,13 @@ BASE=${MARTA_CLUSTER_BASE:-/projects/F202407648IACDCF2/mario}
 export MARTA_CLUSTER_CODE=${MARTA_CLUSTER_CODE:-$BASE/MARTA-evaluation}
 source "$MARTA_CLUSTER_CODE/deucalion/xrepotest_job_common.sh"
 [[ "$XREPO_RUN" == qwen36_35b_xrepotest_contexts_thinking_v1 ||
-   "$XREPO_RUN" == qwen36_35b_xrepotest_contexts_thinking_cpu_v1 ]] || exit 2
+   "$XREPO_RUN" == qwen36_35b_xrepotest_contexts_thinking_cpu_v1 ||
+   "$XREPO_RUN" == qwen36_35b_xrepotest_contexts_thinking_cpu_threads8_v2 ]] || exit 2
 export XREPO_OFFICIAL_CTX=${XREPO_OFFICIAL_CTX:-32768}
 [[ "$XREPO_OFFICIAL_CTX" == 32768 ]] || { echo "Context must match MARTA: 32768"; exit 2; }
 BACKEND=gpu
-if [[ "$XREPO_RUN" == qwen36_35b_xrepotest_contexts_thinking_cpu_v1 ]]; then BACKEND=cpu; fi
+if [[ "$XREPO_RUN" == qwen36_35b_xrepotest_contexts_thinking_cpu_v1 ||
+   "$XREPO_RUN" == qwen36_35b_xrepotest_contexts_thinking_cpu_threads8_v2 ]]; then BACKEND=cpu; fi
 for mode in standard lsp_context file_context rag_bm25 rag_dense; do
 "${CONTAINER[@]}" \
     --bind "$XROOT/python:/opt/conda/envs/test4py_env:ro" \

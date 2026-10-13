@@ -229,6 +229,7 @@ def main():
         proof = json.loads(a.cpu_proof.read_text())
         if (proof.get('backend') != 'cpu' or proof.get('model_digest') != MODEL_DIGEST
                 or proof.get('context_length') != a.context_length or proof.get('size_vram') != 0
+                or proof.get('cpu_threads') != 8 or proof.get('thread_control') != 'LLAMA_ARG_THREADS'
                 or proof.get('host') != url.scheme + '://' + url.netloc
                 or proof.get('ollama_version') != '0.30.7'
                 or proof.get('slurm_job_id') != os.getenv('SLURM_JOB_ID')):
@@ -247,6 +248,8 @@ def main():
                   'execution_backend': a.backend,
                   'samples_per_task': 1, 'upstream_network_attempts': 3,
                   'checkpoint_policy': 'terminal-success-and-error-v1'}
+        if a.backend == 'cpu':
+            config['cpu_runtime'] = {'threads': 8, 'thread_control': 'LLAMA_ARG_THREADS'}
         manifest = root / 'experiment.json'
         if manifest.exists():
             if json.loads(manifest.read_text()) != config:

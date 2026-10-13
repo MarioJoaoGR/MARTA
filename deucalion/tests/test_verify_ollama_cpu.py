@@ -1,5 +1,7 @@
 import copy
 import unittest
+from pathlib import Path
+import tempfile
 from deucalion import verify_ollama_cpu as gate
 
 
@@ -20,6 +22,24 @@ class CPUProofTests(unittest.TestCase):
         self.assertEqual(proof["size_vram"], 0)
         self.assertEqual(calls[2][1]["prompt"], "")
         self.assertEqual(calls[2][1]["options"], {"num_ctx": 32768})
+
+    def test_threads_are_verified_from_the_actual_runner_not_environment_claims(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            log = Path(tmp) / "runner.log"
+            log.write_text("system_info: n_threads = 8 (n_threads_batch = 8) / 128\n")
+            data = self.payloads()
+            def query(path, payload=None):
+                if path == "/api/generate":
+                    self.assertEqual(payload["options"], {"num_ctx": 32768})
+                return data[path]
+            proof = gate.verify("http://127.0.0.1:25000", gate.PARAMETERS["model"], 32768, query, 8, log)
+            self.assertEqual(proof["cpu_threads"], 8)
+            self.assertEqual(proof["thread_control"], "LLAMA_ARG_THREADS")
+            for text in ("", "system_info: n_threads = 128 (n_threads_batch = 128) / 128",
+                         "system_info: n_threads = 8 (n_threads_batch = 128) / 128"):
+                log.write_text(text)
+                with self.assertRaises(ValueError):
+                    gate.verify("http://127.0.0.1:25000", gate.PARAMETERS["model"], 32768, query, 8, log)
 
     def test_rejects_gpu_wrong_weights_context_version_or_generated_load(self):
         for field, value in (("size_vram", 1), ("digest", "other"), ("context_length", 4096)):
