@@ -348,3 +348,64 @@ como tentativa de runtime falhada, não como benchmark concluído. O manifesto
 CPU regista threads=8 e o controlo LLAMA_ARG_THREADS; cada job tem prova do
 runner CPU, do modelo, contexto e threads. Não alterar timeout ou parâmetros
 para acelerar; não ativar encadeamento antes de medir duração útil.
+
+## Validação real e execução por modo (13 de outubro)
+
+Job 2028320: pedido original task 0 concluído em 1056,135s (17m36s), HTTP
+200, finish_reason=stop, 601 tokens de entrada e 10245 de saída (incluindo
+thinking). Resposta útil com 4833 caracteres; thinking com 35211 caracteres.
+Não inferimos uma divisão de tokens de reasoning que a API não reportou.
+As 8 threads foram confirmadas antes e depois. É evidência de que este pedido
+funciona em CPU, não validação de todos os prompts/contextos nem da qualidade
+dos testes. A resposta permanece um diagnóstico excluído dos resultados.
+
+A geração CPU aceita XREPO_OFFICIAL_MODE=standard, lsp_context, file_context,
+rag_bm25 ou rag_dense (all por omissão mantém a execução sequencial). Cada
+modo continua a ter os mesmos 675 IDs, sem subset nem mudança dos pedidos.
+Pode submeter-se um job por modo, cada um num nó CPU, sob a mesma coorte v2.
+As pastas de saída já são separadas por modo, e cada servidor tem uma porta,
+log, prova e home próprios. Um lock partilhado da coorte permite modos
+diferentes; um lock exclusivo por modo impede duplicados. O job all usa o
+lock exclusivo da coorte e não pode sobrepor-se a nenhum job por modo.
+
+A primeira janela oficial sugerida é de 2h por modo em normal-x86, com
+XREPO_CPU_CHAIN=0. Os resultados válidos e erros terminais são conservados
+para retoma; pedidos interrompidos são arquivados pelo protocolo existente.
+A dependência afterok da preparação impede geração se a preparação falhar.
+Só ativar prolongamento/encadeamento depois de medir mais tarefas, incluindo
+os prompts maiores. Há 3375 pedidos no total: não extrapolar uma data de fim
+a partir de uma única resposta. Paralelismo entre modos reduz tempo de parede
+se o scheduler disponibilizar os nós; não reduz o trabalho total ou core-h.
+
+Com cinco nós exclusivos e 2h cada, a janela inicial tem teto de 1280 core-h
+(5 × 2 × 128), sem quota GPU. Usar billing para confirmar o orçamento atual.
+A avaliação final continua a exigir os cinco exports completos antes de
+medir os 675 IDs de cada modo pelo mesmo avaliador.
+
+Comando inicial (sem encadeamento):
+
+```bash
+(
+set -e
+cd /projects/F202407648IACDCF2/mario/MARTA-evaluation
+test "$(git branch --show-current)" = codex/xrepo-comparable-evaluation
+git pull --ff-only
+export MARTA_CLUSTER_BASE=/projects/F202407648IACDCF2/mario
+export MARTA_CLUSTER_CODE="$PWD"
+export XREPO_RUN=qwen36_35b_xrepotest_contexts_thinking_cpu_threads8_v2
+export XREPO_OFFICIAL_CTX=32768 XREPO_CPU_CHAIN=0
+unset XREPO_OFFICIAL_MODE XREPO_TASK_IDS XREPO_REUSE_ANALYSIS_FROM XREPO_REUSE_FIRST_ROUND_FROM
+mkdir -p logs
+PRE=$(sbatch --parsable --export=ALL deucalion/run_xrepotest_official_prepare_cpu.sh)
+echo "Preparação: $PRE"
+JOB_IDS=""
+for MODE in standard lsp_context file_context rag_bm25 rag_dense; do
+    GEN=$(XREPO_OFFICIAL_MODE="$MODE" sbatch --parsable --export=ALL \
+        --dependency="afterok:$PRE" --partition=normal-x86 --time=02:00:00 \
+        --job-name="xrepo_$MODE" deucalion/run_xrepotest_official_generate_cpu.sh)
+    echo "$MODE: $GEN"
+    JOB_IDS="${JOB_IDS:+$JOB_IDS,}$GEN"
+done
+squeue -j "$PRE,$JOB_IDS"
+)
+```

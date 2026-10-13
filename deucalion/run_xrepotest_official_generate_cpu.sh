@@ -16,6 +16,12 @@ export MODEL=qwen3.6:35b XREPO_THINKING=on
 export XREPO_OFFICIAL_CTX=${XREPO_OFFICIAL_CTX:-32768}
 [[ "$XREPO_OFFICIAL_CTX" == 32768 ]] || { echo "Context must match MARTA: 32768"; exit 2; }
 export OLLAMA_CTX="$XREPO_OFFICIAL_CTX"
+export XREPO_OFFICIAL_MODE=${XREPO_OFFICIAL_MODE:-all}
+case "$XREPO_OFFICIAL_MODE" in
+    all) MODES=(standard lsp_context file_context rag_bm25 rag_dense) ;;
+    standard|lsp_context|file_context|rag_bm25|rag_dense) MODES=("$XREPO_OFFICIAL_MODE") ;;
+    *) echo "Unknown official context mode: $XREPO_OFFICIAL_MODE"; exit 2 ;;
+esac
 source "$MARTA_CLUSTER_CODE/deucalion/xrepotest_job_common.sh"
 [[ "$XREPO_RUN" == qwen36_35b_xrepotest_contexts_thinking_cpu_threads8_v2 ]] || {
     echo "Use the fresh CPU threads8 v2 run; v1 is preserved as a failed runtime trial"
@@ -30,8 +36,15 @@ if [[ "$XREPO_CPU_CHAIN" == 0 ]]; then
 fi
 [[ -z "${SLURM_JOB_GPUS:-}" && "${SLURM_GPUS_ON_NODE:-0}" == 0 ]] || { echo "CPU generation must not allocate a GPU"; exit 2; }
 exec 9>"$RUN/generation-job.lock"
-flock -n 9 || { echo "Official generation already running"; exit 2; }
-for mode in standard lsp_context file_context rag_bm25 rag_dense; do
+if [[ "$XREPO_OFFICIAL_MODE" == all ]]; then
+    flock -n 9 || { echo "Official generation already running"; exit 2; }
+else
+    # Different modes can run together; reject duplicates and an all-mode job.
+    flock -sn 9 || { echo "All-mode generation already running"; exit 2; }
+    exec 8>"$RUN/generation-$XREPO_OFFICIAL_MODE-job.lock"
+    flock -n 8 || { echo "Generation already running: $XREPO_OFFICIAL_MODE"; exit 2; }
+fi
+for mode in "${MODES[@]}"; do
     test -s "$RUN/modes/$mode/metadata/official_preflight.json" || { echo "Run the five-mode CPU preparation first"; exit 2; }
 done
 PYTHON_CONTAINER=("${CONTAINER[@]}"
@@ -42,7 +55,7 @@ ARGS=(--context-length "$XREPO_OFFICIAL_CTX" --assets-dir /data/xrepo/assets/off
     --dataset /app/xrepotest/ruby_functions.jsonl
     --reference /data/xrepo/runs/qwen36_35b_thinking_bundle_loading_v4/generation)
 # Verify offline imports and reference again before starting Ollama.
-for mode in standard lsp_context file_context rag_bm25 rag_dense; do
+for mode in "${MODES[@]}"; do
 "${PYTHON_CONTAINER[@]}" "$IMAGE" /opt/conda/envs/test4py_env/bin/python -B \
     /opt/marta/deucalion/xrepotest_official_generate.py --mode "$mode" --backend cpu "${ARGS[@]}"
 done
@@ -55,7 +68,9 @@ MONITOR_PID=$!
 PORT=$((20000 + SLURM_JOB_ID % 20000))
 HOST="127.0.0.1:$PORT"
 lscpu > "$RUN/metadata/cpu_$SLURM_JOB_ID.txt" 2>&1 || true
-singularity exec --cleanenv --home "$RUN/home:/home/marta" \
+SERVER_HOME="$RUN/ollama_home_$XREPO_OFFICIAL_MODE"
+mkdir -p "$SERVER_HOME"
+singularity exec --cleanenv --home "$SERVER_HOME:/home/marta" \
     --bind "$BASE/ollama_models:/data/ollama:ro" \
     --env GOMAXPROCS=4 --env LLAMA_ARG_THREADS=8 --env "OLLAMA_HOST=$HOST" \
     --env CUDA_VISIBLE_DEVICES=-1 --env ROCR_VISIBLE_DEVICES=-1 \
@@ -80,7 +95,7 @@ curl --fail --silent "http://$HOST/api/version" || exit 2
     --host "http://$HOST" --model "$MODEL" --context 32768 --threads 8 \
     --server-log "/data/xrepo/runs/$XREPO_RUN/logs/ollama_$SLURM_JOB_ID.log" \
     --output "/data/xrepo/runs/$XREPO_RUN/metadata/cpu_proof_$SLURM_JOB_ID.json"
-for mode in standard lsp_context file_context rag_bm25 rag_dense; do
+for mode in "${MODES[@]}"; do
     echo "=== Official XRepoTest CPU mode: $mode; 675 tasks ==="
     "${PYTHON_CONTAINER[@]}" "$IMAGE" /opt/conda/envs/test4py_env/bin/python -B \
         /opt/marta/deucalion/xrepotest_official_generate.py --mode "$mode" --backend cpu "${ARGS[@]}" \
@@ -92,4 +107,4 @@ for mode in standard lsp_context file_context rag_bm25 rag_dense; do
     wait "$STEP_PID"
     STEP_PID=""
 done
-echo "All five official modes complete: $RUN/modes"
+echo "Official CPU mode(s) complete: ${MODES[*]}; $RUN/modes"
