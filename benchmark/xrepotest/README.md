@@ -867,3 +867,10 @@ The no-graph Dotenv stop of 12 October and its generic RSpec ensure repair are
 documented in [COVERAGE_SYSTEM_EXIT_REPAIR.md](../../deucalion/COVERAGE_SYSTEM_EXIT_REPAIR.md).
 The CPU job audits the saved experiment without running the model or resuming GPU
 generation. The final evaluator, prompt policies and model budgets are unchanged.
+
+### Continuação da ablação sem grafo em CPU
+
+A continuação autorizada em CPU, com parâmetros congelados, auditoria de preservação
+das tarefas terminadas e declaração da execução GPU/CPU mista, está documentada em
+[XREPOTEST_ABLATION_CPU_RESUME.md](../../deucalion/XREPOTEST_ABLATION_CPU_RESUME.md).
+Não altera o código de geração nem o manifesto existente.
