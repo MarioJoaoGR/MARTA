@@ -874,3 +874,10 @@ A continuação autorizada em CPU, com parâmetros congelados, auditoria de pres
 das tarefas terminadas e declaração da execução GPU/CPU mista, está documentada em
 [XREPOTEST_ABLATION_CPU_RESUME.md](../../deucalion/XREPOTEST_ABLATION_CPU_RESUME.md).
 Não altera o código de geração nem o manifesto existente.
+
+### Divisão da continuação CPU por projeto
+
+A partição disjunta dos mesmos 97 IDs, a validação sem inferência contra o runner
+congelado e as regras de preservação/junção estão em
+[XREPOTEST_PROJECT_PARALLEL.md](../../deucalion/XREPOTEST_PROJECT_PARALLEL.md).
+A validação pode correr enquanto o job serial continua.

@@ -13,13 +13,34 @@ set -euo pipefail
 BASE=${MARTA_CLUSTER_BASE:-/projects/F202407648IACDCF2/mario}
 export MARTA_CLUSTER_CODE=${MARTA_CLUSTER_CODE:-$BASE/MARTA-ablation}
 : "${XREPO_RUN:?Set the existing no-graph cohort}"
-[[ "$XREPO_RUN" == qwen36_35b_ablation97_no_graph_v1 ]] || exit 2
+export XREPO_PROJECT_SHARD=${XREPO_PROJECT_SHARD:-}
+PARENT_COHORT=qwen36_35b_ablation97_no_graph_v1
+RESUME_HELPER=(python3 -B /opt/marta/deucalion/xrepotest_cpu_resume.py)
+if [[ -z "$XREPO_PROJECT_SHARD" ]]; then
+    [[ "$XREPO_RUN" == "$PARENT_COHORT" ]] || exit 2
+else
+    case "$XREPO_PROJECT_SHARD" in
+        capybara|dotenv|grape|hanami|hashie|httparty|pundit|rom|rspec-core|shoryuken) ;;
+        *) exit 2 ;;
+    esac
+    [[ "$XREPO_RUN" == "${PARENT_COHORT}_cpu_${XREPO_PROJECT_SHARD//-/_}" ]] || exit 2
+    RESUME_HELPER=(python3 -B /opt/marta/deucalion/xrepotest_project_split.py --project "$XREPO_PROJECT_SHARD")
+fi
 source "$MARTA_CLUSTER_CODE/deucalion/xrepotest_job_common.sh"
+PARENT_RUN="$XROOT/runs/$PARENT_COHORT"
+if [[ -n "$XREPO_PROJECT_SHARD" ]]; then
+    test -s "$PARENT_RUN/metadata/project_split.json" || { echo "Project split has not been prepared"; exit 2; }
+    # Different projects share a read lock on the frozen parent. Serial jobs require exclusive access.
+    exec 8>"$PARENT_RUN/generation-job.lock"
+    flock -sn 8 || { echo "Serial parent generation is still running"; exit 2; }
+elif [[ -e "$PARENT_RUN/metadata/project_split.json" ]]; then
+    echo "Serial cohort is frozen for project-parallel continuation"; exit 2
+fi
 [[ -z "${SLURM_JOB_GPUS:-}" && "${SLURM_GPUS_ON_NODE:-0}" == 0 ]] || exit 2
 CONTINUATION="$CODE/deucalion/run_xrepotest_generate_cpu.sh"
 exec 9>"$RUN/generation-job.lock"
 flock -n 9 || { echo "Generation already running for $XREPO_RUN"; exit 2; }
-"${CONTAINER[@]}" "$IMAGE" python3 -B /opt/marta/deucalion/xrepotest_cpu_resume.py env \
+"${CONTAINER[@]}" "$IMAGE" "${RESUME_HELPER[@]}" env \
     --generation "/data/xrepo/runs/$XREPO_RUN/generation" --job-id "$SLURM_JOB_ID" \
     --env-file "/data/xrepo/runs/$XREPO_RUN/metadata/cpu_env_$SLURM_JOB_ID.sh"
 source "$RUN/metadata/cpu_env_$SLURM_JOB_ID.sh"
@@ -33,7 +54,7 @@ cpu_cleanup() {
     cleanup
     if [[ -n "$STEP_PID" ]]; then wait "$STEP_PID" 2>/dev/null || true; fi
     if [[ "$AUDIT_STARTED" == 1 ]]; then
-        "${CONTAINER[@]}" "$IMAGE" python3 -B /opt/marta/deucalion/xrepotest_cpu_resume.py finish \
+        "${CONTAINER[@]}" "$IMAGE" "${RESUME_HELPER[@]}" finish \
             --generation "/data/xrepo/runs/$XREPO_RUN/generation" --job-id "$SLURM_JOB_ID" \
             --exit-code "$status" || status=1
     fi
@@ -107,7 +128,7 @@ echo "XRepoTest: $MODEL ($DIGEST); thinking=$XREPO_THINKING; run=$XREPO_RUN"
     --host "http://$HOST" --model "$MODEL" --context "$OLLAMA_CTX" --threads 8 \
     --server-log "/data/xrepo/runs/$XREPO_RUN/logs/ollama_$SLURM_JOB_ID.log" \
     --output "/data/xrepo/runs/$XREPO_RUN/metadata/cpu_proof_$SLURM_JOB_ID.json"
-"${CONTAINER[@]}" "$IMAGE" python3 -B /opt/marta/deucalion/xrepotest_cpu_resume.py start \
+"${CONTAINER[@]}" "$IMAGE" "${RESUME_HELPER[@]}" start \
     --generation "/data/xrepo/runs/$XREPO_RUN/generation" --job-id "$SLURM_JOB_ID" \
     --proof "/data/xrepo/runs/$XREPO_RUN/metadata/cpu_proof_$SLURM_JOB_ID.json"
 AUDIT_STARTED=1
