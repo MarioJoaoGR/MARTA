@@ -101,3 +101,23 @@ echo "Log: $PWD/logs/xrepo_split_validate_${JOB}.out"
 squeue -j "$JOB"
 )
 ```
+
+## Arranque após a validação aprovada
+
+`start_xrepotest_project_parallel.py --validation-job 2061566 --serial-job 2039852`
+funciona com o Python 3.6 do host. Confirma primeiro o certificado e o manifesto.
+Agenda a preparação CPU com `afterany` do job serial, se este ainda estiver ativo;
+só depois envia TERM ao batch desse job específico. Assim executam-se os traps de
+limpeza/auditoria existentes, sem acionar a continuação por USR1. Se a submissão
+falhar, não se cancela o serial. Se o ID antigo já não estiver ativo, não se cancela
+nenhum outro job; os locks da preparação detetam uma eventual retoma serial ativa.
+
+`run_xrepotest_project_split_prepare_cpu.sh` corre as cópias/hash checks num nó CPU,
+fora do login, e lança os projetos pendentes. `submit_xrepotest_project_workers.py`
+guarda imediatamente cada ID em `metadata/project_jobs.json`; repetir a submissão
+não cria jobs duplicados. Em falha parcial, pode executar-se novamente apenas esse
+script para submeter os projetos que ainda não receberam ID. Os jobs previamente
+registados que tenham falhado exigem diagnóstico antes de uma retoma explícita.
+
+Cada projeto usa janelas de 48h e a conta CPU. Os cinco modos oficiais XRepoTest
+continuam nas suas execuções independentes.
