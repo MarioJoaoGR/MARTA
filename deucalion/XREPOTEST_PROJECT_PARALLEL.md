@@ -121,3 +121,16 @@ registados que tenham falhado exigem diagnóstico antes de uma retoma explícita
 
 Cada projeto usa janelas de 48h e a conta CPU. Os cinco modos oficiais XRepoTest
 continuam nas suas execuções independentes.
+
+## Junção final e avaliação core
+
+`run_xrepotest_project_merge_evaluate_cpu.sh` valida e reúne os 97 resultados antes
+de invocar o mesmo `benchmark.xrepotest.evaluate` usado nas outras ablações, com a
+seleção original e sem mutação. A saída fica no cohort pai em `evaluation_core_v1`.
+Uma falha na junção impede a avaliação. O job usa o lock de avaliação e pode retomar
+no walltime, aproveitando os checkpoints já medidos. Não usa modelo nem GPU.
+
+`xrepotest_official_failure_audit.py` apenas lê as avaliações oficiais existentes
+de Standard/LSP, compara as identidades do dataset/avaliador/ambiente com a execução
+normal e mostra assinaturas e exemplos dos logs. Estas assinaturas são heurísticas
+para diagnóstico: não atribuem automaticamente culpa ao modelo ou ao ambiente.
