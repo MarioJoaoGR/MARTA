@@ -1,6 +1,6 @@
 # Comparabilidade MARTA / XRepoTest
 
-Atualização: 7 de outubro de 2026. Esta preparação é independente da geração e
+Atualização: 20 de outubro de 2026. Esta preparação é independente da geração e
 não modifica o benchmark, as suites exportadas, a imagem repaired-v2 nem os
 resultados anteriores. Ainda não há um novo avaliador de mutação validado.
 
@@ -160,3 +160,9 @@ A alternativa de geração só em CPU, preparada em 12 de outubro, usa um run
 isolado, os mesmos parâmetros e uma prova do runner CPU. A medição de velocidade
 e a quota x86 determinam a duração das retomas; a primeira submissão proposta
 está limitada a uma hora e não se encadeia automaticamente.
+
+## Validação atual do executor de mutação
+
+A proposta, os controlos dos dez projetos, as limitações verificadas e o comando
+para diagnosticar as suites reais estão em [MUTATION_VALIDATION.md](MUTATION_VALIDATION.md).
+As medições antigas continuam provisórias e nenhuma avaliação core é alterada.
