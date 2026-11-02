@@ -1,0 +1,8 @@
+{
+  "upstream_commit": "39fb6ab3173136d3dac2d38ed7c98baf6c470270",
+  "dataset": "811639c4291d3bd14ff58d8b2976bfffbf4df08cbf7d7aab22080c88165747dd",
+  "mode": "standard",
+  "tasks": 675,
+  "archive_sha256": "5bf181945ed4823720bebfc43e151c4c830510d58da152e624358fbb58ebe217",
+  "prompts_sha256": "4d3fc5a62d0ebb2a5a1309bf36d2c99a69a9446a89971d12d8ade5d41a3792c2"
+}
