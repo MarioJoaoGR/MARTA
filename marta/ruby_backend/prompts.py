@@ -7,7 +7,10 @@ writes one complete spec file with one ``it`` block per scenario.
 """
 from __future__ import annotations
 
+import json
 from typing import List, Optional
+
+from .repair import RepairContext
 
 
 def get_ruby_code(response: str) -> str:
@@ -161,10 +164,29 @@ def resumir_erro(texto: str, limite: int = LIMITE_ERRO) -> str:
     return f"{cabeca}\n[... {len(texto) - len(cabeca) - len(cauda)} caracteres omitidos ...]\n{cauda}"
 
 
-def repair_dev_instruction(last_error: str, similar_help: str = "") -> str:
-    return (
-        f"PREVIOUS CODE FAILED.\nERROR MESSAGE:\n{resumir_erro(last_error)}"
-        f"{similar_help}\n"
-        f"TASK: Rewrite the ENTIRE spec file to fix this error. "
-        f"Keep one independent `it` block per scenario."
-    )
+def repair_dev_instruction(last_error: str, similar_help: str = "", *,
+                           context: Optional[RepairContext] = None) -> str:
+    header = f"PREVIOUS CODE FAILED.\nERROR MESSAGE:\n{resumir_erro(last_error)}\n{similar_help}\n"
+    if context is None:
+        # Keep the existing builder API for callers that have no saved state.
+        return (header + "TASK: Rewrite the ENTIRE spec file to fix this error. "
+                "Keep one independent `it` block per scenario.")
+    blocks = [header, f"PLAN ID: {context.plan_id}",
+              "ORIGINAL TEST PLAN:\n" + json.dumps(context.plan, ensure_ascii=False, indent=2),
+              "CURRENT FAILURE:\n" + json.dumps(context.failure.as_dict(), ensure_ascii=False, indent=2)]
+    if context.previous_code is None:
+        blocks.append("No non-empty test has been generated yet.")
+    else:
+        blocks += [f"PREVIOUS TEST ATTEMPT: {context.source_attempt}",
+                   "PREVIOUS GENERATED TEST:\n```ruby\n" + context.previous_code + "\n```"]
+    if context.previous_validation is not None and context.previous_validation != context.failure:
+        blocks.append("PREVIOUS TEST VALIDATION:\n" + json.dumps(
+            context.previous_validation.as_dict(), ensure_ascii=False, indent=2))
+    blocks.append(
+        "TASK: Make targeted corrections and return the ENTIRE self-contained spec file, "
+        "with one independent `it` block per planned scenario. "
+        "Preserve passing examples and their meaningful assertions. "
+        "Do not delete, skip or weaken assertions merely to make the suite pass. "
+        "Use the source code and observed failure to correct setup, API use or an incorrect expectation. "
+        "When a candidate or report is absent, do not invent execution results.")
+    return "\n\n".join(blocks)

@@ -19,6 +19,7 @@ from typing import Awaitable, Callable, Dict, List, Optional
 
 from .backend import LanguageBackend, RubyBackend
 from .runner import RSpecResult
+from .repair import FailureDiagnostic, RepairContext, diagnose_result
 
 AskFn = Callable[[str, str], Awaitable[str]]
 
@@ -118,6 +119,10 @@ async def generate_spec_for_method(
     last_res: Optional[RSpecResult] = None
     success = False
     attempt = 0
+    previous_code: Optional[str] = None
+    source_attempt: Optional[int] = None
+    previous_validation: Optional[FailureDiagnostic] = None
+    last_failure: Optional[FailureDiagnostic] = None
     abs_spec = os.path.join(cwd, spec_path)
 
     def _write(code: str) -> None:
@@ -142,7 +147,16 @@ async def generate_spec_for_method(
             # RAG dirigido ao erro (porta do generate_react_flow): métodos
             # semanticamente próximos do erro + um spec exemplo que já passa.
             similar_help = error_help_fn(last_error or "") if error_help_fn else ""
-            instruction = prompts.repair_dev_instruction(last_error or "", similar_help)
+            context = RepairContext(plan=scenarios, failure=last_failure,
+                                    previous_code=previous_code, source_attempt=source_attempt,
+                                    previous_validation=previous_validation)
+            instruction = prompts.repair_dev_instruction(last_error or "", similar_help, context=context)
+            if recorder is not None:
+                recorder.evento(tipo="repair_context", fase="dev_reparacao", metodo=method_qualified_name,
+                                tentativa=attempt, plan_id=context.plan_id,
+                                source_attempt=source_attempt, previous_code_sha256=context.code_id,
+                                last_failure_attempt=last_failure.attempt,
+                                failure_stage=last_failure.stage, failure_category=last_failure.category)
 
         # A primeira escrita e as reparações são fases separadas: o que interessa
         # saber é quanto do custo total é o ciclo de auto-correção.
@@ -161,10 +175,13 @@ async def generate_spec_for_method(
                 # Never let an empty Ruby file become a successful test suite.
                 last_error = "No test code was returned. Return a complete RSpec test file."
                 last_res = None
+                last_failure = FailureDiagnostic("empty_response", "model_output", attempt)
                 if recorder is not None:
                     recorder.evento(tipo="generation_validation", fase=fase, etapa="empty",
                                     code=spec_code, output=last_error, valid=False)
                 continue
+            previous_code = spec_code
+            source_attempt = attempt
             _write(spec_code)
 
             # Cheap gate first: ruby -c. Only run RSpec if it parses.
@@ -180,6 +197,8 @@ async def generate_spec_for_method(
         if syntax_err is not None:
             last_error = syntax_err
             last_res = None
+            last_failure = FailureDiagnostic("syntax", "syntax", attempt)
+            previous_validation = last_failure
             continue
 
         with _tel(recorder.medir if recorder else None, "rspec"):
@@ -199,6 +218,8 @@ async def generate_spec_for_method(
                     score.add_assertion_fix_success()
             break
         last_error = res.output
+        last_failure = diagnose_result(res, attempt)
+        previous_validation = last_failure
         if score is not None:
             score.add_assertion_error()
             for e in res.failed:

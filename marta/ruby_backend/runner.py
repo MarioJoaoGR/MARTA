@@ -90,6 +90,7 @@ class ExampleResult:
     status: str                   # "passed" | "failed" | "pending"
     line_number: Optional[int]
     message: Optional[str]        # exception message on failure, else None
+    exception_class: Optional[str] = None
 
 
 @dataclass
@@ -102,6 +103,7 @@ class RSpecResult:
     exit_code: Optional[int] = None
     report_valid: bool = False
     validation_error: Optional[str] = None
+    timed_out: bool = False
 
     @property
     def results(self) -> Dict[str, str]:
@@ -166,7 +168,8 @@ def rspec_result(data, exit_code: Optional[int], output: str = "", *,
             examples.append(ExampleResult(
                 id=identity, full_description=row.get("full_description", ""),
                 status=row["status"], line_number=row.get("line_number"),
-                message=exception.get("message")))
+                message=exception.get("message"),
+                exception_class=exception.get("class") if isinstance(exception.get("class"), str) else None))
         if (summary["example_count"] != len(examples)
                 or summary["failure_count"] != sum(e.status == "failed" for e in examples)
                 or summary["pending_count"] != sum(e.status == "pending" for e in examples)):
@@ -246,7 +249,7 @@ def run_rspec(
     except subprocess.TimeoutExpired:
         os.unlink(json_path)
         return RSpecResult(all_passed=False, output="time exceeded",
-                           validation_error="RSpec timed out")
+                           validation_error="RSpec timed out", timed_out=True)
 
     try:
         with open(json_path, encoding="utf-8", errors="replace") as f:
