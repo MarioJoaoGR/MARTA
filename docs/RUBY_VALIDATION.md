@@ -69,7 +69,8 @@ because the local development environment lacks the Ruby Tree-sitter grammar.
 
 This delivery closes the acceptance and joint-suite validation issues only.
 Previous test/plan context was subsequently added in
-[the repair-context delivery](RUBY_REPAIR_CONTEXT.md). Planner scenario-schema
-validation, focal-code preservation, bounded summary propagation, cache provenance
-and graph/retrieval policies remain separate work.
+[the repair-context delivery](RUBY_REPAIR_CONTEXT.md). Planner schema validation
+and focal-code preservation were added in
+[the plan/source delivery](RUBY_PLAN_SOURCE_CONTEXT.md). Bounded summary propagation,
+cache provenance and graph/retrieval policies remain separate work.
 The paper remains a measurement of its frozen implementation and artifacts.

@@ -12,7 +12,6 @@ salvage, prompts, parsing) go through an injected ``LanguageBackend`` (default
 """
 from __future__ import annotations
 
-import json
 import os
 from dataclasses import dataclass, field
 from typing import Awaitable, Callable, Dict, List, Optional
@@ -20,6 +19,7 @@ from typing import Awaitable, Callable, Dict, List, Optional
 from .backend import LanguageBackend, RubyBackend
 from .runner import RSpecResult
 from .repair import FailureDiagnostic, RepairContext, diagnose_result
+from .planning import parse_plan, validate_plan
 
 AskFn = Callable[[str, str], Awaitable[str]]
 
@@ -35,30 +35,14 @@ class GenOutcome:
     results: Dict[str, str] = field(default_factory=dict)
     salvaged: bool = False           # kept via Option D (some examples removed)
     removed_examples: int = 0
+    plan_fallback: bool = False
+    plan_validation_error: Optional[str] = None
 
 
 def _default_ask() -> AskFn:
     # Imported lazily so the module (and its tests) don't pull in the LLM stack.
     from marta.gptapi import model
     return model.aask
-
-
-def parse_plan(raw: str, fallback_name: str) -> List[dict]:
-    """Robustly pull a JSON scenario list out of an LLM response.
-
-    Mirrors the Planner parser in ``generate_react_flow``: strip markdown, take
-    the outermost ``[...]``, and fall back to a single basic scenario.
-    """
-    try:
-        clean = raw.replace("```json", "").replace("```", "").strip()
-        start, end = clean.find("["), clean.rfind("]")
-        if start != -1 and end != -1 and end > start:
-            plan = json.loads(clean[start:end + 1])
-            if isinstance(plan, list) and plan:
-                return plan
-    except (ValueError, TypeError):
-        pass
-    return [{"name": f"{fallback_name} basic functionality", "desc": "Basic functionality", "setup": "None"}]
 
 
 async def generate_spec_for_method(
@@ -110,7 +94,13 @@ async def generate_spec_for_method(
                 raw_plan = await ask(prompts.PLAN_SYS, prompts.plan_user(context_block))
     else:
         raw_plan = await ask(prompts.PLAN_SYS, prompts.plan_user(context_block))
-    scenarios = parse_plan(raw_plan, describe_subject)
+    plan = validate_plan(raw_plan, describe_subject)
+    scenarios = plan.scenarios
+    if recorder is not None:
+        recorder.evento(tipo="plan_validation", fase="plano", metodo=method_qualified_name,
+                        valid=not plan.fallback_used, fallback_used=plan.fallback_used,
+                        reason=plan.error, raw_plan=raw_plan if isinstance(raw_plan, str) else None,
+                        raw_plan_type=type(raw_plan).__name__, effective_plan=scenarios)
 
     # ---- Dev + self-healing ---------------------------------------------- #
     last_error: Optional[str] = None
@@ -262,6 +252,8 @@ async def generate_spec_for_method(
         results=results,
         salvaged=salvaged,
         removed_examples=removed if salvaged else 0,
+        plan_fallback=plan.fallback_used,
+        plan_validation_error=plan.error,
     )
     if not success:
         try:

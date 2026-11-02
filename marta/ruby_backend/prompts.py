@@ -11,6 +11,7 @@ import json
 from typing import List, Optional
 
 from .repair import RepairContext
+from .planning import MAX_PLAN_SCENARIOS
 
 
 def get_ruby_code(response: str) -> str:
@@ -41,7 +42,7 @@ CONTEXT:
 {context_block}
 
 TASK:
-Generate 3 distinct test scenarios covering:
+Generate {MAX_PLAN_SCENARIOS} distinct test scenarios covering:
 CRITICAL: If 'MISSING LINES TO COVER' are provided in the context, you MUST design these scenarios specifically to execute those missing lines.
 1. Valid inputs (Happy Path)
 2. Edge cases (e.g., nil, empty arrays, boundary values)

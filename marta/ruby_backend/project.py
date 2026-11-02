@@ -28,12 +28,13 @@ from . import cache, coverage_runner, param_types, rag, readme, recorder as rec,
 from .ablation import AblationOptions
 from .backend import LanguageBackend, RubyBackend
 from .generate import AskFn, GenOutcome, _default_ask, generate_spec_for_method
+from .source_context import SourceContext, build_source_context
 
 # Default generation skips constructors; exact task selectors may request them.
 SKIP_METHODS = {"initialize"}
 
 # Bump when analysis prompts, definition identities, or cache semantics change.
-ANALYSIS_SCHEMA = 2
+ANALYSIS_SCHEMA = 3
 
 
 def _slice_lines(path: str, start: int, end: int) -> str:
@@ -66,9 +67,9 @@ class _ClassEntry:
 # the human suite so benchmark coverage measures ONLY generated tests.
 GENERATED_SPEC_DIR = "marta_specs"
 
-# Teto do código enviado ao LLM por método. Classes maiores passam a uma vista
-# focada (ver MethodTarget.context_source) — sem isto, classes grandes de
-# projetos reais estouram a janela de contexto do modelo.
+# Character budget for focused source views. Auxiliary code is reduced first;
+# a larger focal method is preserved intact and explicitly reported as over-limit.
+# This is separate from the server context window and a whole-prompt token budget.
 MAX_CONTEXT_CHARS = int(os.getenv("MARTA_MAX_CONTEXT_CHARS", "6000"))
 
 
@@ -112,53 +113,40 @@ class MethodTarget:
         return f'"{self.method.name}"'
 
     @property
-    def class_code(self) -> str:
-        """"Class stub": a declaração da classe + os statements do corpo que NÃO
-        são métodos (constantes, `attr_*`, `include`). Paridade estrita com o
-        ``ClassMessage.get_class_code`` do Python, que filtra os
-        ``non_method_statements`` — nunca envia corpos de métodos."""
+    def class_declaration(self) -> Optional[str]:
         cls = self.owner_class
         if cls is None:
-            return ""
-        header = f"class {cls.qualified_name}"
+            return None
+        header = f"{cls.kind} {cls.qualified_name}"
         if cls.superclass:
             header += f" < {cls.superclass}"
-        body = "\n".join(f"  {s}" for s in cls.body_statements)
-        return f"{header}\n{body}" if body else header
+        return header
+
+    @property
+    def class_code(self) -> str:
+        """Class/module declaration and non-method statements, without method bodies."""
+        if self.owner_class is None:
+            return ""
+        body = "\n".join(f"  {statement}" for statement in self.owner_class.body_statements)
+        return self.class_declaration + ("\n" + body if body else "")
+
+    @property
+    def source_context(self) -> SourceContext:
+        focal = _slice_lines(self.file_path, self.method.start_line, self.method.end_line)
+        init = next((m for m in self.siblings if m.name == "initialize"), None)
+        constructor = None
+        if self.owner_class is not None and init is not None and self.method.name != "initialize":
+            constructor = _slice_lines(self.file_path, init.start_line, init.end_line)
+        return build_source_context(
+            focal, self.method.qualified_name, limit=MAX_CONTEXT_CHARS,
+            declaration=self.class_declaration,
+            statements=self.owner_class.body_statements if self.owner_class else [],
+            constructor=constructor)
 
     @property
     def context_source(self) -> str:
-        """Código mostrado ao LLM — paridade estrita com ``get_source_code`` da
-        MARTA Python: *class stub* (sem corpos de métodos) + ``initialize`` +
-        método-alvo. Nunca a classe inteira.
-
-        É esta focagem (não uma precaução extra do Ruby) que evita estourar a
-        janela de contexto: o Python fá-lo desde sempre, e a versão inicial do
-        port divergia ao enviar a classe toda — na `fpm` (classe de 43k chars)
-        o modelo devolvia `prompt is longer than the context length`.
-        """
-        alvo = _slice_lines(self.file_path, self.method.start_line, self.method.end_line)
-        if self.owner_class is None:
-            return alvo
-
-        # As três partes vão SEPARADAS. O Python delimita-as com blocos `"""…"""`
-        # (get_source_code em message_react.py) e o porte inicial colou-as com um
-        # join, sem marca nenhuma. Isso custou caro: na `formatador` o stub da
-        # classe são 60 linhas de constantes e metaprogramação antes de 7 linhas
-        # do método, e o modelo — a quem se diz "eis o código de UM método" —
-        # resumiu a classe inteira. O sumário errado propagou-se ao Planner, que
-        # planeou testes para outros métodos.
-        parts = [f"# --- contexto: a classe onde o método vive (sem corpos) ---\n"
-                 f"{self.class_code}"]
-        init = next((m for m in self.siblings if m.name == "initialize"), None)
-        if init is not None and self.method.name != "initialize":
-            parts.append("# --- construtor ---\n"
-                         + _slice_lines(self.file_path, init.start_line, init.end_line))
-        parts.append(f"# --- MÉTODO A ANALISAR: {self.method.qualified_name} ---\n{alvo}")
-        out = "\n\n".join(p for p in parts if p)
-        if len(out) > MAX_CONTEXT_CHARS:  # rede de segurança: método gigante
-            out = out[:MAX_CONTEXT_CHARS] + "\n# ... (truncado)"
-        return out
+        """Source-only compatibility view; the complete focal method is never cut."""
+        return self.source_context.source
 
     @property
     def _spec_stem(self) -> str:
@@ -544,6 +532,19 @@ class RubyProject:
             return None
         return data
 
+    def _source_for(self, target: MethodTarget, phase: Optional[str] = None) -> str:
+        view = target.source_context
+        if view.reduced or view.over_limit:
+            recorder = self._recorder()
+            recorder.evento(tipo="source_context", fase=phase or recorder.fase_atual,
+                            metodo=target.method.qualified_name, source=target.source_rel,
+                            limit=view.limit, source_chars=len(view.source), method_chars=view.method_chars,
+                            over_limit=view.over_limit,
+                            omitted_class_statements=view.omitted_class_statements,
+                            omitted_constructor=view.omitted_constructor,
+                            omitted_class_declaration=view.omitted_class_declaration)
+        return view.source
+
     async def generate_all(
         self,
         ask: Optional[AskFn] = None,
@@ -558,7 +559,7 @@ class RubyProject:
             outcome = await generate_spec_for_method(
                 method_qualified_name=t.method.qualified_name,
                 describe_subject=t.describe_subject,
-                method_source=t.context_source,
+                method_source=self._source_for(t, "generation"),
                 require_target=t.require_target,
                 load_paths=self._load_path_list(),
                 spec_path=t.spec_path,
@@ -652,7 +653,7 @@ class RubyProject:
                     t.done_what = reaproveitada[t.analysis_id]
                 else:
                     with r.contexto(metodo=qn):
-                        t.done_what = await summaries.analyze_done_what(ask, t.context_source)
+                        t.done_what = await summaries.analyze_done_what(ask, self._source_for(t))
                 passagem1[t.analysis_id] = t.done_what
         n_reap = sum(1 for t in self.analysis_targets if t.analysis_id in reaproveitada)
         if n_reap:
@@ -685,7 +686,7 @@ class RubyProject:
                         with r.contexto(metodo=t.method.qualified_name,
                                         chamados=len(called)):
                             t.done_what = await summaries.analyze_done_what(
-                                ask, t.context_source, called_summaries=called
+                                ask, self._source_for(t), called_summaries=called
                             )
 
         # what_todo: raízes (sem callers) a partir do README; métodos chamados
@@ -705,7 +706,7 @@ class RubyProject:
                     with r.contexto(metodo=t.method.qualified_name):
                         overview = await overviews.overview_for(ask, t.file_path)
                         t.what_todo = await readme.analyze_what_todo(
-                            ask, t.context_source, overview)
+                            ask, self._source_for(t), overview)
 
         # A outra metade do que a ablação do grafo desliga: sem arestas, todos os
         # métodos seriam raiz e o what_todo viria do README para todos.
@@ -722,7 +723,7 @@ class RubyProject:
                         with r.contexto(metodo=t.method.qualified_name,
                                         chamador=c.method.qualified_name):
                             t.what_todo = await summaries.analyze_what_todo_from_caller(
-                                ask, t.method.qualified_name, t.context_source,
+                                ask, t.method.qualified_name, self._source_for(t),
                                 c.method.qualified_name, c.what_todo,
                             )
                         changed = True
@@ -733,14 +734,14 @@ class RubyProject:
                     with r.contexto(metodo=t.method.qualified_name):
                         overview = await overviews.overview_for(ask, t.file_path)
                         t.what_todo = await readme.analyze_what_todo(
-                            ask, t.context_source, overview)
+                            ask, self._source_for(t), overview)
 
         # Merge final das duas perspetivas.
         with r.fase("sumario_final"):
             for t in self.analysis_targets:
                 with r.contexto(metodo=t.method.qualified_name):
                     t.summary = await summaries.generate_summary(
-                        ask, t.context_source, t.done_what, t.what_todo
+                        ask, self._source_for(t), t.done_what, t.what_todo
                     )
 
         # Class summaries follow the whole analysis pool, without a class-count cap.
@@ -1031,7 +1032,7 @@ class RubyProject:
                 outcome = await generate_spec_for_method(
                     method_qualified_name=t.method.qualified_name,
                     describe_subject=t.describe_subject,
-                    method_source=t.context_source,
+                    method_source=self._source_for(t, "generation"),
                     require_target=t.require_target,
                     load_paths=self._load_path_list(),
                     spec_path=t.spec_path_for_round(rnd),

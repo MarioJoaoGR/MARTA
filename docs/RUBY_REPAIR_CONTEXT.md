@@ -54,8 +54,9 @@ complete token-budget policy for all context blocks remains separate work.
 Preserving the last nonempty candidate for a later repair does not introduce a
 new salvage attempt after an empty response exhausts the configured budget.
 
-Planner schema validation, focal-source preservation, bounded summary propagation,
-atomic resume and other backlog items remain pending. The next experiments must
+Planner schema validation and focal-source preservation were subsequently added
+in [the plan/source delivery](RUBY_PLAN_SOURCE_CONTEXT.md). Bounded summary
+propagation, atomic resume and other backlog items remain pending. The next experiments must
 use a distinct run/configuration fingerprint; old paper measurements remain a
 record of their original prompts and implementation.
 
