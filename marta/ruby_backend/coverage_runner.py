@@ -20,6 +20,7 @@ from dataclasses import dataclass, field
 from typing import Dict, List, Optional
 
 from .ruby_ast import MethodInfo, RubyParseError, ruby_bin
+from .runner import RSpecResult, rspec_result
 
 _HELPER = os.path.join(os.path.dirname(__file__), "rb", "marta_coverage.rb")
 
@@ -84,6 +85,8 @@ class CoverageResult:
     branches: Dict[str, List[List[int]]] = field(default_factory=dict)
     # relative-path -> [[linha do def, invocações], ...] por método
     methods: Dict[str, List[List[int]]] = field(default_factory=dict)
+    # Raw execution coverage may also exist for a failing or interrupted suite.
+    suite_result: Optional[RSpecResult] = None
 
 
 def run_line_coverage(
@@ -107,6 +110,9 @@ def run_line_coverage(
     ``load_paths`` (extra, relative to ``cwd``) and ``requires`` (loaded before the
     specs) reproduce the environment the specs were generated in; without them a
     spec that was green during generation can fail to load when measured.
+
+    Raw hit counts are retained even when tests fail. For RSpec, inspect
+    ``suite_result`` separately before using coverage as generation feedback.
     """
     # cwd pode chegar relativo (ex.: CLI com --project_path relativo); o filtro
     # de caminhos no helper compara absolutos — absolutizar SEMPRE.
@@ -159,8 +165,24 @@ def run_line_coverage(
     files = {rel: entry.get("lines", []) for rel, entry in entries.items()}
     branches = {rel: entry.get("branches", []) or [] for rel, entry in entries.items()}
     methods = {rel: entry.get("methods", []) or [] for rel, entry in entries.items()}
+    execution = data.get("test_result") or {}
+    suite_result = None
+    if execution.get("framework") == "rspec":
+        suite_result = rspec_result(execution.get("report"), execution.get("exit_code"),
+                                    proc.stderr, interrupted=bool(execution.get("interrupted"))
+                                    or proc.returncode != 0)
     return CoverageResult(source_dir=data.get("source_dir", abs_source),
-                          files=files, branches=branches, methods=methods)
+                          files=files, branches=branches, methods=methods,
+                          suite_result=suite_result)
+
+
+class SuiteValidationError(RubyParseError):
+    """Coverage observations do not certify a usable accumulated RSpec suite."""
+
+    def __init__(self, result: Optional[RSpecResult]):
+        self.result = result
+        detail = result.output if result else "coverage helper supplied no RSpec validation report"
+        super().__init__("Invalid accumulated suite: " + detail)
 
 
 @dataclass

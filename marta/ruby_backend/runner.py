@@ -99,6 +99,9 @@ class RSpecResult:
     output: str = ""
     # errors that happened outside any example (e.g. a require that blew up)
     load_error: bool = False
+    exit_code: Optional[int] = None
+    report_valid: bool = False
+    validation_error: Optional[str] = None
 
     @property
     def results(self) -> Dict[str, str]:
@@ -111,21 +114,83 @@ class RSpecResult:
 
 
 def _extract_json(stdout: str) -> Optional[dict]:
-    """RSpec's json formatter writes pure JSON to stdout, but a stray warning
-    can precede it — carve out the object defensively."""
+    """Read an object, tolerating console text around a formatter payload."""
     stdout = stdout.strip()
     if not stdout:
         return None
     try:
-        return json.loads(stdout)
+        data = json.loads(stdout)
     except json.JSONDecodeError:
         start, end = stdout.find("{"), stdout.rfind("}")
-        if start != -1 and end != -1 and end > start:
-            try:
-                return json.loads(stdout[start:end + 1])
-            except json.JSONDecodeError:
-                return None
-    return None
+        if start == -1 or end <= start:
+            return None
+        try:
+            data = json.loads(stdout[start:end + 1])
+        except json.JSONDecodeError:
+            return None
+    return data if isinstance(data, dict) else None
+
+
+def rspec_result(data, exit_code: Optional[int], output: str = "", *,
+                 interrupted: bool = False) -> RSpecResult:
+    """Validate the formatter report independently of the process exit code.
+
+    At least one example must actually pass. Pending examples are retained as
+    pending, but cannot make a pending-only suite successful. Incomplete or
+    contradictory reports and interrupted runs never certify generated tests.
+    """
+    examples = []
+    summary = {}
+    problem = None
+    try:
+        if not isinstance(data, dict):
+            raise ValueError("missing RSpec JSON object")
+        rows, summary = data.get("examples"), data.get("summary")
+        if not isinstance(rows, list) or not isinstance(summary, dict):
+            raise ValueError("missing RSpec examples or summary")
+        fields = ("example_count", "failure_count", "pending_count", "errors_outside_of_examples_count")
+        if any(type(summary.get(key)) is not int or summary[key] < 0 for key in fields):
+            raise ValueError("invalid or missing RSpec summary counts")
+        ids = set()
+        for row in rows:
+            if (not isinstance(row, dict) or not isinstance(row.get("status"), str)
+                    or row["status"] not in {"passed", "failed", "pending"}):
+                raise ValueError("invalid or incomplete RSpec example")
+            identity = row.get("id")
+            if not isinstance(identity, str) or not identity or identity in ids:
+                raise ValueError("missing or duplicate RSpec example identity")
+            ids.add(identity)
+            exception = row.get("exception") or {}
+            if not isinstance(exception, dict):
+                raise ValueError("invalid RSpec exception")
+            examples.append(ExampleResult(
+                id=identity, full_description=row.get("full_description", ""),
+                status=row["status"], line_number=row.get("line_number"),
+                message=exception.get("message")))
+        if (summary["example_count"] != len(examples)
+                or summary["failure_count"] != sum(e.status == "failed" for e in examples)
+                or summary["pending_count"] != sum(e.status == "pending" for e in examples)):
+            raise ValueError("RSpec summary does not match its example results")
+    except ValueError as exc:
+        problem = str(exc)
+    report_valid = problem is None
+    load_error = (not report_valid or bool(summary.get("errors_outside_of_examples_count")))
+    if problem is None:
+        if interrupted:
+            problem = "RSpec execution was interrupted"
+        elif type(exit_code) is not int or exit_code != 0:
+            problem = f"RSpec exited with status {exit_code}"
+        elif load_error:
+            problem = "RSpec reported errors outside examples"
+        elif any(e.status == "failed" for e in examples):
+            problem = "RSpec reported failing examples despite exit status zero"
+        elif not any(e.status == "passed" for e in examples):
+            problem = "RSpec executed no passing examples"
+    if problem:
+        output = (output.rstrip() + "\n[MARTA validation] " + problem).lstrip()
+    return RSpecResult(all_passed=problem is None, examples=examples, output=output,
+                       load_error=load_error, exit_code=exit_code,
+                       report_valid=report_valid, validation_error=problem)
 
 
 def run_rspec(
@@ -143,8 +208,8 @@ def run_rspec(
     ``load_paths`` become ``-I`` flags (the ``PYTHONPATH`` analogue) so the spec
     can ``require`` the code under test. ``requires`` become ``-r`` flags, loaded
     before the spec: the gem's entry point, as in the environment the dataset
-    certified. ``all_passed`` follows RSpec's exit code (0 only when every
-    example passed and nothing errored outside examples).
+    certified. Success requires a complete, consistent formatter report, at
+    least one passing example, no failures/load errors, and exit status zero.
     """
     # -O /dev/null: a "vacina" (analoga ao -c /dev/null do pytest na MARTA
     # Python) — ignora o .rspec do projeto-alvo, para os specs gerados serem
@@ -180,7 +245,8 @@ def run_rspec(
         raise RubyParseError(f"rspec binary '{rspec_bin()}' not found") from e
     except subprocess.TimeoutExpired:
         os.unlink(json_path)
-        return RSpecResult(all_passed=False, output="time exceeded")
+        return RSpecResult(all_passed=False, output="time exceeded",
+                           validation_error="RSpec timed out")
 
     try:
         with open(json_path, encoding="utf-8", errors="replace") as f:
@@ -203,25 +269,4 @@ def run_rspec(
     full_output = "\n".join(
         x for x in (proc.stdout.strip(), proc.stderr.strip()) if x) or bruto.strip()
 
-    if data is None:
-        # No parseable JSON: a hard failure (usually a load/require error).
-        return RSpecResult(all_passed=False, output=full_output, load_error=True)
-
-    examples = [
-        ExampleResult(
-            id=ex.get("id", ""),
-            full_description=ex.get("full_description", ""),
-            status=ex.get("status", ""),
-            line_number=ex.get("line_number"),
-            message=(ex.get("exception") or {}).get("message"),
-        )
-        for ex in data.get("examples", [])
-    ]
-    summary = data.get("summary", {})
-    load_error = summary.get("errors_outside_of_examples_count", 0) > 0
-    return RSpecResult(
-        all_passed=(proc.returncode == 0),
-        examples=examples,
-        output=full_output,
-        load_error=load_error,
-    )
+    return rspec_result(data, proc.returncode, full_output)

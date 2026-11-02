@@ -17,6 +17,8 @@ import hashlib
 import json
 import os
 import re
+import shutil
+import tempfile
 from collections import Counter
 from contextlib import nullcontext
 from dataclasses import dataclass, field, replace
@@ -927,6 +929,11 @@ class RubyProject:
         if not spec_paths:
             return by_target
         result = self.backend.run_coverage(self.source_dir, spec_paths, cwd=self.root_dir)
+        validation = getattr(result, "suite_result", None)
+        self._recorder().evento(tipo="suite_validation", valid=bool(validation and validation.all_passed),
+                                output=validation.output if validation else "missing validation report")
+        if validation is None or not validation.all_passed:
+            raise coverage_runner.SuiteValidationError(validation)
         for i, t in enumerate(self.targets):
             lines = result.files.get(t.source_rel)
             if lines:
@@ -935,6 +942,35 @@ class RubyProject:
                 by_target[i] = self.backend.synthesize_coverage(
                     t.method, lines, branches, methods)
         return by_target
+
+    def _measure_retained_suite(self, new_outcomes: List[GenOutcome]):
+        """Rollback new files until the accumulated suite passes in one process.
+
+        Rejected code and diagnostics are archived outside the generated-spec
+        directory. Existing files are never silently discarded. No extra LLM
+        attempts are introduced by this acceptance gate.
+        """
+        pending = [o for o in new_outcomes if o.success and o.spec_path]
+        while True:
+            try:
+                return self.measure_coverage()
+            except coverage_runner.SuiteValidationError as exc:
+                if not pending:
+                    raise  # Invalid pre-existing suite needs explicit attention.
+                outcome = pending.pop()
+                path = os.path.join(self.root_dir, outcome.spec_path)
+                archive = os.path.join(self.out_root(), "rejected_specs")
+                os.makedirs(archive, exist_ok=True)
+                destination = tempfile.mkdtemp(prefix="accumulated_", dir=archive)
+                shutil.move(path, os.path.join(destination, os.path.basename(path)))
+                with open(os.path.join(destination, "validation.txt"), "w", encoding="utf-8") as stream:
+                    stream.write(str(exc))
+                self._recorder().evento(tipo="suite_rollback", metodo=outcome.method,
+                                        archived=destination, output=str(exc))
+                outcome.success = False
+                outcome.last_error = str(exc)
+                outcome.spec_path = None
+                outcome.spec_code = None
 
     async def generate_rounds(
         self,
@@ -967,6 +1003,7 @@ class RubyProject:
         recorder = self._recorder()
 
         for rnd in range(rounds):
+            round_outcomes: List[GenOutcome] = []
             recorder.score.first_run = (rnd == 0)  # first_run metrics = round 0
             recorder.start_count_time(f"round_{rnd}")
             recorder.define_contexto(ronda=rnd)
@@ -1012,12 +1049,13 @@ class RubyProject:
                     loading_context=self._generation_loading_for(t),
                 )
                 outcomes.append(outcome)
+                round_outcomes.append(outcome)
             recorder.end_count_time(f"round_{rnd}")
             # A cobertura corre uma vez por ronda, sobre TODOS os specs acumulados
             # até aqui. No cluster isso é tempo com a GPU parada, por isso convém
             # estar medido à parte e não diluído no tempo da ronda.
             with recorder.medir("cobertura"):
-                cov = self.measure_coverage()
+                cov = self._measure_retained_suite(round_outcomes)
             recorder.score.coverage.append(
                 {t.method.qualified_name: (cov[i].covered_lines if i in cov else 0)
                  for i, t in targets}

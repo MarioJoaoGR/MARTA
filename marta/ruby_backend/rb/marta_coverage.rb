@@ -14,7 +14,8 @@
 #
 # `lines` is an array indexed by (line - 1): an integer hit count, or null for
 # non-executable lines. RSpec's own output goes to stderr so stdout stays pure
-# JSON. Exit code is 0 even if some examples fail (coverage is still valid).
+# JSON. The test_result payload records suite validity separately from line
+# hits. Ordinary RSpec failure preserves coverage; application exits still propagate.
 
 require "coverage"
 # methods: true dá, por método, QUANTAS VEZES foi invocado. É o que separa um
@@ -83,7 +84,7 @@ $LOAD_PATH.unshift(source_dir)
   $LOAD_PATH.unshift(p) if File.directory?(p)
 end
 
-def emit_coverage(source_dir, report_io)
+def emit_coverage(source_dir, report_io, test_result = nil)
   # Mesma proteção do marta_rspec_guard.rb: se o código sob teste substituiu o
   # to_json pelo do ActiveSupport sem carregar o encoder, o JSON.generate abaixo
   # rebentava e a medição saía vazia.
@@ -113,7 +114,8 @@ def emit_coverage(source_dir, report_io)
     files[path[prefix.length..]] = { "lines" => data[:lines], "branches" => branches,
                                      "methods" => methods }
   end
-  report_io.write(JSON.generate({ "source_dir" => source_dir, "files" => files }))
+  report_io.write(JSON.generate({ "source_dir" => source_dir, "files" => files,
+                                  "test_result" => test_result }))
   report_io.flush
 end
 
@@ -149,10 +151,28 @@ else
   rspec_args = isolated ? ["-O", "/dev/null", *specs] : specs
   # Application CLIs may call exit while an example runs. RSpec finishes its
   # report and propagates SystemExit; emit the collected coverage even then,
-  # without rescuing the exit or changing its status/application behaviour.
+  # without swallowing the exit or changing its status/application behaviour.
+  require "stringio"
+  require "rspec/core/formatters/json_formatter"
+  # Collect the normal JSON formatter schema, but serialize it only once in
+  # emit_coverage, after its existing ActiveSupport encoder compatibility check.
+  class MartaCoverageReport < RSpec::Core::Formatters::JsonFormatter
+    RSpec::Core::Formatters.register self, :message, :dump_summary, :dump_profile, :stop, :seed, :close
+
+    def close(_notification); end
+  end
+  report_formatter = MartaCoverageReport.new(StringIO.new)
+  RSpec.configuration.add_formatter(report_formatter)
+  RSpec.configuration.add_formatter("progress", $stderr)
+  execution = { "framework" => "rspec", "exit_code" => nil, "interrupted" => false }
   begin
-    RSpec::Core::Runner.run(rspec_args, $stderr, $stderr)
+    execution["exit_code"] = RSpec::Core::Runner.run(rspec_args, $stderr, $stderr)
+  rescue Exception => e # preserve application exit and unexpected control flow
+    execution["interrupted"] = true
+    execution["exit_code"] = e.is_a?(SystemExit) ? e.status : nil
+    raise
   ensure
-    emit_coverage(source_dir, report_io)
+    execution["report"] = report_formatter.output_hash
+    emit_coverage(source_dir, report_io, execution)
   end
 end
