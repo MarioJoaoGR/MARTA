@@ -15,6 +15,7 @@ import shutil
 
 from .protocol import (DATA_SHA256, IMAGE, UPSTREAM_COMMIT, atomic_json, digest,
                        load_tasks, locked_run)
+from .ablation import select_tasks
 from .run import workspace
 from .runtime import environment_manifest, project_environment, validate_evaluator
 
@@ -42,10 +43,15 @@ def main():
     p.add_argument("--output", type=Path, required=True)
     p.add_argument("--work", type=Path, required=True)
     p.add_argument("--enable-mutation", action="store_true")
+    p.add_argument("--task-ids", type=Path, help="Same official-ID JSON selection used for generation")
     args = p.parse_args()
     for key in ("dataset", "processed", "repos", "output", "work"):
         setattr(args, key, getattr(args, key).resolve())
     tasks = load_tasks(args.dataset)
+    try:
+        tasks, selection = select_tasks(tasks, args.task_ids)
+    except (ValueError, OSError) as exc:
+        p.error(str(exc))
     responses = load_responses(args.processed, tasks)
     from ruby.evaluator import RubyEvaluator
     from base.metrics import calculate_summary
@@ -61,6 +67,8 @@ def main():
               "responses": hashlib.sha256(args.processed.read_bytes()).hexdigest(),
               "adapter": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
               "mutation": args.enable_mutation}
+    if selection is not None:
+        config["task_selection"] = selection
     if args.output == args.work or args.output in args.work.parents or args.work in args.output.parents:
         p.error("Evaluation outputs and work must be separate trees")
     with locked_run(args.output, config):

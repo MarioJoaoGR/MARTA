@@ -2,7 +2,7 @@
 # Sourced by the two Slurm jobs. All writable state stays in mario/xrepotest.
 set -euo pipefail
 BASE=${MARTA_CLUSTER_BASE:-/projects/F202407648IACDCF2/mario}
-CODE="$BASE/MARTA"
+CODE=${MARTA_CLUSTER_CODE:-$BASE/MARTA}
 XROOT="$BASE/xrepotest"
 IMAGE="$XROOT/repaired-v2.sif"
 : "${XREPO_RUN:?Set an explicit new experiment name in XREPO_RUN}"

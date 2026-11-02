@@ -14,6 +14,9 @@ from pathlib import Path
 import shutil
 import time
 
+from marta.ruby_backend.ablation import POLICY, add_arguments, from_args
+from .ablation import select_tasks, verify_analysis_reference, verify_first_round_reference
+
 from .protocol import (DATA_SHA256, IMAGE, UPSTREAM_COMMIT, atomic_json, code_fingerprint, digest,
                        export_responses, locked_run, load_tasks, selectors, source_inventory)
 
@@ -116,20 +119,30 @@ class SummaryCheckpoints(GenerationRequests):
     # Each physical request is recorded here, including failures and retries.
     records_llm_attempts = True
 
-    def __init__(self, root, client, recorder, shared_root=None):
+    def __init__(self, root, client, recorder, shared_root=None, share_all_phases=False):
         self.root, self.client, self.recorder = root, client, recorder
         self.shared_root = shared_root
+        self.share_all_phases = share_all_phases
 
     async def __call__(self, system, user):
         key = digest([self.recorder.fase_atual, system, user])
         path = self.root / (key + ".json")
         if (not path.exists() and self.shared_root is not None
-                and self.recorder.fase_atual == "sumarios_passagem1"):
-            shared = self.shared_root / (key + ".json")
-            if shared.exists():
-                self.client.last_call = {"cache_hit": True}
-                self.recorder.evento(tipo="llm_cache_hit", fase=self.recorder.fase_atual)
-                return json.loads(shared.read_text())["response"]
+                and (self.share_all_phases or self.recorder.fase_atual == "sumarios_passagem1")):
+            phases = [self.recorder.fase_atual]
+            # Both labels execute the same local README function. The label is
+            # telemetry, not part of the request actually sent to the model.
+            if self.share_all_phases and phases[0] in {"what_todo_raiz", "what_todo_fallback"}:
+                phases.append("what_todo_fallback" if phases[0] == "what_todo_raiz" else "what_todo_raiz")
+            for phase in phases:
+                shared_key = digest([phase, system, user])
+                shared = self.shared_root / (shared_key + ".json")
+                if shared.exists():
+                    self.client.last_call = {"cache_hit": True}
+                    self.recorder.evento(tipo="llm_cache_hit", fase=self.recorder.fase_atual,
+                                         source="analysis_reference", checkpoint=shared_key,
+                                         reference_phase=phase)
+                    return json.loads(shared.read_text())["response"]
         if path.exists():
             self.client.last_call = {"cache_hit": True}
             self.recorder.evento(tipo="llm_cache_hit", fase=self.recorder.fase_atual)
@@ -178,6 +191,7 @@ async def pipeline(args, tasks, inventories):
     model.top_p = args.top_p
     model.presence_penalty = args.presence_penalty
     model.request_timeout = args.request_timeout
+    options = from_args(args)
     grouped = defaultdict(list)
     for t in tasks:
         grouped[t["file_path"].split("/", 1)[0]].append(t)
@@ -185,20 +199,33 @@ async def pipeline(args, tasks, inventories):
         source = args.repos / name
         analysis_root = args.output / "analysis" / name
         env = inventories[name]
+        if args.reuse_analysis_from:
+            from .reuse import prepare_graph_reuse
+            prepare_graph_reuse([str(source / f) for f in env["code_files"]],
+                                args.reuse_analysis_from / "analysis" / name, analysis_root)
         with project_environment(source, name):
             proj = XRepoProject(root_dir=str(source), source_dir=".", output_root=str(analysis_root),
                                 code_files=env["code_files"], load_paths=env["load_paths"],
                                 target_selectors=selectors(rows),
-                                backend=XRepoBackend()).discover()
+                                backend=XRepoBackend(), ablation_options=options).discover()
         all_targets = list(proj.targets)
         proj.recorder = RubyRecorder(str(analysis_root / "events.jsonl"))
         shared = args.reuse_analysis_from / "analysis" / name / "calls" if args.reuse_analysis_from else None
-        checkpointed = SummaryCheckpoints(analysis_root / "calls", model, proj.recorder, shared)
+        checkpointed = SummaryCheckpoints(analysis_root / "calls", model, proj.recorder, shared,
+                                         share_all_phases=True)
         print(f"{name}: {len(proj.analysis_targets)} context methods; {len(all_targets)} test targets", flush=True)
         start = time.monotonic()
         try:
-            await proj.analyze_summaries(ask=checkpointed, enrich=not args.no_graph)
-            proj.build_rag()
+            if args.reuse_analysis_from:
+                from .reuse import prepare_analysis_reuse
+                with proj.recorder.medir("analysis_reuse"):
+                    embeddings = prepare_analysis_reuse(proj, args.reuse_analysis_from / "analysis" / name,
+                                                        enrich=not args.no_graph)
+                await proj.analyze_summaries(ask=checkpointed, enrich=not args.no_graph)
+                proj.build_rag(embed_documents=embeddings.documents, embed_query=embeddings.query)
+            else:
+                await proj.analyze_summaries(ask=checkpointed, enrich=not args.no_graph)
+                proj.build_rag()
         finally:
             proj.recorder.end(str(analysis_root), "analysis")
         for target in all_targets:
@@ -219,13 +246,24 @@ async def pipeline(args, tasks, inventories):
             proj.code_changed = False
             proj.recorder = RubyRecorder(str(out / "events.jsonl"))
             proj.recorder.define_contexto(task_id=tid, project=name)
+            if options.enabled:
+                proj.recorder.evento(tipo="ablation_configuration", policy=POLICY,
+                                     options=options.as_dict(),
+                                     effective_attempts=options.attempts(args.attempts))
             atomic_json(status_file, {"status": "running", "task_id": tid})
             print(f"  task {tid}: {target.method.qualified_name}", flush=True)
 
             generate_ask = GenerationRequests(model, proj.recorder)
             try:
+                reuse_round = getattr(args, "reuse_first_round_from", None)
+                if reuse_round:
+                    from .round_reuse import prepare_first_round
+                    prepare_first_round(reuse_round, out, target, name, proj.recorder,
+                                        expected_manifest=args.first_round_manifest)
                 with project_environment(work, name):
-                    await proj.generate_rounds(rounds=args.rounds, max_attempts=args.attempts, ask=generate_ask)
+                    reuse_kw = {"reuse_first_round": True} if reuse_round else {}
+                    await proj.generate_rounds(rounds=args.rounds, max_attempts=args.attempts,
+                                               ask=generate_ask, **reuse_kw)
                 specs = [Path(p) for p in proj._all_spec_paths()]
                 specs = [p if p.is_absolute() else work / p for p in specs]
                 code = joined_specs(specs)
@@ -261,9 +299,13 @@ def main():
     p.add_argument("--thinking", choices=("off", "on", "default"), default="default",
                    help="Ollama boolean thinking: none disables, high enables; recorded in the experiment")
     p.add_argument("--no-graph", action="store_true")
+    add_arguments(p)
+    p.add_argument("--task-ids", type=Path, help="JSON list of official IDs; production context stays complete")
     p.add_argument("--export-only", action="store_true")
     p.add_argument("--validate-only", action="store_true", help="Check inputs without invoking the model or creating a run")
-    p.add_argument("--reuse-analysis-from", type=Path, help="Normal experiment: reuse only source-only pass one")
+    p.add_argument("--reuse-analysis-from", type=Path, help="Read exact summary checkpoints from a compatible normal run; reuse only compatible analysis artifacts")
+    p.add_argument("--reuse-first-round-from", type=Path,
+                   help="Share completed normal round zero only with pure no-coverage-feedback")
     args = p.parse_args()
     args.output, args.work, args.repos = (p.resolve() for p in (args.output, args.work, args.repos))
     if args.rounds < 1 or args.attempts < 1 or args.max_tokens < 1 or args.request_timeout <= 0:
@@ -275,6 +317,11 @@ def main():
     if args.work == args.output or args.work in args.output.parents or args.output in args.work.parents:
         p.error("Work and results must be separate directory trees")
     tasks = load_tasks(args.dataset)
+    try:
+        tasks, selection = select_tasks(tasks, args.task_ids)
+    except (ValueError, OSError) as exc:
+        p.error(str(exc))
+    options = from_args(args)
     ready = json.loads(args.preflight.read_text())
     from .runtime import environment_manifest
     from marta.ruby_backend.loading import LOADING_POLICY
@@ -307,15 +354,44 @@ def main():
               "input_hashes": {n: x["source_digest"] for n, x in inventories.items()},
               "runtime_hashes": {n: x["runtime_digest"] for n, x in inventories.items()},
               "runtime_env": {k: os.getenv(k, "") for k in ("OLLAMA_CTX", "TRANSFORMER_PATH", "MARTA_MAX_CONTEXT_CHARS")}}
+    if options.enabled:
+        config["ablations"] = {"policy": POLICY, **options.as_dict()}
+        config["effective_attempts"] = options.attempts(args.attempts)
+    if selection is not None:
+        config["task_selection"] = selection
     if args.reuse_analysis_from:
-        previous = json.loads((args.reuse_analysis_from / "experiment.json").read_text())
-        expected = {"schema": "marta-xrepotest-v1", **config, "no_graph": False}
-        if not args.no_graph or previous != expected:
-            p.error("Pass-one reuse requires a matching normal experiment and --no-graph")
+        args.reuse_analysis_from = args.reuse_analysis_from.resolve()
+        if (args.reuse_analysis_from == args.output
+                or args.reuse_analysis_from in args.output.parents
+                or args.output in args.reuse_analysis_from.parents):
+            p.error("Reference and ablation results must be separate directory trees")
+        try:
+            config["analysis_reference"] = verify_analysis_reference(args.reuse_analysis_from, config)
+        except (ValueError, OSError) as exc:
+            p.error(str(exc))
+    if args.reuse_first_round_from:
+        args.reuse_first_round_from = args.reuse_first_round_from.resolve()
+        if args.reuse_first_round_from != args.reuse_analysis_from:
+            p.error("First-round reference must also be the analysis reference")
+        try:
+            config["first_round_reference"] = verify_first_round_reference(args.reuse_first_round_from, config)
+            args.first_round_manifest = config["first_round_reference"]["manifest_digest"]
+        except (ValueError, OSError) as exc:
+            p.error(str(exc))
     if args.validate_only:
         print(json.dumps(config, indent=2))
         return
     with locked_run(args.output, config):
+        if args.reuse_analysis_from:
+            audit = args.output / "analysis_reuse.json"
+            if not audit.exists():
+                from .report import summarize
+                inherited = args.reuse_analysis_from / "analysis_reuse.json"
+                atomic_json(audit, {**config["analysis_reference"], "checkpoint_count": len(list(
+                    (args.reuse_analysis_from / "analysis").glob("*/calls/*.json"))),
+                    "source_analysis_usage": summarize(args.reuse_analysis_from / "analysis"),
+                    "upstream_reuse": json.loads(inherited.read_text()) if inherited.exists() else None,
+                    "note": "Compatible production analysis is reused; reference cost is separate from new physical calls."})
         if args.export_only:
             export_responses(tasks, args.output, args.output / "processed.jsonl")
         else:

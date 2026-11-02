@@ -147,6 +147,12 @@ else
   require "rspec/core"
   # Keep stdout clean for JSON — send RSpec's report to stderr.
   rspec_args = isolated ? ["-O", "/dev/null", *specs] : specs
-  RSpec::Core::Runner.run(rspec_args, $stderr, $stderr)
-  emit_coverage(source_dir, report_io)
+  # Application CLIs may call exit while an example runs. RSpec finishes its
+  # report and propagates SystemExit; emit the collected coverage even then,
+  # without rescuing the exit or changing its status/application behaviour.
+  begin
+    RSpec::Core::Runner.run(rspec_args, $stderr, $stderr)
+  ensure
+    emit_coverage(source_dir, report_io)
+  end
 end

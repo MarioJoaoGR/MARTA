@@ -33,6 +33,8 @@ def main():
     parser.add_argument("--limit", type=int, default=None,
                         help="Generate tests for only the first N targets; all production methods are still analyzed")
     parser.add_argument("--no_rag", action="store_true", help="Skip embeddings/RAG (faster start, less context)")
+    from marta.ruby_backend.ablation import add_arguments, from_args
+    add_arguments(parser, underscores=True)
     parser.add_argument("--no_cache", action="store_true", help="Ignore the analysis cache (recompute summaries)")
     parser.add_argument(
         "--no_graph_enrich", action="store_true",
@@ -64,6 +66,9 @@ def main():
     )
     load_dotenv()
     args = parser.parse_args()
+    ablations = from_args(args)
+    if ablations.enabled and not args.output_dir:
+        parser.error("Generation ablations require a separate --output_dir")
 
     from marta.ruby_backend import runner
     from marta.ruby_backend.project import RubyProject
@@ -85,6 +90,7 @@ def main():
         # das métricas e da telemetria da execução normal, e perdia-se o lado com
         # que se ia comparar.
         project_name += "_sem_grafo"
+    project_name += ablations.suffix
     print(f"🚀 [MARTA Ruby] A iniciar análise para o projeto: {project_name}")
 
     try:
@@ -119,7 +125,7 @@ def main():
                            code_files=env.get("code_files"),
                            library_files=env.get("library_files"),
                            library_targets=env.get("library_targets"),
-                           method_names=method_names).discover()
+                           method_names=method_names, ablation_options=ablations).discover()
         print(f"🔍 [Contexto] {len(proj.files)} ficheiros, "
               f"{len(proj.analysis_targets)} métodos de análise, {len(proj.targets)} métodos-alvo; "
               f"grafo: {len(proj.call_graph.edges) if proj.call_graph else 0} arestas "
@@ -140,12 +146,14 @@ def main():
         # Um único event loop para todo o fluxo async (evita re-uso do
         # AsyncLimiter do gptapi entre loops distintos).
         async def _pipeline():
+            if ablations.enabled:
+                recorder.evento(tipo="ablation_configuration", options=ablations.as_dict())
             recorder.start_count_time("collect_message")
             # Braço da ablação: a passagem 1 dos sumários é igual à da execução
             # normal, que vive em <output_dir>/<nome sem sufixo>.
             reap = None
             if args.no_graph_enrich and args.output_dir and not args.no_cache:
-                nome_normal = project_name[: -len("_sem_grafo")]
+                nome_normal = args.project_name or os.path.basename(os.path.abspath(args.project_path))
                 reap = proj._analysis_path(
                     os.getenv("MODEL", "default"), True,
                     root_dir=os.path.join(os.path.abspath(args.output_dir), nome_normal))

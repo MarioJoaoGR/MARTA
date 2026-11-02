@@ -846,3 +846,38 @@ Fontes: [Ollama Qwen3-Coder](https://ollama.com/library/qwen3-coder:30b),
 [model card Qwen3-Coder](https://huggingface.co/Qwen/Qwen3-Coder-30B-A3B-Instruct),
 [Ollama Qwen3.6](https://ollama.com/library/qwen3.6),
 [model card Qwen3.6](https://huggingface.co/Qwen/Qwen3.6-35B-A3B).
+
+## Ablações adicionais
+
+As opções, a seleção futura do subset e as regras de reutilização estão em
+[ABLATIONS.md](ABLATIONS.md). Todas as opções novas estão desligadas por omissão.
+Estas alterações são preparadas numa cópia separada; não atualizar o código
+da execução normal congelada enquanto ainda precisar de retomas.
+
+A ablação que retira apenas o feedback de cobertura pode também partilhar a
+primeira ronda normal já concluída, usando `XREPO_REUSE_FIRST_ROUND_FROM` igual
+à referência de análise. Preservam-se tanto os testes aprovados dessa ronda
+como uma eventual ausência de testes; só as rondas posteriores são novas.
+Os requisitos de compatibilidade, a comparação emparelhada e o consumo herdado
+estão descritos em [ABLATIONS.md](ABLATIONS.md#primeira-ronda-partilhada-no-braço-sem-feedback-de-cobertura).
+
+### Application exit and internal coverage feedback
+
+The no-graph Dotenv stop of 12 October and its generic RSpec ensure repair are
+documented in [COVERAGE_SYSTEM_EXIT_REPAIR.md](../../deucalion/COVERAGE_SYSTEM_EXIT_REPAIR.md).
+The CPU job audits the saved experiment without running the model or resuming GPU
+generation. The final evaluator, prompt policies and model budgets are unchanged.
+
+### Continuação da ablação sem grafo em CPU
+
+A continuação autorizada em CPU, com parâmetros congelados, auditoria de preservação
+das tarefas terminadas e declaração da execução GPU/CPU mista, está documentada em
+[XREPOTEST_ABLATION_CPU_RESUME.md](../../deucalion/XREPOTEST_ABLATION_CPU_RESUME.md).
+Não altera o código de geração nem o manifesto existente.
+
+### Divisão da continuação CPU por projeto
+
+A partição disjunta dos mesmos 97 IDs, a validação sem inferência contra o runner
+congelado e as regras de preservação/junção estão em
+[XREPOTEST_PROJECT_PARALLEL.md](../../deucalion/XREPOTEST_PROJECT_PARALLEL.md).
+A validação pode correr enquanto o job serial continua.
