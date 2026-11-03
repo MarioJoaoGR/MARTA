@@ -26,6 +26,7 @@ from typing import Dict, List, Optional
 
 from . import cache, coverage_runner, param_types, rag, readme, recorder as rec, ruby_ast, summaries
 from .ablation import AblationOptions
+from .checkpoints import RoundCheckpoints, atomic_json, dependency_files, file_hash
 from .backend import LanguageBackend, RubyBackend
 from .generate import AskFn, GenOutcome, _default_ask, generate_spec_for_method
 from .source_context import SourceContext, build_source_context
@@ -34,7 +35,11 @@ from .source_context import SourceContext, build_source_context
 SKIP_METHODS = {"initialize"}
 
 # Bump when analysis prompts, definition identities, or cache semantics change.
-ANALYSIS_SCHEMA = 3
+ANALYSIS_SCHEMA = 4
+
+
+class AnalysisResponseError(RuntimeError):
+    """Analysis cannot continue with an empty or nontext LLM response."""
 
 
 def _slice_lines(path: str, start: int, end: int) -> str:
@@ -528,7 +533,12 @@ class RubyProject:
                 or not isinstance(data.get("targets"), dict)
                 or not isinstance(data.get("classes"), dict)):
             return None
-        if not all(isinstance(e, dict) for e in data["targets"].values()):
+        if not all(isinstance(e, dict) and all(
+                isinstance(e.get(key), str) and e[key].strip()
+                for key in ("done_what", "what_todo", "summary", "done_what_passagem1"))
+                for e in data["targets"].values()):
+            return None
+        if not all(isinstance(value, str) and value.strip() for value in data["classes"].values()):
             return None
         return data
 
@@ -628,7 +638,19 @@ class RubyProject:
         ask = ask or _default_ask()
         # A Fase 1 são sete sub-fases e até agora media-se como um bloco só
         # ("collect_message"). Cada chamada fica etiquetada com a sua.
-        ask = rec.token_tracking_ask(ask, r.score, r)
+        tracked_ask = rec.token_tracking_ask(ask, r.score, r)
+
+        async def checked_ask(system, user):
+            response = await tracked_ask(system, user)
+            if not isinstance(response, str) or not response.strip():
+                r.evento(tipo="analysis_invalid_response", fase=r.fase_atual,
+                         response_type=type(response).__name__)
+                raise AnalysisResponseError(
+                    f"Invalid analysis response in {r.fase_atual}: expected nonempty text; "
+                    "analysis stopped without saving an incomplete bundle")
+            return response
+
+        ask = checked_ask
         overviews = readme.ReadmeOverviewCache(self.abs_source)
 
         # Pass 1: source-only done_what (MARTA's no-call-graph branch).
@@ -787,11 +809,9 @@ class RubyProject:
                 }
                 for t in self.analysis_targets
             }
-            os.makedirs(os.path.dirname(path), exist_ok=True)
-            with open(path, "w", encoding="utf-8") as f:
-                json.dump({"source_hash": src_hash, "model": model,
-                           "fingerprint": fingerprint, "enrich": enrich,
-                           "targets": entries, "classes": self.class_summaries}, f, indent=2)
+            atomic_json(path, {"source_hash": src_hash, "model": model,
+                               "fingerprint": fingerprint, "enrich": enrich,
+                               "targets": entries, "classes": self.class_summaries})
         self._sync_generation_analysis()
 
     @staticmethod
@@ -973,13 +993,91 @@ class RubyProject:
                 outcome.spec_path = None
                 outcome.spec_code = None
 
+    def _generation_recipe(self, targets, ask, max_attempts, reuse_first_round):
+        """Bind output to supplied sources, context, implementation and declared configuration."""
+        from pathlib import Path
+        source_files = sorted(set(self.files + [os.path.join(self.root_dir, path)
+                                               for path in (self.library_files or [])]))
+        dependencies = dependency_files(self.root_dir)
+        client = getattr(ask, "__self__", None) or getattr(ask, "client", None)
+        return {
+            "sources": {os.path.relpath(path, self.root_dir): file_hash(path) for path in source_files},
+            "dependencies": {os.path.relpath(path, self.root_dir): file_hash(path)
+                             for path in dependencies},
+            "implementation": {str(path.relative_to(Path(__file__).parent)): file_hash(path)
+                               for path in sorted(Path(__file__).parent.rglob("*"))
+                               if path.is_file() and path.suffix in (".py", ".rb")
+                               and "tests" not in path.parts},
+            "client_implementation": file_hash(Path(__file__).parents[1] / "gptapi.py"),
+            "embedding_implementation": file_hash(Path(__file__).parents[1] / "embedding.py"),
+            "model": os.getenv("MODEL", "default"),
+            "client": {key: getattr(client, key, None) for key in
+                       ("model_type", "temperature", "max_tokens", "reasoning_effort", "top_p",
+                        "presence_penalty", "request_timeout")},
+            "environment": {key: os.getenv(key) for key in (
+                "LLM_MAX_TOKENS", "OLLAMA_CTX", "OLLAMA_CONTEXT_LENGTH", "TRANSFORMER_PATH",
+                "MARTA_RUBY_BIN", "MARTA_RSPEC_BIN", "GEM_HOME", "GEM_PATH", "BUNDLE_GEMFILE", "RUBYOPT")},
+            "targets": [t.analysis_id + ":" + str(t.task_id) for _, t in targets],
+            "analysis": [[t.analysis_id, t.done_what, t.what_todo, t.summary, t.judge]
+                         for t in self.analysis_targets],
+            "classes": dict(self.class_summaries),
+            "loading": [[t.analysis_id, self._extra_requires_for(t), self._generation_loading_for(t)]
+                        for _, t in targets],
+            "load_paths": self._load_path_list(),
+            "backend": type(self.backend).__module__ + "." + type(self.backend).__qualname__,
+            "retrieval": type(self.rag_db).__module__ + "." + type(self.rag_db).__qualname__,
+            "max_context_chars": MAX_CONTEXT_CHARS,
+            "attempts": self.ablation_options.attempts(max_attempts),
+            "ablations": self.ablation_options.as_dict(), "paired_seed": reuse_first_round,
+        }
+
     async def generate_rounds(
+        self, rounds: int = 3, ask: Optional[AskFn] = None,
+        max_attempts: int = 3, limit: Optional[int] = None,
+        reuse_first_round: bool = False,
+    ) -> List[GenOutcome]:
+        """Resume only completed validated rounds; preserve unfinished files as evidence.
+
+        Existing output is re-executed before reuse. Terminal failed rounds are
+        not resampled. A different configuration archives incompatible output;
+        an edited or missing certified spec stops for explicit investigation.
+        """
+        if type(rounds) is not int or rounds < 1:
+            raise ValueError("rounds must be a positive integer")
+        if reuse_first_round and (not self.ablation_options.no_coverage_feedback
+                                 or len(self.targets) != 1
+                                 or self.ablation_options.no_repair
+                                 or self.ablation_options.no_type_hints
+                                 or self.ablation_options.no_method_retrieval):
+            raise ValueError("First-round reuse requires one coverage-ablation target")
+        ask = ask or _default_ask()
+        targets = list(enumerate(self.targets))
+        if limit:
+            targets = targets[:limit]
+        names = [t.spec_path_for_round(0) for _, t in targets]
+        if len(names) != len(set(names)):
+            raise ValueError("Generation targets collide on a spec path; use exact task selectors")
+        checkpoints = RoundCheckpoints(self.out_root(),
+            self._generation_recipe(targets, ask, max_attempts, reuse_first_round),
+            self._recorder().evento)
+        with checkpoints.locked():
+            trusted = ([os.path.join(self.root_dir, self.targets[0].spec_path_for_round(0))]
+                       if reuse_first_round else [])
+            completed = checkpoints.prepare(rounds, trusted_seed=trusted)
+            # Use the current Ruby environment, not saved coverage numbers.
+            cov = self._measure_retained_suite([]) if completed else {}
+            return await self._generate_rounds(
+                rounds, ask, max_attempts, limit, reuse_first_round,
+                checkpoints=checkpoints, completed=completed, initial_coverage=cov)
+
+    async def _generate_rounds(
         self,
         rounds: int = 3,
         ask: Optional[AskFn] = None,
         max_attempts: int = 3,
         limit: Optional[int] = None,
         reuse_first_round: bool = False,
+        *, checkpoints: RoundCheckpoints, completed: int, initial_coverage: dict,
     ) -> List[GenOutcome]:
         """Coverage-guided multi-round generation — the Fase 2 loop.
 
@@ -990,20 +1088,14 @@ class RubyProject:
         for a certified paired coverage ablation, including a no-spec seed;
         the adapter retains inherited outcomes/cost separately.
         """
-        if reuse_first_round and (not self.ablation_options.no_coverage_feedback
-                                 or len(self.targets) != 1
-                                 or self.ablation_options.no_repair
-                                 or self.ablation_options.no_type_hints
-                                 or self.ablation_options.no_method_retrieval):
-            raise ValueError("First-round reuse requires one coverage-ablation target")
         targets = list(enumerate(self.targets))
         if limit:
             targets = targets[:limit]
         outcomes: List[GenOutcome] = []
-        cov: Dict[int, coverage_runner.MethodCoverage] = {}
+        cov: Dict[int, coverage_runner.MethodCoverage] = initial_coverage
         recorder = self._recorder()
 
-        for rnd in range(rounds):
+        for rnd in range(completed, rounds):
             round_outcomes: List[GenOutcome] = []
             recorder.score.first_run = (rnd == 0)  # first_run metrics = round 0
             recorder.start_count_time(f"round_{rnd}")
@@ -1017,14 +1109,6 @@ class RubyProject:
                 if (not self.ablation_options.no_coverage_feedback
                         and rnd > 0 and mc is not None and mc.fully_covered):
                     continue  # already fully covered — skip, like the Python loop
-                # Skip resume-safe (porta o skip round-aware do Python): se o
-                # código não mudou e o spec DESTA ronda já existe (run retomado),
-                # não regenera — o ficheiro em disco conta para a cobertura via
-                # _all_spec_paths(). Rondas por fazer continuam normalmente.
-                round_spec = os.path.join(self.root_dir, t.spec_path_for_round(rnd))
-                if not self.code_changed and os.path.exists(round_spec):
-                    print(f"[SKIP] Spec de '{t.method.qualified_name}' já existe (ronda {rnd}), a saltar...")
-                    continue
                 if self.ablation_options.no_coverage_feedback or rnd == 0 or mc is None:
                     coverage_info = "First pass: Try to achieve maximum coverage."
                 else:
@@ -1057,6 +1141,7 @@ class RubyProject:
             # estar medido à parte e não diluído no tempo da ronda.
             with recorder.medir("cobertura"):
                 cov = self._measure_retained_suite(round_outcomes)
+            checkpoints.commit(rnd, round_outcomes)
             recorder.score.coverage.append(
                 {t.method.qualified_name: (cov[i].covered_lines if i in cov else 0)
                  for i, t in targets}

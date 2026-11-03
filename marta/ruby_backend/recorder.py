@@ -24,6 +24,7 @@ from __future__ import annotations
 
 import json
 import os
+import sys
 import time
 from contextlib import contextmanager
 from dataclasses import asdict, dataclass, field
@@ -141,7 +142,7 @@ def _python_side_tokens() -> tuple:
     """Current token tally of the Python gptapi singleton (which counts usage
     for every LLM call), or (0, 0) if the LLM stack isn't loaded."""
     try:
-        from marta.recorder import recoder
+        recoder = sys.modules["marta.recorder"].recoder
         return recoder.score.prompt_tokens, recoder.score.completion_tokens
     except Exception:
         return (0, 0)
@@ -151,8 +152,8 @@ def _detalhe_da_ultima_chamada() -> dict:
     """O que o gptapi guardou da última chamada: razão de fim e erro. Vazio se a
     pilha do LLM não está carregada (testes com ``ask`` de mentira)."""
     try:
-        from marta.gptapi import model
-        return getattr(model, "last_call", None) or {}
+        module = sys.modules.get("marta.gptapi")
+        return getattr(getattr(module, "model", None), "last_call", None) or {}
     except Exception:
         return {}
 
@@ -187,7 +188,7 @@ def token_tracking_ask(ask, score: RubyScore, recorder: Optional["RubyRecorder"]
             recorder.evento(tipo="llm", fase=fase, prompt_tokens=entrada,
                             completion_tokens=saida, segundos=round(segundos, 3),
                             cortada=cortada, erro=detalhe.get("erro"),
-                            caracteres_resposta=len(out or ""))
+                            caracteres_resposta=len(out) if isinstance(out, str) else 0)
         return out
     return wrapped
 

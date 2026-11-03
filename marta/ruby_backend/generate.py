@@ -17,6 +17,7 @@ from dataclasses import dataclass, field
 from typing import Awaitable, Callable, Dict, List, Optional
 
 from .backend import LanguageBackend, RubyBackend
+from .checkpoints import atomic_write
 from .runner import RSpecResult
 from .repair import FailureDiagnostic, RepairContext, diagnose_result
 from .planning import parse_plan, validate_plan
@@ -116,9 +117,7 @@ async def generate_spec_for_method(
     abs_spec = os.path.join(cwd, spec_path)
 
     def _write(code: str) -> None:
-        os.makedirs(os.path.dirname(abs_spec) or cwd, exist_ok=True)
-        with open(abs_spec, "w", encoding="utf-8") as f:
-            f.write(code + "\n")
+        atomic_write(abs_spec, code + "\n")
 
     # Telemetria opcional: sem recorder, nullcontext e nada muda (ver recorder.py).
     from contextlib import nullcontext

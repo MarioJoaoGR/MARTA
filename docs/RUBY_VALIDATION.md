@@ -51,7 +51,10 @@ There are no additional model requests or enlarged attempt budgets.
 
 Invalid pre-existing suites are preserved and raise an explicit validation error;
 they are not silently deleted or accepted merely because their files exist.
-Atomic resume and stronger output identities remain separate backlog items.
+Validated round recovery was subsequently added in
+[the analysis/resume delivery](RUBY_ANALYSIS_RESUME.md). It archives uncertified
+files and revalidates checkpointed suites before reuse. Automatic unique naming
+for all legacy ordinary spec paths remains separate work.
 
 ## Regression checks
 
@@ -71,6 +74,8 @@ This delivery closes the acceptance and joint-suite validation issues only.
 Previous test/plan context was subsequently added in
 [the repair-context delivery](RUBY_REPAIR_CONTEXT.md). Planner schema validation
 and focal-code preservation were added in
-[the plan/source delivery](RUBY_PLAN_SOURCE_CONTEXT.md). Bounded summary propagation,
-cache provenance and graph/retrieval policies remain separate work.
+[the plan/source delivery](RUBY_PLAN_SOURCE_CONTEXT.md). Nonempty analysis responses
+and validated round checkpoints were added in
+[the analysis/resume delivery](RUBY_ANALYSIS_RESUME.md). Further cache provenance
+and graph/retrieval policies remain separate work.
 The paper remains a measurement of its frozen implementation and artifacts.

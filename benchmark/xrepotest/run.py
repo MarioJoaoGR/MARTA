@@ -27,8 +27,10 @@ GENERATION_EMPTY_LENGTH_POLICY = "counts-as-attempt-v1"
 def archive_incomplete_task(root: Path, tid) -> None:
     """Retain interrupted attempts, but never resume an unvalidated spec file.
 
-    The ordinary round-resume check uses file existence, which is insufficient
-    after a crash during repair. Finished tasks are skipped by the caller.
+    The adapter restarts an interrupted task as a whole, preserving its earlier
+    calls for accounting. Core generation also checkpoints validated rounds;
+    this outer task-level protocol remains unchanged. Finished tasks are skipped
+    by the caller.
     Events in this archive remain included in report.py's recursive accounting.
     """
     out = root / "tasks" / str(tid)
