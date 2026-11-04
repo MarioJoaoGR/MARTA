@@ -40,7 +40,7 @@ Editing an unused, shadowed ancestor README does not require regeneration.
 Unreadable or non-UTF-8 selected documents fail explicitly; this change does not
 silently substitute different requirements.
 
-`ANALYSIS_SCHEMA` is now 5. New bundles add `readme_policy` and `readmes` for audit;
+This delivery introduced `ANALYSIS_SCHEMA=5`. New bundles add `readme_policy` and `readmes` for audit;
 `analysis_readmes` telemetry records paths/hashes, not the README bodies. Bundles
 using an older fingerprint are not silently reused under the new context rule.
 The bundle filename and its existing atomic write remain unchanged.
@@ -55,10 +55,11 @@ and merge stages as before. No token/output limits, synthesis policy, retry
 budgets, evaluation formulas or generation selectors changed.
 
 This closes the README boundary and its cache/prompt consistency issue only.
-Prompt/model/embedding provenance still needs the broader cache work from A3.
-`use_cache=False` still recomputes without writing a new bundle; separating
-reusable cache from an always-saved analysis archive remains A4. Per-call analysis
-recovery and a complete token budget remain separate tasks.
+Prompt/client/embedding provenance and independent archives were subsequently
+added in [the A3/A4 delivery](RUBY_ANALYSIS_CACHE.md), which raises the schema to 6.
+`use_cache=False` now saves an independent complete result while preserving the
+previous reusable cache. Per-call analysis recovery and a complete token budget
+remain separate tasks.
 
 ## Verification
 

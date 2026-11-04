@@ -25,11 +25,12 @@ analysis still has no per-request recovery checkpoint: after a failed fresh
 analysis, successful earlier requests may need repeating. That remains separate
 from generation round recovery.
 
-`ANALYSIS_SCHEMA` is 4. Empty required fields in a cached bundle are rejected.
+This delivery introduced `ANALYSIS_SCHEMA=4`. Empty required fields in a cached bundle are rejected.
 Complete bundles and generated Ruby files are written to a same-directory temporary
 file, flushed and replaced atomically. A failed analysis never replaces a prior
-complete bundle; `use_cache=False` still does not save a new bundle. Changing that
-option's archival semantics remains a separate task.
+complete bundle. The subsequent [A3/A4 delivery](RUBY_ANALYSIS_CACHE.md) raises the
+schema to 6 and saves independent analysis archives even with `use_cache=False`,
+while preserving the previous reusable cache.
 
 Telemetry only reads already-loaded Python client modules. It does not initialize
 the global client or load `.env` as a side effect of an injected/offline request.

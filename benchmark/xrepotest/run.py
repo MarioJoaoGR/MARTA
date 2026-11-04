@@ -193,6 +193,7 @@ async def pipeline(args, tasks, inventories):
     model.top_p = args.top_p
     model.presence_penalty = args.presence_penalty
     model.request_timeout = args.request_timeout
+    model.model_digest = getattr(args, "model_digest", None)
     options = from_args(args)
     grouped = defaultdict(list)
     for t in tasks:

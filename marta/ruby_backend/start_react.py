@@ -35,7 +35,7 @@ def main():
     parser.add_argument("--no_rag", action="store_true", help="Skip embeddings/RAG (faster start, less context)")
     from marta.ruby_backend.ablation import add_arguments, from_args
     add_arguments(parser, underscores=True)
-    parser.add_argument("--no_cache", action="store_true", help="Ignore the analysis cache (recompute summaries)")
+    parser.add_argument("--no_cache", action="store_true", help="Recompute all summaries; preserve reusable cache and archive the new analysis")
     parser.add_argument(
         "--no_graph_enrich", action="store_true",
         help="Braço da ablação: desliga o enriquecimento pelo grafo de chamadas (a "

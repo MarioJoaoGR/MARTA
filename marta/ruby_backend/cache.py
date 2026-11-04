@@ -1,11 +1,8 @@
-"""Analysis caching for the Ruby backend (item 8).
+"""Reusable Ruby analysis/vector caches.
 
-Mirrors MARTA's ``compute_source_hash`` + ``save/load_analysis_cache``: the
-LLM-derived per-method analysis (done_what / what_todo / summary / judge) is
-keyed on an MD5 of the source tree and the model name, so an unchanged project
-skips the whole expensive summary phase on a re-run.
-
-Stored under ``<root>/.marta_ruby_cache/analysis_<model>.json``.
+Project orchestration adds versioned prompt/client/README provenance to analysis
+validity. Completed results and partial response evidence are independently
+archived under output/run_results/analysis_runs, including use_cache=False and cache hits.
 """
 from __future__ import annotations
 
@@ -43,11 +40,15 @@ def vectors_path(root_dir: str) -> str:
     return os.path.join(root_dir, ".marta_ruby_cache", "vectors")
 
 
+def embedding_key(embed_model: str) -> str:
+    from .analysis_state import embedding_provenance
+    from .checkpoints import digest
+    return digest(embedding_provenance(embed_model))
+
+
 def vectors_key(source_hash: str, model: str, embed_model: str) -> str:
-    """Validity key of the stored vectors. The summaries depend on the sources
-    and on the LLM, the vectors depend on those plus the embedder: change any of
-    the three and what is on disk no longer applies."""
-    return f"{source_hash}|{model}|{embed_model}"
+    """Bind texts, analysis and configured embedding implementation/metadata."""
+    return f"{source_hash}|{model}|{embed_model}|{embedding_key(embed_model)}"
 
 
 def save_call_graph(path: str, source_hash: str, graph_json: dict) -> None:

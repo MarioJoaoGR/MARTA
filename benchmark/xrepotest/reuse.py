@@ -30,7 +30,8 @@ class ReferenceEmbeddings:
     def __init__(self, vectors, recorder, query_cache, embed_model):
         self.vectors, self.recorder = vectors, recorder
         self.query_cache = query_cache
-        self.key = digest(['bge-masked-mean-v1', embed_model])
+        from marta.ruby_backend.cache import embedding_key
+        self.key = digest(['bge-masked-mean-v2', embedding_key(embed_model)])
         self.queries = {}
         if query_cache.is_file():
             data = json.loads(query_cache.read_text())
@@ -88,7 +89,7 @@ def prepare_analysis_reuse(project, reference, *, enrich):
         destination = Path(project._analysis_path(model, True))
         if enrich and not destination.exists():
             audit['analysis_bundle'] = _copy(path, destination)
-        # These are exactly the inputs used by the frozen normal build_rag key.
+        # Use the same analysis/text/embedding identity as the current build_rag.
         docs = [(t.analysis_id, (bundle['targets'].get(t.analysis_id, {}).get('summary')
                  or bundle['targets'].get(t.analysis_id, {}).get('done_what') or ''))
                 for t in project.analysis_targets]

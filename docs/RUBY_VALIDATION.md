@@ -77,6 +77,8 @@ Previous test/plan context was subsequently added in
 and focal-code preservation were added in
 [the plan/source delivery](RUBY_PLAN_SOURCE_CONTEXT.md). Nonempty analysis responses
 and validated round checkpoints were added in
-[the analysis/resume delivery](RUBY_ANALYSIS_RESUME.md). Further cache provenance
-and graph/retrieval policies remain separate work.
+[the analysis/resume delivery](RUBY_ANALYSIS_RESUME.md). Versioned analysis
+provenance and independent archives were added in
+[the cache delivery](RUBY_ANALYSIS_CACHE.md). Further graph/retrieval policies
+remain separate work.
 The paper remains a measurement of its frozen implementation and artifacts.

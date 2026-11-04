@@ -26,6 +26,7 @@ from typing import Dict, List, Optional
 
 from . import cache, coverage_runner, param_types, rag, readme, recorder as rec, ruby_ast, summaries
 from .ablation import AblationOptions
+from .analysis_state import AnalysisArchive, analysis_provenance
 from .checkpoints import RoundCheckpoints, atomic_json, dependency_files, file_hash
 from .backend import LanguageBackend, RubyBackend
 from .generate import AskFn, GenOutcome, _default_ask, generate_spec_for_method
@@ -35,7 +36,7 @@ from .source_context import SourceContext, build_source_context
 SKIP_METHODS = {"initialize"}
 
 # Bump when analysis prompts, definition identities, or cache semantics change.
-ANALYSIS_SCHEMA = 5
+ANALYSIS_SCHEMA = 6
 
 
 class AnalysisResponseError(RuntimeError):
@@ -250,6 +251,8 @@ class RubyProject:
     analysis_targets: List[MethodTarget] = field(default_factory=list)
     _ambiguous_qns: set = field(default_factory=set, init=False, repr=False)
     _loading_dependency_index: Optional[dict] = field(default=None, init=False, repr=False)
+    _analysis_fingerprint_used: Optional[str] = field(default=None, init=False, repr=False)
+    last_analysis_archive: Optional[str] = field(default=None, init=False)
 
     files: List[str] = field(default_factory=list)          # absolute .rb paths
     targets: List[MethodTarget] = field(default_factory=list)
@@ -393,6 +396,8 @@ class RubyProject:
         self.analysis_targets = []
         self.class_files = {}
         self.class_summaries = {}
+        self._analysis_fingerprint_used = None
+        self.last_analysis_archive = None
         self.rag_db = self.class_db = None
         self.type_index = param_types.ProjectTypeIndex()
         self._apply_environment()
@@ -513,12 +518,13 @@ class RubyProject:
         # Keep the established full-analysis cache name for compatible results.
         return path[:-5] + ".full_context.json"
 
-    def _analysis_fingerprint(self, targets: List[MethodTarget], *, readme_snapshot=None) -> str:
+    def _analysis_fingerprint(self, targets: List[MethodTarget], *, readme_snapshot=None, provenance=None) -> str:
         from .call_graph import RESOLVER_VERSION
         readme_snapshot = readme_snapshot or readme.ReadmeOverviewCache(
             self.abs_source, project_root=self.root_dir)
         payload = {
             "schema": ANALYSIS_SCHEMA,
+            "provenance": provenance if provenance is not None else analysis_provenance(),
             "scope": "full",
             "methods": sorted(t.analysis_id for t in targets),
             "max_context_chars": MAX_CONTEXT_CHARS,
@@ -599,12 +605,59 @@ class RubyProject:
         return outcomes
 
     async def analyze_summaries(
+        self, ask: Optional[AskFn] = None, use_cache: bool = True,
+        enrich: bool = True, reaproveitar_passagem1_de: Optional[str] = None,
+    ) -> None:
+        """Archive every analysis, independently of reusable-cache policy.
+
+        With use_cache=False, neither whole bundles nor first-pass references
+        are read and the previous reusable cache is preserved. Every completed
+        result, including a cache hit or empty pool, has a separate bundle.
+        """
+        archive = AnalysisArchive(self.out_root(), use_cache=use_cache, enrich=enrich)
+        self.last_analysis_archive = str(archive.root)
+        self._analysis_fingerprint_used = None
+        with archive:
+            # Resolve the real default client before fingerprinting, including
+            # its dotenv configuration; injected callbacks never initialize it.
+            if ask is None and self.analysis_targets:
+                ask = _default_ask()
+            model = os.getenv("MODEL", "default")
+            provenance = analysis_provenance(ask)
+            overviews = readme.ReadmeOverviewCache(self.abs_source, project_root=self.root_dir)
+            fingerprint = self._analysis_fingerprint(
+                self.analysis_targets, readme_snapshot=overviews, provenance=provenance)
+            metadata = {"source_hash": cache.compute_source_hash(self.files), "model": model,
+                        "fingerprint": fingerprint, "enrich": enrich, "schema": ANALYSIS_SCHEMA,
+                        "provenance": provenance, "readme_policy": readme.README_POLICY,
+                        "readmes": overviews.manifest_for([t.file_path for t in self.analysis_targets])}
+            archive.annotate(**metadata)
+            bundle, cache_hit = await self._analyze_summaries(
+                ask=ask, use_cache=use_cache, enrich=enrich,
+                reaproveitar_passagem1_de=reaproveitar_passagem1_de,
+                metadata=metadata, overviews=overviews, archive=archive)
+            if analysis_provenance(ask) != provenance:
+                raise AnalysisResponseError("Analysis configuration changed during execution; no cache published")
+            if cache.compute_source_hash(self.files) != metadata["source_hash"]:
+                raise AnalysisResponseError("Production source changed during analysis; no cache published")
+            # A no-cache analysis is evidence, not a replacement for old cache.
+            # Save its complete result before publishing a reusable cache.
+            atomic_json(archive.root / "bundle.json", bundle)
+            if use_cache and not cache_hit:
+                atomic_json(self._analysis_path(model, enrich), bundle)
+            archive.complete(cache_hit=cache_hit)
+            self._analysis_fingerprint_used = fingerprint
+            self._recorder().evento(tipo="analysis_archive", archive=str(archive.root),
+                                    cache_hit=cache_hit, fingerprint=fingerprint)
+
+    async def _analyze_summaries(
         self,
         ask: Optional[AskFn] = None,
         use_cache: bool = True,
         enrich: bool = True,
         reaproveitar_passagem1_de: Optional[str] = None,
-    ) -> None:
+        *, metadata: dict, overviews: readme.ReadmeOverviewCache, archive: AnalysisArchive,
+    ):
         """Populate each target's done_what / what_todo / summary before
         generation — the context-building phase MARTA runs in ``init()``.
         ``done_what`` is source-only until the call graph enriches it.
@@ -619,11 +672,10 @@ class RubyProject:
         que é tudo o que o grafo faz nesta fase. O resto do fluxo fica igual. A
         cache vai para um ficheiro próprio, senão um braço comia a do outro.
         """
-        model = os.getenv("MODEL", "default")
-        src_hash = cache.compute_source_hash(self.files)
-        overviews = readme.ReadmeOverviewCache(self.abs_source, project_root=self.root_dir)
-        fingerprint = self._analysis_fingerprint(self.analysis_targets, readme_snapshot=overviews)
-        readme_manifest = overviews.manifest_for([t.file_path for t in self.analysis_targets])
+        model = metadata["model"]
+        src_hash = metadata["source_hash"]
+        fingerprint = metadata["fingerprint"]
+        readme_manifest = metadata["readmes"]
         path = self._analysis_path(model, enrich)
 
         # A fresh analysis (including a different graph arm) cannot inherit
@@ -641,10 +693,10 @@ class RubyProject:
                     self._apply_cached(t, cached[t.analysis_id])
                 self.class_summaries = bundle["classes"]
                 self._sync_generation_analysis()
-                return
+                return {**metadata, "targets": cached, "classes": self.class_summaries}, True
         if not self.analysis_targets:
             self._sync_generation_analysis()
-            return
+            return {**metadata, "targets": {}, "classes": {}}, False
 
         r = self._recorder()
         ask = ask or _default_ask()
@@ -653,7 +705,12 @@ class RubyProject:
         tracked_ask = rec.token_tracking_ask(ask, r.score, r)
 
         async def checked_ask(system, user):
-            response = await tracked_ask(system, user)
+            try:
+                response = await tracked_ask(system, user)
+            except BaseException as error:
+                archive.request(system, user, r, error={"type": type(error).__name__, "message": str(error)})
+                raise
+            archive.request(system, user, r, response=response)
             if not isinstance(response, str) or not response.strip():
                 r.evento(tipo="analysis_invalid_response", fase=r.fase_atual,
                          response_type=type(response).__name__)
@@ -673,7 +730,7 @@ class RubyProject:
         # chamada outra vez — uma por cada um dos 4601 métodos afetados. Só se
         # reaproveita o que bate certo com as mesmas fontes e o mesmo modelo.
         reaproveitada: Dict[str, str] = {}
-        if reaproveitar_passagem1_de:
+        if reaproveitar_passagem1_de and use_cache:
             normal_bundle = self._load_analysis_bundle(
                 reaproveitar_passagem1_de, src_hash, model, fingerprint, True)
             normal = normal_bundle["targets"] if normal_bundle else {}
@@ -812,20 +869,16 @@ class RubyProject:
                 with r.contexto(classe=qn):
                     self.class_summaries[qn] = await summaries.analyze_class(ask, class_src)
 
-        if use_cache:
-            entries = {
-                t.analysis_id: {
-                    "done_what": t.done_what, "what_todo": t.what_todo,
-                    "summary": t.summary, "judge": t.judge,
-                    "done_what_passagem1": passagem1.get(t.analysis_id, ""),
-                }
-                for t in self.analysis_targets
+        entries = {
+            t.analysis_id: {
+                "done_what": t.done_what, "what_todo": t.what_todo,
+                "summary": t.summary, "judge": t.judge,
+                "done_what_passagem1": passagem1.get(t.analysis_id, ""),
             }
-            atomic_json(path, {"source_hash": src_hash, "model": model,
-                               "fingerprint": fingerprint, "enrich": enrich,
-                               "targets": entries, "classes": self.class_summaries,
-                               "readme_policy": readme.README_POLICY, "readmes": readme_manifest})
+            for t in self.analysis_targets
+        }
         self._sync_generation_analysis()
+        return {**metadata, "targets": entries, "classes": self.class_summaries}, False
 
     @staticmethod
     def _apply_cached(t: MethodTarget, entry: dict) -> None:
@@ -856,7 +909,7 @@ class RubyProject:
                 ensure_ascii=True).encode()).hexdigest()
             key = cache.vectors_key(
                 cache.compute_source_hash(self.files) + ":"
-                + self._analysis_fingerprint(self.analysis_targets) + ":" + text_hash,
+                + (self._analysis_fingerprint_used or self._analysis_fingerprint(self.analysis_targets)) + ":" + text_hash,
                 os.getenv("MODEL", "default"),
                 os.getenv("TRANSFORMER_PATH", "default"),
             )
