@@ -32,6 +32,7 @@ from .backend import LanguageBackend, RubyBackend
 from .generate import AskFn, GenOutcome, _default_ask, generate_spec_for_method
 from .source_context import SourceContext, build_source_context
 from .prompt_budget import PromptBudget, budget_provenance
+from .retrieval_cache import PlannerRetrievalCache
 
 # Default generation skips constructors; exact task selectors may request them.
 SKIP_METHODS = {"initialize"}
@@ -253,6 +254,7 @@ class RubyProject:
     _ambiguous_qns: set = field(default_factory=set, init=False, repr=False)
     _loading_dependency_index: Optional[dict] = field(default=None, init=False, repr=False)
     _analysis_fingerprint_used: Optional[str] = field(default=None, init=False, repr=False)
+    _planner_retrieval: PlannerRetrievalCache = field(default_factory=PlannerRetrievalCache, init=False, repr=False)
     last_analysis_archive: Optional[str] = field(default=None, init=False)
 
     files: List[str] = field(default_factory=list)          # absolute .rb paths
@@ -399,6 +401,7 @@ class RubyProject:
         self.class_summaries = {}
         self._analysis_fingerprint_used = None
         self.last_analysis_archive = None
+        self._planner_retrieval.clear()
         self.rag_db = self.class_db = None
         self.type_index = param_types.ProjectTypeIndex()
         self._apply_environment()
@@ -616,6 +619,7 @@ class RubyProject:
         are read and the previous reusable cache is preserved. Every completed
         result, including a cache hit or empty pool, has a separate bundle.
         """
+        self._planner_retrieval.clear()
         archive = AnalysisArchive(self.out_root(), use_cache=use_cache, enrich=enrich)
         self.last_analysis_archive = str(archive.root)
         self._analysis_fingerprint_used = None
@@ -907,6 +911,7 @@ class RubyProject:
         Sources, analysis settings, definition IDs, actual indexed text and the
         LLM/embedder identify reusable vectors. ``persist=False`` keeps them in
         memory (tests)."""
+        self._planner_retrieval.clear()
         pdir = key = None
         if persist:
             pdir = os.path.join(cache.vectors_path(self.out_root()),
@@ -970,11 +975,20 @@ class RubyProject:
 
     def _related_for(self, t: MethodTarget) -> Optional[List[str]]:
         if self.ablation_options.no_method_retrieval or self.rag_db is None:
+            self._planner_retrieval.clear()
             return None
         query = t.summary or t.done_what
         if not query:
             return None
-        return self.rag_db.related_lines(query, k=3, exclude=t.analysis_id) or None
+        recorder = self._recorder()
+        with recorder.medir("retrieval_estatico"):
+            lines, hit, cacheable = self._planner_retrieval.related(
+                self.rag_db, query, k=3, exclude=t.analysis_id)
+        recorder.evento(tipo="planner_retrieval", fase="rag_related",
+                        definition_id=t.analysis_id, cache_hit=hit, cacheable=cacheable,
+                        query_sha256=hashlib.sha256(query.encode("utf-8")).hexdigest(),
+                        k=3, results=len(lines or []))
+        return lines
 
     def _example_passing_spec(self, t: MethodTarget) -> Optional[str]:
         """Find only this definition's generated files, including selected tasks.

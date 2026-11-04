@@ -9,9 +9,10 @@ As entregas e os respetivos limites estão documentados em
 [planos e código-alvo](../../docs/RUBY_PLAN_SOURCE_CONTEXT.md),
 [análise e retoma](../../docs/RUBY_ANALYSIS_RESUME.md),
 [identidade dos testes](../../docs/RUBY_SPEC_IDENTITIES.md),
-[README do projeto](../../docs/RUBY_README_CONTEXT.md) e
-[cache e arquivo de análise](../../docs/RUBY_ANALYSIS_CACHE.md) e
-[orçamento do pedido](../../docs/RUBY_PROMPT_BUDGET.md).
+[README do projeto](../../docs/RUBY_README_CONTEXT.md),
+[cache e arquivo de análise](../../docs/RUBY_ANALYSIS_CACHE.md),
+[orçamento do pedido](../../docs/RUBY_PROMPT_BUDGET.md) e
+[retrieval estático](../../docs/RUBY_STATIC_RETRIEVAL.md).
 
 As [notas originais](../../docs/archive/ruby-improvements-before-2026-10-04.md)
 foram preservadas integralmente, incluindo comentários e discordâncias do
@@ -36,7 +37,7 @@ original e não são reclassificados como resultados destas melhorias.
 | A6 | Confiança nas arestas | **Aberto.** `kind` existe, mas não é usado para seleção/confiança | Registar resolução exata vs fallback/ambiguidade; não tratar toda constante como certa |
 | A7 | Inferir tipos de retorno | **Aberto; investigação de maior esforço** | Começar por `Foo.new`, atribuições no construtor e anotações; medir valor antes de inferência global |
 | A8 | Segunda passagem depende da ordem | **Resolvido para `done_what`.** Lê `passagem1[analysis_id]` | Não duplicar a correção; estudar separadamente a escolha de chamador em `what_todo` |
-| A9 | RAG estático repetido por ronda | **Aberto.** `_related_for(t)` continua dentro do ciclo | Memorizar por alvo/contexto; manter retrieval de reparação dependente do erro |
+| A9 | RAG estático repetido por ronda | **Resolvido em memória por projeto.** Related reutilizado por definição/consulta/versão do índice | Rebuild, descoberta e reanálise invalidam; pesquisa de erro e exemplos continuam dinâmicos |
 | A10 | Classes pouco informativas e judge sem limiar | **Aberto.** Stub + até 40 assinaturas; top-1 sem abstenção | Testar stub + construtor + sumários existentes; devolver scores e calibrar aceitação |
 
 ### A1 — orçamento total com limites explícitos
@@ -91,10 +92,19 @@ resolução é demonstrável.
 
 ### A9 — Planner e reparação não fazem a mesma pergunta
 
-O Planner consulta o mesmo sumário entre rondas; esse resultado pode ser
-reutilizado. A reparação usa a mensagem de erro e pode encontrar exemplos
-diferentes; não deve usar indiscriminadamente a cache do Planner.
-A consulta de métodos usa embedding + Chroma, e não só NumPy.
+O Planner reutiliza agora o resultado estático em memória por definição,
+consulta e versão do índice. A reconstrução do índice (mesmo com vetores do
+disco), nova descoberta ou reanálise descartam essa reutilização. Entradas vazias
+e falhas não são memorizadas; índices customizados sem revisão continuam a ser
+consultados. O resultado original não é alterado por reduções posteriores do
+orçamento de prompt.
+
+A reparação continua a consultar a mensagem de erro em cada pedido e a procurar
+os exemplos disponíveis nesse momento, incluindo quando o texto do erro se
+repete. A proteção XRepoTest contra exemplos de outras tarefas mantém-se.
+A consulta de métodos usa embedding + Chroma, e não só NumPy. Esta melhoria
+poupa consultas/embeddings repetidos, não chamadas ao LLM; não demonstra por si
+só ganhos de qualidade ou uma aceleração global da ferramenta.
 
 ## B. Estudos por fechar
 
@@ -158,7 +168,7 @@ tempo e custo de análise/embedding. Um empate numa amostra não prova que RAG
 ### Sequência de implementação a partir desta revisão
 
 1. **Concluído nesta entrega:** orçamento da mensagem inteira, incluindo sumários dos chamados, plano e erros. Contagem exata exige tokenizer correspondente; por omissão usa estimativa UTF-8 identificada.
-2. Reutilização do retrieval estático entre rondas, mantendo o retrieval de erro dinâmico.
+2. **Concluído nesta entrega:** reutilização do retrieval estático entre rondas, mantendo o retrieval de erro dinâmico.
 3. Consolidar a avaliação pós-geração por mutação e os dados de custo/utilidade.
 4. Medir propostas de confiança no grafo e abstenção no judge antes de as impor.
 5. Isolar estado antes de concorrência; preparar o controlador aprendido da tese.
@@ -173,7 +183,7 @@ uma especificação atual: casos corrigidos podem agora parar mais cedo ou exigi
 asserts diferentes. A evidência de regressão atual está nas suites
 `test_suite_validation.py`, `test_repair_context.py`, `test_plan_source_validation.py`,
 `test_analysis_resume.py`, `test_spec_identities.py`, `test_readme_context.py` e
-`test_analysis_provenance.py` e `test_prompt_budget.py`, em
+`test_analysis_provenance.py`, `test_prompt_budget.py` e `test_retrieval_cache.py`, em
 `marta/ruby_backend/tests/`.
 
 Estas verificações não chamam modelos e não estimam ganhos de qualidade no corpus.

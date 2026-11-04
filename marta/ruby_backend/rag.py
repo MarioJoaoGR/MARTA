@@ -132,6 +132,7 @@ class RubyFunctionDatabase(_Indice):
         # mais do que uma base no mesmo processo.
         self._name = _safe_name(name if persist_dir else f"{name}-{uuid.uuid4().hex[:8]}")
         self._collection = None
+        self.retrieval_revision = None  # Published only after a successful init.
 
     def _client(self):
         import chromadb  # tardio: o chromadb arrasta muito no import
@@ -163,18 +164,21 @@ class RubyFunctionDatabase(_Indice):
             self._name, metadata=meta, embedding_function=None), False
 
     def init(self, targets: Sequence) -> "RubyFunctionDatabase":
-        docs, ids = self._select(targets)
+        # A new revision invalidates formatted Planner context even when vectors
+        # are loaded from disk. Failed rebuilds must not expose an old revision.
+        self.retrieval_revision = None
         self._collection = None
-        if not docs:
-            return self
-        col, reaproveitavel = self._open(ids)
-        self._collection = col
-        if reaproveitavel:
-            self.reused = True
-            return self
-        self._ensure_embedder()
-        vectors = [list(map(float, v)) for v in self._embed_documents(docs)]
-        col.add(ids=ids, embeddings=vectors)
+        self.reused = False
+        docs, ids = self._select(targets)
+        if docs:
+            col, reusable = self._open(ids)
+            if not reusable:
+                self._ensure_embedder()
+                vectors = [list(map(float, v)) for v in self._embed_documents(docs)]
+                col.add(ids=ids, embeddings=vectors)
+            self._collection = col
+            self.reused = reusable
+        self.retrieval_revision = uuid.uuid4().hex
         return self
 
     def query(self, text: str, k: int = 3, exclude: Optional[str] = None) -> List:
