@@ -10,7 +10,8 @@ As entregas e os respetivos limites estão documentados em
 [análise e retoma](../../docs/RUBY_ANALYSIS_RESUME.md),
 [identidade dos testes](../../docs/RUBY_SPEC_IDENTITIES.md),
 [README do projeto](../../docs/RUBY_README_CONTEXT.md) e
-[cache e arquivo de análise](../../docs/RUBY_ANALYSIS_CACHE.md).
+[cache e arquivo de análise](../../docs/RUBY_ANALYSIS_CACHE.md) e
+[orçamento do pedido](../../docs/RUBY_PROMPT_BUDGET.md).
 
 As [notas originais](../../docs/archive/ruby-improvements-before-2026-10-04.md)
 foram preservadas integralmente, incluindo comentários e discordâncias do
@@ -27,9 +28,9 @@ original e não são reclassificados como resultados destas melhorias.
 
 | ID | Tema | Estado confirmado | Decisão recomendada |
 |---|---|---|---|
-| A1 | Contexto de métodos chamados sem limite | **Aberto.** A lista `called` continua sem orçamento total/per-callee | Limitar por tokens, relevância e evidência; reservar espaço para o alvo |
+| A1 | Contexto de métodos chamados sem limite | **Orçamento total implementado.** Cada pedido inclui sistema, entrada, reserva de saída e margem; contador local ou estimativa identificada | Seleção por relevância/evidência continua aberta; não se presume contagem exata sem tokenizer correspondente |
 | A2 | Trocar segunda passagem por concatenação | **Não aceite pelo utilizador.** A síntese continua implementada | Manter; medir a contribuição do grafo sem impor a substituição rejeitada |
-| A3 | Cache ignora versão de contexto | **Resolvido para a proveniência disponível/declarada.** Schema 6 inclui prompts, implementação e parâmetros do cliente; vetores incluem receita/código/metadados do embedding | Pesos e callbacks opacos continuam a exigir identificação externa; digest ausente fica explícito |
+| A3 | Cache ignora versão de contexto | **Resolvido para a proveniência disponível/declarada.** Schema 7 inclui orçamento, prompts, implementação e parâmetros do cliente; vetores incluem receita/código/metadados do embedding | Pesos e callbacks opacos continuam a exigir identificação externa; digest ausente fica explícito |
 | A4 | `--no_cache` recalcula mas não grava | **Resolvido.** Cada análise tem bundle/evidência independente em `run_results/analysis_runs`, incluindo cache hits e recálculo sem cache | `--no_cache` não lê/substitui cache anterior; o arquivo não serve como cache automática |
 | A5 | Paralelismo na geração | **Aberto; esforço subestimado.** Fluxo sequencial e estado global/mutável | Isolar cliente, recorder, ambiente e workspaces antes de concorrência limitada |
 | A6 | Confiança nas arestas | **Aberto.** `kind` existe, mas não é usado para seleção/confiança | Registar resolução exata vs fallback/ambiguidade; não tratar toda constante como certa |
@@ -38,10 +39,20 @@ original e não são reclassificados como resultados destas melhorias.
 | A9 | RAG estático repetido por ronda | **Aberto.** `_related_for(t)` continua dentro do ciclo | Memorizar por alvo/contexto; manter retrieval de reparação dependente do erro |
 | A10 | Classes pouco informativas e judge sem limiar | **Aberto.** Stub + até 40 assinaturas; top-1 sem abstenção | Testar stub + construtor + sumários existentes; devolver scores e calibrar aceitação |
 
+### A1 — orçamento total com limites explícitos
+
+A política conta sistema + utilizador e reserva saída/margem. Reduz contexto
+opcional, conserva código focal/plano/teste anterior e interrompe antes do pedido
+se o obrigatório não couber. Mantém a síntese da segunda passagem. Sem tokenizer
+local correspondente, usa estimativa UTF-8 identificada; o modo estrito recusa-a.
+Isto não atesta a janela/template do servidor nem mede relevância de cada callee.
+O [documento de entrega](../../docs/RUBY_PROMPT_BUDGET.md) define a configuração,
+as prioridades, a proveniência e o que permanece por estudar.
+
 ### A3 — proveniência explícita, sem inferir pesos desconhecidos
 
-A fingerprint já não depende só de fontes e nome do modelo. O schema 6 inclui
-contexto, README capturado, prompts, implementação e os parâmetros disponíveis
+A fingerprint já não depende só de fontes e nome do modelo. O schema 7 inclui
+contexto, orçamento global, README capturado, prompts, implementação e os parâmetros disponíveis
 do cliente LLM. Digest de pesos fornecido pelo chamador é registado como tal;
 quando não existe, fica `unavailable`, sem fingir uma verificação automática.
 As chaves dos vetores e das queries também identificam código, configuração
@@ -135,7 +146,7 @@ tempo e custo de análise/embedding. Um empate numa amostra não prova que RAG
 | P0 | Sucesso exige exemplos reais e relatório sem falhas, além do exit code | **Resolvido** (`4061bcd30`): relatório coerente, exemplos passados e estado de saída compatível |
 | P0 | Validar suite acumulada/final e separar cobertura de testes falhados | **Resolvido** (`4061bcd30`): gate conjunto e rollback arquivado; cobertura falhada fica como diagnóstico |
 | P0 | Limitar propagação de intenção quando o LLM responde vazio | **Resolvido** (`1939c60f3`): resposta vazia/inválida interrompe a análise sem bundle incompleto nem retries adicionais |
-| P0 | Preservar o método-alvo ao limitar contexto | **Resolvido para o código focal** (`ded14df34`); orçamento global em tokens continua aberto em A1 |
+| P0 | Preservar o método-alvo ao limitar contexto | **Resolvido para o código focal** (`ded14df34`); orçamento global implementado em A1, dentro dos limites do contador declarado |
 | P0/P1 | Identidade única de specs e retoma após validação atómica | **Resolvido em `f384cb252` e `1939c60f3`**: identidade completa no nome normal, lookup exato e checkpoints de rondas validadas; recuperação por método dentro de ronda interrompida continua futura |
 | P1 | Procurar README até à raiz do projeto | **Resolvido em `2b073ad4a`**: raiz de projeto explícita, preferência pelo documento mais próximo e snapshot com caminho/hash usado na cache e no prompt |
 | P1 | Reparar com código anterior, plano e diagnóstico estruturado | **Resolvido** (`3476c2e36`): contexto de reparação explícito e preservação do último código não vazio |
@@ -146,7 +157,7 @@ tempo e custo de análise/embedding. Um empate numa amostra não prova que RAG
 
 ### Sequência de implementação a partir desta revisão
 
-1. Orçamento da mensagem inteira, incluindo sumários dos chamados, plano e erros.
+1. **Concluído nesta entrega:** orçamento da mensagem inteira, incluindo sumários dos chamados, plano e erros. Contagem exata exige tokenizer correspondente; por omissão usa estimativa UTF-8 identificada.
 2. Reutilização do retrieval estático entre rondas, mantendo o retrieval de erro dinâmico.
 3. Consolidar a avaliação pós-geração por mutação e os dados de custo/utilidade.
 4. Medir propostas de confiança no grafo e abstenção no judge antes de as impor.
@@ -162,7 +173,7 @@ uma especificação atual: casos corrigidos podem agora parar mais cedo ou exigi
 asserts diferentes. A evidência de regressão atual está nas suites
 `test_suite_validation.py`, `test_repair_context.py`, `test_plan_source_validation.py`,
 `test_analysis_resume.py`, `test_spec_identities.py`, `test_readme_context.py` e
-`test_analysis_provenance.py`, em
+`test_analysis_provenance.py` e `test_prompt_budget.py`, em
 `marta/ruby_backend/tests/`.
 
 Estas verificações não chamam modelos e não estimam ganhos de qualidade no corpus.

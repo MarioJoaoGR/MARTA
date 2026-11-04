@@ -18,6 +18,8 @@ from __future__ import annotations
 
 from typing import Awaitable, Callable, List, Optional
 
+from .prompt_budget import OptionalPart, PromptBudget
+
 AskFn = Callable[[str, str], Awaitable[str]]
 
 
@@ -49,22 +51,21 @@ async def analyze_done_what(
     ask: AskFn,
     method_source: str,
     called_summaries: Optional[List[str]] = None,
+    *, budget: Optional[PromptBudget] = None, focal_source: Optional[str] = None,
 ) -> str:
     """"What the method does", from its source (+ called-method summaries if a
     call graph provides them)."""
-    call_message = ""
-    if called_summaries:
-        call_message = "\n".join(called_summaries)
-        sys_prompt = _DONE_WHAT_SYS_WITH_CALLS
-    else:
-        sys_prompt = _DONE_WHAT_SYS_PLAIN
-    user_prompt = (
-        "Here is the source code of a Ruby method. Please analyze this and "
-        "generate an appropriate summary for the provided method. Be sure to "
-        "explain what the method does and how to use it.\n\n"
-        f"source code: \n{method_source}\n\n methods it calls: \n{call_message}"
-    )
-    return await ask(sys_prompt, user_prompt)
+    budget = budget or PromptBudget.from_ask(ask)
+    sys_prompt = _DONE_WHAT_SYS_WITH_CALLS if called_summaries else _DONE_WHAT_SYS_PLAIN
+    def render(values):
+        call_message = "\n".join(values["callees"])
+        return ("Here is the source code of a Ruby method. Please analyze this and "
+                "generate an appropriate summary for the provided method. Be sure to "
+                "explain what the method does and how to use it.\n\n"
+                f"source code: \n{values['source_context']}\n\n methods it calls: \n{call_message}")
+    user = budget.render(sys_prompt, render, [OptionalPart("callees", called_summaries or [], []),
+        OptionalPart("source_context", method_source, focal_source or method_source, compact=False)])
+    return await ask(sys_prompt, user)
 
 
 _CLASS_SYS = (
@@ -76,14 +77,14 @@ _CLASS_SYS = (
 )
 
 
-async def analyze_class(ask: AskFn, class_source: str) -> str:
-    """Class-level summary (purpose + how to use) — the lean Ruby analogue of
-    ``analyze_each_class``/``generate_how_to_use``. Embedded for semantic
-    parameter-type hints."""
-    user = (
+async def analyze_class(ask: AskFn, class_source: str, *, budget: Optional[PromptBudget] = None,
+                        class_core: Optional[str] = None) -> str:
+    """Class stub summary; optional class context stays in whole components."""
+    budget = budget or PromptBudget.from_ask(ask)
+    user = budget.render(_CLASS_SYS, lambda values:
         "Here is the source code of a Ruby class. Summarize what it is for and "
-        f"how to use it.\n```ruby\n{class_source}\n```"
-    )
+        f"how to use it.\n```ruby\n{values['class_context']}\n```",
+        [OptionalPart("class_context", class_source, class_core or class_source, compact=False)])
     return await ask(_CLASS_SYS, user)
 
 
@@ -102,16 +103,18 @@ async def analyze_what_todo_from_caller(
     method_source: str,
     caller_qn: str,
     caller_what_todo: str,
+    *, budget: Optional[PromptBudget] = None, focal_source: Optional[str] = None,
 ) -> str:
     """Requirement view of a *called* method, propagated from its caller — the
     Ruby analogue of the callee branch of ``analyze_what_todo`` (which walks the
     PyCG edges). Roots get the README-based view; callees get this one."""
-    user = (
+    budget = budget or PromptBudget.from_ask(ask)
+    user = budget.render(_WHAT_TODO_FROM_CALLER_SYS, lambda values:
         f"Identify the purpose of the called method {method_qn} and explain how "
-        f"to use it.\n\n"
-        f"Intent of the caller {caller_qn}:\n{caller_what_todo}\n\n"
-        f"Called method source:\n```ruby\n{method_source}\n```"
-    )
+        f"to use it.\n\nIntent of the caller {caller_qn}:\n{values['caller_intent']}\n\n"
+        f"Called method source:\n```ruby\n{values['source_context']}\n```",
+        [OptionalPart("caller_intent", caller_what_todo, caller_what_todo[:128]),
+         OptionalPart("source_context", method_source, focal_source or method_source, compact=False)])
     return await ask(_WHAT_TODO_FROM_CALLER_SYS, user)
 
 
@@ -132,16 +135,20 @@ async def generate_summary(
     method_source: str,
     done_what: str,
     what_todo: Optional[str] = None,
+    *, budget: Optional[PromptBudget] = None, focal_source: Optional[str] = None,
 ) -> str:
     """Merge the two perspectives into the final summary. With no ``what_todo``
     the merge adds nothing, so ``done_what`` is returned as-is."""
     if not what_todo:
         return done_what
-    user_prompt = (
+    budget = budget or PromptBudget.from_ask(ask)
+    user = budget.render(_SUMMARY_SYS, lambda values:
         "Here is a Ruby method along with two summaries from different "
         "perspectives:\n\n"
-        f"### Method Source Code:\n```ruby\n{method_source}\n```\n\n"
-        f'### "What it does" summary:\n{done_what}\n\n'
-        f'### "What it is intended to do" summary:\n{what_todo}\n'
-    )
-    return await ask(_SUMMARY_SYS, user_prompt)
+        f"### Method Source Code:\n```ruby\n{values['source_context']}\n```\n\n"
+        f'### "What it does" summary:\n{values["done_what"]}\n\n'
+        f'### "What it is intended to do" summary:\n{values["what_todo"]}\n',
+        [OptionalPart("done_what", done_what, done_what[:128]),
+         OptionalPart("what_todo", what_todo, what_todo[:128]),
+         OptionalPart("source_context", method_source, focal_source or method_source, compact=False)])
+    return await ask(_SUMMARY_SYS, user)

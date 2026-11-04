@@ -13,7 +13,7 @@ salvage, prompts, parsing) go through an injected ``LanguageBackend`` (default
 from __future__ import annotations
 
 import os
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from typing import Awaitable, Callable, Dict, List, Optional
 
 from .backend import LanguageBackend, RubyBackend
@@ -21,6 +21,7 @@ from .checkpoints import atomic_write
 from .runner import RSpecResult
 from .repair import FailureDiagnostic, RepairContext, diagnose_result
 from .planning import parse_plan, validate_plan
+from .prompt_budget import OptionalPart, PromptBudget
 
 AskFn = Callable[[str, str], Awaitable[str]]
 
@@ -51,6 +52,7 @@ async def generate_spec_for_method(
     method_qualified_name: str,
     describe_subject: str,
     method_source: str,
+    focal_source: Optional[str] = None,
     require_target: str,
     load_paths: List[str],
     spec_path: str,
@@ -76,6 +78,8 @@ async def generate_spec_for_method(
     ask = ask or _default_ask()
     backend = backend or RubyBackend()
     prompts = backend.prompts
+    budget = PromptBudget.from_ask(ask, recorder)
+    source_part = OptionalPart("source_context", method_source, focal_source or method_source, compact=False)
     score = recorder.score if recorder is not None else None
     if score is not None:
         # Credita llm_calls + tokens (delta do singleton gptapi) por chamada, e
@@ -84,17 +88,21 @@ async def generate_spec_for_method(
         ask = token_tracking_ask(ask, score, recorder)
 
     # ---- Planner ---------------------------------------------------------- #
-    context_block = prompts.build_context_block(
-        method_qualified_name, require_target, method_source, summary, coverage_info, related
-    )
-    if loading_context:
-        context_block += "\n\n" + loading_context
+    def planner_user(values):
+        context_block = prompts.build_context_block(
+            method_qualified_name, require_target, values["source_context"], values["summary"],
+            coverage_info, values["related"] or None)
+        if loading_context:
+            context_block += "\n\n" + loading_context
+        return prompts.plan_user(context_block)
+    planner_parts = [OptionalPart("related", related or [], []),
+                     OptionalPart("summary", summary), source_part]
     if recorder is not None:
         with recorder.contexto(metodo=method_qualified_name):
             with recorder.fase("plano"):
-                raw_plan = await ask(prompts.PLAN_SYS, prompts.plan_user(context_block))
+                raw_plan = await ask(prompts.PLAN_SYS, budget.render(prompts.PLAN_SYS, planner_user, planner_parts))
     else:
-        raw_plan = await ask(prompts.PLAN_SYS, prompts.plan_user(context_block))
+        raw_plan = await ask(prompts.PLAN_SYS, budget.render(prompts.PLAN_SYS, planner_user, planner_parts))
     plan = validate_plan(raw_plan, describe_subject)
     scenarios = plan.scenarios
     if recorder is not None:
@@ -139,7 +147,6 @@ async def generate_spec_for_method(
             context = RepairContext(plan=scenarios, failure=last_failure,
                                     previous_code=previous_code, source_attempt=source_attempt,
                                     previous_validation=previous_validation)
-            instruction = prompts.repair_dev_instruction(last_error or "", similar_help, context=context)
             if recorder is not None:
                 recorder.evento(tipo="repair_context", fase="dev_reparacao", metodo=method_qualified_name,
                                 tentativa=attempt, plan_id=context.plan_id,
@@ -153,11 +160,34 @@ async def generate_spec_for_method(
         with _tel(recorder.contexto if recorder else None,
                   metodo=method_qualified_name, tentativa=attempt), \
                 _tel(recorder.fase if recorder else None, fase):
-            raw_dev = await ask(
-                prompts.DEV_SYS,
-                prompts.dev_user(instruction, method_source, require_target, describe_subject,
-                                 **({"loading_context": loading_context} if loading_context else {})),
-            )
+            def developer_user(values):
+                if attempt == 1:
+                    dev_instruction = instruction
+                else:
+                    failure = replace(context.failure, examples=values["failure_examples"])
+                    previous = context.previous_validation
+                    if previous == context.failure:
+                        previous = failure
+                    elif previous is not None:
+                        previous = replace(previous, examples=values["previous_examples"])
+                    reduced_context = replace(context, failure=failure, previous_validation=previous)
+                    dev_instruction = prompts.repair_dev_instruction(
+                        values["error"], values["similar_help"], context=reduced_context)
+                return prompts.dev_user(dev_instruction, values["source_context"], require_target,
+                    describe_subject, **({"loading_context": loading_context} if loading_context else {}))
+            parts = [source_part]
+            if attempt > 1:
+                # Keep full previous code/plan and typed failure status. Optional
+                # example lists, retrieval and long traceback detail can shrink.
+                error = last_error or ""
+                excerpt = error if len(error) <= 768 else (
+                    error[:512] + "\n[... diagnostic excerpt ...]\n" + error[-256:])
+                parts = [OptionalPart("similar_help", similar_help, "", compact=False),
+                         OptionalPart("previous_examples", context.previous_validation.examples
+                                      if context.previous_validation else [], []),
+                         OptionalPart("failure_examples", context.failure.examples, []),
+                         OptionalPart("error", error, excerpt, compact=False), source_part]
+            raw_dev = await ask(prompts.DEV_SYS, budget.render(prompts.DEV_SYS, developer_user, parts))
             spec_code = prompts.get_ruby_code(raw_dev)
             if not spec_code.strip():
                 # An empty model response consumes this existing Dev attempt.

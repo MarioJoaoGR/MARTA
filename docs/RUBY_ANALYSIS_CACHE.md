@@ -5,7 +5,9 @@ These are new cache/execution semantics, not migrations of frozen paper runs.
 
 ## Analysis validity
 
-`ANALYSIS_SCHEMA` is 6. In addition to sources, analysis scope, exact definition
+This delivery introduced `ANALYSIS_SCHEMA=6`; the later
+[whole-prompt budget](RUBY_PROMPT_BUDGET.md) advances it to 7 and adds the effective
+budget/counter to provenance. In addition to sources, analysis scope, exact definition
 IDs, README snapshots, resolver and focused-code limits, the fingerprint now
 includes an explicit analysis provenance object:
 
@@ -117,6 +119,7 @@ changes, query-key mismatches and omission of API credentials from provenance.
 Existing real Chroma/NumPy reference-reuse and generation tests also run offline.
 
 The synthesis algorithm, generation budgets and external evaluation formulas do
-not change. Automatic request-level recovery, a full token budget and concurrent
-client/recorder isolation remain separate work. Quality improvement is not inferred
+not change. Automatic request-level recovery and concurrent client/recorder isolation remain
+separate work. The later [whole-prompt budget](RUBY_PROMPT_BUDGET.md) now supplies
+the budget, with its documented counting limitations. Quality improvement is not inferred
 from these engineering regression checks.

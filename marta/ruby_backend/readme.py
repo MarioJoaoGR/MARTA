@@ -17,6 +17,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Awaitable, Callable, Dict, Optional
 
+from .prompt_budget import OptionalPart, PromptBudget
+
 AskFn = Callable[[str, str], Awaitable[str]]
 
 README_NAMES = ("README.md", "README.markdown", "README.rdoc", "README")
@@ -69,11 +71,12 @@ _OVERVIEW_SYS = (
 )
 
 
-async def analyze_readme(ask: AskFn, readme_text: str) -> str:
-    user = (
+async def analyze_readme(ask: AskFn, readme_text: str, *, budget: Optional[PromptBudget] = None) -> str:
+    budget = budget or PromptBudget.from_ask(ask)
+    user = budget.render(_OVERVIEW_SYS, lambda values:
         "Please analyze the following README and summarize what the project aims "
-        f"to do.\n{readme_text}"
-    )
+        f"to do.\n{values['readme']}",
+        [OptionalPart("readme", readme_text, readme_text[:256])])
     return await ask(_OVERVIEW_SYS, user)
 
 
@@ -94,21 +97,21 @@ _WHAT_TODO_SYS_PLAIN = (
 
 
 async def analyze_what_todo(
-    ask: AskFn, method_source: str, readme_overview: Optional[str]
+    ask: AskFn, method_source: str, readme_overview: Optional[str],
+    *, budget: Optional[PromptBudget] = None, focal_source: Optional[str] = None,
 ) -> str:
     """Requirement-perspective summary of the method, informed by the README."""
-    if readme_overview:
-        sys_prompt = _WHAT_TODO_SYS_WITH_README
-        user = (
-            f"**Project Overview:**\n{readme_overview}\n\n"
-            f"**Method Source Code:**\n```ruby\n{method_source}\n```"
-        )
-    else:
-        sys_prompt = _WHAT_TODO_SYS_PLAIN
-        user = (
-            "Here is a Ruby method. Analyze its purpose and provide a summary of "
-            f"what it does and how to use it.\n```ruby\n{method_source}\n```"
-        )
+    budget = budget or PromptBudget.from_ask(ask)
+    sys_prompt = _WHAT_TODO_SYS_WITH_README if readme_overview else _WHAT_TODO_SYS_PLAIN
+    def render(values):
+        if readme_overview:
+            return (f"**Project Overview:**\n{values['overview']}\n\n"
+                    f"**Method Source Code:**\n```ruby\n{values['source_context']}\n```")
+        return ("Here is a Ruby method. Analyze its purpose and provide a summary of "
+                f"what it does and how to use it.\n```ruby\n{values['source_context']}\n```")
+    overview = readme_overview or ""
+    user = budget.render(sys_prompt, render, [OptionalPart("overview", overview, overview[:128]),
+        OptionalPart("source_context", method_source, focal_source or method_source, compact=False)])
     return await ask(sys_prompt, user)
 
 
@@ -149,10 +152,10 @@ class ReadmeOverviewCache:
                 if document is not None else None)
         return manifest
 
-    async def overview_for(self, ask: AskFn, file_path: str) -> Optional[str]:
+    async def overview_for(self, ask: AskFn, file_path: str, *, budget: Optional[PromptBudget] = None) -> Optional[str]:
         document = self.document_for(file_path)
         if document is None:
             return None
         if document.path not in self._by_path:
-            self._by_path[document.path] = await analyze_readme(ask, document.content)
+            self._by_path[document.path] = await analyze_readme(ask, document.content, budget=budget)
         return self._by_path[document.path]

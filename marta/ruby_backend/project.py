@@ -31,12 +31,13 @@ from .checkpoints import RoundCheckpoints, atomic_json, dependency_files, file_h
 from .backend import LanguageBackend, RubyBackend
 from .generate import AskFn, GenOutcome, _default_ask, generate_spec_for_method
 from .source_context import SourceContext, build_source_context
+from .prompt_budget import PromptBudget, budget_provenance
 
 # Default generation skips constructors; exact task selectors may request them.
 SKIP_METHODS = {"initialize"}
 
 # Bump when analysis prompts, definition identities, or cache semantics change.
-ANALYSIS_SCHEMA = 6
+ANALYSIS_SCHEMA = 7
 
 
 class AnalysisResponseError(RuntimeError):
@@ -586,6 +587,7 @@ class RubyProject:
                 method_qualified_name=t.method.qualified_name,
                 describe_subject=t.describe_subject,
                 method_source=self._source_for(t, "generation"),
+                focal_source=t.source_context.mandatory_source,
                 require_target=t.require_target,
                 load_paths=self._load_path_list(),
                 spec_path=t.spec_path,
@@ -700,6 +702,7 @@ class RubyProject:
 
         r = self._recorder()
         ask = ask or _default_ask()
+        budget = PromptBudget.from_ask(ask, r)
         # A Fase 1 são sete sub-fases e até agora media-se como um bloco só
         # ("collect_message"). Cada chamada fica etiquetada com a sua.
         tracked_ask = rec.token_tracking_ask(ask, r.score, r)
@@ -744,7 +747,9 @@ class RubyProject:
                     t.done_what = reaproveitada[t.analysis_id]
                 else:
                     with r.contexto(metodo=qn):
-                        t.done_what = await summaries.analyze_done_what(ask, self._source_for(t))
+                        t.done_what = await summaries.analyze_done_what(
+                            ask, self._source_for(t), budget=budget,
+                            focal_source=t.source_context.mandatory_source)
                 passagem1[t.analysis_id] = t.done_what
         n_reap = sum(1 for t in self.analysis_targets if t.analysis_id in reaproveitada)
         if n_reap:
@@ -777,7 +782,8 @@ class RubyProject:
                         with r.contexto(metodo=t.method.qualified_name,
                                         chamados=len(called)):
                             t.done_what = await summaries.analyze_done_what(
-                                ask, self._source_for(t), called_summaries=called
+                                ask, self._source_for(t), called_summaries=called, budget=budget,
+                                focal_source=t.source_context.mandatory_source,
                             )
 
         # what_todo: raízes (sem callers) a partir do README; métodos chamados
@@ -795,9 +801,10 @@ class RubyProject:
             for t in self.analysis_targets:
                 if not _callers_of(t):  # raiz
                     with r.contexto(metodo=t.method.qualified_name):
-                        overview = await overviews.overview_for(ask, t.file_path)
+                        overview = await overviews.overview_for(ask, t.file_path, budget=budget)
                         t.what_todo = await readme.analyze_what_todo(
-                            ask, self._source_for(t), overview)
+                            ask, self._source_for(t), overview, budget=budget,
+                            focal_source=t.source_context.mandatory_source)
 
         # A outra metade do que a ablação do grafo desliga: sem arestas, todos os
         # métodos seriam raiz e o what_todo viria do README para todos.
@@ -815,7 +822,8 @@ class RubyProject:
                                         chamador=c.method.qualified_name):
                             t.what_todo = await summaries.analyze_what_todo_from_caller(
                                 ask, t.method.qualified_name, self._source_for(t),
-                                c.method.qualified_name, c.what_todo,
+                                c.method.qualified_name, c.what_todo, budget=budget,
+                                focal_source=t.source_context.mandatory_source,
                             )
                         changed = True
 
@@ -823,16 +831,18 @@ class RubyProject:
             for t in self.analysis_targets:
                 if not t.what_todo:  # ciclo sem raiz processada — fallback README
                     with r.contexto(metodo=t.method.qualified_name):
-                        overview = await overviews.overview_for(ask, t.file_path)
+                        overview = await overviews.overview_for(ask, t.file_path, budget=budget)
                         t.what_todo = await readme.analyze_what_todo(
-                            ask, self._source_for(t), overview)
+                            ask, self._source_for(t), overview, budget=budget,
+                            focal_source=t.source_context.mandatory_source)
 
         # Merge final das duas perspetivas.
         with r.fase("sumario_final"):
             for t in self.analysis_targets:
                 with r.contexto(metodo=t.method.qualified_name):
                     t.summary = await summaries.generate_summary(
-                        ask, self._source_for(t), t.done_what, t.what_todo
+                        ask, self._source_for(t), t.done_what, t.what_todo, budget=budget,
+                        focal_source=t.source_context.mandatory_source,
                     )
 
         # Class summaries follow the whole analysis pool, without a class-count cap.
@@ -864,10 +874,9 @@ class RubyProject:
                     continue
                 sigs = sigs_by_qn.get(qn, [])[:40]
                 class_src = stub + ("\n" + "\n".join(f"  {s}" for s in sigs) if sigs else "")
-                if len(class_src) > MAX_CONTEXT_CHARS:
-                    class_src = class_src[:MAX_CONTEXT_CHARS] + "\n# ... (truncado)"
                 with r.contexto(classe=qn):
-                    self.class_summaries[qn] = await summaries.analyze_class(ask, class_src)
+                    self.class_summaries[qn] = await summaries.analyze_class(
+                        ask, class_src, budget=budget, class_core=f"{cls.kind} {qn}")
 
         entries = {
             t.analysis_id: {
@@ -1103,6 +1112,7 @@ class RubyProject:
             "embedding_implementation": file_hash(Path(__file__).parents[1] / "embedding.py"),
             "model": os.getenv("MODEL", "default"),
             "spec_naming": SPEC_NAMING_POLICY,
+            "prompt_budget": budget_provenance(ask),
             "client": {key: getattr(client, key, None) for key in
                        ("model_type", "temperature", "max_tokens", "reasoning_effort", "top_p",
                         "presence_penalty", "request_timeout")},
@@ -1207,6 +1217,7 @@ class RubyProject:
                     method_qualified_name=t.method.qualified_name,
                     describe_subject=t.describe_subject,
                     method_source=self._source_for(t, "generation"),
+                    focal_source=t.source_context.mandatory_source,
                     require_target=t.require_target,
                     load_paths=self._load_path_list(),
                     spec_path=t.spec_path_for_round(rnd),

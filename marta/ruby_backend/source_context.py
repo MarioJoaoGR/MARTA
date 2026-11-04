@@ -15,6 +15,7 @@ class SourceContext:
     omitted_class_statements: int = 0
     omitted_constructor: bool = False
     omitted_class_declaration: bool = False
+    mandatory_source: str = ""
 
     @property
     def over_limit(self) -> bool:
@@ -60,10 +61,10 @@ def build_source_context(focal: str, qualified_name: str, *, limit: int,
         return SourceContext(mandatory, limit, len(focal),
                              omitted_class_statements=len(statements),
                              omitted_constructor=bool(constructor),
-                             omitted_class_declaration=declaration is not None)
+                             omitted_class_declaration=declaration is not None, mandatory_source=mandatory)
     full = render(declaration, statements, constructor)
     if len(full) <= limit:
-        return SourceContext(full, limit, len(focal))
+        return SourceContext(full, limit, len(focal), mandatory_source=mandatory)
     notice = ""  # Fit useful code before adding a human-readable omission notice.
     header, body, init = None, [], None
     if declaration is not None and len(render(declaration, notice=notice)) <= limit:
@@ -78,4 +79,4 @@ def build_source_context(focal: str, qualified_name: str, *, limit: int,
     return SourceContext(render(header, body, init, notice), limit, len(focal),
                          omitted_class_statements=len(statements) - len(body),
                          omitted_constructor=bool(constructor and init is None),
-                         omitted_class_declaration=bool(declaration is not None and header is None))
+                         omitted_class_declaration=bool(declaration is not None and header is None), mandatory_source=mandatory)
