@@ -253,16 +253,13 @@ def test_round_is_not_certified_when_suite_gate_is_interrupted(tmp_path, monkeyp
 
 
 @needs_ruby
-def test_colliding_target_paths_are_rejected_before_any_request(tmp_path):
-    (tmp_path / "src/a").mkdir(parents=True)
-    (tmp_path / "src/b").mkdir()
-    code = "class C; def x; 1; end; end"
-    (tmp_path / "src/a/same.rb").write_text(code)
-    (tmp_path / "src/b/same.rb").write_text(code)
-    obj = project.RubyProject(str(tmp_path), "src").discover()
+@pytest.mark.parametrize("entry_point", ["generate_all", "generate_rounds"])
+def test_repeated_exact_target_is_rejected_before_any_request(tmp_path, entry_point):
+    obj = make_project(tmp_path)
+    obj.targets.append(obj.targets[0])
     forbidden, calls = scripted([])
     with pytest.raises(ValueError, match="collide"):
-        run_rounds(obj, forbidden)
+        asyncio.run(getattr(obj, entry_point)(ask=forbidden))
     assert not calls
 
 

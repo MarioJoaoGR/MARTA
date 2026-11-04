@@ -1,247 +1,163 @@
-# MARTA-Ruby — melhorias identificadas (não bloqueantes)
+# MARTA-Ruby — backlog revisto
 
-*Nada aqui é bug: a ferramenta funciona. A regra que se tem confirmado é
-melhorar guiado por dados e não por intuição — foi assim que o resolver do grafo
-subiu de 35,9% para 49,6% (sondagem 1) e foi assim que se encontrou a
-divergência do contexto (ver `PARIDADE.md`).*
+Última revisão: **2026-11-04**, após integração das correções na `main`.
 
-Última revisão: 2026-09-09.
+Esta lista distingue as correções já implementadas das melhorias ainda abertas.
+As entregas e os respetivos limites estão documentados em
+[validação](../../docs/RUBY_VALIDATION.md),
+[reparação contextual](../../docs/RUBY_REPAIR_CONTEXT.md),
+[planos e código-alvo](../../docs/RUBY_PLAN_SOURCE_CONTEXT.md),
+[análise e retoma](../../docs/RUBY_ANALYSIS_RESUME.md) e
+[identidade dos testes](../../docs/RUBY_SPEC_IDENTITIES.md).
 
----
+As [notas originais](../../docs/archive/ruby-improvements-before-2026-10-04.md)
+foram preservadas integralmente, incluindo comentários e discordâncias do
+utilizador. Os IDs abaixo conservam a ligação à lista antiga.
 
-## A. Melhorias de código
+**Mudança importante:** já não é correto afirmar que “nada aqui é bug”.
+A revisão encontrou problemas de validade e progresso, reproduzidos offline,
+que têm prioridade sobre novas otimizações. A organização documental de outubro
+não as implementou; as entregas de novembro, identificadas abaixo, já corrigiram
+várias delas. Os resultados congelados dos papers conservam a sua implementação
+original e não são reclassificados como resultados destas melhorias.
 
-Por ordem de risco.
+## A. Estado dos dez itens originais
 
-### 1. O contexto dos métodos chamados não tem travão nenhum
-Na segunda passagem dos sumários, o contexto leva o `done_what` **de todos** os
-métodos que o alvo chama, sem limite de quantidade nem de tamanho. O
-`MAX_CONTEXT_CHARS` protege o código enviado, mas não este caminho.
-
-Medido: um `done_what` tem mediana de **2960 caracteres** (`formatador`), e na
-`money` o `Currency#inspect` chama **15 métodos**. Isso dá cerca de **44 000
-caracteres** de contexto num único pedido, sete vezes o limite que impomos ao
-código.
-
-O caso mau é raro (na `money`, mediana de 2 chamadas por método e só 4 métodos
-acima de 5), mas quando acontece afoga o método-alvo — o mesmo mecanismo que fez
-o sumarizador da `formatador` descrever a classe em vez do método.
-
-- **Correção:** limitar o número de chamados que entram, à imagem do travão dos
-  5 candidatos que já existe no resolver, e truncar cada sumário a 300-400
-  caracteres ao entrar no contexto de outro método.
-- **Onde:** `project.analyze_summaries` (a lista `called`), `summaries.analyze_done_what`.
-
-### 2. A segunda passagem dos sumários pode não compensar sempre
-*(o teste que falta está na secção B)*
-Hoje, todo o método que chame outros do projeto é resumido **duas vezes**: a
-segunda com os sumários dos chamados. Custa uma chamada ao modelo por método, e
-**nunca foi medido o que rende**.
-
-A alternativa levantada pelo utilizador: em vez de pedir ao modelo que sintetize,
-**anexar** os sumários dos chamados numa fase offline, sem custo nenhum.
-
-Não é equivalente, e por três razões que convém não perder:
-1. A síntese reescreve o sumário do ponto de vista de quem chama; a concatenação
-   deixa dois textos lado a lado, cada um na sua perspetiva.
-2. **O sumário final é vetorizado** (`build_rag`) e serve a busca por semelhança.
-   Uma colagem embebe-se mal: o vetor fica uma mistura de assuntos e a busca
-   passa a devolver métodos parecidos com os vizinhos. (O índice é uma coleção
-   ChromaDB, como na MARTA Python, mas persistida — ver `PARIDADE.md` §2.)
-3. Quinze chamados a ~3000 caracteres não cabem num sumário.
-
-**O teste que falta:** correr o mesmo projeto com síntese e com concatenação, e
-comparar os specs gerados e a cobertura. Provavelmente a resposta é mista, e o
-desenho certo é híbrido — anexar quando são poucos e curtos, sintetizar quando
-são muitos. Isso resolveria ao mesmo tempo o problema do travão (ponto 1).
-
-### 3. A cache da análise não conhece a versão do contexto
-A chave é `hash do código + modelo`. Não inclui nada que identifique a forma como
-o contexto é construído, portanto **mexer num prompt não invalida a cache**: um
-projeto já analisado continua a servir sumários antigos.
-
-É exatamente o problema que já se pagou uma vez no grafo, e que ali foi resolvido
-com o `RESOLVER_VERSION` na chave. Aconteceu de novo a 18/08: a correção da
-separação do contexto ficou invisível na `formatador`.
-
-- **Correção:** uma constante `CONTEXT_VERSION` na chave, incrementada sempre que
-  se mexe num prompt ou na construção do contexto.
-- **Contorno atual:** apagar `.marta_ruby_cache/` antes de correr.
-- **Onde:** `project.analyze_summaries`, `cache.py`.
-
-### 4. O `--no_cache` recalcula mas não grava
-A gravação está dentro do `if use_cache`, portanto com `--no_cache` os sumários
-são recalculados, usados na geração, e deitados fora. Fica-se sem registo do que
-o modelo produziu naquela execução — foi o que impediu comparar as duas runs da
-`formatador`.
-
-- **Correção:** gravar sempre; ou, se se quiser preservar o anterior, gravar num
-  ficheiro à parte quando é `--no_cache`.
-- **Onde:** `project.analyze_summaries`, o `if use_cache` final.
-
-### 5. Paralelismo na geração
-O `generate_rounds` é sequencial; a MARTA Python usa `asyncio.gather` sobre as
-funções. Irrelevante localmente, relevante no Deucalion com 150+ métodos por
-projeto.
-- **Esforço:** baixo (gather + semáforo para não afogar o servidor LLM).
-- **Onde:** `project.generate_all` / `generate_rounds`.
-
-### 6. Ponderar as arestas pela certeza da resolução
-Uma chamada sobre uma constante é certa; sobre um parâmetro é palpite; e hoje as
-duas arestas valem o mesmo. A forma que resolveu cada aresta **já fica gravada**
-no campo `kind`, mas nada a consulta.
-- **Esforço:** baixo para gravar o peso, médio para o usar bem.
-
-### 7. Inferência de tipos de retorno no grafo
-Subiria o recall acima dos 50% (casos como `Money.default_bank.exchange_with`,
-onde é preciso saber o tipo devolvido para resolver a chamada seguinte). São
-também a maior parte das chamadas classificadas como `other`.
-- **Esforço:** alto, é um projeto em si. Retornos decrescentes.
-
-### 8. A passagem 2 dos sumários depende da ordem de iteração
-No ciclo da segunda passagem, o `t.done_what` é **substituído à medida que o
-ciclo avança**. Um método processado no fim vai buscar aos vizinhos que já
-passaram por lá a versão **já enriquecida**, e não a original da passagem 1.
-
-Ou seja, a profundidade do enriquecimento depende da ordem por que os métodos
-aparecem na lista: uns recebem informação de primeira mão, outros recebem
-informação que já passou por duas digestões.
-
-Não se manifesta como erro e pode até ser benéfico nalguns casos. Mas torna o
-resultado dependente da ordem de iteração, que é o tipo de coisa que estraga a
-reprodutibilidade sem dar sinal.
-
-- **Correção:** guardar os `done_what` da passagem 1 numa cópia e ler sempre
-  dessa, para todos verem o mesmo estado.
-- **Onde:** `project.analyze_summaries`, o ciclo da passagem 2.
-
-### 9. O RAG é consultado a cada ronda e devolve sempre o mesmo
-O `_related_for(t)` é chamado dentro do ciclo das rondas (`project.py:599`). A
-pergunta é o `t.summary`, que **não muda entre rondas** — só o `coverage_info`
-muda. Portanto na ronda 2 refaz-se uma busca que dá exatamente o mesmo resultado
-da ronda 1, e o mesmo na 3.
-
-É desperdício pequeno (uma multiplicação de matriz por método por ronda), mas
-convém estar registado: se perguntarem se o RAG é consultado a cada ronda, a
-resposta é que sim, e sempre com a mesma resposta.
-
-- **Correção:** calcular os relacionados uma vez por método, antes do ciclo das
-  rondas, e reutilizar.
-- **Onde:** `project.generate_rounds`, o argumento `related=`.
-
-### 10. Sumários de classe cortados demais, e sem validação a jusante
-Duas coisas ligadas, ambas no caminho do *judge semântico*.
-
-**O que se envia.** À classe manda-se só o stub (cabeçalho + `body_statements`)
-e as assinaturas, nunca os corpos. A regra existe porque a classe inteira
-estourava a janela (`fpm/Deb`: 43k chars), mas aplica-se a **todas**: numa
-classe de dois métodos cabia tudo, e o resultado é um sumário inútil. Medido na
-demo: o modelo respondeu *"incomplete implementation ... challenging to provide
-a detailed summary"* para as duas classes.
-
-- **Correção:** enviar os corpos quando cabem no `MAX_CONTEXT_CHARS`, e cair
-  nas assinaturas só quando não cabem.
-- **Onde:** `project.analyze_summaries`, a construção do `class_src` (:425).
-
-**O que se faz com o resultado.** O `_augment_judge_semantic` pergunta à matriz
-das classes qual a mais parecida e escreve-a no judge, **sem limiar nenhum de
-semelhança**. A busca por cosseno devolve sempre alguma coisa: se nenhuma classe
-servir, devolve a menos má, e ela entra no prompt com o mesmo peso de uma
-acertada.
-
-Repare-se no contraste: a parte estrutural tem o travão dos 5 candidatos, que
-prefere não dizer nada a dizer demais. Aqui não há equivalente.
-
-- **Correção:** um limiar mínimo de cosseno, abaixo do qual não se acrescenta
-  linha nenhuma.
-- **Onde:** `project._augment_judge_semantic`, e o `RubyClassIndex.query` teria
-  de devolver a pontuação, que hoje deita fora. É fácil: ali o cosseno já está
-  calculado em `sims`.
-
-
----
-
-## B. Medições e estudos que faltam
-
-Não são alterações ao código: são experiências por correr, e o que sai delas é material do paper.
-
-### B1. Apurar a avaliação do grafo (não a ferramenta)
-- Ligar `:c_call` no `marta_tracegraph.rb` → tira a cegueira do grafo dinâmico
-  aos métodos implementados em C (`attr_*`), que hoje inflaciona as `static_only`.
-- Auditar uma amostra (~30 arestas `static_only`) → permite reportar **precisão**
-  e não só recall. Ver `sondagens/s1_callgraph_money/RESULTADOS.md`.
-
-### B2. ~~Persistir os vetores entre execuções~~ — feito
-O `build_rag` reconstruía o índice do zero a cada execução: mesmo com a cache de
-análise cheia, os sumários vinham do disco e eram embebidos outra vez. No
-Deucalion isso corre com `EMBED_DEVICE=cpu`.
-
-Resolvido a 2026-09-10: os dois índices passaram a viver em
-`.marta_ruby_cache/vectors`, validados por `hash das fontes | modelo LLM | modelo
-de embeddings`. O armazenamento continua o mesmo da Python em cada um (métodos em
-ChromaDB, classes em NumPy), só que agora persistido. Ao mesmo tempo alinhou-se a
-métrica da coleção dos métodos pelo cosseno, porque o *embedder* não normaliza e
-o L2 por omissão do ChromaDB não ordena igual. Ver `PARIDADE.md` §2.
-
-**Falta medir** quanto poupa de facto numa segunda execução no cluster, que é o
-número que interessa reportar.
-
-### B3. Estudo de ablação do RAG: os dois usos nunca foram medidos
-O RAG entra em três sítios e **nenhum tem ganho demonstrado**. Vale a pena medir
-antes de continuar a pagar por ele.
-
-**Uso 1: os `related` no prompt do Planner.** Três métodos "semanticamente
-próximos", sob o cabeçalho *"for inspiration"*. O problema de fundo é que a
-busca devolve os **mais parecidos**, e esses são por definição os que fazem
-quase o mesmo — provavelmente os menos informativos. Os vizinhos que ajudariam a
-montar um cenário são os **colaboradores** (o que o método chama, quem o chama),
-e esses vêm do grafo, não da semelhança. E já lá estão: a passagem 2 anexou o
-`done_what` dos chamados ao sumário que vai no prompt.
-
-**Uso 2: o judge semântico.** Só entra quando a inferência estrutural falha ou
-fica ambígua, o que já é um bom desenho. Mas depende da qualidade dos sumários
-de classe, que o ponto 11 mostra serem fracos, e não tem limiar de semelhança.
-
-**Uso 3: o RAG dirigido ao erro**, na reparação. Assenta em supor que o sumário
-de um método se parece com a **mensagem de erro** de outro — texto de natureza
-muito diferente (nomes de ficheiro, números de linha, `expected X got Y`). O que
-salva o mecanismo é a outra metade: o *spec* de exemplo que passa, que é útil
-independentemente de a busca ter acertado.
-
-**O estudo.** Quatro braços sobre o mesmo corpus e o mesmo modelo:
-
-| braço | `related` | judge semântico | ajuda no erro |
+| ID | Tema | Estado confirmado | Decisão recomendada |
 |---|---|---|---|
-| A completo | sim | sim | sim |
-| B sem related | não | sim | sim |
-| C sem judge semântico | sim | não | sim |
-| D sem RAG (`--no_rag`) | não | não | não |
+| A1 | Contexto de métodos chamados sem limite | **Aberto.** A lista `called` continua sem orçamento total/per-callee | Limitar por tokens, relevância e evidência; reservar espaço para o alvo |
+| A2 | Trocar segunda passagem por concatenação | **Não aceite pelo utilizador.** A síntese continua implementada | Manter; medir a contribuição do grafo sem impor a substituição rejeitada |
+| A3 | Cache ignora versão de contexto | **Parcialmente resolvido.** `ANALYSIS_SCHEMA=4` e fingerprint incluem README, identidades, resolver e limite de contexto | Usar a versão existente; acrescentar fingerprint de prompts, receita/digest de modelos e configuração relevante |
+| A4 | `--no_cache` recalcula mas não grava | **Continua aberto.** O bundle é escrito dentro de `if use_cache` | Separar reutilização de cache de arquivo da run; guardar evidência mesmo sem cache |
+| A5 | Paralelismo na geração | **Aberto; esforço subestimado.** Fluxo sequencial e estado global/mutável | Isolar cliente, recorder, ambiente e workspaces antes de concorrência limitada |
+| A6 | Confiança nas arestas | **Aberto.** `kind` existe, mas não é usado para seleção/confiança | Registar resolução exata vs fallback/ambiguidade; não tratar toda constante como certa |
+| A7 | Inferir tipos de retorno | **Aberto; investigação de maior esforço** | Começar por `Foo.new`, atribuições no construtor e anotações; medir valor antes de inferência global |
+| A8 | Segunda passagem depende da ordem | **Resolvido para `done_what`.** Lê `passagem1[analysis_id]` | Não duplicar a correção; estudar separadamente a escolha de chamador em `what_todo` |
+| A9 | RAG estático repetido por ronda | **Aberto.** `_related_for(t)` continua dentro do ciclo | Memorizar por alvo/contexto; manter retrieval de reparação dependente do erro |
+| A10 | Classes pouco informativas e judge sem limiar | **Aberto.** Stub + até 40 assinaturas; top-1 sem abstenção | Testar stub + construtor + sumários existentes; devolver scores e calibrar aceitação |
 
-Métricas: cobertura, taxa de specs verdes, tokens e tempo. O par **A vs D já é
-corrível hoje**, porque a bandeira existe; os braços B e C precisam de bandeiras
-novas para separar os usos.
+### A3 — o que mudou desde a nota antiga
 
-Se D empatar com A, o RAG sai e o sistema fica mais barato e mais simples de
-explicar. Se A ganhar, sabe-se por qual dos três caminhos, o que é mais do que
-se sabe agora.
+A cache já não depende apenas de código e nome de modelo. A fingerprint de
+[`project.py`](project.py) inclui schema, âmbito, identidades, README, resolver
+e `MAX_CONTEXT_CHARS`. A cache de vetores inclui também os textos efetivamente
+indexados. Não precisamos de outra constante redundante chamada
+`CONTEXT_VERSION`: precisamos de aplicar/incrementar o schema existente e
+fechar as lacunas de proveniência.
 
-Nota: a demo em `apresentacao/demo/` correu **sem RAG** (o prompt do Planner não
-tem bloco `RELATED`) e gerou planos, specs, e um spec verde. Não é medição, mas é
-indício de que a ferramenta não depende disto.
----
+### A4 — duas coisas diferentes
 
-## Já feitas
+Os eventos de telemetria não são um arquivo dos sumários completos.
+A CLI normal ainda os perde com `--no_cache`. O adapter XRepoTest já conserva
+respostas por hash do prompt: é uma solução a aproveitar no caminho comum.
+`--no_cache` continua a controlar só a reutilização da análise. A retoma da geração
+já exige um checkpoint compatível de rondas validadas e reexecuta a suite; a mera
+existência de um ficheiro deixou de justificar um skip.
 
-- **Cobertura de ramos** usada mesmo, e não só recolhida: um método cujas linhas
-  correram todas mas com um lado do `if` por tomar deixa de ser dado como
-  completo (`2073349e`).
-- **Contexto focado**: stub da classe + `initialize` + método-alvo, em vez da
-  classe inteira, que estourava a janela na `fpm`.
-- **Partes do contexto separadas** por marcadores, como o Python faz (`e1060ecf`).
-- **Grafo reaproveita o parse** do `discover()` em vez de reler o projeto: metade
-  das chamadas ao parser desaparece (`d9263ca5`).
-- Resolver do grafo: `class << self`, colaboradores por ivar e getter,
-  `self.class.new` → recall 35,9% para 49,6%.
-- `cwd` relativo na cobertura e no tracegraph, que teria rebentado no Deucalion.
-- `marta_specs/` separado da suite humana, vacina RSpec (`-O /dev/null`), e
-  `cg_cache` indexada por `RESOLVER_VERSION`.
+### A5 — porque não basta gather + semáforo
+
+`model.last_call`, deltas de tokens, contexto/fases do recorder, diretórios de
+execução, exemplos consultados pelo RAG e ambiente do adapter podem interferir.
+A execução concorrente precisa de estado e métricas por tarefa. Depois faz
+sentido medir concorrência 1/2/4, dentro da capacidade real do servidor, sem
+prometer aceleração proporcional.
+
+### A6/A7 — confiança e retorno, em concreto
+
+`Money.default_bank.exchange_with(...)` tem duas operações: encontrar
+`default_bank` e descobrir o tipo do objeto que este devolve. Só o segundo passo
+permite resolver `exchange_with`. Não implica que todas as chamadas tenham de
+ter um tipo único: conservar candidatos e “desconhecido”.
+
+A forma do receiver é apenas uma evidência. Uma constante resolvida por nome
+curto ambíguo não é uma chamada garantida. Preferir primeiro as arestas cuja
+resolução é demonstrável.
+
+### A9 — Planner e reparação não fazem a mesma pergunta
+
+O Planner consulta o mesmo sumário entre rondas; esse resultado pode ser
+reutilizado. A reparação usa a mensagem de erro e pode encontrar exemplos
+diferentes; não deve usar indiscriminadamente a cache do Planner.
+A consulta de métodos usa embedding + Chroma, e não só NumPy.
+
+## B. Estudos por fechar
+
+### B1 — precisão e alcance do grafo
+
+A sondagem `money` mede recall contra arestas observadas por um driver; não
+mede precisão global. O helper continua a usar apenas `:call/:return`.
+
+- Validar extensão a eventos C com correspondência correta entre entrada/saída,
+  identificação dos accessors e controlo de falsos positivos.
+- Auditar amostra estratificada de `static_only`; distinguir não observado,
+  invisível ao instrumento e resolução errada.
+- Repetir em várias gems. Cobertura alta de linhas não implica observar todas
+  as combinações de dispatch.
+
+Evidência histórica: [sondagem 1](https://github.com/MarioJoaoGR/MARTA/blob/1939c60f3/sondagens/s1_callgraph_money/RESULTADOS.md).
+
+### B3 — separar os três consumidores do RAG
+
+| Braço | Related no Planner | Judge semântico | Retrieval no erro |
+|---|---|---|---|
+| Completo | Sim | Sim | Sim |
+| Sem related | Não | Sim | Sim |
+| Sem judge | Sim | Não | Sim |
+| Sem ajuda no erro | Sim | Sim | Não |
+| Sem RAG | Não | Não | Não |
+| Estrutural/lexical | Contexto por símbolos/grafo, sem embeddings | Apenas estrutural | Símbolos/diagnóstico |
+| Híbrido proposto | Evidências estruturais + retrieval | Candidatos compatíveis e abstenção | Consulta estruturada |
+
+Os primeiros cinco braços ajudam a localizar contribuição; interações entre
+componentes podem exigir experiências adicionais. A lista antiga não isolava
+a ajuda no erro.
+
+A CLI normal tem `--no_rag`. As flags `no_type_hints` e
+`no_method_retrieval` já existem na CLI e no adapter XRepoTest: a primeira desliga
+as sugestões de tipos; a segunda desliga conjuntamente related no Planner e
+retrieval na reparação. Ainda falta separar estes dois consumidores para executar
+exatamente todos os braços desta tabela. As ablações de reparação e feedback de
+cobertura também já estão implementadas; não são trabalho pendente de flags.
+
+Medir suites válidas, cobertura, invocação, mutação quando aplicável, tokens,
+tempo e custo de análise/embedding. Um empate numa amostra não prova que RAG
+é inútil em geral: reportar incerteza, custo e os casos em que altera o resultado.
+
+## C. Novas prioridades da avaliação completa
+
+| Prioridade | Problema / entrega | Estado e trabalho restante |
+|---|---|---|
+| P0 | Sucesso exige exemplos reais e relatório sem falhas, além do exit code | **Resolvido** (`4061bcd30`): relatório coerente, exemplos passados e estado de saída compatível |
+| P0 | Validar suite acumulada/final e separar cobertura de testes falhados | **Resolvido** (`4061bcd30`): gate conjunto e rollback arquivado; cobertura falhada fica como diagnóstico |
+| P0 | Limitar propagação de intenção quando o LLM responde vazio | **Resolvido** (`1939c60f3`): resposta vazia/inválida interrompe a análise sem bundle incompleto nem retries adicionais |
+| P0 | Preservar o método-alvo ao limitar contexto | **Resolvido para o código focal** (`ded14df34`); orçamento global em tokens continua aberto em A1 |
+| P0/P1 | Identidade única de specs e retoma após validação atómica | **Resolvido nesta entrega e em `1939c60f3`**: identidade completa no nome normal, lookup exato e checkpoints de rondas validadas; recuperação por método dentro de ronda interrompida continua futura |
+| P1 | Procurar README até à raiz do projeto | **Aberto; próximo bloco**: distinguir raiz de código e raiz de projeto |
+| P1 | Reparar com código anterior, plano e diagnóstico estruturado | **Resolvido** (`3476c2e36`): contexto de reparação explícito e preservação do último código não vazio |
+| P1 | Validar schema dos cenários | **Resolvido** (`ded14df34`): validação completa e fallback auditável sem novo pedido ao Planner |
+| P1 | Proveniência da análise e arquivo com `--no_cache` | **Parcial / aberto**: A3 e A4; não confundir o manifesto da geração com o da cache de análise |
+| P1 | Mutação pós-geração antes de mutation-guided generation | **Infraestrutura externa existente**: [protocolo comparável](../../deucalion/COMPARABLE_EVALUATION.md); integração no caminho normal e experiências guiadas por mutantes continuam separadas |
+| P2 | Feedback humano, priorização aprendida e backend Python comum | **Aberto**: dados, contratos e experiências próprios; preparar depois da base de engenharia |
+
+### Sequência de implementação a partir desta revisão
+
+1. README da raiz, proveniência da análise e arquivo completo sem reutilizar cache.
+2. Orçamento da mensagem inteira, incluindo sumários dos chamados, plano e erros.
+3. Reutilização do retrieval estático entre rondas, mantendo o retrieval de erro dinâmico.
+4. Consolidar a avaliação pós-geração por mutação e os dados de custo/utilidade.
+5. Isolar estado antes de concorrência; preparar o controlador aprendido da tese.
+
+As identidades normais agora usam ficheiro relativo, nome Ruby qualificado e
+linhas da definição. Os nomes de tarefas XRepoTest já protegidos por task ID
+mantêm a sua convenção anterior. Isto não renomeia artefactos históricos no disco.
+
+A prova local de outubro (`scripts/audit_pipeline.py`, no checkout de revisão)
+reproduzia os problemas antigos com fixtures e respostas simuladas. Não constitui
+uma especificação atual: casos corrigidos podem agora parar mais cedo ou exigir
+asserts diferentes. A evidência de regressão atual está nas suites
+`test_suite_validation.py`, `test_repair_context.py`, `test_plan_source_validation.py`,
+`test_analysis_resume.py` e `test_spec_identities.py`, em
+`marta/ruby_backend/tests/`.
+
+Estas verificações não chamam modelos e não estimam ganhos de qualidade no corpus.
+Cada documento de entrega acima descreve o contrato, os limites e a validação.

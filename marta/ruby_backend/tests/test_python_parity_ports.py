@@ -59,9 +59,9 @@ end
     asyncio.run(p1.generate_rounds(rounds=1, ask=ask, max_attempts=1))
     calls_run1 = dev_calls["n"]
     assert calls_run1 == 1
-    assert (tmp_path / "marta_specs" / "calc__Calc__add_r0_spec.rb").exists()
+    assert (tmp_path / p1.targets[0].spec_path_for_round(0)).exists()
 
-    # Run 2 (resume): cg_cache hit -> code_changed=False -> round 0 skipped.
+    # Run 2: the committed round is revalidated and reused without new LLM calls.
     p2 = project.RubyProject(root_dir=str(tmp_path), source_dir="src").discover()
     assert p2.code_changed is False
     asyncio.run(p2.generate_rounds(rounds=1, ask=ask, max_attempts=1))

@@ -71,6 +71,8 @@ class _ClassEntry:
 # project's own spec/ (the Test4DT_tests analogue). Keeps tool output apart from
 # the human suite so benchmark coverage measures ONLY generated tests.
 GENERATED_SPEC_DIR = "marta_specs"
+SPEC_NAMING_POLICY = "definition-sha256-v1-task-legacy"
+SPEC_LABEL_CHARS = 96
 
 # Character budget for focused source views. Auxiliary code is reduced first;
 # a larger focal method is preserved intact and explicitly reported as over-limit.
@@ -162,7 +164,12 @@ class MethodTarget:
             digest = hashlib.sha256(
                 json.dumps([self.task_id, self.analysis_id]).encode()).hexdigest()[:20]
             return f"{base}__task_{digest}"
-        return base
+        # Human-readable labels are not identities: paths, singleton markers,
+        # definition lines and sanitized Ruby names may otherwise collide.
+        # Preserve the existing task branch above for frozen benchmark artifacts.
+        label = _sanitize(base)[:SPEC_LABEL_CHARS]
+        digest = hashlib.sha256(self.analysis_id.encode("utf-8")).hexdigest()
+        return f"{label}__def_{digest}"
 
     @property
     def spec_path(self) -> str:
@@ -564,6 +571,7 @@ class RubyProject:
         """Generate a spec per discovered method target (single round)."""
         outcomes: List[GenOutcome] = []
         targets = self.targets[:limit] if limit else self.targets
+        self._validate_spec_paths(targets)
         recorder = self._recorder()
         for t in targets:
             outcome = await generate_spec_for_method(
@@ -902,12 +910,31 @@ class RubyProject:
         return self.rag_db.related_lines(query, k=3, exclude=t.analysis_id) or None
 
     def _example_passing_spec(self, t: MethodTarget) -> Optional[str]:
-        """First spec already on disk for this target (kept specs are green)."""
-        files = sorted(glob.glob(os.path.join(self.root_dir, t.spec_dir, f"{t._spec_stem}*_spec.rb")))
-        for f in files:
+        """Find only this definition's generated files, including selected tasks.
+
+        Normal rounds have already archived uncertified old output. This lookup
+        is not an independent test validator for arbitrary manually placed files.
+        """
+        stems = {t._spec_stem}
+        # RAG indexes production definitions without task IDs; exact selectors
+        # may generate several task-specific files for that same definition.
+        stems.update(target._spec_stem for target in self.targets
+                     if target.analysis_id == t.analysis_id)
+        pattern = re.compile(r"(?:" + "|".join(re.escape(stem) for stem in sorted(stems))
+                             + r")(?:_r[0-9]+)?_spec\.rb")
+        directory = os.path.join(self.root_dir, t.spec_dir)
+        try:
+            names = sorted(os.listdir(directory))
+        except OSError:
+            return None
+        for name in names:
+            if not pattern.fullmatch(name):
+                continue
             try:
-                with open(f, "r", encoding="utf-8") as fh:
-                    return fh.read()
+                with open(os.path.join(directory, name), encoding="utf-8") as stream:
+                    code = stream.read()
+                if code.strip():
+                    return code
             except OSError:
                 continue
         return None
@@ -993,6 +1020,12 @@ class RubyProject:
                 outcome.spec_path = None
                 outcome.spec_code = None
 
+    def _validate_spec_paths(self, targets):
+        paths = [os.path.normpath(os.path.join(self.root_dir, t.spec_path)) for t in targets]
+        if len(paths) != len(set(paths)):
+            raise ValueError("Generation targets collide on a spec path; "
+                             "select distinct definition/task identities")
+
     def _generation_recipe(self, targets, ask, max_attempts, reuse_first_round):
         """Bind output to supplied sources, context, implementation and declared configuration."""
         from pathlib import Path
@@ -1011,6 +1044,7 @@ class RubyProject:
             "client_implementation": file_hash(Path(__file__).parents[1] / "gptapi.py"),
             "embedding_implementation": file_hash(Path(__file__).parents[1] / "embedding.py"),
             "model": os.getenv("MODEL", "default"),
+            "spec_naming": SPEC_NAMING_POLICY,
             "client": {key: getattr(client, key, None) for key in
                        ("model_type", "temperature", "max_tokens", "reasoning_effort", "top_p",
                         "presence_penalty", "request_timeout")},
@@ -1054,9 +1088,7 @@ class RubyProject:
         targets = list(enumerate(self.targets))
         if limit:
             targets = targets[:limit]
-        names = [t.spec_path_for_round(0) for _, t in targets]
-        if len(names) != len(set(names)):
-            raise ValueError("Generation targets collide on a spec path; use exact task selectors")
+        self._validate_spec_paths([t for _, t in targets])
         checkpoints = RoundCheckpoints(self.out_root(),
             self._generation_recipe(targets, ask, max_attempts, reuse_first_round),
             self._recorder().evento)

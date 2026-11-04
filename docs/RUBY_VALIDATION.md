@@ -53,8 +53,9 @@ Invalid pre-existing suites are preserved and raise an explicit validation error
 they are not silently deleted or accepted merely because their files exist.
 Validated round recovery was subsequently added in
 [the analysis/resume delivery](RUBY_ANALYSIS_RESUME.md). It archives uncertified
-files and revalidates checkpointed suites before reuse. Automatic unique naming
-for all legacy ordinary spec paths remains separate work.
+files and revalidates checkpointed suites before reuse. Ordinary output names
+subsequently gained full definition identities in
+[the identity delivery](RUBY_SPEC_IDENTITIES.md); legacy files are not silently renamed.
 
 ## Regression checks
 

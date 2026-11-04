@@ -82,9 +82,10 @@ experiments additionally retain their stronger outer model/image/code manifests.
 - A changed source/configuration archives incompatible output and starts a fresh
   compatible ledger. Use a new `output_root` for independent experiments; keep the
   original code and directories for frozen paper results.
-- Colliding ordinary spec paths are detected before round-generation requests.
-  Exact task selectors already provide distinct task paths. Automatic renaming of
-  all legacy spec identities remains separate work.
+- Colliding paths are rejected before generation requests. The subsequent
+  [definition-identity delivery](RUBY_SPEC_IDENTITIES.md) adds distinct ordinary
+  names and preserves the existing task-name convention. Legacy files are
+  archived under the compatibility rule rather than silently renamed.
 
 The explicit paired first-round ablation contract remains supported, including
 its certified no-spec seed. The adapter certifies that external seed; the core

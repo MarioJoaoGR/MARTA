@@ -139,7 +139,7 @@ class FullContextTests(unittest.TestCase):
         self.assertEqual({t.method.qualified_name for t in proj.analysis_targets},
                          {"A#initialize", "A#x", "B#y"})
         self.assertIs(proj.analysis_targets[1], proj.targets[0])
-        self.assertEqual(proj.targets[0].spec_path, "marta_specs/a__A__x_spec.rb")
+        self.assertTrue(proj.targets[0].spec_path.startswith("marta_specs/a__A__x__def_"))
         self.assertEqual(len(proj.files), 2)
 
     def test_full_pool_context_reaches_selected_generation(self):
