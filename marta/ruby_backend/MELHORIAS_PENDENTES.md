@@ -7,8 +7,9 @@ As entregas e os respetivos limites estão documentados em
 [validação](../../docs/RUBY_VALIDATION.md),
 [reparação contextual](../../docs/RUBY_REPAIR_CONTEXT.md),
 [planos e código-alvo](../../docs/RUBY_PLAN_SOURCE_CONTEXT.md),
-[análise e retoma](../../docs/RUBY_ANALYSIS_RESUME.md) e
-[identidade dos testes](../../docs/RUBY_SPEC_IDENTITIES.md).
+[análise e retoma](../../docs/RUBY_ANALYSIS_RESUME.md),
+[identidade dos testes](../../docs/RUBY_SPEC_IDENTITIES.md) e
+[README do projeto](../../docs/RUBY_README_CONTEXT.md).
 
 As [notas originais](../../docs/archive/ruby-improvements-before-2026-10-04.md)
 foram preservadas integralmente, incluindo comentários e discordâncias do
@@ -27,7 +28,7 @@ original e não são reclassificados como resultados destas melhorias.
 |---|---|---|---|
 | A1 | Contexto de métodos chamados sem limite | **Aberto.** A lista `called` continua sem orçamento total/per-callee | Limitar por tokens, relevância e evidência; reservar espaço para o alvo |
 | A2 | Trocar segunda passagem por concatenação | **Não aceite pelo utilizador.** A síntese continua implementada | Manter; medir a contribuição do grafo sem impor a substituição rejeitada |
-| A3 | Cache ignora versão de contexto | **Parcialmente resolvido.** `ANALYSIS_SCHEMA=4` e fingerprint incluem README, identidades, resolver e limite de contexto | Usar a versão existente; acrescentar fingerprint de prompts, receita/digest de modelos e configuração relevante |
+| A3 | Cache ignora versão de contexto | **Parcialmente resolvido.** `ANALYSIS_SCHEMA=5` e fingerprint incluem README, identidades, resolver e limite de contexto | Usar a versão existente; acrescentar fingerprint de prompts, receita/digest de modelos e configuração relevante |
 | A4 | `--no_cache` recalcula mas não grava | **Continua aberto.** O bundle é escrito dentro de `if use_cache` | Separar reutilização de cache de arquivo da run; guardar evidência mesmo sem cache |
 | A5 | Paralelismo na geração | **Aberto; esforço subestimado.** Fluxo sequencial e estado global/mutável | Isolar cliente, recorder, ambiente e workspaces antes de concorrência limitada |
 | A6 | Confiança nas arestas | **Aberto.** `kind` existe, mas não é usado para seleção/confiança | Registar resolução exata vs fallback/ambiguidade; não tratar toda constante como certa |
@@ -43,7 +44,11 @@ A cache já não depende apenas de código e nome de modelo. A fingerprint de
 e `MAX_CONTEXT_CHARS`. A cache de vetores inclui também os textos efetivamente
 indexados. Não precisamos de outra constante redundante chamada
 `CONTEXT_VERSION`: precisamos de aplicar/incrementar o schema existente e
-fechar as lacunas de proveniência.
+fechar as lacunas de proveniência. O README agora é procurado até à raiz do
+projeto, com preferência pelo mais próximo. O mesmo snapshot é usado para
+calcular a fingerprint e construir os pedidos; o bundle regista o caminho
+relativo e SHA-256 por ficheiro de código. Prompts e receita do modelo ainda
+precisam da extensão de proveniência prevista em A3.
 
 ### A4 — duas coisas diferentes
 
@@ -131,8 +136,8 @@ tempo e custo de análise/embedding. Um empate numa amostra não prova que RAG
 | P0 | Validar suite acumulada/final e separar cobertura de testes falhados | **Resolvido** (`4061bcd30`): gate conjunto e rollback arquivado; cobertura falhada fica como diagnóstico |
 | P0 | Limitar propagação de intenção quando o LLM responde vazio | **Resolvido** (`1939c60f3`): resposta vazia/inválida interrompe a análise sem bundle incompleto nem retries adicionais |
 | P0 | Preservar o método-alvo ao limitar contexto | **Resolvido para o código focal** (`ded14df34`); orçamento global em tokens continua aberto em A1 |
-| P0/P1 | Identidade única de specs e retoma após validação atómica | **Resolvido nesta entrega e em `1939c60f3`**: identidade completa no nome normal, lookup exato e checkpoints de rondas validadas; recuperação por método dentro de ronda interrompida continua futura |
-| P1 | Procurar README até à raiz do projeto | **Aberto; próximo bloco**: distinguir raiz de código e raiz de projeto |
+| P0/P1 | Identidade única de specs e retoma após validação atómica | **Resolvido em `f384cb252` e `1939c60f3`**: identidade completa no nome normal, lookup exato e checkpoints de rondas validadas; recuperação por método dentro de ronda interrompida continua futura |
+| P1 | Procurar README até à raiz do projeto | **Resolvido nesta entrega**: raiz de projeto explícita, preferência pelo documento mais próximo e snapshot com caminho/hash usado na cache e no prompt |
 | P1 | Reparar com código anterior, plano e diagnóstico estruturado | **Resolvido** (`3476c2e36`): contexto de reparação explícito e preservação do último código não vazio |
 | P1 | Validar schema dos cenários | **Resolvido** (`ded14df34`): validação completa e fallback auditável sem novo pedido ao Planner |
 | P1 | Proveniência da análise e arquivo com `--no_cache` | **Parcial / aberto**: A3 e A4; não confundir o manifesto da geração com o da cache de análise |
@@ -141,7 +146,7 @@ tempo e custo de análise/embedding. Um empate numa amostra não prova que RAG
 
 ### Sequência de implementação a partir desta revisão
 
-1. README da raiz, proveniência da análise e arquivo completo sem reutilizar cache.
+1. Completar a proveniência da análise (prompts/modelo/configuração) e o arquivo completo sem reutilizar cache. A procura do README da raiz já está corrigida.
 2. Orçamento da mensagem inteira, incluindo sumários dos chamados, plano e erros.
 3. Reutilização do retrieval estático entre rondas, mantendo o retrieval de erro dinâmico.
 4. Consolidar a avaliação pós-geração por mutação e os dados de custo/utilidade.
@@ -156,7 +161,7 @@ reproduzia os problemas antigos com fixtures e respostas simuladas. Não constit
 uma especificação atual: casos corrigidos podem agora parar mais cedo ou exigir
 asserts diferentes. A evidência de regressão atual está nas suites
 `test_suite_validation.py`, `test_repair_context.py`, `test_plan_source_validation.py`,
-`test_analysis_resume.py` e `test_spec_identities.py`, em
+`test_analysis_resume.py`, `test_spec_identities.py` e `test_readme_context.py`, em
 `marta/ruby_backend/tests/`.
 
 Estas verificações não chamam modelos e não estimam ganhos de qualidade no corpus.

@@ -35,7 +35,7 @@ from .source_context import SourceContext, build_source_context
 SKIP_METHODS = {"initialize"}
 
 # Bump when analysis prompts, definition identities, or cache semantics change.
-ANALYSIS_SCHEMA = 4
+ANALYSIS_SCHEMA = 5
 
 
 class AnalysisResponseError(RuntimeError):
@@ -513,9 +513,10 @@ class RubyProject:
         # Keep the established full-analysis cache name for compatible results.
         return path[:-5] + ".full_context.json"
 
-    def _analysis_fingerprint(self, targets: List[MethodTarget]) -> str:
+    def _analysis_fingerprint(self, targets: List[MethodTarget], *, readme_snapshot=None) -> str:
         from .call_graph import RESOLVER_VERSION
-        readmes = {readme.nearest_readme(t.file_path, self.abs_source) for t in targets}
+        readme_snapshot = readme_snapshot or readme.ReadmeOverviewCache(
+            self.abs_source, project_root=self.root_dir)
         payload = {
             "schema": ANALYSIS_SCHEMA,
             "scope": "full",
@@ -523,7 +524,8 @@ class RubyProject:
             "max_context_chars": MAX_CONTEXT_CHARS,
             "max_classes": None,
             "resolver": RESOLVER_VERSION,
-            "readmes": cache.compute_source_hash(sorted(p for p in readmes if p)),
+            "readme_policy": readme.README_POLICY,
+            "readmes": readme_snapshot.manifest_for([t.file_path for t in targets]),
         }
         return hashlib.sha256(json.dumps(payload, sort_keys=True).encode()).hexdigest()
 
@@ -619,7 +621,9 @@ class RubyProject:
         """
         model = os.getenv("MODEL", "default")
         src_hash = cache.compute_source_hash(self.files)
-        fingerprint = self._analysis_fingerprint(self.analysis_targets)
+        overviews = readme.ReadmeOverviewCache(self.abs_source, project_root=self.root_dir)
+        fingerprint = self._analysis_fingerprint(self.analysis_targets, readme_snapshot=overviews)
+        readme_manifest = overviews.manifest_for([t.file_path for t in self.analysis_targets])
         path = self._analysis_path(model, enrich)
 
         # A fresh analysis (including a different graph arm) cannot inherit
@@ -659,7 +663,7 @@ class RubyProject:
             return response
 
         ask = checked_ask
-        overviews = readme.ReadmeOverviewCache(self.abs_source)
+        r.evento(tipo="analysis_readmes", policy=readme.README_POLICY, documents=readme_manifest)
 
         # Pass 1: source-only done_what (MARTA's no-call-graph branch).
         #
@@ -819,7 +823,8 @@ class RubyProject:
             }
             atomic_json(path, {"source_hash": src_hash, "model": model,
                                "fingerprint": fingerprint, "enrich": enrich,
-                               "targets": entries, "classes": self.class_summaries})
+                               "targets": entries, "classes": self.class_summaries,
+                               "readme_policy": readme.README_POLICY, "readmes": readme_manifest})
         self._sync_generation_analysis()
 
     @staticmethod
