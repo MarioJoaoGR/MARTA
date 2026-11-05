@@ -5,7 +5,7 @@
 
 Runs the full pipeline: discover -> context (summaries/README/types, cached by
 source hash) -> RAG -> coverage-guided multi-round generation. Specs land in
-``<project_path>/spec/``; run metrics in ``<project_path>/run_results/``.
+``<project_path>/marta_specs/``; run metrics in ``<project_path>/run_results/``.
 
 Requires Ruby >= 3.3 with RSpec (set MARTA_RUBY_BIN / MARTA_RSPEC_BIN, e.g. the
 rbenv 3.4 binaries) and the LLM configured via .env (ollama etc.).
@@ -64,9 +64,20 @@ def main():
         "--output_dir", type=str, default=None,
         help="Where to write run_results (default: <project_path>/run_results)",
     )
+    parser.add_argument("--evaluate", action="store_true", help="Write an independent post-generation quality/cost report")
+    parser.add_argument("--evaluate_only", action="store_true", help="Evaluate stored generated specs; no analysis or LLM calls")
+    parser.add_argument("--mutation", action="store_true", help="Include optional Mutant evaluation in disposable project copies")
+    parser.add_argument("--mutation_usage", choices=("opensource", "commercial"), help="Explicit usage mode required by Mutant")
+    parser.add_argument("--mutation_timeout", type=int, default=300)
+    parser.add_argument("--mutation_jobs", type=int, default=1)
+    parser.add_argument("--mutation_bundle", action="store_true", help="Use the supplied Bundler environment for Mutant")
     load_dotenv()
     args = parser.parse_args()
     ablations = from_args(args)
+    if args.mutation and not args.mutation_usage:
+        parser.error("--mutation requires --mutation_usage")
+    if args.mutation_timeout < 1 or args.mutation_jobs < 1:
+        parser.error("Mutation timeout/jobs must be positive")
     if ablations.enabled and not args.output_dir:
         parser.error("Generation ablations require a separate --output_dir")
 
@@ -143,6 +154,21 @@ def main():
             output_root or args.project_path, "run_results",
             f"{project_name}.eventos.jsonl")
 
+        def post_evaluate(generation_cost=None):
+            from marta.ruby_backend.evaluation import evaluate_project
+            report = evaluate_project(proj, mutation=args.mutation,
+                mutation_usage=args.mutation_usage, timeout=args.mutation_timeout,
+                jobs=args.mutation_jobs, bundle=args.mutation_bundle,
+                limit=args.limit, generation_cost=generation_cost)
+            print(f"📊 Avaliação independente em {report}")
+            return report
+
+        if args.evaluate_only:
+            # Do not append to historic generation events/metrics in this mode.
+            recorder.caminho_eventos = None
+            post_evaluate()
+            return
+
         # Um único event loop para todo o fluxo async (evita re-uso do
         # AsyncLimiter do gptapi entre loops distintos).
         async def _pipeline():
@@ -180,10 +206,15 @@ def main():
             else os.path.join(args.project_path, "run_results")
         path = recorder.end(out_dir, project_name)
         print(f"📊 Métricas em {path}")
+        if args.evaluate or args.mutation:
+            from marta.ruby_backend.evaluation import cost_snapshot
+            post_evaluate(cost_snapshot(recorder))
 
     except Exception:
         print("\n🚨 ERRO CRÍTICO NA EXECUÇÃO RUBY!")
         traceback.print_exc()
+        if args.evaluate_only:
+            sys.exit(1)
         try:  # salvamento de emergência das métricas parciais, como o Python
             out_dir = os.path.join(output_root, "run_results") if output_root \
                 else os.path.join(args.project_path, "run_results")

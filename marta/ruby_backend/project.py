@@ -19,6 +19,7 @@ import os
 import re
 import shutil
 import tempfile
+import time
 from collections import Counter
 from contextlib import nullcontext
 from dataclasses import dataclass, field, replace
@@ -1210,6 +1211,10 @@ class RubyProject:
         recorder = self._recorder()
 
         for rnd in range(completed, rounds):
+            from .evaluation import cost_snapshot, round_observation
+            round_started = time.monotonic()
+            start_cost = cost_snapshot(recorder)
+            before_cov = dict(cov)
             round_outcomes: List[GenOutcome] = []
             recorder.score.first_run = (rnd == 0)  # first_run metrics = round 0
             recorder.start_count_time(f"round_{rnd}")
@@ -1257,6 +1262,9 @@ class RubyProject:
             with recorder.medir("cobertura"):
                 cov = self._measure_retained_suite(round_outcomes)
             checkpoints.commit(rnd, round_outcomes)
+            recorder.evento(tipo="round_utility", **round_observation(
+                targets, before_cov, cov, round_outcomes, start_cost, cost_snapshot(recorder),
+                time.monotonic() - round_started))
             recorder.score.coverage.append(
                 {t.method.qualified_name: (cov[i].covered_lines if i in cov else 0)
                  for i, t in targets}

@@ -1,6 +1,6 @@
 # MARTA-Ruby — backlog revisto
 
-Última revisão: **2026-11-04**, após integração das correções na `main`.
+Última revisão: **2026-11-05**, após integração das correções na `main`.
 
 Esta lista distingue as correções já implementadas das melhorias ainda abertas.
 As entregas e os respetivos limites estão documentados em
@@ -11,8 +11,9 @@ As entregas e os respetivos limites estão documentados em
 [identidade dos testes](../../docs/RUBY_SPEC_IDENTITIES.md),
 [README do projeto](../../docs/RUBY_README_CONTEXT.md),
 [cache e arquivo de análise](../../docs/RUBY_ANALYSIS_CACHE.md),
-[orçamento do pedido](../../docs/RUBY_PROMPT_BUDGET.md) e
-[retrieval estático](../../docs/RUBY_STATIC_RETRIEVAL.md).
+[orçamento do pedido](../../docs/RUBY_PROMPT_BUDGET.md),
+[retrieval estático](../../docs/RUBY_STATIC_RETRIEVAL.md) e
+[avaliação pós-geração](../../docs/RUBY_POST_EVALUATION.md).
 
 As [notas originais](../../docs/archive/ruby-improvements-before-2026-10-04.md)
 foram preservadas integralmente, incluindo comentários e discordâncias do
@@ -162,14 +163,14 @@ tempo e custo de análise/embedding. Um empate numa amostra não prova que RAG
 | P1 | Reparar com código anterior, plano e diagnóstico estruturado | **Resolvido** (`3476c2e36`): contexto de reparação explícito e preservação do último código não vazio |
 | P1 | Validar schema dos cenários | **Resolvido** (`ded14df34`): validação completa e fallback auditável sem novo pedido ao Planner |
 | P1 | Proveniência da análise e arquivo com `--no_cache` | **Resolvido nesta entrega**: A3/A4, dentro dos limites declarados acima; não confundir o arquivo com retoma automática nem com atestação dos pesos |
-| P1 | Mutação pós-geração antes de mutation-guided generation | **Infraestrutura externa existente**: [protocolo comparável](../../deucalion/COMPARABLE_EVALUATION.md); integração no caminho normal e experiências guiadas por mutantes continuam separadas |
+| P1 | Mutação pós-geração antes de mutation-guided generation | **Integrado opcionalmente no backend normal**: relatório independente, suite final em cópias e identidade/isolamento auditados; [benchmark mantém executor próprio](../../deucalion/COMPARABLE_EVALUATION.md). Mutation-guided generation continua separada |
 | P2 | Feedback humano, priorização aprendida e backend Python comum | **Aberto**: dados, contratos e experiências próprios; preparar depois da base de engenharia |
 
 ### Sequência de implementação a partir desta revisão
 
 1. **Concluído nesta entrega:** orçamento da mensagem inteira, incluindo sumários dos chamados, plano e erros. Contagem exata exige tokenizer correspondente; por omissão usa estimativa UTF-8 identificada.
 2. **Concluído nesta entrega:** reutilização do retrieval estático entre rondas, mantendo o retrieval de erro dinâmico.
-3. Consolidar a avaliação pós-geração por mutação e os dados de custo/utilidade.
+3. **Concluído nesta entrega:** avaliação opcional pós-geração, mutação e observações de custo/progresso por ronda. Não constitui recompensa RL nem migra métricas históricas.
 4. Medir propostas de confiança no grafo e abstenção no judge antes de as impor.
 5. Isolar estado antes de concorrência; preparar o controlador aprendido da tese.
 
@@ -184,7 +185,8 @@ asserts diferentes. A evidência de regressão atual está nas suites
 `test_suite_validation.py`, `test_repair_context.py`, `test_plan_source_validation.py`,
 `test_analysis_resume.py`, `test_spec_identities.py`, `test_readme_context.py` e
 `test_analysis_provenance.py`, `test_prompt_budget.py` e `test_retrieval_cache.py`, em
-`marta/ruby_backend/tests/`.
+`marta/ruby_backend/tests/`. A avaliação pós-geração acrescenta
+`test_post_evaluation.py` e `test_mutation_runtime.py`.
 
 Estas verificações não chamam modelos e não estimam ganhos de qualidade no corpus.
 Cada documento de entrega acima descreve o contrato, os limites e a validação.
