@@ -14,7 +14,8 @@ As entregas e os respetivos limites estão documentados em
 [orçamento do pedido](../../docs/RUBY_PROMPT_BUDGET.md),
 [retrieval estático](../../docs/RUBY_STATIC_RETRIEVAL.md) e
 [avaliação pós-geração](../../docs/RUBY_POST_EVALUATION.md),
-[evidência no grafo e judge](../../docs/RUBY_GRAPH_JUDGE_EVIDENCE.md).
+[evidência no grafo e judge](../../docs/RUBY_GRAPH_JUDGE_EVIDENCE.md),
+[isolamento dos pedidos](../../docs/RUBY_REQUEST_ISOLATION.md).
 
 As [notas originais](../../docs/archive/ruby-improvements-before-2026-10-04.md)
 foram preservadas integralmente, incluindo comentários e discordâncias do
@@ -35,7 +36,7 @@ original e não são reclassificados como resultados destas melhorias.
 | A2 | Trocar segunda passagem por concatenação | **Não aceite pelo utilizador.** A síntese continua implementada | Manter; medir a contribuição do grafo sem impor a substituição rejeitada |
 | A3 | Cache ignora versão de contexto | **Resolvido para a proveniência disponível/declarada.** Schema 8 inclui política do grafo, orçamento, prompts, implementação e parâmetros do cliente; vetores incluem receita/código/metadados do embedding | Pesos e callbacks opacos continuam a exigir identificação externa; digest ausente fica explícito |
 | A4 | `--no_cache` recalcula mas não grava | **Resolvido.** Cada análise tem bundle/evidência independente em `run_results/analysis_runs`, incluindo cache hits e recálculo sem cache | `--no_cache` não lê/substitui cache anterior; o arquivo não serve como cache automática |
-| A5 | Paralelismo na geração | **Aberto; esforço subestimado.** Fluxo sequencial e estado global/mutável | Isolar cliente, recorder, ambiente e workspaces antes de concorrência limitada |
+| A5 | Paralelismo na geração | **Parcial.** Respostas/usage por pedido e fase/contexto por tarefa isolados; geração continua sequencial | Falta isolar ambiente, workspaces, outputs, timers/contadores por worker e coordenação antes de concorrência limitada |
 | A6 | Confiança nas arestas | **Evidência implementada; estudo empírico aberto.** Categorias por call site, constantes ambíguas e seleção opcional supported-only | Medir precisão/alcance; supported é suporte no modelo estático, não garantia de runtime |
 | A7 | Inferir tipos de retorno | **Aberto; investigação de maior esforço** | Começar por `Foo.new`, atribuições no construtor e anotações; medir valor antes de inferência global |
 | A8 | Segunda passagem depende da ordem | **Resolvido para `done_what`.** Lê `passagem1[analysis_id]` | Não duplicar a correção; estudar separadamente a escolha de chamador em `what_todo` |
@@ -75,8 +76,10 @@ A retoma da geração mantém o seu contrato separado de rondas validadas.
 
 ### A5 — porque não basta gather + semáforo
 
-`model.last_call`, deltas de tokens, contexto/fases do recorder, diretórios de
-execução, exemplos consultados pelo RAG e ambiente do adapter podem interferir.
+A primeira entrega de A5 retirou `model.last_call`/deltas globais do caminho Ruby
+nativo e isolou fase/contexto por tarefa. Diretórios de execução, exemplos
+consultados pelo RAG, ambiente do adapter e timers/contadores por worker ainda
+podem interferir.
 A execução concorrente precisa de estado e métricas por tarefa. Depois faz
 sentido medir concorrência 1/2/4, dentro da capacidade real do servidor, sem
 prometer aceleração proporcional.
@@ -173,7 +176,7 @@ tempo e custo de análise/embedding. Um empate numa amostra não prova que RAG
 2. **Concluído nesta entrega:** reutilização do retrieval estático entre rondas, mantendo o retrieval de erro dinâmico.
 3. **Concluído nesta entrega:** avaliação opcional pós-geração, mutação e observações de custo/progresso por ronda. Não constitui recompensa RL nem migra métricas históricas.
 4. **Instrumentação/políticas implementadas:** evidência do grafo e abstenção do judge. Faltam estudo empírico e calibração; não foram impostos gates numéricos por omissão.
-5. Isolar estado antes de concorrência; preparar o controlador aprendido da tese.
+5. **Em curso:** respostas e contexto de métricas isolados; faltam workspaces/ambiente/coordenação antes de concorrência. Preparar depois o controlador aprendido da tese.
 
 As identidades normais agora usam ficheiro relativo, nome Ruby qualificado e
 linhas da definição. Os nomes de tarefas XRepoTest já protegidos por task ID

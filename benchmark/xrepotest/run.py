@@ -71,6 +71,9 @@ def workspace(source: Path, destination: Path) -> None:
         (destination / "vendor").symlink_to(vendor, target_is_directory=True)
 
 
+from marta.ruby_backend.requests import client_request
+
+
 class GenerationRequests:
     """Record physical calls, including the one that aborts a task.
 
@@ -86,11 +89,10 @@ class GenerationRequests:
     async def __call__(self, system, user):
         start = time.monotonic()
         try:
-            out = await self.client.aask(system, user)
+            out, detail = await client_request(self.client, system, user)
         except Exception as exc:
             self._record_attempt({"erro": repr(exc)[:200]}, None, time.monotonic() - start)
             raise
-        detail = dict(self.client.last_call or {})
         self._record_attempt(detail, out, time.monotonic() - start)
         if detail.get("erro"):
             raise RuntimeError(f"LLM request failed: {detail['erro']}; task remains incomplete")
@@ -109,9 +111,11 @@ class GenerationRequests:
         incoming, outgoing = detail.get("prompt_tokens", 0) or 0, detail.get("completion_tokens", 0) or 0
         if hasattr(self.recorder, "score"):
             self.recorder.score.add_llm_call(incoming, outgoing, fase=phase, segundos=seconds,
-                                            cortada=truncated, erro=bool(error))
+                                            cortada=truncated, erro=bool(error), usage_reported=detail.get("usage_reported") is True)
         self.recorder.evento(tipo="llm", fase=phase, **fields,
                              prompt_tokens=incoming, completion_tokens=outgoing,
+                             usage_reported=detail.get("usage_reported") is True,
+                             metrics_source=detail.get("metrics_source", "unavailable"),
                              segundos=round(seconds, 3), cortada=truncated, erro=error,
                              caracteres_resposta=len(out or ""), finish_reason=detail.get("finish_reason"))
 
@@ -152,14 +156,13 @@ class SummaryCheckpoints(GenerationRequests):
         for attempt in range(1, SUMMARY_TRUNCATION_ATTEMPTS + 1):
             start = time.monotonic()
             try:
-                out = await self.client.aask(system, user)
+                out, detail = await client_request(self.client, system, user)
             except Exception as exc:
                 detail = {"erro": repr(exc)[:200]}
                 self._record_attempt(detail, None, time.monotonic() - start, summary_attempt=attempt)
                 self.recorder.evento(tipo="llm_infrastructure_failure", fase=self.recorder.fase_atual,
                                      detail=detail, llm_event_recorded=True)
                 raise
-            detail = dict(self.client.last_call or {})
             self._record_attempt(detail, out, time.monotonic() - start, summary_attempt=attempt)
             # Thinking may exhaust all output tokens before producing content.
             # Classify the finish reason before checking for an empty answer.

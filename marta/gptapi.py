@@ -62,6 +62,7 @@ import asyncio
 from openai import OpenAI
 
 from marta.recorder import recoder
+from marta.llm_response import ChatReply
 
 # NOTA: os embeddings (RAG) são tratados exclusivamente por marta/embedding.py
 # (HuggingFaceEmbedder). O antigo HybridClient/SentenceTransformer aqui carregava
@@ -72,6 +73,7 @@ from marta.recorder import recoder
 # --- CLASSE PRINCIPAL ---
 class MyGPT:
     count = 0
+    response_api = True
 
     def __init__(self, temperature=0.2, max_rate=300, time_period=20, model_type="codellama:7b"):
         load_dotenv()
@@ -110,7 +112,13 @@ class MyGPT:
             messages = [{"role": "system", "content": system}, {"role": "user", "content": user}]
             return await asyncio.to_thread(self.chat, messages)
 
-    def chat(self, messages) -> str:
+    async def aask_result(self, system, user) -> ChatReply:
+        async with self.limiter:
+            messages = [{"role": "system", "content": system}, {"role": "user", "content": user}]
+            return await asyncio.to_thread(self.chat_result, messages)
+
+    def chat_result(self, messages) -> ChatReply:
+        """One logical SDK request; metadata travels with the returned response."""
         try:
             kwargs = dict(
                 model=self.model_type,
@@ -133,35 +141,26 @@ class MyGPT:
                     kwargs[parameter] = value
 
             chat = self.client.chat.completions.create(**kwargs)
-            output = chat.choices[0].message.content
-            self.count += 1
-
-            # Contabilização de tokens (Ollama devolve `usage` no formato OpenAI).
             usage = getattr(chat, 'usage', None)
-            if usage is not None:
-                recoder.score.add_tokens(
-                    getattr(usage, 'prompt_tokens', 0) or 0,
-                    getattr(usage, 'completion_tokens', 0) or 0,
-                )
+            return ChatReply(
+                text=chat.choices[0].message.content,
+                prompt_tokens=getattr(usage, 'prompt_tokens', None),
+                completion_tokens=getattr(usage, 'completion_tokens', None),
+                finish_reason=getattr(chat.choices[0], 'finish_reason', None),
+            )
+        except Exception as error:
+            logging.error(f"Erro no chat: {error}")
+            return ChatReply(text="", error=repr(error)[:200])
 
-            # Detalhe da última chamada, para quem quiser medir (ver
-            # ruby_backend/recorder.py). Duas coisas que se perdiam aqui: uma
-            # resposta CORTADA pelo max_tokens chega com finish_reason "length" e
-            # até agora passava por resposta normal; e um erro devolve "" sem
-            # deixar rasto nenhum nas métricas. As chamadas são sequenciais, por
-            # isso "a última" é sempre a que acabou de correr.
-            self.last_call = {
-                'prompt_tokens': getattr(usage, 'prompt_tokens', 0) or 0 if usage else 0,
-                'completion_tokens': getattr(usage, 'completion_tokens', 0) or 0 if usage else 0,
-                'finish_reason': getattr(chat.choices[0], 'finish_reason', None),
-                'erro': None,
-            }
-
-        except Exception as e:
-            logging.error(f"Erro no chat: {e}")
-            self.last_call = {'prompt_tokens': 0, 'completion_tokens': 0,
-                              'finish_reason': None, 'erro': repr(e)[:200]}
-            return ""
-        return output
+    def chat(self, messages) -> str:
+        """Legacy Python/string API; preserves its existing global counters."""
+        result = self.chat_result(messages)
+        details = result.details()
+        self.last_call = details
+        if result.error is None:
+            self.count += 1
+            if result.prompt_tokens is not None or result.completion_tokens is not None:
+                recoder.score.add_tokens(details['prompt_tokens'], details['completion_tokens'])
+        return result.text
 
 model = MyGPT()

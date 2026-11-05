@@ -44,7 +44,8 @@ class GenOutcome:
 def _default_ask() -> AskFn:
     # Imported lazily so the module (and its tests) don't pull in the LLM stack.
     from marta.gptapi import model
-    return model.aask
+    from .requests import RubyAsk
+    return RubyAsk(model) if getattr(model, "response_api", False) is True else model.aask
 
 
 async def generate_spec_for_method(
@@ -82,7 +83,7 @@ async def generate_spec_for_method(
     source_part = OptionalPart("source_context", method_source, focal_source or method_source, compact=False)
     score = recorder.score if recorder is not None else None
     if score is not None:
-        # Credita llm_calls + tokens (delta do singleton gptapi) por chamada, e
+        # Credita chamadas e usage da resposta deste pedido, e
         # etiqueta cada uma com a fase e o método (ver recorder.py).
         from .recorder import token_tracking_ask
         ask = token_tracking_ask(ask, score, recorder)

@@ -25,10 +25,12 @@ def coverage_record(value):
 def cost_snapshot(recorder):
     score = recorder.score
     return {"scope": "current_recorder_process_only", "llm_calls": score.llm_calls,
+            "usage_unknown_calls": score.llm_usage_unknown_calls,
+            "interrupted_requests": score.llm_interrupted_requests,
             "prompt_tokens": score.prompt_tokens, "completion_tokens": score.completion_tokens,
             "llm_seconds": sum(p["segundos_chamadas"] for p in score.por_fase.values()),
             "by_phase": copy.deepcopy(score.por_fase), "subprocesses": copy.deepcopy(score.subprocessos),
-            "token_usage_note": "Recorder deltas; opaque callbacks can report zero without verified usage. No monetary cost inferred."}
+            "token_usage_note": "Per-request usage when available; opaque/legacy callbacks remain explicitly unverified. No monetary cost inferred."}
 
 
 def round_observation(targets, before, after, outcomes, start_cost, end_cost, seconds):
@@ -45,7 +47,8 @@ def round_observation(targets, before, after, outcomes, start_cost, end_cost, se
             "accepted_generations": sum(o.success for o in outcomes),
             "rejected_generations": sum(not o.success for o in outcomes),
             "new_cost": {key: end_cost[key] - start_cost[key] for key in
-                         ("llm_calls", "prompt_tokens", "completion_tokens", "llm_seconds")},
+                         ("llm_calls", "prompt_tokens", "completion_tokens", "llm_seconds",
+                          "usage_unknown_calls", "interrupted_requests") if key in start_cost and key in end_cost},
             "wall_seconds": seconds,
             "interpretation": "Observed round-level association, not causal credit to a repair/context component. Missing baseline is not zero."}
 

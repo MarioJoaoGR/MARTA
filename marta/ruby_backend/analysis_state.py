@@ -52,8 +52,9 @@ def analysis_provenance(ask=None):
         "prompts": prompts,
         "implementation": {name: file_hash(directory / name) for name in
                            ("project.py", "source_context.py", "analysis_state.py", "prompt_budget.py",
-                            "call_graph.py", "param_types.py", "evidence.py")},
+                            "call_graph.py", "param_types.py", "evidence.py", "requests.py", "recorder.py")},
         "client_implementation": file_hash(directory.parent / "gptapi.py"),
+        "response_implementation": file_hash(directory.parent / "llm_response.py"),
         "model": {"configured_name": configured,
                   "client_name": _scalar(getattr(client, "model_type", None)),
                   "digest": declared_digest, "digest_status": "caller_declared" if declared_digest else "unavailable"},

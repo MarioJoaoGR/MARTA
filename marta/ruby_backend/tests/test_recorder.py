@@ -40,7 +40,7 @@ def test_recorder_writes_json(tmp_path):
     assert data["syntax_pass"] == 1
 
 
-def test_token_tracking_ask_credits_singleton_delta():
+def test_token_tracking_ask_explicit_legacy_singleton_delta():
     """token_tracking_ask reads token deltas off the Python gptapi singleton."""
     from marta.recorder import recoder as py_recoder
 
@@ -49,6 +49,7 @@ def test_token_tracking_ask_credits_singleton_delta():
         py_recoder.score.add_tokens(100, 40)
         return "resp"
 
+    fake_llm_ask.legacy_singleton_metrics = True
     s = recorder.RubyScore()
     wrapped = recorder.token_tracking_ask(fake_llm_ask, s)
     out = asyncio.run(wrapped("sys", "usr"))

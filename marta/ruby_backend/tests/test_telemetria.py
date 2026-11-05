@@ -16,6 +16,7 @@ def _ask_fake(tokens=(100, 40), resposta="resp"):
     async def ask(system, user):
         py_recoder.score.add_tokens(*tokens)
         return resposta
+    ask.legacy_singleton_metrics = True  # Explicit sequential compatibility fixture.
     return ask
 
 

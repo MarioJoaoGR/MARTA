@@ -1164,6 +1164,7 @@ class RubyProject:
                                if path.is_file() and path.suffix in (".py", ".rb")
                                and "tests" not in path.parts},
             "client_implementation": file_hash(Path(__file__).parents[1] / "gptapi.py"),
+            "response_implementation": file_hash(Path(__file__).parents[1] / "llm_response.py"),
             "embedding_implementation": file_hash(Path(__file__).parents[1] / "embedding.py"),
             "model": os.getenv("MODEL", "default"),
             "spec_naming": SPEC_NAMING_POLICY,
