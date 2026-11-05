@@ -430,19 +430,19 @@ class FullContextTests(unittest.TestCase):
         self.assertTrue(all(t.summary for t in proj.analysis_targets))
         self.assertEqual([t.task_id for t in proj.targets], ["first", "second"])
 
-    def test_semantic_hints_cover_analysis_pool_and_sync_to_task_wrappers(self):
+    def test_semantic_abstention_covers_analysis_pool_and_syncs_to_task_wrappers(self):
         for fp in self.backend.parsed.values():
             for method in fp.methods:
                 method.param_members = {"node": ["unknown_member"]}
         proj = self.make(target_selectors=[self.selector()])
         self.analyze(proj)
         self.rag(proj)
-        self.assertTrue(all("semantically closest class" in t.judge for t in proj.analysis_targets))
+        self.assertTrue(all("semantic type unknown" in t.judge for t in proj.analysis_targets))
         target = proj.targets[0]
         analyzed = next(t for t in proj.analysis_targets if t.analysis_id == target.analysis_id)
         self.assertEqual(target.judge, analyzed.judge)
         self.rag(proj)
-        self.assertEqual(target.judge.count("semantically closest class"), 1)
+        self.assertEqual(target.judge.count("semantic type unknown"), 1)
 
     def test_enrichment_uses_frozen_pass_one_summaries(self):
         self.backend.edges = [CallEdge("A#initialize", "A#x", 3, "self"),

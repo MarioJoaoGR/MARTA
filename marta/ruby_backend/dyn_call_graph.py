@@ -42,7 +42,7 @@ def run_dynamic(source_dir: str, driver_path: str, cwd: str, timeout: int = 60) 
     edges: List[CallEdge] = []
     for caller, callees in data.get("edges", {}).items():
         for callee in callees:
-            edges.append(CallEdge(caller, callee, 0, "dynamic"))
+            edges.append(CallEdge(caller, callee, 0, "dynamic", "runtime_observed"))
     g = CallGraph(edges=edges)
     g._index()
     return g

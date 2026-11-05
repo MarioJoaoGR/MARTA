@@ -34,12 +34,13 @@ from .generate import AskFn, GenOutcome, _default_ask, generate_spec_for_method
 from .source_context import SourceContext, build_source_context
 from .prompt_budget import PromptBudget, budget_provenance
 from .retrieval_cache import PlannerRetrievalCache
+from .evidence import evidence_policy, semantic_decision
 
 # Default generation skips constructors; exact task selectors may request them.
 SKIP_METHODS = {"initialize"}
 
 # Bump when analysis prompts, definition identities, or cache semantics change.
-ANALYSIS_SCHEMA = 7
+ANALYSIS_SCHEMA = 8
 
 
 class AnalysisResponseError(RuntimeError):
@@ -268,6 +269,7 @@ class RubyProject:
     class_files: Dict[str, str] = field(default_factory=dict)   # class qn -> abs path
     class_summaries: Dict[str, str] = field(default_factory=dict)  # class qn -> summary
     class_db: Optional[rag.RubyClassIndex] = None
+    judge_decisions: Dict[str, dict] = field(default_factory=dict, init=False)
     backend: LanguageBackend = field(default_factory=RubyBackend)
     ablation_options: AblationOptions = field(default_factory=AblationOptions)
 
@@ -400,6 +402,7 @@ class RubyProject:
         self.analysis_targets = []
         self.class_files = {}
         self.class_summaries = {}
+        self.judge_decisions = {}
         self._analysis_fingerprint_used = None
         self.last_analysis_archive = None
         self._planner_retrieval.clear()
@@ -688,6 +691,7 @@ class RubyProject:
         # A fresh analysis (including a different graph arm) cannot inherit
         # requirements or semantic hints from an earlier analysis on this object.
         self.class_summaries = {}
+        self.judge_decisions = {}
         self.rag_db = self.class_db = None
         for t in self.analysis_targets:
             t.done_what = t.what_todo = t.summary = ""
@@ -767,6 +771,11 @@ class RubyProject:
         # methods that actually call project methods pay the extra LLM call.
         # Graph nodes only have qualified names. Omit ambiguous definitions
         # in BOTH directions rather than silently merging reopened methods.
+        graph_policy = evidence_policy()
+        supported_only = graph_policy["graph_context"] == "supported_only"
+        r.evento(tipo="graph_context_policy", policy=graph_policy["graph_context"],
+                 edges=len(self.call_graph.edges) if self.call_graph else 0,
+                 supported_edges=sum(e.supported for e in self.call_graph.edges) if self.call_graph else 0)
         counts = Counter(t.method.qualified_name for t in self.analysis_targets)
         by_qn = {t.method.qualified_name: t for t in self.analysis_targets
                  if counts[t.method.qualified_name] == 1
@@ -779,8 +788,8 @@ class RubyProject:
                     if t.method.qualified_name not in by_qn:
                         continue
                     called = [
-                        f"{c}: {passagem1[by_qn[c].analysis_id]}"
-                        for c in self.call_graph.callees(t.method.qualified_name)
+                        f"{c}: {passagem1[by_qn[c].analysis_id]}\n{self.call_graph.evidence_label(t.method.qualified_name, c)}"
+                        for c in self.call_graph.callees(t.method.qualified_name, supported_only=supported_only)
                         if c in by_qn and by_qn[c].done_what
                     ]
                     if called:
@@ -800,7 +809,9 @@ class RubyProject:
             if (self.call_graph is None or not enrich
                     or t.method.qualified_name not in by_qn):
                 return []
-            return [by_qn[c] for c in self.call_graph.callers(t.method.qualified_name) if c in by_qn]
+            names = self.call_graph.callers(t.method.qualified_name, supported_only=supported_only)
+            names = sorted(names, key=lambda caller: (not self.call_graph.has_supported(caller, t.method.qualified_name), caller))
+            return [by_qn[c] for c in names if c in by_qn]
 
         with r.fase("what_todo_raiz"):
             for t in self.analysis_targets:
@@ -829,6 +840,7 @@ class RubyProject:
                                 ask, t.method.qualified_name, self._source_for(t),
                                 c.method.qualified_name, c.what_todo, budget=budget,
                                 focal_source=t.source_context.mandatory_source,
+                                relationship=self.call_graph.evidence_label(c.method.qualified_name, t.method.qualified_name),
                             )
                         changed = True
 
@@ -932,6 +944,7 @@ class RubyProject:
         # poupar, e no cluster corre em CPU (EMBED_DEVICE=cpu, para o Ollama ficar
         # com a GPU). Sem etiqueta própria, não havia como mostrar a poupança.
         self.class_db = None
+        self.judge_decisions = {}
         with self._recorder().fase("rag"):
             self.rag_db = None
             if not self.ablation_options.no_method_retrieval:
@@ -944,35 +957,62 @@ class RubyProject:
                     embed_documents, embed_query, persist_dir=pdir, key=key or "")
                 self.class_db.init([_ClassEntry(qn, s) for qn, s in self.class_summaries.items()])
                 self._augment_judge_semantic()
+        if self.class_db is None and self.type_index is not None:
+            # Do not retain a previous semantic choice after removing the index.
+            for target in self.analysis_targets:
+                target.judge = self.type_index.judge_for_method(target.method)
         self._sync_generation_analysis()
+        if any(self.judge_decisions.values()):
+            audit = tempfile.mkdtemp(prefix="judge_", dir=self._judge_archive_dir())
+            atomic_json(os.path.join(audit, "report.json"), {
+                "policy": evidence_policy(), "decisions": self.judge_decisions,
+                "analysis_fingerprint": self._analysis_fingerprint_used,
+                "vector_key": key,
+                "interpretation": "Cosine similarity and structural compatibility are not calibrated type probabilities."})
         if persist and self.rag_db is not None and self.rag_db.reused:
             print("[rag] vetores reaproveitados do disco (sem re-embedding)")
 
+    def _judge_archive_dir(self):
+        directory = os.path.join(self.out_root(), "run_results", "judge_runs")
+        os.makedirs(directory, exist_ok=True)
+        return directory
+
     def _augment_judge_semantic(self) -> None:
-        """For params whose structural candidates are absent or ambiguous (!=1),
-        append the semantically closest class from the class-summary embeddings."""
+        """Log compatible scores and abstain unless a declared policy accepts them."""
         if self.class_db is None or self.type_index is None:
             return
-        for t in self.analysis_targets:
-            t.judge = self.type_index.judge_for_method(t.method)
+        policy = evidence_policy()
+        scored_queries = {}  # Valid only for this frozen class-index pass.
+        for target in self.analysis_targets:
+            target.judge = self.type_index.judge_for_method(target.method)
             extra = []
-            for pname, members in (t.method.param_members or {}).items():
+            decisions = self.judge_decisions.setdefault(target.analysis_id, {})
+            for pname, members in (target.method.param_members or {}).items():
                 if not members:
                     continue
-                cands = self.type_index.candidates(set(members))
-                if len(cands) == 1:
-                    continue  # structurally unambiguous — nothing to add
-                hits = self.class_db.query(
-                    f"an object used as parameter `{pname}` responding to {', '.join(sorted(members))}",
-                    k=1,
-                )
-                if hits:
-                    extra.append(
-                        f"- `{pname}`: semantically closest class: {hits[0].method.qualified_name}"
-                    )
+                candidates = self.type_index.candidates(set(members))
+                scored = []
+                if len(candidates) > 1 and hasattr(self.class_db, "query_scored"):
+                    query = f"an object used as parameter `{pname}` responding to {', '.join(sorted(members))}"
+                    key = (query, tuple(candidates))
+                    if key in scored_queries:
+                        scored = scored_queries[key]
+                    else:
+                        scored = self.class_db.query_scored(query, k=len(candidates), allowed=set(candidates))
+                        if scored:  # Empty/transient results are not memoized.
+                            scored_queries[key] = tuple(scored)
+                decision = semantic_decision(candidates, scored, policy)
+                decisions[pname] = decision
+                self._recorder().evento(tipo="judge_decision", definition_id=target.analysis_id,
+                                        parameter=pname, **decision)
+                if decision["selected"] is not None:
+                    extra.append(f"- `{pname}`: semantic candidate: {decision['selected']} "
+                                 "(declared similarity/margin gates; heuristic, not a verified type)")
+                else:
+                    extra.append(f"- `{pname}`: semantic type unknown ({decision['reason']})")
             if extra:
-                prefix = t.judge + "\n" if t.judge else "INFERRED PARAMETER TYPES:\n"
-                t.judge = prefix + "\n".join(extra)
+                prefix = target.judge + "\n" if target.judge else "INFERRED PARAMETER TYPES:\n"
+                target.judge = prefix + "\n".join(extra)
 
     def _related_for(self, t: MethodTarget) -> Optional[List[str]]:
         if self.ablation_options.no_method_retrieval or self.rag_db is None:
@@ -1127,6 +1167,7 @@ class RubyProject:
             "embedding_implementation": file_hash(Path(__file__).parents[1] / "embedding.py"),
             "model": os.getenv("MODEL", "default"),
             "spec_naming": SPEC_NAMING_POLICY,
+            "evidence_policy": evidence_policy(),
             "prompt_budget": budget_provenance(ask),
             "client": {key: getattr(client, key, None) for key in
                        ("model_type", "temperature", "max_tokens", "reasoning_effort", "top_p",

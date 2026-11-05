@@ -13,7 +13,8 @@ As entregas e os respetivos limites estão documentados em
 [cache e arquivo de análise](../../docs/RUBY_ANALYSIS_CACHE.md),
 [orçamento do pedido](../../docs/RUBY_PROMPT_BUDGET.md),
 [retrieval estático](../../docs/RUBY_STATIC_RETRIEVAL.md) e
-[avaliação pós-geração](../../docs/RUBY_POST_EVALUATION.md).
+[avaliação pós-geração](../../docs/RUBY_POST_EVALUATION.md),
+[evidência no grafo e judge](../../docs/RUBY_GRAPH_JUDGE_EVIDENCE.md).
 
 As [notas originais](../../docs/archive/ruby-improvements-before-2026-10-04.md)
 foram preservadas integralmente, incluindo comentários e discordâncias do
@@ -32,14 +33,14 @@ original e não são reclassificados como resultados destas melhorias.
 |---|---|---|---|
 | A1 | Contexto de métodos chamados sem limite | **Orçamento total implementado.** Cada pedido inclui sistema, entrada, reserva de saída e margem; contador local ou estimativa identificada | Seleção por relevância/evidência continua aberta; não se presume contagem exata sem tokenizer correspondente |
 | A2 | Trocar segunda passagem por concatenação | **Não aceite pelo utilizador.** A síntese continua implementada | Manter; medir a contribuição do grafo sem impor a substituição rejeitada |
-| A3 | Cache ignora versão de contexto | **Resolvido para a proveniência disponível/declarada.** Schema 7 inclui orçamento, prompts, implementação e parâmetros do cliente; vetores incluem receita/código/metadados do embedding | Pesos e callbacks opacos continuam a exigir identificação externa; digest ausente fica explícito |
+| A3 | Cache ignora versão de contexto | **Resolvido para a proveniência disponível/declarada.** Schema 8 inclui política do grafo, orçamento, prompts, implementação e parâmetros do cliente; vetores incluem receita/código/metadados do embedding | Pesos e callbacks opacos continuam a exigir identificação externa; digest ausente fica explícito |
 | A4 | `--no_cache` recalcula mas não grava | **Resolvido.** Cada análise tem bundle/evidência independente em `run_results/analysis_runs`, incluindo cache hits e recálculo sem cache | `--no_cache` não lê/substitui cache anterior; o arquivo não serve como cache automática |
 | A5 | Paralelismo na geração | **Aberto; esforço subestimado.** Fluxo sequencial e estado global/mutável | Isolar cliente, recorder, ambiente e workspaces antes de concorrência limitada |
-| A6 | Confiança nas arestas | **Aberto.** `kind` existe, mas não é usado para seleção/confiança | Registar resolução exata vs fallback/ambiguidade; não tratar toda constante como certa |
+| A6 | Confiança nas arestas | **Evidência implementada; estudo empírico aberto.** Categorias por call site, constantes ambíguas e seleção opcional supported-only | Medir precisão/alcance; supported é suporte no modelo estático, não garantia de runtime |
 | A7 | Inferir tipos de retorno | **Aberto; investigação de maior esforço** | Começar por `Foo.new`, atribuições no construtor e anotações; medir valor antes de inferência global |
 | A8 | Segunda passagem depende da ordem | **Resolvido para `done_what`.** Lê `passagem1[analysis_id]` | Não duplicar a correção; estudar separadamente a escolha de chamador em `what_todo` |
 | A9 | RAG estático repetido por ronda | **Resolvido em memória por projeto.** Related reutilizado por definição/consulta/versão do índice | Rebuild, descoberta e reanálise invalidam; pesquisa de erro e exemplos continuam dinâmicos |
-| A10 | Classes pouco informativas e judge sem limiar | **Aberto.** Stub + até 40 assinaturas; top-1 sem abstenção | Testar stub + construtor + sumários existentes; devolver scores e calibrar aceitação |
+| A10 | Classes pouco informativas e judge sem limiar | **Parcial.** Scores compatíveis, gates explícitos e abstenção implementados; stub + até 40 assinaturas mantém-se | Melhorar conteúdo das classes e calibrar os gates em dados próprios; sem valores numéricos por omissão |
 
 ### A1 — orçamento total com limites explícitos
 
@@ -53,7 +54,7 @@ as prioridades, a proveniência e o que permanece por estudar.
 
 ### A3 — proveniência explícita, sem inferir pesos desconhecidos
 
-A fingerprint já não depende só de fontes e nome do modelo. O schema 7 inclui
+A fingerprint já não depende só de fontes e nome do modelo. O schema 8 inclui
 contexto, orçamento global, README capturado, prompts, implementação e os parâmetros disponíveis
 do cliente LLM. Digest de pesos fornecido pelo chamador é registado como tal;
 quando não existe, fica `unavailable`, sem fingir uma verificação automática.
@@ -171,7 +172,7 @@ tempo e custo de análise/embedding. Um empate numa amostra não prova que RAG
 1. **Concluído nesta entrega:** orçamento da mensagem inteira, incluindo sumários dos chamados, plano e erros. Contagem exata exige tokenizer correspondente; por omissão usa estimativa UTF-8 identificada.
 2. **Concluído nesta entrega:** reutilização do retrieval estático entre rondas, mantendo o retrieval de erro dinâmico.
 3. **Concluído nesta entrega:** avaliação opcional pós-geração, mutação e observações de custo/progresso por ronda. Não constitui recompensa RL nem migra métricas históricas.
-4. Medir propostas de confiança no grafo e abstenção no judge antes de as impor.
+4. **Instrumentação/políticas implementadas:** evidência do grafo e abstenção do judge. Faltam estudo empírico e calibração; não foram impostos gates numéricos por omissão.
 5. Isolar estado antes de concorrência; preparar o controlador aprendido da tese.
 
 As identidades normais agora usam ficheiro relativo, nome Ruby qualificado e
@@ -190,3 +191,10 @@ asserts diferentes. A evidência de regressão atual está nas suites
 
 Estas verificações não chamam modelos e não estimam ganhos de qualidade no corpus.
 Cada documento de entrega acima descreve o contrato, os limites e a validação.
+
+### Fecho solicitado pelo utilizador — 5 de novembro
+
+Quando terminarmos os itens acordados, preparar um resumo global: o que foi
+corrigido/otimizado, trabalho evitado, custo acrescentado e evidência disponível.
+Separar otimizações medidas de verificações de validade e de investigação ainda
+aberta; não prometer aceleração global sem a medir. A mutação mantém-se opcional.

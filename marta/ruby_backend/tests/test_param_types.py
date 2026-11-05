@@ -75,7 +75,7 @@ def test_judge_string_for_method():
     judge = idx.judge_for_method(audit)
     assert "`admin`" in judge
     assert "permissions" in judge and "email" in judge
-    assert "likely: Admin" in judge
+    assert "project candidates: Admin" in judge
 
 
 def test_discover_populates_judge_and_planner_summary(tmp_path):
@@ -84,7 +84,7 @@ def test_discover_populates_judge_and_planner_summary(tmp_path):
     proj = project.RubyProject(root_dir=str(tmp_path), source_dir="src").discover()
     send_to = next(t for t in proj.targets if t.method.name == "send_to")
     assert "INFERRED PARAMETER TYPES" in send_to.judge
-    assert "likely: Admin, User" in send_to.judge
+    assert "project candidates: Admin, User" in send_to.judge
     send_to.summary = "notifies a user"
     assert "notifies a user" in send_to.planner_summary
     assert "INFERRED PARAMETER TYPES" in send_to.planner_summary

@@ -24,27 +24,36 @@ from .ruby_ast import ClassInfo, FileParse, MethodInfo
 class ProjectTypeIndex:
     classes: Dict[str, ClassInfo] = field(default_factory=dict)          # qn -> ClassInfo
     own_methods: Dict[str, Set[str]] = field(default_factory=dict)       # qn -> instance methods
-    _by_short: Dict[str, str] = field(default_factory=dict)              # short name -> qn
+    _by_short: Dict[str, Set[str]] = field(default_factory=dict)              # short name -> all matching qns
 
     def add_file(self, fp: FileParse) -> "ProjectTypeIndex":
         for c in fp.classes:
             self.classes[c.qualified_name] = c
             # attr_* readers/writers are part of the class's instance interface.
             self.own_methods.setdefault(c.qualified_name, set()).update(c.attributes)
-            self._by_short.setdefault(c.name, c.qualified_name)
+            self._by_short.setdefault(c.qualified_name.split("::")[-1], set()).add(c.qualified_name)
         for m in fp.methods:
             if m.owner and not m.singleton:  # instance methods define the interface
                 self.own_methods.setdefault(m.owner, set()).add(m.name)
         return self
 
-    def _resolve(self, name: Optional[str]) -> Optional[str]:
-        """Best-effort name -> qualified_name (exact, else last-segment match)."""
+    def resolve_candidates(self, name: Optional[str]) -> List[str]:
+        """Project matches only; a qualified miss never falls back to its suffix.
+
+        Unqualified constants retain every known short-name match. Lexical Ruby
+        nesting/autoload are not reconstructed from a qualified owner alone.
+        """
         if not name:
-            return None
-        if name in self.classes:
-            return name
-        short = name.split("::")[-1]
-        return self._by_short.get(short)
+            return []
+        if name.startswith("::") or "::" in name:
+            canonical = name.removeprefix("::")
+            return [canonical] if canonical in self.classes else []
+        return sorted(self._by_short.get(name, set()))
+
+    def _resolve(self, name: Optional[str]) -> Optional[str]:
+        """A unique project match, never first-wins ambiguity."""
+        candidates = self.resolve_candidates(name)
+        return candidates[0] if len(candidates) == 1 else None
 
     def ancestors(self, qn: str, _seen: Optional[Set[str]] = None) -> List[str]:
         """Linearised ancestors (self first): prepends, self, includes, then the
@@ -93,7 +102,7 @@ class ProjectTypeIndex:
             responds = ", ".join(sorted(members))
             cands = self.candidates(set(members))
             if cands:
-                lines.append(f"- `{pname}` responds to [{responds}] -> likely: {', '.join(cands)}")
+                lines.append(f"- `{pname}` responds to [{responds}] -> project candidates: {', '.join(cands)}; runtime type unknown")
             else:
                 lines.append(f"- `{pname}` responds to [{responds}]")
         if not lines:

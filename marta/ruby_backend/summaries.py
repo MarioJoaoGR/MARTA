@@ -38,7 +38,9 @@ _DONE_WHAT_SYS_WITH_CALLS = (
     "You are a helpful assistant designed to analyze Ruby methods. "
     "Based on the provided source code of a method and the summaries of the other "
     "methods it calls, your task is to generate a clear and concise summary of the "
-    "given method. The summary should describe what the method does, what "
+    "method. Graph evidence labelled inferred, duck, fallback, ambiguous or legacy "
+    "denotes possible relationships, not guaranteed runtime calls. Preserve that uncertainty. "
+    "The summary should describe what the method does, what "
     "parameters it accepts, highlighting the role of each parameter and how changes "
     "to their values affect the method's execution, what it returns, and how to use "
     "the method effectively. Let's think step by step, only output the summary "
@@ -93,7 +95,9 @@ _WHAT_TODO_FROM_CALLER_SYS = (
     "call and produce a precise summary describing: the purpose of the called "
     "method, and the semantic roles and likely types of its parameters, inferred "
     "from the call context and the caller's intent — not just their names. Only "
-    "output the summary content; no source code, Ruby comments, or YARD tags."
+    "output the summary content; no source code, Ruby comments, or YARD tags. "
+    "A labelled best-effort graph relationship is evidence of a possible caller, "
+    "not a runtime guarantee; do not turn that uncertainty into a requirement."
 )
 
 
@@ -104,6 +108,7 @@ async def analyze_what_todo_from_caller(
     caller_qn: str,
     caller_what_todo: str,
     *, budget: Optional[PromptBudget] = None, focal_source: Optional[str] = None,
+    relationship: str = "",
 ) -> str:
     """Requirement view of a *called* method, propagated from its caller — the
     Ruby analogue of the callee branch of ``analyze_what_todo`` (which walks the
@@ -111,7 +116,8 @@ async def analyze_what_todo_from_caller(
     budget = budget or PromptBudget.from_ask(ask)
     user = budget.render(_WHAT_TODO_FROM_CALLER_SYS, lambda values:
         f"Identify the purpose of the called method {method_qn} and explain how "
-        f"to use it.\n\nIntent of the caller {caller_qn}:\n{values['caller_intent']}\n\n"
+        f"to use it.\n\n" + (f"Graph relationship: {relationship}\n\n" if relationship else "") +
+        f"Intent of the caller {caller_qn}:\n{values['caller_intent']}\n\n"
         f"Called method source:\n```ruby\n{values['source_context']}\n```",
         [OptionalPart("caller_intent", caller_what_todo, caller_what_todo[:128]),
          OptionalPart("source_context", method_source, focal_source or method_source, compact=False)])

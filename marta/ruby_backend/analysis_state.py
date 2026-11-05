@@ -12,6 +12,7 @@ import tempfile
 from . import readme, summaries
 from .checkpoints import atomic_json, digest, file_hash
 from .prompt_budget import budget_provenance
+from .evidence import evidence_policy
 
 PROVENANCE_POLICY = "analysis-provenance-v1"
 CLIENT_FIELDS = ("temperature", "max_tokens", "reasoning_effort", "top_p",
@@ -50,13 +51,15 @@ def analysis_provenance(ask=None):
         "policy": PROVENANCE_POLICY,
         "prompts": prompts,
         "implementation": {name: file_hash(directory / name) for name in
-                           ("project.py", "source_context.py", "analysis_state.py", "prompt_budget.py")},
+                           ("project.py", "source_context.py", "analysis_state.py", "prompt_budget.py",
+                            "call_graph.py", "param_types.py", "evidence.py")},
         "client_implementation": file_hash(directory.parent / "gptapi.py"),
         "model": {"configured_name": configured,
                   "client_name": _scalar(getattr(client, "model_type", None)),
                   "digest": declared_digest, "digest_status": "caller_declared" if declared_digest else "unavailable"},
         "client_parameters": parameters,
         "prompt_budget": budget_provenance(ask),
+        "graph_context_policy": evidence_policy()["graph_context"],
         "runtime": {key: os.getenv(key) for key in
                     ("LLM_MAX_TOKENS", "OLLAMA_CTX", "OLLAMA_CONTEXT_LENGTH", "MARTA_MAX_CONTEXT_CHARS")},
     }

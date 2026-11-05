@@ -104,11 +104,11 @@ def test_class_summaries_computed_and_cached(tmp_path, monkeypatch):
     assert calls["class"] == 1  # no new LLM call
 
 
-def test_semantic_hint_added_when_structurally_ambiguous(tmp_path):
+def test_semantic_judge_abstains_without_declared_thresholds(tmp_path):
     proj = _project(tmp_path, src=AMBIG_SRC)
     route = next(t for t in proj.targets if t.method.name == "route")
     # Structural inference is ambiguous: both Sender and Receiver respond to name.
-    assert "likely: Receiver, Sender" in route.judge
+    assert "project candidates: Receiver, Sender" in route.judge
 
     proj.class_summaries = {
         "Sender": "sends messages to the network",
@@ -122,4 +122,5 @@ def test_semantic_hint_added_when_structurally_ambiguous(tmp_path):
         return [float(t.count(w)) for w in vocab]
 
     proj.build_rag(lambda docs: [vec(d) for d in docs], vec)
-    assert "semantically closest class:" in route.judge
+    assert "semantic type unknown (no_threshold_policy_declared)" in route.judge
+    assert proj.judge_decisions[route.analysis_id]["node"]["scores"]

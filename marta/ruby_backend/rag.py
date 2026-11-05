@@ -36,6 +36,7 @@ from __future__ import annotations
 import os
 import re
 import uuid
+from dataclasses import dataclass
 from typing import Callable, List, Optional, Sequence
 
 import numpy as np
@@ -195,6 +196,12 @@ class RubyFunctionDatabase(_Indice):
         return self._pick([int(i.split("|", 1)[0]) for i in res["ids"][0]], k, exclude)
 
 
+@dataclass(frozen=True)
+class ClassMatch:
+    target: object
+    score: float
+
+
 class RubyClassIndex(_Indice):
     """Sumários de classes em cosseno sobre NumPy, como o `find_topK_message`.
 
@@ -254,13 +261,38 @@ class RubyClassIndex(_Indice):
         self._save(ids, self._matrix)
         return self
 
-    def query(self, text: str, k: int = 3, exclude: Optional[str] = None) -> List:
-        if self._matrix is None or not text:
+    def query_scored(self, text: str, k: int = 3, exclude: Optional[str] = None,
+                     allowed=None) -> List[ClassMatch]:
+        """Finite nonzero cosine evidence, optionally restricted to compatible classes.
+
+        A score is similarity, not a type probability. Invalid/zero vectors
+        provide no ranking evidence; they must not create an arbitrary top-1.
+        """
+        if self._matrix is None or not text or k < 1:
+            return []
+        eligible = [index for index, target in enumerate(self.targets)
+                    if target.method.qualified_name != exclude and
+                    (allowed is None or target.method.qualified_name in allowed)]
+        if not eligible:
             return []
         self._ensure_embedder()
         q = np.asarray(self._embed_query(text), dtype=float)
-        # Cosseno, igual ao helper do embedding.py.
-        normas = np.linalg.norm(self._matrix, axis=1) + 1e-8
-        sims = (self._matrix @ q) / (normas * (np.linalg.norm(q) + 1e-8))
-        n = min(k + (1 if exclude else 0), len(self.targets))
-        return self._pick(list(np.argsort(-sims)[:n]), k, exclude)
+        if q.ndim != 1 or self._matrix.ndim != 2 or self._matrix.shape[1] != len(q):
+            raise ValueError("Class query/index embedding dimensions differ")
+        qnorm = np.linalg.norm(q)
+        if not np.isfinite(q).all() or not np.isfinite(qnorm) or qnorm == 0:
+            return []
+        # Restrict before the matrix operation: ambiguous parameters usually
+        # have far fewer compatible classes than the complete project index.
+        matrix = self._matrix[eligible]
+        norms = np.linalg.norm(matrix, axis=1)
+        valid = np.isfinite(matrix).all(axis=1) & np.isfinite(norms) & (norms > 0)
+        valid_indices = np.flatnonzero(valid)
+        cosines = np.clip((matrix[valid_indices] @ q) / (norms[valid_indices] * qnorm), -1, 1)
+        matches = [ClassMatch(self.targets[eligible[index]], float(score))
+                   for index, score in zip(valid_indices, cosines) if np.isfinite(score)]
+        matches.sort(key=lambda match: (-match.score, match.target.method.qualified_name))
+        return matches[:k]
+
+    def query(self, text: str, k: int = 3, exclude: Optional[str] = None) -> List:
+        return [match.target for match in self.query_scored(text, k=k, exclude=exclude)]
