@@ -160,10 +160,15 @@ proveniência e limites. A calibração dos gates do judge continua aberta.
 ### B1 — precisão e alcance do grafo
 
 A sondagem `money` mede recall contra arestas observadas por um driver; não
-mede precisão global. O helper continua a usar apenas `:call/:return`.
+mede precisão global. Por omissão, o helper continua a usar apenas
+`:call/:return`. A extensão opcional `include_c=True` já observa também eventos C
+com origem de definição no projeto, incluindo accessors, e conserva diagnósticos
+de conclusão e correspondência das pilhas por thread/fiber. Os controlos
+sintéticos foram verificados com Ruby 3.4 e 3.2; não são uma estimativa de precisão
+em gems reais. Ver o [contrato do tracer](../../docs/RUBY_DYNAMIC_TRACE.md).
 
-- Validar extensão a eventos C com correspondência correta entre entrada/saída,
-  identificação dos accessors e controlo de falsos positivos.
+- Executar e avaliar o modo opcional em drivers/gems reais, registando política,
+  origem dos métodos e falhas/incompletude de instrumentação.
 - Auditar amostra estratificada de `static_only`; distinguir não observado,
   invisível ao instrumento e resolução errada.
 - Repetir em várias gems. Cobertura alta de linhas não implica observar todas

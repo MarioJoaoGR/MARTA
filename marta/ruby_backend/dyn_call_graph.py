@@ -6,10 +6,12 @@ directly. See ``call_graph.py`` for the static side.
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import subprocess
 from dataclasses import dataclass
+from pathlib import Path
 from typing import List
 
 from .call_graph import CallEdge, CallGraph
@@ -18,14 +20,34 @@ from .ruby_ast import RubyParseError, ruby_bin
 _HELPER = os.path.join(os.path.dirname(__file__), "rb", "marta_tracegraph.rb")
 
 
-def run_dynamic(source_dir: str, driver_path: str, cwd: str, timeout: int = 60) -> CallGraph:
+@dataclass
+class DynamicTrace:
+    graph: CallGraph
+    metadata: dict
+    stderr: str = ""
+
+
+def run_dynamic(source_dir: str, driver_path: str, cwd: str, timeout: int = 60,
+                *, include_c: bool = False) -> CallGraph:
+    """Compatibility API returning only edges; use trace_dynamic for diagnostics."""
+    return trace_dynamic(source_dir, driver_path, cwd, timeout, include_c=include_c).graph
+
+
+def trace_dynamic(source_dir: str, driver_path: str, cwd: str, timeout: int = 60,
+                  *, include_c: bool = False) -> DynamicTrace:
     """Trace ``driver_path`` (which exercises the code under ``source_dir``) and
-    build a CallGraph from the observed edges."""
+    retain the graph, event policy and completion/stack diagnostics."""
     cwd = os.path.abspath(cwd)  # o filtro de caminhos no helper compara absolutos
     abs_source = source_dir if os.path.isabs(source_dir) else os.path.join(cwd, source_dir)
+    helper_hash = hashlib.sha256(Path(_HELPER).read_bytes()).hexdigest()
+    abs_driver = Path(driver_path) if os.path.isabs(driver_path) else Path(cwd) / driver_path
+    driver_hash = hashlib.sha256(abs_driver.read_bytes()).hexdigest() if abs_driver.is_file() else None
+    command = [ruby_bin(), _HELPER, abs_source, driver_path]
+    if include_c:
+        command.append("--include-c")
     try:
         proc = subprocess.run(
-            [ruby_bin(), _HELPER, abs_source, driver_path],
+            command,
             cwd=cwd, capture_output=True, text=True, errors='replace', timeout=timeout,
         )
     except FileNotFoundError as e:
@@ -39,13 +61,20 @@ def run_dynamic(source_dir: str, driver_path: str, cwd: str, timeout: int = 60) 
             f"marta_tracegraph.rb emitted non-JSON (stderr: {proc.stderr[:300]})"
         ) from e
 
+    if proc.returncode != 0:
+        raise RubyParseError(f"marta_tracegraph.rb exited {proc.returncode}: {proc.stderr[:300]}")
     edges: List[CallEdge] = []
-    for caller, callees in data.get("edges", {}).items():
-        for callee in callees:
-            edges.append(CallEdge(caller, callee, 0, "dynamic", "runtime_observed"))
+    for record in data.get("observations", []):
+        kind = "dynamic_c" if record["event"] == "c_call" else "dynamic"
+        edges.append(CallEdge(record["caller"], record["callee"], 0, kind, "runtime_observed"))
     g = CallGraph(edges=edges)
     g._index()
-    return g
+    metadata = {**data["trace"], "source_dir": data["source_dir"],
+                "helper_sha256": helper_hash,
+                "helper_unchanged": helper_hash == hashlib.sha256(Path(_HELPER).read_bytes()).hexdigest(),
+                "driver_sha256_before": driver_hash,
+                "driver_sha256_after": hashlib.sha256(abs_driver.read_bytes()).hexdigest() if abs_driver.is_file() else None}
+    return DynamicTrace(g, metadata, proc.stderr)
 
 
 @dataclass
