@@ -29,7 +29,7 @@ import time
 from contextlib import contextmanager
 from contextvars import ContextVar
 import asyncio
-from dataclasses import asdict, dataclass, field
+from dataclasses import asdict, dataclass, field, fields
 from typing import Dict, List, Optional
 
 
@@ -137,6 +137,32 @@ class RubyScore:
         s["execucoes"] += 1
         s["segundos"] = round(s["segundos"] + segundos, 3)
 
+    def merge_from(self, other: "RubyScore") -> None:
+        """Add a completed/interrupted task's counters, never its control state.
+
+        Called once by the event-loop coordinator after that task stops. This
+        does not make a recorder shared across threads or processes safe.
+        """
+        if other is self or other.coverage:
+            raise ValueError("Worker scores must be independent and cannot own round coverage")
+        def add(target, source):
+            for key, value in source.items():
+                if isinstance(value, dict):
+                    add(target.setdefault(key, {}), value)
+                elif type(value) in (int, float):
+                    total = target.get(key, 0) + value
+                    target[key] = round(total, 3) if isinstance(total, float) else total
+                else:
+                    raise TypeError("Worker score contains a non-additive counter")
+        for item in fields(self):
+            if item.name in ("first_run", "coverage"):
+                continue
+            value = getattr(other, item.name)
+            if isinstance(value, dict):
+                add(getattr(self, item.name), value)
+            else:
+                setattr(self, item.name, getattr(self, item.name) + value)
+
     def to_json(self) -> dict:
         d = asdict(self)
         d.pop("first_run", None)
@@ -236,10 +262,26 @@ class RubyRecorder:
         self.start_time = time.time()
         self.times: Dict[str, float] = {}
         self.score = RubyScore()
+        self.worker_scores: Dict[str, RubyScore] = {}
         #: ficheiro JSONL com uma linha por chamada/subprocesso (opcional)
         self.caminho_eventos = caminho_eventos
         self._phase_state = ContextVar("ruby_recorder_phases", default=())
         self._context_state = ContextVar("ruby_recorder_context", default=None)
+
+    def fork(self, **context) -> "RubyRecorder":
+        """Small task-local counters/timers; event timestamps share the run origin."""
+        child = RubyRecorder(self.caminho_eventos)
+        child.start_time = self.start_time
+        child.score.first_run = self.score.first_run
+        child._phase_state.set(self._fases)
+        child.define_contexto(**self._contexto)
+        child.define_contexto(**context)
+        return child
+
+    def collect_worker(self, worker: int, child: "RubyRecorder") -> None:
+        # The scheduler calls this exactly once in each started task's finally.
+        self.score.merge_from(child.score)
+        self.worker_scores.setdefault(str(worker), RubyScore()).merge_from(child.score)
 
     # ------------------------------------------------------------- fases --
     @property
@@ -315,6 +357,8 @@ class RubyRecorder:
             "time": time.time() - self.start_time,
             "times": self.times,
             **self.score.to_json(),
+            **({"workers": {key: score.to_json() for key, score in self.worker_scores.items()}}
+               if self.worker_scores else {}),
         }
 
     def end(self, out_dir: str, project_name: str) -> str:

@@ -275,9 +275,13 @@ class RubyProject:
     ablation_options: AblationOptions = field(default_factory=AblationOptions)
     subprocess_env: Optional[Mapping[str, str]] = field(default=None, repr=False)
     isolate_execution: bool = False
+    generation_workers: int = 1
+    round_barrier: bool = False
     _bound_env: Optional[Mapping[str, str]] = field(default=None, init=False, repr=False)
 
     def __post_init__(self):
+        from .workers import validate_workers
+        validate_workers(self)
         if self.subprocess_env is not None:
             self._execution_environment()
 
@@ -289,7 +293,14 @@ class RubyProject:
             self._bound_env = MappingProxyType(dict(env))
         return self._bound_env
 
+    @property
+    def _coordinated_generation(self):
+        return self.round_barrier or self.generation_workers > 1
+
     def _workspace(self):
+        if self._coordinated_generation:
+            from .workers import GenerationWorkers
+            return GenerationWorkers(self)
         if not self.isolate_execution:
             return nullcontext(None)
         from .execution import GenerationWorkspace
@@ -385,17 +396,18 @@ class RubyProject:
             return [script] if script else None
         return None
 
-    def _generation_loading_for(self, t: "MethodTarget") -> str:
+    def _generation_loading_for(self, t: "MethodTarget", *, recorder=None) -> str:
         from .loading import loading_plan, loading_context
         from .dependencies import bundle_index
-        timer = self.recorder.medir("production_dependencies") if self.recorder else nullcontext()
+        recorder = recorder or self.recorder
+        timer = recorder.medir("production_dependencies") if recorder else nullcontext()
         with timer:
             if self._loading_dependency_index is None:
                 self._loading_dependency_index = bundle_index(self.root_dir, env=self._execution_environment())
             rel = os.path.join(self.source_dir, t.source_rel)
             plan = loading_plan(self.root_dir, rel, t.require_target, self._loading_dependency_index, env=self._execution_environment())
-        if self.recorder is not None:
-            self.recorder.evento(tipo="production_loading", metodo=t.method.qualified_name, plan=plan)
+        if recorder is not None:
+            recorder.evento(tipo="production_loading", metodo=t.method.qualified_name, plan=plan)
         return loading_context(plan)
 
     def _code_paths(self) -> List[str]:
@@ -620,17 +632,29 @@ class RubyProject:
         targets = self.targets[:limit] if limit else self.targets
         self._validate_spec_paths(targets)
         recorder = self._recorder()
+        from .workers import validate_workers
+        if self._coordinated_generation and targets:
+            ask = ask or _default_ask()
+        validate_workers(self, ask)
         # The single-round API has no resume checkpoint, but shares the writer lock.
         lock = RoundCheckpoints(self.out_root(), {}, recorder.evento)
         with lock.locked(), self._workspace() as workspace:
-            for t in targets:
-                outcomes.append(await self._generate_target(t, t.spec_path, ask, max_attempts, recorder, workspace))
+            if self._coordinated_generation:
+                if self._all_spec_paths():
+                    self._measure_retained_suite([], workspace=workspace)
+                jobs = [(t, t.spec_path, "First pass: Try to achieve maximum coverage.") for t in targets]
+                outcomes = await workspace.generate_round(jobs, ask, max_attempts, recorder, 0)
+                self._measure_retained_suite(outcomes, workspace=workspace)
+            else:
+                for t in targets:
+                    outcomes.append(await self._generate_target(t, t.spec_path, ask, max_attempts, recorder, workspace))
             if workspace is not None:
                 workspace.verify_inputs()
         return outcomes
 
     async def _generate_target(self, t, spec_path, ask, max_attempts, recorder,
-                               workspace=None, coverage_info="First pass: Try to achieve maximum coverage."):
+                               workspace=None, coverage_info="First pass: Try to achieve maximum coverage.",
+                               *, examples=None, publish=True):
         generate = workspace.generate if workspace is not None else generate_spec_for_method
         return await generate(
             method_qualified_name=t.method.qualified_name,
@@ -643,15 +667,16 @@ class RubyProject:
             cwd=self.root_dir,
             ask=ask,
             summary=self._planner_summary(t),
-            related=self._related_for(t),
+            related=self._related_for(t, **({"recorder": recorder} if self._coordinated_generation else {})),
             max_attempts=self.ablation_options.attempts(max_attempts),
             coverage_info=coverage_info,
             recorder=recorder,
             backend=self.backend,
 
-            error_help_fn=self._error_help_fn(t),
+            error_help_fn=self._error_help_fn(t, **({"examples": examples} if examples is not None else {})),
             extra_requires=self._extra_requires_for(t),
-            loading_context=self._generation_loading_for(t),
+            loading_context=self._generation_loading_for(t, **({"recorder": recorder} if self._coordinated_generation else {})),
+            **({"publish": False} if not publish else {}),
         )
 
     async def analyze_summaries(
@@ -1055,14 +1080,14 @@ class RubyProject:
                 prefix = target.judge + "\n" if target.judge else "INFERRED PARAMETER TYPES:\n"
                 target.judge = prefix + "\n".join(extra)
 
-    def _related_for(self, t: MethodTarget) -> Optional[List[str]]:
+    def _related_for(self, t: MethodTarget, *, recorder=None) -> Optional[List[str]]:
         if self.ablation_options.no_method_retrieval or self.rag_db is None:
             self._planner_retrieval.clear()
             return None
         query = t.summary or t.done_what
         if not query:
             return None
-        recorder = self._recorder()
+        recorder = recorder or self._recorder()
         with recorder.medir("retrieval_estatico"):
             lines, hit, cacheable = self._planner_retrieval.related(
                 self.rag_db, query, k=3, exclude=t.analysis_id)
@@ -1072,7 +1097,7 @@ class RubyProject:
                         k=3, results=len(lines or []))
         return lines
 
-    def _example_passing_spec(self, t: MethodTarget) -> Optional[str]:
+    def _example_passing_spec(self, t: MethodTarget, *, snapshot=None) -> Optional[str]:
         """Find only this definition's generated files, including selected tasks.
 
         Normal rounds have already archived uncertified old output. This lookup
@@ -1085,39 +1110,44 @@ class RubyProject:
                      if target.analysis_id == t.analysis_id)
         pattern = re.compile(r"(?:" + "|".join(re.escape(stem) for stem in sorted(stems))
                              + r")(?:_r[0-9]+)?_spec\.rb")
-        directory = os.path.join(self.root_dir, t.spec_dir)
+        directory = os.path.abspath(os.path.join(self.root_dir, t.spec_dir))
         try:
-            names = sorted(os.listdir(directory))
+            names = sorted(snapshot.get(directory, {})) if snapshot is not None else sorted(os.listdir(directory))
         except OSError:
             return None
         for name in names:
             if not pattern.fullmatch(name):
                 continue
             try:
-                with open(os.path.join(directory, name), encoding="utf-8") as stream:
-                    code = stream.read()
+                if snapshot is not None:
+                    code = snapshot[directory][name]
+                else:
+                    with open(os.path.join(directory, name), encoding="utf-8") as stream:
+                        code = stream.read()
                 if code.strip():
                     return code
             except OSError:
                 continue
         return None
 
-    def _error_help_fn(self, t: MethodTarget):
+    def _error_help_fn(self, t: MethodTarget, *, examples=None):
         """Error-directed RAG for the self-heal loop (generate_react_flow port):
         given the failure output, retrieve similar methods and, when available,
         one of their passing specs as a concrete example."""
         if self.ablation_options.no_method_retrieval or self.rag_db is None:
             return None
 
+        database = self.rag_db
         def helper(error: str) -> str:
-            hits = self.rag_db.query(error[:400], k=3, exclude=t.analysis_id)[:2]
+            hits = database.query(error[:400], k=3, exclude=t.analysis_id)[:2]
             if not hits:
                 return ""
             blocks = ["SIMILAR TESTED METHODS THAT MIGHT HELP:"]
             for sf in hits:
                 snippet = " ".join((sf.done_what or sf.summary or "no summary").split())[:200]
                 blocks.append(f"- {sf.method.qualified_name}: {snippet}")
-                example = self._example_passing_spec(sf)
+                example = (self._example_passing_spec(sf, snapshot=examples) if examples is not None
+                           else self._example_passing_spec(sf))
                 if example:
                     blocks.append(f"  Example passing spec:\n  ```ruby\n{example[:400]}\n  ```")
             return "\n\n" + "\n".join(blocks)
@@ -1193,6 +1223,7 @@ class RubyProject:
     def _generation_recipe(self, targets, ask, max_attempts, reuse_first_round):
         """Bind output to supplied sources, context, implementation and declared configuration."""
         from pathlib import Path
+        from .workers import POLICY as WORKERS_POLICY
         source_files = sorted(set(self.files + [os.path.join(self.root_dir, path)
                                                for path in (self.library_files or [])]))
         dependencies = dependency_files(self.root_dir)
@@ -1209,6 +1240,8 @@ class RubyProject:
             "response_implementation": file_hash(Path(__file__).parents[1] / "llm_response.py"),
             "embedding_implementation": file_hash(Path(__file__).parents[1] / "embedding.py"),
             "model": os.getenv("MODEL", "default"),
+            "generation_schedule": {"workers": self.generation_workers,
+                                    "policy": WORKERS_POLICY if self._coordinated_generation else "sequential-live-examples-v1"},
             "spec_naming": SPEC_NAMING_POLICY,
             "evidence_policy": evidence_policy(),
             "prompt_budget": budget_provenance(ask),
@@ -1255,6 +1288,8 @@ class RubyProject:
                                  or self.ablation_options.no_method_retrieval):
             raise ValueError("First-round reuse requires one coverage-ablation target")
         ask = ask or _default_ask()
+        from .workers import validate_workers
+        validate_workers(self, ask)
         targets = list(enumerate(self.targets))
         if limit:
             targets = targets[:limit]
@@ -1308,6 +1343,7 @@ class RubyProject:
             recorder.score.first_run = (rnd == 0)  # first_run metrics = round 0
             recorder.start_count_time(f"round_{rnd}")
             recorder.define_contexto(ronda=rnd)
+            jobs = []
             for idx, t in targets:
                 # The XRepo adapter has certified this completed normal round,
                 # including a failed round with no spec. Do not retry either.
@@ -1321,11 +1357,17 @@ class RubyProject:
                     coverage_info = "First pass: Try to achieve maximum coverage."
                 else:
                     coverage_info = f"MISSING LINES TO COVER: {mc.format_missing_lines()}"
-                outcome = await self._generate_target(
-                    t, t.spec_path_for_round(rnd), ask, max_attempts, recorder, workspace, coverage_info)
-                outcomes.append(outcome)
-                round_outcomes.append(outcome)
-            recorder.end_count_time(f"round_{rnd}")
+                jobs.append((t, t.spec_path_for_round(rnd), coverage_info))
+            try:
+                if self._coordinated_generation:
+                    round_outcomes = await workspace.generate_round(jobs, ask, max_attempts, recorder, rnd)
+                else:
+                    for t, path, coverage_info in jobs:
+                        round_outcomes.append(await self._generate_target(
+                            t, path, ask, max_attempts, recorder, workspace, coverage_info))
+                outcomes.extend(round_outcomes)
+            finally:
+                recorder.end_count_time(f"round_{rnd}")
             # A cobertura corre uma vez por ronda, sobre TODOS os specs acumulados
             # até aqui. No cluster isso é tempo com a GPU parada, por isso convém
             # estar medido à parte e não diluído no tempo da ronda.

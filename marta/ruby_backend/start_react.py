@@ -32,7 +32,9 @@ def main():
     parser.add_argument("--num", type=int, default=3, help="Number of coverage-guided rounds")
     parser.add_argument("--limit", type=int, default=None,
                         help="Generate tests for only the first N targets; all production methods are still analyzed")
-    parser.add_argument("--isolate_execution", action="store_true", help="Validate generated tests in one disposable native Ruby project copy; default: in-place")
+    parser.add_argument("--round_barrier", action="store_true", help="Use round-frozen examples and ordered publication also with one worker, for controlled comparisons")
+    parser.add_argument("--workers", type=int, choices=(1, 2, 4), default=1, help="Native generation concurrency; 2/4 require --isolate_execution and request-local responses")
+    parser.add_argument("--isolate_execution", action="store_true", help="Use private native Ruby workspaces, reused per worker; default: in-place")
     parser.add_argument("--no_rag", action="store_true", help="Skip embeddings/RAG (faster start, less context)")
     from marta.ruby_backend.ablation import add_arguments, from_args
     add_arguments(parser, underscores=True)
@@ -79,6 +81,8 @@ def main():
         parser.error("--mutation requires --mutation_usage")
     if args.mutation_timeout < 1 or args.mutation_jobs < 1:
         parser.error("Mutation timeout/jobs must be positive")
+    if (args.workers > 1 or args.round_barrier) and not args.isolate_execution:
+        parser.error("Coordinated generation requires --isolate_execution")
     if ablations.enabled and not args.output_dir:
         parser.error("Generation ablations require a separate --output_dir")
 
@@ -139,7 +143,8 @@ def main():
                            library_targets=env.get("library_targets"),
                            method_names=method_names, ablation_options=ablations,
                            subprocess_env=env.get("subprocess_env"),
-                           isolate_execution=args.isolate_execution).discover()
+                           isolate_execution=args.isolate_execution,
+                           generation_workers=args.workers, round_barrier=args.round_barrier).discover()
         print(f"🔍 [Contexto] {len(proj.files)} ficheiros, "
               f"{len(proj.analysis_targets)} métodos de análise, {len(proj.targets)} métodos-alvo; "
               f"grafo: {len(proj.call_graph.edges) if proj.call_graph else 0} arestas "

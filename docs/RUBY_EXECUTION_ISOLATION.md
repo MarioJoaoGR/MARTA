@@ -4,6 +4,8 @@ Entrega de 6 de novembro de 2026, posterior ao isolamento de respostas e métric
 por pedido (`6e5179632`). **A geração continua sequencial.** Esta entrega prepara
 as fronteiras dos processos Ruby; não acrescenta workers nem mede aceleração.
 
+Atualização: a entrega seguinte acrescenta [workers opcionais e coordenação](RUBY_GENERATION_WORKERS.md). O texto abaixo descreve o âmbito desta segunda etapa.
+
 ## Ambiente por projeto, por omissão
 
 O backend Ruby nativo recebe uma cópia imutável das variáveis de ambiente. Sem

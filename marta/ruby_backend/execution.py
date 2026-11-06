@@ -44,10 +44,11 @@ def relocate_environment(env, original, destination):
 
 
 class GenerationWorkspace:
-    def __init__(self, project):
+    def __init__(self, project, recorder=None):
         if type(project.backend) is not RubyBackend:
             raise ValueError("Execution isolation supports the native RubyBackend only; custom/benchmark backends need their own workspace protocol")
         self.project = project
+        self.recorder = recorder or project._recorder()
         self.original = Path(project.root_dir).resolve()
         self.output = Path(project.out_root()).resolve()
         self.temp = self.root = self.backend = None
@@ -103,7 +104,7 @@ class GenerationWorkspace:
         self.backend.coverage_requires = [self.remap(p, helper=True) for p in
                                           getattr(self.project.backend, "coverage_requires", [])]
         self.verify_inputs()
-        self.project._recorder().evento(tipo="execution_workspace", policy=POLICY,
+        self.recorder.evento(tipo="execution_workspace", policy=POLICY,
                                         copies=1, seconds=time.monotonic() - started)
 
     def remap(self, value, *, helper=False):
@@ -145,7 +146,7 @@ class GenerationWorkspace:
             raise ValueError("Spec publication must stay inside the output marta_specs directory")
         return path, path.relative_to(folder)
 
-    async def generate(self, **kwargs):
+    async def generate(self, *, publish=True, **kwargs):
         public, relative = self._public_path(kwargs["spec_path"])
         self.ensure()  # Before the first LLM request, once per invocation.
         private = self.root / "marta_specs" / relative
@@ -155,25 +156,37 @@ class GenerationWorkspace:
         try:
             outcome = await generate_spec_for_method(**arguments)
             if outcome.success:
-                if private.is_symlink() or not private.is_file():
-                    raise RuntimeError("Validated candidate changed before publication")
-                content = private.read_text()
-                if content != outcome.spec_code + "\n":
-                    raise RuntimeError("Validated candidate changed before publication")
-                # Only the coordinator publishes; round-wide validation still
-                # decides whether this file can enter a certified checkpoint.
-                self._public_path(str(public))
-                atomic_write(public, content)
+                self._candidate_content(private, outcome)
                 outcome.spec_path = kwargs["spec_path"]
+                if publish:
+                    self.publish(outcome)
             return outcome
         except BaseException:
-            # Preserve interrupted candidate evidence, never as an accepted spec.
-            if private.is_file() and not private.is_symlink():
-                folder = self.output / "rejected_specs"
-                folder.mkdir(parents=True, exist_ok=True)
-                archive = Path(tempfile.mkdtemp(prefix="execution_", dir=folder))
-                shutil.copyfile(private, archive / private.name)
+            self.archive_candidate(kwargs["spec_path"])
             raise
+
+    def _candidate_content(self, private, outcome):
+        if private.is_symlink() or not private.is_file():
+            raise RuntimeError("Validated candidate changed before publication")
+        content = private.read_text()
+        if content != outcome.spec_code + "\n":
+            raise RuntimeError("Validated candidate changed before publication")
+        return content
+
+    def publish(self, outcome):
+        public, relative = self._public_path(outcome.spec_path)
+        content = self._candidate_content(self.root / "marta_specs" / relative, outcome)
+        atomic_write(public, content)
+
+    def archive_candidate(self, spec_path):
+        # Evidence only; never accept a completed/interrupted private candidate.
+        _, relative = self._public_path(spec_path)
+        private = self.root / "marta_specs" / relative
+        if private.is_file() and not private.is_symlink():
+            folder = self.output / "rejected_specs"
+            folder.mkdir(parents=True, exist_ok=True)
+            archive = Path(tempfile.mkdtemp(prefix="execution_", dir=folder))
+            shutil.copyfile(private, archive / private.name)
 
     def coverage(self, spec_paths):
         self.ensure()
