@@ -18,6 +18,7 @@
 require "prism"
 require "json"
 require_relative "marta_return_facts"
+require_relative "marta_state_facts"
 
 module MartaParse
   # Flatten a ParametersNode into MARTA's language-neutral parameter model.
@@ -65,12 +66,13 @@ module MartaParse
     # RSpec grouping calls (removed by salvage when left with no examples).
     GROUP_CALLS = %i[describe context].freeze
 
-    attr_reader :examples, :groups
+    attr_reader :examples, :groups, :state_opaque
 
     def initialize
       super
       @classes = []
       @methods = []
+      @state_opaque = false
       @examples = []        # RSpec `it`/`specify`/... blocks with line ranges
       @groups = []          # RSpec `describe`/`context` blocks with line ranges
       @scope = []          # enclosing class/module names, e.g. ["Foo", "Bar"]
@@ -139,6 +141,7 @@ module MartaParse
         end
       end
 
+      entry["state_facts"] = MartaStateFacts.for_class(node)
       @classes << entry
       @scope.push(name)
       @class_stack.push(entry)
@@ -173,17 +176,60 @@ module MartaParse
         "calls" => calls,
       }
       fact = MartaReturnFacts.for_method(node)
+      fact ||= MartaStateFacts.getter(node) if receiver.nil?
       method_record["return_fact"] = fact if fact
       @methods << method_record
-      @method_stack.push({ names: param_names, members: members, calls: calls,
+      writes = Hash.new(0)
+      @method_stack.push({ names: param_names, members: members, calls: calls, state_writes: writes,
                            return_receivers: node.receiver.nil? || node.receiver.is_a?(Prism::SelfNode) })
       visit_child_nodes(node)  # nested defs are legal but rare; recurse anyway
       @method_stack.pop
+      effects = {}
+      effects["writes"] = writes unless writes.empty?
+      if node.name == :initialize && receiver.nil?
+        constructor = MartaStateFacts.constructor(node)
+        effects["constructor"] = constructor if constructor
+      end
+      method_record["state_effects"] = effects unless effects.empty?
       members.each_value(&:uniq!)
     end
 
+    %i[instance_variable_write instance_variable_or_write instance_variable_and_write
+       instance_variable_operator_write instance_variable_target].each do |kind|
+      define_method("visit_#{kind}_node") do |node|
+        current = @method_stack.last
+        if current
+          current[:state_writes][node.name.to_s] += 1
+          @state_opaque = true if owner.nil? || !current[:return_receivers]
+        end
+        visit_child_nodes(node)
+      end
+    end
+
+    %i[alias_method undef].each do |kind|
+      define_method("visit_#{kind}_node") do |node|
+        @state_opaque = true
+        visit_child_nodes(node)
+      end
+    end
+
+    def visit_constant_write_node(node)
+      # A global alias/rebinding can change the identity behind a class name.
+      value = node.value
+      if @class_stack.empty? && (value.is_a?(Prism::ConstantReadNode) ||
+          value.is_a?(Prism::ConstantPathNode) || value.is_a?(Prism::CallNode))
+        @state_opaque = true
+      end
+      visit_child_nodes(node)
+    end
+
     def visit_call_node(node)
+      @state_opaque ||= MartaStateFacts.opaque_call?(node)
       cur = @class_stack.last
+      if MartaStateFacts::STRUCTURAL.include?(node.name) &&
+         (cur.nil? || node.receiver || !@method_stack.empty? || @singleton_depth > 0)
+        @state_opaque = true
+      end
       if cur && node.receiver.nil? &&
          %i[include extend prepend].include?(node.name) && node.arguments
         bucket = cur["#{node.name}s"]
@@ -281,6 +327,8 @@ module MartaParse
     result.value.accept(walker)
     {
       "path" => path,
+      "state_policy" => MartaStateFacts::POLICY,
+      "state_opaque" => walker.state_opaque,
       "classes" => walker.classes,
       "methods" => walker.methods,
       "examples" => walker.examples,

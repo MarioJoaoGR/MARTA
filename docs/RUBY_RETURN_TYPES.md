@@ -121,9 +121,11 @@ wrapper e o índice entram na proveniência da análise. Grafos antigos conserva
 os seus formatos suportados; os novos podem incluir `via` nas arestas relevantes.
 Não se migram nem reclassificam experiências/resultados dos papers.
 
-Atribuições no construtor, estado de getters, anotações e propagação entre
-fábricas continuam etapas posteriores de A7. Esta entrega é um primeiro caso
-limitado, não o fecho da investigação em tipos de retorno.
+À data desta primeira entrega, atribuições no construtor e estado de getters
+ficaram para etapas posteriores. A [segunda etapa](RUBY_CONSTRUCTOR_STATE.md),
+entregue em 6 de novembro de 2026, cobre um subconjunto desses casos e passa o
+resolver para versão 5. Anotações e propagação entre fábricas continuam abertas;
+nenhuma destas entregas fecha a investigação em tipos de retorno.
 
 ## Verificação offline
 

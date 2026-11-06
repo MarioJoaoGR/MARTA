@@ -25,7 +25,7 @@ from .return_types import ReturnTypeIndex
 
 # Bump whenever the resolver's behaviour changes: it participates in the
 # cg_cache key so stale graphs are rebuilt automatically (bit us on sondagem 1).
-RESOLVER_VERSION = 4
+RESOLVER_VERSION = 5
 
 
 @dataclass(frozen=True)
@@ -93,7 +93,8 @@ class CallGraph:
         via = sorted({name for e in edges for name in e.via})
         owner = callee.split("#", 1)[0] if "#" in callee else callee.rsplit(".", 1)[0]
         detail = "; receiver candidates: " + ", ".join(candidates) if candidates and candidates != [owner] else ""
-        source = "; return source: " + ", ".join(via) if via else ""
+        state = any(e.evidence in ("state_return_inferred", "constructor_ivar_inferred") for e in edges)
+        source = (("; inference source: " if state else "; return source: ") + ", ".join(via)) if via else ""
         return "[graph evidence: " + ", ".join(kinds) + detail + source + "]"
 
     def edge_set(self):
@@ -215,8 +216,12 @@ class StaticCallGraph:
                 if len(factories) == 1 and factories[0][1] == "static_lookup":
                     factory = factories[0][0]
                     hint = return_types.for_method(factory)
-                    inferred = [(target, "return_type_inferred", hint.candidates, (factory,))
-                                for candidate in hint.candidates
+                    state_owner = factory.split("#", 1)[0] if "#" in factory else None
+                    eligible = not hint.via or (not caller.singleton and caller.name != "initialize"
+                                                 and caller.owner == state_owner)
+                    evidence = "state_return_inferred" if hint.via else "return_type_inferred"
+                    inferred = [(target, evidence, hint.candidates, (*hint.via, factory))
+                                for candidate in hint.candidates if eligible
                                 if (target := _instance_lookup(candidate, name))]
                     if inferred:
                         return inferred
@@ -248,6 +253,13 @@ class StaticCallGraph:
                 return []
             if recv == "lvar":
                 return _duck_targets((caller.param_members or {}).get(rname), name)
+            if recv == "ivar" and caller.owner and not caller.singleton and caller.name != "initialize":
+                hint = return_types.for_ivar(caller.owner, rname)
+                inferred = [(target, "constructor_ivar_inferred", hint.candidates, hint.via)
+                            for candidate in hint.candidates
+                            if (target := _instance_lookup(candidate, name))]
+                if inferred:
+                    return inferred
             if recv in ("ivar", "getter") and owner_cls is not None:
                 return _duck_targets(owner_cls.receiver_members.get(rname), name)
             return []

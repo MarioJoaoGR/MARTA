@@ -26,8 +26,18 @@ class ProjectTypeIndex:
     own_methods: Dict[str, Set[str]] = field(default_factory=dict)       # qn -> instance methods
     _by_short: Dict[str, Set[str]] = field(default_factory=dict)              # short name -> all matching qns
 
+    attribute_methods: Dict[str, Set[str]] = field(default_factory=dict)
+    state_declarations: dict = field(default_factory=dict, repr=False)
+    state_complete: bool = True
+    state_opaque: bool = False
+
     def add_file(self, fp: FileParse) -> "ProjectTypeIndex":
+        self.state_complete &= fp.state_policy == "constructor-state-v1" and not fp.errors
+        self.state_opaque |= fp.state_opaque or bool(fp.errors)
         for c in fp.classes:
+            self.attribute_methods.setdefault(c.qualified_name, set()).update(c.attributes)
+            self.state_declarations.setdefault(c.qualified_name, []).append({
+                "kind": c.kind, "superclass": c.superclass, "facts": c.state_facts})
             self.classes[c.qualified_name] = c
             # attr_* readers/writers are part of the class's instance interface.
             self.own_methods.setdefault(c.qualified_name, set()).update(c.attributes)

@@ -14,7 +14,7 @@ from .checkpoints import atomic_json, digest, file_hash
 from .prompt_budget import budget_provenance
 from .evidence import evidence_policy
 from .class_context import POLICY as CLASS_CONTEXT_POLICY
-from .return_types import POLICY as RETURN_TYPE_POLICY
+from .return_types import POLICY as RETURN_TYPE_POLICY, STATE_POLICY
 
 PROVENANCE_POLICY = "analysis-provenance-v1"
 CLIENT_FIELDS = ("temperature", "max_tokens", "reasoning_effort", "top_p",
@@ -55,7 +55,7 @@ def analysis_provenance(ask=None):
         "implementation": {name: file_hash(directory / name) for name in
                            ("project.py", "source_context.py", "class_context.py", "analysis_state.py", "prompt_budget.py",
                             "call_graph.py", "param_types.py", "return_types.py", "ruby_ast.py",
-                            "rb/marta_parse.rb", "rb/marta_return_facts.rb", "evidence.py", "requests.py", "recorder.py")},
+                            "rb/marta_parse.rb", "rb/marta_return_facts.rb", "rb/marta_state_facts.rb", "evidence.py", "requests.py", "recorder.py")},
         "client_implementation": file_hash(directory.parent / "gptapi.py"),
         "response_implementation": file_hash(directory.parent / "llm_response.py"),
         "model": {"configured_name": configured,
@@ -66,6 +66,7 @@ def analysis_provenance(ask=None):
         "graph_context_policy": evidence_policy()["graph_context"],
         "class_context_policy": CLASS_CONTEXT_POLICY,
         "return_type_policy": RETURN_TYPE_POLICY,
+        "constructor_state_policy": STATE_POLICY,
         "runtime": {key: os.getenv(key) for key in
                     ("LLM_MAX_TOKENS", "OLLAMA_CTX", "OLLAMA_CONTEXT_LENGTH", "MARTA_MAX_CONTEXT_CHARS")},
     }

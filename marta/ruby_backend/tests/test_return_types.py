@@ -205,7 +205,7 @@ def test_provenance_identifies_extractor_and_inference_policy():
     assert metadata["return_type_policy"] == POLICY
     for name in ("return_types.py", "ruby_ast.py", "rb/marta_parse.rb", "rb/marta_return_facts.rb"):
         assert len(metadata["implementation"][name]) == 64
-    assert call_graph.RESOLVER_VERSION == 4
+    assert call_graph.RESOLVER_VERSION == 5
 
 
 @needs_ruby

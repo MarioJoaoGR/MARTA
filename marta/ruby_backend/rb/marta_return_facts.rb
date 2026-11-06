@@ -46,12 +46,17 @@ module MartaReturnFacts
       return nil unless args && args.length == 1
       expression = args.first
     end
+    fact = constructor_expression(expression)
+    fact && fact.merge("explicit_return" => explicit)
+  end
+
+  def self.constructor_expression(expression)
     return nil unless expression.is_a?(Prism::CallNode) && expression.name == :new
     return nil if expression.safe_navigation? || expression.block
     constant = constant_name(expression.receiver)
     return nil unless constant && control_free?(expression.arguments)
     { "policy" => POLICY, "kind" => "constant_new", "constant" => constant,
-      "line" => expression.location.start_line, "explicit_return" => explicit }
+      "line" => expression.location.start_line }
   end
 
   def self.receiver_call(node)

@@ -41,7 +41,9 @@ class MethodInfo:
     param_members: Dict[str, List[str]] = field(default_factory=dict)
     # every call made in the body: {name, recv, recv_name, line} (call graph)
     calls: List[dict] = field(default_factory=list)
-    return_fact: Optional[dict] = None  # Direct constructor syntax, not a verified runtime type.
+    return_fact: Optional[dict] = None  # Syntactic return evidence, not a verified runtime type.
+    state_scanned: bool = False
+    state_effects: Optional[dict] = None
 
     @property
     def qualified_name(self) -> str:
@@ -71,6 +73,7 @@ class ClassInfo:
     # receiver token ("@bank" / getter "bank") -> methods invoked on it in the
     # class body (duck-typing interface of collaborator objects)
     receiver_members: Dict[str, List[str]] = field(default_factory=dict)
+    state_facts: Optional[dict] = None
 
 
 @dataclass
@@ -108,6 +111,8 @@ class FileParse:
     examples: List[ExampleBlock] = field(default_factory=list)
     groups: List[GroupBlock] = field(default_factory=list)
     errors: List[dict] = field(default_factory=list)
+    state_policy: Optional[str] = None
+    state_opaque: bool = False
 
     @property
     def ok(self) -> bool:
@@ -138,6 +143,7 @@ def _from_json(data: dict) -> FileParse:
             attributes=c.get("attributes", []),
             receiver_members=c.get("receiver_members", {}),
             body_statements=c.get("body_statements", []),
+            state_facts=c.get("state_facts") if not data.get("errors") else None,
         )
         for c in data.get("classes", [])
     ]
@@ -153,6 +159,8 @@ def _from_json(data: dict) -> FileParse:
             calls=([{k: v for k, v in call.items() if k != "receiver_call"}
                     for call in m.get("calls", [])] if data.get("errors") else m.get("calls", [])),
             return_fact=m.get("return_fact") if not data.get("errors") else None,
+            state_scanned=bool(data.get("state_policy") == "constructor-state-v1" and not data.get("errors")),
+            state_effects=m.get("state_effects") if not data.get("errors") else None,
         )
         for m in data.get("methods", [])
     ]
@@ -181,6 +189,8 @@ def _from_json(data: dict) -> FileParse:
         examples=examples,
         groups=groups,
         errors=data.get("errors", []),
+        state_policy=data.get("state_policy") if not data.get("errors") else None,
+        state_opaque=bool(data.get("state_opaque") or data.get("errors")),
     )
 
 
