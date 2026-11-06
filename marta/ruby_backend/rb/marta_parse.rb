@@ -17,6 +17,7 @@
 
 require "prism"
 require "json"
+require_relative "marta_return_facts"
 
 module MartaParse
   # Flatten a ParametersNode into MARTA's language-neutral parameter model.
@@ -160,7 +161,7 @@ module MartaParse
       param_names = params.map { |p| p["name"] }.compact
       param_names.each { |n| members[n] = [] }
       calls = []   # every method call made in the body (for the call graph)
-      @methods << {
+      method_record = {
         "name" => node.name.to_s,
         "owner" => owner,
         "receiver" => receiver,          # nil => instance method
@@ -171,7 +172,11 @@ module MartaParse
         "param_members" => members,
         "calls" => calls,
       }
-      @method_stack.push({ names: param_names, members: members, calls: calls })
+      fact = MartaReturnFacts.for_method(node)
+      method_record["return_fact"] = fact if fact
+      @methods << method_record
+      @method_stack.push({ names: param_names, members: members, calls: calls,
+                           return_receivers: node.receiver.nil? || node.receiver.is_a?(Prism::SelfNode) })
       visit_child_nodes(node)  # nested defs are legal but rare; recurse anyway
       @method_stack.pop
       members.each_value(&:uniq!)
@@ -230,6 +235,10 @@ module MartaParse
           "name" => node.name.to_s, "recv" => kind, "recv_name" => rname,
           "line" => node.location.start_line,
         }
+        if m[:return_receivers] && !node.safe_navigation?
+          receiver_call = MartaReturnFacts.receiver_call(r)
+          m[:calls].last["receiver_call"] = receiver_call if receiver_call
+        end
         # Duck-typing dos colaboradores: acumula, por classe, os métodos
         # invocados em cada ivar/getter (para resolver o tipo por interface).
         if (kind == "ivar" || kind == "getter") && cur

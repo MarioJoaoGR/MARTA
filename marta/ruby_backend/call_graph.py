@@ -21,10 +21,11 @@ from collections import Counter
 
 from .param_types import ProjectTypeIndex
 from .ruby_ast import MethodInfo
+from .return_types import ReturnTypeIndex
 
 # Bump whenever the resolver's behaviour changes: it participates in the
 # cg_cache key so stale graphs are rebuilt automatically (bit us on sondagem 1).
-RESOLVER_VERSION = 3
+RESOLVER_VERSION = 4
 
 
 @dataclass(frozen=True)
@@ -35,6 +36,7 @@ class CallEdge:
     kind: str              # receiver syntax, not a confidence level
     evidence: str = "legacy_unknown"
     receiver_candidates: tuple = ()
+    via: tuple = ()        # Factory definitions supporting a return-type hypothesis.
 
     @property
     def supported(self) -> bool:
@@ -88,15 +90,23 @@ class CallGraph:
         edges = self._pair_edges.get((caller, callee), [])
         kinds = sorted({e.evidence for e in edges}) or ["legacy_unknown"]
         candidates = sorted({name for e in edges for name in e.receiver_candidates})
+        via = sorted({name for e in edges for name in e.via})
         owner = callee.split("#", 1)[0] if "#" in callee else callee.rsplit(".", 1)[0]
         detail = "; receiver candidates: " + ", ".join(candidates) if candidates and candidates != [owner] else ""
-        return "[graph evidence: " + ", ".join(kinds) + detail + "]"
+        source = "; return source: " + ", ".join(via) if via else ""
+        return "[graph evidence: " + ", ".join(kinds) + detail + source + "]"
 
     def edge_set(self):
         return {(e.caller, e.callee) for e in self.edges}
 
     def to_json(self) -> dict:
-        return {"edges": [asdict(e) for e in self.edges]}
+        records = []
+        for edge in self.edges:
+            record = asdict(edge)
+            if not edge.via:
+                record.pop("via")  # Do not grow every legacy-shaped edge with empty provenance.
+            records.append(record)
+        return {"edges": records}
 
     def to_dot(self, name: str = "callgraph", strip_prefix: str = "") -> str:
         """O grafo em DOT (Graphviz), para poder ser desenhado por ferramenta
@@ -129,7 +139,8 @@ class CallGraph:
         edges = []
         for record in data.get("edges", []):
             if isinstance(record, dict):
-                record = {**record, "receiver_candidates": tuple(record.get("receiver_candidates", []))}
+                record = {**record, "receiver_candidates": tuple(record.get("receiver_candidates", [])),
+                          "via": tuple(record.get("via", []))}
                 edges.append(CallEdge(**record))
             else:
                 edges.append(CallEdge(*record))  # Old four-field records stay unknown.
@@ -147,10 +158,9 @@ class StaticCallGraph:
         singleton: Dict[str, Set[str]] = {}
         toplevel: Set[str] = set()
         exists: Set[str] = set()
-        by_qn: Dict[str, MethodInfo] = {}
+        return_types = ReturnTypeIndex(methods, type_index)
         for m in methods:
             exists.add(m.qualified_name)
-            by_qn[m.qualified_name] = m
             if m.owner is None:
                 toplevel.add(m.name)
             elif m.singleton:
@@ -195,6 +205,21 @@ class StaticCallGraph:
         def resolve(caller: MethodInfo, call: dict):
             name, recv, rname = call["name"], call["recv"], call.get("recv_name")
             owner_cls = type_index.classes.get(caller.owner) if caller.owner else None
+            receiver_call = call.get("receiver_call")
+            if (isinstance(receiver_call, dict) and "receiver_call" not in receiver_call
+                    and receiver_call.get("recv") in ("none", "self", "const")
+                    and isinstance(receiver_call.get("name"), str)
+                    and (receiver_call["recv"] != "const" or isinstance(receiver_call.get("recv_name"), str))):
+                # One factory hop only, through an unambiguous existing lookup.
+                factories = resolve(caller, receiver_call)
+                if len(factories) == 1 and factories[0][1] == "static_lookup":
+                    factory = factories[0][0]
+                    hint = return_types.for_method(factory)
+                    inferred = [(target, "return_type_inferred", hint.candidates, (factory,))
+                                for candidate in hint.candidates
+                                if (target := _instance_lookup(candidate, name))]
+                    if inferred:
+                        return inferred
             if recv in ("none", "self"):
                 if caller.owner:
                     if caller.singleton:
@@ -232,12 +257,14 @@ class StaticCallGraph:
         seen = set()
         for method in methods:
             for call in method.calls:
-                for target, evidence, candidates in resolve(method, call):
+                for resolved in resolve(method, call):
+                    target, evidence, candidates = resolved[:3]
+                    via = resolved[3] if len(resolved) > 3 else ()
                     if target == method.qualified_name:
                         continue
                     if counts[target] > 1 or counts[method.qualified_name] > 1:
                         evidence = "ambiguous_definition"
-                    key = (method.qualified_name, target, call.get("line", 0), call["recv"], evidence, candidates)
+                    key = (method.qualified_name, target, call.get("line", 0), call["recv"], evidence, candidates, via)
                     if key not in seen:
                         seen.add(key)
                         edges.append(CallEdge(*key))

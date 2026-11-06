@@ -38,7 +38,7 @@ original e não são reclassificados como resultados destas melhorias.
 | A4 | `--no_cache` recalcula mas não grava | **Resolvido.** Cada análise tem bundle/evidência independente em `run_results/analysis_runs`, incluindo cache hits e recálculo sem cache | `--no_cache` não lê/substitui cache anterior; o arquivo não serve como cache automática |
 | A5 | Paralelismo na geração | **Implementado como opção nativa; medição aberta.** Workers 1/2/4, métricas locais, exemplos por ronda e coordenador de publicação/validação; omissão sequencial | Medir tempo/memória/qualidade no servidor com a mesma política de barreira; adapters customizados continuam sequenciais |
 | A6 | Confiança nas arestas | **Evidência implementada; estudo empírico aberto.** Categorias por call site, constantes ambíguas e seleção opcional supported-only | Medir precisão/alcance; supported é suporte no modelo estático, não garantia de runtime |
-| A7 | Inferir tipos de retorno | **Aberto; investigação de maior esforço** | Começar por `Foo.new`, atribuições no construtor e anotações; medir valor antes de inferência global |
+| A7 | Inferir tipos de retorno | **Primeira etapa implementada.** Candidatos para fábricas de expressão construtora direta, com origem/evidência inferida e abstenção | Atribuições no construtor, getters/estado, anotações e propagação continuam abertos; medir precisão e custo antes de expandir |
 | A8 | Segunda passagem depende da ordem | **Resolvido para `done_what`.** Lê `passagem1[analysis_id]` | Não duplicar a correção; estudar separadamente a escolha de chamador em `what_todo` |
 | A9 | RAG estático repetido por ronda | **Resolvido em memória por projeto.** Related reutilizado por definição/consulta/versão do índice | Rebuild, descoberta e reanálise invalidam; pesquisa de erro e exemplos continuam dinâmicos |
 | A10 | Classes pouco informativas e judge sem limiar | **Contexto e gates implementados; calibração aberta.** Classes usam factos do parser e descrições da primeira passagem sob orçamento; scores compatíveis e abstenção mantêm-se | Calibrar gates/seleção em dados próprios e medir qualidade; sem limiares numéricos por omissão |
@@ -103,6 +103,20 @@ ter um tipo único: conservar candidatos e “desconhecido”.
 A forma do receiver é apenas uma evidência. Uma constante resolvida por nome
 curto ambíguo não é uma chamada garantida. Preferir primeiro as arestas cuja
 resolução é demonstrável.
+
+### A7 — primeiro caso limitado, sem execução do alvo
+
+O parse já extrai factos de métodos que devolvem diretamente `Foo.new`. Um
+índice local identifica candidatos apenas com lookup único/exato e sem `new`
+próprio conhecido. O grafo pode usar esse resultado em `Factory.build.run`,
+registando `return_type_inferred` e a origem da fábrica; não promove a aresta a
+supported. Casos ambíguos/sem suporte ficam desconhecidos.
+
+O [documento da entrega](../../docs/RUBY_RETURN_TYPES.md) descreve padrões,
+abstenções, custo e proveniência. Não há LLM/embedding para inferir o tipo, mas
+um grafo diferente pode alterar o contexto/custo das fases posteriores. Getters
+com estado, atribuições, anotações e propagação entre fábricas continuam abertos;
+não se considera A7 globalmente resolvido.
 
 ### A9 — Planner e reparação não fazem a mesma pergunta
 

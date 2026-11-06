@@ -41,6 +41,7 @@ class MethodInfo:
     param_members: Dict[str, List[str]] = field(default_factory=dict)
     # every call made in the body: {name, recv, recv_name, line} (call graph)
     calls: List[dict] = field(default_factory=list)
+    return_fact: Optional[dict] = None  # Direct constructor syntax, not a verified runtime type.
 
     @property
     def qualified_name(self) -> str:
@@ -149,7 +150,9 @@ def _from_json(data: dict) -> FileParse:
             end_line=m["end_line"],
             params=[ParamInfo(name=p.get("name"), kind=p["kind"]) for p in m.get("params", [])],
             param_members=m.get("param_members", {}),
-            calls=m.get("calls", []),
+            calls=([{k: v for k, v in call.items() if k != "receiver_call"}
+                    for call in m.get("calls", [])] if data.get("errors") else m.get("calls", [])),
+            return_fact=m.get("return_fact") if not data.get("errors") else None,
         )
         for m in data.get("methods", [])
     ]
