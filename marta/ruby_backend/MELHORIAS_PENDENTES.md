@@ -39,7 +39,7 @@ original e não são reclassificados como resultados destas melhorias.
 | A5 | Paralelismo na geração | **Implementado como opção nativa; medição aberta.** Workers 1/2/4, métricas locais, exemplos por ronda e coordenador de publicação/validação; omissão sequencial | Medir tempo/memória/qualidade no servidor com a mesma política de barreira; adapters customizados continuam sequenciais |
 | A6 | Confiança nas arestas | **Evidência implementada; estudo empírico aberto.** Categorias por call site, constantes ambíguas e seleção opcional supported-only | Medir precisão/alcance; supported é suporte no modelo estático, não garantia de runtime |
 | A7 | Inferir tipos de retorno | **Duas etapas limitadas implementadas.** Fábricas diretas e campos de instância construídos em `initialize`, com getters simples e guardas de escrita | Estado condicional/dinâmico, variáveis de classe, anotações e propagação continuam abertos; medir precisão e custo antes de expandir |
-| A8 | Segunda passagem depende da ordem | **Resolvido para `done_what`.** Lê `passagem1[analysis_id]` | Não duplicar a correção; estudar separadamente a escolha de chamador em `what_todo` |
+| A8 | Passagens dependem da ordem | **Snapshots e planeamento implementados.** `done_what` lê a primeira passagem; `what_todo` usa camadas determinísticas desde raízes | Medir a qualidade da política de chamador; determinismo não prova que a escolha semântica seja ótima |
 | A9 | RAG estático repetido por ronda | **Resolvido em memória por projeto.** Related reutilizado por definição/consulta/versão do índice | Rebuild, descoberta e reanálise invalidam; pesquisa de erro e exemplos continuam dinâmicos |
 | A10 | Classes pouco informativas e judge sem limiar | **Contexto e gates implementados; calibração aberta.** Classes usam factos do parser e descrições da primeira passagem sob orçamento; scores compatíveis e abstenção mantêm-se | Calibrar gates/seleção em dados próprios e medir qualidade; sem limiares numéricos por omissão |
 
@@ -125,6 +125,21 @@ inferida, sem afirmar imutabilidade. O [documento desta etapa](../../docs/RUBY_C
 explica padrões, limites e custo. Estado condicional/dinâmico, variáveis de classe,
 anotações e propagação entre fábricas continuam abertos; A7 não está globalmente
 resolvido e a precisão/alcance destas hipóteses ainda exige medição.
+
+### A8 — duas dependências da ordem diferentes
+
+O enriquecimento de `done_what` já lia um snapshot da primeira passagem, mas
+`what_todo` ainda podia escolher um caller diferente consoante a ordem dos alvos.
+A propagação passa a ter um plano por camadas de distância mínima às raízes;
+entre callers da camada anterior, prefere suporte no grafo e depois nome.
+Percorre as adjacências para preparar o plano, em vez de voltar a varrer todos
+os métodos à procura de intenções disponíveis. A síntese LLM mantém-se e os
+ciclos sem raiz continuam no fallback README.
+
+O [contrato da propagação](../../docs/RUBY_INTENT_FLOW.md) distingue determinismo,
+critério de escolha, custo e limites. A política não prova que o caller escolhido
+seja semanticamente melhor; essa avaliação continua aberta. A nova proveniência
+impede reutilizar silenciosamente análises da política anterior.
 
 ### A9 — Planner e reparação não fazem a mesma pergunta
 

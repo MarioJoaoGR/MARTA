@@ -75,6 +75,11 @@ passa a **3**, impedindo reutilização silenciosa do grafo estático antigo. O 
 mostra relações inferidas/desconhecidas tracejadas. Contagens de `edges` agora
 podem incluir vários call sites; `edge_set` conserva pares únicos.
 
+A [entrega de 6 de novembro](RUBY_INTENT_FLOW.md) passa a planear `what_todo`
+por camadas de distância às raízes, usando suporte/nome para desempatar callers
+da mesma camada. Substitui a escolha entre callers disponíveis durante uma
+varredura; a qualidade semântica dessa política continua por medir.
+
 ## Judge: compatibilidade, scores e decisão
 
 `RubyClassIndex.query_scored` devolve candidatos com cosseno finito. Vetores nulos

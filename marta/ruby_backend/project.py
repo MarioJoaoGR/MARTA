@@ -28,6 +28,7 @@ from types import MappingProxyType
 
 from . import cache, coverage_runner, param_types, rag, readme, recorder as rec, ruby_ast, summaries
 from .ablation import AblationOptions
+from .intent_flow import POLICY as INTENT_FLOW_POLICY, plan_intent_flow
 from .analysis_state import AnalysisArchive, analysis_provenance
 from .checkpoints import RoundCheckpoints, atomic_json, atomic_write, dependency_files, file_hash
 from .backend import LanguageBackend, RubyBackend
@@ -880,19 +881,19 @@ class RubyProject:
         # what_todo: raízes (sem callers) a partir do README; métodos chamados
         # herdam a perspetiva de requisito do chamador via grafo (porta do ramo
         # de propagação do analyze_what_todo). Ciclos/soltos caem no README.
-        def _callers_of(t: MethodTarget) -> List[MethodTarget]:
-            # A outra metade da ablação: sem grafo não há chamadores, logo todos os
-            # métodos são raiz e o what_todo vem do README para todos.
-            if (self.call_graph is None or not enrich
-                    or t.method.qualified_name not in by_qn):
-                return []
-            names = self.call_graph.callers(t.method.qualified_name, supported_only=supported_only)
-            names = sorted(names, key=lambda caller: (not self.call_graph.has_supported(caller, t.method.qualified_name), caller))
-            return [by_qn[c] for c in names if c in by_qn]
+        intent_plan = plan_intent_flow(by_qn, self.call_graph if enrich else None,
+                                       supported_only=supported_only)
+        roots = set(intent_plan.roots)
+        r.evento(tipo="intent_flow_policy", policy=INTENT_FLOW_POLICY,
+                 roots=sum(t.method.qualified_name not in by_qn or t.method.qualified_name in roots
+                           for t in self.analysis_targets),
+                 layers=len(intent_plan.layers),
+                 propagated=sum(len(layer) for layer in intent_plan.layers),
+                 fallback=len(intent_plan.fallback))
 
         with r.fase("what_todo_raiz"):
             for t in self.analysis_targets:
-                if not _callers_of(t):  # raiz
+                if t.method.qualified_name not in by_qn or t.method.qualified_name in roots:
                     with r.contexto(metodo=t.method.qualified_name):
                         overview = await overviews.overview_for(ask, t.file_path, budget=budget)
                         t.what_todo = await readme.analyze_what_todo(
@@ -902,24 +903,18 @@ class RubyProject:
         # A outra metade do que a ablação do grafo desliga: sem arestas, todos os
         # métodos seriam raiz e o what_todo viria do README para todos.
         with r.fase("what_todo_propagado"):
-            changed = True
-            while changed:  # propaga pelas arestas até fixpoint
-                changed = False
-                for t in self.analysis_targets:
-                    if t.what_todo:
-                        continue
-                    ready = [c for c in _callers_of(t) if c.what_todo]
-                    if ready:
-                        c = ready[0]
-                        with r.contexto(metodo=t.method.qualified_name,
-                                        chamador=c.method.qualified_name):
-                            t.what_todo = await summaries.analyze_what_todo_from_caller(
-                                ask, t.method.qualified_name, self._source_for(t),
-                                c.method.qualified_name, c.what_todo, budget=budget,
-                                focal_source=t.source_context.mandatory_source,
-                                relationship=self.call_graph.evidence_label(c.method.qualified_name, t.method.qualified_name),
-                            )
-                        changed = True
+            for layer in intent_plan.layers:
+                for step in layer:
+                    t, c = by_qn[step.callee], by_qn[step.caller]
+                    r.evento(tipo="intent_parent_selection", policy=INTENT_FLOW_POLICY,
+                             definition_id=t.analysis_id, caller_definition_id=c.analysis_id,
+                             metodo=step.callee, chamador=step.caller, depth=step.depth)
+                    with r.contexto(metodo=step.callee, chamador=step.caller):
+                        t.what_todo = await summaries.analyze_what_todo_from_caller(
+                            ask, step.callee, self._source_for(t), step.caller, c.what_todo,
+                            budget=budget, focal_source=t.source_context.mandatory_source,
+                            relationship=self.call_graph.evidence_label(step.caller, step.callee),
+                        )
 
         with r.fase("what_todo_fallback"):
             for t in self.analysis_targets:
