@@ -70,8 +70,11 @@ quando concluída e respostas disponíveis. Com `--no_cache`, os sumários são
 recalculados e arquivados sem ler/substituir a cache reutilizável anterior, nem
 reaproveitar a primeira passagem de uma referência explícita. Cache hits também
 ficam arquivados, sem novos pedidos ao modelo. Falhas conservam respostas parciais
-e diagnóstico, mas não publicam uma cache incompleta. Recuperação automática por
-pedido continua a ser outro trabalho; o arquivo não seleciona respostas melhores.
+e diagnóstico, mas não publicam uma cache incompleta. A retoma automática
+continua desligada. A opção explícita
+`--resume_analysis` permite recuperar o prefixo válido de um arquivo novo v2
+incompleto, com configuração, ordem e pedidos exatos; não seleciona respostas
+melhores. Ver [retoma por prefixo](../../docs/RUBY_ANALYSIS_REPLAY.md).
 A retoma da geração mantém o seu contrato separado de rondas validadas.
 
 ### A5 — porque não basta gather + semáforo
@@ -237,7 +240,7 @@ tempo e custo de análise/embedding. Um empate numa amostra não prova que RAG
 | P1 | Procurar README até à raiz do projeto | **Resolvido em `2b073ad4a`**: raiz de projeto explícita, preferência pelo documento mais próximo e snapshot com caminho/hash usado na cache e no prompt |
 | P1 | Reparar com código anterior, plano e diagnóstico estruturado | **Resolvido** (`3476c2e36`): contexto de reparação explícito e preservação do último código não vazio |
 | P1 | Validar schema dos cenários | **Resolvido** (`ded14df34`): validação completa e fallback auditável sem novo pedido ao Planner |
-| P1 | Proveniência da análise e arquivo com `--no_cache` | **Resolvido nesta entrega**: A3/A4, dentro dos limites declarados acima; não confundir o arquivo com retoma automática nem com atestação dos pesos |
+| P1 | Proveniência da análise e arquivo com `--no_cache` | **A3/A4 implementados e retoma explícita disponível**: novos journals v2 incompletos podem reutilizar um prefixo exato; `--no_cache` continua sem leituras de reutilização; não há retoma automática nem atestação dos pesos |
 | P1 | Mutação pós-geração antes de mutation-guided generation | **Integrado opcionalmente no backend normal**: relatório independente, suite final em cópias e identidade/isolamento auditados; [benchmark mantém executor próprio](../../deucalion/COMPARABLE_EVALUATION.md). Mutation-guided generation continua separada |
 | P2 | Feedback humano, priorização aprendida e backend Python comum | **Aberto**: dados, contratos e experiências próprios; preparar depois da base de engenharia |
 

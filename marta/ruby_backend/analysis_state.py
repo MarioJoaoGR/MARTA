@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import asyncio
+import fcntl
 from datetime import datetime, timezone
 import json
 import os
@@ -16,6 +17,7 @@ from .evidence import evidence_policy
 from .class_context import POLICY as CLASS_CONTEXT_POLICY
 from .return_types import POLICY as RETURN_TYPE_POLICY, STATE_POLICY
 from .intent_flow import POLICY as INTENT_FLOW_POLICY
+from .analysis_replay import ARCHIVE_POLICY, AnalysisReplay
 
 PROVENANCE_POLICY = "analysis-provenance-v1"
 CLIENT_FIELDS = ("temperature", "max_tokens", "reasoning_effort", "top_p",
@@ -55,7 +57,7 @@ def analysis_provenance(ask=None):
         "prompts": prompts,
         "implementation": {name: file_hash(directory / name) for name in
                            ("project.py", "source_context.py", "class_context.py", "analysis_state.py", "prompt_budget.py",
-                            "call_graph.py", "intent_flow.py", "param_types.py", "return_types.py", "ruby_ast.py",
+                            "call_graph.py", "intent_flow.py", "analysis_replay.py", "param_types.py", "return_types.py", "ruby_ast.py",
                             "rb/marta_parse.rb", "rb/marta_return_facts.rb", "rb/marta_state_facts.rb", "evidence.py", "requests.py", "recorder.py")},
         "client_implementation": file_hash(directory.parent / "gptapi.py"),
         "response_implementation": file_hash(directory.parent / "llm_response.py"),
@@ -100,8 +102,12 @@ class AnalysisArchive:
         parent = Path(output) / "run_results" / "analysis_runs"
         parent.mkdir(parents=True, exist_ok=True)
         self.root = Path(tempfile.mkdtemp(prefix="analysis_", dir=parent))
-        self.manifest = {"status": "running", "use_cache": use_cache, "enrich": enrich,
-                         "started_at": datetime.now(timezone.utc).isoformat(), "requests": 0}
+        self.replay = None
+        self._writer = None
+        self.manifest = {"archive_policy": ARCHIVE_POLICY, "status": "running",
+                         "use_cache": use_cache, "enrich": enrich,
+                         "started_at": datetime.now(timezone.utc).isoformat(),
+                         "requests": 0, "replayed_requests": 0}
         self._save()
 
     def _save(self):
@@ -111,15 +117,23 @@ class AnalysisArchive:
         self.manifest.update(values)
         self._save()
 
-    def request(self, system, user, recorder, *, response=None, error=None):
-        entry = {"request_sha256": digest([system, user]), "phase": recorder.fase_atual,
+    def configure_replay(self, source, expected):
+        self.replay = AnalysisReplay(source, expected)
+        self.annotate(recovery=self.replay.audit)
+
+    def request(self, system, user, recorder, *, response=None, error=None, replayed_from=None):
+        accepted = error is None and isinstance(response, str) and bool(response.strip())
+        entry = {"sequence": self.manifest["requests"] + self.manifest["replayed_requests"] + 1,
+                 "request_sha256": digest([system, user]), "phase": recorder.fase_atual,
                  "context": dict(recorder._contexto),
                  "response": response if isinstance(response, str) else None,
-                 "response_type": type(response).__name__, "error": error}
+                 "response_type": type(response).__name__, "error": error,
+                 "response_accepted": accepted, "response_sha256": digest(response) if accepted else None,
+                 "replayed_from": replayed_from}
         with (self.root / "responses.jsonl").open("a", encoding="utf-8") as stream:
             stream.write(json.dumps(entry, ensure_ascii=True) + "\n")
             stream.flush()
-        self.manifest["requests"] += 1
+        self.manifest["replayed_requests" if replayed_from is not None else "requests"] += 1
 
     def complete(self, *, cache_hit):
         if not (self.root / "bundle.json").is_file():
@@ -128,15 +142,27 @@ class AnalysisArchive:
                       finished_at=datetime.now(timezone.utc).isoformat())
 
     def __enter__(self):
+        self._writer = (self.root / "writer.lock").open("a")
+        try:
+            fcntl.flock(self._writer, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BaseException:
+            self._writer.close()
+            self._writer = None
+            raise
         return self
 
     def __exit__(self, kind, error, traceback):
-        if kind is not None:
-            interrupted = issubclass(kind, (KeyboardInterrupt, asyncio.CancelledError))
-            self.annotate(status="interrupted" if interrupted else "failed",
-                          error={"type": kind.__name__, "message": str(error)},
-                          finished_at=datetime.now(timezone.utc).isoformat())
-        elif self.manifest["status"] != "complete":
-            self.annotate(status="failed", error={"type": "IncompleteAnalysis", "message": "No complete bundle"})
-            raise RuntimeError("Analysis did not commit its evidence bundle")
+        try:
+            if kind is not None:
+                interrupted = issubclass(kind, (KeyboardInterrupt, asyncio.CancelledError))
+                self.annotate(status="interrupted" if interrupted else "failed",
+                              error={"type": kind.__name__, "message": str(error)},
+                              finished_at=datetime.now(timezone.utc).isoformat())
+            elif self.manifest["status"] != "complete":
+                self.annotate(status="failed", error={"type": "IncompleteAnalysis", "message": "No complete bundle"})
+                raise RuntimeError("Analysis did not commit its evidence bundle")
+        finally:
+            if self._writer is not None:
+                self._writer.close()
+                self._writer = None
         return False

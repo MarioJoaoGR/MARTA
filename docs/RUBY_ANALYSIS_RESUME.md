@@ -21,9 +21,10 @@ first-pass snapshot used for callee enrichment.
 This guard adds no retry, token-budget increase or synthetic summary. Existing
 XRepoTest exact-request checkpoints still own their established truncation retries;
 the core guard does not count or repeat their physical calls again. Ordinary CLI
-analysis still has no per-request recovery checkpoint: after a failed fresh
-analysis, successful earlier requests may need repeating. That remains separate
-from generation round recovery.
+analysis originally had no per-request recovery checkpoint. The subsequent
+[explicit prefix recovery](RUBY_ANALYSIS_REPLAY.md) can reuse accepted requests
+from a new v2 incomplete archive with exact configuration/order/prompt checks.
+It is opt-in and remains separate from generation round recovery.
 
 This delivery introduced `ANALYSIS_SCHEMA=4`. Empty required fields in a cached bundle are rejected.
 Complete bundles and generated Ruby files are written to a same-directory temporary

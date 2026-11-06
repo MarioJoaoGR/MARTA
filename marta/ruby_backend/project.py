@@ -694,6 +694,7 @@ class RubyProject:
     async def analyze_summaries(
         self, ask: Optional[AskFn] = None, use_cache: bool = True,
         enrich: bool = True, reaproveitar_passagem1_de: Optional[str] = None,
+        resume_analysis: Optional[str] = None,
     ) -> None:
         """Archive every analysis, independently of reusable-cache policy.
 
@@ -701,6 +702,8 @@ class RubyProject:
         are read and the previous reusable cache is preserved. Every completed
         result, including a cache hit or empty pool, has a separate bundle.
         """
+        if resume_analysis is not None and not use_cache:
+            raise ValueError("resume_analysis cannot be combined with use_cache=False")
         self._planner_retrieval.clear()
         archive = AnalysisArchive(self.out_root(), use_cache=use_cache, enrich=enrich)
         self.last_analysis_archive = str(archive.root)
@@ -718,12 +721,20 @@ class RubyProject:
             metadata = {"source_hash": cache.compute_source_hash(self.files), "model": model,
                         "fingerprint": fingerprint, "enrich": enrich, "schema": ANALYSIS_SCHEMA,
                         "provenance": provenance, "readme_policy": readme.README_POLICY,
-                        "readmes": overviews.manifest_for([t.file_path for t in self.analysis_targets])}
+                        "readmes": overviews.manifest_for([t.file_path for t in self.analysis_targets]),
+                        "analysis_order": [t.analysis_id for t in self.analysis_targets],
+                        "first_pass_reference": ({"path": os.path.abspath(reaproveitar_passagem1_de),
+                            "sha256": file_hash(reaproveitar_passagem1_de) if os.path.isfile(reaproveitar_passagem1_de) else None}
+                            if reaproveitar_passagem1_de and use_cache else None)}
             archive.annotate(**metadata)
+            if resume_analysis is not None:
+                archive.configure_replay(resume_analysis, metadata)
             bundle, cache_hit = await self._analyze_summaries(
                 ask=ask, use_cache=use_cache, enrich=enrich,
                 reaproveitar_passagem1_de=reaproveitar_passagem1_de,
                 metadata=metadata, overviews=overviews, archive=archive)
+            if archive.replay is not None:
+                archive.replay.verify_consumed()
             if analysis_provenance(ask) != provenance:
                 raise AnalysisResponseError("Analysis configuration changed during execution; no cache published")
             if cache.compute_source_hash(self.files) != metadata["source_hash"]:
@@ -774,7 +785,7 @@ class RubyProject:
         for t in self.analysis_targets:
             t.done_what = t.what_todo = t.summary = ""
             t.judge = self.type_index.judge_for_method(t.method) if self.type_index else ""
-        if use_cache:
+        if use_cache and archive.replay is None:
             bundle = self._load_analysis_bundle(path, src_hash, model, fingerprint, enrich)
             cached = bundle["targets"] if bundle else {}
             if bundle is not None and all(t.analysis_id in cached for t in self.analysis_targets):
@@ -795,6 +806,13 @@ class RubyProject:
         tracked_ask = rec.token_tracking_ask(ask, r.score, r)
 
         async def checked_ask(system, user):
+            if archive.replay is not None:
+                entry = archive.replay.take(system, user, r)
+                if entry is not None:
+                    source = {"archive": str(archive.replay.source), "sequence": entry["sequence"]}
+                    archive.request(system, user, r, response=entry["response"], replayed_from=source)
+                    r.evento(tipo="analysis_request_reused", fase=r.fase_atual, **source)
+                    return entry["response"]
             try:
                 response = await tracked_ask(system, user)
             except BaseException as error:

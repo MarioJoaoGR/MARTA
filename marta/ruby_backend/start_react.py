@@ -38,6 +38,7 @@ def main():
     parser.add_argument("--no_rag", action="store_true", help="Skip embeddings/RAG (faster start, less context)")
     from marta.ruby_backend.ablation import add_arguments, from_args
     add_arguments(parser, underscores=True)
+    parser.add_argument("--resume_analysis", "--resume-analysis", help="Explicit incomplete analysis archive to replay; exact inputs/configuration/request prefix only")
     parser.add_argument("--no_cache", action="store_true", help="Recompute all summaries; preserve reusable cache and archive the new analysis")
     parser.add_argument(
         "--no_graph_enrich", action="store_true",
@@ -77,6 +78,8 @@ def main():
     load_dotenv()
     args = parser.parse_args()
     ablations = from_args(args)
+    if args.resume_analysis and (args.no_cache or args.evaluate_only):
+        parser.error("--resume_analysis cannot be combined with --no_cache or --evaluate_only")
     if args.mutation and not args.mutation_usage:
         parser.error("--mutation requires --mutation_usage")
     if args.mutation_timeout < 1 or args.mutation_jobs < 1:
@@ -193,7 +196,8 @@ def main():
                     root_dir=os.path.join(os.path.abspath(args.output_dir), nome_normal))
             await proj.analyze_summaries(use_cache=not args.no_cache,
                                          enrich=not args.no_graph_enrich,
-                                         reaproveitar_passagem1_de=reap)
+                                         reaproveitar_passagem1_de=reap,
+                                         **({"resume_analysis": args.resume_analysis} if args.resume_analysis else {}))
             if not args.no_rag:
                 print("🧠 [RAG] A indexar summaries (bge)...")
                 proj.build_rag()
