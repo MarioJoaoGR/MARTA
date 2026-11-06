@@ -36,6 +36,7 @@ from .source_context import SourceContext, build_source_context
 from .prompt_budget import PromptBudget, budget_provenance
 from .retrieval_cache import PlannerRetrievalCache
 from .evidence import evidence_policy, semantic_decision
+from .class_context import build_class_context, POLICY as CLASS_CONTEXT_POLICY
 
 # Default generation skips constructors; exact task selectors may request them.
 SKIP_METHODS = {"initialize"}
@@ -267,6 +268,7 @@ class RubyProject:
     recorder: Optional[rec.RubyRecorder] = None
     call_graph: Optional[object] = None   # CallGraph (static), built in discover()
     code_changed: bool = True             # False on cg_cache hit (source unchanged)
+    _class_definitions: dict = field(default_factory=dict, init=False, repr=False)
     class_files: Dict[str, str] = field(default_factory=dict)   # class qn -> abs path
     class_summaries: Dict[str, str] = field(default_factory=dict)  # class qn -> summary
     class_db: Optional[rag.RubyClassIndex] = None
@@ -441,6 +443,7 @@ class RubyProject:
         self.targets = []
         self.analysis_targets = []
         self.class_files = {}
+        self._class_definitions = {}
         self.class_summaries = {}
         self.judge_decisions = {}
         self._analysis_fingerprint_used = None
@@ -462,6 +465,7 @@ class RubyProject:
             classes_by_qn = {c.qualified_name: c for c in fp.classes}
             for c in fp.classes:
                 self.class_files.setdefault(c.qualified_name, path)
+                self._class_definitions.setdefault(c.qualified_name, []).append((path, c))
             require_target = self._require_for(rel)
             by_owner: Dict[str, List] = {}
             for m in fp.methods:
@@ -499,6 +503,12 @@ class RubyProject:
             # The parser has no column positions: repeated same-name defs on
             # one line cannot be safely distinguished by this identity format.
             raise ValueError(f"Ambiguous analysis definition identities: {duplicates!r}")
+        # Keep additional declaration references only for the existing class
+        # summary population, without retaining unrelated module/stub bodies.
+        class_owners = {t.owner_class.qualified_name for t in self.analysis_targets
+                        if t.owner_class is not None}
+        self._class_definitions = {qn: values for qn, values in self._class_definitions.items()
+                                  if qn in class_owners and self.type_index.classes[qn].kind == "class"}
         # Judge needs the full index (cross-file classes), so compute after.
         for t in self.analysis_targets:
             t.judge = self.type_index.judge_for_method(t.method)
@@ -576,6 +586,7 @@ class RubyProject:
             "schema": ANALYSIS_SCHEMA,
             "provenance": provenance if provenance is not None else analysis_provenance(),
             "scope": "full",
+            "class_context_policy": CLASS_CONTEXT_POLICY,
             "ruby_execution_environment": {key: self._execution_environment().get(key) for key in ENVIRONMENT_KEYS},
             "methods": sorted(t.analysis_id for t in targets),
             "max_context_chars": MAX_CONTEXT_CHARS,
@@ -928,38 +939,25 @@ class RubyProject:
                         focal_source=t.source_context.mandatory_source,
                     )
 
-        # Class summaries follow the whole analysis pool, without a class-count cap.
-        owner_qns = []
-        for t in self.analysis_targets:
-            qn = t.owner_class.qualified_name if t.owner_class else None
-            if qn and qn not in owner_qns:
-                owner_qns.append(qn)
-        # Paridade com o Python: ClassMessage.generate_summary usa
-        # get_code_with_summary -> class_code (o *stub*), NUNCA os corpos dos
-        # métodos. Enviar a classe inteira estourava a janela de contexto em
-        # classes grandes (fpm/Deb: 43k chars).
-        stub_by_qn, sigs_by_qn = {}, {}
-        for t in self.analysis_targets:
-            if t.owner_class is None:
-                continue
-            q = t.owner_class.qualified_name
-            stub_by_qn.setdefault(q, t.class_code)
-            sigs_by_qn.setdefault(q, []).append(
-                _slice_lines(t.file_path, t.method.start_line, t.method.start_line).strip())
-
+        # Reuse source-only first-pass descriptions, not graph-enriched or
+        # requirement summaries. Class evidence must not invent another graph arm.
+        by_class = {}
+        for target in self.analysis_targets:
+            if target.owner_class is not None:
+                by_class.setdefault(target.owner_class.qualified_name, []).append(target)
         with r.fase("sumarios_de_classe"):
-            for qn in owner_qns:
+            for qn, targets in by_class.items():
                 cls = (self.type_index.classes if self.type_index else {}).get(qn)
                 if cls is None or cls.kind != "class" or qn in self.class_summaries:
                     continue
-                stub = stub_by_qn.get(qn)
-                if not stub:
-                    continue
-                sigs = sigs_by_qn.get(qn, [])[:40]
-                class_src = stub + ("\n" + "\n".join(f"  {s}" for s in sigs) if sigs else "")
+                definitions = self._class_definitions.get(qn) or [
+                    (t.file_path, t.owner_class) for t in targets]
+                view = build_class_context(qn, definitions, targets, passagem1,
+                                           root=self.root_dir, limit=MAX_CONTEXT_CHARS)
                 with r.contexto(classe=qn):
+                    r.evento(tipo="class_context", **view.metadata)
                     self.class_summaries[qn] = await summaries.analyze_class(
-                        ask, class_src, budget=budget, class_core=f"{cls.kind} {qn}")
+                        ask, view.core, budget=budget, class_evidence=list(view.records))
 
         entries = {
             t.analysis_id: {

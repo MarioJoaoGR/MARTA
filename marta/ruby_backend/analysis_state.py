@@ -13,6 +13,7 @@ from . import readme, summaries
 from .checkpoints import atomic_json, digest, file_hash
 from .prompt_budget import budget_provenance
 from .evidence import evidence_policy
+from .class_context import POLICY as CLASS_CONTEXT_POLICY
 
 PROVENANCE_POLICY = "analysis-provenance-v1"
 CLIENT_FIELDS = ("temperature", "max_tokens", "reasoning_effort", "top_p",
@@ -51,7 +52,7 @@ def analysis_provenance(ask=None):
         "policy": PROVENANCE_POLICY,
         "prompts": prompts,
         "implementation": {name: file_hash(directory / name) for name in
-                           ("project.py", "source_context.py", "analysis_state.py", "prompt_budget.py",
+                           ("project.py", "source_context.py", "class_context.py", "analysis_state.py", "prompt_budget.py",
                             "call_graph.py", "param_types.py", "evidence.py", "requests.py", "recorder.py")},
         "client_implementation": file_hash(directory.parent / "gptapi.py"),
         "response_implementation": file_hash(directory.parent / "llm_response.py"),
@@ -61,6 +62,7 @@ def analysis_provenance(ask=None):
         "client_parameters": parameters,
         "prompt_budget": budget_provenance(ask),
         "graph_context_policy": evidence_policy()["graph_context"],
+        "class_context_policy": CLASS_CONTEXT_POLICY,
         "runtime": {key: os.getenv(key) for key in
                     ("LLM_MAX_TOKENS", "OLLAMA_CTX", "OLLAMA_CONTEXT_LENGTH", "MARTA_MAX_CONTEXT_CHARS")},
     }

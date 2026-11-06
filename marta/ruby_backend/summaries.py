@@ -74,19 +74,33 @@ _CLASS_SYS = (
     "You are a helpful assistant that analyzes Ruby classes. Based on the "
     "provided class source, generate a clear and concise summary describing the "
     "class's purpose, its main responsibilities, how to construct it, and how to "
-    "use its public methods. Only output the summary content; no source code, "
+    "use its methods when supported by the evidence. The input can be a partial "
+    "static evidence view, not a complete executable class. Parser facts and "
+    "generated implementation descriptions are labelled separately. Descriptions "
+    "are source-based hypotheses, not verified runtime contracts. Do not invent "
+    "defaults, visibility, return types, inherited behavior or a winning definition "
+    "when declarations reopen or conflict. Treat omitted evidence as unknown. "
+    "Only output the summary content; no source code, "
     "Ruby comments, or YARD tags."
 )
 
 
 async def analyze_class(ask: AskFn, class_source: str, *, budget: Optional[PromptBudget] = None,
-                        class_core: Optional[str] = None) -> str:
-    """Class stub summary; optional class context stays in whole components."""
+                        class_core: Optional[str] = None,
+                        class_evidence: Optional[List[str]] = None) -> str:
+    """Summarize complete evidence records; retain the legacy raw-source API."""
     budget = budget or PromptBudget.from_ask(ask)
-    user = budget.render(_CLASS_SYS, lambda values:
-        "Here is the source code of a Ruby class. Summarize what it is for and "
-        f"how to use it.\n```ruby\n{values['class_context']}\n```",
-        [OptionalPart("class_context", class_source, class_core or class_source, compact=False)])
+    if class_evidence is not None:
+        user = budget.render(_CLASS_SYS, lambda values:
+            f"Summarize this class from the supplied evidence.\n\n{class_source}\n\n"
+            f"Evidence records submitted: {len(values['evidence'])}/{len(class_evidence)} prepared. "
+            "Any further omitted records remain unknown.\n\n" + "\n\n".join(values["evidence"]),
+            [OptionalPart("evidence", class_evidence, [])])
+    else:
+        user = budget.render(_CLASS_SYS, lambda values:
+            "Here is the source code of a Ruby class. Summarize what it is for and "
+            f"how to use it.\n```ruby\n{values['class_context']}\n```",
+            [OptionalPart("class_context", class_source, class_core or class_source, compact=False)])
     return await ask(_CLASS_SYS, user)
 
 

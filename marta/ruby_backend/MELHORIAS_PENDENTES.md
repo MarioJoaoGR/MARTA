@@ -41,7 +41,7 @@ original e não são reclassificados como resultados destas melhorias.
 | A7 | Inferir tipos de retorno | **Aberto; investigação de maior esforço** | Começar por `Foo.new`, atribuições no construtor e anotações; medir valor antes de inferência global |
 | A8 | Segunda passagem depende da ordem | **Resolvido para `done_what`.** Lê `passagem1[analysis_id]` | Não duplicar a correção; estudar separadamente a escolha de chamador em `what_todo` |
 | A9 | RAG estático repetido por ronda | **Resolvido em memória por projeto.** Related reutilizado por definição/consulta/versão do índice | Rebuild, descoberta e reanálise invalidam; pesquisa de erro e exemplos continuam dinâmicos |
-| A10 | Classes pouco informativas e judge sem limiar | **Parcial.** Scores compatíveis, gates explícitos e abstenção implementados; stub + até 40 assinaturas mantém-se | Melhorar conteúdo das classes e calibrar os gates em dados próprios; sem valores numéricos por omissão |
+| A10 | Classes pouco informativas e judge sem limiar | **Contexto e gates implementados; calibração aberta.** Classes usam factos do parser e descrições da primeira passagem sob orçamento; scores compatíveis e abstenção mantêm-se | Calibrar gates/seleção em dados próprios e medir qualidade; sem limiares numéricos por omissão |
 
 ### A1 — orçamento total com limites explícitos
 
@@ -119,6 +119,19 @@ repete. A proteção XRepoTest contra exemplos de outras tarefas mantém-se.
 A consulta de métodos usa embedding + Chroma, e não só NumPy. Esta melhoria
 poupa consultas/embeddings repetidos, não chamadas ao LLM; não demonstra por si
 só ganhos de qualidade ou uma aceleração global da ferramenta.
+
+### A10 — comportamento das classes sem novas chamadas
+
+O contexto já reutiliza os sumários de implementação da primeira passagem e os
+factos do parser, distinguindo fontes e declarações reabertas. Remove o corte dos
+primeiros 40 métodos e a releitura por assinatura nesta fase. A preparação tem
+limite local e orçamento da mensagem inteira, com omissões explícitas e registos
+inteiros; não pretende incluir toda a classe a qualquer custo.
+
+Mantém uma síntese LLM por classe, sem embeddings/pedidos adicionais. Pode enviar
+mais tokens que um stub curto, dentro dos limites, e o ganho de qualidade exige
+medição. O [documento de entrega](../../docs/RUBY_CLASS_CONTEXT.md) descreve custo,
+proveniência e limites. A calibração dos gates do judge continua aberta.
 
 ## B. Estudos por fechar
 
