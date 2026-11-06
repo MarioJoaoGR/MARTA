@@ -30,7 +30,8 @@ if [[ -e "$RUN/metadata/project_split.json" ]]; then
 fi
 EXTRA=(--rounds "${XREPO_ROUNDS:-3}" --attempts "${XREPO_ATTEMPTS:-3}")
 for pair in "XREPO_NO_TYPE_HINTS:no-type-hints" "XREPO_NO_METHOD_RETRIEVAL:no-method-retrieval" \
-            "XREPO_NO_COVERAGE_FEEDBACK:no-coverage-feedback" "XREPO_NO_REPAIR:no-repair"; do
+            "XREPO_NO_PLANNER_RETRIEVAL:no-planner-retrieval" "XREPO_NO_ERROR_RETRIEVAL:no-error-retrieval" \
+            "XREPO_NO_SEMANTIC_JUDGE:no-semantic-judge" "XREPO_NO_COVERAGE_FEEDBACK:no-coverage-feedback" "XREPO_NO_REPAIR:no-repair"; do
     variable=${pair%%:*}
     value=${!variable:-0}
     [[ "$value" == 0 || "$value" == 1 ]] || { echo "Invalid $variable"; exit 2; }
@@ -49,7 +50,8 @@ if [[ -n "${XREPO_REUSE_FIRST_ROUND_FROM:-}" ]]; then
     [[ "$XREPO_REUSE_FIRST_ROUND_FROM" == "${XREPO_REUSE_ANALYSIS_FROM:-}" ]] || exit 2
     [[ "${XREPO_NO_COVERAGE_FEEDBACK:-0}" == 1 && "$XREPO_NO_GRAPH" == 0 &&
        "${XREPO_NO_TYPE_HINTS:-0}" == 0 && "${XREPO_NO_METHOD_RETRIEVAL:-0}" == 0 &&
-       "${XREPO_NO_REPAIR:-0}" == 0 ]] || exit 2
+       "${XREPO_NO_PLANNER_RETRIEVAL:-0}" == 0 && "${XREPO_NO_ERROR_RETRIEVAL:-0}" == 0 &&
+       "${XREPO_NO_SEMANTIC_JUDGE:-0}" == 0 && "${XREPO_NO_REPAIR:-0}" == 0 ]] || exit 2
     EXTRA+=(--reuse-first-round-from "$XREPO_REUSE_FIRST_ROUND_FROM")
 fi
 export XREPO_ROUNDS XREPO_ATTEMPTS XREPO_TASK_IDS XREPO_REUSE_ANALYSIS_FROM XREPO_REUSE_FIRST_ROUND_FROM

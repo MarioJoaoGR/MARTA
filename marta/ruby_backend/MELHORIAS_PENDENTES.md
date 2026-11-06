@@ -1,6 +1,6 @@
 # MARTA-Ruby — backlog revisto
 
-Última revisão: **2026-11-05**, após integração das correções na `main`.
+Última revisão: **2026-11-06**, após integração das correções na `main`.
 
 Esta lista distingue as correções já implementadas das melhorias ainda abertas.
 As entregas e os respetivos limites estão documentados em
@@ -189,10 +189,16 @@ a ajuda no erro.
 
 A CLI normal tem `--no_rag`. As flags `no_type_hints` e
 `no_method_retrieval` já existem na CLI e no adapter XRepoTest: a primeira desliga
-as sugestões de tipos; a segunda desliga conjuntamente related no Planner e
-retrieval na reparação. Ainda falta separar estes dois consumidores para executar
-exatamente todos os braços desta tabela. As ablações de reparação e feedback de
-cobertura também já estão implementadas; não são trabalho pendente de flags.
+as sugestões de tipos; a segunda continua a desligar conjuntamente related no
+Planner e retrieval na reparação. A separação está agora implementada com
+`--no_planner_retrieval`, `--no_error_retrieval` e `--no_semantic_judge`: esta
+última remove apenas o refinamento por embeddings de classes, conservando as
+sugestões estruturais. A CLI XRepoTest aceita as formas com hífen. O
+[contrato dos consumidores](../../docs/RUBY_RAG_CONSUMERS.md) descreve combinações,
+índices evitados e limites de retoma. As ablações de reparação e feedback de
+cobertura também já estavam implementadas; não são trabalho pendente de flags.
+A alternativa estrutural/lexical e o híbrido da tabela continuam propostas, e
+a execução/avaliação dos braços separados continua por realizar.
 
 Medir suites válidas, cobertura, invocação, mutação quando aplicável, tokens,
 tempo e custo de análise/embedding. Um empate numa amostra não prova que RAG

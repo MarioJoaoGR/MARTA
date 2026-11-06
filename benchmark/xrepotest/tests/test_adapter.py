@@ -501,7 +501,9 @@ def test_all_675_ids_remain_independent_even_for_the_same_focal_method(parsed_re
 
 @pytest.mark.parametrize("options", [AblationOptions(),
     AblationOptions(no_type_hints=True), AblationOptions(no_method_retrieval=True),
-    AblationOptions(no_coverage_feedback=True), AblationOptions(no_repair=True)])
+    AblationOptions(no_coverage_feedback=True), AblationOptions(no_repair=True),
+    AblationOptions(no_planner_retrieval=True), AblationOptions(no_error_retrieval=True),
+    AblationOptions(no_semantic_judge=True)])
 def test_pipeline_isolates_task_rounds_and_resumes_without_generation(parsed_repo, tmp_path, monkeypatch, options):
     # Exercise real discovery, workspaces, final-state writes and export. Only
     # model/embedding work and generation's Ruby subprocesses are substituted.

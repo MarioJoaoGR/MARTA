@@ -63,6 +63,8 @@ def test_only_round_zero_is_shared_and_absent_spec_is_preserved(tmp_path, has_sp
     dict(ablations={'no_repair':True, 'no_coverage_feedback':True}),
     dict(ablations={'no_type_hints':True, 'no_coverage_feedback':True}),
     dict(ablations={'no_method_retrieval':True, 'no_coverage_feedback':True}),
+    *[dict(ablations={name: True, 'no_coverage_feedback': True}) for name in
+      ('no_planner_retrieval', 'no_error_retrieval', 'no_semantic_judge')],
     dict(ablations={}), dict(max_tokens=99)])
 def test_first_round_requires_equivalent_generation_configuration(tmp_path, extra):
     ref, _, _, _, config = seed(tmp_path)

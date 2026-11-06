@@ -105,12 +105,15 @@ def prepare_analysis_reuse(project, reference, *, enrich):
             audit['vector_reference_hashes'] = {str(p.relative_to(source_vectors)): _hash(p) for p in files}
             # Copy intact stores to unchanged-context arms, preserving HNSW too.
             # Existing destination stores are validated by the ordinary RAG code.
+            class_file = source_vectors / 'classes.npz'
             if enrich and not target_vectors.exists():
                 for p in files:
-                    rel = p.relative_to(source_vectors)
-                    audit['vectors_copied'][str(rel)] = _copy(p, target_vectors / rel)
-            class_file = source_vectors / 'classes.npz'
-            if class_file.is_file() and not project.ablation_options.no_type_hints:
+                    needed = (project.ablation_options.semantic_judge_enabled if p == class_file
+                              else project.ablation_options.method_index_enabled)
+                    if needed:
+                        rel = p.relative_to(source_vectors)
+                        audit['vectors_copied'][str(rel)] = _copy(p, target_vectors / rel)
+            if class_file.is_file() and project.ablation_options.semantic_judge_enabled:
                 with np.load(class_file, allow_pickle=False) as data:
                     classes = list(bundle['classes'].items())
                     ids = [f'{i}|{name}' for i, (name, _) in enumerate(classes)]
@@ -120,7 +123,7 @@ def prepare_analysis_reuse(project, reference, *, enrich):
                             and np.isfinite(matrix).all()):
                         vectors.update((text, vector.tolist())
                                        for (_, text), vector in zip(classes, matrix))
-            if not project.ablation_options.no_method_retrieval and (source_vectors/'chroma.sqlite3').is_file():
+            if project.ablation_options.method_index_enabled and (source_vectors/'chroma.sqlite3').is_file():
                 # Never instantiate PersistentClient against the original store.
                 with tempfile.TemporaryDirectory(prefix='marta-reference-vectors-') as tmp:
                     for p in files:

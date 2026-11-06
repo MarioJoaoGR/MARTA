@@ -1011,11 +1011,11 @@ class RubyProject:
         self.judge_decisions = {}
         with self._recorder().fase("rag"):
             self.rag_db = None
-            if not self.ablation_options.no_method_retrieval:
+            if self.ablation_options.method_index_enabled:
                 self.rag_db = _AnalysisFunctionDatabase(
                     embed_documents, embed_query, persist_dir=pdir, name="functions", key=key or "")
                 self.rag_db.init(self.analysis_targets)
-            if self.class_summaries and not self.ablation_options.no_type_hints:
+            if self.class_summaries and self.ablation_options.semantic_judge_enabled:
                 # Classes em NumPy, como o find_topK_message da Python (ver rag.py).
                 self.class_db = rag.RubyClassIndex(
                     embed_documents, embed_query, persist_dir=pdir, key=key or "")
@@ -1043,7 +1043,8 @@ class RubyProject:
 
     def _augment_judge_semantic(self) -> None:
         """Log compatible scores and abstain unless a declared policy accepts them."""
-        if self.class_db is None or self.type_index is None:
+        if (not self.ablation_options.semantic_judge_enabled
+                or self.class_db is None or self.type_index is None):
             return
         policy = evidence_policy()
         scored_queries = {}  # Valid only for this frozen class-index pass.
@@ -1079,7 +1080,7 @@ class RubyProject:
                 target.judge = prefix + "\n".join(extra)
 
     def _related_for(self, t: MethodTarget, *, recorder=None) -> Optional[List[str]]:
-        if self.ablation_options.no_method_retrieval or self.rag_db is None:
+        if not self.ablation_options.planner_retrieval_enabled or self.rag_db is None:
             self._planner_retrieval.clear()
             return None
         query = t.summary or t.done_what
@@ -1132,7 +1133,7 @@ class RubyProject:
         """Error-directed RAG for the self-heal loop (generate_react_flow port):
         given the failure output, retrieve similar methods and, when available,
         one of their passing specs as a concrete example."""
-        if self.ablation_options.no_method_retrieval or self.rag_db is None:
+        if not self.ablation_options.error_retrieval_enabled or self.rag_db is None:
             return None
 
         database = self.rag_db
@@ -1279,11 +1280,8 @@ class RubyProject:
         """
         if type(rounds) is not int or rounds < 1:
             raise ValueError("rounds must be a positive integer")
-        if reuse_first_round and (not self.ablation_options.no_coverage_feedback
-                                 or len(self.targets) != 1
-                                 or self.ablation_options.no_repair
-                                 or self.ablation_options.no_type_hints
-                                 or self.ablation_options.no_method_retrieval):
+        if reuse_first_round and (not self.ablation_options.only_coverage_feedback_removed
+                                 or len(self.targets) != 1):
             raise ValueError("First-round reuse requires one coverage-ablation target")
         ask = ask or _default_ask()
         from .workers import validate_workers

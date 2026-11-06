@@ -55,8 +55,8 @@ def verify_first_round_reference(path, config):
     provenance = verify_analysis_reference(path, config)
     options = config.get("ablations", {})
     if (config.get("no_graph") or not options.get("no_coverage_feedback")
-            or any(options.get(k) for k in
-                   ("no_type_hints", "no_method_retrieval", "no_repair"))):
+            or any(value for name, value in options.items()
+                   if name not in {"policy", "no_coverage_feedback"})):
         raise ValueError("First-round reuse requires only no-coverage-feedback")
     previous = json.loads((Path(path) / "experiment.json").read_text())
     if config["attempts"] != previous["attempts"]:

@@ -254,3 +254,18 @@ def test_transport_failure_is_audited_and_not_automatically_resubmitted(saved, t
     audit = json.loads((saved[0].parent / 'metadata/cpu_resume_123.json').read_text())
     assert audit['exit_code'] == 7 and audit['prior_terminal_files_preserved']
     assert audit['tasks_finished_in_cpu_job'] == []
+
+
+@pytest.mark.parametrize("name", ["no_planner_retrieval", "no_error_retrieval", "no_semantic_judge"])
+def test_cpu_resume_cannot_silently_add_a_consumer_ablation(saved, name):
+    generation, d, ids = saved
+    d["ablations"] = {name: True}
+    (generation / "experiment.json").write_text(json.dumps(d))
+    with pytest.raises(ValueError, match="Only the no-graph arm"):
+        resume.validate(generation)
+
+
+def test_cpu_resume_explicitly_resets_ambient_consumer_flags():
+    env = resume.environment({field: 1 for field in resume.FIELDS.values()} | {"runtime_env": {}})
+    assert all(env["XREPO_NO_" + name] == "0" for name in
+               ("PLANNER_RETRIEVAL", "ERROR_RETRIEVAL", "SEMANTIC_JUDGE"))

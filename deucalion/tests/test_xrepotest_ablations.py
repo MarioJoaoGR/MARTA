@@ -118,3 +118,32 @@ def test_ablation_checkout_is_used_for_container_and_walltime_continuation(fake_
         if proc.poll() is None:
             proc.terminate()
             proc.communicate(timeout=10)
+
+
+@pytest.mark.parametrize("name", ["PLANNER_RETRIEVAL", "ERROR_RETRIEVAL", "SEMANTIC_JUDGE"])
+def test_new_consumer_flags_are_forwarded_and_refuse_round_pairing(fake_cluster, name):
+    root, tmp, env = fake_cluster
+    env["XREPO_NO_" + name] = "1"
+    result = subprocess.run(["bash", str(root / "deucalion/run_xrepotest_generate_gpu.sh")],
+                            env=env, capture_output=True, text=True, timeout=20)
+    assert result.returncode == 0, result.stderr
+    calls = [json.loads(line) for line in (tmp / "calls.jsonl").read_text().splitlines()]
+    invocation = next(c for c in calls if "benchmark.xrepotest.run" in c)
+    assert "--no-" + name.lower().replace("_", "-") in invocation
+    env.update(XREPO_NO_COVERAGE_FEEDBACK="1",
+               XREPO_REUSE_ANALYSIS_FROM="/data/xrepo/runs/reference/generation",
+               XREPO_REUSE_FIRST_ROUND_FROM="/data/xrepo/runs/reference/generation")
+    result = subprocess.run(["bash", str(root / "deucalion/run_xrepotest_generate_gpu.sh")],
+                            env=env, capture_output=True, text=True, timeout=20)
+    assert result.returncode != 0
+
+
+@pytest.mark.parametrize("name", ["PLANNER_RETRIEVAL", "ERROR_RETRIEVAL", "SEMANTIC_JUDGE"])
+def test_new_consumer_flags_reject_invalid_environment_values(fake_cluster, name):
+    root, tmp, env = fake_cluster
+    env["XREPO_NO_" + name] = "yes"
+    result = subprocess.run(["bash", str(root / "deucalion/run_xrepotest_generate_gpu.sh")],
+                            env=env, capture_output=True, text=True, timeout=20)
+    assert result.returncode != 0 and "Invalid XREPO_NO_" + name in result.stdout
+    calls = [json.loads(line) for line in (tmp / "calls.jsonl").read_text().splitlines()]
+    assert not any("benchmark.xrepotest.run" in call for call in calls)

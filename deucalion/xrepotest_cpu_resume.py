@@ -52,7 +52,8 @@ def validate(generation):
     if any(d.get(k) != v for k, v in expected.items()):
         raise ValueError("Saved sampling, budget, timeout or rounds differ from the approved experiment")
     if any(d.get("ablations", {}).get(flag, False) for flag in
-           ("no_type_hints", "no_method_retrieval", "no_coverage_feedback", "no_repair")):
+           ("no_type_hints", "no_method_retrieval", "no_coverage_feedback", "no_repair",
+            "no_planner_retrieval", "no_error_retrieval", "no_semantic_judge")):
         raise ValueError("Only the no-graph arm can resume with this launcher")
     if any(k not in {"OLLAMA_CTX", "TRANSFORMER_PATH", "MARTA_MAX_CONTEXT_CHARS"}
            or not isinstance(v, str) for k, v in d["runtime_env"].items()):
@@ -65,7 +66,8 @@ def environment(d):
     env.update(d["runtime_env"])
     env["XREPO_NO_GRAPH"] = "1"
     env["XREPO_TASK_IDS"] = "/data/xrepo/selections/xrepotest_ablation97_v1.json"
-    for flag in ("NO_TYPE_HINTS", "NO_METHOD_RETRIEVAL", "NO_COVERAGE_FEEDBACK", "NO_REPAIR"):
+    for flag in ("NO_TYPE_HINTS", "NO_METHOD_RETRIEVAL", "NO_COVERAGE_FEEDBACK", "NO_REPAIR",
+                 "NO_PLANNER_RETRIEVAL", "NO_ERROR_RETRIEVAL", "NO_SEMANTIC_JUDGE"):
         env["XREPO_" + flag] = "0"
     for key, field in (("XREPO_REUSE_ANALYSIS_FROM", "analysis_reference"),
                        ("XREPO_REUSE_FIRST_ROUND_FROM", "first_round_reference")):

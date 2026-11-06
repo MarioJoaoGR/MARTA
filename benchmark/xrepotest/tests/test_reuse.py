@@ -53,7 +53,11 @@ def reference(tmp_path, monkeypatch):
 
 
 @pytest.mark.parametrize('options', [AblationOptions(), AblationOptions(no_type_hints=True),
-                                     AblationOptions(no_method_retrieval=True)])
+                                     AblationOptions(no_method_retrieval=True),
+                                     AblationOptions(no_planner_retrieval=True),
+                                     AblationOptions(no_error_retrieval=True),
+                                     AblationOptions(no_semantic_judge=True),
+                                     AblationOptions(no_method_retrieval=True, no_semantic_judge=True)])
 def test_unchanged_context_reuses_bundle_and_vectors_without_inference(reference, tmp_path, monkeypatch, options):
     root, source, old = reference
     before = snapshot(source)
@@ -69,15 +73,21 @@ def test_unchanged_context_reuses_bundle_and_vectors_without_inference(reference
         embedder=SimpleNamespace(embed_documents=fail_docs, embed_query=vector)))
     target.build_rag(embed_documents=bank.documents, embed_query=bank.query)
     assert [t.summary for t in target.analysis_targets] == [t.summary for t in old.analysis_targets]
-    if not options.no_method_retrieval:
+    if options.method_index_enabled:
         assert target.rag_db.reused
         assert target.rag_db.query(target.analysis_targets[0].summary)
-    if not options.no_type_hints:
+    if options.semantic_judge_enabled:
         assert target.class_db.reused
     assert snapshot(source) == before
     assert not (tmp_path/'new/tasks').exists()
     audit = json.loads((tmp_path/'new/reference_artifacts.json').read_text())
-    assert audit['analysis_bundle'] and audit['vectors_copied']
+    assert audit['analysis_bundle']
+    copied = audit['vectors_copied']
+    assert ('classes.npz' in copied) is options.semantic_judge_enabled
+    assert any(name != 'classes.npz' for name in copied) is options.method_index_enabled
+    if not options.method_index_enabled and not options.semantic_judge_enabled:
+        assert not target.rag_db and not target.class_db
+        assert audit['registered_document_vectors'] == 0
 
 
 def test_graph_removal_never_loads_enriched_bundle_and_reuses_only_unchanged_texts(reference, tmp_path, monkeypatch):
