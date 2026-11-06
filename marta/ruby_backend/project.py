@@ -30,7 +30,7 @@ from . import cache, coverage_runner, param_types, rag, readme, recorder as rec,
 from .ablation import AblationOptions
 from .intent_flow import POLICY as INTENT_FLOW_POLICY, plan_intent_flow
 from .analysis_state import AnalysisArchive, analysis_provenance
-from .checkpoints import RoundCheckpoints, atomic_json, atomic_write, dependency_files, file_hash
+from .checkpoints import DEPENDENCY_POLICY, RoundCheckpoints, atomic_json, atomic_write, dependency_files, file_hash
 from .backend import LanguageBackend, RubyBackend
 from .generate import AskFn, GenOutcome, _default_ask, generate_spec_for_method
 from .source_context import SourceContext, build_source_context
@@ -1220,10 +1220,11 @@ class RubyProject:
         from .workers import POLICY as WORKERS_POLICY
         source_files = sorted(set(self.files + [os.path.join(self.root_dir, path)
                                                for path in (self.library_files or [])]))
-        dependencies = dependency_files(self.root_dir)
+        dependencies = dependency_files(self.root_dir, output_root=self.out_root())
         client = getattr(ask, "__self__", None) or getattr(ask, "client", None)
         return {
             "sources": {os.path.relpath(path, self.root_dir): file_hash(path) for path in source_files},
+            "dependency_policy": DEPENDENCY_POLICY,
             "dependencies": {os.path.relpath(path, self.root_dir): file_hash(path)
                              for path in dependencies},
             "implementation": {str(path.relative_to(Path(__file__).parent)): file_hash(path)

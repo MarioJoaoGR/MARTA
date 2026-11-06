@@ -42,13 +42,31 @@ def file_hash(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
-def dependency_files(root):
-    """Find lock/config files without walking installed gems or previous output."""
+DEPENDENCY_POLICY = "project-declarations-v2"
+MARTA_OUTPUT_DIRS = frozenset((".marta_ruby_cache", ".marta_generation", "marta_specs",
+                               "run_results", "rejected_specs"))
+
+
+def dependency_files(root, *, output_root=None):
+    """Find real declarations, pruning owned outputs before entering their trees.
+
+    A distinct output root is excluded only when inside the project. Preserve
+    declarations of ordinary subprojects, including a nested run_results folder.
+    """
+    root_abs = os.path.abspath(root)
+    excluded_output = None
+    if output_root is not None:
+        canonical_root, output = Path(root).resolve(), Path(output_root).resolve()
+        if output != canonical_root and output.is_relative_to(canonical_root):
+            excluded_output = os.path.join(root_abs, str(output.relative_to(canonical_root)))
     found = []
     for directory, children, names in os.walk(root):
+        at_root = os.path.abspath(directory) == root_abs
         children[:] = sorted(name for name in children
                              if not name.startswith(".") and name not in
                              ("vendor", "node_modules", "marta_specs", "rejected_specs")
+                             and not (at_root and name in MARTA_OUTPUT_DIRS)
+                             and os.path.join(os.path.abspath(directory), name) != excluded_output
                              and not os.path.islink(os.path.join(directory, name)))
         for name in sorted(names):
             if name in ("Gemfile", "Gemfile.lock") or name.endswith(".gemspec"):

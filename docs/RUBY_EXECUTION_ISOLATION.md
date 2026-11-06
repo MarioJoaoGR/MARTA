@@ -73,6 +73,10 @@ O workspace é lazy: sem specs a validar nem métodos a gerar, não há cópia. 
 retoma com specs já certificados continua a necessitar de uma cópia para os
 **revalidar**, mesmo que não faça novos pedidos LLM.
 
+A [correção do âmbito de dependências](RUBY_DEPENDENCY_SCOPE.md) alinha o
+snapshot com a exclusão de outputs na cópia. Evita contar um `Gemfile.lock`
+num output interno como entrada que teria de existir no workspace.
+
 ## Limites explícitos
 
 - Esta primeira versão exige um projeto relocatável e sem symlinks nas entradas

@@ -9,7 +9,7 @@ import tempfile
 import time
 
 from .backend import RubyBackend
-from .checkpoints import atomic_json, dependency_files, file_hash
+from .checkpoints import DEPENDENCY_POLICY, MARTA_OUTPUT_DIRS, atomic_json, dependency_files, file_hash
 from .mutation import run_mutation
 from .execution import relocate_environment, ENVIRONMENT_KEYS
 
@@ -73,9 +73,9 @@ def summarize_mutation(rows, requested):
 def _copy_workspace(project, destination):
     root = Path(project.root_dir).resolve()
     output = Path(project.out_root()).resolve()
-    excluded = {".git", ".marta_ruby_cache", ".marta_generation", "run_results", "marta_specs"}
     def ignore(directory, names):
-        return [name for name in names if name in excluded or
+        return [name for name in names if name == ".git" or
+                (Path(directory) == root and name in MARTA_OUTPUT_DIRS) or
                 (output != root and (Path(directory) / name).resolve() == output)]
     shutil.copytree(root, destination, symlinks=True, ignore=ignore)
 
@@ -131,16 +131,17 @@ def evaluate_project(project, *, mutation=False, mutation_usage=None, timeout=30
     output = Path(tempfile.mkdtemp(prefix="evaluation_", dir=parent))
     specs = [Path(project.root_dir, p).resolve() for p in project._all_spec_paths()]
     tracked = sorted(set([Path(p).resolve() for p in project.files] + specs
-                         + [Path(p).resolve() for p in dependency_files(project.root_dir)]
+                         + [Path(p).resolve() for p in dependency_files(project.root_dir, output_root=project.out_root())]
                          + [Path(p).resolve() for p in list(getattr(project.backend, "requires", None) or [])
                             + list(getattr(project.backend, "coverage_requires", None) or []) if Path(p).is_file()]))
     snapshot = {str(p): file_hash(p) for p in tracked}
-    manifest = {"policy": POLICY, "status": "running", "inputs": snapshot,
+    manifest = {"policy": POLICY, "dependency_policy": DEPENDENCY_POLICY,
+                "status": "running", "inputs": snapshot,
                 "suite_files": [str(p) for p in specs], "mutation_requested": mutation,
                 "generation_cost": copy.deepcopy(generation_cost),
                 "environment": {key: project._execution_environment().get(key) for key in ENVIRONMENT_KEYS},
                 "implementation": {name: file_hash(Path(__file__).parent / name)
-                                   for name in ("evaluation.py", "execution.py", "mutation.py", "rb/marta_mutation.rb")},
+                                   for name in ("evaluation.py", "execution.py", "checkpoints.py", "mutation.py", "rb/marta_mutation.rb")},
                 "scope": "Normal Ruby backend; accumulated generated suite. Not an XRepoTest task evaluator."}
     atomic_json(output / "manifest.json", manifest)
     started = time.monotonic()

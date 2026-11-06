@@ -11,7 +11,7 @@ import tempfile
 import time
 
 from .backend import RubyBackend
-from .checkpoints import atomic_write, dependency_files, file_hash
+from .checkpoints import DEPENDENCY_POLICY, MARTA_OUTPUT_DIRS, atomic_write, dependency_files, file_hash
 from .generate import generate_spec_for_method
 
 POLICY = "native-project-workspace-v1"
@@ -54,7 +54,7 @@ class GenerationWorkspace:
         self.temp = self.root = self.backend = None
         self.inputs = {Path(p).resolve(): file_hash(p) for p in
                        set(project.files + [str(self.original / p) for p in project.library_files or []]
-                           + dependency_files(project.root_dir))}
+                           + dependency_files(project.root_dir, output_root=self.output))}
         if any(not p.is_relative_to(self.original) for p in self.inputs):
             raise ValueError("Execution isolation requires source files inside the project")
 
@@ -74,8 +74,7 @@ class GenerationWorkspace:
         started = time.monotonic()
         self.temp = tempfile.TemporaryDirectory(prefix="marta-generation-", dir=parent)
         self.root = Path(self.temp.name) / "repo"
-        excluded = {".git", ".marta_ruby_cache", ".marta_generation", "marta_specs",
-                    "run_results", "rejected_specs"}
+        excluded = MARTA_OUTPUT_DIRS | {".git"}
         def ignore(directory, names):
             return [name for name in names if name == ".git" or
                     (Path(directory) == self.original and name in excluded) or
@@ -104,7 +103,7 @@ class GenerationWorkspace:
         self.backend.coverage_requires = [self.remap(p, helper=True) for p in
                                           getattr(self.project.backend, "coverage_requires", [])]
         self.verify_inputs()
-        self.recorder.evento(tipo="execution_workspace", policy=POLICY,
+        self.recorder.evento(tipo="execution_workspace", policy=POLICY, dependency_policy=DEPENDENCY_POLICY,
                                         copies=1, seconds=time.monotonic() - started)
 
     def remap(self, value, *, helper=False):
