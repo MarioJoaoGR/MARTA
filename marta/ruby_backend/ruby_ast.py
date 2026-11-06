@@ -118,8 +118,8 @@ class RubyParseError(RuntimeError):
     from a *syntax* error in the analysed file, which comes back in ``errors``."""
 
 
-def ruby_bin() -> str:
-    return os.getenv("MARTA_RUBY_BIN", "ruby")
+def ruby_bin(env=None) -> str:
+    return (os.environ if env is None else env).get("MARTA_RUBY_BIN", "ruby")
 
 
 def _from_json(data: dict) -> FileParse:
@@ -181,18 +181,18 @@ def _from_json(data: dict) -> FileParse:
     )
 
 
-def _run(args: List[str], stdin: Optional[str] = None) -> dict:
+def _run(args: List[str], stdin: Optional[str] = None, *, env=None) -> dict:
     try:
         proc = subprocess.run(
-            [ruby_bin(), _HELPER, *args],
+            [ruby_bin(env), _HELPER, *args],
             input=stdin,
             capture_output=True,
             text=True, errors='replace',
-            timeout=30,
+            timeout=30, env=env,
         )
     except FileNotFoundError as e:
         raise RubyParseError(
-            f"Ruby binary '{ruby_bin()}' not found. Set MARTA_RUBY_BIN to a "
+            f"Ruby binary '{ruby_bin(env)}' not found. Set MARTA_RUBY_BIN to a "
             f"Ruby >= 3.3 (ships Prism)."
         ) from e
     except subprocess.TimeoutExpired as e:
@@ -207,11 +207,11 @@ def _run(args: List[str], stdin: Optional[str] = None) -> dict:
         raise RubyParseError(f"marta_parse.rb emitted non-JSON: {proc.stdout[:200]}") from e
 
 
-def parse_file(path: str) -> FileParse:
+def parse_file(path: str, *, env=None) -> FileParse:
     """Structural parse of a Ruby file on disk."""
-    return _from_json(_run([path]))
+    return _from_json(_run([path], env=env))
 
 
-def parse_source(source: str, name: str = "(source)") -> FileParse:
+def parse_source(source: str, name: str = "(source)", *, env=None) -> FileParse:
     """Structural parse of Ruby source held in memory."""
-    return _from_json(_run(["--stdin", name], stdin=source))
+    return _from_json(_run(["--stdin", name], stdin=source, env=env))

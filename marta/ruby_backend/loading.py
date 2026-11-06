@@ -10,7 +10,7 @@ import re
 LOADING_POLICY = "gemspec-bundle-namespaces-v3"
 
 
-def loading_plan(root, source_rel, focal_require, dependency_index=None):
+def loading_plan(root, source_rel, focal_require, dependency_index=None, *, env=None):
     root = Path(root).resolve()
     source = (root / source_rel).resolve()
     if not source.is_relative_to(root) or not source.is_file():
@@ -54,7 +54,7 @@ def loading_plan(root, source_rel, focal_require, dependency_index=None):
     if dependency_index and dependency_index["entries"]:
         from .dependencies import source_references, resolve
         dependencies = resolve(dependency_index,
-                               source_references(root, source, package, parents), root)
+                               source_references(root, source, package, parents, env=env), root, env=env)
     requires = list(dict.fromkeys([d["require"] for d in dependencies["resolved"]]
                                  + ([entry] if entry else []) + parents + [focal_require]))
     return {"policy": LOADING_POLICY, "entry": entry, "focal": focal_require,

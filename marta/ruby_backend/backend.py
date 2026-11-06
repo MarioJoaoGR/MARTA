@@ -16,7 +16,7 @@ from __future__ import annotations
 import glob
 import os
 from abc import ABC, abstractmethod
-from types import ModuleType
+from types import ModuleType, MappingProxyType
 from typing import Any, List, Optional, Tuple
 
 from . import coverage_runner, prompts as ruby_prompts, runner, salvage
@@ -85,6 +85,16 @@ class LanguageBackend(ABC):
 class RubyBackend(LanguageBackend):
     """Ruby/RSpec implementation, delegating to the ruby_backend modules."""
 
+    def bind_environment(self, env):
+        """Own a read-only snapshot; never mutate the host process environment."""
+        if any(not isinstance(k, str) or not isinstance(v, str) for k, v in env.items()):
+            raise TypeError("Subprocess environment keys and values must be strings")
+        self.process_env = MappingProxyType(dict(env))
+
+    def _env_kwargs(self):
+        env = getattr(self, "process_env", None)
+        return {"env": env} if env is not None else {}
+
     source_glob = "*.rb"
     test_dir = "spec"
 
@@ -109,17 +119,17 @@ class RubyBackend(LanguageBackend):
         return files
 
     def parse_file(self, path: str) -> FileParse:
-        return ruby_ast.parse_file(path)
+        return ruby_ast.parse_file(path, **self._env_kwargs())
 
     def parse_source(self, source: str, name: str = "(source)") -> FileParse:
-        return ruby_ast.parse_source(source, name)
+        return ruby_ast.parse_source(source, name, **self._env_kwargs())
 
     def module_ref(self, source_rel: str) -> str:
         # foo/bar.rb -> foo/bar  (require "foo/bar" with -I on the source dir)
         return os.path.splitext(source_rel)[0]
 
     def syntax_check(self, source: str) -> Optional[str]:
-        return runner.syntax_check(source)
+        return runner.syntax_check(source, **self._env_kwargs())
 
     # O ambiente de execução (ver RubyProject.load_paths / preload) é atribuído
     # pelo projeto, por instância; lê-se com getattr para um RubyBackend() solto
@@ -131,7 +141,7 @@ class RubyBackend(LanguageBackend):
         # certificou assim (ver RubyProject.library_targets).
         requires = list(getattr(self, "requires", None) or []) + list(requires_extra or [])
         return runner.run_rspec(test_path, load_paths=load_paths, cwd=cwd,
-                                requires=requires)
+                                requires=requires, **self._env_kwargs())
 
     def run_coverage(self, source_dir: str, test_paths: List[str], cwd: str) -> CoverageResult:
         # Generated specs are self-contained -> isolate from the project .rspec.
@@ -144,7 +154,7 @@ class RubyBackend(LanguageBackend):
         return coverage_runner.run_line_coverage(
             source_dir, test_paths, cwd=cwd, isolated=True,
             load_paths=getattr(self, "extra_load_paths", None),
-            requires=requires)
+            requires=requires, **self._env_kwargs())
 
     def synthesize_coverage(self, method: MethodInfo, lines: List[Optional[int]],
                             branches: Optional[List[List[int]]] = None,

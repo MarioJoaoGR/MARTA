@@ -32,6 +32,7 @@ def main():
     parser.add_argument("--num", type=int, default=3, help="Number of coverage-guided rounds")
     parser.add_argument("--limit", type=int, default=None,
                         help="Generate tests for only the first N targets; all production methods are still analyzed")
+    parser.add_argument("--isolate_execution", action="store_true", help="Validate generated tests in one disposable native Ruby project copy; default: in-place")
     parser.add_argument("--no_rag", action="store_true", help="Skip embeddings/RAG (faster start, less context)")
     from marta.ruby_backend.ablation import add_arguments, from_args
     add_arguments(parser, underscores=True)
@@ -136,7 +137,9 @@ def main():
                            code_files=env.get("code_files"),
                            library_files=env.get("library_files"),
                            library_targets=env.get("library_targets"),
-                           method_names=method_names, ablation_options=ablations).discover()
+                           method_names=method_names, ablation_options=ablations,
+                           subprocess_env=env.get("subprocess_env"),
+                           isolate_execution=args.isolate_execution).discover()
         print(f"🔍 [Contexto] {len(proj.files)} ficheiros, "
               f"{len(proj.analysis_targets)} métodos de análise, {len(proj.targets)} métodos-alvo; "
               f"grafo: {len(proj.call_graph.edges) if proj.call_graph else 0} arestas "

@@ -31,20 +31,21 @@ from .ruby_ast import RubyParseError, ruby_bin
 _GUARD = os.path.join(os.path.dirname(__file__), "rb", "marta_rspec_guard.rb")
 
 
-def rspec_bin() -> str:
-    override = os.getenv("MARTA_RSPEC_BIN")
+def rspec_bin(env=None) -> str:
+    env = os.environ if env is None else env
+    override = env.get("MARTA_RSPEC_BIN")
     if override:
         return override
     # O venv de Ruby (scripts/ruby_env.sh) é o sítio onde o rspec deve viver: nada
     # nosso é instalado no store global do rbenv. Procurá-lo aqui ANTES do irmão
     # do `ruby` faz a ferramenta funcionar com o venv activo mesmo sem
     # MARTA_RSPEC_BIN definido.
-    venv = os.getenv("MARTA_RUBY_ENV")
+    venv = env.get("MARTA_RUBY_ENV")
     if venv:
         candidate = os.path.join(venv, "bin", "rspec")
         if os.path.exists(candidate):
             return candidate
-    resolved = shutil.which(ruby_bin()) or ruby_bin()
+    resolved = shutil.which(ruby_bin(env), path=env.get("PATH", os.defpath)) or ruby_bin(env)
     sibling = os.path.join(os.path.dirname(os.path.abspath(resolved)), "rspec")
     return sibling if os.path.exists(sibling) else "rspec"
 
@@ -52,21 +53,21 @@ def rspec_bin() -> str:
 # --------------------------------------------------------------------------- #
 # Syntax check
 # --------------------------------------------------------------------------- #
-def syntax_check(source: str, timeout: int = 15) -> Optional[str]:
+def syntax_check(source: str, timeout: int = 15, *, env=None) -> Optional[str]:
     """Return None if ``source`` is syntactically valid Ruby, else the error.
 
     Mirrors ``find_syntax_error``: cheap, parse-only, no execution.
     """
     try:
         proc = subprocess.run(
-            [ruby_bin(), "-c"],
+            [ruby_bin(env), "-c"],
             input=source,
             capture_output=True,
             text=True, errors='replace',
-            timeout=timeout,
+            timeout=timeout, env=env,
         )
     except FileNotFoundError as e:
-        raise RubyParseError(f"Ruby binary '{ruby_bin()}' not found") from e
+        raise RubyParseError(f"Ruby binary '{ruby_bin(env)}' not found") from e
     except subprocess.TimeoutExpired as e:
         raise RubyParseError("ruby -c timed out") from e
     if proc.returncode == 0:
@@ -75,9 +76,9 @@ def syntax_check(source: str, timeout: int = 15) -> Optional[str]:
     return msg or "syntax error"
 
 
-def syntax_check_file(path: str, timeout: int = 15) -> Optional[str]:
+def syntax_check_file(path: str, timeout: int = 15, *, env=None) -> Optional[str]:
     with open(path, "r", encoding="utf-8") as f:
-        return syntax_check(f.read(), timeout=timeout)
+        return syntax_check(f.read(), timeout=timeout, env=env)
 
 
 # --------------------------------------------------------------------------- #
@@ -205,6 +206,7 @@ def run_rspec(
     use_bundle: bool = False,
     isolated: bool = True,
     use_guard: bool = True,
+    *, env=None,
 ) -> RSpecResult:
     """Run one spec file under ``rspec -f json`` and parse the results.
 
@@ -227,7 +229,7 @@ def run_rspec(
     # Dois formatos: o progress (texto legível, com as falhas e os backtraces) no
     # stdout, para o erro que volta ao modelo; o json no ficheiro, para ler os
     # resultados. O -o aplica-se ao formato anterior (o json).
-    args = ["bundle", "exec", "rspec"] if use_bundle else [rspec_bin()]
+    args = ["bundle", "exec", "rspec"] if use_bundle else [rspec_bin(env)]
     if isolated:
         args += ["-O", os.devnull]
     args += ["-f", "progress", "-f", "json", "-o", json_path]
@@ -241,11 +243,11 @@ def run_rspec(
 
     try:
         proc = subprocess.run(
-            args, cwd=cwd, capture_output=True, text=True, errors='replace', timeout=timeout
+            args, cwd=cwd, capture_output=True, text=True, errors='replace', timeout=timeout, env=env
         )
     except FileNotFoundError as e:
         os.unlink(json_path)
-        raise RubyParseError(f"rspec binary '{rspec_bin()}' not found") from e
+        raise RubyParseError(f"rspec binary '{rspec_bin(env)}' not found") from e
     except subprocess.TimeoutExpired:
         os.unlink(json_path)
         return RSpecResult(all_passed=False, output="time exceeded",

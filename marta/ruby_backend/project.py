@@ -23,12 +23,13 @@ import time
 from collections import Counter
 from contextlib import nullcontext
 from dataclasses import dataclass, field, replace
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Mapping
+from types import MappingProxyType
 
 from . import cache, coverage_runner, param_types, rag, readme, recorder as rec, ruby_ast, summaries
 from .ablation import AblationOptions
 from .analysis_state import AnalysisArchive, analysis_provenance
-from .checkpoints import RoundCheckpoints, atomic_json, dependency_files, file_hash
+from .checkpoints import RoundCheckpoints, atomic_json, atomic_write, dependency_files, file_hash
 from .backend import LanguageBackend, RubyBackend
 from .generate import AskFn, GenOutcome, _default_ask, generate_spec_for_method
 from .source_context import SourceContext, build_source_context
@@ -272,6 +273,28 @@ class RubyProject:
     judge_decisions: Dict[str, dict] = field(default_factory=dict, init=False)
     backend: LanguageBackend = field(default_factory=RubyBackend)
     ablation_options: AblationOptions = field(default_factory=AblationOptions)
+    subprocess_env: Optional[Mapping[str, str]] = field(default=None, repr=False)
+    isolate_execution: bool = False
+    _bound_env: Optional[Mapping[str, str]] = field(default=None, init=False, repr=False)
+
+    def __post_init__(self):
+        if self.subprocess_env is not None:
+            self._execution_environment()
+
+    def _execution_environment(self):
+        if self._bound_env is None:
+            env = os.environ if self.subprocess_env is None else self.subprocess_env
+            if any(not isinstance(k, str) or not isinstance(v, str) for k, v in env.items()):
+                raise TypeError("Subprocess environment keys and values must be strings")
+            self._bound_env = MappingProxyType(dict(env))
+        return self._bound_env
+
+    def _workspace(self):
+        if not self.isolate_execution:
+            return nullcontext(None)
+        from .execution import GenerationWorkspace
+        return GenerationWorkspace(self)
+
 
     def _planner_summary(self, target: MethodTarget) -> str:
         return target.summary if self.ablation_options.no_type_hints else target.planner_summary
@@ -312,9 +335,12 @@ class RubyProject:
         return list(self.load_paths) + [self.source_dir]
 
     def _apply_environment(self) -> None:
-        """Passa o ambiente ao backend, para os specs correrem e a cobertura ser
-        medida nas MESMAS condições em que o dataset certificou que o módulo
-        carrega: as pastas todas no caminho, e a porta de entrada já carregada."""
+        """Bind execution paths and environment to this project's native backend."""
+        # Own the native backend configuration even if a caller reused an instance.
+        if type(self.backend) is RubyBackend:
+            import copy
+            self.backend = copy.copy(self.backend)
+            self.backend.bind_environment(self._execution_environment())
         self.backend.extra_load_paths = self._load_path_list()
         self.backend.requires = [self.preload] if self.preload else []
         script = self._library_script()
@@ -345,9 +371,11 @@ class RubyProject:
         pasta = os.path.join(self.out_root(), ".marta_ruby_cache")
         os.makedirs(pasta, exist_ok=True)
         caminho = os.path.join(pasta, "biblioteca.rb")
-        with open(caminho, "w", encoding="utf-8") as f:
-            f.write("\n".join(linhas))
-        return caminho
+        from pathlib import Path
+        content = "\n".join(linhas)
+        if not os.path.isfile(caminho) or Path(caminho).read_text(encoding="utf-8") != content:
+            atomic_write(caminho, content)
+        return os.path.abspath(caminho)
 
     def _extra_requires_for(self, t: "MethodTarget") -> Optional[List[str]]:
         """O `-r` extra que só os specs dos módulos certificados com a biblioteca
@@ -363,9 +391,9 @@ class RubyProject:
         timer = self.recorder.medir("production_dependencies") if self.recorder else nullcontext()
         with timer:
             if self._loading_dependency_index is None:
-                self._loading_dependency_index = bundle_index(self.root_dir)
+                self._loading_dependency_index = bundle_index(self.root_dir, env=self._execution_environment())
             rel = os.path.join(self.source_dir, t.source_rel)
-            plan = loading_plan(self.root_dir, rel, t.require_target, self._loading_dependency_index)
+            plan = loading_plan(self.root_dir, rel, t.require_target, self._loading_dependency_index, env=self._execution_environment())
         if self.recorder is not None:
             self.recorder.evento(tipo="production_loading", metodo=t.method.qualified_name, plan=plan)
         return loading_context(plan)
@@ -406,6 +434,7 @@ class RubyProject:
         self._analysis_fingerprint_used = None
         self.last_analysis_archive = None
         self._planner_retrieval.clear()
+        self._loading_dependency_index = None
         self.rag_db = self.class_db = None
         self.type_index = param_types.ProjectTypeIndex()
         self._apply_environment()
@@ -528,12 +557,14 @@ class RubyProject:
 
     def _analysis_fingerprint(self, targets: List[MethodTarget], *, readme_snapshot=None, provenance=None) -> str:
         from .call_graph import RESOLVER_VERSION
+        from .execution import ENVIRONMENT_KEYS
         readme_snapshot = readme_snapshot or readme.ReadmeOverviewCache(
             self.abs_source, project_root=self.root_dir)
         payload = {
             "schema": ANALYSIS_SCHEMA,
             "provenance": provenance if provenance is not None else analysis_provenance(),
             "scope": "full",
+            "ruby_execution_environment": {key: self._execution_environment().get(key) for key in ENVIRONMENT_KEYS},
             "methods": sorted(t.analysis_id for t in targets),
             "max_context_chars": MAX_CONTEXT_CHARS,
             "max_classes": None,
@@ -589,29 +620,39 @@ class RubyProject:
         targets = self.targets[:limit] if limit else self.targets
         self._validate_spec_paths(targets)
         recorder = self._recorder()
-        for t in targets:
-            outcome = await generate_spec_for_method(
-                method_qualified_name=t.method.qualified_name,
-                describe_subject=t.describe_subject,
-                method_source=self._source_for(t, "generation"),
-                focal_source=t.source_context.mandatory_source,
-                require_target=t.require_target,
-                load_paths=self._load_path_list(),
-                spec_path=t.spec_path,
-                cwd=self.root_dir,
-                ask=ask,
-                summary=self._planner_summary(t),
-                related=self._related_for(t),
-                max_attempts=self.ablation_options.attempts(max_attempts),
-                recorder=recorder,
-                backend=self.backend,
-
-                error_help_fn=self._error_help_fn(t),
-                extra_requires=self._extra_requires_for(t),
-                loading_context=self._generation_loading_for(t),
-            )
-            outcomes.append(outcome)
+        # The single-round API has no resume checkpoint, but shares the writer lock.
+        lock = RoundCheckpoints(self.out_root(), {}, recorder.evento)
+        with lock.locked(), self._workspace() as workspace:
+            for t in targets:
+                outcomes.append(await self._generate_target(t, t.spec_path, ask, max_attempts, recorder, workspace))
+            if workspace is not None:
+                workspace.verify_inputs()
         return outcomes
+
+    async def _generate_target(self, t, spec_path, ask, max_attempts, recorder,
+                               workspace=None, coverage_info="First pass: Try to achieve maximum coverage."):
+        generate = workspace.generate if workspace is not None else generate_spec_for_method
+        return await generate(
+            method_qualified_name=t.method.qualified_name,
+            describe_subject=t.describe_subject,
+            method_source=self._source_for(t, "generation"),
+            focal_source=t.source_context.mandatory_source,
+            require_target=t.require_target,
+            load_paths=self._load_path_list(),
+            spec_path=spec_path,
+            cwd=self.root_dir,
+            ask=ask,
+            summary=self._planner_summary(t),
+            related=self._related_for(t),
+            max_attempts=self.ablation_options.attempts(max_attempts),
+            coverage_info=coverage_info,
+            recorder=recorder,
+            backend=self.backend,
+
+            error_help_fn=self._error_help_fn(t),
+            extra_requires=self._extra_requires_for(t),
+            loading_context=self._generation_loading_for(t),
+        )
 
     async def analyze_summaries(
         self, ask: Optional[AskFn] = None, use_cache: bool = True,
@@ -1090,7 +1131,7 @@ class RubyProject:
                           recursive=True)
         return [os.path.relpath(s, self.root_dir) for s in sorted(specs)]
 
-    def measure_coverage(self) -> Dict[int, coverage_runner.MethodCoverage]:
+    def measure_coverage(self, *, workspace=None) -> Dict[int, coverage_runner.MethodCoverage]:
         """Run every generated spec under Coverage and synthesise per-method
         missing_lines. Keyed by target index. Targets whose source file has no
         coverage data (e.g. no passing spec yet) map to full-miss coverage."""
@@ -1098,7 +1139,8 @@ class RubyProject:
         by_target: Dict[int, coverage_runner.MethodCoverage] = {}
         if not spec_paths:
             return by_target
-        result = self.backend.run_coverage(self.source_dir, spec_paths, cwd=self.root_dir)
+        result = (workspace.coverage(spec_paths) if workspace is not None else
+                  self.backend.run_coverage(self.source_dir, spec_paths, cwd=self.root_dir))
         validation = getattr(result, "suite_result", None)
         self._recorder().evento(tipo="suite_validation", valid=bool(validation and validation.all_passed),
                                 output=validation.output if validation else "missing validation report")
@@ -1113,7 +1155,7 @@ class RubyProject:
                     t.method, lines, branches, methods)
         return by_target
 
-    def _measure_retained_suite(self, new_outcomes: List[GenOutcome]):
+    def _measure_retained_suite(self, new_outcomes: List[GenOutcome], *, workspace=None):
         """Rollback new files until the accumulated suite passes in one process.
 
         Rejected code and diagnostics are archived outside the generated-spec
@@ -1123,7 +1165,7 @@ class RubyProject:
         pending = [o for o in new_outcomes if o.success and o.spec_path]
         while True:
             try:
-                return self.measure_coverage()
+                return self.measure_coverage(**({"workspace": workspace} if workspace is not None else {}))
             except coverage_runner.SuiteValidationError as exc:
                 if not pending:
                     raise  # Invalid pre-existing suite needs explicit attention.
@@ -1173,9 +1215,12 @@ class RubyProject:
             "client": {key: getattr(client, key, None) for key in
                        ("model_type", "temperature", "max_tokens", "reasoning_effort", "top_p",
                         "presence_penalty", "request_timeout")},
-            "environment": {key: os.getenv(key) for key in (
-                "LLM_MAX_TOKENS", "OLLAMA_CTX", "OLLAMA_CONTEXT_LENGTH", "TRANSFORMER_PATH",
+            "execution_workspace": "native-project-workspace-v1" if self.isolate_execution else "in-place",
+            "environment": {key: self._execution_environment().get(key) for key in (
+                "PATH", "MARTA_RUBY_ENV", "BUNDLE_APP_CONFIG", "RUBYLIB",
                 "MARTA_RUBY_BIN", "MARTA_RSPEC_BIN", "GEM_HOME", "GEM_PATH", "BUNDLE_GEMFILE", "RUBYOPT")},
+            "llm_environment": {key: os.getenv(key) for key in
+                                ("LLM_MAX_TOKENS", "OLLAMA_CTX", "OLLAMA_CONTEXT_LENGTH", "TRANSFORMER_PATH")},
             "targets": [t.analysis_id + ":" + str(t.task_id) for _, t in targets],
             "analysis": [[t.analysis_id, t.done_what, t.what_todo, t.summary, t.judge]
                          for t in self.analysis_targets],
@@ -1221,11 +1266,13 @@ class RubyProject:
             trusted = ([os.path.join(self.root_dir, self.targets[0].spec_path_for_round(0))]
                        if reuse_first_round else [])
             completed = checkpoints.prepare(rounds, trusted_seed=trusted)
-            # Use the current Ruby environment, not saved coverage numbers.
-            cov = self._measure_retained_suite([]) if completed else {}
-            return await self._generate_rounds(
-                rounds, ask, max_attempts, limit, reuse_first_round,
-                checkpoints=checkpoints, completed=completed, initial_coverage=cov)
+            with self._workspace() as workspace:
+                # Revalidate retained output in the same bound execution environment.
+                cov = self._measure_retained_suite([], **({"workspace": workspace} if workspace is not None else {})) if completed else {}
+                return await self._generate_rounds(
+                    rounds, ask, max_attempts, limit, reuse_first_round,
+                    checkpoints=checkpoints, completed=completed, initial_coverage=cov,
+                    workspace=workspace)
 
     async def _generate_rounds(
         self,
@@ -1234,7 +1281,7 @@ class RubyProject:
         max_attempts: int = 3,
         limit: Optional[int] = None,
         reuse_first_round: bool = False,
-        *, checkpoints: RoundCheckpoints, completed: int, initial_coverage: dict,
+        *, checkpoints: RoundCheckpoints, completed: int, initial_coverage: dict, workspace=None,
     ) -> List[GenOutcome]:
         """Coverage-guided multi-round generation — the Fase 2 loop.
 
@@ -1274,27 +1321,8 @@ class RubyProject:
                     coverage_info = "First pass: Try to achieve maximum coverage."
                 else:
                     coverage_info = f"MISSING LINES TO COVER: {mc.format_missing_lines()}"
-                outcome = await generate_spec_for_method(
-                    method_qualified_name=t.method.qualified_name,
-                    describe_subject=t.describe_subject,
-                    method_source=self._source_for(t, "generation"),
-                    focal_source=t.source_context.mandatory_source,
-                    require_target=t.require_target,
-                    load_paths=self._load_path_list(),
-                    spec_path=t.spec_path_for_round(rnd),
-                    cwd=self.root_dir,
-                    ask=ask,
-                    summary=self._planner_summary(t),
-                    related=self._related_for(t),
-                    max_attempts=self.ablation_options.attempts(max_attempts),
-                    coverage_info=coverage_info,
-                    recorder=recorder,
-                    backend=self.backend,
-
-                    error_help_fn=self._error_help_fn(t),
-                    extra_requires=self._extra_requires_for(t),
-                    loading_context=self._generation_loading_for(t),
-                )
+                outcome = await self._generate_target(
+                    t, t.spec_path_for_round(rnd), ask, max_attempts, recorder, workspace, coverage_info)
                 outcomes.append(outcome)
                 round_outcomes.append(outcome)
             recorder.end_count_time(f"round_{rnd}")
@@ -1302,7 +1330,9 @@ class RubyProject:
             # até aqui. No cluster isso é tempo com a GPU parada, por isso convém
             # estar medido à parte e não diluído no tempo da ronda.
             with recorder.medir("cobertura"):
-                cov = self._measure_retained_suite(round_outcomes)
+                if workspace is not None:
+                    workspace.verify_inputs()
+                cov = self._measure_retained_suite(round_outcomes, **({"workspace": workspace} if workspace is not None else {}))
             checkpoints.commit(rnd, round_outcomes)
             recorder.evento(tipo="round_utility", **round_observation(
                 targets, before_cov, cov, round_outcomes, start_cost, cost_snapshot(recorder),

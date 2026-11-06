@@ -16,12 +16,12 @@ HELPER = Path(__file__).parent / "rb/marta_dependencies.rb"
 POLICY = "bundle-production-namespaces-v1"
 
 
-def _query(mode, root, payload=None):
+def _query(mode, root, payload=None, *, env=None):
     # Parsing must not inherit a caller's -rbundler/setup: Prism need not be a
     # dependency of the SUT. Bundle metadata itself still uses Bundler.setup.
-    env = dict(os.environ)
+    env = dict(os.environ if env is None else env)
     env.pop("RUBYOPT", None)
-    result = subprocess.run([ruby_bin(), str(HELPER), mode], cwd=root, env=env,
+    result = subprocess.run([ruby_bin(env), str(HELPER), mode], cwd=root, env=env,
                             input=json.dumps(payload) if payload is not None else None,
                             capture_output=True, text=True, timeout=120)
     if result.returncode:
@@ -29,12 +29,13 @@ def _query(mode, root, payload=None):
     return json.loads(result.stdout)
 
 
-def bundle_index(root):
+def bundle_index(root, *, env=None):
     root = Path(root).resolve()
-    gemfile = Path(os.environ.get("BUNDLE_GEMFILE", root / "Gemfile")).resolve()
+    gemfile = Path((os.environ if env is None else env).get("BUNDLE_GEMFILE", root / "Gemfile"))
+    gemfile = (root / gemfile).resolve()
     if not gemfile.is_relative_to(root) or not gemfile.is_file():
         return {"policy": POLICY, "entries": []}
-    specs = _query("--bundle", root)
+    specs = _query("--bundle", root, **({"env": env} if env is not None else {}))
     entries = []
     for spec in specs:
         package = Path(spec["gem_path"]).resolve()
@@ -65,7 +66,7 @@ def namespace_paths(name):
     return list(dict.fromkeys(names))
 
 
-def namespace_index(index, facts, root):
+def namespace_index(index, facts, root, *, env=None):
     """Verify conventional namespace files inside the bundle's require paths.
 
     A gem that merely reopens another library's class is not credited as its
@@ -85,7 +86,7 @@ def namespace_index(index, facts, root):
                         paths[str(path)] = None
                         definitions.setdefault(namespace, []).append(str(path))
         candidates.append({**entry, "definitions": definitions})
-    evidence = _query("--files", root, {"files": sorted(paths)}) if paths else {}
+    evidence = _query("--files", root, {"files": sorted(paths)}, **({"env": env} if env is not None else {})) if paths else {}
     for entry in candidates:
         entry["definitions"] = {name: [p for p in files if name in evidence[p]["definitions"]
                                         and not evidence[p]["errors"]]
@@ -94,7 +95,7 @@ def namespace_index(index, facts, root):
     return {"policy": POLICY, "entries": candidates}
 
 
-def source_references(root, source, package, parents):
+def source_references(root, source, package, parents, *, env=None):
     root, source, package = (Path(p).resolve() for p in (root, source, package))
     lib = package / "lib"
     pending = {source}
@@ -106,7 +107,7 @@ def source_references(root, source, package, parents):
         pending = set()
         if not batch:
             break
-        for path, facts in _query("--files", root, {"files": batch}).items():
+        for path, facts in _query("--files", root, {"files": batch}, **({"env": env} if env is not None else {})).items():
             seen.add(path)
             if facts["errors"]:
                 raise ValueError(f"Production dependency references have parse errors: {path}")
@@ -123,9 +124,9 @@ def source_references(root, source, package, parents):
     return {"references": sorted(references), "production_files": sorted(seen)}
 
 
-def resolve(index, facts, root=None):
+def resolve(index, facts, root=None, *, env=None):
     if root is not None:
-        index = namespace_index(index, facts, root)
+        index = namespace_index(index, facts, root, **({"env": env} if env is not None else {}))
     resolved, ambiguous = {}, {}
     for reference in facts["references"]:
         matches = []

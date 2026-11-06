@@ -11,6 +11,7 @@ import time
 from .backend import RubyBackend
 from .checkpoints import atomic_json, dependency_files, file_hash
 from .mutation import run_mutation
+from .execution import relocate_environment, ENVIRONMENT_KEYS
 
 POLICY = "ruby-post-evaluation-v1"
 
@@ -137,8 +138,9 @@ def evaluate_project(project, *, mutation=False, mutation_usage=None, timeout=30
     manifest = {"policy": POLICY, "status": "running", "inputs": snapshot,
                 "suite_files": [str(p) for p in specs], "mutation_requested": mutation,
                 "generation_cost": copy.deepcopy(generation_cost),
+                "environment": {key: project._execution_environment().get(key) for key in ENVIRONMENT_KEYS},
                 "implementation": {name: file_hash(Path(__file__).parent / name)
-                                   for name in ("evaluation.py", "mutation.py", "rb/marta_mutation.rb")},
+                                   for name in ("evaluation.py", "execution.py", "mutation.py", "rb/marta_mutation.rb")},
                 "scope": "Normal Ruby backend; accumulated generated suite. Not an XRepoTest task evaluator."}
     atomic_json(output / "manifest.json", manifest)
     started = time.monotonic()
@@ -152,6 +154,7 @@ def evaluate_project(project, *, mutation=False, mutation_usage=None, timeout=30
                     repo = Path(tmp) / "repo"
                     suite, load_paths, requires = _stage(project, specs, repo)
                     backend = copy.copy(project.backend)
+                    backend.bind_environment(relocate_environment(project._execution_environment(), project.root_dir, repo))
                     backend.extra_load_paths = load_paths
                     backend.requires, backend.coverage_requires = requires, []
                     source_dir = repo / Path(project.abs_source).resolve().relative_to(Path(project.root_dir).resolve())
@@ -198,7 +201,8 @@ def evaluate_project(project, *, mutation=False, mutation_usage=None, timeout=30
                             result = run_mutation({"subject": subject, "file": relative.as_posix(),
                                 "start_line": target.method.start_line, "end_line": target.method.end_line},
                                 suite, repo, output / "mutation" / str(index), load_paths=load_paths,
-                                requires=requires, timeout=timeout, jobs=jobs, usage=mutation_usage, bundle=bundle)
+                                requires=requires, timeout=timeout, jobs=jobs, usage=mutation_usage, bundle=bundle,
+                                env=relocate_environment(project._execution_environment(), project.root_dir, repo))
                         row["mutation"] = result
                     except Exception as error:
                         row["mutation"]["reason"] = str(error)

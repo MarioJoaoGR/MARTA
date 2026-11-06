@@ -99,6 +99,7 @@ def run_line_coverage(
     load_paths: Optional[List[str]] = None,
     requires: Optional[List[str]] = None,
     use_bundle: bool = False,
+    *, env=None,
 ) -> CoverageResult:
     """Run specs under Coverage and return per-file per-line hit arrays.
 
@@ -118,7 +119,7 @@ def run_line_coverage(
     # de caminhos no helper compara absolutos — absolutizar SEMPRE.
     cwd = os.path.abspath(cwd)
     abs_source = source_dir if os.path.isabs(source_dir) else os.path.join(cwd, source_dir)
-    args = ["bundle", "exec", "ruby", _HELPER] if use_bundle else [ruby_bin(), _HELPER]
+    args = ["bundle", "exec", "ruby", _HELPER] if use_bundle else [ruby_bin(env), _HELPER]
     if isolated:
         args.append("--isolated")
     if minitest:
@@ -130,10 +131,10 @@ def run_line_coverage(
     args += [abs_source, *spec_paths]
     try:
         proc = subprocess.run(
-            args, cwd=cwd, capture_output=True, text=True, errors='replace', timeout=timeout
+            args, cwd=cwd, capture_output=True, text=True, errors='replace', timeout=timeout, env=env
         )
     except FileNotFoundError as e:
-        raise RubyParseError(f"Ruby binary '{ruby_bin()}' not found") from e
+        raise RubyParseError(f"Ruby binary '{ruby_bin(env)}' not found") from e
     except subprocess.TimeoutExpired as e:
         raise RubyParseError("marta_coverage.rb timed out") from e
 

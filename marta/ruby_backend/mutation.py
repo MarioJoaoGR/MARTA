@@ -21,9 +21,9 @@ POLICY = "native-focal-mutation-v1"
 BOOTSTRAP = Path(__file__).parent / "rb/marta_mutation.rb"
 
 
-def execute(command, cwd, timeout):
+def execute(command, cwd, timeout, *, env=None):
     with subprocess.Popen(command, cwd=cwd, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-                          text=True, errors="replace", start_new_session=True) as proc:
+                          text=True, errors="replace", start_new_session=True, env=env) as proc:
         try:
             out, err = proc.communicate(timeout=timeout)
             return out, err, proc.returncode
@@ -59,7 +59,7 @@ def parse_result(stdout, stderr, exit_code, identity):
 
 
 def run_mutation(identity, suite, repo, output, *, load_paths, requires=(),
-                 timeout=300, jobs=1, usage, bundle=False):
+                 timeout=300, jobs=1, usage, bundle=False, env=None):
     """The caller supplies a disposable workspace and the exact focal identity."""
     if usage not in ("opensource", "commercial"):
         raise ValueError("Declare the Mutant usage mode explicitly")
@@ -71,7 +71,7 @@ def run_mutation(identity, suite, repo, output, *, load_paths, requires=(),
     source.relative_to(repo)
     output.mkdir(parents=True, exist_ok=False)
     started = time.monotonic()
-    base = ["bundle", "exec", ruby_bin()] if bundle else [ruby_bin()]
+    base = ["bundle", "exec", ruby_bin(env)] if bundle else [ruby_bin(env)]
     result = {"policy": POLICY, "valid": False, "mutation_score": None,
               "expected": identity, "suite_sha256": file_hash(suite), "jobs": jobs,
               "timeout": timeout, "usage": usage, "bundle": bundle,
@@ -83,7 +83,7 @@ def run_mutation(identity, suite, repo, output, *, load_paths, requires=(),
                  'puts JSON.generate({ruby: RUBY_VERSION, mutant: Mutant::VERSION, '
                  'mutant_rspec: Gem.loaded_specs.fetch("mutant-rspec").version.to_s, '
                  'rspec_core: Gem.loaded_specs.fetch("rspec-core").version.to_s})')
-        out, err, code = execute(base + ["-e", probe], repo, 30)
+        out, err, code = execute(base + ["-e", probe], repo, 30, **({"env": env} if env is not None else {}))
         result["toolchain"] = {"stdout": out, "stderr": err, "exit_code": code}
         versions = json.loads(out) if code == 0 else {}
         result["toolchain"]["versions"] = versions
@@ -93,7 +93,7 @@ def run_mutation(identity, suite, repo, output, *, load_paths, requires=(),
             result.update(status="unavailable", reason="Mutant/mutant-rspec 0.15.1 unavailable in the supplied environment")
         else:
             baseline = run_rspec(str(suite), load_paths=list(load_paths), cwd=str(repo),
-                                 requires=list(requires), isolated=True, use_bundle=bundle)
+                                 requires=list(requires), isolated=True, use_bundle=bundle, **({"env": env} if env is not None else {}))
             result["baseline"] = {"valid": baseline.all_passed, "report_valid": baseline.report_valid,
                                   "exit_code": baseline.exit_code, "output": baseline.output}
             if not baseline.all_passed:
@@ -122,7 +122,7 @@ def run_mutation(identity, suite, repo, output, *, load_paths, requires=(),
                             "audit": str(output / "identity.json")}
                 atomic_json(output / "expected.json", expected)
                 command = base + [str(BOOTSTRAP), str(output / "expected.json"), "run"]
-                out, err, code = execute(command, repo, timeout)
+                out, err, code = execute(command, repo, timeout, **({"env": env} if env is not None else {}))
                 (output / "stdout.txt").write_text(out)
                 (output / "stderr.txt").write_text(err)
                 audit = json.loads((output / "identity.json").read_text()) if (output / "identity.json").exists() else {}
