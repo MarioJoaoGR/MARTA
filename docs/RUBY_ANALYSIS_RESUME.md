@@ -59,6 +59,10 @@ ablation flags, declared model/client parameters, relevant runtime settings and
 implementation hashes. Dependency discovery prunes installed gems and output
 archives. A rotating local server port is not a generation-policy change.
 
+A later [round boundary check](RUBY_GENERATION_GUARD.md) compares the observable
+recipe again after suite validation and before certification, including the
+optional declared model digest. It also protects the revalidation on resume.
+
 This is a conservative compatibility check, not a model-weight attestation or
 complete environment image. Custom injected clients must keep their declared
 configuration stable; undeclared behavior changes cannot be inferred from a

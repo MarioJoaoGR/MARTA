@@ -176,6 +176,11 @@ class RoundCheckpoints:
                           "Missing, incompatible or invalid generation checkpoint", True)
         return len(self.state["rounds"])
 
+    def archive_uncommitted(self, reason):
+        """Preserve uncertified candidates without touching saved rounds/specs."""
+        self._archive((path for name, path in self._specs().items()
+                       if name not in self.state["files"]), reason)
+
     def commit(self, round_number, outcomes):
         if round_number != len(self.state["rounds"]):
             raise ResumeValidationError("Nonsequential generation checkpoint")

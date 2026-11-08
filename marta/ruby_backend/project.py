@@ -30,7 +30,7 @@ from . import cache, coverage_runner, param_types, rag, readme, recorder as rec,
 from .ablation import AblationOptions
 from .intent_flow import POLICY as INTENT_FLOW_POLICY, plan_intent_flow
 from .analysis_state import AnalysisArchive, analysis_provenance
-from .checkpoints import DEPENDENCY_POLICY, RoundCheckpoints, atomic_json, atomic_write, dependency_files, file_hash
+from .checkpoints import DEPENDENCY_POLICY, ResumeValidationError, RoundCheckpoints, atomic_json, atomic_write, dependency_files, file_hash
 from .backend import LanguageBackend, RubyBackend
 from .generate import AskFn, GenOutcome, _default_ask, generate_spec_for_method
 from .source_context import SourceContext, build_source_context
@@ -1232,14 +1232,18 @@ class RubyProject:
             raise ValueError("Generation targets collide on a spec path; "
                              "select distinct definition/task identities")
 
-    def _generation_recipe(self, targets, ask, max_attempts, reuse_first_round):
+    def _generation_recipe(self, targets, ask, max_attempts, reuse_first_round, *, loading_snapshot=None):
         """Bind output to supplied sources, context, implementation and declared configuration."""
         from pathlib import Path
         from .workers import POLICY as WORKERS_POLICY
         source_files = sorted(set(self.files + [os.path.join(self.root_dir, path)
                                                for path in (self.library_files or [])]))
         dependencies = dependency_files(self.root_dir, output_root=self.out_root())
-        client = getattr(ask, "__self__", None) or getattr(ask, "client", None)
+        client = (getattr(ask, "__self__", None) or getattr(ask, "client", None)
+                  or (ask if getattr(ask, "response_api", False) is True else None))
+        declared_digest = getattr(client, "model_digest", None)
+        if not isinstance(declared_digest, str) or not declared_digest:
+            declared_digest = os.getenv("MARTA_MODEL_DIGEST") or None
         return {
             "sources": {os.path.relpath(path, self.root_dir): file_hash(path) for path in source_files},
             "dependency_policy": DEPENDENCY_POLICY,
@@ -1253,6 +1257,7 @@ class RubyProject:
             "response_implementation": file_hash(Path(__file__).parents[1] / "llm_response.py"),
             "embedding_implementation": file_hash(Path(__file__).parents[1] / "embedding.py"),
             "model": os.getenv("MODEL", "default"),
+            "declared_model_digest": declared_digest,
             "generation_schedule": {"workers": self.generation_workers,
                                     "policy": WORKERS_POLICY if self._coordinated_generation else "sequential-live-examples-v1"},
             "spec_naming": SPEC_NAMING_POLICY,
@@ -1271,8 +1276,17 @@ class RubyProject:
             "analysis": [[t.analysis_id, t.done_what, t.what_todo, t.summary, t.judge]
                          for t in self.analysis_targets],
             "classes": dict(self.class_summaries),
-            "loading": [[t.analysis_id, self._extra_requires_for(t), self._generation_loading_for(t)]
-                        for _, t in targets],
+            "loading_configuration": {
+                "source_dir": os.fspath(self.source_dir),
+                "preload": os.fspath(self.preload) if self.preload is not None else None,
+                "library_files": [os.fspath(path) for path in self.library_files or ()],
+                "library_targets": sorted(self.library_targets or ()),
+                "requires": [os.fspath(path) for path in getattr(self.backend, "requires", None) or ()],
+                "coverage_requires": [os.fspath(path) for path in getattr(self.backend, "coverage_requires", None) or ()],
+            },
+            "loading": (loading_snapshot if loading_snapshot is not None else [
+                [t.analysis_id, self._extra_requires_for(t), self._generation_loading_for(t)]
+                for _, t in targets]),
             "load_paths": self._load_path_list(),
             "backend": type(self.backend).__module__ + "." + type(self.backend).__qualname__,
             "retrieval": type(self.rag_db).__module__ + "." + type(self.rag_db).__qualname__,
@@ -1280,6 +1294,29 @@ class RubyProject:
             "attempts": self.ablation_options.attempts(max_attempts),
             "ablations": self.ablation_options.as_dict(), "paired_seed": reuse_first_round,
         }
+
+    def _verify_generation_recipe(self, checkpoints, targets, ask, attempts, paired, stage):
+        """Refuse changed boundary snapshots; do not buy replacement attempts."""
+        expected = checkpoints.recipe
+        try:
+            # Compare the inputs of loading; do not repeat Bundler/Prism probes.
+            current = self._generation_recipe(targets, ask, attempts, paired,
+                                              loading_snapshot=expected["loading"])
+            changed = sorted(key for key in expected.keys() | current.keys()
+                             if expected.get(key) != current.get(key))
+        except (OSError, TypeError, ValueError) as error:
+            self._recorder().evento(tipo="generation_inputs_changed", stage=stage,
+                                    changed_fields=["unreadable_or_invalid_inputs"])
+            checkpoints.archive_uncommitted("Generation inputs could not be verified")
+            raise ResumeValidationError(
+                "Generation inputs or configuration changed or cannot be verified; "
+                "no new round checkpoint certified") from error
+        if changed:
+            self._recorder().evento(tipo="generation_inputs_changed", stage=stage, changed_fields=changed)
+            checkpoints.archive_uncommitted("Generation inputs or configuration changed")
+            raise ResumeValidationError(
+                "Generation inputs or configuration changed during execution; "
+                "preserve this output; no new round checkpoint certified")
 
     async def generate_rounds(
         self, rounds: int = 3, ask: Optional[AskFn] = None,
@@ -1314,6 +1351,9 @@ class RubyProject:
             with self._workspace() as workspace:
                 # Revalidate retained output in the same bound execution environment.
                 cov = self._measure_retained_suite([], **({"workspace": workspace} if workspace is not None else {})) if completed else {}
+                if completed:
+                    self._verify_generation_recipe(checkpoints, targets, ask, max_attempts,
+                                                   reuse_first_round, "resume_revalidation")
                 return await self._generate_rounds(
                     rounds, ask, max_attempts, limit, reuse_first_round,
                     checkpoints=checkpoints, completed=completed, initial_coverage=cov,
@@ -1385,6 +1425,8 @@ class RubyProject:
                 if workspace is not None:
                     workspace.verify_inputs()
                 cov = self._measure_retained_suite(round_outcomes, **({"workspace": workspace} if workspace is not None else {}))
+            self._verify_generation_recipe(checkpoints, targets, ask, max_attempts,
+                                           reuse_first_round, "round_boundary")
             checkpoints.commit(rnd, round_outcomes)
             recorder.evento(tipo="round_utility", **round_observation(
                 targets, before_cov, cov, round_outcomes, start_cost, cost_snapshot(recorder),

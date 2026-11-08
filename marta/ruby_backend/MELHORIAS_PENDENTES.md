@@ -1,6 +1,6 @@
 # MARTA-Ruby — backlog revisto
 
-Última revisão: **2026-11-06**, após integração das correções na `main`.
+Última revisão: **2026-11-08**, após integração das correções na `main`.
 
 Esta lista distingue as correções já implementadas das melhorias ainda abertas.
 As entregas e os respetivos limites estão documentados em
@@ -236,6 +236,7 @@ tempo e custo de análise/embedding. Um empate numa amostra não prova que RAG
 | P0 | Limitar propagação de intenção quando o LLM responde vazio | **Resolvido** (`1939c60f3`): resposta vazia/inválida interrompe a análise sem bundle incompleto nem retries adicionais |
 | P0 | Preservar o método-alvo ao limitar contexto | **Resolvido para o código focal** (`ded14df34`); orçamento global implementado em A1, dentro dos limites do contador declarado |
 | P0/P1 | Identidade única de specs e retoma após validação atómica | **Resolvido em `f384cb252` e `1939c60f3`**: identidade completa no nome normal, lookup exato e checkpoints de rondas validadas; recuperação por método dentro de ronda interrompida continua futura |
+| P0 | Verificar a receita antes de certificar uma ronda | **Resolvido nas fronteiras de `generate_rounds`**: mudanças observáveis de entradas/configuração interrompem a certificação, arquivam só candidatos novos e preservam rondas anteriores; [contrato](../../docs/RUBY_GENERATION_GUARD.md) |
 | P1 | Separar declarações de dependências dos outputs MARTA | **Resolvido na política `project-declarations-v2`**: scanner poda `run_results` na raiz e output interno explícito; snapshot e cópias usam o mesmo âmbito de outputs; [contrato](../../docs/RUBY_DEPENDENCY_SCOPE.md) |
 | P1 | Procurar README até à raiz do projeto | **Resolvido em `2b073ad4a`**: raiz de projeto explícita, preferência pelo documento mais próximo e snapshot com caminho/hash usado na cache e no prompt |
 | P1 | Reparar com código anterior, plano e diagnóstico estruturado | **Resolvido** (`3476c2e36`): contexto de reparação explícito e preservação do último código não vazio |
