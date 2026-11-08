@@ -1322,8 +1322,9 @@ class RubyProject:
         self, rounds: int = 3, ask: Optional[AskFn] = None,
         max_attempts: int = 3, limit: Optional[int] = None,
         reuse_first_round: bool = False,
+        resume_methods: bool = False,
     ) -> List[GenOutcome]:
-        """Resume only completed validated rounds; preserve unfinished files as evidence.
+        """Resume validated rounds and optionally replay a sequential method prefix.
 
         Existing output is re-executed before reuse. Terminal failed rounds are
         not resampled. A different configuration archives incompatible output;
@@ -1331,6 +1332,9 @@ class RubyProject:
         """
         if type(rounds) is not int or rounds < 1:
             raise ValueError("rounds must be a positive integer")
+        if resume_methods and (type(self.backend) is not RubyBackend or self._coordinated_generation
+                               or reuse_first_round):
+            raise ValueError("Method recovery requires sequential native Ruby generation")
         if reuse_first_round and (not self.ablation_options.only_coverage_feedback_removed
                                  or len(self.targets) != 1):
             raise ValueError("First-round reuse requires one coverage-ablation target")
@@ -1347,7 +1351,7 @@ class RubyProject:
         with checkpoints.locked():
             trusted = ([os.path.join(self.root_dir, self.targets[0].spec_path_for_round(0))]
                        if reuse_first_round else [])
-            completed = checkpoints.prepare(rounds, trusted_seed=trusted)
+            completed = checkpoints.prepare(rounds, trusted_seed=trusted, protect_methods=resume_methods)
             with self._workspace() as workspace:
                 # Revalidate retained output in the same bound execution environment.
                 cov = self._measure_retained_suite([], **({"workspace": workspace} if workspace is not None else {})) if completed else {}
@@ -1357,7 +1361,7 @@ class RubyProject:
                 return await self._generate_rounds(
                     rounds, ask, max_attempts, limit, reuse_first_round,
                     checkpoints=checkpoints, completed=completed, initial_coverage=cov,
-                    workspace=workspace)
+                    workspace=workspace, resume_methods=resume_methods)
 
     async def _generate_rounds(
         self,
@@ -1367,6 +1371,7 @@ class RubyProject:
         limit: Optional[int] = None,
         reuse_first_round: bool = False,
         *, checkpoints: RoundCheckpoints, completed: int, initial_coverage: dict, workspace=None,
+        resume_methods=False,
     ) -> List[GenOutcome]:
         """Coverage-guided multi-round generation — the Fase 2 loop.
 
@@ -1408,14 +1413,27 @@ class RubyProject:
                 else:
                     coverage_info = f"MISSING LINES TO COVER: {mc.format_missing_lines()}"
                 jobs.append((t, t.spec_path_for_round(rnd), coverage_info))
+            journal = None
+            replayed = 0
             try:
+                if resume_methods:
+                    from .method_checkpoints import MethodCheckpoints
+                    journal = MethodCheckpoints(checkpoints, rnd, jobs, self.root_dir)
+                    round_outcomes = journal.replay()
+                    replayed = len(round_outcomes)
+                    if replayed:
+                        recorder.evento(tipo="methods_reused", ronda=rnd, count=replayed)
                 if self._coordinated_generation:
                     round_outcomes = await workspace.generate_round(jobs, ask, max_attempts, recorder, rnd)
                 else:
-                    for t, path, coverage_info in jobs:
-                        round_outcomes.append(await self._generate_target(
-                            t, path, ask, max_attempts, recorder, workspace, coverage_info))
-                outcomes.extend(round_outcomes)
+                    for index in range(replayed, len(jobs)):
+                        t, path, coverage_info = jobs[index]
+                        outcome = await self._generate_target(
+                            t, path, ask, max_attempts, recorder, workspace, coverage_info)
+                        if journal is not None:
+                            journal.save(index, outcome)
+                        round_outcomes.append(outcome)
+                outcomes.extend(round_outcomes[replayed:])
             finally:
                 recorder.end_count_time(f"round_{rnd}")
             # A cobertura corre uma vez por ronda, sobre TODOS os specs acumulados
@@ -1425,9 +1443,16 @@ class RubyProject:
                 if workspace is not None:
                     workspace.verify_inputs()
                 cov = self._measure_retained_suite(round_outcomes, **({"workspace": workspace} if workspace is not None else {}))
-            self._verify_generation_recipe(checkpoints, targets, ask, max_attempts,
-                                           reuse_first_round, "round_boundary")
+            try:
+                self._verify_generation_recipe(checkpoints, targets, ask, max_attempts,
+                                               reuse_first_round, "round_boundary")
+            except ResumeValidationError:
+                if journal is not None:
+                    journal.invalidate()
+                raise
             checkpoints.commit(rnd, round_outcomes)
+            if journal is not None:
+                journal.retire()
             recorder.evento(tipo="round_utility", **round_observation(
                 targets, before_cov, cov, round_outcomes, start_cost, cost_snapshot(recorder),
                 time.monotonic() - round_started))

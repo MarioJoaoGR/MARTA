@@ -15,6 +15,7 @@ class ReturnHint:
     candidates: tuple = ()
     reason: str = "unknown"
     via: tuple = ()
+    required_receiver: str | None = None
 
 
 class ReturnTypeIndex:
@@ -58,6 +59,14 @@ class ReturnTypeIndex:
             return ReturnHint(reason="missing_source_fact")
         if fact.get("policy") == STATE_POLICY and fact.get("kind") == "instance_ivar" and not method.singleton:
             return self.for_ivar(method.owner, fact.get("ivar"))
+        if fact.get("policy") == POLICY and fact.get("kind") == "receiver_new" and method.singleton:
+            # The receiver of an inherited factory can differ from its owner.
+            hint = self._constructor_hint({"policy": POLICY, "kind": "constant_new",
+                                           "constant": method.owner})
+            if hint.candidates:
+                return ReturnHint(hint.candidates, "receiver_constructor_candidate",
+                                  required_receiver=method.owner)
+            return hint
         return self._constructor_hint(fact)
 
     def _constructor_hint(self, fact):

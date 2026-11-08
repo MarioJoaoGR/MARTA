@@ -212,7 +212,7 @@ def test_provenance_identifies_state_extractor_and_policy():
     metadata = analysis_provenance()
     assert metadata["constructor_state_policy"] == STATE_POLICY
     assert len(metadata["implementation"]["rb/marta_state_facts.rb"]) == 64
-    assert call_graph.RESOLVER_VERSION == 5
+    assert call_graph.RESOLVER_VERSION == 6
 
 
 @needs_ruby

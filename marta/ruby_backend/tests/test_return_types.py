@@ -205,7 +205,7 @@ def test_provenance_identifies_extractor_and_inference_policy():
     assert metadata["return_type_policy"] == POLICY
     for name in ("return_types.py", "ruby_ast.py", "rb/marta_parse.rb", "rb/marta_return_facts.rb"):
         assert len(metadata["implementation"][name]) == 64
-    assert call_graph.RESOLVER_VERSION == 5
+    assert call_graph.RESOLVER_VERSION == 6
 
 
 @needs_ruby
@@ -254,3 +254,40 @@ def test_initialize_return_value_is_not_the_new_objects_type():
     result, _, index = graph(source)
     assert index.for_method("Factory.build").candidates == ("Widget",)
     assert [(e.caller, e.callee) for e in inferred(result)] == [("use", "Widget#run")]
+
+
+@needs_ruby
+@pytest.mark.parametrize("constructor", ["new(units)", "self.new(units)", "::Amount.new(units)"])
+def test_guarded_factory_tail_resolves_only_a_constructor_candidate(constructor):
+    source = f"""
+class Amount
+  def self.from_units(number)
+    raise ArgumentError unless number.is_a?(Numeric)
+    units = number * 100
+    raise RangeError if units < 0
+    {constructor}
+  end
+
+  def value; @units; end
+end
+
+class ChildAmount < Amount; end
+def exact; Amount.from_units(2).value; end
+def inherited; ChildAmount.from_units(2).value; end
+"""
+    result, _, _ = graph(source)
+    assert [(e.caller, e.callee, e.supported) for e in inferred(result)] == [
+        ("exact", "Amount#value", False)
+    ]
+
+
+@needs_ruby
+@pytest.mark.parametrize("body", [
+    "return nil unless number; new(number)",
+    "if number; raise ArgumentError; else; return nil; end; new(number)",
+    "n = (return nil); new(n)",
+    "@default.call",
+])
+def test_ambiguous_factory_body_still_abstains(body):
+    _, _, index = inventory(f"class Amount; def self.build(number); {body}; end; end")
+    assert not index.for_method("Amount.build").candidates

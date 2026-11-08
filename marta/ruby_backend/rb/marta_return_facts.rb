@@ -38,8 +38,9 @@ module MartaReturnFacts
     # this parser's MethodInfo model; do not attach a return claim to that owner.
     return nil unless node.receiver.nil? || node.receiver.is_a?(Prism::SelfNode)
     body = node.body
-    return nil unless body.is_a?(Prism::StatementsNode) && body.body.length == 1
-    expression = body.body.first
+    return nil unless body.is_a?(Prism::StatementsNode) && (1..MAX_DEPTH).cover?(body.body.length)
+    return nil unless body.body[0...-1].all? { |statement| factory_prefix?(statement) }
+    expression = body.body.last
     explicit = expression.is_a?(Prism::ReturnNode)
     if explicit
       args = expression.arguments&.arguments
@@ -47,14 +48,36 @@ module MartaReturnFacts
       expression = args.first
     end
     fact = constructor_expression(expression)
+    if !fact && node.receiver.is_a?(Prism::SelfNode) && constructor_call?(expression) &&
+       (expression.receiver.nil? || expression.receiver.is_a?(Prism::SelfNode))
+      fact = { "policy" => POLICY, "kind" => "receiver_new",
+               "line" => expression.location.start_line }
+    end
     fact && fact.merge("explicit_return" => explicit)
   end
 
+  def self.factory_prefix?(statement)
+    if statement.is_a?(Prism::LocalVariableWriteNode)
+      return control_free?(statement.value)
+    end
+    return false unless statement.is_a?(Prism::IfNode) || statement.is_a?(Prism::UnlessNode)
+    return false if statement.compact_child_nodes.length != 2
+    guard = statement.statements&.body
+    return false unless guard&.length == 1 && control_free?(statement.predicate)
+    call = guard.first
+    call.is_a?(Prism::CallNode) && call.receiver.nil? &&
+      [:raise, :fail].include?(call.name) && !call.block && control_free?(call.arguments)
+  end
+
+  def self.constructor_call?(expression)
+    expression.is_a?(Prism::CallNode) && expression.name == :new &&
+      !expression.safe_navigation? && !expression.block && control_free?(expression.arguments)
+  end
+
   def self.constructor_expression(expression)
-    return nil unless expression.is_a?(Prism::CallNode) && expression.name == :new
-    return nil if expression.safe_navigation? || expression.block
+    return nil unless constructor_call?(expression)
     constant = constant_name(expression.receiver)
-    return nil unless constant && control_free?(expression.arguments)
+    return nil unless constant
     { "policy" => POLICY, "kind" => "constant_new", "constant" => constant,
       "line" => expression.location.start_line }
   end

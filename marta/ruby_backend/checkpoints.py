@@ -155,13 +155,20 @@ class RoundCheckpoints:
                     "Validated spec changed or disappeared: " + name +
                     "; preserve this output and start an independent output directory")
 
-    def prepare(self, requested_rounds, trusted_seed=()):
+    def prepare(self, requested_rounds, trusted_seed=(), *, protect_methods=False):
         try:
             saved = json.loads(self.path.read_text())
         except (OSError, ValueError):
             saved = None
+        compatible = self._valid(saved)
+        if protect_methods:
+            completed = len(saved["rounds"]) if compatible else 0
+            journals = (self.directory / "methods").iterdir() if (self.directory / "methods").is_dir() else ()
+            if any(path.name.isascii() and path.name.isdecimal() and int(path.name) > completed
+                   for path in journals):
+                raise ResumeValidationError("Pending method checkpoints require the original round ledger")
         specs = self._specs()
-        if self._valid(saved):
+        if compatible:
             self.state = saved
             if len(saved["rounds"]) > requested_rounds:
                 raise ResumeValidationError("Requested fewer rounds than the completed checkpoint")

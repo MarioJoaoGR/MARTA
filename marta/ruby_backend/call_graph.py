@@ -25,7 +25,7 @@ from .return_types import ReturnTypeIndex
 
 # Bump whenever the resolver's behaviour changes: it participates in the
 # cg_cache key so stale graphs are rebuilt automatically (bit us on sondagem 1).
-RESOLVER_VERSION = 5
+RESOLVER_VERSION = 6
 
 
 @dataclass(frozen=True)
@@ -219,6 +219,9 @@ class StaticCallGraph:
                     state_owner = factory.split("#", 1)[0] if "#" in factory else None
                     eligible = not hint.via or (not caller.singleton and caller.name != "initialize"
                                                  and caller.owner == state_owner)
+                    if hint.required_receiver is not None:
+                        eligible = (receiver_call["recv"] == "const" and
+                                    receiver_call["recv_name"].removeprefix("::") == hint.required_receiver)
                     evidence = "state_return_inferred" if hint.via else "return_type_inferred"
                     inferred = [(target, evidence, hint.candidates, (*hint.via, factory))
                                 for candidate in hint.candidates if eligible

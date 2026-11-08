@@ -39,6 +39,8 @@ def main():
     from marta.ruby_backend.ablation import add_arguments, from_args
     add_arguments(parser, underscores=True)
     parser.add_argument("--resume_analysis", "--resume-analysis", help="Explicit incomplete analysis archive to replay; exact inputs/configuration/request prefix only")
+    parser.add_argument("--resume_methods", "--resume-methods", action="store_true",
+                        help="Checkpoint and replay completed methods within a sequential Ruby round")
     parser.add_argument("--no_cache", action="store_true", help="Recompute all summaries; preserve reusable cache and archive the new analysis")
     parser.add_argument(
         "--no_graph_enrich", action="store_true",
@@ -80,6 +82,8 @@ def main():
     ablations = from_args(args)
     if args.resume_analysis and (args.no_cache or args.evaluate_only):
         parser.error("--resume_analysis cannot be combined with --no_cache or --evaluate_only")
+    if args.resume_methods and (args.workers != 1 or args.round_barrier or args.evaluate_only):
+        parser.error("--resume_methods requires sequential generation")
     if args.mutation and not args.mutation_usage:
         parser.error("--mutation requires --mutation_usage")
     if args.mutation_timeout < 1 or args.mutation_jobs < 1:
@@ -203,7 +207,8 @@ def main():
                 proj.build_rag()
             recorder.end_count_time("collect_message")
             print(f"🔄 [ReAct Loop] {args.num} ronda(s) guiadas por cobertura...")
-            return await proj.generate_rounds(rounds=args.num, limit=args.limit)
+            return await proj.generate_rounds(rounds=args.num, limit=args.limit,
+                                              **({"resume_methods": True} if args.resume_methods else {}))
 
         outcomes = asyncio.run(_pipeline())
 
